@@ -43,25 +43,28 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         return;
     }
 
-    if(crypto.createHash('sha256').update(req.body.password).digest('hex') !== user.password) {
+    if (crypto.createHash('sha256').update(req.body.password).digest('hex') !== user.password) {
         res.status(400).json({
             error: 'Wrong password'
         });
         return;
     }
 
-    if(!user.twoFactorEnabled) {
+    if (!user.twoFactorEnabled) {
+        await sendMail(user.email, user.firstName);
         res.status(200).json({
             error: null,
             token: generateJWT(user)
         })
         return;
     } else {
-        if(req.body.code) {
+        if (req.body.code) {
 
-            if(req.body.code === user.twoFactorCode) {
+            if (req.body.code === user.twoFactorCode) {
                 user.twoFactorCode = null;
                 await user.save();
+
+                await sendMail(user.email, user.firstName);
 
                 res.status(200).json({
                     error: null,
@@ -96,14 +99,14 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                 replyTo: process.env.SMTP_USER,
                 subject: "Two Factor Authentication - Ben from CodeUp",
                 text: `
-                Hello ${user.firstName},
-                
-                Your two factor authentication code is: ${user.twoFactorCode}
-                
-                If you didn't request this, please contact support immediately at codeup@ben-siebert.de
-                
-                Best regards,
-                Ben from CodeUp
+Hello ${user.firstName},
+
+Your two factor authentication code is: ${user.twoFactorCode}
+
+If you didn't request this, please contact support immediately at codeup@ben-siebert.de
+
+Best regards,
+Ben from CodeUp
                 
             `,
             });
@@ -128,3 +131,34 @@ const generateJWT = (user: any) => {
         expiresIn: '30d'
     });
 };
+
+const sendMail = async (email: string, firstName: string) => {
+    let transport = nodemailer.createTransport({
+        // @ts-ignore
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE === "true",
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD,
+        },
+    });
+
+    await transport.sendMail({
+        from: process.env.SMTP_USER,
+        to: email,
+        replyTo: process.env.SMTP_USER,
+        subject: "Logged In - Ben from CodeUp",
+        text: `
+Hello ${firstName},
+
+You have successfully logged in to your account.
+                
+If this wasn't you, please contact support immediately at codeup@ben-siebert.de
+                
+Best regards,
+Ben from CodeUp
+                
+            `,
+    });
+}
