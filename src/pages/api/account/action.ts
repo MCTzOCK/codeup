@@ -12,7 +12,6 @@ import {NextApiRequest, NextApiResponse} from "next";
 import mongoConnect from "../../../util/mongo";
 import UserModel from "../../../util/models/UserModel";
 
-
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
     if(req.method !== 'GET') {

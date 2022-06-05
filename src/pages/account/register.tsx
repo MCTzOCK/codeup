@@ -29,6 +29,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
+import useUserLoggedInRedirect from "../../hooks/useUserLoggedInRedirect";
 
 export default function Register() {
 
@@ -52,6 +53,7 @@ export default function Register() {
     const [alertMessage, setAlertMessage] = React.useState('');
     const [alertType, setAlertType] = React.useState<'error' | 'info' | 'success' | 'warning'>('error');
 
+    useUserLoggedInRedirect();
 
     return (
         <>
