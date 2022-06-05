@@ -12,14 +12,18 @@
     "@chakra-ui/react": "^2.1.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@types/nodemailer": "^6.4.4",
     "formik": "^2.2.9",
     "framer-motion": "^6",
+    "mongoose": "^6.3.5",
     "next": "12.1.6",
     "next-seo": "^5.4.0",
+    "nodemailer": "^6.7.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.31.3",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/node": "17.0.40",
