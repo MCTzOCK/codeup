@@ -96,7 +96,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                 replyTo: process.env.SMTP_USER,
                 subject: "Two Factor Authentication - Ben from CodeUp",
                 text: `
-                Hello ${req.body.firstName},
+                Hello ${user.firstName},
                 
                 Your two factor authentication code is: ${user.twoFactorCode}
                 
