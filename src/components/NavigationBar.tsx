@@ -21,81 +21,134 @@ import {
     DrawerHeader,
     DrawerOverlay,
     Flex,
-    Heading, IconButton,
-    Link,
-    useColorModeValue, useDisclosure,
+    Heading,
+    IconButton,
+    Link as ChakraLink,
+    useColorModeValue,
+    useDisclosure,
     useMediaQuery
 } from "@chakra-ui/react";
 import {GiHamburgerMenu} from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
+import Link from "next/link";
 
 export default function NavigationBar() {
     const [isMobile] = useMediaQuery("(max-width: 768px)")
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {isOpen, onOpen, onClose} = useDisclosure()
 
     const userInfo = useUserInfo();
 
+    const Menu = () => {
+        return (
+            <>
+                <Link href={"/"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                        Home
+                    </Button>
+                </Link>
+                {
+                    userInfo.id !== "" ?
+                        <>
+                            <Link href={"/settings"}>
+                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                    Settings
+                                </Button>
+                            </Link>
+                        </>
+                        : null
+                }
+
+            </>
+        )
+    }
+
+    const MenuButtons = () => {
+        return (
+            <>
+                {
+                    userInfo.id === "" ?
+                        <>
+                            <Link href={"/account/register"}>
+                                <Button variant={"solid"} colorScheme={"whatsapp"} onClick={onClose}>
+                                    Join
+                                </Button>
+                            </Link>
+                            <Link href={"/account/login"}>
+                                <Button variant={"solid"} onClick={onClose}>
+                                    Login
+                                </Button>
+                            </Link>
+                        </>
+                        :
+                        <>
+                            <Link href={"/dashboard"}>
+                                <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
+                                    Dashboard
+                                </Button>
+                            </Link>
+                            <Link href={"/account/logout"}>
+                                <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
+                                    Logout
+                                </Button>
+                            </Link>
+                        </>
+                }
+            </>
+        )
+    }
+
     return (
         <>
-            <Box w={"100%"} bg={useColorModeValue("gray.400", "gray.900")} padding={"1.2rem"}>
-                <Flex direction={["column", "row"]}>
-                    <Heading flex={"flex-start"} textAlign={["center", "left"]}><Link href={"/"}>CodeUp</Link></Heading>
-                    <Flex justifyContent={"center"} flex={"100%"} alignItems={"center"}>
+            <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
+                <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
+                    <Heading flex={"flex-start"} textAlign={["center", "left"]}><ChakraLink
+                        href={"/"}>CodeUp</ChakraLink></Heading>
+                    <Flex justifyContent={isMobile ? "right" : "center"} flex={"100%"} alignItems={"center"}>
                         {
-                            !isMobile ?
-                                <>
-                                    <Button variant={"ghost"}>
-                                        <Link href={"/"}>Home</Link>
-                                    </Button>
-                                </>
+                            !isMobile ? <Menu/>
                                 :
                                 <>
                                     <IconButton onClick={onOpen}
                                                 aria-label={'Menu'}
-                                                icon={<GiHamburgerMenu />}
-                                                mt={"2rem"}
+                                                icon={<GiHamburgerMenu/>}
+                                                flex={"flex-end"}
                                     />
                                     <Drawer
                                         isOpen={isOpen}
                                         placement='right'
                                         onClose={onClose}
                                         size={"full"}
+
                                     >
                                         <DrawerOverlay/>
-                                        <DrawerContent>
+                                        <DrawerContent bg={"black"}>
                                             <DrawerCloseButton/>
                                             <DrawerHeader>CodeUp</DrawerHeader>
 
                                             <DrawerBody>
-                                                <Heading>Menu</Heading>
+                                                <Flex w={"100%"} direction={"column"}>
+                                                    <Menu/>
+                                                </Flex>
                                             </DrawerBody>
+
+                                            <DrawerFooter gap={"2rem"} alignItems={"center"} justifyContent={"center"}>
+                                                <MenuButtons/>
+                                            </DrawerFooter>
 
                                         </DrawerContent>
                                     </Drawer>
                                 </>
                         }
                     </Flex>
-                    <Flex justifyContent={["center", "flex-end"]} flex={"10%"} alignItems={"center"} gap={"1.2rem"}
-                          mt={["2rem", 0]}>
-                        {
-                            userInfo.id === "" ?
-                                <>
-                                    <Button variant={"solid"} colorScheme={"whatsapp"}>
-                                        <Link href={"/account/register"}>Join</Link>
-                                    </Button>
-                                    <Button variant={"solid"}>
-                                        <Link href={"/account/login"}>Login</Link>
-                                    </Button>
-                                </>
-                                :
-                                <>
-                                    <Button variant={"solid"} colorScheme={"red"}>
-                                        <Link href={"/account/logout"}>Logout</Link>
-                                    </Button>
-                                </>
-                        }
-                    </Flex>
-
+                    {
+                        !isMobile ?
+                            <Flex justifyContent={["center", "flex-end"]} flex={"10%"} alignItems={"center"}
+                                  gap={"1.2rem"}
+                                  mt={["2rem", 0]}>
+                                <MenuButtons/>
+                            </Flex>
+                            : null
+                    }
                 </Flex>
             </Box>
             <Divider/>
