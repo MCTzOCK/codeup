@@ -11,6 +11,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import mongoConnect from "../../../util/mongo";
 import UserModel from "../../../util/models/UserModel";
+import generateJWT from "../../../util/generateJWT";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
@@ -63,6 +64,44 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         await user.save();
 
         res.redirect(req.query.redirect as string);
+
+    }
+
+    if(req.query.operation === "changeEmail") {
+        if(!req.query.token) {
+            res.status(400).json({
+                error: 'Missing token'
+            });
+            return;
+        }
+
+        await mongoConnect();
+
+        const user = await UserModel.findOne({
+            emailChangeCode: req.query.token
+        });
+
+        if(!user) {
+            res.status(400).json({
+                error: 'Invalid token'
+            });
+            return;
+        }
+
+        if(!user.newEmail) {
+            res.status(400).json({
+                error: 'Invalid token'
+            });
+            return;
+        }
+
+        user.emailChangeCode = null;
+        user.email = user.newEmail;
+        user.newEmail = null;
+
+        await user.save();
+
+        res.redirect(req.query.redirect as string + '?newToken=' + generateJWT(user));
 
     }
 

@@ -29,6 +29,8 @@ import {
 import Link from "next/link";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import useUserLoggedInRedirect from "../../hooks/useUserLoggedInRedirect";
+import redirect from "../../util/userworkflow/redirect";
+import {useEffect} from "react";
 
 export default function Register() {
 
@@ -37,6 +39,7 @@ export default function Register() {
 
     const [passwordVisible, setPasswordVisible] = React.useState(false);
 
+    const [btnDisabled, setBtnDisabled] = React.useState(false);
 
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('');
@@ -45,7 +48,15 @@ export default function Register() {
     const [_2fa, set2fa] = React.useState(false);
 
 
-    useUserLoggedInRedirect();
+    useEffect(() => {
+        redirect({
+            allowAnonymous: true,
+            redirectTo: '/dashboard',
+            redirectToLogin: false,
+            forceAnonymous: true
+        })
+
+    }, [])
 
     return (
         <>
@@ -98,7 +109,9 @@ export default function Register() {
                                             </InputRightElement>
                                         </InputGroup>
                                     </FormControl>
-                                    <Button variant={"solid"} type={"button"} onClick={() => {
+                                    <Button variant={"solid"} type={"button"} isLoading={btnDisabled} disabled={btnDisabled} onClick={() => {
+
+                                        setBtnDisabled(true);
 
                                         fetch("/api/account/login", {
                                             method: "POST",
@@ -115,6 +128,7 @@ export default function Register() {
                                                     setAlertType("error");
                                                     setAlertMessage(data.error);
                                                     setAlertVisible(true);
+                                                    setBtnDisabled(false)
                                                 } else {
                                                     if (data.token) {
                                                         localStorage.setItem("token", data.token);
@@ -165,9 +179,13 @@ export default function Register() {
                                                         setAlertVisible(true);
                                                     } else {
                                                         localStorage.setItem("token", data.token);
-                                                        window.location.href = "/dashboard";
+                                                        const redirect = new URLSearchParams(window.location.search).get("redirect");
+                                                        if (redirect) {
+                                                            window.location.href = redirect;
+                                                        } else {
+                                                            window.location.href = "/dashboard";
+                                                        }
                                                     }
-
                                                 })
                                             })}
                                         }>

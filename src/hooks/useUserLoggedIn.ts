@@ -8,19 +8,18 @@
  *
  */
 import {useEffect, useState} from "react";
+import useUserInfo from "./useUserInfo";
 
 
 export default function useUserLoggedIn() {
 
     const [userLoggedIn, setUserLoggedIn] = useState(false);
 
+    const userInfo = useUserInfo();
+
     useEffect(() => {
-        /**
-         * @TODO Validate token
-         */
-        setUserLoggedIn(localStorage.getItem('token') !== undefined &&
-            localStorage.getItem('token') !== null);
-    }, []);
+        setUserLoggedIn(userInfo.id !== "");
+    }, [userInfo]);
 
     return userLoggedIn;
 }

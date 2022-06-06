@@ -14,6 +14,7 @@ import UserModel from "../../../util/models/UserModel";
 import * as crypto from "crypto";
 import jwt from "jsonwebtoken";
 import * as nodemailer from "nodemailer";
+import generateJWT from "../../../util/generateJWT";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
@@ -120,17 +121,6 @@ Ben from CodeUp
     }
 
 }
-
-const generateJWT = (user: any) => {
-    return jwt.sign({
-        id: user._id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-    }, process.env.JWT_SECRET as string, {
-        expiresIn: '30d'
-    });
-};
 
 const sendMail = async (email: string, firstName: string) => {
     let transport = nodemailer.createTransport({

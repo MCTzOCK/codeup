@@ -6,7 +6,7 @@ import {DefaultSeo} from "next-seo";
 
 const theme = extendTheme({
     config: {
-        useSystemColorMode: true,
+        useSystemColorMode: false,
         initialColorMode: 'dark',
     }
 });

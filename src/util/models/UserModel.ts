@@ -60,6 +60,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    emailChangeCode: {
+        type: String,
+        default: "",
+    },
+    newEmail: {
+        type: String,
+        default: "",
+    },
 });
 
 export default mongoose.models?.User || mongoose.model("User", UserSchema);

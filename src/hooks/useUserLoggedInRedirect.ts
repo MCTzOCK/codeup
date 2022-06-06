@@ -9,21 +9,23 @@
  */
 import useUserLoggedIn from "./useUserLoggedIn";
 import {useEffect} from "react";
+import useUserInfo from "./useUserInfo";
 
 
-export default function useUserLoggedInRedirect() {
-  const userLoggedIn = useUserLoggedIn();
+export default function useUserLoggedInRedirect(options: {
+  allowAnonymous?: boolean,
+  redirectTo?: string,
+  redirectToLogin?: boolean,
+}) {
+  const userInfo = useUserInfo();
 
   useEffect(() => {
-    if(userLoggedIn) {
-      console.log("123")
-      if(["/account/login", "/account/register"].includes(window.location.pathname)) {
-        window.location.href = "/dashboard";
-      }
-    } else {
-      if(!["/account/login", "/account/register", "/"].includes(window.location.pathname)) {
-        window.location.href = "/account/login";
-      }
+    if (userInfo.id !== "") {
+      return;
     }
-  }, [userLoggedIn])
+
+    if (options.redirectToLogin) {
+      window.location.href = "/account/login?redirect=" + encodeURIComponent(window.location.href);
+    }
+  }, [userInfo]);
 }
