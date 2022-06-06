@@ -3,6 +3,7 @@ import type {AppProps} from 'next/app';
 import {Box, ChakraProvider, extendTheme} from '@chakra-ui/react';
 import React from 'react';
 import {DefaultSeo} from "next-seo";
+import NavigationBar from "../components/NavigationBar";
 
 const theme = extendTheme({
     config: {
@@ -47,6 +48,7 @@ function App({Component, pageProps}: AppProps) {
             />
             <ChakraProvider theme={theme}>
                 <Box minH="100vh" minW="100%">
+                    <NavigationBar />
                     <Component {...pageProps} />
                 </Box>
             </ChakraProvider>
