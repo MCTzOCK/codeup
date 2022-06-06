@@ -24,13 +24,20 @@ import {
     Heading,
     IconButton,
     Link as ChakraLink,
-    useColorModeValue,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTrigger,
     useDisclosure,
     useMediaQuery
 } from "@chakra-ui/react";
 import {GiHamburgerMenu} from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
 import Link from "next/link";
+import {AiFillCaretDown} from "react-icons/ai";
 
 export default function NavigationBar() {
     const [isMobile] = useMediaQuery("(max-width: 768px)")
@@ -49,15 +56,84 @@ export default function NavigationBar() {
                 {
                     userInfo.id !== "" ?
                         <>
-                            <Link href={"/settings"}>
-                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                    Settings
-                                </Button>
-                            </Link>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown />}>
+                                        Account
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent bg={"black"}>
+                                    <PopoverArrow/>
+                                    <PopoverBody>
+                                        <Flex w={"100%"} direction={"column"}>
+                                            <Link href={"/settings"}>
+                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                    Settings
+                                                </Button>
+                                            </Link>
+
+                                            <Link href={"/dashboard"}>
+                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                    Dashboard
+                                                </Button>
+                                            </Link>
+
+                                            <Link href={"/account/logout"}>
+                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                    Logout
+                                                </Button>
+                                            </Link>
+                                        </Flex>
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Popover>
                         </>
                         : null
                 }
-
+                <Popover>
+                    <PopoverTrigger>
+                        <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown />}>
+                            More
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent bg={"black"}>
+                        <PopoverArrow/>
+                        <PopoverBody>
+                            <Flex w={"100%"} direction={"column"}>
+                                <Link href={"/extra/project-ideas"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Project Ideas
+                                    </Button>
+                                </Link>
+                                <Link href={"/community"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Community
+                                    </Button>
+                                </Link>
+                                <Link href={"/hackathons"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Hackathons
+                                    </Button>
+                                </Link>
+                                <Link href={"/challenges"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Challenges
+                                    </Button>
+                                </Link>
+                                <Link href={"/certificates"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Certificates
+                                    </Button>
+                                </Link>
+                                <Link href={"/hosting"}>
+                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                        Hosting
+                                    </Button>
+                                </Link>
+                            </Flex>
+                        </PopoverBody>
+                    </PopoverContent>
+                </Popover>
             </>
         )
     }
