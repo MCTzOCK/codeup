@@ -53,6 +53,11 @@ export default function NavigationBar() {
                         Home
                     </Button>
                 </Link>
+                <Link href={"/explore"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                        Explore
+                    </Button>
+                </Link>
                 {
                     userInfo.id !== "" ?
                         <>
@@ -66,7 +71,7 @@ export default function NavigationBar() {
                                     <PopoverArrow/>
                                     <PopoverBody>
                                         <Flex w={"100%"} direction={"column"}>
-                                            <Link href={"/settings"}>
+                                            <Link href={"/account/settings"}>
                                                 <Button variant={"ghost"} size={"lg"} onClick={onClose}>
                                                     Settings
                                                 </Button>

@@ -111,7 +111,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
 Hello ${user.firstName},
 
 Please click the following link to confirm your email change:
-http://${req.headers.host}/api/account/action?operation=changeEmail&token=${user.emailChangeCode}&redirect=${encodeURIComponent(`http://${req.headers.host}/settings?component=account&newToken=${generateJWT(user)}`)}
+http://${req.headers.host}/api/account/action?operation=changeEmail&token=${user.emailChangeCode}&redirect=${encodeURIComponent(`http://${req.headers.host}/account/settings?component=account&newToken=${generateJWT(user)}`)}
 
 If you did not request this change, please contact the support immediately at codeup@ben-siebert.de
 

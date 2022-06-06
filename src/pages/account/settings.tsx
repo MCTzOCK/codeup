@@ -10,8 +10,8 @@
 
 import * as React from 'react';
 import {useEffect} from 'react';
-import useUserInfo from "../hooks/useUserInfo";
-import redirect from "../util/userworkflow/redirect";
+import useUserInfo from "../../hooks/useUserInfo";
+import redirect from "../../util/userworkflow/redirect";
 import {
     Button,
     Flex,
@@ -36,7 +36,7 @@ export default function Settings() {
     useEffect(() => {
         redirect({
             allowAnonymous: false,
-            redirectTo: '/settings',
+            redirectTo: '/account/settings',
             redirectToLogin: true,
             forceAnonymous: false
         })
@@ -64,7 +64,7 @@ export default function Settings() {
         if(query.has("newToken")) {
             alert("Hello world")
             localStorage.setItem("token", query.get("newToken") as string)
-            window.location.href = "/settings?component=account";
+            window.location.href = "/account/settings?component=account";
         }
     }, [userInfo])
 
@@ -82,13 +82,13 @@ export default function Settings() {
                             leftIcon={<BsFillHouseDoorFill/>} onClick={() => {
                         setCurrentSelected('home')
                         setCurrentComponent(<Home userInfo={userInfo}/>)
-                        router.push("/settings?component=home")
+                        router.push("/account/settings?component=home")
                     }}>Home</Button>
                     <Button marginInline={"1.2rem"} variant={currentSelected === "account" ? "solid" : "ghost"}
                             leftIcon={<FaUserCircle/>} onClick={() => {
                         setCurrentSelected('account')
                         setCurrentComponent(<Account userInfo={userInfo}/>)
-                        router.push("/settings?component=account")
+                        router.push("/account/settings?component=account")
                     }}>Account</Button>
                 </Flex>
                 <Flex direction={"column"} flex={"85%"} minH={"100%"}>
