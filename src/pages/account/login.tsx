@@ -144,7 +144,7 @@ export default function Register() {
                                         Login
                                     </Button>
                                     <Text textAlign={"center"} mt={"1rem"}>
-                                        Forgot your password? <Link href={"/account/reset-password"}><ChakraLink
+                                        Forgot your password? <Link href={"/account/reset"}><ChakraLink
                                         href={"/account/reset-password"} color={"blue.400"}>Reset
                                         it.</ChakraLink></Link>
                                     </Text>

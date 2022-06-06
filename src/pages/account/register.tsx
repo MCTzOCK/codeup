@@ -29,7 +29,8 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
-import useUserLoggedInRedirect from "../../hooks/useUserLoggedInRedirect";
+import {useEffect} from "react";
+import redirect from "../../util/userworkflow/redirect";
 
 export default function Register() {
 
@@ -53,7 +54,15 @@ export default function Register() {
     const [alertMessage, setAlertMessage] = React.useState('');
     const [alertType, setAlertType] = React.useState<'error' | 'info' | 'success' | 'warning'>('error');
 
-    useUserLoggedInRedirect();
+    useEffect(() => {
+        redirect({
+            allowAnonymous: true,
+            redirectTo: '/dashboard',
+            redirectToLogin: false,
+            forceAnonymous: true
+        })
+
+    }, [])
 
     return (
         <>
