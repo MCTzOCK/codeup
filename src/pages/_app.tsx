@@ -4,6 +4,7 @@ import {Box, ChakraProvider, extendTheme} from '@chakra-ui/react';
 import React from 'react';
 import {DefaultSeo} from "next-seo";
 import NavigationBar from "../components/NavigationBar";
+import Footer from "../components/Footer";
 
 const theme = extendTheme({
     config: {
@@ -49,7 +50,10 @@ function App({Component, pageProps}: AppProps) {
             <ChakraProvider theme={theme}>
                 <Box minH="100vh" minW="100%">
                     <NavigationBar />
-                    <Component {...pageProps} />
+                    <Box minH={"96vh"}>
+                        <Component {...pageProps} />
+                    </Box>
+                    <Footer />
                 </Box>
             </ChakraProvider>
         </>
