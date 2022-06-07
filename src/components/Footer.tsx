@@ -23,7 +23,8 @@ export default function Footer() {
                     Made with ❤ and ☕
                     <br />
                     <br />
-                    <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>
+                    <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>&nbsp;
+                    <Link href={"https://twitter.com/OfficialMCTzOCK"} isExternal color={"blue.400"}>Twitter</Link>
                 </Text>
             </Box>
         </>
