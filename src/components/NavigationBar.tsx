@@ -27,9 +27,7 @@ import {
     Popover,
     PopoverArrow,
     PopoverBody,
-    PopoverCloseButton,
     PopoverContent,
-    PopoverHeader,
     PopoverTrigger,
     useDisclosure,
     useMediaQuery
@@ -58,46 +56,9 @@ export default function NavigationBar() {
                         Explore
                     </Button>
                 </Link>
-                {
-                    userInfo.id !== "" ?
-                        <>
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown />}>
-                                        Account
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent bg={"black"}>
-                                    <PopoverArrow/>
-                                    <PopoverBody>
-                                        <Flex w={"100%"} direction={"column"}>
-                                            <Link href={"/account/settings"}>
-                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                    Settings
-                                                </Button>
-                                            </Link>
-
-                                            <Link href={"/dashboard"}>
-                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                    Dashboard
-                                                </Button>
-                                            </Link>
-
-                                            <Link href={"/account/logout"}>
-                                                <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                    Logout
-                                                </Button>
-                                            </Link>
-                                        </Flex>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Popover>
-                        </>
-                        : null
-                }
                 <Popover>
                     <PopoverTrigger>
-                        <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown />}>
+                        <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
                             More
                         </Button>
                     </PopoverTrigger>
@@ -138,7 +99,43 @@ export default function NavigationBar() {
                             </Flex>
                         </PopoverBody>
                     </PopoverContent>
-                </Popover>
+                </Popover>{
+                userInfo.id !== "" ?
+                    <>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
+                                    Account
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent bg={"black"}>
+                                <PopoverArrow/>
+                                <PopoverBody>
+                                    <Flex w={"100%"} direction={"column"}>
+                                        <Link href={"/account/settings"}>
+                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                Settings
+                                            </Button>
+                                        </Link>
+
+                                        <Link href={"/dashboard"}>
+                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                Dashboard
+                                            </Button>
+                                        </Link>
+
+                                        <Link href={"/account/logout"}>
+                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                                                Logout
+                                            </Button>
+                                        </Link>
+                                    </Flex>
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                    </>
+                    : null
+            }
             </>
         )
     }

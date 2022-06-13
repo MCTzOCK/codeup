@@ -14,15 +14,15 @@ import {Box, Divider, Link, Text} from "@chakra-ui/react";
 export default function Footer() {
     return (
         <>
-            <Divider />
+            <Divider/>
             <Box w={"100%"} bg={"black"} minH={"10vh"} textAlign={"center"} paddingTop={"2rem"} paddingBlock={"2rem"}>
                 <Text>CodeUp - Made by&nbsp;
-                    <Link href={"https://ben-siebert.de"} isExternal color={"blue.400"}>Ben Siebert</Link>&nbsp;
-                    originally created for Jugend Forscht 2023&nbsp;
-                    <br />
+                    <Link href={"https://ben-siebert.de"} isExternal color={"blue.400"}>Ben
+                        Siebert</Link>&nbsp; originally created for Jugend Forscht 2023&nbsp;
+                    <br/>
                     Made with ❤ and ☕
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>
                 </Text>
             </Box>
