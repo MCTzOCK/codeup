@@ -21,9 +21,10 @@ export default function Footer() {
                         Siebert</Link>&nbsp; originally created for Jugend Forscht 2023&nbsp;
                     <br/>
                     Made with ❤ and ☕
-                    <br/>
-                    <br/>
-                    <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>
+                    <br />
+                    <br />
+                    <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>&nbsp;
+                    <Link href={"https://twitter.com/OfficialMCTzOCK"} isExternal color={"blue.400"}>Twitter</Link>
                 </Text>
             </Box>
         </>
