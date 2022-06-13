@@ -8,33 +8,38 @@
  *
  */
 import {useEffect, useState} from "react";
+import useUserInfo from "./useUserInfo";
 
-export default function useHasProfile(id: string): { hasProfile: boolean, tried: boolean } {
+export default function useHasProfile(): { hasProfile: boolean, tried: boolean } {
     const [hasProfile, setHasProfile] = useState({
         hasProfile: false,
         tried: false,
     });
 
+    const userInfo = useUserInfo();
+
     useEffect(() => {
-        fetch("/api/community/has-profile/" + id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }).then(res => {
-            if (res.status === 200) {
-                setHasProfile({
-                    hasProfile: true,
-                    tried: true,
-                })
-            } else {
-                setHasProfile({
-                    hasProfile: false,
-                    tried: true,
-                })
-            }
-        });
-    }, []);
+        if (userInfo.id !== "") {
+            fetch("/api/community/has-profile/" + userInfo.id, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    setHasProfile({
+                        hasProfile: true,
+                        tried: true,
+                    })
+                } else {
+                    setHasProfile({
+                        hasProfile: false,
+                        tried: true,
+                    })
+                }
+            });
+        }
+    }, [userInfo]);
 
     return hasProfile;
 }

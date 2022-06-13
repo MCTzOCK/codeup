@@ -30,7 +30,7 @@ export default function CommunityHome() {
 
     const userInfo = useUserInfo();
 
-    const hasProfile = useHasProfile(userInfo.id);
+    const hasProfile = useHasProfile();
 
     return (
         <>
