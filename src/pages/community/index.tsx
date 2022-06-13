@@ -55,7 +55,7 @@ function ProfileCreatorHero() {
                 <Heading color={"green.300"} fontSize={"10rem"} textAlign={"center"} display={"flex"}
                          justifyContent={"center"} alignItems={"center"} flexDirection={"column"} as={"div"}>
                     <AiFillPlusSquare/>
-                    <Heading color={"white"}>
+                    <Heading color={"white"} mt={"1.2rem"}>
                         Create your profile
                     </Heading>
                     <Text color={"white"} fontSize={"1.2rem"} textDecoration={"none"} fontWeight={"normal"}
