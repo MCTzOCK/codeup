@@ -24,14 +24,11 @@ import {
     useToast
 } from "@chakra-ui/react";
 import redirect from "../../../util/userworkflow/redirect";
-import useUserInfo from "../../../hooks/useUserInfo";
 import useHasProfile from "../../../hooks/hasProfile";
 
 export default function Create() {
 
-    const userInfo = useUserInfo();
-
-    const hasProfile = useHasProfile(userInfo.id);
+    const hasProfile = useHasProfile();
 
     useEffect(() => {
 
