@@ -131,7 +131,7 @@ export default function ProfileView() {
                 size={['full', 'lg']}
             >
                 <DrawerOverlay/>
-                <DrawerContent>
+                <DrawerContent overflow={"auto"}>
                     <form onSubmit={(e) => {
                         e.preventDefault();
 
