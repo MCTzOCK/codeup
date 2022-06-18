@@ -10,8 +10,11 @@
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import redirect from "../../../util/userworkflow/redirect";
-import {Avatar, Badge, Box, Flex, Heading, Image, Text, Tooltip} from "@chakra-ui/react";
-import {BsQuestionSquareFill} from "react-icons/bs";
+import {Box, Flex, Heading} from "@chakra-ui/react";
+import ProfileBadges from "../../../components/community/profile/ProfileBadges";
+import ProfileBanner from "../../../components/community/profile/ProfileBanner";
+import ProfileAvatar from "../../../components/community/profile/ProfileAvatar";
+import ProfileNotFound from "../../../components/community/profile/ProfileNotFound";
 
 export default function ProfileView() {
 
@@ -71,28 +74,8 @@ export default function ProfileView() {
     return (
         <>
             {
-                notFound ? <NotFound/> : <Profile profile={profile}/>
+                notFound ? <ProfileNotFound/> : <Profile profile={profile}/>
             }
-        </>
-    )
-}
-
-function NotFound() {
-    return (
-        <>
-            <Flex alignItems={"center"} justifyContent={"center"} minW={"100%"} minH={"99vh"}>
-                <Heading color={"green.300"} fontSize={"10rem"} textAlign={"center"} display={"flex"}
-                         justifyContent={"center"} alignItems={"center"} flexDirection={"column"} as={"div"}>
-                    <BsQuestionSquareFill/>
-                    <Heading color={"white"} mt={"1.2rem"}>
-                        Not Found
-                    </Heading>
-                    <Text color={"white"} fontSize={"1.2rem"} textDecoration={"none"} fontWeight={"normal"}
-                          mt={"1.2rem"}>
-                        The profile you are looking for does not exist.
-                    </Text>
-                </Heading>
-            </Flex>
         </>
     )
 }
@@ -142,7 +125,8 @@ function Profile(props: {
                             <Heading as={"h1"} fontSize={["3xl", "4xl"]}>
                                 {props.profile.displayName}
                             </Heading>
-                            <ProfileBadges verified={props.profile.verified} specialStatus={props.profile.specialStatus} />
+                            <ProfileBadges verified={props.profile.verified}
+                                           specialStatus={props.profile.specialStatus}/>
                         </Flex>
                     </Flex>
                 </Box>
@@ -151,87 +135,3 @@ function Profile(props: {
     )
 }
 
-function ProfileBanner(props: {
-    url: string
-}) {
-    return (
-        <>
-            <Image
-                src={props.url}
-                w={"100%"}
-                h={[312, 624]}
-                maxHeight={[250, 450]}
-                maxW={"100vw"}
-                style={{objectFit: "none"}}
-                borderRadius={"12px"}
-                borderTopRadius={0}
-                alt={"Banner"}
-                shadow={"lg"}
-            />
-        </>
-    )
-}
-
-function ProfileAvatar(props: {
-    url: string
-}) {
-    return (
-        <>
-            <Flex justifyContent={["center", "flex-start"]}>
-                <Avatar
-                    src={props.url}
-                    w={128}
-                    h={128}
-                    mt={"-3rem"}
-                    marginInlineStart={["0", "1rem"]}
-                    borderColor={"#FFF"}
-                    borderWidth={"4px"}
-                />
-            </Flex>
-        </>
-    )
-}
-
-function ProfileBadges(props: {
-    verified: boolean,
-    specialStatus: string
-}) {
-    return (
-        <>
-            <Flex
-                direction={"row"}
-                mt={".4rem"}
-                marginInline={".4rem"}
-                gap={"0"}
-                justifyContent={"center"}
-                alignItems={"center"}
-            >
-                {props.verified ? (
-                    <Tooltip label={"Official Account"} hasArrow>
-                        <Badge
-                            ml={"1"}
-                            p={".2rem"}
-                            colorScheme="green"
-                            display={"block ruby"}
-                        >
-                            {" "}
-                            Official
-                        </Badge>
-                    </Tooltip>
-                ) : null}
-                {props.specialStatus.length > 0 ? (
-                    <Tooltip label={props.specialStatus} hasArrow>
-                        <Badge
-                            ml={"1"}
-                            p={".2rem"}
-                            colorScheme="yellow"
-                            display={"block ruby"}
-                        >
-                            Special
-                        </Badge>
-                    </Tooltip>
-                ) : null}
-            </Flex>
-        </>
-    )
-}

@@ -25,7 +25,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
     }
 
 
-    if(!req.body || !req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
+    if(!req.body || !req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || !req.body.username) {
         res.status(400).json({
             error: 'Missing required fields'
         });
@@ -36,8 +36,15 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         !req.body.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ||
         !(req.body.firstName.length > 0) ||
         !(req.body.lastName.length > 0) ||
-        !req.body.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+        !req.body.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/) ||
+        !/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(req.body.username)
     ) {
+        if(!/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(req.body.username)) {
+            res.status(400).json({
+                error: 'Username must be between 4 and 20 characters long and can only contain letters, numbers, and the underscore'
+            });
+            return;
+        }
         res.status(400).json({
             error: 'Invalid fields'
         });
@@ -49,15 +56,16 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
 
 
     try {
-
+        
         const acToken = uuid();
 
         const user = await UserModel.create({
+            username: req.body.username,
             email: req.body.email,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             password: crypto.createHash("sha256").update(req.body.password).digest("hex"),
-            activationToken: acToken,
+            activationToken: acToken
         })
 
         await user.save();

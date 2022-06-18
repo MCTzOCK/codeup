@@ -21,7 +21,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         return;
     }
 
-    const {id} = req.query;
+    const {id, small} = req.query;
 
     if (!id) {
         res.status(400).json({
@@ -42,10 +42,23 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
             return;
         }
 
+        if(!small) {
+            res.status(200).json({
+                profile,
+                success: true
+            });
+            return;
+        }
+
         res.status(200).json({
-            profile,
+            profile: {
+                displayName: profile.displayName,
+                bio: profile.bio,
+                avatar: profile.avatar,
+            },
             success: true
         });
+        return;
     } catch (e) {
         res.status(404).json({
             error: 'Not Found',
