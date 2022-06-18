@@ -15,7 +15,7 @@ export default function Footer() {
     return (
         <>
             <Divider/>
-            <Box w={"100%"} bg={"black"} minH={"10vh"} textAlign={"center"} paddingTop={"2rem"} paddingBlock={"2rem"}>
+            <Box w={"100%"} bg={"black"} minH={"10vh"} textAlign={"center"} paddingBlock={"2rem"} paddingInline={"2rem"}>
                 <Text>CodeUp - Made by&nbsp;
                     <Link href={"https://ben-siebert.de"} isExternal color={"blue.400"}>Ben
                         Siebert</Link>&nbsp; originally created for Jugend Forscht 2023&nbsp;

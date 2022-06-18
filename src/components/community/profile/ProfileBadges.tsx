@@ -33,7 +33,6 @@ export default function ProfileBadges(props: {
                             colorScheme="green"
                             display={"block ruby"}
                         >
-                            &nbsp;
                             Official
                         </Badge>
                     </Tooltip>

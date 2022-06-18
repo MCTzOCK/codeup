@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
-
 /**
  * src/util/generateJWT.ts
  *
@@ -9,7 +7,7 @@ import jwt from "jsonwebtoken";
  * Created At: 06.06.2022
  *
  */
-
+import jwt from "jsonwebtoken";
 
 export default function generateJWT (user: any) {
     return jwt.sign({
@@ -17,7 +15,8 @@ export default function generateJWT (user: any) {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        _2fa: user.twoFactorEnabled
+        _2fa: user.twoFactorEnabled,
+        username: user.username
     }, process.env.JWT_SECRET as string, {
         expiresIn: '30d'
     });

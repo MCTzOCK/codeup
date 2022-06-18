@@ -17,6 +17,10 @@ const CommunityProfile = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    username: {
+        type: String,
+        required: true,
+    },
     profilePicture: {
         type: String,
         default: "https://static.content.ben-siebert.de/api/public/dl/lSFt9Tkg",
@@ -53,20 +57,12 @@ const CommunityProfile = new mongoose.Schema({
     },
     birthday: {
         type: String,
-        default: "2007-20-03",
+        default: "2007-03-20",
     },
     createdAt: {
         type: Date,
         default: Date.now,
         immutable: true,
-    },
-    sexuality: {
-        type: String,
-        default: "",
-    },
-    gender: {
-        type: String,
-        default: "",
     },
     followers: {
         type: [
@@ -77,7 +73,7 @@ const CommunityProfile = new mongoose.Schema({
         ],
         default: [],
         required: true,
-    },
+    }
 });
 
 export default mongoose.models?.CommunityProfile || mongoose.model("CommunityProfile", CommunityProfile);

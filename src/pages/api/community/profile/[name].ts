@@ -21,11 +21,11 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         return;
     }
 
-    const {id, small} = req.query;
+    const {name, small} = req.query;
 
-    if (!id) {
+    if (!name) {
         res.status(400).json({
-            error: 'Missing ID'
+            error: 'Missing Name'
         });
         return;
     }
@@ -33,7 +33,9 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
     await mongoConnect();
 
     try {
-        const profile = await CommunityProfileModel.findById(id);
+        const profile = await CommunityProfileModel.findOne({
+            username: name
+        })
 
         if (!profile) {
             res.status(404).json({
@@ -42,7 +44,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
             return;
         }
 
-        if(!small) {
+        if (!small) {
             res.status(200).json({
                 profile,
                 success: true
@@ -55,6 +57,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                 displayName: profile.displayName,
                 bio: profile.bio,
                 avatar: profile.avatar,
+                username: profile.username
             },
             success: true
         });
@@ -65,6 +68,5 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         })
         return;
     }
-
 
 }

@@ -51,7 +51,6 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                 return;
             }
 
-
             const oldProfile = await CommunityProfileModel.findOne({
                 user: user._id
             });
@@ -66,7 +65,8 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
             const profile = await CommunityProfileModel.create({
                 user: user._id,
                 displayName: req.body.displayName,
-                bio: req.body.bio
+                bio: req.body.bio,
+                username: user.username
             })
 
             res.status(200).json({

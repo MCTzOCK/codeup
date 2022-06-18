@@ -17,6 +17,7 @@ export default function useUserInfo(): {
     firstName: string,
     lastName: string,
     _2fa: boolean,
+    username: string,
 } {
 
     const [userInfo, setUserInfo] = useState<{
@@ -25,14 +26,15 @@ export default function useUserInfo(): {
         firstName: string,
         lastName: string,
         _2fa: boolean,
+        username: string,
     }>({
         id: "",
         email: "",
         firstName: "",
         lastName: "",
         _2fa: false,
+        username: ""
     });
-
 
     useEffect(() => {
         if(localStorage.getItem("token") !== null) {
