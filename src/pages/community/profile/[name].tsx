@@ -25,7 +25,7 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading,
+    Heading, Image,
     Input,
     InputGroup,
     InputLeftAddon,
@@ -42,6 +42,7 @@ import ProfileMenuButton from "../../../components/community/profile/ProfileMenu
 import useUserInfo from "../../../hooks/useUserInfo";
 import {FaBirthdayCake, FaGlobe, FaMapMarkerAlt} from "react-icons/fa";
 import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
+import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
 
 export default function ProfileView() {
 
@@ -110,6 +111,7 @@ export default function ProfileView() {
     const toast = useToast();
 
     const { isOpen: isAvatarEditOpen, onOpen: onAvatarEditOpen, onClose: onAvatarEditClose } = useDisclosure()
+    const { isOpen: isBannerEditOpen, onOpen: onBannerEditOpen, onClose: onBannerEditClose } = useDisclosure()
 
     return (
         <>
@@ -121,6 +123,7 @@ export default function ProfileView() {
                 }}/>
             }
             <ProfileAvatarModifier isOpen={isAvatarEditOpen} onOpen={onAvatarEditOpen} onClose={onAvatarEditClose}/>
+            <ProfileBannerModifier isOpen={isBannerEditOpen} onOpen={onBannerEditOpen} onClose={onBannerEditClose}/>
             <Drawer
                 isOpen={isEditOpen}
                 placement='left'
@@ -228,6 +231,11 @@ export default function ProfileView() {
                                         }}
                                         onClick={onAvatarEditOpen}
                                     />
+                                </Box>
+                                <Box textAlign={"center"}>
+                                    <Image src={profile.profileBanner} w={"100%"} borderColor={"#FFF"} borderWidth={"4px"} cursor={"pointer"} _hover={{
+                                        filter: "brightness(0.7)"
+                                    }} onClick={onBannerEditOpen}/>
                                 </Box>
                                 <FormControl isInvalid={!displayNameValid}>
                                     <FormLabel>Displayname</FormLabel>
