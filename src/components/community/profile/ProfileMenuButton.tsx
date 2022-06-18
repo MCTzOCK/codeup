@@ -55,9 +55,7 @@ export default function ProfileMenuButton(props: {
                     }
                 })
             })
-
         }
-
     }, [userInfo])
 
     return (
