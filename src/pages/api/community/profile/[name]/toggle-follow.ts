@@ -58,17 +58,17 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
             return;
         }
 
-        if(profile.followers.includes(user._id)) {
-            profile.followers.splice(profile.followers.indexOf(user._id), 1);
+        if(profile.followers.includes(user.username)) {
+            profile.followers.splice(profile.followers.indexOf(user.username), 1);
         } else {
-            profile.followers.push(user._id);
+            profile.followers.push(user.username);
         }
 
         await profile.save();
 
         res.status(200).json({
             success: true,
-            following: profile.followers.includes(user._id)
+            following: profile.followers.includes(user.username)
         });
     })
 }

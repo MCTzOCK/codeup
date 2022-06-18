@@ -44,7 +44,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         return;
     }
 
-    const isFollowing = profile.followers.includes(user._id.toString());
+    const isFollowing = profile.followers.includes(user.username.toString());
 
     res.status(200).json({
         isFollowing,

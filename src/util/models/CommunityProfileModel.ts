@@ -67,8 +67,7 @@ const CommunityProfile = new mongoose.Schema({
     followers: {
         type: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
+                type: String,
             },
         ],
         default: [],

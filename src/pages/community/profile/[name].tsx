@@ -43,6 +43,7 @@ import useUserInfo from "../../../hooks/useUserInfo";
 import {FaBirthdayCake, FaGlobe, FaMapMarkerAlt} from "react-icons/fa";
 import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
 import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
+import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
 
 export default function ProfileView() {
 
@@ -353,6 +354,10 @@ function Profile(props: {
                             <Text color={"gray.500"}>
                                 @{props.profile.username}
                             </Text>
+                            <ProfileDataDisplay profile={{
+                                username: props.profile.username,
+                                displayName: props.profile.displayName
+                            }}/>
                             <ProfileBadges verified={props.profile.verified}
                                            specialStatus={props.profile.specialStatus}/>
                         </Flex>
