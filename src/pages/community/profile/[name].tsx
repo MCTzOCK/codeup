@@ -11,6 +11,7 @@ import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import redirect from "../../../util/userworkflow/redirect";
 import {
+    Avatar,
     Box,
     Button,
     Drawer,
@@ -30,7 +31,8 @@ import {
     InputLeftAddon,
     Text,
     Textarea,
-    useDisclosure, useToast
+    useDisclosure,
+    useToast
 } from "@chakra-ui/react";
 import ProfileBadges from "../../../components/community/profile/ProfileBadges";
 import ProfileBanner from "../../../components/community/profile/ProfileBanner";
@@ -39,6 +41,7 @@ import ProfileNotFound from "../../../components/community/profile/ProfileNotFou
 import ProfileMenuButton from "../../../components/community/profile/ProfileMenuButton";
 import useUserInfo from "../../../hooks/useUserInfo";
 import {FaBirthdayCake, FaGlobe, FaMapMarkerAlt} from "react-icons/fa";
+import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
 
 export default function ProfileView() {
 
@@ -106,6 +109,7 @@ export default function ProfileView() {
 
     const toast = useToast();
 
+    const { isOpen: isAvatarEditOpen, onOpen: onAvatarEditOpen, onClose: onAvatarEditClose } = useDisclosure()
 
     return (
         <>
@@ -116,6 +120,7 @@ export default function ProfileView() {
                     onEditClose
                 }}/>
             }
+            <ProfileAvatarModifier isOpen={isAvatarEditOpen} onOpen={onAvatarEditOpen} onClose={onAvatarEditClose}/>
             <Drawer
                 isOpen={isEditOpen}
                 placement='left'
@@ -133,7 +138,6 @@ export default function ProfileView() {
                         setBirthdayValid(true);
                         setWebsiteValid(true);
 
-
                         const displayName = (document.getElementById("displayName") as HTMLInputElement).value;
                         const bio = (document.getElementById("biography") as HTMLTextAreaElement).value;
                         const location = (document.getElementById("location") as HTMLInputElement).value;
@@ -150,8 +154,7 @@ export default function ProfileView() {
                             return;
                         }
 
-
-                        if(website.length > 0) {
+                        if (website.length > 0) {
                             if (!/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(website)) {
                                 setWebsiteValid(false);
                                 return;
@@ -185,7 +188,7 @@ export default function ProfileView() {
                                 }
                             })
                         }).then(res => {
-                            if(res.status === 200) {
+                            if (res.status === 200) {
                                 toast({
                                     title: "Profile Updated",
                                     description: "Your profile has been updated successfully",
@@ -212,6 +215,20 @@ export default function ProfileView() {
 
                         <DrawerBody>
                             <Flex flexDirection='column' gap={"2rem"}>
+                                <Box textAlign={"center"}>
+                                    <Avatar
+                                        src={profile.profilePicture}
+                                        w={128}
+                                        h={128}
+                                        borderColor={"#FFF"}
+                                        borderWidth={"4px"}
+                                        cursor={"pointer"}
+                                        _hover={{
+                                            filter: "brightness(0.7)"
+                                        }}
+                                        onClick={onAvatarEditOpen}
+                                    />
+                                </Box>
                                 <FormControl isInvalid={!displayNameValid}>
                                     <FormLabel>Displayname</FormLabel>
                                     <Input id={"displayName"} placeholder={"Displayname"}
