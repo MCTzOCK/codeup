@@ -15,6 +15,7 @@ import mongoConnect from "../../../util/mongo";
 import generateJWT from "../../../util/generateJWT";
 import {uuid} from "uuidv4";
 import * as nodemailer from "nodemailer";
+import sendMail from "../../../util/sendMail";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
@@ -91,35 +92,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                         user.emailChangeCode = uuid();
                         user.newEmail = req.body.keyValue;
 
-                        let transport = nodemailer.createTransport({
-                            // @ts-ignore
-                            host: process.env.SMTP_HOST,
-                            port: process.env.SMTP_PORT,
-                            secure: process.env.SMTP_SECURE === "true",
-                            auth: {
-                                user: process.env.SMTP_USER,
-                                pass: process.env.SMTP_PASSWORD,
-                            },
-                        });
-
-                        await transport.sendMail({
-                            from: process.env.SMTP_USER,
-                            to: user.email,
-                            replyTo: process.env.SMTP_USER,
-                            subject: "E-Mail Change Request - Ben from CodeUp",
-                            text: `
-Hello ${user.firstName},
-
-Please click the following link to confirm your email change:
-http://${req.headers.host}/api/account/action?operation=changeEmail&token=${user.emailChangeCode}&redirect=${encodeURIComponent(`http://${req.headers.host}/account/settings?component=account&newToken=${generateJWT(user)}`)}
-
-If you did not request this change, please contact the support immediately at codeup@ben-siebert.de
-
-Best regards,
-Ben from CodeUp
-                
-            `,
-                        });
+                        await sendMail(user.email, "E-Mail Change Request", `Please click the following link to confirm your email change:\nhttp://${req.headers.host}/api/account/action?operation=changeEmail&token=${user.emailChangeCode}&redirect=${encodeURIComponent(`http://${req.headers.host}/account/settings?component=account&newToken=${generateJWT(user)}`)}\n\nIf you did not request this change, please contact the support immediately at codeup@ben-siebert.de`, user.firstName)
 
                         res.status(200).json({
                             success: true,

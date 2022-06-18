@@ -14,6 +14,7 @@ import mongoConnect from "../../../util/mongo";
 import generateJWT from "../../../util/generateJWT";
 import {uuid} from "uuidv4";
 import * as nodemailer from "nodemailer";
+import sendMail from "../../../util/sendMail";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
@@ -55,33 +56,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
 
     await user.save();
 
-    let transport = nodemailer.createTransport({
-        // @ts-ignore
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: process.env.SMTP_SECURE === "true",
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASSWORD,
-        },
-    });
-
-    await transport.sendMail({
-        from: process.env.SMTP_USER,
-        to: user.email,
-        replyTo: process.env.SMTP_USER,
-        subject: "Password Reset - Ben from CodeUp",
-        text: `
-Hello ${user.firstName},
-
-Please click the following link to reset your password:
-
-http://${req.headers.host}/account/reset/${token}
-
-Best regards,
-Ben from CodeUp
-`
-    });
+    await sendMail(user.email, "Password Reset", `Please click on the following link to reset your password: http://${req.headers.host}/account/reset?token=${token}`, user.firstName);
 
     res.status(200).json({
         success: true,

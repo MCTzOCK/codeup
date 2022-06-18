@@ -12,9 +12,10 @@ import {NextApiRequest, NextApiResponse} from "next";
 import mongoConnect from "../../../util/mongo";
 import UserModel from "../../../util/models/UserModel";
 import * as crypto from "crypto";
-import jwt from "jsonwebtoken";
 import * as nodemailer from "nodemailer";
 import generateJWT from "../../../util/generateJWT";
+import generateMail from "../../../util/generateMail";
+import {default as sm} from "../../../util/sendMail";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
 
@@ -83,34 +84,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
             user.twoFactorCode = (Math.floor(Math.random() * 9000) + 1000).toString();
             await user.save();
 
-            let transport = nodemailer.createTransport({
-                // @ts-ignore
-                host: process.env.SMTP_HOST,
-                port: process.env.SMTP_PORT,
-                secure: process.env.SMTP_SECURE === "true",
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASSWORD,
-                },
-            });
-
-            await transport.sendMail({
-                from: process.env.SMTP_USER,
-                to: req.body.email,
-                replyTo: process.env.SMTP_USER,
-                subject: "Two Factor Authentication - Ben from CodeUp",
-                text: `
-Hello ${user.firstName},
-
-Your two factor authentication code is: ${user.twoFactorCode}
-
-If you didn't request this, please contact support immediately at codeup@ben-siebert.de
-
-Best regards,
-Ben from CodeUp
-                
-            `,
-            });
+            await sm(req.body.email, "Two Factor Code", `Your two factor code is: ${user.twoFactorCode}\n\nIf you didn't request this, please contact support immediately at codeup@ben-siebert.de!`, user.firstName);
 
             res.status(200).json({
                 error: null,
@@ -123,32 +97,6 @@ Ben from CodeUp
 }
 
 const sendMail = async (email: string, firstName: string) => {
-    let transport = nodemailer.createTransport({
-        // @ts-ignore
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: process.env.SMTP_SECURE === "true",
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASSWORD,
-        },
-    });
-
-    await transport.sendMail({
-        from: process.env.SMTP_USER,
-        to: email,
-        replyTo: process.env.SMTP_USER,
-        subject: "Logged In - Ben from CodeUp",
-        text: `
-Hello ${firstName},
-
-You have successfully logged in to your account.
-                
-If this wasn't you, please contact support immediately at codeup@ben-siebert.de
-                
-Best regards,
-Ben from CodeUp
-                
-            `,
-    });
+    await sm(email, "Logged In", `You have successfully logged in to your account.
+If this wasn't you, please contact support immediately at codeup@ben-siebert.de`, firstName)
 }
