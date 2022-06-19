@@ -13,7 +13,7 @@ import redirect from "../../../util/userworkflow/redirect";
 import {
     Avatar,
     Box,
-    Button,
+    Button, ButtonGroup,
     Drawer,
     DrawerBody,
     DrawerCloseButton,
@@ -25,7 +25,8 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading, Image,
+    Heading,
+    Image,
     Input,
     InputGroup,
     InputLeftAddon,
@@ -45,6 +46,7 @@ import ProfileAvatarModifier from "../../../components/community/profile/Profile
 import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
 import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
 import useHasProfile from "../../../hooks/hasProfile";
+import PostCard from "../../../components/community/post/PostCard";
 
 export default function ProfileView() {
 
@@ -75,6 +77,30 @@ export default function ProfileView() {
     const [notFound, setNotFound] = useState(false);
     const {isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose} = useDisclosure()
 
+
+    const hasProfile = useHasProfile();
+
+    const [displayNameValid, setDisplayNameValid] = useState(true);
+    const [bioValid, setBioValid] = useState(true);
+    const [locationValid, setLocationValid] = useState(true);
+    const [birthdayValid, setBirthdayValid] = useState(true);
+    const [websiteValid, setWebsiteValid] = useState(true);
+
+    const toast = useToast();
+
+    const {isOpen: isAvatarEditOpen, onOpen: onAvatarEditOpen, onClose: onAvatarEditClose} = useDisclosure()
+    const {isOpen: isBannerEditOpen, onOpen: onBannerEditOpen, onClose: onBannerEditClose} = useDisclosure()
+
+    const [currentRange, setCurrentRange] = useState({
+        from: 0,
+        to: 5
+    });
+
+    const [currentPosts, setCurrentPosts] = useState([]);
+    const [maxPosts, setMaxPosts] = useState(0)
+
+    const userInfo = useUserInfo();
+
     useEffect(() => {
         redirect({
             allowAnonymous: false,
@@ -83,8 +109,6 @@ export default function ProfileView() {
             forceAnonymous: false
         })
     }, [])
-
-    const userInfo = useUserInfo();
 
     useEffect(() => {
         fetch("/api/community/profile/" + name, {
@@ -104,35 +128,80 @@ export default function ProfileView() {
         })
     }, [name, userInfo])
 
-    const hasProfile = useHasProfile();
-
     useEffect(() => {
-        console.log("No profile found1");
-        if(hasProfile.tried && !hasProfile.hasProfile) {
-            console.log("No profile found");
+        if (hasProfile.tried && !hasProfile.hasProfile) {
             router.push("/community")
         }
     }, [hasProfile])
 
-    const [displayNameValid, setDisplayNameValid] = useState(true);
-    const [bioValid, setBioValid] = useState(true);
-    const [locationValid, setLocationValid] = useState(true);
-    const [birthdayValid, setBirthdayValid] = useState(true);
-    const [websiteValid, setWebsiteValid] = useState(true);
+    useEffect(() => {
+        if(name !== undefined) {
+            fetch("/api/community/profile/" + name + "/posts?from=" + currentRange.from + "&to=" + currentRange.to, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(res => {
+                res.json().then(data => {
+                    if (res.status === 200) {
+                        setCurrentPosts(data.posts)
+                    } else {
+                        toast({
+                            title: "Error",
+                            description: "Could not load posts",
+                            status: "error",
+                            duration: 6000,
+                            isClosable: false
+                        })
+                    }
+                })
+            })
+        }
+    }, [currentRange, name])
 
-    const toast = useToast();
+    useEffect(() => {
+        if(name !== undefined) {
+            fetch("/api/community/profile/" + name + "/posts?count=true", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(res => {
+                res.json().then(data => {
+                    if (res.status === 200) {
+                        setMaxPosts(data.postCount)
+                    } else {
+                        toast({
+                            title: "Error",
+                            description: "Could not load posts",
+                            status: "error",
+                            duration: 6000,
+                            isClosable: false
+                        })
+                    }
+                })
+            })
+        }
+    }, [name])
 
-    const { isOpen: isAvatarEditOpen, onOpen: onAvatarEditOpen, onClose: onAvatarEditClose } = useDisclosure()
-    const { isOpen: isBannerEditOpen, onOpen: onBannerEditOpen, onClose: onBannerEditClose } = useDisclosure()
 
     return (
         <>
             {
-                notFound ? <ProfileNotFound/> : <Profile profile={profile} editProfile={{
-                    isEditOpen,
-                    onEditOpen,
-                    onEditClose
-                }}/>
+                notFound ? <ProfileNotFound/> : <Profile
+                    profile={profile}
+                    editProfile={{
+                        isEditOpen,
+                        onEditOpen,
+                        onEditClose
+                    }}
+                    range={{
+                        currentRange,
+                        setCurrentRange
+                    }}
+                    currentPosts={currentPosts}
+                    maxPosts={maxPosts}
+                />
             }
             <ProfileAvatarModifier isOpen={isAvatarEditOpen} onOpen={onAvatarEditOpen} onClose={onAvatarEditClose}/>
             <ProfileBannerModifier isOpen={isBannerEditOpen} onOpen={onBannerEditOpen} onClose={onBannerEditClose}/>
@@ -245,7 +314,8 @@ export default function ProfileView() {
                                     />
                                 </Box>
                                 <Box textAlign={"center"}>
-                                    <Image src={profile.profileBanner} w={"100%"} borderColor={"#FFF"} borderWidth={"4px"} cursor={"pointer"} _hover={{
+                                    <Image src={profile.profileBanner} w={"100%"} borderColor={"#FFF"}
+                                           borderWidth={"4px"} cursor={"pointer"} _hover={{
                                         filter: "brightness(0.7)"
                                     }} onClick={onBannerEditOpen}/>
                                 </Box>
@@ -334,7 +404,22 @@ function Profile(props: {
         onEditOpen: () => void,
         onEditClose: () => void,
         isEditOpen: boolean
-    }
+    },
+    range: {
+        currentRange: { from: number, to: number },
+        setCurrentRange: ({from, to}: { from: number, to: number }) => void
+    },
+    currentPosts: {
+        _id: string,
+        user: string,
+        username: string,
+        content: string,
+        createdAt: string,
+        likes: string[],
+        comments: string[],
+        parent: string | null
+    }[],
+    maxPosts: number,
 }) {
     return (
         <>
@@ -377,6 +462,45 @@ function Profile(props: {
                             username: props.profile.username
                         }} editProfile={props.editProfile}/>
                     </Flex>
+                    <Box w={"100%"} alignItems={"center"} justifyContent={"center"}>
+                        <Flex direction={["column", "row"]} mt={"4rem"} gap={"2rem"} maxW={"100%"} p={"2rem"}>
+                            <Box flex={["100%", "40%"]}>
+                                <Heading>About</Heading>
+                            </Box>
+                            <Box flex={["100%", "60%"]}>
+                                <Heading mb={"4rem"}>Posts</Heading>
+                                {
+                                    props.currentPosts.map(post => {
+                                        // eslint-disable-next-line react/jsx-key
+                                        return <PostCard id={post._id} />
+                                    })
+                                }
+
+                                <ButtonGroup mt={"4"} w={"100%"}>
+                                    <Button
+                                        flex={"100%"}
+                                        disabled={props.range.currentRange.from === 0}
+                                        onClick={() => {
+                                            props.range.setCurrentRange({
+                                                from: props.range.currentRange.from - 5,
+                                                to: props.range.currentRange.to - 5
+                                            })
+                                        }}
+                                    >Previous</Button>
+                                    <Button
+                                        flex={"100%"}
+                                        disabled={!(props.range.currentRange.to < props.maxPosts)}
+                                        onClick={() => {
+                                            props.range.setCurrentRange({
+                                                from: props.range.currentRange.from + 5,
+                                                to: props.range.currentRange.to + 5
+                                            })
+                                        }}
+                                    >Next</Button>
+                                </ButtonGroup>
+                            </Box>
+                        </Flex>
+                    </Box>
                 </Box>
             </Flex>
         </>

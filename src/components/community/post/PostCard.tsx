@@ -140,7 +140,7 @@ export default function PostCard(props: {
 
     return (
         <>
-            <Flex direction={"column"}>
+            <Flex direction={"column"} mt={"2rem"}>
                 <Flex direction={"row"}>
                     <Avatar
                         src={"/api/community/profile/" + post.username + "/avatar"}
