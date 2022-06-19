@@ -465,10 +465,10 @@ function Profile(props: {
                     <Box w={"100%"} alignItems={"center"} justifyContent={"center"}>
                         <Flex direction={["column", "row"]} mt={"4rem"} gap={"2rem"} maxW={"100%"} p={"2rem"}>
                             <Box flex={["100%", "40%"]}>
-                                <Heading>About</Heading>
+                                <Heading mb={"4rem"} textAlign={"center"}>About</Heading>
                             </Box>
                             <Box flex={["100%", "60%"]}>
-                                <Heading mb={"4rem"}>Posts</Heading>
+                                <Heading mb={"4rem"} textAlign={"center"}>Posts</Heading>
                                 {
                                     props.currentPosts.map(post => {
                                         // eslint-disable-next-line react/jsx-key
