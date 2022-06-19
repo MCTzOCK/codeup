@@ -1,10 +1,14 @@
 import '../styles/globals.css';
+import "../styles/tiptap.css";
 import type {AppProps} from 'next/app';
 import {Box, ChakraProvider, extendTheme} from '@chakra-ui/react';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {DefaultSeo} from "next-seo";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
+import {useRouter} from "next/router";
+import PostButton from "../components/community/post/PostButton";
+import useUserInfo from "../hooks/useUserInfo";
 
 const theme = extendTheme({
     config: {
@@ -14,6 +18,18 @@ const theme = extendTheme({
 });
 
 function App({Component, pageProps}: AppProps) {
+
+    const router = useRouter();
+
+    const [showPostButton, setShowPostButton] = useState(false);
+
+    const userInfo = useUserInfo();
+
+    useEffect(() => {
+        if(userInfo.id !== "") {
+            setShowPostButton(true);
+        }
+    }, [userInfo])
 
     return (
         <>
@@ -49,11 +65,17 @@ function App({Component, pageProps}: AppProps) {
             />
             <ChakraProvider theme={theme}>
                 <Box minH="100vh" minW="100%">
-                    <NavigationBar />
+                    <NavigationBar/>
                     <Box minH={"96vh"}>
                         <Component {...pageProps} />
+                        {
+                            router.pathname.startsWith("/community") && showPostButton ?
+                                <PostButton/>
+                                :
+                                null
+                        }
                     </Box>
-                    <Footer />
+                    <Footer/>
                 </Box>
             </ChakraProvider>
         </>
