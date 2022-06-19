@@ -199,7 +199,9 @@ const MenuBar = ({editor, onOpen}: { editor: any, onOpen: () => void }) => {
     )
 }
 
-const TipTap = () => {
+const TipTap = (props: {
+    parentPost?: string
+}) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -249,12 +251,24 @@ const TipTap = () => {
                         },
                         body: JSON.stringify({
                             token: localStorage.getItem("token"),
-                            content: html
+                            content: html,
+                            parent: props.parentPost || null
                         })
                     }).then(res => {
                         res.json().then(data => {
                             if (data.success) {
-                                router.push("/community/post/" + data.post);
+                                if(props.parentPost) {
+                                    toast({
+                                        title: "Comment created!",
+                                        description: "Your comment has been created and will be visible soon.",
+                                        status: "success",
+                                        duration: 6000,
+                                        isClosable: false,
+                                        position: "top",
+                                    });
+                                } else {
+                                    router.push("/community/post/" + data.post);
+                                }
                             } else {
                                 toast({
                                     title: "Error",

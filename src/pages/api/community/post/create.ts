@@ -69,21 +69,63 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
                 content = content.replace(SCRIPT_REGEX, "");
             }
 
-            const post = await CommunityPostModel.create({
-                user: user._id,
-                username: user.username,
-                content: content,
-                likes: [],
-                comments: [],
-                createdAt: Date.now()
-            })
+            if(req.body.parent) {
+                const parent = await CommunityPostModel.findOne({
+                    _id: req.body.parent
+                });
 
-            await post.save();
+                if(!parent) {
+                    res.status(400).json({
+                        error: 'Parent post not found',
+                    });
+                    return;
+                }
 
-            res.status(200).json({
-                post: post._id,
-                success: true
-            });
+                if(parent.parent !== null) {
+                    res.status(400).json({
+                        error: 'Parent post is not a root post',
+                    });
+                    return;
+                }
+
+                const post = await CommunityPostModel.create({
+                    user: user._id,
+                    username: user.username,
+                    content: content,
+                    likes: [],
+                    comments: [],
+                    createdAt: Date.now(),
+                    parent: parent._id
+                });
+
+                await post.save();
+
+                parent.comments.push(post._id);
+
+                await parent.save();
+
+                res.status(200).json({
+                    post: post._id,
+                    success: true
+                });
+
+            } else {
+                const post = await CommunityPostModel.create({
+                    user: user._id,
+                    username: user.username,
+                    content: content,
+                    likes: [],
+                    comments: [],
+                    createdAt: Date.now()
+                })
+
+                await post.save();
+
+                res.status(200).json({
+                    post: post._id,
+                    success: true
+                });
+            }
         }
     })
 }

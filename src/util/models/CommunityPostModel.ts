@@ -42,6 +42,11 @@ const CommunityPost = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
         required: true,
+    },
+    parent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CommunityPost",
+        default: null,
     }
 });
 
