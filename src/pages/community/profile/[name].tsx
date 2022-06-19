@@ -44,6 +44,7 @@ import {FaBirthdayCake, FaGlobe, FaMapMarkerAlt} from "react-icons/fa";
 import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
 import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
 import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
+import useHasProfile from "../../../hooks/hasProfile";
 
 export default function ProfileView() {
 
@@ -102,6 +103,16 @@ export default function ProfileView() {
             })
         })
     }, [name, userInfo])
+
+    const hasProfile = useHasProfile();
+
+    useEffect(() => {
+        console.log("No profile found1");
+        if(hasProfile.tried && !hasProfile.hasProfile) {
+            console.log("No profile found");
+            router.push("/community")
+        }
+    }, [hasProfile])
 
     const [displayNameValid, setDisplayNameValid] = useState(true);
     const [bioValid, setBioValid] = useState(true);

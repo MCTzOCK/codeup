@@ -9,12 +9,25 @@
  */
 
 import * as React from 'react';
-import {Avatar, Box, Button, Divider, Flex, Heading, Text, useToast} from "@chakra-ui/react";
-import {FaComment, FaHeart, FaRegHeart} from "react-icons/fa";
+import {
+    Avatar,
+    Box,
+    Button,
+    Divider,
+    Flex,
+    Heading,
+    IconButton,
+    Menu,
+    MenuButton, MenuItem, MenuList,
+    Text,
+    useToast
+} from "@chakra-ui/react";
+import {FaComment, FaHamburger, FaHeart, FaRegHeart} from "react-icons/fa";
 import useUserInfo from "../../../hooks/useUserInfo";
 import {useEffect, useState} from "react";
 import TipTap from "./TipTap";
 import {useRouter} from "next/router";
+import {GiHamburgerMenu} from "react-icons/gi";
 
 export default function PostCard(props: {
     id: string
@@ -128,14 +141,16 @@ export default function PostCard(props: {
     return (
         <>
             <Flex direction={"column"}>
-                <Flex direction={"row"} _hover={{textDecoration: "underline"}} cursor={"pointer"} onClick={() => {
-                    location.href = "/community/profile/" + post.username
-                }}>
+                <Flex direction={"row"}>
                     <Avatar
                         src={"/api/community/profile/" + post.username + "/avatar"}
                         size={"lg"}
+                        onClick={() => {
+                            location.href = "/community/profile/" + post.username
+                        }}
+                        cursor={"pointer"}
                     />
-                    <Flex direction={"column"} ml={"1rem"}>
+                    <Flex direction={"column"} ml={"1rem"} flex={"100%"}>
                         <Heading as={"h1"} fontSize={["3xl", "4xl"]}>
                             {authorData.displayName}
                         </Heading>
@@ -149,6 +164,71 @@ export default function PostCard(props: {
                             {new Date(post.createdAt).getHours()}:{new Date(post.createdAt).getMinutes()}
                         </Text>
                     </Flex>
+                    <Box flex={"100%"} textAlign={"right"}>
+                        <Menu>
+                            <MenuButton as={IconButton} icon={<GiHamburgerMenu />} />
+                            <MenuList>
+                                {
+                                    userInfo.username === post.username ?
+                                        <MenuItem onClick={() => {
+                                            fetch("/api/community/post/" + post._id + "/delete", {
+                                                method: "POST",
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                },
+                                                body: JSON.stringify({
+                                                    token: localStorage.getItem("token")
+                                                })
+                                            }).then(res => {
+                                                res.json().then(data => {
+                                                    if(data.success) {
+                                                        toast({
+                                                            title: "Success",
+                                                            description: "Post deleted",
+                                                            status: "success",
+                                                            duration: 6000,
+                                                            position: "top",
+                                                            onCloseComplete: () => {
+                                                                if(!post.parent) {
+                                                                    router.push("/community");
+                                                                }
+                                                            }
+                                                        })
+                                                    } else {
+                                                        toast({
+                                                            title: "Error",
+                                                            description: data.error,
+                                                            status: "error",
+                                                            duration: 6000,
+                                                            position: "top"
+                                                        })
+                                                    }
+                                                })
+                                            })
+                                        }}>
+                                            Delete
+                                        </MenuItem>
+                                        : null
+                                }
+                                <MenuItem onClick={() => {
+                                    navigator.clipboard
+                                        .writeText("https://" + window.location.host + "/community/post/" + post._id)
+                                        .then(() => {
+                                            toast({
+                                                title: "Success!",
+                                                description: "Link copied to clipboard",
+                                                status: "success",
+                                                duration: 3000,
+                                                isClosable: true,
+                                                position: "top",
+                                            });
+                                        });
+                                }}>
+                                    Share
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Box>
                 </Flex>
             </Flex>
             <Flex direction={"column"} id={"post-display"}>

@@ -17,6 +17,7 @@ import {FaComment, FaHeart, FaRegHeart} from "react-icons/fa";
 import useUserInfo from "../../../hooks/useUserInfo";
 import TipTap from "../../../components/community/post/TipTap";
 import PostCard from "../../../components/community/post/PostCard";
+import useHasProfile from "../../../hooks/hasProfile";
 
 export default function PostView() {
 
@@ -27,6 +28,17 @@ export default function PostView() {
     const [replies, setReplies] = useState<string[]>([])
 
     const toast = useToast();
+
+
+    const hasProfile = useHasProfile();
+
+    useEffect(() => {
+        console.log("No profile found1");
+        if(hasProfile.tried && !hasProfile.hasProfile) {
+            console.log("No profile found");
+            router.push("/community")
+        }
+    }, [hasProfile])
 
 
     useEffect(() => {
@@ -43,7 +55,7 @@ export default function PostView() {
                             router.push("/community/post/" + data.post.parent);
                             return;
                         }
-                        setReplies(data.post.comments)
+                        setReplies(data.post.comments.reverse())
                     } else {
                         toast({
                             title: "Error",
