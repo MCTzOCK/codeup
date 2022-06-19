@@ -66,3 +66,18 @@
     color: #5a7be8;
     text-decoration: underline;
 }
+
+#post-display h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#post-display h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+#post-display h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
