@@ -267,7 +267,7 @@ const TipTap = (props: {
                                         position: "top",
                                     });
                                 } else {
-                                    router.push("/community/post/" + data.post);
+                                    window.location.href = "/community/post/" + data.post;
                                 }
                             } else {
                                 toast({
