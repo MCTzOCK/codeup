@@ -23,6 +23,7 @@ import {Link} from "@tiptap/extension-link";
 import {TextStyle} from "@tiptap/extension-text-style";
 import {Color} from "@tiptap/extension-color";
 import {useRouter} from "next/router";
+import {Dispatch, SetStateAction} from "react";
 
 
 const MenuBar = ({editor, onOpen}: { editor: any, onOpen: () => void }) => {
@@ -200,7 +201,8 @@ const MenuBar = ({editor, onOpen}: { editor: any, onOpen: () => void }) => {
 }
 
 const TipTap = (props: {
-    parentPost?: string
+    parentPost?: string,
+    setShowEditor?: Dispatch<SetStateAction<boolean>>
 }) => {
     const editor = useEditor({
         extensions: [
@@ -266,6 +268,9 @@ const TipTap = (props: {
                                         isClosable: false,
                                         position: "top",
                                     });
+                                    if(props.setShowEditor) {
+                                        props.setShowEditor(false)
+                                    }
                                 } else {
                                     window.location.href = "/community/post/" + data.post;
                                 }

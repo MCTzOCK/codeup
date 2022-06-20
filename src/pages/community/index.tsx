@@ -9,13 +9,14 @@
  */
 
 import * as React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import useHasProfile from "../../hooks/hasProfile";
 import useUserInfo from "../../hooks/useUserInfo";
 import redirect from "../../util/userworkflow/redirect";
 import {AiFillPlusSquare} from "react-icons/ai";
-import {Flex, Heading, Text} from "@chakra-ui/react";
+import {Box, Flex, Heading, Text} from "@chakra-ui/react";
 import Link from "next/link";
+import PostCard from "../../components/community/post/PostCard";
 
 export default function CommunityHome() {
 
@@ -37,6 +38,7 @@ export default function CommunityHome() {
             {
                 hasProfile.tried && hasProfile.hasProfile ?
                     <>
+                        <CommunityFeed />
                     </>
                     :
                     <>
@@ -65,5 +67,60 @@ function ProfileCreatorHero() {
                 </Heading>
             </Flex>
         </Link>
+    )
+}
+
+function CommunityFeed() {
+    const [postIds, setPostIds] = useState<string[]>([]);
+    const [currentRange, setCurrentRange] = useState<{from: number, to: number}>({
+        from: 0,
+        to: 5
+    })
+
+    useEffect(() => {
+        let origPosts = postIds;
+
+        fetch("/api/community/feed?from=" + currentRange.from + "&to=" + currentRange.to + "&idsOnly=true&noReplies=true", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => {
+            res.json().then(data => {
+                setPostIds(origPosts.concat(data.posts))
+            })
+        })
+    }, [currentRange]);
+
+
+
+    useEffect(() => {
+
+        function handleScroll() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                setCurrentRange({
+                    from: currentRange.to,
+                    to: currentRange.to + 5
+                })
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [currentRange]);
+
+    return (
+        <Box p={[0, "2rem"]}>
+            {
+                postIds.map(postId => {
+                    console.log(postId)
+                    return (
+                        <>
+                            <PostCard id={postId}/>
+                        </>
+                    )
+                })
+            }
+        </Box>
     )
 }

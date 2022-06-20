@@ -281,7 +281,7 @@ export default function PostCard(props: {
             {
                 showEditor && !post.parent ?
                     <Box backgroundColor={"gray.900"} p={"1.2rem"} mt={".5rem"} rounded={"xl"}>
-                        <TipTap parentPost={post._id} />
+                        <TipTap parentPost={post._id} setShowEditor={setShowEditor} />
                     </Box>
                     :
                     null
