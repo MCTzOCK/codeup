@@ -110,7 +110,7 @@ function CommunityFeed() {
     }, [currentRange]);
 
     return (
-        <Box p={[0, "2rem"]}>
+        <Box p={[".4rem", "2rem"]}>
             {
                 postIds.map(postId => {
                     console.log(postId)
