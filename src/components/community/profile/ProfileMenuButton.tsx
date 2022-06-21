@@ -94,9 +94,13 @@ export default function ProfileMenuButton(props: {
                             }}>Website</MenuItem>
                         ) : null
                     }
-                    <MenuItem onClick={props.editProfile.onEditOpen}>
-                        Edit
-                    </MenuItem>
+                    {
+                        isOwner ?
+                            <MenuItem onClick={props.editProfile.onEditOpen}>
+                                Edit
+                            </MenuItem>
+                            : null
+                    }
                     <MenuItem onClick={() => {
                         window.location.href = "/community/profile/" + props.profile.username + "/report"
                     }}>Report</MenuItem>
