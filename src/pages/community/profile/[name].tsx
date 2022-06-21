@@ -29,7 +29,7 @@ import {
     Image,
     Input,
     InputGroup,
-    InputLeftAddon,
+    InputLeftAddon, List, ListIcon, ListItem,
     Text,
     Textarea,
     useDisclosure,
@@ -41,12 +41,21 @@ import ProfileAvatar from "../../../components/community/profile/ProfileAvatar";
 import ProfileNotFound from "../../../components/community/profile/ProfileNotFound";
 import ProfileMenuButton from "../../../components/community/profile/ProfileMenuButton";
 import useUserInfo from "../../../hooks/useUserInfo";
-import {FaBirthdayCake, FaGlobe, FaMapMarkerAlt} from "react-icons/fa";
+import {
+    FaBirthdayCake,
+    FaCheckCircle,
+    FaGlobe,
+    FaInfo,
+    FaMapMarkerAlt,
+    FaRegFlag,
+    FaTransgenderAlt
+} from "react-icons/fa";
 import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
 import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
 import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
 import useHasProfile from "../../../hooks/hasProfile";
 import PostCard from "../../../components/community/post/PostCard";
+import {VscVerified} from "react-icons/all";
 
 export default function ProfileView() {
 
@@ -465,7 +474,47 @@ function Profile(props: {
                     <Box w={"100%"} alignItems={"center"} justifyContent={"center"}>
                         <Flex direction={["column", "row"]} mt={"4rem"} gap={"2rem"} maxW={"100%"} p={"2rem"}>
                             <Box flex={["100%", "40%"]}>
-                                <Heading mb={"4rem"} textAlign={"center"}>About</Heading>
+                                <Box bg={"gray.900"} paddingInline={"2rem"} paddingBlock={"1.2rem"} borderRadius={"12px"}
+                                     w={"100%"}>
+                                    <Heading as={"h2"} fontSize={["2xl", "3xl"]}>
+                                        About
+                                    </Heading>
+                                    <Text textAlign={"left"} fontFamily={"Comic Sans MS, Comic Sans"}>
+                                        &quot;{props.profile.bio}&quot;
+                                    </Text>
+                                    <Heading as={"h2"} fontSize={["2xl", "3xl"]} mt={"2rem"}>
+                                        Information
+                                    </Heading>
+                                    <Box
+                                        textAlign={'left'}
+                                        color={"gray.400"}
+                                    >
+                                        {
+                                            props.profile.verified ?
+                                                <Box display={"flex"} alignItems={"center"} gap={".4rem"} mt={".3rem"} color={"green.400"}>
+                                                    <FaCheckCircle/> Official Account
+                                                </Box> : null
+                                        }
+                                        {
+                                            props.profile.specialStatus.length > 0 ?
+                                                <Box display={"flex"} alignItems={"center"} gap={".4rem"} mt={".3rem"} color={"yellow.400"}>
+                                                    <FaInfo/> {props.profile.specialStatus}
+                                                </Box> : null
+                                        }
+                                        {
+                                            props.profile.location.length > 0 ?
+                                                <Box display={"flex"} alignItems={"center"} gap={".4rem"} mt={".3rem"}>
+                                                    <FaMapMarkerAlt/> {props.profile.location}
+                                                </Box> : null
+                                        }
+                                        {
+                                            props.profile.birthday.length > 0 ?
+                                                <Box display={"flex"} alignItems={"center"} gap={".4rem"} mt={".3rem"}>
+                                                    <FaBirthdayCake/> {new Date(props.profile.birthday).toLocaleDateString()}
+                                                </Box> : null
+                                        }
+                                    </Box>
+                                </Box>
                             </Box>
                             <Box flex={["100%", "60%"]}>
                                 <Heading mb={"4rem"} textAlign={"center"}>Posts</Heading>
