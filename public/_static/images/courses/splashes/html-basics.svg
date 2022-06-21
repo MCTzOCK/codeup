@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.638266,0,0,0.638266,187.243,92.6039)">
+        <g transform="matrix(1.24453,0,0,1.24453,-253.319,-125.2)">
+            <path d="M107.6,471L74.6,100.6L437.4,100.6L404.4,470.8L255.7,512" style="fill:rgb(228,77,38);fill-rule:nonzero;"/>
+            <path d="M256,480.5L256,131L404.3,131L376,447" style="fill:rgb(241,101,41);fill-rule:nonzero;"/>
+            <path d="M142,176.3L256,176.3L256,221.7L191.8,221.7L196,268.2L256,268.2L256,313.5L154.4,313.5M156.4,336.3L202,336.3L205.2,372.6L256,386.2L256,433.6L162.8,407.6" style="fill:rgb(235,235,235);fill-rule:nonzero;"/>
+            <path d="M369.6,176.3L255.8,176.3L255.8,221.7L365.4,221.7M361.3,268.2L255.8,268.2L255.8,313.6L311.8,313.6L306.5,372.6L255.8,386.2L255.8,433.4L348.8,407.6" style="fill:white;fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1.79674,0,0,1.79674,-284.702,89.0619)">
+            <text x="468.316px" y="75.023px" style="font-family:'ErasITC-Bold', 'Eras Bold ITC', sans-serif;font-size:104.735px;fill:white;">HTML</text>
+            <text x="468.316px" y="179.758px" style="font-family:'ErasITC-Bold', 'Eras Bold ITC', sans-serif;font-size:104.735px;fill:white;">Basics</text>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.1468,0,0,1.1468,-75.3292,153.956)">
+        <g>
+            <text x="468.316px" y="75.023px" style="font-family:'ErasITC-Bold', 'Eras Bold ITC', sans-serif;font-size:83.711px;fill:white;">JavaScript</text>
+            <text x="468.316px" y="158.734px" style="font-family:'ErasITC-Bold', 'Eras Bold ITC', sans-serif;font-size:83.711px;fill:white;">Basics</text>
+        </g>
+    </g>
+    <g id="Unofficial_JavaScript_logo_2.svg" transform="matrix(0.410997,0,0,0.410997,246.464,256)">
+        <g transform="matrix(1,0,0,1,-315,-315)">
+            <rect x="0" y="0" width="630" height="630" style="fill:rgb(247,223,30);"/>
+            <path d="M423.2,492.19C435.89,512.91 452.4,528.14 481.6,528.14C506.13,528.14 521.8,515.88 521.8,498.94C521.8,478.64 505.7,471.45 478.7,459.64L463.9,453.29C421.18,435.09 392.8,412.29 392.8,364.09C392.8,319.69 426.63,285.89 479.5,285.89C517.14,285.89 544.2,298.99 563.7,333.29L517.6,362.89C507.45,344.69 496.5,337.52 479.5,337.52C462.16,337.52 451.17,348.52 451.17,362.89C451.17,380.65 462.17,387.84 487.57,398.84L502.37,405.18C552.67,426.75 581.07,448.74 581.07,498.18C581.07,551.48 539.2,580.68 482.97,580.68C427.99,580.68 392.47,554.48 375.09,520.14L423.2,492.19ZM214.07,497.32C223.37,513.82 231.83,527.77 252.17,527.77C271.62,527.77 283.89,520.16 283.89,490.57L283.89,289.27L343.09,289.27L343.09,491.37C343.09,552.67 307.15,580.57 254.69,580.57C207.29,580.57 179.84,556.04 165.88,526.495L214.07,497.32Z" style="fill-rule:nonzero;"/>
+        </g>
+    </g>
+</svg>

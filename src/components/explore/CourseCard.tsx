@@ -1,0 +1,54 @@
+/**
+ * src/components/explore/CourseCard.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 21.06.2022
+ *
+ */
+
+import * as React from 'react';
+import {Flex, Box, Image, chakra, Link, Heading, Text, Button, Badge} from "@chakra-ui/react";
+import {Course} from "../../util/courses/Course";
+import {default as NextLink} from "next/link";
+import {useRouter} from "next/router";
+
+export default function CourseCard(props: { course: Course }) {
+    return (
+        <>
+            <Box shadow={"xl"} rounded={"xl"} bg={"gray.900"}>
+                <Flex direction={["column", "row"]}>
+                    <Image
+                        src={props.course.splashImage}
+                        alt={props.course.displayName}
+                        w={"full"}
+                        h={64}
+                        flex={"45%"}
+                    />
+                    <Box flex={"65%"} p={"2rem"}>
+                        <Flex direction={"row"}>
+                            <Flex direction={"column"} flex={"100%"}>
+                                <Heading>{props.course.displayName}</Heading>
+                                <Text color={"gray.500"}>{props.course.description}</Text>
+                                <Flex mt={"1.2rem"}>
+                                    <Badge colorScheme={
+                                        props.course.level === "Beginner" ? "green" :
+                                            props.course.level === "Intermediate" ? "orange" :
+                                                props.course.level === "Advanced" ? "red" : "gray"
+                                    }>{props.course.level}</Badge>
+                                </Flex>
+                                <Flex mt={"1.2rem"}>
+                                    <Button colorScheme={props.course.colorScheme} as={Link} href={"/course/" + props.course.name}>
+                                        Start Course
+                                    </Button>
+                                </Flex>
+                            </Flex>
+                            <Box flex={[0, "100%"]}></Box>
+                        </Flex>
+                    </Box>
+                </Flex>
+            </Box>
+        </>
+    )
+}
