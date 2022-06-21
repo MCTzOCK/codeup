@@ -22,6 +22,8 @@ import {
     FormLabel, Input, FormControl, FormErrorMessage, Button
 } from "@chakra-ui/react";
 import Link from "next/link";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 export default function Reset() {
     const [alertVisible, setAlertVisible] = React.useState(false);
@@ -35,6 +37,7 @@ export default function Reset() {
 
     const [forceDisable, setForceDisable] = React.useState(false);
 
+    const {t} = useTranslation();
 
     return (
         <>
@@ -51,13 +54,26 @@ export default function Reset() {
                      padding={"4rem"} rounded={"12px"} shadow={"xl"}>
                     <Flex direction={"column"} gap={"2rem"}>
                         <Flex alignItems={"center"} justifyContent={"center"} direction={"column"}>
-                            <Heading size={"xl"}>Reset Password</Heading>
+                            <Heading size={"xl"}>
+                                {
+                                    t("reset-password:reset-password")
+                                }
+                            </Heading>
                             <Text textAlign={"center"} mt={".4rem"}>
-                                Enter your email address below and we&apos;ll send you a link to reset your password or&nbsp;
+                                {
+                                    t("reset-password:subtitle_start")
+                                }&nbsp;
                                 <Link href={"/account/login"}>
-                                    <ChakraLink href={"/account/login"} color={"blue.400"}>login</ChakraLink>
+                                    <ChakraLink href={"/account/login"} color={"blue.400"}>
+                                        {
+                                            t("account:login")
+                                        }
+                                    </ChakraLink>
                                 </Link>
-                                &nbsp;instead.
+                                &nbsp;
+                                {
+                                    t("reset-password:subtitle_end")
+                                }
                             </Text>
                         </Flex>
                         <form onSubmit={(e) => {
@@ -98,7 +114,9 @@ export default function Reset() {
                                 <FormErrorMessage>{emailError}</FormErrorMessage>
                             </FormControl>
                             <Button variant={"solid"} type={"button"} isLoading={loading} disabled={forceDisable || loading } w={"100%"} mt={"2rem"}>
-                                Reset Password
+                                {
+                                    t("reset-password:reset-password")
+                                }
                             </Button>
                         </form>
                     </Flex>
@@ -106,4 +124,12 @@ export default function Reset() {
             </Flex>
         </>
     )
+}
+
+export async function getServerSideProps({locale}: { locale: string }) {
+    return {
+        props: {
+            ...await serverSideTranslations(locale, ['common', 'account', 'navbar', 'footer', 'reset-password']),
+        }
+    }
 }
