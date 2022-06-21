@@ -28,6 +28,8 @@ import {
 import {FaUserCircle} from "react-icons/fa";
 import {BsFillHouseDoorFill} from "react-icons/bs";
 import {useRouter} from "next/router";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 export default function Settings() {
 
@@ -43,6 +45,8 @@ export default function Settings() {
     }, [])
 
     const userInfo = useUserInfo();
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         const query = new URLSearchParams(window.location.search);
@@ -77,19 +81,31 @@ export default function Settings() {
             <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
                 <Flex direction={"column"} flex={"15%"} minH={"100%"}
                       bgColor={useColorModeValue("gray.400", "gray.900")} p={"1.2rem"}>
-                    <Heading textAlign={"center"}>Settings</Heading>
+                    <Heading textAlign={"center"}>
+                        {
+                            t("common:settings")
+                        }
+                    </Heading>
                     <Button m={"1.2rem"} variant={currentSelected === "home" ? "solid" : "ghost"}
                             leftIcon={<BsFillHouseDoorFill/>} onClick={() => {
                         setCurrentSelected('home')
                         setCurrentComponent(<Home userInfo={userInfo}/>)
                         router.push("/account/settings?component=home")
-                    }}>Home</Button>
+                    }}>
+                        {
+                            t("common:home")
+                        }
+                    </Button>
                     <Button marginInline={"1.2rem"} variant={currentSelected === "account" ? "solid" : "ghost"}
                             leftIcon={<FaUserCircle/>} onClick={() => {
                         setCurrentSelected('account')
                         setCurrentComponent(<Account userInfo={userInfo}/>)
                         router.push("/account/settings?component=account")
-                    }}>Account</Button>
+                    }}>
+                        {
+                            t("account:account")
+                        }
+                    </Button>
                 </Flex>
                 <Flex direction={"column"} flex={"85%"} minH={"100%"}>
                     {
@@ -109,12 +125,27 @@ function Home(props: {
         lastName: string,
     }
 }) {
+    const {t} = useTranslation();
     return (
         <Flex alignItems={"center"} justifyContent={"center"} marginTop={"-2rem"} w={"100%"} h={"100vh"}
               direction={"column"} textAlign={"center"}>
-            <Heading mb={"1.2rem"}>Welcome, {props.userInfo.firstName}!</Heading>
-            <Text>Here you can manage your account and other settings to customize CodeUp as you like.</Text>
-            <Text>Pick a section from the left/top to change your preferences!</Text>
+            <Heading mb={"1.2rem"}>
+                {
+                    t("account-settings:hello-title", {
+                        firstName: props.userInfo.firstName,
+                    })
+                }
+            </Heading>
+            <Text>
+                {
+                    t("account-settings:hello-subtitle", {})
+                }
+            </Text>
+            <Text>
+                {
+                    t("account-settings:hello-subtitle2", {})
+                }
+            </Text>
         </Flex>
     )
 }
@@ -129,7 +160,7 @@ function Account(props: {
     }
 }) {
 
-    console.log(props)
+    const {t} = useTranslation();
 
     const [firstNameButtonDisabled, setFirstNameButtonDisabled] = React.useState<boolean>(false)
     const [lastNameButtonDisabled, setLastNameButtonDisabled] = React.useState<boolean>(false)
@@ -142,7 +173,11 @@ function Account(props: {
 
     return (
         <>
-            <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>Manage Account</Heading>
+            <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
+                {
+                    t("account-settings:manage-account")
+                }
+            </Heading>
             <SimpleGrid minChildWidth={200} spacing={"2rem"} margin={"2rem"} columns={1}>
                 <form onSubmit={(e) => {
                     e.preventDefault()
@@ -153,7 +188,7 @@ function Account(props: {
                     const firstName = e.target.elements.firstName.value;
 
                     if (firstName === "") {
-                        setFirstNameError("First name cannot be empty!")
+                        setFirstNameError(t("account-settings:err-first-name-empty"))
                         setFirstNameButtonDisabled(false)
                         return
                     }
@@ -183,11 +218,15 @@ function Account(props: {
                 }}>
                     <Flex direction={"column"}>
                         <FormControl isInvalid={firstNameError !== null}>
-                            <FormLabel htmlFor="firstName">First Name</FormLabel>
+                            <FormLabel htmlFor="firstName">
+                                {
+                                    t("account:first-name")
+                                }
+                            </FormLabel>
                             <Input id="firstName" defaultValue={props.userInfo.firstName}/>
                             <FormErrorMessage>{firstNameError}</FormErrorMessage>
                             <Button type="submit" disabled={firstNameButtonDisabled} isLoading={firstNameButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>Update</Button>
+                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
                         </FormControl>
                     </Flex>
                 </form>
@@ -200,7 +239,7 @@ function Account(props: {
                     const lastName = e.target.elements.lastName.value;
 
                     if (lastName === "") {
-                        setLastNameError("Last name cannot be empty!")
+                        setLastNameError(t("account-settings:err-last-name-empty"))
                         setLastNameButtonDisabled(false)
                         return
                     }
@@ -230,11 +269,15 @@ function Account(props: {
                 }}>
                     <Flex direction={"column"}>
                         <FormControl isInvalid={lastNameError !== null}>
-                            <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                            <FormLabel htmlFor="lastName">
+                                {
+                                    t("account:last-name")
+                                }
+                            </FormLabel>
                             <Input id="lastName" defaultValue={props.userInfo.lastName}/>
                             <FormErrorMessage>{lastNameError}</FormErrorMessage>
                             <Button type="submit" disabled={lastNameButtonDisabled} isLoading={lastNameButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>Update</Button>
+                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
                         </FormControl>
                     </Flex>
                 </form>
@@ -247,7 +290,7 @@ function Account(props: {
                     const email = e.target.elements.email.value;
 
                     if (!email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-                        setEmailError("Invalid email!")
+                        setEmailError(t("account-settings:err-email-invalid"))
                         setEmailButtonDisabled(false)
                         return
                     }
@@ -265,7 +308,7 @@ function Account(props: {
                     }).then(res => {
                         res.json().then(data => {
                             if (data.success) {
-                                setEmailError("Check your email to verify your new email address!")
+                                setEmailError(t("account-settings:suc-check-mail-verify"))
                                 setEmailButtonDisabled(false)
                             } else {
                                 setEmailError(data.error)
@@ -281,16 +324,13 @@ function Account(props: {
                             <Input id="email" defaultValue={props.userInfo.email}/>
                             <FormErrorMessage>{emailError}</FormErrorMessage>
                             <Button type="submit" disabled={emailButtonDisabled} isLoading={emailButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>Update</Button>
+                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
                         </FormControl>
                     </Flex>
                 </form>
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     set_2faButtonDisabled(true)
-
-
-                    console.log(!props.userInfo._2fa)
 
                     fetch("/api/account/update", {
                         method: "POST",
@@ -314,13 +354,17 @@ function Account(props: {
                 }}>
                     <Flex direction={"column"}>
                         <FormControl>
-                            <FormLabel>2 Factor</FormLabel>
+                            <FormLabel>
+                                {
+                                    t("account-settings:2fa")
+                                }
+                            </FormLabel>
                             <Button type="submit" disabled={_2faButtonDisabled} isLoading={_2faButtonDisabled}
                                     colorScheme={
                                         props.userInfo._2fa ? "red" : "green"
                                     }>
                                 {
-                                    props.userInfo._2fa ? "Disable 2FA" : "Enable 2FA"
+                                    props.userInfo._2fa ? t("account-settings:2fa_disable") : t("account-settings:2fa_enable")
                                 }
                             </Button>
                         </FormControl>
@@ -329,4 +373,12 @@ function Account(props: {
             </SimpleGrid>
         </>
     )
+}
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+    return {
+        props: {
+            ...await serverSideTranslations(locale, ['common', 'account', 'navbar', 'footer', 'account-settings']),
+        }
+    }
 }

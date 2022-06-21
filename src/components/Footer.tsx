@@ -10,17 +10,24 @@
 
 import * as React from 'react';
 import {Box, Divider, Link, Text} from "@chakra-ui/react";
+import {useTranslation} from "react-i18next";
 
 export default function Footer() {
+
+    const {t} = useTranslation();
+
     return (
         <>
             <Divider/>
             <Box w={"100%"} bg={"black"} minH={"10vh"} textAlign={"center"} paddingBlock={"2rem"} paddingInline={"2rem"}>
-                <Text>CodeUp - Made by&nbsp;
-                    <Link href={"https://ben-siebert.de"} isExternal color={"blue.400"}>Ben
-                        Siebert</Link>&nbsp;originally created for Jugend Forscht 2023&nbsp;
+                <Text>
+                    {
+                        t("footer:first-line")
+                    }
                     <br/>
-                    Made with ❤ and ☕
+                    {
+                        t("footer:second-line")
+                    }
                     <br />
                     <br />
                     <Link href={"https://github.com/MCTzOCK/codeup"} isExternal color={"blue.400"}>GitHub</Link>&nbsp;

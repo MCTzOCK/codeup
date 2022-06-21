@@ -11,6 +11,7 @@
 import * as React from 'react';
 import {Head, Html, Main, NextScript} from "next/document";
 import {ColorModeScript} from "@chakra-ui/react";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export default function Document() {
     return (

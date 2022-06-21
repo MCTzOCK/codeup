@@ -36,6 +36,7 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
 import Link from "next/link";
 import {AiFillCaretDown} from "react-icons/ai";
+import {useTranslation} from "react-i18next";
 
 export default function NavigationBar() {
     const [isMobile] = useMediaQuery("(max-width: 768px)")
@@ -43,23 +44,31 @@ export default function NavigationBar() {
 
     const userInfo = useUserInfo();
 
+    const {t} = useTranslation(["common", "account", "navbar"])
+
     const Menu = () => {
         return (
             <>
                 <Link href={"/"}>
                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Home
+                        {
+                            t('common:home')
+                        }
                     </Button>
                 </Link>
                 <Link href={"/explore"}>
                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Explore
+                        {
+                            t("navbar:explore")
+                        }
                     </Button>
                 </Link>
                 <Popover>
                     <PopoverTrigger>
                         <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
-                            More
+                            {
+                                t("common:more")
+                            }
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent bg={"black"}>
@@ -68,32 +77,44 @@ export default function NavigationBar() {
                             <Flex w={"100%"} direction={"column"}>
                                 <Link href={"/extra/project-ideas"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Project Ideas
+                                        {
+                                            t("navbar:project-ideas")
+                                        }
                                     </Button>
                                 </Link>
                                 <Link href={"/community"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Community
+                                        {
+                                            t("navbar:community")
+                                        }
                                     </Button>
                                 </Link>
                                 <Link href={"/hackathons"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Hackathons
+                                        {
+                                            t("navbar:hackathons")
+                                        }
                                     </Button>
                                 </Link>
                                 <Link href={"/challenges"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Challenges
+                                        {
+                                            t("navbar:challenges")
+                                        }
                                     </Button>
                                 </Link>
                                 <Link href={"/certificates"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Certificates
+                                        {
+                                            t("navbar:certificates")
+                                        }
                                     </Button>
                                 </Link>
                                 <Link href={"/hosting"}>
                                     <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        Hosting
+                                        {
+                                            t("navbar:hosting")
+                                        }
                                     </Button>
                                 </Link>
                             </Flex>
@@ -105,7 +126,9 @@ export default function NavigationBar() {
                         <Popover>
                             <PopoverTrigger>
                                 <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
-                                    Account
+                                    {
+                                        t("account:account")
+                                    }
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent bg={"black"}>
@@ -114,19 +137,25 @@ export default function NavigationBar() {
                                     <Flex w={"100%"} direction={"column"}>
                                         <Link href={"/account/settings"}>
                                             <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                Settings
+                                                {
+                                                    t("common:settings")
+                                                }
                                             </Button>
                                         </Link>
 
                                         <Link href={"/dashboard"}>
                                             <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                Dashboard
+                                                {
+                                                    t("navbar:dashboard")
+                                                }
                                             </Button>
                                         </Link>
 
                                         <Link href={"/account/logout"}>
                                             <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                Logout
+                                                {
+                                                    t("account:logout")
+                                                }
                                             </Button>
                                         </Link>
                                     </Flex>
@@ -148,12 +177,16 @@ export default function NavigationBar() {
                         <>
                             <Link href={"/account/register"}>
                                 <Button variant={"solid"} colorScheme={"whatsapp"} onClick={onClose}>
-                                    Join
+                                    {
+                                        t("account:join")
+                                    }
                                 </Button>
                             </Link>
                             <Link href={"/account/login"}>
                                 <Button variant={"solid"} onClick={onClose}>
-                                    Login
+                                    {
+                                        t("account:login")
+                                    }
                                 </Button>
                             </Link>
                         </>
@@ -161,12 +194,16 @@ export default function NavigationBar() {
                         <>
                             <Link href={"/dashboard"}>
                                 <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
-                                    Dashboard
+                                    {
+                                        t("navbar:dashboard")
+                                    }
                                 </Button>
                             </Link>
                             <Link href={"/account/logout"}>
                                 <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                                    Logout
+                                    {
+                                        t("account:logout")
+                                    }
                                 </Button>
                             </Link>
                         </>

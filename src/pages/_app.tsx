@@ -10,6 +10,8 @@ import {useRouter} from "next/router";
 import PostButton from "../components/community/post/PostButton";
 import useUserInfo from "../hooks/useUserInfo";
 import CommunityNavigationBar from "../components/community/CommunityNavigationBar";
+import {appWithTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const theme = extendTheme({
     config: {
@@ -87,5 +89,13 @@ function App({Component, pageProps}: AppProps) {
     );
 }
 
+export async function getStaticProps({ locale }: { locale: string }) {
+    return {
+        props: {
+            ...await serverSideTranslations(locale, ['common', 'account', 'navbar']),
+        }
+    }
+}
 
-export default App;
+
+export default appWithTranslation(App);
