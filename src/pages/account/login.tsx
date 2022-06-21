@@ -9,6 +9,7 @@
  */
 
 import * as React from 'react';
+import {useEffect} from 'react';
 import {
     Alert,
     AlertDescription,
@@ -18,19 +19,22 @@ import {
     Flex,
     FormControl,
     FormLabel,
-    Heading, HStack,
+    Heading,
+    HStack,
     Input,
     InputGroup,
     InputRightElement,
-    Link as ChakraLink, PinInput, PinInputField,
+    Link as ChakraLink,
+    PinInput,
+    PinInputField,
     Text,
     useColorModeValue
 } from "@chakra-ui/react";
 import Link from "next/link";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
-import useUserLoggedInRedirect from "../../hooks/useUserLoggedInRedirect";
 import redirect from "../../util/userworkflow/redirect";
-import {useEffect} from "react";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 export default function Register() {
 
@@ -47,6 +51,7 @@ export default function Register() {
 
     const [_2fa, set2fa] = React.useState(false);
 
+    const {t} = useTranslation();
 
     useEffect(() => {
         redirect({
@@ -76,13 +81,27 @@ export default function Register() {
                             <>
                                 <Flex direction={"column"} gap={"2rem"}>
                                     <Flex alignItems={"center"} justifyContent={"center"} direction={"column"}>
-                                        <Heading size={"xl"}>Login</Heading>
-                                        <Text textAlign={"center"} mt={".4rem"}>Login to your account or&nbsp;
+                                        <Heading size={"xl"}>
+                                            {
+                                                t("account:login")
+                                            }
+                                        </Heading>
+                                        <Text textAlign={"center"} mt={".4rem"}>
+                                            {
+                                                t("login:subtitle_start")
+                                            }&nbsp;
                                             <Link href={"/account/register"}>
                                                 <ChakraLink color={"blue.400"}
-                                                            href={"/account/register"}>register</ChakraLink>
+                                                            href={"/account/register"}>
+                                                    {
+                                                        t("login:subtitle_between")
+                                                    }
+                                                </ChakraLink>
                                             </Link>
-                                            &nbsp;a new one.
+                                            &nbsp;
+                                            {
+                                                t("login:subtitle_end")
+                                            }
                                         </Text>
                                     </Flex>
                                     <FormControl>
@@ -93,9 +112,9 @@ export default function Register() {
                                                }}/>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel htmlFor={"password"}>Password</FormLabel>
+                                        <FormLabel htmlFor={"password"}>{t("login:password")}</FormLabel>
                                         <InputGroup>
-                                            <Input id={"password"} placeholder={"Password"}
+                                            <Input id={"password"} placeholder={t("login:password")}
                                                    type={passwordVisible ? "text" : "password"}
                                                    onChange={(e) => {
                                                        setPassword(e.target.value);
@@ -109,7 +128,8 @@ export default function Register() {
                                             </InputRightElement>
                                         </InputGroup>
                                     </FormControl>
-                                    <Button variant={"solid"} type={"button"} isLoading={btnDisabled} disabled={btnDisabled} onClick={() => {
+                                    <Button variant={"solid"} type={"button"} isLoading={btnDisabled}
+                                            disabled={btnDisabled} onClick={() => {
 
                                         setBtnDisabled(true);
 
@@ -141,12 +161,22 @@ export default function Register() {
                                             })
                                         })
                                     }}>
-                                        Login
+                                        {
+                                            t("account:login")
+                                        }
                                     </Button>
                                     <Text textAlign={"center"} mt={"1rem"}>
-                                        Forgot your password? <Link href={"/account/reset"}><ChakraLink
-                                        href={"/account/reset-password"} color={"blue.400"}>Reset
-                                        it.</ChakraLink></Link>
+                                        {
+                                            t("login:forgot-password_start")
+                                        }&nbsp;
+                                        <Link href={"/account/reset"}>
+                                            <ChakraLink
+                                                href={"/account/reset-password"} color={"blue.400"}>
+                                                {
+                                                    t("login:forgot-password_end")
+                                                }
+                                            </ChakraLink>
+                                        </Link>
                                     </Text>
                                 </Flex>
                             </>
@@ -154,9 +184,15 @@ export default function Register() {
                             <>
                                 <Flex direction={"column"} gap={"2rem"}>
                                     <Flex alignItems={"center"} justifyContent={"center"} direction={"column"}>
-                                        <Heading size={"xl"} textAlign={"center"}>2-Factor Authentication</Heading>
+                                        <Heading size={"xl"} textAlign={"center"}>
+                                            {
+                                                t("login:2fa")
+                                            }
+                                        </Heading>
                                         <Text textAlign={"center"} mt={".4rem"}>
-                                            Check your email for a code.
+                                            {
+                                                t("login:2fa_check-code")
+                                            }
                                         </Text>
                                     </Flex>
                                     <HStack alignItems={"center"} justifyContent={"center"}>
@@ -187,12 +223,13 @@ export default function Register() {
                                                         }
                                                     }
                                                 })
-                                            })}
+                                            })
+                                        }
                                         }>
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
-                                            <PinInputField />
+                                            <PinInputField/>
+                                            <PinInputField/>
+                                            <PinInputField/>
+                                            <PinInputField/>
                                         </PinInput>
                                     </HStack>
                                 </Flex>
@@ -202,4 +239,12 @@ export default function Register() {
             </Flex>
         </>
     )
+}
+
+export async function getServerSideProps({locale}: { locale: string }) {
+    return {
+        props: {
+            ...await serverSideTranslations(locale, ['common', 'account', 'navbar', 'footer', 'login']),
+        }
+    }
 }
