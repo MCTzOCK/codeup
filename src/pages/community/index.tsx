@@ -15,8 +15,9 @@ import useUserInfo from "../../hooks/useUserInfo";
 import redirect from "../../util/userworkflow/redirect";
 import {AiFillPlusSquare} from "react-icons/ai";
 import {Box, Flex, Heading, Text} from "@chakra-ui/react";
-import Link from "next/link";
 import PostCard from "../../components/community/post/PostCard";
+import {useRouter} from "next/router";
+import Link from "next/link";
 
 export default function CommunityHome() {
 
@@ -109,14 +110,18 @@ function CommunityFeed() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [currentRange]);
 
+    const router = useRouter();
+
     return (
-        <Box p={[".4rem", "2rem"]}>
+        <Box p={["1.2rem", "2rem"]}>
             {
                 postIds.map(postId => {
                     console.log(postId)
                     return (
                         <>
-                            <PostCard id={postId}/>
+                            <Box cursor="pointer" onClick={() => {router.push("/community/post/" + postId)}}>
+                                <PostCard id={postId}/>
+                            </Box>
                         </>
                     )
                 })

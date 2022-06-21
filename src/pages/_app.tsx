@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import {useRouter} from "next/router";
 import PostButton from "../components/community/post/PostButton";
 import useUserInfo from "../hooks/useUserInfo";
+import CommunityNavigationBar from "../components/community/CommunityNavigationBar";
 
 const theme = extendTheme({
     config: {
@@ -67,12 +68,16 @@ function App({Component, pageProps}: AppProps) {
                 <Box minH="100vh" minW="100%">
                     <NavigationBar/>
                     <Box minH={"96vh"}>
+                        {
+                            router.pathname.startsWith("/community") ?
+                                <CommunityNavigationBar />
+                                : null
+                        }
                         <Component {...pageProps} />
                         {
                             router.pathname.startsWith("/community") && showPostButton ?
                                 <PostButton/>
-                                :
-                                null
+                                : null
                         }
                     </Box>
                     <Footer/>
