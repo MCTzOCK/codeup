@@ -1,1 +1,8 @@
-{"account":"Konto","first-name":"Vorname","join":"Beitreten","last-name":"Nachname","login":"Anmelden","logout":"Abmelden"}
+{
+  "account": "Konto",
+  "first-name": "Vorname",
+  "join": "Beitreten",
+  "last-name": "Nachname",
+  "login": "Anmelden",
+  "logout": "Abmelden"
+}
