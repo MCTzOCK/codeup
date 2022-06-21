@@ -4,5 +4,8 @@
   "join": "Join",
   "last-name": "Last Name",
   "login": "Login",
-  "logout": "Logout"
+  "logout": "Logout",
+  "password": "Password",
+  "register": "Register",
+  "username": "Username"
 }

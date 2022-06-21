@@ -1,6 +1,9 @@
 {
+  "and": "and",
   "home": "Home",
   "more": "More",
+  "privacy-policy": "Privacy Policy",
   "settings": "Settings",
+  "terms-of-service": "Terms of Service",
   "update": "Update"
 }

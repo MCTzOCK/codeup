@@ -94,7 +94,7 @@ export default function Register() {
                                                 <ChakraLink color={"blue.400"}
                                                             href={"/account/register"}>
                                                     {
-                                                        t("login:subtitle_between")
+                                                        t("account:register")
                                                     }
                                                 </ChakraLink>
                                             </Link>
@@ -112,9 +112,9 @@ export default function Register() {
                                                }}/>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel htmlFor={"password"}>{t("login:password")}</FormLabel>
+                                        <FormLabel htmlFor={"password"}>{t("account:password")}</FormLabel>
                                         <InputGroup>
-                                            <Input id={"password"} placeholder={t("login:password")}
+                                            <Input id={"password"} placeholder={t("account:password")}
                                                    type={passwordVisible ? "text" : "password"}
                                                    onChange={(e) => {
                                                        setPassword(e.target.value);

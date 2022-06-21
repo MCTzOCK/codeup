@@ -1,0 +1,12 @@
+{
+  "by-registering": "By registering, you agree to our",
+  "confirm-password": "Confirm Password",
+  "err-enter-first-name": "Please enter your First name",
+  "err-enter-last-name": "Please enter your Last name",
+  "err-enter-valid-email": "Please enter a valid E-Mail",
+  "err-password-not-match": "The passwords do not match",
+  "err-password-not-valid": "Please enter a password with at least 8 characters, one uppercase, one lowercase, one number and one special character",
+  "err-username-not-available": "This username is not available.",
+  "subtitle_end": "to an existing one.",
+  "subtitle_start": "Create an account or"
+}

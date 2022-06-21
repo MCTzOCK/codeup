@@ -1,0 +1,12 @@
+{
+  "by-registering": "Durch die Registrierung stimmen Sie folgendem zu:",
+  "confirm-password": "Passwort bestätigen",
+  "err-enter-first-name": "Bitte geben Sie Ihren Vornamen ein",
+  "err-enter-last-name": "Bitte geben Sie Ihren Nachnamen ein",
+  "err-enter-valid-email": "Bitte geben Sie eine gültige Email-Adresse ein",
+  "err-password-not-match": "Die Passwörter stimmen nicht überein",
+  "err-password-not-valid": "Bitte geben Sie ein Passwort mit mindestens 8 Zeichen, einem Großbuchstaben, einem Kleinbuchstaben, einer Nummer und einem Sonderzeichen ein",
+  "err-username-not-available": "Dieser Benutzername ist nicht verfügbar.",
+  "subtitle_end": "zu einem bestehenden.",
+  "subtitle_start": "Ein Konto erstellen oder"
+}
