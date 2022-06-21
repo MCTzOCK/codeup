@@ -72,54 +72,59 @@ export default function Search() {
                     </InputRightAddon>
                 </InputGroup>
             </Flex>
-            <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={"2rem"}>
-                <Box flex={"100%"} mt={"2rem"}>
-                    <Heading textAlign={"center"}>Posts</Heading>
-                    {
-                        // @ts-ignore
-                        results.posts ? results.posts.map((post: any) => {
-                            return (
-                                <>
-                                    <PostCard id={post._id} />
-                                </>
-                            )
-                        }) : null
-                    }
-                </Box>
-                <Box flex={"100%"} mt={"2rem"}>
-                    <Heading textAlign={"center"}>Profiles</Heading>
-                    {
-                        // @ts-ignore
-                        results.profiles ? results.profiles.map((profile: any) => {
-                            return (
-                                <>
-                                    <Flex direction={"row"} mb={"1.2rem"} cursor={"pointer"} onClick={() => {
-                                        window.location.href = "/community/profile/" + profile.username
-                                    }}>
-                                        <Avatar
-                                            src={profile.profilePicture}
-                                            size={"lg"}
-                                            borderColor={"#FFF"}
-                                            borderWidth={"2px"}
+            {
+                term.length > 2 && results.posts.length > 0 && results.profiles.length > 0 ?
+                    <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={"2rem"}>
+                        <Box flex={"100%"} mt={"2rem"}>
+                            <Heading textAlign={"center"}>Posts</Heading>
+                            {
+                                // @ts-ignore
+                                results.posts ? results.posts.map((post: any) => {
+                                    return (
+                                        <>
+                                            <Box cursor="pointer" onClick={() => {router.push("/community/post/" + post._id)}}>
+                                                <PostCard id={post._id}/>
+                                            </Box>
+                                        </>
+                                    )
+                                }) : null
+                            }
+                        </Box>
+                        <Box flex={"100%"} mt={"2rem"}>
+                            <Heading textAlign={"center"}>Profiles</Heading>
+                            {
+                                // @ts-ignore
+                                results.profiles ? results.profiles.map((profile: any) => {
+                                    return (
+                                        <>
+                                            <Flex direction={"row"} mb={"1.2rem"} cursor={"pointer"} onClick={() => {
+                                                router.push("/community/profile/" + profile.username)
+                                            }}>
+                                                <Avatar
+                                                    src={profile.profilePicture}
+                                                    size={"lg"}
+                                                    borderColor={"#FFF"}
+                                                    borderWidth={"2px"}
 
-                                        />
-                                        <Flex direction={"column"} ml={"1.2rem"}>
-                                            <Heading as={"h1"} fontSize={["2xl", "3xl"]}>
-                                                {profile.displayName}
-                                            </Heading>
-                                            <Text color={"gray.500"}>
-                                                @{profile.username}
-                                            </Text>
-                                        </Flex>
-                                    </Flex>
-                                    <Divider />
-                                </>
-                            )
-                        }) : null
-                    }
-                </Box>
-            </Flex>
-
+                                                />
+                                                <Flex direction={"column"} ml={"1.2rem"}>
+                                                    <Heading as={"h1"} fontSize={["2xl", "3xl"]}>
+                                                        {profile.displayName}
+                                                    </Heading>
+                                                    <Text color={"gray.500"}>
+                                                        @{profile.username}
+                                                    </Text>
+                                                </Flex>
+                                            </Flex>
+                                            <Divider />
+                                        </>
+                                    )
+                                }) : null
+                            }
+                        </Box>
+                    </Flex>
+                    : null
+            }
         </>
     )
 }
