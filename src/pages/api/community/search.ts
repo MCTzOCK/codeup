@@ -8,52 +8,53 @@
  *
  */
 
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import mongoConnect from "../../../util/mongo";
 import CommunityPostModel from "../../../util/models/CommunityPostModel";
 import CommunityProfileModel from "../../../util/models/CommunityProfileModel";
 
-export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
-
-    if (req.method !== 'GET') {
-        res.status(405).json({
-            error: 'Method not allowed'
-        });
-        return;
-    }
-
-    const {term} = req.query;
-
-    if(!term) {
-        res.status(400).json({
-            error: 'Missing term'
-        });
-        return;
-    }
-
-    await mongoConnect();
-
-    const posts = await CommunityPostModel.find({
-        content: {
-            $regex: term,
-            $options: 'i'
-        }
+export default async function handleRequest(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "GET") {
+    res.status(405).json({
+      error: "Method not allowed",
     });
+    return;
+  }
 
-    const profiles = await CommunityProfileModel.find({
-        displayName: {
-            $regex: term,
-            $options: 'i'
-        },
-        username: {
-            $regex: term,
-            $options: 'i'
-        }
+  const { term } = req.query;
+
+  if (!term) {
+    res.status(400).json({
+      error: "Missing term",
     });
+    return;
+  }
 
-    res.status(200).json({
-        posts: posts,
-        profiles: profiles
-    });
+  await mongoConnect();
 
+  const posts = await CommunityPostModel.find({
+    content: {
+      $regex: term,
+      $options: "i",
+    },
+  });
+
+  const profiles = await CommunityProfileModel.find({
+    displayName: {
+      $regex: term,
+      $options: "i",
+    },
+    username: {
+      $regex: term,
+      $options: "i",
+    },
+  });
+
+  res.status(200).json({
+    posts: posts,
+    profiles: profiles,
+  });
 }

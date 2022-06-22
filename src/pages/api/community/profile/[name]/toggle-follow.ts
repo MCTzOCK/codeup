@@ -8,67 +8,67 @@
  *
  */
 
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import mongoConnect from "../../../../../util/mongo";
 import jwt from "jsonwebtoken";
 import UserModel from "../../../../../util/models/UserModel";
 import CommunityProfileModel from "../../../../../util/models/CommunityProfileModel";
 
-export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
+export default async function handleRequest(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    res.status(405).json({
+      error: "Method not allowed",
+    });
+    return;
+  }
 
-    if (req.method !== 'POST') {
-        res.status(405).json({
-            error: 'Method not allowed'
-        });
-        return;
+  if (!req.body || !req.body.token) {
+    res.status(400).json({
+      error: "Missing required fields",
+    });
+    return;
+  }
+
+  const { name } = req.query;
+
+  // @ts-ignore
+  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
+    await mongoConnect();
+
+    const user = await UserModel.findById((decoded as any).id);
+
+    if (!user) {
+      res.status(400).json({
+        error: "Invalid token",
+      });
+      return;
     }
 
+    const profile = await CommunityProfileModel.findOne({
+      username: name,
+    });
 
-    if (!req.body || !req.body.token) {
-        res.status(400).json({
-            error: 'Missing required fields'
-        });
-        return;
+    if (!profile) {
+      res.status(400).json({
+        error: "Profile not found",
+      });
+      return;
     }
 
-    const {name} = req.query;
+    if (profile.followers.includes(user.username)) {
+      profile.followers.splice(profile.followers.indexOf(user.username), 1);
+    } else {
+      profile.followers.push(user.username);
+    }
 
-    // @ts-ignore
-    jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
+    await profile.save();
 
-        await mongoConnect();
-
-        const user = await UserModel.findById((decoded as any).id);
-
-        if(!user) {
-            res.status(400).json({
-                error: 'Invalid token',
-            });
-            return;
-        }
-
-        const profile = await CommunityProfileModel.findOne({
-            username: name
-        })
-
-        if(!profile) {
-            res.status(400).json({
-                error: 'Profile not found',
-            });
-            return;
-        }
-
-        if(profile.followers.includes(user.username)) {
-            profile.followers.splice(profile.followers.indexOf(user.username), 1);
-        } else {
-            profile.followers.push(user.username);
-        }
-
-        await profile.save();
-
-        res.status(200).json({
-            success: true,
-            following: profile.followers.includes(user.username)
-        });
-    })
+    res.status(200).json({
+      success: true,
+      following: profile.followers.includes(user.username),
+    });
+  });
 }

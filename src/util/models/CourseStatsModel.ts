@@ -9,17 +9,15 @@
  */
 
 import mongoose from "mongoose";
-import {ObjectId} from "mongodb";
 
 const CourseStats = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
-    course: {
-
-    }
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  course: {},
 });
 
-export default mongoose.models?.CommunityPost || mongoose.model("CourseStats", CourseStats);
+export default mongoose.models?.CommunityPost ||
+  mongoose.model("CourseStats", CourseStats);

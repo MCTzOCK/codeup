@@ -8,26 +8,24 @@
  *
  */
 
-import * as React from 'react';
-import {Image} from "@chakra-ui/react";
+import * as React from "react";
+import { Image } from "@chakra-ui/react";
 
-export default function ProfileBanner(props: {
-    url: string
-}) {
-    return (
-        <>
-            <Image
-                src={props.url}
-                w={"100%"}
-                h={[312, 624]}
-                maxHeight={[250, 450]}
-                maxW={"100vw"}
-                style={{objectFit: "none"}}
-                borderRadius={"12px"}
-                borderTopRadius={0}
-                alt={"Banner"}
-                shadow={"lg"}
-            />
-        </>
-    )
+export default function ProfileBanner(props: { url: string }) {
+  return (
+    <>
+      <Image
+        src={props.url}
+        w={"100%"}
+        h={[312, 624]}
+        maxHeight={[250, 450]}
+        maxW={"100vw"}
+        style={{ objectFit: "none" }}
+        borderRadius={"12px"}
+        borderTopRadius={0}
+        alt={"Banner"}
+        shadow={"lg"}
+      />
+    </>
+  );
 }

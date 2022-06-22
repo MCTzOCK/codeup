@@ -3,7 +3,7 @@
  * @copyright (c) 2018-2021 Ben Siebert. All rights reserved.
  */
 
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
 const MONGO_URI = process.env.MONGO_URI;
 

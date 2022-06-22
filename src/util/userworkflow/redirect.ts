@@ -10,38 +10,39 @@ import jwt from "jsonwebtoken";
  *
  */
 
-
 export default function redirect(options: {
-    redirectToLogin?: boolean,
-    redirectTo?: string,
-    allowAnonymous?: boolean,
-    forceAnonymous?: boolean,
+  redirectToLogin?: boolean;
+  redirectTo?: string;
+  allowAnonymous?: boolean;
+  forceAnonymous?: boolean;
 }) {
-
-    if(localStorage.getItem("token") !== null) {
-        const token = localStorage.getItem("token") as string;
-        try {
-            const decoded = jwt.decode(token);
-            if(decoded === null) {
-                throw new Error("Token could not be decoded");
-            }
-            if(options.forceAnonymous) {
-                window.location.href = options.redirectTo as string | "/dashboard";
-            }
-        }catch(e) {
-            localStorage.removeItem("token");
-            if(!options.allowAnonymous) {
-                if(options.redirectToLogin) {
-                    window.location.href = `/account/login${options.redirectTo ? `?redirect=${options.redirectTo}` : ""}`;
-                }
-            }
+  if (localStorage.getItem("token") !== null) {
+    const token = localStorage.getItem("token") as string;
+    try {
+      const decoded = jwt.decode(token);
+      if (decoded === null) {
+        throw new Error("Token could not be decoded");
+      }
+      if (options.forceAnonymous) {
+        window.location.href = options.redirectTo as string | "/dashboard";
+      }
+    } catch (e) {
+      localStorage.removeItem("token");
+      if (!options.allowAnonymous) {
+        if (options.redirectToLogin) {
+          window.location.href = `/account/login${
+            options.redirectTo ? `?redirect=${options.redirectTo}` : ""
+          }`;
         }
-    } else {
-        if(!options.allowAnonymous) {
-            if(options.redirectToLogin) {
-                window.location.href = `/account/login${options.redirectTo ? `?redirect=${options.redirectTo}` : ""}`;
-            }
-        }
+      }
     }
-
+  } else {
+    if (!options.allowAnonymous) {
+      if (options.redirectToLogin) {
+        window.location.href = `/account/login${
+          options.redirectTo ? `?redirect=${options.redirectTo}` : ""
+        }`;
+      }
+    }
+  }
 }

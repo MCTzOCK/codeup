@@ -8,26 +8,23 @@
  *
  */
 
-import * as React from 'react';
-import {Avatar, Flex} from "@chakra-ui/react";
+import * as React from "react";
+import { Avatar, Flex } from "@chakra-ui/react";
 
-export default function ProfileAvatar(props: {
-    url: string
-}) {
-    return (
-        <>
-            <Flex justifyContent={["center", "flex-start"]}>
-                <Avatar
-                    src={props.url}
-                    w={128}
-                    h={128}
-                    mt={"-3rem"}
-                    marginInlineStart={["0", "1rem"]}
-                    borderColor={"#FFF"}
-                    borderWidth={"4px"}
-                />
-            </Flex>
-        </>
-    )
+export default function ProfileAvatar(props: { url: string }) {
+  return (
+    <>
+      <Flex justifyContent={["center", "flex-start"]}>
+        <Avatar
+          src={props.url}
+          w={128}
+          h={128}
+          mt={"-3rem"}
+          marginInlineStart={["0", "1rem"]}
+          borderColor={"#FFF"}
+          borderWidth={"4px"}
+        />
+      </Flex>
+    </>
+  );
 }
-

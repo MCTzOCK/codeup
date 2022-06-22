@@ -9,10 +9,26 @@
  */
 
 export interface Course {
-    name: string,
-    displayName: string,
-    description: string,
-    splashImage: string,
-    level: "Beginner" | "Intermediate" | "Advanced",
-    colorScheme: "gray" | "red" | "orange" | "yellow" | "green" | "teal" | "blue" | "cyan" | "purple" | "pink" | "linkedin" | "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram"
+  name: string;
+  displayName: string;
+  description: string;
+  splashImage: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  colorScheme:
+    | "gray"
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "teal"
+    | "blue"
+    | "cyan"
+    | "purple"
+    | "pink"
+    | "linkedin"
+    | "facebook"
+    | "messenger"
+    | "whatsapp"
+    | "twitter"
+    | "telegram";
 }

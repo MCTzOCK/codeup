@@ -8,10 +8,9 @@
  *
  */
 
-
 export default function generateMail(firstName: string, content: string) {
-    return {
-        html: `
+  return {
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,9 +44,9 @@ export default function generateMail(firstName: string, content: string) {
 
 </html>
 `,
-        text: `Hello ${firstName},\n\n
+    text: `Hello ${firstName},\n\n
 ${content}\n\n
 Best Regards,\n
-Ben from CodeUp`
-    }
+Ben from CodeUp`,
+  };
 }

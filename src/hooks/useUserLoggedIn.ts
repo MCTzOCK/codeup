@@ -7,19 +7,17 @@
  * Created At: 05.06.2022
  *
  */
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useUserInfo from "./useUserInfo";
 
-
 export default function useUserLoggedIn() {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const userInfo = useUserInfo();
 
-    const userInfo = useUserInfo();
+  useEffect(() => {
+    setUserLoggedIn(userInfo.id !== "");
+  }, [userInfo]);
 
-    useEffect(() => {
-        setUserLoggedIn(userInfo.id !== "");
-    }, [userInfo]);
-
-    return userLoggedIn;
+  return userLoggedIn;
 }

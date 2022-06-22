@@ -8,377 +8,416 @@
  *
  */
 
-import * as React from 'react';
-import {useEffect} from 'react';
+import * as React from "react";
+import { useEffect } from "react";
 import useUserInfo from "../../hooks/useUserInfo";
 import redirect from "../../util/userworkflow/redirect";
 import {
-    Button,
-    Flex,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Heading,
-    Input,
-    SimpleGrid,
-    Spinner,
-    Text,
-    useColorModeValue
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  SimpleGrid,
+  Spinner,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import {FaUserCircle} from "react-icons/fa";
-import {BsFillHouseDoorFill} from "react-icons/bs";
-import {useRouter} from "next/router";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {useTranslation} from "next-i18next";
+import { FaUserCircle } from "react-icons/fa";
+import { BsFillHouseDoorFill } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function Settings() {
+  const router = useRouter();
 
-    const router = useRouter();
+  useEffect(() => {
+    redirect({
+      allowAnonymous: false,
+      redirectTo: "/account/settings",
+      redirectToLogin: true,
+      forceAnonymous: false,
+    });
+  }, []);
 
-    useEffect(() => {
-        redirect({
-            allowAnonymous: false,
-            redirectTo: '/account/settings',
-            redirectToLogin: true,
-            forceAnonymous: false
-        })
-    }, [])
+  const userInfo = useUserInfo();
 
-    const userInfo = useUserInfo();
+  const { t } = useTranslation();
 
-    const {t} = useTranslation();
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    if (query.has("component")) {
+      switch (query.get("component")) {
+        case "account":
+          setCurrentComponent(<Account userInfo={userInfo} />);
+          setCurrentSelected("account");
+          break;
+        default:
+          setCurrentComponent(<Home userInfo={userInfo} />);
+          setCurrentSelected("home");
+          break;
+      }
+    } else {
+      setCurrentComponent(<Home userInfo={userInfo} />);
+      setCurrentSelected("home");
+    }
+    if (query.has("newToken")) {
+      alert("Hello world");
+      localStorage.setItem("token", query.get("newToken") as string);
+      window.location.href = "/account/settings?component=account";
+    }
+  }, [userInfo]);
 
-    useEffect(() => {
-        const query = new URLSearchParams(window.location.search);
-        if (query.has('component')) {
-            switch (query.get('component')) {
-                case 'account':
-                    setCurrentComponent(<Account userInfo={userInfo}/>)
-                    setCurrentSelected("account")
-                    break;
-                default:
-                    setCurrentComponent(<Home userInfo={userInfo}/>)
-                    setCurrentSelected("home")
-                    break;
-            }
-        } else {
-            setCurrentComponent(<Home userInfo={userInfo}/>)
-            setCurrentSelected("home")
-        }
-        if(query.has("newToken")) {
-            alert("Hello world")
-            localStorage.setItem("token", query.get("newToken") as string)
-            window.location.href = "/account/settings?component=account";
-        }
-    }, [userInfo])
+  const [currentComponent, setCurrentComponent] =
+    React.useState<JSX.Element | null>(
+      <>
+        <Spinner size="xl" />
+      </>
+    );
 
-    const [currentComponent, setCurrentComponent] = React.useState<JSX.Element | null>(<><Spinner size='xl'/></>)
+  const [currentSelected, setCurrentSelected] = React.useState<string>("home");
 
-    const [currentSelected, setCurrentSelected] = React.useState<string>('home')
-
-    return (
-        <>
-            <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
-                <Flex direction={"column"} flex={"15%"} minH={"100%"}
-                      bgColor={useColorModeValue("gray.400", "gray.900")} p={"1.2rem"}>
-                    <Heading textAlign={"center"}>
-                        {
-                            t("common:settings")
-                        }
-                    </Heading>
-                    <Button m={"1.2rem"} variant={currentSelected === "home" ? "solid" : "ghost"}
-                            leftIcon={<BsFillHouseDoorFill/>} onClick={() => {
-                        setCurrentSelected('home')
-                        setCurrentComponent(<Home userInfo={userInfo}/>)
-                        router.push("/account/settings?component=home")
-                    }}>
-                        {
-                            t("common:home")
-                        }
-                    </Button>
-                    <Button marginInline={"1.2rem"} variant={currentSelected === "account" ? "solid" : "ghost"}
-                            leftIcon={<FaUserCircle/>} onClick={() => {
-                        setCurrentSelected('account')
-                        setCurrentComponent(<Account userInfo={userInfo}/>)
-                        router.push("/account/settings?component=account")
-                    }}>
-                        {
-                            t("account:account")
-                        }
-                    </Button>
-                </Flex>
-                <Flex direction={"column"} flex={"85%"} minH={"100%"}>
-                    {
-                        currentComponent
-                    }
-                </Flex>
-            </Flex>
-        </>
-    )
+  return (
+    <>
+      <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
+        <Flex
+          direction={"column"}
+          flex={"15%"}
+          minH={"100%"}
+          bgColor={useColorModeValue("gray.400", "gray.900")}
+          p={"1.2rem"}
+        >
+          <Heading textAlign={"center"}>{t("common:settings")}</Heading>
+          <Button
+            m={"1.2rem"}
+            variant={currentSelected === "home" ? "solid" : "ghost"}
+            leftIcon={<BsFillHouseDoorFill />}
+            onClick={() => {
+              setCurrentSelected("home");
+              setCurrentComponent(<Home userInfo={userInfo} />);
+              router.push("/account/settings?component=home");
+            }}
+          >
+            {t("common:home")}
+          </Button>
+          <Button
+            marginInline={"1.2rem"}
+            variant={currentSelected === "account" ? "solid" : "ghost"}
+            leftIcon={<FaUserCircle />}
+            onClick={() => {
+              setCurrentSelected("account");
+              setCurrentComponent(<Account userInfo={userInfo} />);
+              router.push("/account/settings?component=account");
+            }}
+          >
+            {t("account:account")}
+          </Button>
+        </Flex>
+        <Flex direction={"column"} flex={"85%"} minH={"100%"}>
+          {currentComponent}
+        </Flex>
+      </Flex>
+    </>
+  );
 }
 
 function Home(props: {
-    userInfo: {
-        id: string,
-        email: string,
-        firstName: string,
-        lastName: string,
-    }
+  userInfo: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
 }) {
-    const {t} = useTranslation();
-    return (
-        <Flex alignItems={"center"} justifyContent={"center"} marginTop={"-2rem"} w={"100%"} h={"100vh"}
-              direction={"column"} textAlign={"center"}>
-            <Heading mb={"1.2rem"}>
-                {
-                    t("account-settings:hello-title", {
-                        firstName: props.userInfo.firstName,
-                    })
-                }
-            </Heading>
-            <Text>
-                {
-                    t("account-settings:hello-subtitle", {})
-                }
-            </Text>
-            <Text>
-                {
-                    t("account-settings:hello-subtitle2", {})
-                }
-            </Text>
-        </Flex>
-    )
+  const { t } = useTranslation();
+  return (
+    <Flex
+      alignItems={"center"}
+      justifyContent={"center"}
+      marginTop={"-2rem"}
+      w={"100%"}
+      h={"100vh"}
+      direction={"column"}
+      textAlign={"center"}
+    >
+      <Heading mb={"1.2rem"}>
+        {t("account-settings:hello-title", {
+          firstName: props.userInfo.firstName,
+        })}
+      </Heading>
+      <Text>{t("account-settings:hello-subtitle", {})}</Text>
+      <Text>{t("account-settings:hello-subtitle2", {})}</Text>
+    </Flex>
+  );
 }
 
 function Account(props: {
-    userInfo: {
-        id: string,
-        email: string,
-        firstName: string,
-        lastName: string,
-        _2fa: boolean,
-    }
+  userInfo: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    _2fa: boolean;
+  };
 }) {
+  const { t } = useTranslation();
 
-    const {t} = useTranslation();
+  const [firstNameButtonDisabled, setFirstNameButtonDisabled] =
+    React.useState<boolean>(false);
+  const [lastNameButtonDisabled, setLastNameButtonDisabled] =
+    React.useState<boolean>(false);
+  const [emailButtonDisabled, setEmailButtonDisabled] =
+    React.useState<boolean>(false);
+  const [_2faButtonDisabled, set_2faButtonDisabled] =
+    React.useState<boolean>(false);
 
-    const [firstNameButtonDisabled, setFirstNameButtonDisabled] = React.useState<boolean>(false)
-    const [lastNameButtonDisabled, setLastNameButtonDisabled] = React.useState<boolean>(false)
-    const [emailButtonDisabled, setEmailButtonDisabled] = React.useState<boolean>(false)
-    const [_2faButtonDisabled, set_2faButtonDisabled] = React.useState<boolean>(false)
+  const [firstNameError, setFirstNameError] = React.useState<string | null>(
+    null
+  );
+  const [lastNameError, setLastNameError] = React.useState<string | null>(null);
+  const [emailError, setEmailError] = React.useState<string | null>(null);
 
-    const [firstNameError, setFirstNameError] = React.useState<string | null>(null)
-    const [lastNameError, setLastNameError] = React.useState<string | null>(null)
-    const [emailError, setEmailError] = React.useState<string | null>(null)
+  return (
+    <>
+      <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
+        {t("account-settings:manage-account")}
+      </Heading>
+      <SimpleGrid
+        minChildWidth={200}
+        spacing={"2rem"}
+        margin={"2rem"}
+        columns={1}
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setFirstNameButtonDisabled(true);
+            setFirstNameError(null);
 
-    return (
-        <>
-            <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
-                {
-                    t("account-settings:manage-account")
+            // @ts-ignore
+            const firstName = e.target.elements.firstName.value;
+
+            if (firstName === "") {
+              setFirstNameError(t("account-settings:err-first-name-empty"));
+              setFirstNameButtonDisabled(false);
+              return;
+            }
+
+            fetch("/api/account/update", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: localStorage.getItem("token") as string,
+                keyName: "firstName",
+                keyValue: firstName,
+              }),
+            }).then((res) => {
+              res.json().then((data) => {
+                if (data.success) {
+                  localStorage.setItem("token", data.newToken);
+                  window.location.reload();
+                } else {
+                  setFirstNameError(data.error);
+                  setFirstNameButtonDisabled(false);
                 }
-            </Heading>
-            <SimpleGrid minChildWidth={200} spacing={"2rem"} margin={"2rem"} columns={1}>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    setFirstNameButtonDisabled(true)
-                    setFirstNameError(null)
+              });
+            });
+          }}
+        >
+          <Flex direction={"column"}>
+            <FormControl isInvalid={firstNameError !== null}>
+              <FormLabel htmlFor="firstName">
+                {t("account:first-name")}
+              </FormLabel>
+              <Input id="firstName" defaultValue={props.userInfo.firstName} />
+              <FormErrorMessage>{firstNameError}</FormErrorMessage>
+              <Button
+                type="submit"
+                disabled={firstNameButtonDisabled}
+                isLoading={firstNameButtonDisabled}
+                colorScheme="blue"
+                marginBlock={"1.2rem"}
+              >
+                {t("common:update")}
+              </Button>
+            </FormControl>
+          </Flex>
+        </form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setLastNameButtonDisabled(true);
+            setLastNameError(null);
 
-                    // @ts-ignore
-                    const firstName = e.target.elements.firstName.value;
+            // @ts-ignore
+            const lastName = e.target.elements.lastName.value;
 
-                    if (firstName === "") {
-                        setFirstNameError(t("account-settings:err-first-name-empty"))
-                        setFirstNameButtonDisabled(false)
-                        return
-                    }
+            if (lastName === "") {
+              setLastNameError(t("account-settings:err-last-name-empty"));
+              setLastNameButtonDisabled(false);
+              return;
+            }
 
-                    fetch("/api/account/update", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token") as string,
-                            keyName: "firstName",
-                            keyValue: firstName
-                        })
-                    }).then(res => {
-                        res.json().then(data => {
-                            if (data.success) {
-                                localStorage.setItem("token", data.newToken)
-                                window.location.reload();
-                            } else {
-                                setFirstNameError(data.error)
-                                setFirstNameButtonDisabled(false)
-                            }
-                        })
-                    })
+            fetch("/api/account/update", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: localStorage.getItem("token") as string,
+                keyName: "lastName",
+                keyValue: lastName,
+              }),
+            }).then((res) => {
+              res.json().then((data) => {
+                if (data.success) {
+                  localStorage.setItem("token", data.newToken);
+                  window.location.reload();
+                } else {
+                  setLastNameError(data.error);
+                  setLastNameButtonDisabled(false);
+                }
+              });
+            });
+          }}
+        >
+          <Flex direction={"column"}>
+            <FormControl isInvalid={lastNameError !== null}>
+              <FormLabel htmlFor="lastName">{t("account:last-name")}</FormLabel>
+              <Input id="lastName" defaultValue={props.userInfo.lastName} />
+              <FormErrorMessage>{lastNameError}</FormErrorMessage>
+              <Button
+                type="submit"
+                disabled={lastNameButtonDisabled}
+                isLoading={lastNameButtonDisabled}
+                colorScheme="blue"
+                marginBlock={"1.2rem"}
+              >
+                {t("common:update")}
+              </Button>
+            </FormControl>
+          </Flex>
+        </form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setEmailButtonDisabled(true);
+            setEmailError(null);
 
-                }}>
-                    <Flex direction={"column"}>
-                        <FormControl isInvalid={firstNameError !== null}>
-                            <FormLabel htmlFor="firstName">
-                                {
-                                    t("account:first-name")
-                                }
-                            </FormLabel>
-                            <Input id="firstName" defaultValue={props.userInfo.firstName}/>
-                            <FormErrorMessage>{firstNameError}</FormErrorMessage>
-                            <Button type="submit" disabled={firstNameButtonDisabled} isLoading={firstNameButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
-                        </FormControl>
-                    </Flex>
-                </form>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    setLastNameButtonDisabled(true)
-                    setLastNameError(null)
+            // @ts-ignore
+            const email = e.target.elements.email.value;
 
-                    // @ts-ignore
-                    const lastName = e.target.elements.lastName.value;
+            if (
+              !email.match(
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              )
+            ) {
+              setEmailError(t("account-settings:err-email-invalid"));
+              setEmailButtonDisabled(false);
+              return;
+            }
 
-                    if (lastName === "") {
-                        setLastNameError(t("account-settings:err-last-name-empty"))
-                        setLastNameButtonDisabled(false)
-                        return
-                    }
+            fetch("/api/account/update", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: localStorage.getItem("token") as string,
+                keyName: "email",
+                keyValue: email,
+              }),
+            }).then((res) => {
+              res.json().then((data) => {
+                if (data.success) {
+                  setEmailError(t("account-settings:suc-check-mail-verify"));
+                  setEmailButtonDisabled(false);
+                } else {
+                  setEmailError(data.error);
+                  setEmailButtonDisabled(false);
+                }
+              });
+            });
+          }}
+        >
+          <Flex direction={"column"}>
+            <FormControl isInvalid={emailError !== null}>
+              <FormLabel htmlFor="email">E-Mail</FormLabel>
+              <Input id="email" defaultValue={props.userInfo.email} />
+              <FormErrorMessage>{emailError}</FormErrorMessage>
+              <Button
+                type="submit"
+                disabled={emailButtonDisabled}
+                isLoading={emailButtonDisabled}
+                colorScheme="blue"
+                marginBlock={"1.2rem"}
+              >
+                {t("common:update")}
+              </Button>
+            </FormControl>
+          </Flex>
+        </form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            set_2faButtonDisabled(true);
 
-                    fetch("/api/account/update", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token") as string,
-                            keyName: "lastName",
-                            keyValue: lastName
-                        })
-                    }).then(res => {
-                        res.json().then(data => {
-                            if (data.success) {
-                                localStorage.setItem("token", data.newToken)
-                                window.location.reload();
-                            } else {
-                                setLastNameError(data.error)
-                                setLastNameButtonDisabled(false)
-                            }
-                        })
-                    })
-
-                }}>
-                    <Flex direction={"column"}>
-                        <FormControl isInvalid={lastNameError !== null}>
-                            <FormLabel htmlFor="lastName">
-                                {
-                                    t("account:last-name")
-                                }
-                            </FormLabel>
-                            <Input id="lastName" defaultValue={props.userInfo.lastName}/>
-                            <FormErrorMessage>{lastNameError}</FormErrorMessage>
-                            <Button type="submit" disabled={lastNameButtonDisabled} isLoading={lastNameButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
-                        </FormControl>
-                    </Flex>
-                </form>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    setEmailButtonDisabled(true)
-                    setEmailError(null)
-
-                    // @ts-ignore
-                    const email = e.target.elements.email.value;
-
-                    if (!email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-                        setEmailError(t("account-settings:err-email-invalid"))
-                        setEmailButtonDisabled(false)
-                        return
-                    }
-
-                    fetch("/api/account/update", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token") as string,
-                            keyName: "email",
-                            keyValue: email
-                        })
-                    }).then(res => {
-                        res.json().then(data => {
-                            if (data.success) {
-                                setEmailError(t("account-settings:suc-check-mail-verify"))
-                                setEmailButtonDisabled(false)
-                            } else {
-                                setEmailError(data.error)
-                                setEmailButtonDisabled(false)
-                            }
-                        })
-                    })
-
-                }}>
-                    <Flex direction={"column"}>
-                        <FormControl isInvalid={emailError !== null}>
-                            <FormLabel htmlFor="email">E-Mail</FormLabel>
-                            <Input id="email" defaultValue={props.userInfo.email}/>
-                            <FormErrorMessage>{emailError}</FormErrorMessage>
-                            <Button type="submit" disabled={emailButtonDisabled} isLoading={emailButtonDisabled}
-                                    colorScheme="blue" marginBlock={"1.2rem"}>{t("common:update")}</Button>
-                        </FormControl>
-                    </Flex>
-                </form>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    set_2faButtonDisabled(true)
-
-                    fetch("/api/account/update", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token") as string,
-                            keyName: "2fa",
-                            keyValue: !props.userInfo._2fa === true ? "true" : "false"
-                        })
-                    }).then(res => {
-                        res.json().then(data => {
-                            if (data.success) {
-                                localStorage.setItem("token", data.newToken)
-                                window.location.reload();
-                            }
-                        })
-                    })
-
-                }}>
-                    <Flex direction={"column"}>
-                        <FormControl>
-                            <FormLabel>
-                                {
-                                    t("account-settings:2fa")
-                                }
-                            </FormLabel>
-                            <Button type="submit" disabled={_2faButtonDisabled} isLoading={_2faButtonDisabled}
-                                    colorScheme={
-                                        props.userInfo._2fa ? "red" : "green"
-                                    }>
-                                {
-                                    props.userInfo._2fa ? t("account-settings:2fa_disable") : t("account-settings:2fa_enable")
-                                }
-                            </Button>
-                        </FormControl>
-                    </Flex>
-                </form>
-            </SimpleGrid>
-        </>
-    )
+            fetch("/api/account/update", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: localStorage.getItem("token") as string,
+                keyName: "2fa",
+                keyValue: !props.userInfo._2fa === true ? "true" : "false",
+              }),
+            }).then((res) => {
+              res.json().then((data) => {
+                if (data.success) {
+                  localStorage.setItem("token", data.newToken);
+                  window.location.reload();
+                }
+              });
+            });
+          }}
+        >
+          <Flex direction={"column"}>
+            <FormControl>
+              <FormLabel>{t("account-settings:2fa")}</FormLabel>
+              <Button
+                type="submit"
+                disabled={_2faButtonDisabled}
+                isLoading={_2faButtonDisabled}
+                colorScheme={props.userInfo._2fa ? "red" : "green"}
+              >
+                {props.userInfo._2fa
+                  ? t("account-settings:2fa_disable")
+                  : t("account-settings:2fa_enable")}
+              </Button>
+            </FormControl>
+          </Flex>
+        </form>
+      </SimpleGrid>
+    </>
+  );
 }
 
 export async function getServerSideProps({ locale }: { locale: string }) {
-    return {
-        props: {
-            ...await serverSideTranslations(locale, ['common', 'account', 'navbar', 'footer', 'account-settings']),
-        }
-    }
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "account",
+        "navbar",
+        "footer",
+        "account-settings",
+      ])),
+    },
+  };
 }

@@ -8,27 +8,23 @@
  *
  */
 
-import * as React from 'react';
+import * as React from "react";
 import CourseDB from "../../util/courses/CourseDB";
-import {Flex, SimpleGrid} from "@chakra-ui/react";
-import {Course} from "../../util/courses/Course";
+import { Flex } from "@chakra-ui/react";
 import CourseCard from "../../components/explore/CourseCard";
 
 export default function Index() {
-
-    return (
-        <>
-            <Flex direction={"column"} gap={"2rem"} p={"4rem"}>
-                {
-                    CourseDB.courses.map((course) => {
-                        return (
-                            <>
-                                <CourseCard course={course} />
-                            </>
-                        )
-                    })
-                }
-            </Flex>
-        </>
-    )
+  return (
+    <>
+      <Flex direction={"column"} gap={"2rem"} p={"4rem"}>
+        {CourseDB.courses.map((course) => {
+          return (
+            <>
+              <CourseCard course={course} />
+            </>
+          );
+        })}
+      </Flex>
+    </>
+  );
 }

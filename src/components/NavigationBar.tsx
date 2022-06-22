@@ -8,287 +8,280 @@
  *
  */
 
-import * as React from 'react';
+import * as React from "react";
 import {
-    Box,
-    Button,
-    Divider,
-    Drawer,
-    DrawerBody,
-    DrawerCloseButton,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerOverlay,
-    Flex,
-    Heading,
-    IconButton,
-    Link as ChakraLink, MenuButton, MenuList,
-    Popover,
-    PopoverArrow,
-    PopoverBody,
-    PopoverContent,
-    PopoverTrigger,
-    useDisclosure,
-    useMediaQuery,
-    Menu as ChakraMenu, MenuItem
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  Heading,
+  IconButton,
+  Link as ChakraLink,
+  Menu as ChakraMenu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import {GiHamburgerMenu} from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
 import Link from "next/link";
-import {AiFillCaretDown} from "react-icons/ai";
-import {useTranslation} from "react-i18next";
-import {useRouter} from "next/router";
-import {FaLanguage} from "react-icons/fa";
+import { AiFillCaretDown } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
+import { FaLanguage } from "react-icons/fa";
 
 export default function NavigationBar() {
-    const [isMobile] = useMediaQuery("(max-width: 768px)")
-    const {isOpen, onOpen, onClose} = useDisclosure()
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const userInfo = useUserInfo();
+  const userInfo = useUserInfo();
 
-    const {t} = useTranslation(["common", "account", "navbar"])
+  const { t } = useTranslation(["common", "account", "navbar"]);
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const Menu = () => {
-        return (
-            <>
-                <Link href={"/"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        {
-                            t('common:home')
-                        }
-                    </Button>
-                </Link>
-                <Link href={"/explore"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        {
-                            t("navbar:explore")
-                        }
-                    </Button>
-                </Link>
-                <Popover>
-                    <PopoverTrigger>
-                        <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
-                            {
-                                t("common:more")
-                            }
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent bg={"black"}>
-                        <PopoverArrow/>
-                        <PopoverBody>
-                            <Flex w={"100%"} direction={"column"}>
-                                <Link href={"/extra/project-ideas"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:project-ideas")
-                                        }
-                                    </Button>
-                                </Link>
-                                <Link href={"/community"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:community")
-                                        }
-                                    </Button>
-                                </Link>
-                                <Link href={"/hackathons"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:hackathons")
-                                        }
-                                    </Button>
-                                </Link>
-                                <Link href={"/challenges"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:challenges")
-                                        }
-                                    </Button>
-                                </Link>
-                                <Link href={"/certificates"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:certificates")
-                                        }
-                                    </Button>
-                                </Link>
-                                <Link href={"/hosting"}>
-                                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                        {
-                                            t("navbar:hosting")
-                                        }
-                                    </Button>
-                                </Link>
-                            </Flex>
-                        </PopoverBody>
-                    </PopoverContent>
-                </Popover>{
-                userInfo.id !== "" ?
-                    <>
-                        <Popover>
-                            <PopoverTrigger>
-                                <Button variant={"ghost"} size={"lg"} rightIcon={<AiFillCaretDown/>}>
-                                    {
-                                        t("account:account")
-                                    }
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent bg={"black"}>
-                                <PopoverArrow/>
-                                <PopoverBody>
-                                    <Flex w={"100%"} direction={"column"}>
-                                        <Link href={"/account/settings"}>
-                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                {
-                                                    t("common:settings")
-                                                }
-                                            </Button>
-                                        </Link>
-
-                                        <Link href={"/dashboard"}>
-                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                {
-                                                    t("navbar:dashboard")
-                                                }
-                                            </Button>
-                                        </Link>
-
-                                        <Link href={"/account/logout"}>
-                                            <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                                                {
-                                                    t("account:logout")
-                                                }
-                                            </Button>
-                                        </Link>
-                                    </Flex>
-                                </PopoverBody>
-                            </PopoverContent>
-                        </Popover>
-                    </>
-                    : null
-            }
-            </>
-        )
-    }
-
-    const MenuButtons = () => {
-        return (
-            <>
-                <ChakraMenu>
-                    <MenuButton as={Button} variant={"ghost"} rightIcon={<AiFillCaretDown />}>
-                        <FaLanguage />
-                    </MenuButton>
-                    <MenuList>
-                        <MenuItem>
-                            <Link href={"/de" + router.pathname} locale={false}>
-                                Deutsch (german)
-                            </Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link href={"/en" + router.pathname} locale={false}>
-                                English (english)
-                            </Link>
-                        </MenuItem>
-                    </MenuList>
-                </ChakraMenu>
-                {
-                    userInfo.id === "" ?
-                        <>
-                            <Link href={"/account/register"}>
-                                <Button variant={"solid"} colorScheme={"whatsapp"} onClick={onClose}>
-                                    {
-                                        t("account:join")
-                                    }
-                                </Button>
-                            </Link>
-                            <Link href={"/account/login"}>
-                                <Button variant={"solid"} onClick={onClose}>
-                                    {
-                                        t("account:login")
-                                    }
-                                </Button>
-                            </Link>
-                        </>
-                        :
-                        <>
-                            <Link href={"/dashboard"}>
-                                <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
-                                    {
-                                        t("navbar:dashboard")
-                                    }
-                                </Button>
-                            </Link>
-                            <Link href={"/account/logout"}>
-                                <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                                    {
-                                        t("account:logout")
-                                    }
-                                </Button>
-                            </Link>
-                        </>
-                }
-            </>
-        )
-    }
-
+  const Menu = () => {
     return (
-        <>
-            <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
-                <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
-                    <Heading flex={"flex-start"} textAlign={["center", "left"]}><ChakraLink
-                        href={"/"}>CodeUp</ChakraLink></Heading>
-                    <Flex justifyContent={isMobile ? "right" : "center"} flex={"100%"} alignItems={"center"}>
-                        {
-                            !isMobile ? <Menu/>
-                                :
-                                <>
-                                    <IconButton onClick={onOpen}
-                                                aria-label={'Menu'}
-                                                icon={<GiHamburgerMenu/>}
-                                                flex={"flex-end"}
-                                    />
-                                    <Drawer
-                                        isOpen={isOpen}
-                                        placement='right'
-                                        onClose={onClose}
-                                        size={"full"}
+      <>
+        <Link href={"/"}>
+          <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+            {t("common:home")}
+          </Button>
+        </Link>
+        <Link href={"/explore"}>
+          <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+            {t("navbar:explore")}
+          </Button>
+        </Link>
+        <Popover>
+          <PopoverTrigger>
+            <Button
+              variant={"ghost"}
+              size={"lg"}
+              rightIcon={<AiFillCaretDown />}
+            >
+              {t("common:more")}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent bg={"black"}>
+            <PopoverArrow />
+            <PopoverBody>
+              <Flex w={"100%"} direction={"column"}>
+                <Link href={"/extra/project-ideas"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:project-ideas")}
+                  </Button>
+                </Link>
+                <Link href={"/community"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:community")}
+                  </Button>
+                </Link>
+                <Link href={"/hackathons"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:hackathons")}
+                  </Button>
+                </Link>
+                <Link href={"/challenges"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:challenges")}
+                  </Button>
+                </Link>
+                <Link href={"/certificates"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:certificates")}
+                  </Button>
+                </Link>
+                <Link href={"/hosting"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    {t("navbar:hosting")}
+                  </Button>
+                </Link>
+              </Flex>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+        {userInfo.id !== "" ? (
+          <>
+            <Popover>
+              <PopoverTrigger>
+                <Button
+                  variant={"ghost"}
+                  size={"lg"}
+                  rightIcon={<AiFillCaretDown />}
+                >
+                  {t("account:account")}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent bg={"black"}>
+                <PopoverArrow />
+                <PopoverBody>
+                  <Flex w={"100%"} direction={"column"}>
+                    <Link href={"/account/settings"}>
+                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                        {t("common:settings")}
+                      </Button>
+                    </Link>
 
-                                    >
-                                        <DrawerOverlay/>
-                                        <DrawerContent bg={"black"}>
-                                            <DrawerCloseButton/>
-                                            <DrawerHeader>CodeUp</DrawerHeader>
+                    <Link href={"/dashboard"}>
+                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                        {t("navbar:dashboard")}
+                      </Button>
+                    </Link>
 
-                                            <DrawerBody>
-                                                <Flex w={"100%"} direction={"column"}>
-                                                    <Menu/>
-                                                </Flex>
-                                            </DrawerBody>
+                    <Link href={"/account/logout"}>
+                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                        {t("account:logout")}
+                      </Button>
+                    </Link>
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </>
+        ) : null}
+      </>
+    );
+  };
 
-                                            <DrawerFooter gap={"2rem"} alignItems={"center"} justifyContent={"center"}>
-                                                <MenuButtons/>
-                                            </DrawerFooter>
+  const MenuButtons = () => {
+    return (
+      <>
+        <ChakraMenu>
+          <MenuButton
+            as={Button}
+            variant={"ghost"}
+            rightIcon={<AiFillCaretDown />}
+          >
+            <FaLanguage />
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <Link href={"/de" + router.pathname} locale={false}>
+                Deutsch (german)
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href={"/en" + router.pathname} locale={false}>
+                English (english)
+              </Link>
+            </MenuItem>
+          </MenuList>
+        </ChakraMenu>
+        {userInfo.id === "" ? (
+          <>
+            <Link href={"/account/register"}>
+              <Button
+                variant={"solid"}
+                colorScheme={"whatsapp"}
+                onClick={onClose}
+              >
+                {t("account:join")}
+              </Button>
+            </Link>
+            <Link href={"/account/login"}>
+              <Button variant={"solid"} onClick={onClose}>
+                {t("account:login")}
+              </Button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href={"/dashboard"}>
+              <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
+                {t("navbar:dashboard")}
+              </Button>
+            </Link>
+            <Link href={"/account/logout"}>
+              <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
+                {t("account:logout")}
+              </Button>
+            </Link>
+          </>
+        )}
+      </>
+    );
+  };
 
-                                        </DrawerContent>
-                                    </Drawer>
-                                </>
-                        }
-                    </Flex>
-                    {
-                        !isMobile ?
-                            <Flex justifyContent={["center", "flex-end"]} flex={"10%"} alignItems={"center"}
-                                  gap={"1.2rem"}
-                                  mt={["2rem", 0]}>
-                                <MenuButtons/>
-                            </Flex>
-                            : null
-                    }
-                </Flex>
-            </Box>
-            <Divider/>
-        </>
-    )
+  return (
+    <>
+      <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
+        <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
+          <Heading flex={"flex-start"} textAlign={["center", "left"]}>
+            <ChakraLink href={"/"}>CodeUp</ChakraLink>
+          </Heading>
+          <Flex
+            justifyContent={isMobile ? "right" : "center"}
+            flex={"100%"}
+            alignItems={"center"}
+          >
+            {!isMobile ? (
+              <Menu />
+            ) : (
+              <>
+                <IconButton
+                  onClick={onOpen}
+                  aria-label={"Menu"}
+                  icon={<GiHamburgerMenu />}
+                  flex={"flex-end"}
+                />
+                <Drawer
+                  isOpen={isOpen}
+                  placement="right"
+                  onClose={onClose}
+                  size={"full"}
+                >
+                  <DrawerOverlay />
+                  <DrawerContent bg={"black"}>
+                    <DrawerCloseButton />
+                    <DrawerHeader>CodeUp</DrawerHeader>
+
+                    <DrawerBody>
+                      <Flex w={"100%"} direction={"column"}>
+                        <Menu />
+                      </Flex>
+                    </DrawerBody>
+
+                    <DrawerFooter
+                      gap={"2rem"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                    >
+                      <MenuButtons />
+                    </DrawerFooter>
+                  </DrawerContent>
+                </Drawer>
+              </>
+            )}
+          </Flex>
+          {!isMobile ? (
+            <Flex
+              justifyContent={["center", "flex-end"]}
+              flex={"10%"}
+              alignItems={"center"}
+              gap={"1.2rem"}
+              mt={["2rem", 0]}
+            >
+              <MenuButtons />
+            </Flex>
+          ) : null}
+        </Flex>
+      </Box>
+      <Divider />
+    </>
+  );
 }

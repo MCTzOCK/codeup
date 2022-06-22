@@ -8,18 +8,21 @@
  *
  */
 
-import * as React from 'react';
-import {useEffect} from "react";
-import {Spinner} from "@chakra-ui/react";
+import * as React from "react";
+import { useEffect } from "react";
+import { Spinner } from "@chakra-ui/react";
 
 export default function Logout() {
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      localStorage.removeItem("token");
+    }
+    window.location.href = "/";
+  }, []);
 
-    useEffect(() => {
-        if(localStorage.getItem('token')) {
-            localStorage.removeItem('token');
-        }
-        window.location.href = '/';
-    }, [])
-
-    return <><Spinner /></>
+  return (
+    <>
+      <Spinner />
+    </>
+  );
 }

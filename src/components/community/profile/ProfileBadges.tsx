@@ -8,48 +8,48 @@
  *
  */
 
-import * as React from 'react';
-import {Badge, Flex, Tooltip} from "@chakra-ui/react";
+import * as React from "react";
+import { Badge, Flex, Tooltip } from "@chakra-ui/react";
 
 export default function ProfileBadges(props: {
-    verified: boolean,
-    specialStatus: string
+  verified: boolean;
+  specialStatus: string;
 }) {
-    return (
-        <>
-            <Flex
-                direction={"row"}
-                mt={".4rem"}
-                marginInline={".4rem"}
-                gap={"0"}
-                justifyContent={"center"}
-                alignItems={"center"}
+  return (
+    <>
+      <Flex
+        direction={"row"}
+        mt={".4rem"}
+        marginInline={".4rem"}
+        gap={"0"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        {props.verified ? (
+          <Tooltip label={"Official Account"} hasArrow>
+            <Badge
+              ml={"1"}
+              p={".2rem"}
+              colorScheme="green"
+              display={"block ruby"}
             >
-                {props.verified ? (
-                    <Tooltip label={"Official Account"} hasArrow>
-                        <Badge
-                            ml={"1"}
-                            p={".2rem"}
-                            colorScheme="green"
-                            display={"block ruby"}
-                        >
-                            Official
-                        </Badge>
-                    </Tooltip>
-                ) : null}
-                {props.specialStatus.length > 0 ? (
-                    <Tooltip label={props.specialStatus} hasArrow>
-                        <Badge
-                            ml={"1"}
-                            p={".2rem"}
-                            colorScheme="yellow"
-                            display={"block ruby"}
-                        >
-                            Special
-                        </Badge>
-                    </Tooltip>
-                ) : null}
-            </Flex>
-        </>
-    )
+              Official
+            </Badge>
+          </Tooltip>
+        ) : null}
+        {props.specialStatus.length > 0 ? (
+          <Tooltip label={props.specialStatus} hasArrow>
+            <Badge
+              ml={"1"}
+              p={".2rem"}
+              colorScheme="yellow"
+              display={"block ruby"}
+            >
+              Special
+            </Badge>
+          </Tooltip>
+        ) : null}
+      </Flex>
+    </>
+  );
 }

@@ -3,11 +3,13 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "stats": "sloc ./src/"
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
+    "next:lint": "next lint",
+    "project:stats": "sloc ./src/",
+    "prettier:write": "prettier --write ./src/**/*.{js,jsx,ts,tsx}",
+    "wf": "yarn next:lint && yarn prettier:write && yarn project:stats"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.1.2",
@@ -49,6 +51,7 @@
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
     "i18nexus-cli": "^3.0.0",
+    "prettier": "^2.7.1",
     "sloc": "^0.2.1",
     "sort-json": "^2.0.1",
     "typescript": "4.7.3"

@@ -7,39 +7,42 @@
  * Created At: 12.06.2022
  *
  */
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useUserInfo from "./useUserInfo";
 
-export default function useHasProfile(): { hasProfile: boolean, tried: boolean } {
-    const [hasProfile, setHasProfile] = useState({
-        hasProfile: false,
-        tried: false,
-    });
+export default function useHasProfile(): {
+  hasProfile: boolean;
+  tried: boolean;
+} {
+  const [hasProfile, setHasProfile] = useState({
+    hasProfile: false,
+    tried: false,
+  });
 
-    const userInfo = useUserInfo();
+  const userInfo = useUserInfo();
 
-    useEffect(() => {
-        if (userInfo.id !== "") {
-            fetch("/api/community/has-profile/" + userInfo.id, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }).then(res => {
-                if (res.status === 200) {
-                    setHasProfile({
-                        hasProfile: true,
-                        tried: true,
-                    })
-                } else {
-                    setHasProfile({
-                        hasProfile: false,
-                        tried: true,
-                    })
-                }
-            });
+  useEffect(() => {
+    if (userInfo.id !== "") {
+      fetch("/api/community/has-profile/" + userInfo.id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        if (res.status === 200) {
+          setHasProfile({
+            hasProfile: true,
+            tried: true,
+          });
+        } else {
+          setHasProfile({
+            hasProfile: false,
+            tried: true,
+          });
         }
-    }, [userInfo]);
+      });
+    }
+  }, [userInfo]);
 
-    return hasProfile;
+  return hasProfile;
 }

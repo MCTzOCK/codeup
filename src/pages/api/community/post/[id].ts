@@ -8,49 +8,48 @@
  *
  */
 
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import mongoConnect from "../../../../util/mongo";
-import CommunityProfileModel from "../../../../util/models/CommunityProfileModel";
 import CommunityPostModel from "../../../../util/models/CommunityPostModel";
-import {Types} from "mongoose";
 
-export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
+export default async function handleRequest(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "GET") {
+    res.status(405).json({
+      error: "Method not allowed",
+    });
+    return;
+  }
 
-    if (req.method !== 'GET') {
-        res.status(405).json({
-            error: 'Method not allowed'
-        });
-        return;
+  const { id } = req.query;
+  if (!id) {
+    res.status(400).json({
+      error: "Missing ID",
+    });
+    return;
+  }
+
+  await mongoConnect();
+
+  try {
+    const post = await CommunityPostModel.findById(id);
+    if (!post) {
+      res.status(404).json({
+        error: "Not Found",
+      });
+      return;
     }
 
-    const {id} = req.query;
-    if (!id) {
-        res.status(400).json({
-            error: 'Missing ID'
-        });
-        return;
-    }
-
-    await mongoConnect();
-
-    try {
-        const post = await CommunityPostModel.findById(id);
-        if (!post) {
-            res.status(404).json({
-                error: 'Not Found',
-            });
-            return;
-        }
-
-        res.status(200).json({
-            post,
-            success: true
-        });
-    } catch (e) {
-        res.status(500).json({
-            // @ts-ignore
-            error: e.message
-        });
-    }
-
+    res.status(200).json({
+      post,
+      success: true,
+    });
+  } catch (e) {
+    res.status(500).json({
+      // @ts-ignore
+      error: e.message,
+    });
+  }
 }
