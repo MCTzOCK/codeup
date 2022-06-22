@@ -26,6 +26,8 @@ import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import redirect from "../../../util/userworkflow/redirect";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 export default function Token() {
 
@@ -78,6 +80,9 @@ export default function Token() {
         })
     }, [])
 
+
+    const {t} = useTranslation();
+
     return (
         <>
             {
@@ -93,13 +98,15 @@ export default function Token() {
                      padding={"4rem"} rounded={"12px"} shadow={"xl"}>
                     <Flex direction={"column"} gap={"2rem"}>
                         <Flex alignItems={"center"} justifyContent={"center"} direction={"column"}>
-                            <Heading size={"xl"}>Reset Password</Heading>
+                            <Heading size={"xl"}>
+                                {
+                                    t('reset-password:reset-password')
+                                }
+                            </Heading>
                             <Text textAlign={"center"} mt={".4rem"}>
-                                Enter your email address below and we&apos;ll send you a link to reset your password or&nbsp;
-                                <Link href={"/account/login"}>
-                                    <ChakraLink href={"/account/login"} color={"blue.400"}>login</ChakraLink>
-                                </Link>
-                                &nbsp;instead.
+                                {
+                                    t("reset-password:reset-confirm_subtitle")
+                                }
                             </Text>
                         </Flex>
                         <form onSubmit={(e) => {
@@ -133,9 +140,13 @@ export default function Token() {
                             })
                         }}>
                             <FormControl isInvalid={passwordInvalid}>
-                                <FormLabel htmlFor={"password"}>Password</FormLabel>
+                                <FormLabel htmlFor={"password"}>
+                                    {
+                                        t('account:password')
+                                    }
+                                </FormLabel>
                                 <InputGroup>
-                                    <Input id={"password"} placeholder={"Password"}
+                                    <Input id={"password"} placeholder={t('account:password')}
                                            disabled={disabled || loading}
                                            type={passwordVisible ? "text" : "password"}
                                            onChange={(e) => {
@@ -155,12 +166,15 @@ export default function Token() {
                                     </InputRightElement>
                                 </InputGroup>
                                 <FormErrorMessage>
-                                    Please enter a password with at least 8 characters, one uppercase, one lowercase, one
-                                    number and one special character
+                                    {
+                                        t('reset-password:err-password-not-valid')
+                                    }
                                 </FormErrorMessage>
                             </FormControl>
                             <Button variant={"solid"} type={"submit"} isLoading={loading} disabled={disabled || loading} w={"100%"} mt={"2rem"}>
-                                Reset Password
+                                {
+                                    t('reset-password:reset-password')
+                                }
                             </Button>
                         </form>
                     </Flex>
@@ -168,4 +182,13 @@ export default function Token() {
             </Flex>
         </>
     )
+}
+
+
+export async function getServerSideProps({locale}: { locale: string }) {
+    return {
+        props: {
+            ...await serverSideTranslations(locale, ['common', 'account', 'navbar', 'footer', 'reset-password']),
+        }
+    }
 }
