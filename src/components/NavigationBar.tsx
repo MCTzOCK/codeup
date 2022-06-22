@@ -23,20 +23,23 @@ import {
     Flex,
     Heading,
     IconButton,
-    Link as ChakraLink,
+    Link as ChakraLink, MenuButton, MenuList,
     Popover,
     PopoverArrow,
     PopoverBody,
     PopoverContent,
     PopoverTrigger,
     useDisclosure,
-    useMediaQuery
+    useMediaQuery,
+    Menu as ChakraMenu, MenuItem
 } from "@chakra-ui/react";
 import {GiHamburgerMenu} from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
 import Link from "next/link";
 import {AiFillCaretDown} from "react-icons/ai";
 import {useTranslation} from "react-i18next";
+import {useRouter} from "next/router";
+import {FaLanguage} from "react-icons/fa";
 
 export default function NavigationBar() {
     const [isMobile] = useMediaQuery("(max-width: 768px)")
@@ -45,6 +48,8 @@ export default function NavigationBar() {
     const userInfo = useUserInfo();
 
     const {t} = useTranslation(["common", "account", "navbar"])
+
+    const router = useRouter();
 
     const Menu = () => {
         return (
@@ -172,6 +177,23 @@ export default function NavigationBar() {
     const MenuButtons = () => {
         return (
             <>
+                <ChakraMenu>
+                    <MenuButton as={Button} variant={"ghost"} rightIcon={<AiFillCaretDown />}>
+                        <FaLanguage />
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem>
+                            <Link href={"/de" + router.pathname} locale={false}>
+                                Deutsch (german)
+                            </Link>
+                        </MenuItem>
+                        <MenuItem>
+                            <Link href={"/en" + router.pathname} locale={false}>
+                                English (english)
+                            </Link>
+                        </MenuItem>
+                    </MenuList>
+                </ChakraMenu>
                 {
                     userInfo.id === "" ?
                         <>
