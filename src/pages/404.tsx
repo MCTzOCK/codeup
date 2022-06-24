@@ -23,11 +23,13 @@ export default function NotFound() {
         justifyContent={"center"}
         direction={"column"}
       >
-        <Heading size={"xl"} fontFamily={"monospace"}>
+        <Heading size={"xl"} fontFamily={"monospace"} color={"gray.400"}>
           404
         </Heading>
-        <Heading size={"4xl"}>Not Found</Heading>
-        <Button mt="2rem" size="lg" fontSize="2xl" colorScheme={"purple"}>
+        <Heading size={"4xl"} color={"red"}>
+          Not Found
+        </Heading>
+        <Button mt="2rem" size="lg">
           <Link href={"/"}>Home</Link>
         </Button>
       </Flex>
