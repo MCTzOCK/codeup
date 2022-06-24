@@ -7,7 +7,7 @@
     "next:build": "next build",
     "next:start": "next start",
     "next:lint": "next lint",
-    "project:stats": "sloc ./src/",
+    "project:stats": "sloc -f cli-table ./src/ ./public/",
     "prettier:write": "prettier --write ./src/**/*.{js,jsx,ts,tsx}",
     "wf": "yarn next:lint && yarn prettier:write && yarn project:stats"
   },
