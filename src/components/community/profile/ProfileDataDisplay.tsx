@@ -27,6 +27,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileDataDisplay(props: {
   profile: {
@@ -40,6 +41,7 @@ export default function ProfileDataDisplay(props: {
     onOpen: onFollowerOpen,
     onClose: onFollowerClose,
   } = useDisclosure();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetch(
@@ -98,7 +100,7 @@ export default function ProfileDataDisplay(props: {
       <Breadcrumb>
         <BreadcrumbItem>
           <BreadcrumbLink onClick={onFollowerOpen}>
-            {followersCount} Follower
+            {followersCount}&nbsp;{t("community:follower")}
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
@@ -111,7 +113,7 @@ export default function ProfileDataDisplay(props: {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {props.profile.displayName}&apos;s Followers
+            {props.profile.displayName}&apos;s&nbsp;{t("community:followers")}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>

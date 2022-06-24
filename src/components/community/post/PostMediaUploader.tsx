@@ -24,6 +24,7 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function PostMediaUploader(props: {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export default function PostMediaUploader(props: {
 }) {
   const [fileInvalid, setFileInvalid] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const { t } = useTranslation();
 
   const toast = useToast();
 
@@ -40,14 +42,14 @@ export default function PostMediaUploader(props: {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Upload Image</ModalHeader>
+        <ModalHeader>{t("community:upload-image")}</ModalHeader>
         <ModalCloseButton disabled={loading} />
         <ModalBody>
           {loading ? (
             <Spinner />
           ) : (
             <FormControl isInvalid={fileInvalid}>
-              <FormLabel>Image</FormLabel>
+              <FormLabel>{t("community:tt-image")}</FormLabel>
               <input
                 type="file"
                 onChange={(e) => {
@@ -94,14 +96,14 @@ export default function PostMediaUploader(props: {
                 }}
               />
               <FormErrorMessage>
-                The selected file is not an image or is over the limit of 8MB
+                {t("community:upload-image_error")}
               </FormErrorMessage>
             </FormControl>
           )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={props.onClose} disabled={loading}>
-            Close
+            {t("common:close")}
           </Button>
         </ModalFooter>
       </ModalContent>

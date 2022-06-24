@@ -30,12 +30,15 @@ import useUserInfo from "../../../hooks/useUserInfo";
 import TipTap from "./TipTap";
 import { useRouter } from "next/router";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useTranslation } from "next-i18next";
 
 export default function PostCard(props: { id: string }) {
   const userInfo = useUserInfo();
   const toast = useToast();
   const router = useRouter();
   const [showEditor, setShowEditor] = useState(false);
+
+  const { t } = useTranslation();
 
   const [post, setPost] = useState<{
     _id: string;
@@ -186,8 +189,8 @@ export default function PostCard(props: { id: string }) {
                         res.json().then((data) => {
                           if (data.success) {
                             toast({
-                              title: "Success",
-                              description: "Post deleted",
+                              title: t("common:success"),
+                              description: t("community:post-deleted"),
                               status: "success",
                               duration: 6000,
                               position: "top",
@@ -210,7 +213,7 @@ export default function PostCard(props: { id: string }) {
                       });
                     }}
                   >
-                    Delete
+                    {t("common:delete")}
                   </MenuItem>
                 ) : null}
                 <MenuItem
@@ -224,8 +227,8 @@ export default function PostCard(props: { id: string }) {
                       )
                       .then(() => {
                         toast({
-                          title: "Success!",
-                          description: "Link copied to clipboard",
+                          title: t("common:success"),
+                          description: t("common:link-copied"),
                           status: "success",
                           duration: 3000,
                           isClosable: true,
@@ -234,7 +237,7 @@ export default function PostCard(props: { id: string }) {
                       });
                   }}
                 >
-                  Share
+                  {t("common:share")}
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -289,7 +292,7 @@ export default function PostCard(props: { id: string }) {
               variant={"ghost"}
               size={"lg"}
             >
-              {post.likes.length}&nbsp;
+              {post.likes.length}
             </Button>
             {!post.parent ? (
               <Button
@@ -302,7 +305,7 @@ export default function PostCard(props: { id: string }) {
                 variant={"ghost"}
                 size={"lg"}
               >
-                {post.comments.length}&nbsp;
+                {post.comments.length}
               </Button>
             ) : null}
           </Flex>

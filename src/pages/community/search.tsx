@@ -25,6 +25,8 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
 import PostCard from "../../components/community/post/PostCard";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function Search() {
   const [term, setTerm] = useState("");
@@ -36,6 +38,8 @@ export default function Search() {
       );
     }
   }, []);
+
+  const { t } = useTranslation();
 
   const router = useRouter();
 
@@ -78,19 +82,18 @@ export default function Search() {
             }}
             type={"text"}
             defaultValue={term}
-            placeholder={"Search ..."}
+            placeholder={t("community:search") + "..."}
           />
           <InputRightAddon cursor={"pointer"} onClick={() => {}}>
             <FaSearch />
           </InputRightAddon>
         </InputGroup>
       </Flex>
-      {term.length > 2 &&
-      results.posts.length > 0 &&
+      {(term.length > 2 && results.posts.length > 0) ||
       results.profiles.length > 0 ? (
         <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={"2rem"}>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>Posts</Heading>
+            <Heading textAlign={"center"}>{t("community:posts")}</Heading>
             {
               // @ts-ignore
               results.posts
@@ -112,7 +115,7 @@ export default function Search() {
             }
           </Box>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>Profiles</Heading>
+            <Heading textAlign={"center"}>{t("community:profiles")}</Heading>
             {
               // @ts-ignore
               results.profiles
@@ -153,4 +156,18 @@ export default function Search() {
       ) : null}
     </>
   );
+}
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "account",
+        "navbar",
+        "footer",
+        "community",
+      ])),
+    },
+  };
 }

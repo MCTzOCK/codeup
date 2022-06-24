@@ -22,17 +22,19 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TipTap from "./TipTap";
+import { useTranslation } from "next-i18next";
 
 export default function PostButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [value, setValue] = useState("");
+  const { t } = useTranslation();
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size={["full", "4xl"]}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Post</ModalHeader>
+          <ModalHeader>{t("community:post")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody padding={"2rem"}>
             <TipTap />
@@ -49,7 +51,7 @@ export default function PostButton() {
         }}
       >
         <IconButton
-          aria-label={"Post"}
+          aria-label={t("community:post")}
           icon={<FaPlus />}
           size={"lg"}
           colorScheme={"whatsapp"}

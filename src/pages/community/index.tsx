@@ -18,6 +18,8 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import PostCard from "../../components/community/post/PostCard";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function CommunityHome() {
   useEffect(() => {
@@ -49,6 +51,7 @@ export default function CommunityHome() {
 }
 
 function ProfileCreatorHero() {
+  const { t } = useTranslation();
   return (
     <Link href={"/community/profile/create"}>
       <Flex
@@ -70,7 +73,7 @@ function ProfileCreatorHero() {
         >
           <AiFillPlusSquare />
           <Heading color={"white"} mt={"1.2rem"}>
-            Create your profile
+            {t("community:create-your-profile")}
           </Heading>
           <Text
             color={"white"}
@@ -79,8 +82,7 @@ function ProfileCreatorHero() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            Create a profile to start sharing your skills and get feedback from
-            other users.
+            {t("community:create-your-profile_subtitle")}
           </Text>
         </Heading>
       </Flex>
@@ -118,7 +120,7 @@ function CommunityFeed() {
         setPostIds(origPosts.concat(data.posts));
       });
     });
-  }, [postIds, currentRange]);
+  }, [currentRange]);
 
   useEffect(() => {
     function handleScroll() {
@@ -155,4 +157,18 @@ function CommunityFeed() {
       })}
     </Box>
   );
+}
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "account",
+        "navbar",
+        "footer",
+        "community",
+      ])),
+    },
+  };
 }

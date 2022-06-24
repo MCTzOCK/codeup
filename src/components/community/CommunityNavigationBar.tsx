@@ -29,6 +29,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import useUserInfo from "../../hooks/useUserInfo";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 export default function CommunityNavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -36,62 +37,26 @@ export default function CommunityNavigationBar() {
 
   const userInfo = useUserInfo();
 
+  const { t } = useTranslation(["common", "account", "community", "navbar"]);
+
   const Menu = () => {
     return (
       <>
         <Link href={"/community"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Feed
+            {t("navbar:community")}
           </Button>
         </Link>
         <Link href={"/community/profile/" + userInfo.username}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            My Profile
+            {t("community:my-profile")}
           </Button>
         </Link>
         <Link href={"/community/search"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Search
+            {t("community:search")}
           </Button>
         </Link>
-      </>
-    );
-  };
-
-  const MenuButtons = () => {
-    return (
-      <>
-        {userInfo.id === "" ? (
-          <>
-            <Link href={"/account/register"}>
-              <Button
-                variant={"solid"}
-                colorScheme={"whatsapp"}
-                onClick={onClose}
-              >
-                Join
-              </Button>
-            </Link>
-            <Link href={"/account/login"}>
-              <Button variant={"solid"} onClick={onClose}>
-                Login
-              </Button>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href={"/dashboard"}>
-              <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
-                Dashboard
-              </Button>
-            </Link>
-            <Link href={"/account/logout"}>
-              <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                Logout
-              </Button>
-            </Link>
-          </>
-        )}
       </>
     );
   };
@@ -101,7 +66,9 @@ export default function CommunityNavigationBar() {
       <Box w={"100%"} bg={"gray.900"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"5%"} textAlign={["center", "left"]}>
-            <ChakraLink href={"/community"}>Community</ChakraLink>
+            <ChakraLink href={"/community"}>
+              <Link href={"/community"}>{t("navbar:community")}</Link>
+            </ChakraLink>
           </Heading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
             {!isMobile ? (
@@ -123,7 +90,9 @@ export default function CommunityNavigationBar() {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>CodeUp | Community</DrawerHeader>
+                    <DrawerHeader>
+                      CodeUp | {t("navbar:community")}
+                    </DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>

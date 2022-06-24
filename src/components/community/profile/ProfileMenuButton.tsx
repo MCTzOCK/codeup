@@ -22,6 +22,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import useUserInfo from "../../../hooks/useUserInfo";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileMenuButton(props: {
   profile: {
@@ -68,6 +69,8 @@ export default function ProfileMenuButton(props: {
     }
   }, [userInfo, props.profile.username]);
 
+  const { t } = useTranslation();
+
   return (
     <Box mt={"1.2rem"} textAlign={"center"}>
       <Button
@@ -95,7 +98,7 @@ export default function ProfileMenuButton(props: {
           });
         }}
       >
-        {isFollowing ? "Unfollow" : "Follow"}
+        {isFollowing ? t("community:unfollow") : t("community:follow")}
       </Button>
       <Menu>
         <MenuButton
@@ -103,7 +106,7 @@ export default function ProfileMenuButton(props: {
           icon={<GiHamburgerMenu />}
           colorScheme={"gray"}
         >
-          Actions
+          {t("common:actions")}
         </MenuButton>
         <MenuList>
           {props.profile.website.length > 0 ? (
@@ -112,11 +115,13 @@ export default function ProfileMenuButton(props: {
                 window.open(props.profile.website, "_blank");
               }}
             >
-              Website
+              {t("community:website")}
             </MenuItem>
           ) : null}
           {isOwner ? (
-            <MenuItem onClick={props.editProfile.onEditOpen}>Edit</MenuItem>
+            <MenuItem onClick={props.editProfile.onEditOpen}>
+              {t("common:edit")}
+            </MenuItem>
           ) : null}
           <MenuItem
             onClick={() => {
@@ -124,7 +129,7 @@ export default function ProfileMenuButton(props: {
                 "/community/profile/" + props.profile.username + "/report";
             }}
           >
-            Report
+            {t("community:report")}
           </MenuItem>
         </MenuList>
       </Menu>

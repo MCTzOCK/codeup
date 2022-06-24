@@ -7,6 +7,25 @@
  * Created At: 13.06.2022
  *
  */
+
+//
+// we need to disable SSR until I finally know
+// why this page is throwing a Hydration Error
+//
+// Future me, forgive me.
+// ~ Ben 24.06.2022
+// Please rewrite the whole component
+// and split it into more subcomponents
+// to clean up the f*cking mess of JSX code
+//
+// nvm, this error only affects development builds
+// I am really sorry, future me, that you have to deal
+// with this in developing mode.
+// please forgive me. You can safely delete the SSR disabling code
+// btw, it never worked :(
+//
+const SSR = typeof window === "undefined";
+
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import redirect from "../../../util/userworkflow/redirect";
@@ -54,9 +73,13 @@ import ProfileBannerModifier from "../../../components/community/profile/Profile
 import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
 import useHasProfile from "../../../hooks/hasProfile";
 import PostCard from "../../../components/community/post/PostCard";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileView() {
   const router = useRouter();
+
+  const { t } = useTranslation();
 
   const [profile, setProfile] = useState({
     _id: "",
@@ -172,8 +195,8 @@ export default function ProfileView() {
             setCurrentPosts(data.posts);
           } else {
             toast({
-              title: "Error",
-              description: "Could not load posts",
+              title: t("common:error"),
+              description: t("community:profile_error-load-posts"),
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -197,8 +220,8 @@ export default function ProfileView() {
             setMaxPosts(data.postCount);
           } else {
             toast({
-              title: "Error",
-              description: "Could not load posts",
+              title: t("common:error"),
+              description: t("community:profile_error-load-posts"),
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -211,255 +234,260 @@ export default function ProfileView() {
 
   return (
     <>
-      {notFound ? (
-        <ProfileNotFound />
-      ) : (
-        <Profile
-          profile={profile}
-          editProfile={{
-            isEditOpen,
-            onEditOpen,
-            onEditClose,
-          }}
-          range={{
-            currentRange,
-            setCurrentRange,
-          }}
-          currentPosts={currentPosts}
-          maxPosts={maxPosts}
-        />
-      )}
-      <ProfileAvatarModifier
-        isOpen={isAvatarEditOpen}
-        onOpen={onAvatarEditOpen}
-        onClose={onAvatarEditClose}
-      />
-      <ProfileBannerModifier
-        isOpen={isBannerEditOpen}
-        onOpen={onBannerEditOpen}
-        onClose={onBannerEditClose}
-      />
-      <Drawer
-        isOpen={isEditOpen}
-        placement="left"
-        onClose={onEditClose}
-        size={["full", "lg"]}
-      >
-        <DrawerOverlay />
-        <DrawerContent overflow={"auto"}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-
-              setDisplayNameValid(true);
-              setBioValid(true);
-              setLocationValid(true);
-              setBirthdayValid(true);
-              setWebsiteValid(true);
-
-              const displayName = (
-                document.getElementById("displayName") as HTMLInputElement
-              ).value;
-              const bio = (
-                document.getElementById("biography") as HTMLTextAreaElement
-              ).value;
-              const location = (
-                document.getElementById("location") as HTMLInputElement
-              ).value;
-              const birthday = (
-                document.getElementById("birthday") as HTMLInputElement
-              ).value;
-              const website = (
-                document.getElementById("website") as HTMLInputElement
-              ).value;
-
-              if (!(displayName.length > 0 && displayName.length < 51)) {
-                setDisplayNameValid(false);
-                return;
-              }
-
-              if (!(bio.length > 0 && bio.length < 201)) {
-                setBioValid(false);
-                return;
-              }
-
-              if (website.length > 0) {
-                if (
-                  !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
-                    website
-                  )
-                ) {
-                  setWebsiteValid(false);
-                  return;
-                }
-              }
-
-              if (!(location.length < 51)) {
-                setLocationValid(false);
-                return;
-              }
-
-              if (!/^\d{4}-\d{2}-\d{2}$/.test(birthday)) {
-                setBirthdayValid(false);
-                return;
-              }
-
-              fetch("/api/community/profile/update", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  token: localStorage.getItem("token"),
-                  update: {
-                    displayName,
-                    bio,
-                    location,
-                    birthday,
-                    website,
-                  },
-                }),
-              }).then((res) => {
-                if (res.status === 200) {
-                  toast({
-                    title: "Profile Updated",
-                    description: "Your profile has been updated successfully",
-                    status: "success",
-                    position: "top",
-                    duration: 3000,
-                    onCloseComplete: () => {
-                      window.location.reload();
-                    },
-                  });
-                } else {
-                  toast({
-                    title: "Profile Update Failed",
-                    description: "Your profile update failed",
-                    status: "error",
-                  });
-                }
-              });
-            }}
+      {SSR ? null : (
+        <>
+          {notFound ? (
+            <ProfileNotFound />
+          ) : (
+            <Profile
+              profile={profile}
+              editProfile={{
+                isEditOpen,
+                onEditOpen,
+                onEditClose,
+              }}
+              range={{
+                currentRange,
+                setCurrentRange,
+              }}
+              currentPosts={currentPosts}
+              maxPosts={maxPosts}
+              key={"p-ro-file-000"}
+            />
+          )}
+          <ProfileAvatarModifier
+            isOpen={isAvatarEditOpen}
+            onOpen={onAvatarEditOpen}
+            onClose={onAvatarEditClose}
+          />
+          <ProfileBannerModifier
+            isOpen={isBannerEditOpen}
+            onOpen={onBannerEditOpen}
+            onClose={onBannerEditClose}
+          />
+          <Drawer
+            isOpen={isEditOpen}
+            placement="left"
+            onClose={onEditClose}
+            size={["full", "lg"]}
           >
-            <DrawerCloseButton />
-            <DrawerHeader>Edit Profile</DrawerHeader>
+            <DrawerOverlay />
+            <DrawerContent overflow={"auto"}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
 
-            <DrawerBody>
-              <Flex flexDirection="column" gap={"2rem"}>
-                <Box textAlign={"center"}>
-                  <Avatar
-                    src={profile.profilePicture}
-                    w={128}
-                    h={128}
-                    borderColor={"#FFF"}
-                    borderWidth={"4px"}
-                    cursor={"pointer"}
-                    _hover={{
-                      filter: "brightness(0.7)",
-                    }}
-                    onClick={onAvatarEditOpen}
-                  />
-                </Box>
-                <Box textAlign={"center"}>
-                  <Image
-                    alt={"Profile Picture"}
-                    src={profile.profileBanner}
-                    w={"100%"}
-                    borderColor={"#FFF"}
-                    borderWidth={"4px"}
-                    cursor={"pointer"}
-                    _hover={{
-                      filter: "brightness(0.7)",
-                    }}
-                    onClick={onBannerEditOpen}
-                  />
-                </Box>
-                <FormControl isInvalid={!displayNameValid}>
-                  <FormLabel>Displayname</FormLabel>
-                  <Input
-                    id={"displayName"}
-                    placeholder={"Displayname"}
-                    defaultValue={profile.displayName}
-                  />
-                  <FormErrorMessage>
-                    This Displayname is not valid!
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!bioValid}>
-                  <FormLabel>Biography</FormLabel>
-                  <Textarea
-                    id={"biography"}
-                    placeholder={"Biography"}
-                    defaultValue={profile.bio}
-                    maxLength={256}
-                  />
-                  <FormErrorMessage>
-                    This Biography is not valid!
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!websiteValid}>
-                  <FormLabel>Website</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>
-                      <FaGlobe />
-                    </InputLeftAddon>
-                    <Input
-                      id={"website"}
-                      placeholder={"Website"}
-                      defaultValue={profile.website}
-                    />
-                  </InputGroup>
-                  <FormErrorMessage>
-                    This Website is not valid!
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!locationValid}>
-                  <FormLabel>Location</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>
-                      <FaMapMarkerAlt />
-                    </InputLeftAddon>
-                    <Input
-                      id={"location"}
-                      placeholder={"Location"}
-                      defaultValue={profile.location}
-                    />
-                  </InputGroup>
-                  <FormErrorMessage>
-                    This Location is not valid!
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!birthdayValid}>
-                  <FormLabel>Birthday</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>
-                      <FaBirthdayCake />
-                    </InputLeftAddon>
-                    <Input
-                      id={"birthday"}
-                      type={"date"}
-                      placeholder={"Birthday"}
-                      defaultValue={profile.birthday}
-                    />
-                  </InputGroup>
-                  <FormErrorMessage>
-                    This Birthday is not valid!
-                  </FormErrorMessage>
-                </FormControl>
-              </Flex>
-            </DrawerBody>
+                  setDisplayNameValid(true);
+                  setBioValid(true);
+                  setLocationValid(true);
+                  setBirthdayValid(true);
+                  setWebsiteValid(true);
 
-            <DrawerFooter>
-              <Button variant="outline" mr={3} onClick={onEditClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="blue" type={"submit"}>
-                Save
-              </Button>
-            </DrawerFooter>
-          </form>
-        </DrawerContent>
-      </Drawer>
+                  const displayName = (
+                    document.getElementById("displayName") as HTMLInputElement
+                  ).value;
+                  const bio = (
+                    document.getElementById("biography") as HTMLTextAreaElement
+                  ).value;
+                  const location = (
+                    document.getElementById("location") as HTMLInputElement
+                  ).value;
+                  const birthday = (
+                    document.getElementById("birthday") as HTMLInputElement
+                  ).value;
+                  const website = (
+                    document.getElementById("website") as HTMLInputElement
+                  ).value;
+
+                  if (!(displayName.length > 0 && displayName.length < 51)) {
+                    setDisplayNameValid(false);
+                    return;
+                  }
+
+                  if (!(bio.length > 0 && bio.length < 201)) {
+                    setBioValid(false);
+                    return;
+                  }
+
+                  if (website.length > 0) {
+                    if (
+                      !/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
+                        website
+                      )
+                    ) {
+                      setWebsiteValid(false);
+                      return;
+                    }
+                  }
+
+                  if (!(location.length < 51)) {
+                    setLocationValid(false);
+                    return;
+                  }
+
+                  if (!/^\d{4}-\d{2}-\d{2}$/.test(birthday)) {
+                    setBirthdayValid(false);
+                    return;
+                  }
+
+                  fetch("/api/community/profile/update", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      token: localStorage.getItem("token"),
+                      update: {
+                        displayName,
+                        bio,
+                        location,
+                        birthday,
+                        website,
+                      },
+                    }),
+                  }).then((res) => {
+                    if (res.status === 200) {
+                      toast({
+                        title: t("community:profile_updated"),
+                        description: t("community:profile_updated-description"),
+                        status: "success",
+                        position: "top",
+                        duration: 3000,
+                        onCloseComplete: () => {
+                          window.location.reload();
+                        },
+                      });
+                    } else {
+                      toast({
+                        title: t("common:error"),
+                        description: t("community:profile_updated-error"),
+                        status: "error",
+                      });
+                    }
+                  });
+                }}
+              >
+                <DrawerCloseButton />
+                <DrawerHeader>{t("community:profile_edit")}</DrawerHeader>
+
+                <DrawerBody>
+                  <Flex flexDirection="column" gap={"2rem"}>
+                    <Box textAlign={"center"}>
+                      <Avatar
+                        src={profile.profilePicture}
+                        w={128}
+                        h={128}
+                        borderColor={"#FFF"}
+                        borderWidth={"4px"}
+                        cursor={"pointer"}
+                        _hover={{
+                          filter: "brightness(0.7)",
+                        }}
+                        onClick={onAvatarEditOpen}
+                      />
+                    </Box>
+                    <Box textAlign={"center"}>
+                      <Image
+                        alt={t("community:profile_banner")}
+                        src={profile.profileBanner}
+                        w={"100%"}
+                        borderColor={"#FFF"}
+                        borderWidth={"4px"}
+                        cursor={"pointer"}
+                        _hover={{
+                          filter: "brightness(0.7)",
+                        }}
+                        onClick={onBannerEditOpen}
+                      />
+                    </Box>
+                    <FormControl isInvalid={!displayNameValid}>
+                      <FormLabel>{t("community:display-name")}</FormLabel>
+                      <Input
+                        id={"displayName"}
+                        placeholder={t("community:display-name")}
+                        defaultValue={profile.displayName}
+                      />
+                      <FormErrorMessage>
+                        {t("community:display-name-invalid")}
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!bioValid}>
+                      <FormLabel>{t("community:biography")}</FormLabel>
+                      <Textarea
+                        id={"biography"}
+                        placeholder={t("community:biography")}
+                        defaultValue={profile.bio}
+                        maxLength={256}
+                      />
+                      <FormErrorMessage>
+                        {t("community:biography-invalid")}
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!websiteValid}>
+                      <FormLabel>{t("community:website")}</FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <FaGlobe />
+                        </InputLeftAddon>
+                        <Input
+                          id={"website"}
+                          placeholder={t("community:website")}
+                          defaultValue={profile.website}
+                        />
+                      </InputGroup>
+                      <FormErrorMessage>
+                        {t("community:website-invalid")}
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!locationValid}>
+                      <FormLabel>{t("community:location")}</FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <FaMapMarkerAlt />
+                        </InputLeftAddon>
+                        <Input
+                          id={"location"}
+                          placeholder={t("community:location")}
+                          defaultValue={profile.location}
+                        />
+                      </InputGroup>
+                      <FormErrorMessage>
+                        {t("community:location-invalid")}
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl isInvalid={!birthdayValid}>
+                      <FormLabel>{t("community:birthday")}</FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <FaBirthdayCake />
+                        </InputLeftAddon>
+                        <Input
+                          id={"birthday"}
+                          type={"date"}
+                          placeholder={t("community:birthday")}
+                          defaultValue={profile.birthday}
+                        />
+                      </InputGroup>
+                      <FormErrorMessage>
+                        {t("community:birthday-invalid")}
+                      </FormErrorMessage>
+                    </FormControl>
+                  </Flex>
+                </DrawerBody>
+
+                <DrawerFooter>
+                  <Button variant="outline" mr={3} onClick={onEditClose}>
+                    {t("common:cancel")}
+                  </Button>
+                  <Button colorScheme="blue" type={"submit"}>
+                    {t("common:save")}
+                  </Button>
+                </DrawerFooter>
+              </form>
+            </DrawerContent>
+          </Drawer>
+        </>
+      )}
     </>
   );
 }
@@ -505,6 +533,8 @@ function Profile(props: {
   }[];
   maxPosts: number;
 }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Flex
@@ -568,7 +598,7 @@ function Profile(props: {
                   w={"100%"}
                 >
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]}>
-                    About
+                    {t("community:about")}
                   </Heading>
                   <Text
                     textAlign={"left"}
@@ -577,7 +607,7 @@ function Profile(props: {
                     &quot;{props.profile.bio}&quot;
                   </Text>
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]} mt={"2rem"}>
-                    Information
+                    {t("community:information")}
                   </Heading>
                   <Box textAlign={"left"} color={"gray.400"}>
                     {props.profile.verified ? (
@@ -588,7 +618,8 @@ function Profile(props: {
                         mt={".3rem"}
                         color={"green.400"}
                       >
-                        <FaCheckCircle /> Official Account
+                        <FaCheckCircle />
+                        &nbsp;{t("community:verified")}
                       </Box>
                     ) : null}
                     {props.profile.specialStatus.length > 0 ? (
@@ -619,7 +650,8 @@ function Profile(props: {
                         gap={".4rem"}
                         mt={".3rem"}
                       >
-                        <FaBirthdayCake />{" "}
+                        <FaBirthdayCake />
+                        &nbsp;
                         {new Date(props.profile.birthday).toLocaleDateString()}
                       </Box>
                     ) : null}
@@ -628,7 +660,7 @@ function Profile(props: {
               </Box>
               <Box flex={["100%", "60%"]}>
                 <Heading mb={"4rem"} textAlign={"center"}>
-                  Posts
+                  {t("community:posts")}
                 </Heading>
                 {props.currentPosts.map((post) => {
                   // eslint-disable-next-line react/jsx-key
@@ -646,7 +678,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    Previous
+                    {t("common:previous")}
                   </Button>
                   <Button
                     flex={"100%"}
@@ -658,7 +690,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    Next
+                    {t("common:next")}
                   </Button>
                 </ButtonGroup>
               </Box>
@@ -668,4 +700,18 @@ function Profile(props: {
       </Flex>
     </>
   );
+}
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "account",
+        "navbar",
+        "footer",
+        "community",
+      ])),
+    },
+  };
 }

@@ -24,6 +24,7 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileAvatarModifier(props: {
   isOpen: boolean;
@@ -35,6 +36,8 @@ export default function ProfileAvatarModifier(props: {
 
   const toast = useToast();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Modal
@@ -45,14 +48,14 @@ export default function ProfileAvatarModifier(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Upload new Avatar</ModalHeader>
+          <ModalHeader>{t("community:upload-avatar")}</ModalHeader>
           <ModalCloseButton disabled={loading} />
           <ModalBody>
             {loading ? (
               <Spinner />
             ) : (
               <FormControl isInvalid={fileInvalid}>
-                <FormLabel>Profile Picture</FormLabel>
+                <FormLabel>{t("community:profile_picture")}</FormLabel>
                 <input
                   type="file"
                   onChange={(e) => {
@@ -97,9 +100,10 @@ export default function ProfileAvatarModifier(props: {
                               }).then((uRes) => {
                                 if (uRes.status === 200) {
                                   toast({
-                                    title: "Profile Updated",
-                                    description:
-                                      "Your profile has been updated successfully",
+                                    title: t("profile_updated"),
+                                    description: t(
+                                      "profile_updated-description"
+                                    ),
                                     status: "success",
                                     position: "top",
                                     duration: 3000,
@@ -109,8 +113,10 @@ export default function ProfileAvatarModifier(props: {
                                   });
                                 } else {
                                   toast({
-                                    title: "Profile Update Failed",
-                                    description: "Your profile update failed",
+                                    title: t("common:error"),
+                                    description: t(
+                                      "community:profile_updated-error"
+                                    ),
                                     status: "error",
                                   });
                                 }
@@ -125,14 +131,14 @@ export default function ProfileAvatarModifier(props: {
                   }}
                 />
                 <FormErrorMessage>
-                  The selected file is not an image or is over the limit of 8MB
+                  {t("community:upload-image_error")}
                 </FormErrorMessage>
               </FormControl>
             )}
           </ModalBody>
           <ModalFooter>
             <Button onClick={props.onClose} disabled={loading}>
-              Close
+              {t("common:close")}
             </Button>
           </ModalFooter>
         </ModalContent>

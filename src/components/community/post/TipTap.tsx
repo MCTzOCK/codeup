@@ -34,8 +34,11 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "next-i18next";
 
 const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
+  const { t } = useTranslation();
+
   if (!editor) {
     return null;
   }
@@ -57,7 +60,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Size
+          {t("community:tt-size")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -69,7 +72,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 1 }) ? "is-active" : ""
             }
           >
-            Huge
+            {t("community:tt-size_huge")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -80,7 +83,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 2 }) ? "is-active" : ""
             }
           >
-            Large
+            {t("community:tt-size_large")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -91,14 +94,14 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 3 }) ? "is-active" : ""
             }
           >
-            Medium
+            {t("community:tt-size_medium")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setParagraph().run()}
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("paragraph") ? "is-active" : ""}
           >
-            Normal
+            {t("community:tt-size_normal")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -109,7 +112,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Decoration
+          {t("community:tt-decoration")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -117,21 +120,21 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("bold") ? "is-active" : ""}
           >
-            Bold
+            {t("community:tt-decoration_bold")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleItalic().run()}
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("italic") ? "is-active" : ""}
           >
-            Italic
+            {t("community:tt-decoration_italic")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleStrike().run()}
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("strikeThrough") ? "is-active" : ""}
           >
-            Strike
+            {t("community:tt-decoration_strikeThrough")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -142,7 +145,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Highlight
+          {t("community:tt-highlight")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -150,7 +153,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("highlight") ? "is-active" : ""}
           >
-            Yellow
+            {t("community:tt-highlight_yellow")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -161,7 +164,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("highlight", { color: "red" }) ? "is-active" : ""
             }
           >
-            Red
+            {t("community:tt-highlight_red")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -174,7 +177,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
                 : ""
             }
           >
-            Green
+            {t("community:tt-highlight_green")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -185,7 +188,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("highlight", { color: "blue" }) ? "is-active" : ""
             }
           >
-            Blue
+            {t("community:tt-highlight_blue")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -196,7 +199,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Align
+          {t("community:tt-align")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -206,7 +209,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Left
+            {t("community:tt-align_left")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setTextAlign("center").run()}
@@ -215,7 +218,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "center" }) ? "is-active" : ""
             }
           >
-            Center
+            {t("community:tt-align_center")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setTextAlign("right").run()}
@@ -224,16 +227,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "right" }) ? "is-active" : ""
             }
           >
-            Right
-          </MenuItem>
-          <MenuItem
-            onClick={() => editor.chain().focus().setTextAlign("justify").run()}
-            style={{ flex: "1 1 auto" }}
-            className={
-              editor.isActive({ textAlign: "justify" }) ? "is-active" : ""
-            }
-          >
-            Justify
+            {t("community:tt-align_right")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -244,7 +238,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          List
+          {t("community:tt-list")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -254,7 +248,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Bullet List
+            {t("community:tt-list_bullet")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -263,7 +257,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "center" }) ? "is-active" : ""
             }
           >
-            Ordered List
+            {t("community:tt-list_ordered")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -274,7 +268,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Code
+          {t("community:tt-code")}
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -284,7 +278,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Inline Code
+            {t("community:tt-code_inline")}
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
@@ -293,7 +287,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "center" }) ? "is-active" : ""
             }
           >
-            Code Block
+            {t("community:tt-code_block")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -306,7 +300,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             onOpen();
           }}
         >
-          Image
+          {t("community:tt-image")}
         </MenuButton>
       </Menu>
       <Menu>
@@ -316,14 +310,14 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Font
+          {t("community:tt-font")}
         </MenuButton>
         <MenuList>
           <MenuItem
             onClick={() => editor.chain().focus().unsetFontFamily().run()}
             style={{ flex: "1 1 auto" }}
           >
-            Default
+            {t("community:tt-font_default")}
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -366,12 +360,12 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             ).click();
           }}
         >
-          Color
+          {t("community:tt-color")}
         </MenuButton>
         <input
           type="color"
-          // @ts-ignore
           onInput={(event) =>
+            // @ts-ignore
             editor.chain().focus().setColor(event.target.value).run()
           }
           value={editor.getAttributes("textStyle").color}
@@ -420,6 +414,8 @@ const TipTap = (props: {
   const router = useRouter();
   const toast = useToast();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <PostMediaUploader
@@ -452,9 +448,8 @@ const TipTap = (props: {
                 if (data.success) {
                   if (props.parentPost) {
                     toast({
-                      title: "Comment created!",
-                      description:
-                        "Your comment has been created and will be visible soon.",
+                      title: t("community:comment-created"),
+                      description: t("community:comment-created_description"),
                       status: "success",
                       duration: 6000,
                       isClosable: false,
@@ -468,7 +463,7 @@ const TipTap = (props: {
                   }
                 } else {
                   toast({
-                    title: "Error",
+                    title: t("common:error"),
                     description: data.error,
                     status: "error",
                     duration: 9000,
@@ -478,7 +473,7 @@ const TipTap = (props: {
             });
           }}
         >
-          Publish
+          {t("community:publish")}
         </Button>
       </Box>
     </>

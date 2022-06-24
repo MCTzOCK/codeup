@@ -11,8 +11,11 @@
 import * as React from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { BsQuestionSquareFill } from "react-icons/bs";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileNotFound() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Flex
@@ -33,7 +36,7 @@ export default function ProfileNotFound() {
         >
           <BsQuestionSquareFill />
           <Heading color={"white"} mt={"1.2rem"}>
-            Not Found
+            {t("common:not-found")}
           </Heading>
           <Text
             color={"white"}
@@ -42,7 +45,7 @@ export default function ProfileNotFound() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            The profile you are looking for does not exist.
+            {t("community:profile_not-found")}
           </Text>
         </Heading>
       </Flex>

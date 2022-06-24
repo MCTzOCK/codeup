@@ -10,11 +10,13 @@
 
 import * as React from "react";
 import { Badge, Flex, Tooltip } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function ProfileBadges(props: {
   verified: boolean;
   specialStatus: string;
 }) {
+  const { t } = useTranslation();
   return (
     <>
       <Flex
@@ -26,14 +28,14 @@ export default function ProfileBadges(props: {
         alignItems={"center"}
       >
         {props.verified ? (
-          <Tooltip label={"Official Account"} hasArrow>
+          <Tooltip label={t("community:verified")} hasArrow>
             <Badge
               ml={"1"}
               p={".2rem"}
               colorScheme="green"
               display={"block ruby"}
             >
-              Official
+              {t("community:verified")}
             </Badge>
           </Tooltip>
         ) : null}
@@ -45,7 +47,7 @@ export default function ProfileBadges(props: {
               colorScheme="yellow"
               display={"block ruby"}
             >
-              Special
+              {t("community:special")}
             </Badge>
           </Tooltip>
         ) : null}

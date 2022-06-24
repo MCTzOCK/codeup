@@ -25,6 +25,8 @@ import {
 } from "@chakra-ui/react";
 import redirect from "../../../util/userworkflow/redirect";
 import useHasProfile from "../../../hooks/hasProfile";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function Create() {
   const hasProfile = useHasProfile();
@@ -42,6 +44,8 @@ export default function Create() {
 
   const [displayNameInvalid, setDisplayNameInvalid] = useState(false);
   const [bioInvalid, setBioInvalid] = useState(false);
+
+  const { t } = useTranslation();
 
   const toast = useToast({
     position: "top",
@@ -65,7 +69,9 @@ export default function Create() {
             flexDirection={"column"}
             as={"div"}
           >
-            <Heading color={"white"}>Create your profile</Heading>
+            <Heading color={"white"}>
+              {t("community:create-your-profile")}
+            </Heading>
           </Heading>
           <form
             onSubmit={(e) => {
@@ -92,9 +98,8 @@ export default function Create() {
                 res.json().then((data) => {
                   if (data.success) {
                     toast({
-                      title: "Profile created",
-                      description:
-                        "Your profile has been created successfully. You will be redirected soon.",
+                      title: t("common:success"),
+                      description: t("community:profile-created"),
                       status: "success",
                       duration: 3000,
                       onCloseComplete: () => {
@@ -107,11 +112,13 @@ export default function Create() {
             }}
           >
             <FormControl isInvalid={displayNameInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"displayName"}>Display Name</FormLabel>
+              <FormLabel htmlFor={"displayName"}>
+                {t("community:display-name")}
+              </FormLabel>
               <InputGroup>
                 <Input
                   name={"displayName"}
-                  placeholder={"Display Name"}
+                  placeholder={t("community:display-name")}
                   onChange={(e) => {
                     // @ts-ignore
                     if (e.target.value.length > 0) {
@@ -122,14 +129,16 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>Display Name is required</FormErrorMessage>
+              <FormErrorMessage>
+                {t("community:display-name-required")}
+              </FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={bioInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"bio"}>Biography</FormLabel>
+              <FormLabel htmlFor={"bio"}>{t("community:biography")}</FormLabel>
               <InputGroup>
                 <Textarea
                   name={"bio"}
-                  placeholder={"Biography"}
+                  placeholder={t("community:biography")}
                   onChange={(e) => {
                     // @ts-ignore
                     if (e.target.value.length > 0) {
@@ -140,11 +149,13 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>Biography is required</FormErrorMessage>
+              <FormErrorMessage>
+                {t("community:biography-required")}
+              </FormErrorMessage>
             </FormControl>
             <Box mt={"2rem"} textAlign={"center"}>
               <Button type={"submit"} colorScheme={"whatsapp"}>
-                Create
+                {t("common:create")}
               </Button>
             </Box>
           </form>
@@ -152,4 +163,18 @@ export default function Create() {
       </Flex>
     </>
   );
+}
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "account",
+        "navbar",
+        "footer",
+        "community",
+      ])),
+    },
+  };
 }
