@@ -170,15 +170,27 @@ export default function NavigationBar() {
             <FaLanguage />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <Link href={"/de" + router.pathname} locale={false}>
-                Deutsch (german)
-              </Link>
+            <MenuItem
+              onClick={() => {
+                router.push(
+                  { pathname: router.pathname, query: router.query },
+                  router.asPath,
+                  { locale: "de" }
+                );
+              }}
+            >
+              Deutsch (german)
             </MenuItem>
-            <MenuItem>
-              <Link href={"/en" + router.pathname} locale={false}>
-                English (english)
-              </Link>
+            <MenuItem
+              onClick={() => {
+                router.push(
+                  { pathname: router.pathname, query: router.query },
+                  router.asPath,
+                  { locale: "en" }
+                );
+              }}
+            >
+              English (english)
             </MenuItem>
           </MenuList>
         </ChakraMenu>

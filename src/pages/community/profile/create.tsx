@@ -24,7 +24,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import redirect from "../../../util/userworkflow/redirect";
-import useHasProfile from "../../../hooks/hasProfile";
+import useHasProfile from "../../../hooks/useHasProfile";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 

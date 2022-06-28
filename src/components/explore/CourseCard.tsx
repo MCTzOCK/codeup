@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Badge,
   Box,
@@ -16,12 +17,46 @@ import {
   Flex,
   Heading,
   Image,
-  Link,
   Text,
 } from "@chakra-ui/react";
 import { Course } from "../../util/courses/Course";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 export default function CourseCard(props: { course: Course }) {
+  const { t } = useTranslation();
+  const router = useRouter();
+
+  const [started, setStarted] = useState({
+    started: false,
+    loading: true,
+  });
+
+  useEffect(() => {
+    fetch("/api/course/started", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+        course: props.course.name,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        setStarted({
+          started: true,
+          loading: false,
+        });
+      } else {
+        setStarted({
+          started: false,
+          loading: false,
+        });
+      }
+    });
+  }, []);
+
   return (
     <>
       <Box shadow={"xl"} rounded={"xl"} bg={"gray.900"}>
@@ -50,16 +85,36 @@ export default function CourseCard(props: { course: Course }) {
                         : "gray"
                     }
                   >
-                    {props.course.level}
+                    {t("explore:level-" + props.course.level)}
                   </Badge>
                 </Flex>
                 <Flex mt={"1.2rem"}>
                   <Button
                     colorScheme={props.course.colorScheme}
-                    as={Link}
-                    href={"/course/" + props.course.name}
+                    disabled={started.loading}
+                    isLoading={started.loading}
+                    onClick={() => {
+                      if (!started.loading && !started.started) {
+                        fetch("/api/course/start", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            token: localStorage.getItem("token"),
+                            course: props.course.name,
+                          }),
+                        }).then((res) => {
+                          router.push("/course/" + props.course.name);
+                        });
+                      } else {
+                        router.push("/course/" + props.course.name);
+                      }
+                    }}
                   >
-                    Start Course
+                    {started.started
+                      ? t("explore:continue-course")
+                      : t("explore:start-course")}
                   </Button>
                 </Flex>
               </Flex>

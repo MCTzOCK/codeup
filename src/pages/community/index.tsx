@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import useHasProfile from "../../hooks/hasProfile";
+import useHasProfile from "../../hooks/useHasProfile";
 import useUserInfo from "../../hooks/useUserInfo";
 import redirect from "../../util/userworkflow/redirect";
 import { AiFillPlusSquare } from "react-icons/ai";

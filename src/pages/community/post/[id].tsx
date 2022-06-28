@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import PostCard from "../../../components/community/post/PostCard";
-import useHasProfile from "../../../hooks/hasProfile";
+import useHasProfile from "../../../hooks/useHasProfile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 

@@ -71,7 +71,7 @@ import {
 import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
 import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
 import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
-import useHasProfile from "../../../hooks/hasProfile";
+import useHasProfile from "../../../hooks/useHasProfile";
 import PostCard from "../../../components/community/post/PostCard";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";

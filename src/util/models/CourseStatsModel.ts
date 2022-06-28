@@ -16,8 +16,23 @@ const CourseStats = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  course: {},
+  course: {
+    type: String,
+    required: true,
+  },
+  started: {
+    type: Boolean,
+    required: true,
+  },
+  currentSection: {
+    type: String,
+    required: true,
+  },
+  finished: {
+    type: Boolean,
+    required: true,
+  },
 });
 
-export default mongoose.models?.CommunityPost ||
+export default mongoose.models?.CourseStats ||
   mongoose.model("CourseStats", CourseStats);
