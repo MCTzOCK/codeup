@@ -18,7 +18,7 @@ export default function CourseLayout(props: {
   return (
     <>
       <Flex w={"100%"} justifyContent={"center"}>
-        <Box maxW={["100%", "65%"]} padding={"2rem"}>
+        <Box maxW={["100%", "65%"]} minW={["100%", "65%"]} padding={"2rem"}>
           {props.children}
         </Box>
       </Flex>

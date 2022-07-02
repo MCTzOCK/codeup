@@ -39,8 +39,6 @@ export default function Search() {
     }
   }, []);
 
-  const { t } = useTranslation();
-
   const router = useRouter();
 
   const [results, setResults] = useState<{ posts: []; profiles: [] }>({
@@ -82,7 +80,7 @@ export default function Search() {
             }}
             type={"text"}
             defaultValue={term}
-            placeholder={t("community:search") + "..."}
+            placeholder={"Search..."}
           />
           <InputRightAddon cursor={"pointer"} onClick={() => {}}>
             <FaSearch />
@@ -93,7 +91,7 @@ export default function Search() {
       results.profiles.length > 0 ? (
         <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={"2rem"}>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>{t("community:posts")}</Heading>
+            <Heading textAlign={"center"}>Posts</Heading>
             {
               // @ts-ignore
               results.posts
@@ -115,7 +113,7 @@ export default function Search() {
             }
           </Box>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>{t("community:profiles")}</Heading>
+            <Heading textAlign={"center"}>Profiles</Heading>
             {
               // @ts-ignore
               results.profiles
@@ -156,18 +154,4 @@ export default function Search() {
       ) : null}
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "community",
-      ])),
-    },
-  };
 }

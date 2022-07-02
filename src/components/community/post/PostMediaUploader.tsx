@@ -34,22 +34,20 @@ export default function PostMediaUploader(props: {
 }) {
   const [fileInvalid, setFileInvalid] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const { t } = useTranslation();
-
   const toast = useToast();
 
   return (
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{t("community:upload-image")}</ModalHeader>
+        <ModalHeader>Upload Image</ModalHeader>
         <ModalCloseButton disabled={loading} />
         <ModalBody>
           {loading ? (
             <Spinner />
           ) : (
             <FormControl isInvalid={fileInvalid}>
-              <FormLabel>{t("community:tt-image")}</FormLabel>
+              <FormLabel>Image</FormLabel>
               <input
                 type="file"
                 onChange={(e) => {
@@ -96,14 +94,14 @@ export default function PostMediaUploader(props: {
                 }}
               />
               <FormErrorMessage>
-                {t("community:upload-image_error")}
+                The selected file is not an image or is over the limit of 8MB
               </FormErrorMessage>
             </FormControl>
           )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={props.onClose} disabled={loading}>
-            {t("common:close")}
+            Close
           </Button>
         </ModalFooter>
       </ModalContent>

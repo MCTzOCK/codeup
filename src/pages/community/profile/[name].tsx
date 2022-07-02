@@ -79,8 +79,6 @@ import { useTranslation } from "next-i18next";
 export default function ProfileView() {
   const router = useRouter();
 
-  const { t } = useTranslation();
-
   const [profile, setProfile] = useState({
     _id: "",
     user: "",
@@ -195,8 +193,8 @@ export default function ProfileView() {
             setCurrentPosts(data.posts);
           } else {
             toast({
-              title: t("common:error"),
-              description: t("community:profile_error-load-posts"),
+              title: "Error",
+              description: "Could not load posts",
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -220,8 +218,8 @@ export default function ProfileView() {
             setMaxPosts(data.postCount);
           } else {
             toast({
-              title: t("common:error"),
-              description: t("community:profile_error-load-posts"),
+              title: "Error",
+              description: "Could not load posts",
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -348,8 +346,9 @@ export default function ProfileView() {
                   }).then((res) => {
                     if (res.status === 200) {
                       toast({
-                        title: t("community:profile_updated"),
-                        description: t("community:profile_updated-description"),
+                        title: "Profile updated",
+                        description:
+                          "Your profile has been updated successfully",
                         status: "success",
                         position: "top",
                         duration: 3000,
@@ -359,8 +358,8 @@ export default function ProfileView() {
                       });
                     } else {
                       toast({
-                        title: t("common:error"),
-                        description: t("community:profile_updated-error"),
+                        title: "Error",
+                        description: "Your profile could not be updated.",
                         status: "error",
                       });
                     }
@@ -368,7 +367,7 @@ export default function ProfileView() {
                 }}
               >
                 <DrawerCloseButton />
-                <DrawerHeader>{t("community:profile_edit")}</DrawerHeader>
+                <DrawerHeader>Edit Profile</DrawerHeader>
 
                 <DrawerBody>
                   <Flex flexDirection="column" gap={"2rem"}>
@@ -388,7 +387,7 @@ export default function ProfileView() {
                     </Box>
                     <Box textAlign={"center"}>
                       <Image
-                        alt={t("community:profile_banner")}
+                        alt={"Profile Banner"}
                         src={profile.profileBanner}
                         w={"100%"}
                         borderColor={"#FFF"}
@@ -401,62 +400,56 @@ export default function ProfileView() {
                       />
                     </Box>
                     <FormControl isInvalid={!displayNameValid}>
-                      <FormLabel>{t("community:display-name")}</FormLabel>
+                      <FormLabel>Display Name</FormLabel>
                       <Input
                         id={"displayName"}
-                        placeholder={t("community:display-name")}
+                        placeholder={"Display Name"}
                         defaultValue={profile.displayName}
                       />
                       <FormErrorMessage>
-                        {t("community:display-name-invalid")}
+                        Display Name is invalid.
                       </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!bioValid}>
-                      <FormLabel>{t("community:biography")}</FormLabel>
+                      <FormLabel>Biography</FormLabel>
                       <Textarea
                         id={"biography"}
-                        placeholder={t("community:biography")}
+                        placeholder={"Biography"}
                         defaultValue={profile.bio}
                         maxLength={256}
                       />
-                      <FormErrorMessage>
-                        {t("community:biography-invalid")}
-                      </FormErrorMessage>
+                      <FormErrorMessage>Biography is invalid.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!websiteValid}>
-                      <FormLabel>{t("community:website")}</FormLabel>
+                      <FormLabel>Website</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaGlobe />
                         </InputLeftAddon>
                         <Input
                           id={"website"}
-                          placeholder={t("community:website")}
+                          placeholder={"Website"}
                           defaultValue={profile.website}
                         />
                       </InputGroup>
-                      <FormErrorMessage>
-                        {t("community:website-invalid")}
-                      </FormErrorMessage>
+                      <FormErrorMessage>Website is invalid.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!locationValid}>
-                      <FormLabel>{t("community:location")}</FormLabel>
+                      <FormLabel>Location</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaMapMarkerAlt />
                         </InputLeftAddon>
                         <Input
                           id={"location"}
-                          placeholder={t("community:location")}
+                          placeholder={"Location"}
                           defaultValue={profile.location}
                         />
                       </InputGroup>
-                      <FormErrorMessage>
-                        {t("community:location-invalid")}
-                      </FormErrorMessage>
+                      <FormErrorMessage>Location is invalid.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!birthdayValid}>
-                      <FormLabel>{t("community:birthday")}</FormLabel>
+                      <FormLabel>Birthday</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaBirthdayCake />
@@ -464,23 +457,21 @@ export default function ProfileView() {
                         <Input
                           id={"birthday"}
                           type={"date"}
-                          placeholder={t("community:birthday")}
+                          placeholder={"Birthday"}
                           defaultValue={profile.birthday}
                         />
                       </InputGroup>
-                      <FormErrorMessage>
-                        {t("community:birthday-invalid")}
-                      </FormErrorMessage>
+                      <FormErrorMessage>Birthday is invalid.</FormErrorMessage>
                     </FormControl>
                   </Flex>
                 </DrawerBody>
 
                 <DrawerFooter>
                   <Button variant="outline" mr={3} onClick={onEditClose}>
-                    {t("common:cancel")}
+                    Cancel
                   </Button>
                   <Button colorScheme="blue" type={"submit"}>
-                    {t("common:save")}
+                    Save
                   </Button>
                 </DrawerFooter>
               </form>
@@ -533,8 +524,6 @@ function Profile(props: {
   }[];
   maxPosts: number;
 }) {
-  const { t } = useTranslation();
-
   return (
     <>
       <Flex
@@ -598,7 +587,7 @@ function Profile(props: {
                   w={"100%"}
                 >
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]}>
-                    {t("community:about")}
+                    About
                   </Heading>
                   <Text
                     textAlign={"left"}
@@ -607,7 +596,7 @@ function Profile(props: {
                     &quot;{props.profile.bio}&quot;
                   </Text>
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]} mt={"2rem"}>
-                    {t("community:information")}
+                    Information
                   </Heading>
                   <Box textAlign={"left"} color={"gray.400"}>
                     {props.profile.verified ? (
@@ -619,7 +608,7 @@ function Profile(props: {
                         color={"green.400"}
                       >
                         <FaCheckCircle />
-                        &nbsp;{t("community:verified")}
+                        &nbsp;Official Account
                       </Box>
                     ) : null}
                     {props.profile.specialStatus.length > 0 ? (
@@ -660,7 +649,7 @@ function Profile(props: {
               </Box>
               <Box flex={["100%", "60%"]}>
                 <Heading mb={"4rem"} textAlign={"center"}>
-                  {t("community:posts")}
+                  Posts
                 </Heading>
                 {props.currentPosts.map((post) => {
                   // eslint-disable-next-line react/jsx-key
@@ -678,7 +667,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    {t("common:previous")}
+                    Previous
                   </Button>
                   <Button
                     flex={"100%"}
@@ -690,7 +679,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    {t("common:next")}
+                    Next
                   </Button>
                 </ButtonGroup>
               </Box>
@@ -700,18 +689,4 @@ function Profile(props: {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "community",
-      ])),
-    },
-  };
 }

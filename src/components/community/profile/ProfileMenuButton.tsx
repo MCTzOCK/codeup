@@ -69,8 +69,6 @@ export default function ProfileMenuButton(props: {
     }
   }, [userInfo, props.profile.username]);
 
-  const { t } = useTranslation();
-
   return (
     <Box mt={"1.2rem"} textAlign={"center"}>
       <Button
@@ -98,7 +96,7 @@ export default function ProfileMenuButton(props: {
           });
         }}
       >
-        {isFollowing ? t("community:unfollow") : t("community:follow")}
+        {isFollowing ? "Unfollow" : "Follow"}
       </Button>
       <Menu>
         <MenuButton
@@ -106,7 +104,7 @@ export default function ProfileMenuButton(props: {
           icon={<GiHamburgerMenu />}
           colorScheme={"gray"}
         >
-          {t("common:actions")}
+          Actions
         </MenuButton>
         <MenuList>
           {props.profile.website.length > 0 ? (
@@ -115,13 +113,11 @@ export default function ProfileMenuButton(props: {
                 window.open(props.profile.website, "_blank");
               }}
             >
-              {t("community:website")}
+              Website
             </MenuItem>
           ) : null}
           {isOwner ? (
-            <MenuItem onClick={props.editProfile.onEditOpen}>
-              {t("common:edit")}
-            </MenuItem>
+            <MenuItem onClick={props.editProfile.onEditOpen}>Edit</MenuItem>
           ) : null}
           <MenuItem
             onClick={() => {
@@ -129,7 +125,7 @@ export default function ProfileMenuButton(props: {
                 "/community/profile/" + props.profile.username + "/report";
             }}
           >
-            {t("community:report")}
+            Report
           </MenuItem>
         </MenuList>
       </Menu>

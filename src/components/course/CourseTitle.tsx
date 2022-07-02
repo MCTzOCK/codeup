@@ -17,15 +17,13 @@ export default function CourseTitle(props: {
   section: number;
   sectionTitle: string;
 }) {
-  const { t } = useTranslation();
-
   return (
     <>
       <Text textAlign={"center"} color={"gray.400"}>
         {props.course}
       </Text>
       <Heading textAlign={"center"}>
-        {t("course:section")}&nbsp;{props.section}:&nbsp;
+        Section&nbsp;{props.section}:&nbsp;
         {props.sectionTitle}
       </Heading>
     </>

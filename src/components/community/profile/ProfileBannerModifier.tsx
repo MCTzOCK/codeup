@@ -35,7 +35,6 @@ export default function ProfileBannerModifier(props: {
   const [loading, setLoading] = React.useState(false);
 
   const toast = useToast();
-  const { t } = useTranslation();
 
   return (
     <>
@@ -47,14 +46,14 @@ export default function ProfileBannerModifier(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t("community:upload-banner")}</ModalHeader>
+          <ModalHeader>Upload Banner</ModalHeader>
           <ModalCloseButton disabled={loading} />
           <ModalBody>
             {loading ? (
               <Spinner />
             ) : (
               <FormControl isInvalid={fileInvalid}>
-                <FormLabel>{t("community:profile_banner")}</FormLabel>
+                <FormLabel>Profile Banner</FormLabel>
                 <input
                   type="file"
                   onChange={(e) => {
@@ -99,10 +98,9 @@ export default function ProfileBannerModifier(props: {
                               }).then((uRes) => {
                                 if (uRes.status === 200) {
                                   toast({
-                                    title: t("community:profile_updated"),
-                                    description: t(
-                                      "community:profile_updated-description"
-                                    ),
+                                    title: "Profile Updated",
+                                    description:
+                                      "Your profile was successfully updated.",
                                     status: "success",
                                     position: "top",
                                     duration: 3000,
@@ -112,10 +110,9 @@ export default function ProfileBannerModifier(props: {
                                   });
                                 } else {
                                   toast({
-                                    title: t("common:error"),
-                                    description: t(
-                                      "community:profile_updated-error"
-                                    ),
+                                    title: "Error",
+                                    description:
+                                      "Could not update your profile.",
                                     status: "error",
                                   });
                                 }
@@ -130,14 +127,14 @@ export default function ProfileBannerModifier(props: {
                   }}
                 />
                 <FormErrorMessage>
-                  {t("community:profile-image_error")}
+                  The selected file is not an image or is over the limit of 8MB
                 </FormErrorMessage>
               </FormControl>
             )}
           </ModalBody>
           <ModalFooter>
             <Button onClick={props.onClose} disabled={loading}>
-              {t("common:close")}
+              Close
             </Button>
           </ModalFooter>
         </ModalContent>

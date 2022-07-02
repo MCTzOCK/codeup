@@ -9,24 +9,8 @@
  */
 
 import * as React from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "react-i18next";
+import { Player } from "@remotion/player";
 
 export default function Home(props: { locale: string }) {
-  const { t } = useTranslation();
-
-  return <>{t("common:home")}</>;
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-      ])),
-    },
-  };
+  return <></>;
 }

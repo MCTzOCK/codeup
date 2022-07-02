@@ -14,8 +14,6 @@ import { BsQuestionSquareFill } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 
 export default function ProfileNotFound() {
-  const { t } = useTranslation();
-
   return (
     <>
       <Flex
@@ -36,7 +34,7 @@ export default function ProfileNotFound() {
         >
           <BsQuestionSquareFill />
           <Heading color={"white"} mt={"1.2rem"}>
-            {t("common:not-found")}
+            Not Found
           </Heading>
           <Text
             color={"white"}
@@ -45,7 +43,7 @@ export default function ProfileNotFound() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            {t("community:profile_not-found")}
+            The profile you were looking for does not exist.
           </Text>
         </Heading>
       </Flex>

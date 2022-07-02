@@ -59,7 +59,6 @@ export default function Register() {
   const [alertType, setAlertType] = React.useState<
     "error" | "info" | "success" | "warning"
   >("error");
-  const { t } = useTranslation();
 
   useEffect(() => {
     redirect({
@@ -99,16 +98,15 @@ export default function Register() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>{t("account:register")}</Heading>
+              <Heading size={"xl"}>Register</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                {t("register:subtitle_start")}&nbsp;
+                Create an account or&nbsp;
                 <Link href={"/account/login"}>
                   <ChakraLink color={"blue.400"} href={"/account/login"}>
-                    {t("account:login")}
+                    Login
                   </ChakraLink>
                 </Link>
-                &nbsp;
-                {t("register:subtitle_end")}
+                &nbsp;to an existing one.
               </Text>
             </Flex>
             <form
@@ -178,12 +176,10 @@ export default function Register() {
             >
               <Flex direction={"column"} gap={"2rem"}>
                 <FormControl isInvalid={usernameInvalid}>
-                  <FormLabel htmlFor={"username"}>
-                    {t("account:username")}
-                  </FormLabel>
+                  <FormLabel htmlFor={"username"}>Username</FormLabel>
                   <Input
                     id={"username"}
-                    placeholder={t("account:username")}
+                    placeholder={"Username"}
                     onChange={(e) => {
                       fetch("/api/account/check-username/" + e.target.value, {
                         method: "GET",
@@ -201,17 +197,15 @@ export default function Register() {
                     }}
                   />
                   <FormErrorMessage>
-                    {t("register:err-username-not-available")}
+                    This username is not available.
                   </FormErrorMessage>
                 </FormControl>
                 <Flex direction={"row"} gap={"2rem"}>
                   <FormControl isInvalid={firstNameInvalid}>
-                    <FormLabel htmlFor={"firstName"}>
-                      {t("account:first-name")}
-                    </FormLabel>
+                    <FormLabel htmlFor={"firstName"}>First Name</FormLabel>
                     <Input
                       id={"firstName"}
-                      placeholder={t("account:first-name")}
+                      placeholder={"First Name"}
                       onChange={(e) => {
                         if (e.target.value.length > 0) {
                           setFirstNameInvalid(false);
@@ -222,16 +216,14 @@ export default function Register() {
                       }}
                     />
                     <FormErrorMessage>
-                      {t("register:err-enter-first-name")}
+                      Please enter your First Name
                     </FormErrorMessage>
                   </FormControl>
                   <FormControl isInvalid={lastNameInvalid}>
-                    <FormLabel htmlFor={"lastName"}>
-                      {t("account:last-name")}
-                    </FormLabel>
+                    <FormLabel htmlFor={"lastName"}>Last Name</FormLabel>
                     <Input
                       id={"lastName"}
-                      placeholder={t("account:last-name")}
+                      placeholder={"Last Name"}
                       onChange={(e) => {
                         if (e.target.value.length > 0) {
                           setLastNameInvalid(false);
@@ -242,7 +234,7 @@ export default function Register() {
                       }}
                     />
                     <FormErrorMessage>
-                      {t("register:err-enter-last-name")}
+                      Please enter your Last Name
                     </FormErrorMessage>
                   </FormControl>
                 </Flex>
@@ -265,17 +257,15 @@ export default function Register() {
                     }}
                   />
                   <FormErrorMessage>
-                    {t("register:err-enter-valid-email")}
+                    Please enter a valid E-Mail
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={passwordInvalid}>
-                  <FormLabel htmlFor={"password"}>
-                    {t("account:password")}
-                  </FormLabel>
+                  <FormLabel htmlFor={"password"}>Password</FormLabel>
                   <InputGroup>
                     <Input
                       id={"password"}
-                      placeholder={t("account:Password")}
+                      placeholder={"Password"}
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         if (
@@ -300,17 +290,19 @@ export default function Register() {
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>
-                    {t("register:err-password-not-valid")}
+                    Please enter a password with at least 8 characters, one
+                    uppercase, one lowercase, one number and one special
+                    character
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={passwordConfirmInvalid}>
                   <FormLabel htmlFor={"passwordConfirm"}>
-                    {t("register:confirm-password")}
+                    Confirm Password
                   </FormLabel>
                   <InputGroup>
                     <Input
                       id={"passwordConfirm"}
-                      placeholder={t("register:confirm-password")}
+                      placeholder={"Confirm Password"}
                       type={passwordConfirmVisible ? "text" : "password"}
                       onChange={(e) => {
                         if (e.target.value === password) {
@@ -335,26 +327,24 @@ export default function Register() {
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>
-                    {t("register:err-password-not-match")}
+                    The passwords do not match.
                   </FormErrorMessage>
                 </FormControl>
                 <Button variant={"solid"} type={"submit"}>
-                  {t("account:register")}
+                  Register
                 </Button>
               </Flex>
               <Text textAlign={"center"} mt={"1rem"}>
-                {t("register:by-registering")}&nbsp;
+                By registering, you agree to our&nbsp;
                 <Link href={"/legal/tos"}>
                   <ChakraLink href={"/legal/tos"} color={"blue.400"}>
-                    {t("common:terms-of-service")}
+                    Terms of Service
                   </ChakraLink>
                 </Link>
-                &nbsp;
-                {t("common:and")}
-                &nbsp;
+                &nbsp; and &nbsp;
                 <Link href={"/legal/privacy"}>
                   <ChakraLink href={"/legal/privacy"} color={"blue.400"}>
-                    {t("common:privacy-policy")}
+                    Privacy Policy
                   </ChakraLink>
                 </Link>
               </Text>
@@ -364,18 +354,4 @@ export default function Register() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "register",
-      ])),
-    },
-  };
 }

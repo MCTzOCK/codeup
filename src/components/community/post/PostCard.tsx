@@ -38,8 +38,6 @@ export default function PostCard(props: { id: string }) {
   const router = useRouter();
   const [showEditor, setShowEditor] = useState(false);
 
-  const { t } = useTranslation();
-
   const [post, setPost] = useState<{
     _id: string;
     user: string;
@@ -189,8 +187,8 @@ export default function PostCard(props: { id: string }) {
                         res.json().then((data) => {
                           if (data.success) {
                             toast({
-                              title: t("common:success"),
-                              description: t("community:post-deleted"),
+                              title: "Success",
+                              description: "Post deleted",
                               status: "success",
                               duration: 6000,
                               position: "top",
@@ -213,7 +211,7 @@ export default function PostCard(props: { id: string }) {
                       });
                     }}
                   >
-                    {t("common:delete")}
+                    Delete
                   </MenuItem>
                 ) : null}
                 <MenuItem
@@ -227,8 +225,8 @@ export default function PostCard(props: { id: string }) {
                       )
                       .then(() => {
                         toast({
-                          title: t("common:success"),
-                          description: t("common:link-copied"),
+                          title: "Success",
+                          description: "Link copied to clipboard",
                           status: "success",
                           duration: 3000,
                           isClosable: true,
@@ -237,7 +235,7 @@ export default function PostCard(props: { id: string }) {
                       });
                   }}
                 >
-                  {t("common:share")}
+                  Share
                 </MenuItem>
               </MenuList>
             </Menu>

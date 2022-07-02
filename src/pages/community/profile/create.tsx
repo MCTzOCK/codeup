@@ -45,8 +45,6 @@ export default function Create() {
   const [displayNameInvalid, setDisplayNameInvalid] = useState(false);
   const [bioInvalid, setBioInvalid] = useState(false);
 
-  const { t } = useTranslation();
-
   const toast = useToast({
     position: "top",
   });
@@ -69,9 +67,7 @@ export default function Create() {
             flexDirection={"column"}
             as={"div"}
           >
-            <Heading color={"white"}>
-              {t("community:create-your-profile")}
-            </Heading>
+            <Heading color={"white"}>Create your profile</Heading>
           </Heading>
           <form
             onSubmit={(e) => {
@@ -98,8 +94,8 @@ export default function Create() {
                 res.json().then((data) => {
                   if (data.success) {
                     toast({
-                      title: t("common:success"),
-                      description: t("community:profile-created"),
+                      title: "Success",
+                      description: "Profile Created",
                       status: "success",
                       duration: 3000,
                       onCloseComplete: () => {
@@ -112,13 +108,11 @@ export default function Create() {
             }}
           >
             <FormControl isInvalid={displayNameInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"displayName"}>
-                {t("community:display-name")}
-              </FormLabel>
+              <FormLabel htmlFor={"displayName"}>Display Name</FormLabel>
               <InputGroup>
                 <Input
                   name={"displayName"}
-                  placeholder={t("community:display-name")}
+                  placeholder={"Display Name"}
                   onChange={(e) => {
                     // @ts-ignore
                     if (e.target.value.length > 0) {
@@ -129,16 +123,14 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>
-                {t("community:display-name-required")}
-              </FormErrorMessage>
+              <FormErrorMessage>Display Name is required.</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={bioInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"bio"}>{t("community:biography")}</FormLabel>
+              <FormLabel htmlFor={"bio"}>{"Biography"}</FormLabel>
               <InputGroup>
                 <Textarea
                   name={"bio"}
-                  placeholder={t("community:biography")}
+                  placeholder={"Biography"}
                   onChange={(e) => {
                     // @ts-ignore
                     if (e.target.value.length > 0) {
@@ -149,13 +141,11 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>
-                {t("community:biography-required")}
-              </FormErrorMessage>
+              <FormErrorMessage>Biography is required.</FormErrorMessage>
             </FormControl>
             <Box mt={"2rem"} textAlign={"center"}>
               <Button type={"submit"} colorScheme={"whatsapp"}>
-                {t("common:create")}
+                Create
               </Button>
             </Box>
           </form>
@@ -163,18 +153,4 @@ export default function Create() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "community",
-      ])),
-    },
-  };
 }

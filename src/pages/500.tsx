@@ -9,9 +9,7 @@
  */
 
 import * as React from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
-import Link from "next/link";
+import { Flex, Heading } from "@chakra-ui/react";
 
 export default function NotFound() {
   return (
@@ -32,17 +30,4 @@ export default function NotFound() {
       </Flex>
     </>
   );
-}
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-      ])),
-    },
-  };
 }
