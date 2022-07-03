@@ -10,7 +10,8 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { redirect, CourseProgress } from "@codeup/util";
+import redirect from "@codeup/util/src/userworkflow/redirect";
+import { CourseProgress } from "@codeup/util/src/types/CourseProgress"
 import { Flex, Grid, GridItem, Spinner } from "@chakra-ui/react";
 import { ModuleCard, ModuleCardRow } from "@codeup/components/course";
 import Xarrow from "react-xarrows";

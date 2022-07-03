@@ -9,8 +9,8 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import mongoConnect from "../../../../util/mongo";
-import UserModel from "../../../../util/models/UserModel";
+import mongoConnect from "@codeup/util/src/mongo";
+import UserModel from "@codeup/util/src/models/UserModel";
 
 export default async function handleRequest(
   req: NextApiRequest,

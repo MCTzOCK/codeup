@@ -9,11 +9,11 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import mongoConnect from "../../../util/mongo";
-import UserModel from "../../../util/models/UserModel";
+import mongoConnect from "@codeup/util/src/mongo";
+import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
-import generateJWT from "../../../util/generateJWT";
-import { default as sm } from "../../../util/sendMail";
+import generateJWT from "@codeup/util/src/generateJWT";
+import { default as sm } from "@codeup/util/src/sendMail";
 
 export default async function handleRequest(
   req: NextApiRequest,

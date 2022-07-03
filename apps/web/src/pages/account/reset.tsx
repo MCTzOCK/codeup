@@ -72,7 +72,7 @@ export default function Reset() {
             >
               <Heading size={"xl"}>Reset Password</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Enter your email address below and we'll send you a link to
+                Enter your email address below and we&apos;ll send you a link to
                 reset your password or&nbsp;
                 <Link href={"/account/login"}>
                   <ChakraLink href={"/account/login"} color={"blue.400"}>

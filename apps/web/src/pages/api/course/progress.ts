@@ -9,12 +9,10 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import mongoConnect from "../../../util/mongo";
-import CommunityPostModel from "../../../util/models/CommunityPostModel";
-import CommunityProfileModel from "../../../util/models/CommunityProfileModel";
+import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
-import UserModel from "../../../util/models/UserModel";
-import CourseProgressModel from "../../../util/models/CourseProgressModel";
+import UserModel from "@codeup/util/src/models/UserModel";
+import CourseProgressModel from "@codeup/util/src/models/CourseProgressModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -22,14 +20,14 @@ export default async function handleRequest(
 ) {
   if (req.method !== "POST") {
     res.status(405).json({
-      error: "Method not allowed",
+      error: "Method not allowed"
     });
     return;
   }
 
   if (!req.body || !req.body.token || !req.body.course) {
     res.status(400).json({
-      error: "Missing required fields",
+      error: "Missing required fields"
     });
     return;
   }
@@ -43,7 +41,7 @@ export default async function handleRequest(
     ) => {
       if (err) {
         res.status(400).json({
-          error: "Invalid Token",
+          error: "Invalid Token"
         });
         return;
       }
@@ -54,19 +52,19 @@ export default async function handleRequest(
 
       if (!user) {
         res.status(400).json({
-          error: "Invalid Token",
+          error: "Invalid Token"
         });
         return;
       }
 
       let progress = await CourseProgressModel.findOne({
-        user: user._id,
+        user: user._id
       });
 
       if (!progress) {
         progress = await CourseProgressModel.create({
           user: user._id,
-          course: req.body.course,
+          course: req.body.course
         });
 
         await progress.save();
@@ -74,7 +72,7 @@ export default async function handleRequest(
 
       res.status(200).json({
         success: true,
-        progress,
+        progress
       });
     }
   );

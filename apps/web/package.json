@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.1.2",
+    "@codeup/components": "*",
+    "@codeup/hooks": "*",
+    "@codeup/util": "*",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@remotion/cli": "^3.0.25",
@@ -35,31 +38,28 @@
     "next": "12.1.6",
     "next-seo": "^5.4.0",
     "nodemailer": "^6.7.5",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.31.3",
     "react-icons": "^4.4.0",
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
-    "uuidv4": "^6.2.13",
-    "@codeup/components": "*",
-    "@codeup/hooks": "*",
-    "@codeup/util": "*"
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/node": "17.0.40",
-    "@types/react": "18.0.11",
-    "@types/react-dom": "18.0.5",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
     "@vitalets/google-translate-api": "^8.0.0",
     "chalk": "4",
     "eslint": "8.17.0",
+    "eslint-config-custom": "*",
     "eslint-config-next": "12.1.6",
+    "next-transpile-modules": "9.0.0",
     "prettier": "^2.7.1",
     "sloc": "^0.2.1",
     "sort-json": "^2.0.1",
-    "typescript": "4.7.3",
-    "eslint-config-custom": "*",
-    "next-transpile-modules": "9.0.0",
-    "tsconfig": "*"
+    "tsconfig": "*",
+    "typescript": "4.7.3"
   }
 }

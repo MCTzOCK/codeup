@@ -9,8 +9,8 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import mongoConnect from "../../../../util/mongo";
-import CommunityProfileModel from "../../../../util/models/CommunityProfileModel";
+import mongoConnect from "@codeup/util/src/mongo";
+import CommunityProfileModel from "@codeup/util/src/models/CommunityProfileModel";
 
 export default async function handleRequest(
   req: NextApiRequest,

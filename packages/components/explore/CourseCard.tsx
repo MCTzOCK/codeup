@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { Course } from "@codeup/util";
+import { Course } from "@codeup/util/src/courses/Course";
 
 export default function CourseCard(props: { course: Course }) {
   return (

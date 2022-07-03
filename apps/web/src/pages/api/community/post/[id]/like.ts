@@ -9,10 +9,10 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import mongoConnect from "../../../../../util/mongo";
+import mongoConnect from "@codeup/util/src/mongo";
 import jwt from "jsonwebtoken";
-import UserModel from "../../../../../util/models/UserModel";
-import CommunityPostModel from "../../../../../util/models/CommunityPostModel";
+import UserModel from "@codeup/util/src/models/UserModel";
+import CommunityPostModel from "@codeup/util/src/models/CommunityPostModel";
 
 export default async function handleRequest(
   req: NextApiRequest,

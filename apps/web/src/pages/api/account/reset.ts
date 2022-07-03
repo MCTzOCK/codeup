@@ -9,10 +9,10 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import UserModel from "../../../util/models/UserModel";
-import mongoConnect from "../../../util/mongo";
+import UserModel from "@codeup/util/src/models/UserModel";
+import mongoConnect from "@codeup/util/src/mongo";
 import { uuid } from "uuidv4";
-import sendMail from "../../../util/sendMail";
+import sendMail from "@codeup/util/src/sendMail";
 
 export default async function handleRequest(
   req: NextApiRequest,

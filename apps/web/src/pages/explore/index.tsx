@@ -9,9 +9,10 @@
  */
 
 import * as React from "react";
-import { CourseDB, redirect } from "@codeup/util";
-import { Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
+import redirect from "@codeup/util/src/userworkflow/redirect";
+import CourseDB from "@codeup/util/src/courses/CourseDB";
+import { Flex } from "@chakra-ui/react";
 import CourseCard from "@codeup/components/explore/CourseCard";
 
 export default function Index() {
@@ -20,7 +21,7 @@ export default function Index() {
       forceAnonymous: false,
       redirectToLogin: true,
       redirectTo: "/explore",
-      allowAnonymous: false,
+      allowAnonymous: false
     });
   }, []);
 
