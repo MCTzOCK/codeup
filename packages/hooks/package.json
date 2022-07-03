@@ -1,0 +1,19 @@
+{
+  "name": "@codeup/hooks",
+  "version": "1.0.0",
+  "description": "Custom Hooks used by CodeUp",
+  "main": "index.ts",
+  "author": "Ben Siebert",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "devDependencies": {
+    "@codeup/util": "*",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "tsconfig": "*",
+    "typescript": "^4.5.2",
+    "react": "^18.2.0"
+  }
+}
