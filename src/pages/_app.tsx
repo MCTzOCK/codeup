@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import PostButton from "../components/community/post/PostButton";
 import useUserInfo from "../hooks/useUserInfo";
 import CommunityNavigationBar from "../components/community/CommunityNavigationBar";
+import CourseNavigationBar from "../components/course/CourseNavigationBar";
 
 const theme = extendTheme({
   config: {
@@ -67,6 +68,10 @@ function App({ Component, pageProps }: AppProps) {
           <Box minH={"96vh"}>
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
+            ) : null}
+            {router.pathname.startsWith("/course") ||
+            router.pathname.startsWith("/explore") ? (
+              <CourseNavigationBar />
             ) : null}
             <Component {...pageProps} />
             {router.pathname.startsWith("/community") && showPostButton ? (

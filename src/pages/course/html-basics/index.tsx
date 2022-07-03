@@ -77,7 +77,7 @@ export default function Index() {
                     title={"Basics"}
                     color={"orange.400"}
                     locked={false}
-                    url={""}
+                    url={"/course/html-basics/basics"}
                     id={"mc-basics"}
                   />
                 </ModuleCardRow>

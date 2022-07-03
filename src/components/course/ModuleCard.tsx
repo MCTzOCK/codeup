@@ -25,7 +25,11 @@ export default function ModuleCard(props: {
 
   return (
     <>
-      <a href={!props.locked ? props.url : undefined} style={{ flex: "100%" }}>
+      <a
+        href={!props.locked ? props.url : undefined}
+        style={{ flex: "100%" }}
+        target={"_blank"}
+      >
         <Box
           backgroundColor={props.locked ? "black" : props.color}
           borderWidth={"4px"}
