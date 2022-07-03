@@ -6,37 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/reset.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/reset.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/action.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-reset-token.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-reset-token.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-username/[name].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-username/[name].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/register.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset-confirm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset-confirm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/feed.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/feed.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/has-profile/[id].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/has-profile/[id].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/delete.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/like.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/like.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/avatar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/avatar.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/is-following/[othername].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/is-following/[othername].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/posts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/posts.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/toggle-follow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/toggle-follow.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/search.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/search.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/course/progress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/progress.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/explore/CourseCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/explore/CourseCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/hooks/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,25 +45,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/util/src",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/bensi/Desktop/JuFo2023/codeup/packages/util/src&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
@@ -153,7 +123,7 @@
       <workItem from="1656703914383" duration="37296000" />
       <workItem from="1656846139949" duration="10117000" />
       <workItem from="1656882596106" duration="725000" />
-      <workItem from="1656883816197" duration="2251000" />
+      <workItem from="1656883816197" duration="2742000" />
     </task>
     <servers />
   </component>
