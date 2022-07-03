@@ -10,11 +10,9 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import ModuleCard from "../../../components/course/ModuleCard";
+import { redirect, CourseProgress } from "@codeup/util";
 import { Flex, Grid, GridItem, Spinner } from "@chakra-ui/react";
-import { CourseProgress } from "../../../util/types/CourseProgress";
-import redirect from "../../../util/userworkflow/redirect";
-import ModuleCardRow from "../../../components/course/ModuleCardRow";
+import { ModuleCard, ModuleCardRow } from "@codeup/components/course";
 import Xarrow from "react-xarrows";
 
 export default function Index() {

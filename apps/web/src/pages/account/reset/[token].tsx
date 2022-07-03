@@ -29,9 +29,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
-import redirect from "../../../util/userworkflow/redirect";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 
 export default function Token() {
   const router = useRouter();
@@ -202,18 +200,4 @@ export default function Token() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "reset-password",
-      ])),
-    },
-  };
 }

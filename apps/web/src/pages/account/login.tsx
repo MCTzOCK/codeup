@@ -32,9 +32,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import redirect from "../../util/userworkflow/redirect";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 
 export default function Register() {
   const [email, setEmail] = React.useState("");

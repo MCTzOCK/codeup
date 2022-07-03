@@ -1,5 +1,5 @@
 {
-  "name": "codeup-web",
+  "name": "@codeup/web",
   "version": "0.1.2",
   "private": true,
   "scripts": {
@@ -42,7 +42,9 @@
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
     "uuidv4": "^6.2.13",
-    "ui": "*"
+    "@codeup/components": "*",
+    "@codeup/hooks": "*",
+    "@codeup/util": "*"
   },
   "devDependencies": {
     "@types/node": "17.0.40",

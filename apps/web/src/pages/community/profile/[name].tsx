@@ -7,28 +7,10 @@
  * Created At: 13.06.2022
  *
  */
-
-//
-// we need to disable SSR until I finally know
-// why this page is throwing a Hydration Error
-//
-// Future me, forgive me.
-// ~ Ben 24.06.2022
-// Please rewrite the whole component
-// and split it into more subcomponents
-// to clean up the f*cking mess of JSX code
-//
-// nvm, this error only affects development builds
-// I am really sorry, future me, that you have to deal
-// with this in developing mode.
-// please forgive me. You can safely delete the SSR disabling code
-// btw, it never worked :(
-//
-const SSR = typeof window === "undefined";
-
+import { PostCard } from "@codeup/components/community/post";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import redirect from "../../../util/userworkflow/redirect";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import {
   Avatar,
   Box,
@@ -55,12 +37,18 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import ProfileBadges from "../../../components/community/profile/ProfileBadges";
-import ProfileBanner from "../../../components/community/profile/ProfileBanner";
-import ProfileAvatar from "../../../components/community/profile/ProfileAvatar";
-import ProfileNotFound from "../../../components/community/profile/ProfileNotFound";
-import ProfileMenuButton from "../../../components/community/profile/ProfileMenuButton";
-import useUserInfo from "../../../hooks/useUserInfo";
+
+import {
+  ProfileAvatar,
+  ProfileAvatarModifier,
+  ProfileBadges,
+  ProfileBanner,
+  ProfileBannerModifier,
+  ProfileDataDisplay,
+  ProfileMenuButton,
+  ProfileNotFound,
+} from "@codeup/components/community/profile";
+
 import {
   FaBirthdayCake,
   FaCheckCircle,
@@ -68,13 +56,25 @@ import {
   FaInfo,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import ProfileAvatarModifier from "../../../components/community/profile/ProfileAvatarModifier";
-import ProfileBannerModifier from "../../../components/community/profile/ProfileBannerModifier";
-import ProfileDataDisplay from "../../../components/community/profile/ProfileDataDisplay";
-import useHasProfile from "../../../hooks/useHasProfile";
-import PostCard from "../../../components/community/post/PostCard";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { useHasProfile, useUserInfo } from "@codeup/hooks";
+
+//
+// we need to disable SSR until I finally know
+// why this page is throwing a Hydration Error
+//
+// Future me, forgive me.
+// ~ Ben 24.06.2022
+// Please rewrite the whole component
+// and split it into more subcomponents
+// to clean up the f*cking mess of JSX code
+//
+// nvm, this error only affects development builds
+// I am really sorry, future me, that you have to deal
+// with this in developing mode.
+// please forgive me. You can safely delete the SSR disabling code
+// btw, it never worked :(
+//
+const SSR = typeof window === "undefined";
 
 export default function ProfileView() {
   const router = useRouter();

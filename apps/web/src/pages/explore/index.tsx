@@ -9,12 +9,10 @@
  */
 
 import * as React from "react";
-import CourseDB from "../../util/courses/CourseDB";
+import { CourseDB, redirect } from "@codeup/util";
 import { Flex } from "@chakra-ui/react";
-import CourseCard from "../../components/explore/CourseCard";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect } from "react";
-import redirect from "../../util/userworkflow/redirect";
+import CourseCard from "@codeup/components/explore/CourseCard";
 
 export default function Index() {
   useEffect(() => {

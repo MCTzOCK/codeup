@@ -10,16 +10,13 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import useHasProfile from "../../hooks/useHasProfile";
-import useUserInfo from "../../hooks/useUserInfo";
-import redirect from "../../util/userworkflow/redirect";
+import { useUserInfo, useHasProfile } from "@codeup/hooks";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import { AiFillPlusSquare } from "react-icons/ai";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import PostCard from "../../components/community/post/PostCard";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { PostCard } from "@codeup/components/community/post";
 
 export default function CommunityHome() {
   useEffect(() => {

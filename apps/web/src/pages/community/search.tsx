@@ -24,9 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
-import PostCard from "../../components/community/post/PostCard";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { PostCard } from "@codeup/components/community/post";
 
 export default function Search() {
   const [term, setTerm] = useState("");

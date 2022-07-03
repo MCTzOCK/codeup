@@ -4,13 +4,12 @@ import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
 import { useRouter } from "next/router";
-import PostButton from "../components/community/post/PostButton";
-import useUserInfo from "../hooks/useUserInfo";
-import CommunityNavigationBar from "../components/community/CommunityNavigationBar";
-import CourseNavigationBar from "../components/course/CourseNavigationBar";
+import { CommunityNavigationBar } from "@codeup/components/community";
+import { PostButton } from "@codeup/components/community/post";
+import { useUserInfo } from "@codeup/hooks";
+import { CourseNavigationBar } from "@codeup/components/course";
+import { NavigationBar, Footer } from "@codeup/components/global";
 
 const theme = extendTheme({
   config: {
@@ -21,16 +20,6 @@ const theme = extendTheme({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
-  const [showPostButton, setShowPostButton] = useState(false);
-
-  const userInfo = useUserInfo();
-
-  useEffect(() => {
-    if (userInfo.id !== "") {
-      setShowPostButton(true);
-    }
-  }, [userInfo]);
 
   return (
     <>
@@ -74,9 +63,7 @@ function App({ Component, pageProps }: AppProps) {
               <CourseNavigationBar />
             ) : null}
             <Component {...pageProps} />
-            {router.pathname.startsWith("/community") && showPostButton ? (
-              <PostButton />
-            ) : null}
+            {router.pathname.startsWith("/community") ? <PostButton /> : null}
           </Box>
           <Footer />
         </Box>

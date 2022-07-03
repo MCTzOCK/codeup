@@ -11,6 +11,6 @@
 import * as React from "react";
 import { Player } from "@remotion/player";
 
-export default function Home(props: { locale: string }) {
+export default function Home() {
   return <></>;
 }

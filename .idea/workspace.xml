@@ -5,155 +5,97 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/.eslintrc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/eslint-config-custom/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/eslint-config-custom/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/tsconfig/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/tsconfig/base.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/tsconfig/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/tsconfig/react-library.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/Button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeup.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fix-locales.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/next-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next-env.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/_static/images/courses/splashes/html-basics.afdesign" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/_static/images/courses/splashes/html-basics.afdesign" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/_static/images/courses/splashes/html-basics.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/_static/images/courses/splashes/html-basics.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/_static/images/courses/splashes/javascript-basics.afdesign" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/_static/images/courses/splashes/javascript-basics.afdesign" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/_static/images/courses/splashes/javascript-basics.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/_static/images/courses/splashes/javascript-basics.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/vercel.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/NavigationBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/CommunityNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/CommunityNavigationBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/post/PostButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/post/PostButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/post/PostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/post/PostCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/post/PostMediaUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/post/PostMediaUploader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/post/StarterKit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/post/StarterKit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/post/TipTap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/post/TipTap.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileAvatar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileAvatar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileAvatarModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileAvatarModifier.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileBadges.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBadges.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileBannerModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBannerModifier.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileDataDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileDataDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileFollowerDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileFollowerDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileMenuButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/community/profile/ProfileNotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileNotFound.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/course/CourseLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/course/CourseLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/course/CourseNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/course/CourseNavigationBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/course/CourseTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/course/CourseTitle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/course/ModuleCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/course/ModuleCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/course/ModuleCardRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/course/ModuleCardRow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/explore/CourseCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/explore/CourseCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useCourseProgress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useCourseProgress.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useCourseRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useCourseRedirect.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useHasProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useHasProfile.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useHover.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useHover.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useUserInfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useUserInfo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useUserLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useUserLoggedIn.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useUserLoggedInRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/hooks/useUserLoggedInRedirect.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/404.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/404.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/500.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/500.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_document.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/logout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/logout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/reset.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/reset.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/reset/[token].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/reset/[token].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/account/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/action.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/check-reset-token.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-reset-token.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/check-username/[name].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/check-username/[name].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/register.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/reset-confirm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset-confirm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/reset.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/account/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/feed.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/feed.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/has-profile/[id].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/has-profile/[id].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/post/[id].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/post/[id]/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/delete.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/post/[id]/like.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/like.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/post/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name]/avatar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/avatar.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name]/followers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/followers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name]/is-following/[othername].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/is-following/[othername].ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name]/posts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/posts.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/[name]/toggle-follow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/toggle-follow.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/profile/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/community/search.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/search.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/course/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/course/progress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/progress.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/certificates/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/certificates/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/challenges/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/challenges/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/post/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/post/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/profile/[name].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/profile/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/create.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/search.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/course/html-basics/basics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/course/html-basics/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/dashboard/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/extra/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/extra/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/hackathons/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/hackathons/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/hosting/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/hosting/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/styles/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/tiptap.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/styles/tiptap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/courses/Course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/courses/Course.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/courses/CourseDB.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/courses/CourseDB.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/generateJWT.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/generateJWT.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/generateMail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/generateMail.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/models/CommunityPostModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/models/CommunityPostModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/models/CommunityProfileModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/models/CommunityProfileModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/models/CourseProgressModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/models/CourseProgressModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/models/UserModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/models/UserModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/mongo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/mongo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/sendMail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/sendMail.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/types/CourseProgress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/types/CourseProgress.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/userworkflow/redirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/util/userworkflow/redirect.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics.remotion.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics.remotion.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics/0.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics/0.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics/HTMLLongForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics/HTMLLongForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics/HTMLUsedFor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics/HTMLUsedFor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/basics/WhatIsHTMLTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/basics/WhatIsHTMLTitle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/videos/html-basics/components/Intro.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/videos/html-basics/components/Intro.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/tsconfig/nextjs.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/community/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/community/post/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/community/profile/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/course/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/global/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useCourseProgress.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useCourseRedirect.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useHover.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useUserInfo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useUserLoggedIn.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/hooks/useUserLoggedInRedirect.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/hooks/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/courses/Course.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/courses/CourseDB.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/generateJWT.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/generateMail.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/CommunityPostModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/CommunityProfileModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/CourseProgressModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/UserModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/mongo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/sendMail.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/types/CourseProgress.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/Footer.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/NavigationBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/CommunityNavigationBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/post/PostButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/post/PostCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/post/PostMediaUploader.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/post/StarterKit.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/post/TipTap.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileAvatar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileAvatarModifier.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBadges.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBanner.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileBannerModifier.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileDataDisplay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileFollowerDisplay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/community/profile/ProfileNotFound.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/course/CourseLayout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/course/CourseNavigationBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/course/CourseTitle.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/course/ModuleCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/course/ModuleCardRow.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/explore/CourseCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useCourseProgress.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useCourseRedirect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useHasProfile.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useHover.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useUserInfo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useUserLoggedIn.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/hooks/useUserLoggedInRedirect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/reset.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/reset.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/reset/[token].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/reset/[token].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/followers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/followers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/post/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/post/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/profile/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/create.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/search.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/courses/Course.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/courses/CourseDB.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/generateJWT.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/generateMail.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/models/CommunityPostModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/models/CommunityProfileModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/models/CourseProgressModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/models/UserModel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/mongo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/sendMail.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/types/CourseProgress.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/util/userworkflow/redirect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/Button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -169,8 +111,8 @@
         <option value="CSS File" />
         <option value="LICENSE" />
         <option value="JavaScript File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -197,7 +139,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/util/src",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -212,18 +154,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks\hooks" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src\components\course" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src\pages" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\public\locales" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\content\locales" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components\global" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src\videos\html-basics\basics" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\public\_static\tts\courses\html-basics\basics" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\public\_static\images" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\public\_static\course\splash" />
     </key>
   </component>
   <component name="RunManager">
@@ -267,7 +209,7 @@
       <workItem from="1656670727310" duration="85000" />
       <workItem from="1656693947115" duration="1378000" />
       <workItem from="1656703914383" duration="37296000" />
-      <workItem from="1656846139949" duration="3651000" />
+      <workItem from="1656846139949" duration="8973000" />
     </task>
     <servers />
   </component>

@@ -23,10 +23,8 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import redirect from "../../../util/userworkflow/redirect";
-import useHasProfile from "../../../hooks/useHasProfile";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import { useHasProfile } from "@codeup/hooks";
 
 export default function Create() {
   const hasProfile = useHasProfile();

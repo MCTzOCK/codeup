@@ -10,8 +10,7 @@
 
 import * as React from "react";
 import { useEffect } from "react";
-import useUserInfo from "../../hooks/useUserInfo";
-import redirect from "../../util/userworkflow/redirect";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import {
   Button,
   Flex,
@@ -28,8 +27,7 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { useUserInfo } from "@codeup/hooks";
 
 export default function Settings() {
   const router = useRouter();

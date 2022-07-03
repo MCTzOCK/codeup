@@ -26,8 +26,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
 
 export default function Reset() {
   const [alertVisible, setAlertVisible] = React.useState(false);
