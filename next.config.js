@@ -1,9 +1,16 @@
-const { i18n } = require('./next-i18next.config')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  i18n
-}
+  webpack: function (config, context) {
+    config.module.rules.push({
+      test: /\.mp3$/,
+      use: {
+        loader: "file-loader",
+      },
+    });
 
-module.exports = nextConfig
+    return config;
+  },
+};
+
+module.exports = nextConfig;

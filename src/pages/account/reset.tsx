@@ -43,8 +43,6 @@ export default function Reset() {
 
   const [forceDisable, setForceDisable] = React.useState(false);
 
-  const { t } = useTranslation();
-
   return (
     <>
       {alertVisible ? (
@@ -74,18 +72,16 @@ export default function Reset() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>
-                {t("reset-password:reset-password")}
-              </Heading>
+              <Heading size={"xl"}>Reset Password</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                {t("reset-password:subtitle_start")}&nbsp;
+                Enter your email address below and we'll send you a link to
+                reset your password or&nbsp;
                 <Link href={"/account/login"}>
                   <ChakraLink href={"/account/login"} color={"blue.400"}>
-                    {t("account:login")}
+                    Login
                   </ChakraLink>
                 </Link>
-                &nbsp;
-                {t("reset-password:subtitle_end")}
+                &nbsp;instead.
               </Text>
             </Flex>
             <form
@@ -136,7 +132,7 @@ export default function Reset() {
                 w={"100%"}
                 mt={"2rem"}
               >
-                {t("reset-password:reset-password")}
+                Reset Password
               </Button>
             </form>
           </Flex>
@@ -144,18 +140,4 @@ export default function Reset() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "reset-password",
-      ])),
-    },
-  };
 }

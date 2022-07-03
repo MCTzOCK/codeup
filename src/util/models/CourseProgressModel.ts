@@ -1,16 +1,16 @@
 /**
- * src/util/models/CourseStatsModels.ts
+ * src/util/models/CourseProgressModel.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 21.06.2022
+ * Created At: 02.07.2022
  *
  */
 
 import mongoose from "mongoose";
 
-const CourseStats = new mongoose.Schema({
+const CourseProgress = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -20,19 +20,17 @@ const CourseStats = new mongoose.Schema({
     type: String,
     required: true,
   },
-  started: {
+  finishedModules: {
+    type: [String],
+    required: true,
+    default: [],
+  },
+  finishedCourse: {
     type: Boolean,
     required: true,
-  },
-  currentSection: {
-    type: String,
-    required: true,
-  },
-  finished: {
-    type: Boolean,
-    required: true,
+    default: false,
   },
 });
 
-export default mongoose.models?.CourseStats ||
-  mongoose.model("CourseStats", CourseStats);
+export default mongoose.models?.CourseProgress ||
+  mongoose.model("CourseProgress", CourseProgress);

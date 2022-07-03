@@ -51,7 +51,6 @@ export default function CommunityHome() {
 }
 
 function ProfileCreatorHero() {
-  const { t } = useTranslation();
   return (
     <Link href={"/community/profile/create"}>
       <Flex
@@ -73,7 +72,7 @@ function ProfileCreatorHero() {
         >
           <AiFillPlusSquare />
           <Heading color={"white"} mt={"1.2rem"}>
-            {t("community:create-your-profile")}
+            Create your profile
           </Heading>
           <Text
             color={"white"}
@@ -82,7 +81,8 @@ function ProfileCreatorHero() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            {t("community:create-your-profile_subtitle")}
+            Create a profile to start sharing your skills and get feedback from
+            other users.
           </Text>
         </Heading>
       </Flex>
@@ -157,18 +157,4 @@ function CommunityFeed() {
       })}
     </Box>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "community",
-      ])),
-    },
-  };
 }

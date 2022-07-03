@@ -10,8 +10,7 @@ import { useRouter } from "next/router";
 import PostButton from "../components/community/post/PostButton";
 import useUserInfo from "../hooks/useUserInfo";
 import CommunityNavigationBar from "../components/community/CommunityNavigationBar";
-import { appWithTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import CourseNavigationBar from "../components/course/CourseNavigationBar";
 
 const theme = extendTheme({
   config: {
@@ -70,6 +69,10 @@ function App({ Component, pageProps }: AppProps) {
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
             ) : null}
+            {router.pathname.startsWith("/course") ||
+            router.pathname.startsWith("/explore") ? (
+              <CourseNavigationBar />
+            ) : null}
             <Component {...pageProps} />
             {router.pathname.startsWith("/community") && showPostButton ? (
               <PostButton />
@@ -82,16 +85,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-      ])),
-    },
-  };
-}
-
-export default appWithTranslation(App);
+export default App;

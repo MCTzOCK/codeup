@@ -24,10 +24,6 @@ import {
   Heading,
   IconButton,
   Link as ChakraLink,
-  Menu as ChakraMenu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -40,17 +36,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import useUserInfo from "../hooks/useUserInfo";
 import Link from "next/link";
 import { AiFillCaretDown } from "react-icons/ai";
-import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-import { FaLanguage } from "react-icons/fa";
 
 export default function NavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const userInfo = useUserInfo();
-
-  const { t } = useTranslation(["common", "account", "navbar"]);
 
   const router = useRouter();
 
@@ -59,12 +51,12 @@ export default function NavigationBar() {
       <>
         <Link href={"/"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            {t("common:home")}
+            Home
           </Button>
         </Link>
         <Link href={"/explore"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            {t("navbar:explore")}
+            Explore
           </Button>
         </Link>
         <Popover>
@@ -74,7 +66,7 @@ export default function NavigationBar() {
               size={"lg"}
               rightIcon={<AiFillCaretDown />}
             >
-              {t("common:more")}
+              More
             </Button>
           </PopoverTrigger>
           <PopoverContent bg={"black"}>
@@ -83,32 +75,32 @@ export default function NavigationBar() {
               <Flex w={"100%"} direction={"column"}>
                 <Link href={"/extra/project-ideas"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:project-ideas")}
+                    Project Ideas
                   </Button>
                 </Link>
                 <Link href={"/community"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:community")}
+                    Community
                   </Button>
                 </Link>
                 <Link href={"/hackathons"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:hackathons")}
+                    Hackathons
                   </Button>
                 </Link>
                 <Link href={"/challenges"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:challenges")}
+                    Challenges
                   </Button>
                 </Link>
                 <Link href={"/certificates"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:certificates")}
+                    Certificates
                   </Button>
                 </Link>
                 <Link href={"/hosting"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    {t("navbar:hosting")}
+                    Hosting
                   </Button>
                 </Link>
               </Flex>
@@ -124,7 +116,7 @@ export default function NavigationBar() {
                   size={"lg"}
                   rightIcon={<AiFillCaretDown />}
                 >
-                  {t("account:account")}
+                  Account
                 </Button>
               </PopoverTrigger>
               <PopoverContent bg={"black"}>
@@ -133,19 +125,19 @@ export default function NavigationBar() {
                   <Flex w={"100%"} direction={"column"}>
                     <Link href={"/account/settings"}>
                       <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        {t("common:settings")}
+                        Settings
                       </Button>
                     </Link>
 
                     <Link href={"/dashboard"}>
                       <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        {t("navbar:dashboard")}
+                        Dashboard
                       </Button>
                     </Link>
 
                     <Link href={"/account/logout"}>
                       <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        {t("account:logout")}
+                        Logout
                       </Button>
                     </Link>
                   </Flex>
@@ -161,39 +153,6 @@ export default function NavigationBar() {
   const MenuButtons = () => {
     return (
       <>
-        <ChakraMenu>
-          <MenuButton
-            as={Button}
-            variant={"ghost"}
-            rightIcon={<AiFillCaretDown />}
-          >
-            <FaLanguage />
-          </MenuButton>
-          <MenuList>
-            <MenuItem
-              onClick={() => {
-                router.push(
-                  { pathname: router.pathname, query: router.query },
-                  router.asPath,
-                  { locale: "de" }
-                );
-              }}
-            >
-              Deutsch (german)
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                router.push(
-                  { pathname: router.pathname, query: router.query },
-                  router.asPath,
-                  { locale: "en" }
-                );
-              }}
-            >
-              English (english)
-            </MenuItem>
-          </MenuList>
-        </ChakraMenu>
         {userInfo.id === "" ? (
           <>
             <Link href={"/account/register"}>
@@ -202,12 +161,12 @@ export default function NavigationBar() {
                 colorScheme={"whatsapp"}
                 onClick={onClose}
               >
-                {t("account:join")}
+                Join
               </Button>
             </Link>
             <Link href={"/account/login"}>
               <Button variant={"solid"} onClick={onClose}>
-                {t("account:login")}
+                Login
               </Button>
             </Link>
           </>
@@ -215,12 +174,12 @@ export default function NavigationBar() {
           <>
             <Link href={"/dashboard"}>
               <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
-                {t("navbar:dashboard")}
+                Dashboard
               </Button>
             </Link>
             <Link href={"/account/logout"}>
               <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                {t("account:logout")}
+                Logout
               </Button>
             </Link>
           </>

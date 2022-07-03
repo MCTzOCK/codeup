@@ -16,7 +16,6 @@ export default function ProfileBadges(props: {
   verified: boolean;
   specialStatus: string;
 }) {
-  const { t } = useTranslation();
   return (
     <>
       <Flex
@@ -28,14 +27,14 @@ export default function ProfileBadges(props: {
         alignItems={"center"}
       >
         {props.verified ? (
-          <Tooltip label={t("community:verified")} hasArrow>
+          <Tooltip label={"Official Account"} hasArrow>
             <Badge
               ml={"1"}
               p={".2rem"}
               colorScheme="green"
               display={"block ruby"}
             >
-              {t("community:verified")}
+              Official Account
             </Badge>
           </Tooltip>
         ) : null}
@@ -47,7 +46,7 @@ export default function ProfileBadges(props: {
               colorScheme="yellow"
               display={"block ruby"}
             >
-              {t("community:special")}
+              Special
             </Badge>
           </Tooltip>
         ) : null}

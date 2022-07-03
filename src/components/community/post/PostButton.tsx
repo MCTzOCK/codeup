@@ -27,14 +27,13 @@ import { useTranslation } from "next-i18next";
 export default function PostButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [value, setValue] = useState("");
-  const { t } = useTranslation();
 
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size={["full", "4xl"]}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t("community:post")}</ModalHeader>
+          <ModalHeader>Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody padding={"2rem"}>
             <TipTap />
@@ -51,7 +50,7 @@ export default function PostButton() {
         }}
       >
         <IconButton
-          aria-label={t("community:post")}
+          aria-label={"Post"}
           icon={<FaPlus />}
           size={"lg"}
           colorScheme={"whatsapp"}

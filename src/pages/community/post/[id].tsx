@@ -14,8 +14,6 @@ import { useRouter } from "next/router";
 import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import PostCard from "../../../components/community/post/PostCard";
 import useHasProfile from "../../../hooks/useHasProfile";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function PostView() {
   const router = useRouter();
@@ -27,7 +25,6 @@ export default function PostView() {
   const toast = useToast();
 
   const hasProfile = useHasProfile();
-  const { t } = useTranslation();
 
   useEffect(() => {
     console.log("No profile found1");
@@ -83,7 +80,7 @@ export default function PostView() {
         >
           <PostCard id={id as string} />
           <Heading size={"lg"} mt={"2rem"}>
-            {t("community:comments")}
+            Comments
           </Heading>
           {replies.map((reply) => {
             return (
@@ -97,18 +94,4 @@ export default function PostView() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "community",
-      ])),
-    },
-  };
 }

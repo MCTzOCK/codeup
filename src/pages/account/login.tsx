@@ -52,8 +52,6 @@ export default function Register() {
 
   const [_2fa, set2fa] = React.useState(false);
 
-  const { t } = useTranslation();
-
   useEffect(() => {
     redirect({
       allowAnonymous: true,
@@ -94,16 +92,15 @@ export default function Register() {
                   justifyContent={"center"}
                   direction={"column"}
                 >
-                  <Heading size={"xl"}>{t("account:login")}</Heading>
+                  <Heading size={"xl"}>Login</Heading>
                   <Text textAlign={"center"} mt={".4rem"}>
-                    {t("login:subtitle_start")}&nbsp;
+                    Login to your account or&nbsp;
                     <Link href={"/account/register"}>
                       <ChakraLink color={"blue.400"} href={"/account/register"}>
-                        {t("account:register")}
+                        Register
                       </ChakraLink>
                     </Link>
-                    &nbsp;
-                    {t("login:subtitle_end")}
+                    &nbsp; a new one.
                   </Text>
                 </Flex>
                 <FormControl>
@@ -117,13 +114,11 @@ export default function Register() {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel htmlFor={"password"}>
-                    {t("account:password")}
-                  </FormLabel>
+                  <FormLabel htmlFor={"password"}>Password</FormLabel>
                   <InputGroup>
                     <Input
                       id={"password"}
-                      placeholder={t("account:password")}
+                      placeholder={"Password"}
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -175,16 +170,16 @@ export default function Register() {
                     });
                   }}
                 >
-                  {t("account:login")}
+                  Login
                 </Button>
                 <Text textAlign={"center"} mt={"1rem"}>
-                  {t("login:forgot-password_start")}&nbsp;
+                  Forgot your password?&nbsp;
                   <Link href={"/account/reset"}>
                     <ChakraLink
                       href={"/account/reset-password"}
                       color={"blue.400"}
                     >
-                      {t("login:forgot-password_end")}
+                      Reset it.
                     </ChakraLink>
                   </Link>
                 </Text>
@@ -199,10 +194,10 @@ export default function Register() {
                   direction={"column"}
                 >
                   <Heading size={"xl"} textAlign={"center"}>
-                    {t("login:2fa")}
+                    2 Factor Authentication
                   </Heading>
                   <Text textAlign={"center"} mt={".4rem"}>
-                    {t("login:2fa_check-code")}
+                    Check your email for a code.
                   </Text>
                 </Flex>
                 <HStack alignItems={"center"} justifyContent={"center"}>
@@ -253,18 +248,4 @@ export default function Register() {
       </Flex>
     </>
   );
-}
-
-export async function getServerSideProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "account",
-        "navbar",
-        "footer",
-        "login",
-      ])),
-    },
-  };
 }

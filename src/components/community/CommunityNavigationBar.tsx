@@ -29,32 +29,28 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import useUserInfo from "../../hooks/useUserInfo";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
 
 export default function CommunityNavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const userInfo = useUserInfo();
-
-  const { t } = useTranslation(["common", "account", "community", "navbar"]);
-
   const Menu = () => {
     return (
       <>
         <Link href={"/community"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            {t("navbar:community")}
+            Community
           </Button>
         </Link>
         <Link href={"/community/profile/" + userInfo.username}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            {t("community:my-profile")}
+            My Profile
           </Button>
         </Link>
         <Link href={"/community/search"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            {t("community:search")}
+            Search
           </Button>
         </Link>
       </>
@@ -67,7 +63,7 @@ export default function CommunityNavigationBar() {
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"5%"} textAlign={["center", "left"]}>
             <ChakraLink href={"/community"}>
-              <Link href={"/community"}>{t("navbar:community")}</Link>
+              <Link href={"/community"}>Community</Link>
             </ChakraLink>
           </Heading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
@@ -90,9 +86,7 @@ export default function CommunityNavigationBar() {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>
-                      CodeUp | {t("navbar:community")}
-                    </DrawerHeader>
+                    <DrawerHeader>CodeUp | Community</DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>

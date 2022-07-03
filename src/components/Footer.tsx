@@ -10,11 +10,8 @@
 
 import * as React from "react";
 import { Box, Divider, Link, Text } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 
 export default function Footer() {
-  const { t } = useTranslation();
-
   return (
     <>
       <Divider />
@@ -27,9 +24,10 @@ export default function Footer() {
         paddingInline={"2rem"}
       >
         <Text>
-          {t("footer:first-line")}
+          CodeUp - Made by Ben Siebert, originally created for Jugend Forscht
+          2023
           <br />
-          {t("footer:second-line")}
+          Made with ❤ and ☕
           <br />
           <br />
           <Link

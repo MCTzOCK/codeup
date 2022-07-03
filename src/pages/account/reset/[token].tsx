@@ -85,8 +85,6 @@ export default function Token() {
     });
   }, []);
 
-  const { t } = useTranslation();
-
   return (
     <>
       {alertVisible ? (
@@ -116,11 +114,9 @@ export default function Token() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>
-                {t("reset-password:reset-password")}
-              </Heading>
+              <Heading size={"xl"}>Reset Password</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                {t("reset-password:reset-confirm_subtitle")}
+                Enter your new password below to change it.
               </Text>
             </Flex>
             <form
@@ -156,13 +152,11 @@ export default function Token() {
               }}
             >
               <FormControl isInvalid={passwordInvalid}>
-                <FormLabel htmlFor={"password"}>
-                  {t("account:password")}
-                </FormLabel>
+                <FormLabel htmlFor={"password"}>Password</FormLabel>
                 <InputGroup>
                   <Input
                     id={"password"}
-                    placeholder={t("account:password")}
+                    placeholder={"Password"}
                     disabled={disabled || loading}
                     type={passwordVisible ? "text" : "password"}
                     onChange={(e) => {
@@ -188,7 +182,8 @@ export default function Token() {
                   </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>
-                  {t("reset-password:err-password-not-valid")}
+                  Please enter a password with at least 8 characters, one
+                  uppercase, one lowercase, one number and one special character
                 </FormErrorMessage>
               </FormControl>
               <Button
@@ -199,7 +194,7 @@ export default function Token() {
                 w={"100%"}
                 mt={"2rem"}
               >
-                {t("reset-password:reset-password")}
+                Reset Password
               </Button>
             </form>
           </Flex>
