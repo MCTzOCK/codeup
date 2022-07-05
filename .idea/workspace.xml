@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/storage/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/storage/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/storage/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/generateMail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/generateMail.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/sendMail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/sendMail.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/storage/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/storage/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +132,7 @@
       <workItem from="1656883816197" duration="3285000" />
       <workItem from="1656956971759" duration="3445000" />
       <workItem from="1657014180205" duration="2373000" />
-      <workItem from="1657041188254" duration="1988000" />
+      <workItem from="1657041188254" duration="2362000" />
     </task>
     <servers />
   </component>
