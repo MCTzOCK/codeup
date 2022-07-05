@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +20,8 @@
         <option value="CSS File" />
         <option value="LICENSE" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -62,6 +61,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -123,7 +127,8 @@
       <workItem from="1656703914383" duration="37296000" />
       <workItem from="1656846139949" duration="10117000" />
       <workItem from="1656882596106" duration="725000" />
-      <workItem from="1656883816197" duration="2742000" />
+      <workItem from="1656883816197" duration="3285000" />
+      <workItem from="1656956971759" duration="3445000" />
     </task>
     <servers />
   </component>
