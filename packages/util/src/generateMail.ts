@@ -27,15 +27,15 @@ export default function generateMail(firstName: string, content: string) {
                 <img src="https://static.content.ben-siebert.de/api/public/dl/GMODqV3y" alt="Ben Siebert" style="width: 100%; max-width: 200px;">
             </div>
             <div style="width: 100%; text-align: center;">
-                <h1 style="font-size: 1.5em; font-weight: bold;">Hi ${firstName}!</h1>
+                <h1 style="font-size: 1.5em; font-weight: bold;">Moin ${firstName}!</h1>
             </div>
             <div style="width: 100%; text-align: center;">
                 <p style="font-size: 1em;">${content}</p>
             </div>
             <div style="width: 100%; text-align: center;">
                 <p style="font-size: 1em;">
-                    Best Regards,<br>
-                    Ben from <a href="https://codeup.ben-siebert.de">CodeUp</a>
+                    Beste Grüße aus Hattingen,<br>
+                    Ben von <a href="https://codeup.space">CodeUp</a>
                 </p>
             </div>
         </div>
@@ -44,9 +44,9 @@ export default function generateMail(firstName: string, content: string) {
 
 </html>
 `,
-    text: `Hello ${firstName},\n\n
+    text: `Moin ${firstName}!,\n\n
 ${content}\n\n
-Best Regards,\n
-Ben from CodeUp`,
+Beste Grüße aus Hattingen,\n
+Ben von CodeUp`,
   };
 }

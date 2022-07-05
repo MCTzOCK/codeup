@@ -30,7 +30,7 @@ export default async function sendMail(
   const tmp = generateMail(firstName, content);
 
   await transport.sendMail({
-    from: "Ben from CodeUp <" + process.env.SMTP_USER + ">",
+    from: "Ben von CodeUp <" + process.env.SMTP_USER + ">",
     to: to,
     replyTo: process.env.SMTP_USER,
     subject: subject,

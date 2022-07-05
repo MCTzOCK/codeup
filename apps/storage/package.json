@@ -1,0 +1,19 @@
+{
+  "name": "@codeup/storage",
+  "version": "1.0.0",
+  "description": "Storage Server",
+  "main": "src/index.js",
+  "repository": "https://github.com/MCTzOCK/codeup",
+  "author": "Ben Siebert",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "scripts": {
+    "docker-build": "docker build . -t mctzock/codeup-storage"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0"
+  }
+}
