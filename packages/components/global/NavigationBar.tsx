@@ -83,6 +83,11 @@ export default function NavigationBar() {
                     Forum
                   </Button>
                 </Link>
+                <Link href={"/ide"}>
+                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                    IDE (Editor)
+                  </Button>
+                </Link>
                 <Link href={"/hackathons"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
                     Hackathons
