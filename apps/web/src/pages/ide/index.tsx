@@ -253,6 +253,8 @@ function Open() {
     setFilteredProjectList(projectList.filter((p) => p.name.includes(query)));
   }, [query]);
 
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"center"} mt={"1.2rem"}>
@@ -346,7 +348,65 @@ function Open() {
                                     <IconButton
                                       aria-label={"Projekt Löschen"}
                                       colorScheme={"red"}
+                                      isLoading={buttonLoading}
+                                      disabled={buttonLoading}
                                       icon={<BsFillTrashFill />}
+                                      onClick={async (e) => {
+                                        setButtonLoading(true);
+                                        const res = await fetch(
+                                          "/api/ide/projects/delete",
+                                          {
+                                            method: "POST",
+                                            headers: {
+                                              "Content-Type":
+                                                "application/json",
+                                            },
+                                            body: JSON.stringify({
+                                              token:
+                                                localStorage.getItem("token"),
+                                              id: project.id,
+                                            }),
+                                          }
+                                        );
+                                        const json = await res.json();
+
+                                        if (res.status === 200) {
+                                          setProjectList(
+                                            projectList.filter(
+                                              (p) => p.id !== project.id
+                                            )
+                                          );
+                                          setFilteredProjectList(
+                                            projectList
+                                              .filter(
+                                                (p) => p.id !== project.id
+                                              )
+                                              .filter((p) =>
+                                                p.name.includes(query)
+                                              )
+                                          );
+                                          toast({
+                                            title: "Erfolg",
+                                            description:
+                                              "Das Projekt wurde erfolgreich gelöscht",
+                                            status: "success",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        } else {
+                                          toast({
+                                            title: "Fehler",
+                                            description: json.error,
+                                            status: "error",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        }
+                                      }}
                                     />
                                   </Tooltip>
                                   <Tooltip
@@ -356,6 +416,8 @@ function Open() {
                                     <IconButton
                                       aria-label={"Projekt Umbenennen"}
                                       colorScheme={"green"}
+                                      isLoading={buttonLoading}
+                                      disabled={buttonLoading}
                                       icon={<BsFillPencilFill />}
                                     />
                                   </Tooltip>
@@ -367,6 +429,8 @@ function Open() {
                                     <IconButton
                                       aria-label={"Projekt Duplizieren"}
                                       colorScheme={"blue"}
+                                      isLoading={buttonLoading}
+                                      disabled={buttonLoading}
                                       icon={<BiDuplicate />}
                                     />
                                   </Tooltip>

@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/list.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/delete.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +60,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "16.9.0",
     "javascript.nodejs.core.library.typings.version": "16.9.0",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/util/src",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/api/ide/projects",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -92,11 +89,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks\hooks" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
@@ -155,7 +152,7 @@
       <workItem from="1657041188254" duration="3603000" />
       <workItem from="1657057701697" duration="231000" />
       <workItem from="1657099864327" duration="2076000" />
-      <workItem from="1657131120848" duration="12094000" />
+      <workItem from="1657131120848" duration="12831000" />
     </task>
     <servers />
   </component>
