@@ -87,7 +87,7 @@ export default async function handleRequest(
       await sm(
         req.body.email,
         "Two Factor Code",
-        `Your two factor code is: ${user.twoFactorCode}\n\nIf you didn't request this, please contact support immediately at codeup@ben-siebert.de!`,
+        `Dein 2FA Code lautet: ${user.twoFactorCode}\n\nWenn du nicht versucht hast dich anzumelden, kontaktiere umgehend den Support unter ben@codeup.space!`,
         user.firstName
       );
 
@@ -104,8 +104,8 @@ const sendMail = async (email: string, firstName: string) => {
   await sm(
     email,
     "Logged In",
-    `You have successfully logged in to your account.
-If this wasn't you, please contact support immediately at codeup@ben-siebert.de`,
+    `Du hast dich erfolgreich angemeldet.
+Wenn du das nicht warst, kontaktiere umgehend den Support unter ben@codeup.space`,
     firstName
   );
 };
