@@ -501,6 +501,71 @@ function Open() {
                                       isLoading={buttonLoading}
                                       disabled={buttonLoading}
                                       icon={<BiDuplicate />}
+                                      onClick={async () => {
+                                        const newName = prompt(
+                                          "Gib den neuen Namen ein"
+                                        );
+
+                                        if (!newName) {
+                                          return;
+                                        }
+
+                                        setButtonLoading(true);
+                                        const res = await fetch(
+                                          "/api/ide/projects/duplicate",
+                                          {
+                                            method: "POST",
+                                            headers: {
+                                              "Content-Type":
+                                                "application/json",
+                                            },
+                                            body: JSON.stringify({
+                                              token:
+                                                localStorage.getItem("token"),
+                                              id: project.id,
+                                              name: newName,
+                                            }),
+                                          }
+                                        );
+                                        const json = await res.json();
+
+                                        if (res.status === 200) {
+                                          let npl = projectList;
+
+                                          npl.push({
+                                            id: json.project,
+                                            name: newName,
+                                          });
+                                          setProjectList(npl);
+                                          setFilteredProjectList(npl);
+                                          setQuery("");
+                                          (
+                                            document.getElementById(
+                                              sBoxId
+                                            ) as HTMLInputElement
+                                          ).value = "";
+                                          toast({
+                                            title: "Erfolg",
+                                            description:
+                                              "Das Projekt wurde erfolgreich dupliziert",
+                                            status: "success",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        } else {
+                                          toast({
+                                            title: "Fehler",
+                                            description: json.error,
+                                            status: "error",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        }
+                                      }}
                                     />
                                   </Tooltip>
                                 </Flex>

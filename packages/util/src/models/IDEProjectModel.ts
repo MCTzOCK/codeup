@@ -19,7 +19,6 @@ const IDEProject = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   contributors: {
     type: [mongoose.Schema.Types.ObjectId],
