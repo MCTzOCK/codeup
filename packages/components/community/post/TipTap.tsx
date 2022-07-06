@@ -57,7 +57,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Size
+          Größe
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -69,7 +69,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 1 }) ? "is-active" : ""
             }
           >
-            Huge
+            Riesig
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -80,7 +80,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 2 }) ? "is-active" : ""
             }
           >
-            Large
+            Groß
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -91,7 +91,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("heading", { level: 3 }) ? "is-active" : ""
             }
           >
-            Medium
+            Mittel
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setParagraph().run()}
@@ -109,7 +109,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Decoration
+          Dekoration
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -117,21 +117,21 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("bold") ? "is-active" : ""}
           >
-            Bold
+            Fett
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleItalic().run()}
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("italic") ? "is-active" : ""}
           >
-            Italic
+            Kursiv
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleStrike().run()}
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("strikeThrough") ? "is-active" : ""}
           >
-            Strikethrough
+            Durchgestrichen
           </MenuItem>
         </MenuList>
       </Menu>
@@ -142,7 +142,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Highlight
+          Markieren
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -150,7 +150,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             style={{ flex: "1 1 auto" }}
             className={editor.isActive("highlight") ? "is-active" : ""}
           >
-            Yellow
+            Gelb
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -161,7 +161,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("highlight", { color: "red" }) ? "is-active" : ""
             }
           >
-            Red
+            Rot
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -174,7 +174,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
                 : ""
             }
           >
-            Green
+            Grün
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -185,7 +185,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive("highlight", { color: "blue" }) ? "is-active" : ""
             }
           >
-            Blue
+            Blau
           </MenuItem>
         </MenuList>
       </Menu>
@@ -196,7 +196,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Align
+          Ausrichtung
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -206,7 +206,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Left
+            Links
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setTextAlign("center").run()}
@@ -215,7 +215,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "center" }) ? "is-active" : ""
             }
           >
-            Center
+            Mitte
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().setTextAlign("right").run()}
@@ -224,7 +224,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "right" }) ? "is-active" : ""
             }
           >
-            Right
+            Rechts
           </MenuItem>
         </MenuList>
       </Menu>
@@ -235,7 +235,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          List
+          Liste
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -245,7 +245,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Bullet List
+            Ungeordnet
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -254,7 +254,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "center" }) ? "is-active" : ""
             }
           >
-            Ordered List
+            Geordnet
           </MenuItem>
         </MenuList>
       </Menu>
@@ -275,7 +275,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
               editor.isActive({ textAlign: "left" }) ? "is-active" : ""
             }
           >
-            Inline Code
+            Code
           </MenuItem>
           <MenuItem
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
@@ -297,7 +297,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             onOpen();
           }}
         >
-          image
+          Bild
         </MenuButton>
       </Menu>
       <Menu>
@@ -307,14 +307,14 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
           as={Button}
           rightIcon={<GoChevronDown />}
         >
-          Font
+          Schriftart
         </MenuButton>
         <MenuList>
           <MenuItem
             onClick={() => editor.chain().focus().unsetFontFamily().run()}
             style={{ flex: "1 1 auto" }}
           >
-            Default
+            Standart
           </MenuItem>
           <MenuItem
             onClick={() =>
@@ -357,7 +357,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
             ).click();
           }}
         >
-          Color
+          Farbe
         </MenuButton>
         <input
           type="color"
@@ -404,7 +404,7 @@ const TipTap = (props: {
       }),
       Color,
     ],
-    content: "<p>Hello World! 🌎️</p>",
+    content: "<p>Hallo Welt! 🌎️</p>",
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -443,9 +443,9 @@ const TipTap = (props: {
                 if (data.success) {
                   if (props.parentPost) {
                     toast({
-                      title: "Comment created!",
+                      title: "Kommentar erstellt!",
                       description:
-                        "Your comment has been created and will be visible soon.",
+                        "Dein Kommentar wurde erstellt mund ist bald sichtbar.",
                       status: "success",
                       duration: 6000,
                       isClosable: false,
@@ -459,7 +459,7 @@ const TipTap = (props: {
                   }
                 } else {
                   toast({
-                    title: "Error",
+                    title: "Fehler",
                     description: data.error,
                     status: "error",
                     duration: 9000,
@@ -469,7 +469,7 @@ const TipTap = (props: {
             });
           }}
         >
-          Publish
+          Posten
         </Button>
       </Box>
     </>

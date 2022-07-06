@@ -22,7 +22,7 @@ export default function CourseTitle(props: {
         {props.course}
       </Text>
       <Heading textAlign={"center"}>
-        Section&nbsp;{props.section}:&nbsp;
+        Lektion&nbsp;{props.section}:&nbsp;
         {props.sectionTitle}
       </Heading>
     </>

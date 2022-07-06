@@ -103,7 +103,7 @@ export default function ProfileMenuButton(props: {
           icon={<GiHamburgerMenu />}
           colorScheme={"gray"}
         >
-          Actions
+          Aktionen
         </MenuButton>
         <MenuList>
           {props.profile.website.length > 0 ? (
@@ -124,7 +124,7 @@ export default function ProfileMenuButton(props: {
                 "/community/profile/" + props.profile.username + "/report";
             }}
           >
-            Report
+            Melden
           </MenuItem>
         </MenuList>
       </Menu>

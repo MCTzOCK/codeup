@@ -100,7 +100,7 @@ export default function PostCard(props: { id: string }) {
             setAuthorData(data.profile);
           } else {
             toast({
-              title: "Error",
+              title: "Fehler",
               description: data.error,
               status: "error",
               duration: 9000,
@@ -125,7 +125,7 @@ export default function PostCard(props: { id: string }) {
             setPost(data.post);
           } else {
             toast({
-              title: "Error",
+              title: "Fehler",
               description: data.error,
               status: "error",
               duration: 9000,
@@ -186,8 +186,8 @@ export default function PostCard(props: { id: string }) {
                         res.json().then((data) => {
                           if (data.success) {
                             toast({
-                              title: "Success",
-                              description: "Post deleted",
+                              title: "Erfolg",
+                              description: "Der Beitrag wurde gelöscht",
                               status: "success",
                               duration: 6000,
                               position: "top",
@@ -199,7 +199,7 @@ export default function PostCard(props: { id: string }) {
                             });
                           } else {
                             toast({
-                              title: "Error",
+                              title: "Fehler",
                               description: data.error,
                               status: "error",
                               duration: 6000,
@@ -210,7 +210,7 @@ export default function PostCard(props: { id: string }) {
                       });
                     }}
                   >
-                    Delete
+                    Löschen
                   </MenuItem>
                 ) : null}
                 <MenuItem
@@ -224,8 +224,9 @@ export default function PostCard(props: { id: string }) {
                       )
                       .then(() => {
                         toast({
-                          title: "Success",
-                          description: "Link copied to clipboard",
+                          title: "Erfolg",
+                          description:
+                            "Der Link wurde in die Zwischenablage kopiert.",
                           status: "success",
                           duration: 3000,
                           isClosable: true,
@@ -234,7 +235,7 @@ export default function PostCard(props: { id: string }) {
                       });
                   }}
                 >
-                  Share
+                  Teilen
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -276,7 +277,7 @@ export default function PostCard(props: { id: string }) {
                       setPost(data.post);
                     } else {
                       toast({
-                        title: "Error",
+                        title: "Fehler",
                         description: data.error,
                         status: "error",
                         duration: 9000,
@@ -293,7 +294,7 @@ export default function PostCard(props: { id: string }) {
             </Button>
             {!post.parent ? (
               <Button
-                aria-label={"Comments"}
+                aria-label={"Kommentare"}
                 rightIcon={<FaComment />}
                 flex="100%"
                 onClick={() => {

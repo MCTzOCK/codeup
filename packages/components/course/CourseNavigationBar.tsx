@@ -40,12 +40,12 @@ export default function CourseNavigationBar() {
       <>
         <Link href={"/explore"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Explore
+            Alle Kurse
           </Button>
         </Link>
         <Link href={"/course/my-courses"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            My Courses
+            Meine Kurse
           </Button>
         </Link>
       </>
@@ -58,7 +58,7 @@ export default function CourseNavigationBar() {
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"5%"} textAlign={["center", "left"]}>
             <ChakraLink href={"/community"}>
-              <Link href={"/community"}>Courses</Link>
+              <Link href={"/community"}>Kurse</Link>
             </ChakraLink>
           </Heading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
@@ -81,7 +81,7 @@ export default function CourseNavigationBar() {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>CodeUp | Courses</DrawerHeader>
+                    <DrawerHeader>CodeUp | Kurse</DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>

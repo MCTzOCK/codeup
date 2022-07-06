@@ -33,7 +33,7 @@ export default function ProfileBadges(props: {
               colorScheme="green"
               display={"block ruby"}
             >
-              Official Account
+              Offiziell
             </Badge>
           </Tooltip>
         ) : null}
@@ -45,7 +45,7 @@ export default function ProfileBadges(props: {
               colorScheme="yellow"
               display={"block ruby"}
             >
-              Special
+              Speziell
             </Badge>
           </Tooltip>
         ) : null}

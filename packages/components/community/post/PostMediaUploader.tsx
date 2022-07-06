@@ -39,14 +39,14 @@ export default function PostMediaUploader(props: {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered size={"xl"}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Upload Image</ModalHeader>
+        <ModalHeader>Bild hochladen</ModalHeader>
         <ModalCloseButton disabled={loading} />
         <ModalBody>
           {loading ? (
             <Spinner />
           ) : (
             <FormControl isInvalid={fileInvalid}>
-              <FormLabel>Image</FormLabel>
+              <FormLabel>Bild</FormLabel>
               <input
                 type="file"
                 onChange={(e) => {
@@ -93,14 +93,14 @@ export default function PostMediaUploader(props: {
                 }}
               />
               <FormErrorMessage>
-                The selected file is not an image or is over the limit of 8MB
+                Die hochgeladene Datei ist kein Bild oder ist größer als 8MB
               </FormErrorMessage>
             </FormControl>
           )}
         </ModalBody>
         <ModalFooter>
           <Button onClick={props.onClose} disabled={loading}>
-            Close
+            Abbrechen
           </Button>
         </ModalFooter>
       </ModalContent>

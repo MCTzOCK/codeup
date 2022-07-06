@@ -40,17 +40,17 @@ export default function CommunityNavigationBar() {
       <>
         <Link href={"/community"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Community
+            Forum
           </Button>
         </Link>
         <Link href={"/community/profile/" + userInfo.username}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            My Profile
+            Mein Profil
           </Button>
         </Link>
         <Link href={"/community/search"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Search
+            Suchen
           </Button>
         </Link>
       </>
@@ -63,7 +63,7 @@ export default function CommunityNavigationBar() {
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"5%"} textAlign={["center", "left"]}>
             <ChakraLink href={"/community"}>
-              <Link href={"/community"}>Community</Link>
+              <Link href={"/community"}>Forum</Link>
             </ChakraLink>
           </Heading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
@@ -86,7 +86,7 @@ export default function CommunityNavigationBar() {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>CodeUp | Community</DrawerHeader>
+                    <DrawerHeader>CodeUp | Forum</DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>

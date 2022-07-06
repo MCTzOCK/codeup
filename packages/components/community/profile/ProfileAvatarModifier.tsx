@@ -45,14 +45,14 @@ export default function ProfileAvatarModifier(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Upload Avatar</ModalHeader>
+          <ModalHeader>Avatar hochladen</ModalHeader>
           <ModalCloseButton disabled={loading} />
           <ModalBody>
             {loading ? (
               <Spinner />
             ) : (
               <FormControl isInvalid={fileInvalid}>
-                <FormLabel>Profile Picture</FormLabel>
+                <FormLabel>Avatar</FormLabel>
                 <input
                   type="file"
                   onChange={(e) => {
@@ -97,9 +97,9 @@ export default function ProfileAvatarModifier(props: {
                               }).then((uRes) => {
                                 if (uRes.status === 200) {
                                   toast({
-                                    title: "Profile Updated",
+                                    title: "Profil aktualisiert",
                                     description:
-                                      "Your profile was successfully updated.",
+                                      "Dein Profil wurde erfolgreich aktualisiert.",
                                     status: "success",
                                     position: "top",
                                     duration: 3000,
@@ -109,9 +109,9 @@ export default function ProfileAvatarModifier(props: {
                                   });
                                 } else {
                                   toast({
-                                    title: "Error",
+                                    title: "Fehler",
                                     description:
-                                      "Could not update your profile.",
+                                      "Dein Profil konnte nicht aktualisiert werden.",
                                     status: "error",
                                   });
                                 }
@@ -126,14 +126,14 @@ export default function ProfileAvatarModifier(props: {
                   }}
                 />
                 <FormErrorMessage>
-                  The selected file is not an image or is over the limit of 8MB
+                  Die hochgeladene Datei ist kein Bild oder ist größer als 8MB
                 </FormErrorMessage>
               </FormControl>
             )}
           </ModalBody>
           <ModalFooter>
             <Button onClick={props.onClose} disabled={loading}>
-              Close
+              Abbrechen
             </Button>
           </ModalFooter>
         </ModalContent>

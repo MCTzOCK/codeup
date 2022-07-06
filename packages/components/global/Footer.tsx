@@ -24,8 +24,8 @@ export default function Footer() {
         paddingInline={"2rem"}
       >
         <Text>
-          CodeUp - Made by Ben Siebert, originally created for Jugend Forscht
-          2023
+          CodeUp - Gemacht von Ben Siebert, ursprünglich erstellt für Jugend
+          Forscht 2023
           <br />
           Made with ❤ and ☕
           <br />

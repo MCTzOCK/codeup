@@ -31,7 +31,7 @@ export default function CourseCard(props: { course: Course }) {
                 <Text color={"gray.500"}>{props.course.description}</Text>
                 <Flex mt={"1.2rem"}>
                   <Button colorScheme={props.course.colorScheme}>
-                    Start Course
+                    Kurs öffnen
                   </Button>
                 </Flex>
               </Flex>

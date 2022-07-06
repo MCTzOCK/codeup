@@ -6,7 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/courses/CourseDB.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/courses/CourseDB.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostMediaUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostMediaUploader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileAvatarModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileAvatarModifier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileBadges.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileBadges.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileBannerModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileBannerModifier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileNotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileNotFound.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/CourseTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/CourseTitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/explore/CourseCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/explore/CourseCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +81,7 @@
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -151,7 +164,7 @@
       <workItem from="1657041188254" duration="3603000" />
       <workItem from="1657057701697" duration="231000" />
       <workItem from="1657099864327" duration="2076000" />
-      <workItem from="1657131120848" duration="1552000" />
+      <workItem from="1657131120848" duration="2957000" />
     </task>
     <servers />
   </component>

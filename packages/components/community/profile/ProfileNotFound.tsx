@@ -33,7 +33,7 @@ export default function ProfileNotFound() {
         >
           <BsQuestionSquareFill />
           <Heading color={"white"} mt={"1.2rem"}>
-            Not Found
+            Nicht gefunden
           </Heading>
           <Text
             color={"white"}
@@ -42,7 +42,7 @@ export default function ProfileNotFound() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            The profile you were looking for does not exist.
+            Das gesuchte Profil konnte nicht gefunden werden!
           </Text>
         </Heading>
       </Flex>

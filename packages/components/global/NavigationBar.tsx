@@ -56,7 +56,7 @@ export default function NavigationBar() {
         </Link>
         <Link href={"/explore"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Explore
+            Kurse
           </Button>
         </Link>
         <Popover>
@@ -66,7 +66,7 @@ export default function NavigationBar() {
               size={"lg"}
               rightIcon={<AiFillCaretDown />}
             >
-              More
+              Mehr
             </Button>
           </PopoverTrigger>
           <PopoverContent bg={"black"}>
@@ -75,12 +75,12 @@ export default function NavigationBar() {
               <Flex w={"100%"} direction={"column"}>
                 <Link href={"/extra/project-ideas"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Project Ideas
+                    Projektideen
                   </Button>
                 </Link>
                 <Link href={"/community"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Community
+                    Forum
                   </Button>
                 </Link>
                 <Link href={"/hackathons"}>
@@ -95,7 +95,7 @@ export default function NavigationBar() {
                 </Link>
                 <Link href={"/certificates"}>
                   <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Certificates
+                    Zertifikate
                   </Button>
                 </Link>
                 <Link href={"/hosting"}>
@@ -116,7 +116,7 @@ export default function NavigationBar() {
                   size={"lg"}
                   rightIcon={<AiFillCaretDown />}
                 >
-                  Account
+                  Konto
                 </Button>
               </PopoverTrigger>
               <PopoverContent bg={"black"}>
@@ -125,7 +125,7 @@ export default function NavigationBar() {
                   <Flex w={"100%"} direction={"column"}>
                     <Link href={"/account/settings"}>
                       <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Settings
+                        Einstellungen
                       </Button>
                     </Link>
 
@@ -137,7 +137,7 @@ export default function NavigationBar() {
 
                     <Link href={"/account/logout"}>
                       <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Logout
+                        Abmelden
                       </Button>
                     </Link>
                   </Flex>
@@ -161,12 +161,12 @@ export default function NavigationBar() {
                 colorScheme={"whatsapp"}
                 onClick={onClose}
               >
-                Join
+                Beitreten
               </Button>
             </Link>
             <Link href={"/account/login"}>
               <Button variant={"solid"} onClick={onClose}>
-                Login
+                Anmelden
               </Button>
             </Link>
           </>
@@ -179,7 +179,7 @@ export default function NavigationBar() {
             </Link>
             <Link href={"/account/logout"}>
               <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                Logout
+                Abmelden
               </Button>
             </Link>
           </>
