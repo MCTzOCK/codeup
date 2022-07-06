@@ -380,8 +380,10 @@ function Open() {
                                           setProjectList(npl);
                                           setFilteredProjectList(npl);
                                           setQuery("");
-                                          document.getElementById(
-                                            sBoxId
+                                          (
+                                            document.getElementById(
+                                              sBoxId
+                                            ) as HTMLInputElement
                                           ).value = "";
                                           toast({
                                             title: "Erfolg",
@@ -459,8 +461,10 @@ function Open() {
                                           setProjectList(npl);
                                           setFilteredProjectList(npl);
                                           setQuery("");
-                                          document.getElementById(
-                                            sBoxId
+                                          (
+                                            document.getElementById(
+                                              sBoxId
+                                            ) as HTMLInputElement
                                           ).value = "";
                                           toast({
                                             title: "Erfolg",
