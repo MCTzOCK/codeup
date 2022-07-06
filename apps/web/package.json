@@ -44,7 +44,9 @@
     "react-icons": "^4.4.0",
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "@react-buddy/ide-toolbox": "^2.2.0",
+    "@react-buddy/palette-chakra-ui": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "17.0.40",
