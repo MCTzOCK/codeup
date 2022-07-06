@@ -15,7 +15,7 @@ export default class CourseDB {
       name: "html-basics",
       displayName: "HTML Basics",
       description:
-        "In this course you will learn the basics of HTML. You will learn what HTML is, what it's used for and how to use it in your own projects.",
+        "In diesem Kurs lernst du die Grundlagen von HTML, was HTML ist, wofür es verwendet wird und wie du es in deinen eigenen Projekten verwenden kannst.",
       level: "Beginner",
       splashImage: "/_static/images/courses/splashes/html-basics.svg",
       colorScheme: "orange",
@@ -24,7 +24,7 @@ export default class CourseDB {
       name: "javascript-basics",
       displayName: "JavaScript Basics",
       description:
-        "In this course you will learn the basics of JavaScript. You will learn what JavaScript is, what it's used for and how to use it in your own projects.",
+        "In diesem Kurs lernst du die Grundlagen von JavaScript, was JavaScript ist, wofür es verwendet wird und wie du es in deinen eigenen Projekten verwenden kannst.",
       level: "Beginner",
       splashImage: "/_static/images/courses/splashes/javascript-basics.svg",
       colorScheme: "yellow",
