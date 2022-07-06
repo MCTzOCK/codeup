@@ -255,6 +255,8 @@ function Open() {
 
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
+  const sBoxId = useId();
+
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"center"} mt={"1.2rem"}>
@@ -300,6 +302,7 @@ function Open() {
                   <Input
                     type={"text"}
                     placeholder={"Suche..."}
+                    id={sBoxId}
                     defaultValue={query}
                     onChange={(e) => {
                       // @ts-ignore
@@ -351,7 +354,7 @@ function Open() {
                                       isLoading={buttonLoading}
                                       disabled={buttonLoading}
                                       icon={<BsFillTrashFill />}
-                                      onClick={async (e) => {
+                                      onClick={async () => {
                                         setButtonLoading(true);
                                         const res = await fetch(
                                           "/api/ide/projects/delete",
@@ -371,20 +374,15 @@ function Open() {
                                         const json = await res.json();
 
                                         if (res.status === 200) {
-                                          setProjectList(
-                                            projectList.filter(
-                                              (p) => p.id !== project.id
-                                            )
+                                          let npl = projectList.filter(
+                                            (p) => p.id !== project.id
                                           );
-                                          setFilteredProjectList(
-                                            projectList
-                                              .filter(
-                                                (p) => p.id !== project.id
-                                              )
-                                              .filter((p) =>
-                                                p.name.includes(query)
-                                              )
-                                          );
+                                          setProjectList(npl);
+                                          setFilteredProjectList(npl);
+                                          setQuery("");
+                                          document.getElementById(
+                                            sBoxId
+                                          ).value = "";
                                           toast({
                                             title: "Erfolg",
                                             description:
@@ -419,6 +417,73 @@ function Open() {
                                       isLoading={buttonLoading}
                                       disabled={buttonLoading}
                                       icon={<BsFillPencilFill />}
+                                      onClick={async (e) => {
+                                        const newName = prompt(
+                                          "Gib den neuen Namen ein"
+                                        );
+
+                                        if (!newName) {
+                                          return;
+                                        }
+
+                                        setButtonLoading(true);
+                                        const res = await fetch(
+                                          "/api/ide/projects/update/name",
+                                          {
+                                            method: "POST",
+                                            headers: {
+                                              "Content-Type":
+                                                "application/json",
+                                            },
+                                            body: JSON.stringify({
+                                              token:
+                                                localStorage.getItem("token"),
+                                              id: project.id,
+                                              name: newName,
+                                            }),
+                                          }
+                                        );
+                                        const json = await res.json();
+
+                                        if (res.status === 200) {
+                                          let npl = projectList.map((p) => {
+                                            if (p.id === project.id) {
+                                              return {
+                                                id: p.id,
+                                                name: newName,
+                                              };
+                                            } else {
+                                              return p;
+                                            }
+                                          });
+                                          setProjectList(npl);
+                                          setFilteredProjectList(npl);
+                                          setQuery("");
+                                          document.getElementById(
+                                            sBoxId
+                                          ).value = "";
+                                          toast({
+                                            title: "Erfolg",
+                                            description:
+                                              "Das Projekt wurde erfolgreich umbenannt",
+                                            status: "success",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        } else {
+                                          toast({
+                                            title: "Fehler",
+                                            description: json.error,
+                                            status: "error",
+                                            variant: "solid",
+                                            position: "top",
+                                            isClosable: true,
+                                          });
+                                          setButtonLoading(false);
+                                        }
+                                      }}
                                     />
                                   </Tooltip>
 
