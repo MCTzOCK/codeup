@@ -96,15 +96,15 @@ export default function Register() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>Register</Heading>
+              <Heading size={"xl"}>Registrieren</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Create an account or&nbsp;
+                Erstelle ein Konto oder&nbsp;
                 <Link href={"/account/login"}>
                   <ChakraLink color={"blue.400"} href={"/account/login"}>
-                    Login
+                    melde dich an
                   </ChakraLink>
                 </Link>
-                &nbsp;to an existing one.
+                .
               </Text>
             </Flex>
             <form
@@ -174,10 +174,10 @@ export default function Register() {
             >
               <Flex direction={"column"} gap={"2rem"}>
                 <FormControl isInvalid={usernameInvalid}>
-                  <FormLabel htmlFor={"username"}>Username</FormLabel>
+                  <FormLabel htmlFor={"username"}>Benutzername</FormLabel>
                   <Input
                     id={"username"}
-                    placeholder={"Username"}
+                    placeholder={"Benutzername"}
                     onChange={(e) => {
                       fetch("/api/account/check-username/" + e.target.value, {
                         method: "GET",
@@ -195,15 +195,15 @@ export default function Register() {
                     }}
                   />
                   <FormErrorMessage>
-                    This username is not available.
+                    Dieser Benutzername ist nicht verfügbar.
                   </FormErrorMessage>
                 </FormControl>
                 <Flex direction={"row"} gap={"2rem"}>
                   <FormControl isInvalid={firstNameInvalid}>
-                    <FormLabel htmlFor={"firstName"}>First Name</FormLabel>
+                    <FormLabel htmlFor={"firstName"}>Vorname</FormLabel>
                     <Input
                       id={"firstName"}
-                      placeholder={"First Name"}
+                      placeholder={"Vorname"}
                       onChange={(e) => {
                         if (e.target.value.length > 0) {
                           setFirstNameInvalid(false);
@@ -214,14 +214,14 @@ export default function Register() {
                       }}
                     />
                     <FormErrorMessage>
-                      Please enter your First Name
+                      Bitte gib deinen Vorname ein.
                     </FormErrorMessage>
                   </FormControl>
                   <FormControl isInvalid={lastNameInvalid}>
-                    <FormLabel htmlFor={"lastName"}>Last Name</FormLabel>
+                    <FormLabel htmlFor={"lastName"}>Nachname</FormLabel>
                     <Input
                       id={"lastName"}
-                      placeholder={"Last Name"}
+                      placeholder={"Nachname"}
                       onChange={(e) => {
                         if (e.target.value.length > 0) {
                           setLastNameInvalid(false);
@@ -232,15 +232,15 @@ export default function Register() {
                       }}
                     />
                     <FormErrorMessage>
-                      Please enter your Last Name
+                      Bitte gib deinen Nachname ein.
                     </FormErrorMessage>
                   </FormControl>
                 </Flex>
                 <FormControl isInvalid={emailInvalid}>
-                  <FormLabel htmlFor={"email"}>Email</FormLabel>
+                  <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
                   <Input
                     id={"email"}
-                    placeholder={"Email"}
+                    placeholder={"E-Mail"}
                     onChange={(e) => {
                       if (
                         e.target.value.match(
@@ -255,15 +255,15 @@ export default function Register() {
                     }}
                   />
                   <FormErrorMessage>
-                    Please enter a valid E-Mail
+                    Bitte verwende eine echte E-Mail.
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={passwordInvalid}>
-                  <FormLabel htmlFor={"password"}>Password</FormLabel>
+                  <FormLabel htmlFor={"password"}>Passwort</FormLabel>
                   <InputGroup>
                     <Input
                       id={"password"}
-                      placeholder={"Password"}
+                      placeholder={"Passwort"}
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         if (
@@ -288,14 +288,14 @@ export default function Register() {
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>
-                    Please enter a password with at least 8 characters, one
-                    uppercase, one lowercase, one number and one special
-                    character
+                    Bitte gib ein Passwort ein, welches aus mindestens 8
+                    Buchstaben, einen Großbuchstaben, einen Kleinbuchstaben eine
+                    Ziffer und ein Sonderzeichen besteht.
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={passwordConfirmInvalid}>
                   <FormLabel htmlFor={"passwordConfirm"}>
-                    Confirm Password
+                    Passwort bestätigen
                   </FormLabel>
                   <InputGroup>
                     <Input
@@ -325,26 +325,27 @@ export default function Register() {
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>
-                    The passwords do not match.
+                    Die Passwörter stimmen nicht überein.
                   </FormErrorMessage>
                 </FormControl>
                 <Button variant={"solid"} type={"submit"}>
-                  Register
+                  Registrieren
                 </Button>
               </Flex>
               <Text textAlign={"center"} mt={"1rem"}>
-                By registering, you agree to our&nbsp;
+                Wenn auf &apos;Registrieren&apos; klickst, stimmt du den&nbsp;
                 <Link href={"/legal/tos"}>
                   <ChakraLink href={"/legal/tos"} color={"blue.400"}>
-                    Terms of Service
+                    AGB
                   </ChakraLink>
                 </Link>
-                &nbsp; and &nbsp;
+                &nbsp;und der&nbsp;
                 <Link href={"/legal/privacy"}>
                   <ChakraLink href={"/legal/privacy"} color={"blue.400"}>
-                    Privacy Policy
+                    Datenschutzerklärung
                   </ChakraLink>
                 </Link>
+                &nbsp;zu
               </Text>
             </form>
           </Flex>

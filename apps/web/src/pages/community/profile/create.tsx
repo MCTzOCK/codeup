@@ -65,7 +65,7 @@ export default function Create() {
             flexDirection={"column"}
             as={"div"}
           >
-            <Heading color={"white"}>Create your profile</Heading>
+            <Heading color={"white"}>Profil Erstellen</Heading>
           </Heading>
           <form
             onSubmit={(e) => {
@@ -92,8 +92,8 @@ export default function Create() {
                 res.json().then((data) => {
                   if (data.success) {
                     toast({
-                      title: "Success",
-                      description: "Profile Created",
+                      title: "Erfolg",
+                      description: "Dein Profil wurde erstellt.",
                       status: "success",
                       duration: 3000,
                       onCloseComplete: () => {
@@ -106,7 +106,7 @@ export default function Create() {
             }}
           >
             <FormControl isInvalid={displayNameInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"displayName"}>Display Name</FormLabel>
+              <FormLabel htmlFor={"displayName"}>Anzeigename</FormLabel>
               <InputGroup>
                 <Input
                   name={"displayName"}
@@ -121,10 +121,10 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>Display Name is required.</FormErrorMessage>
+              <FormErrorMessage>Anzeigename wird benötigt.</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={bioInvalid} mt={"2rem"} isRequired>
-              <FormLabel htmlFor={"bio"}>{"Biography"}</FormLabel>
+              <FormLabel htmlFor={"bio"}>Biographie</FormLabel>
               <InputGroup>
                 <Textarea
                   name={"bio"}
@@ -139,11 +139,11 @@ export default function Create() {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>Biography is required.</FormErrorMessage>
+              <FormErrorMessage>Biographie wird benötigt.</FormErrorMessage>
             </FormControl>
             <Box mt={"2rem"} textAlign={"center"}>
               <Button type={"submit"} colorScheme={"whatsapp"}>
-                Create
+                Erstellen
               </Button>
             </Box>
           </form>

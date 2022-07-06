@@ -193,8 +193,8 @@ export default function ProfileView() {
             setCurrentPosts(data.posts);
           } else {
             toast({
-              title: "Error",
-              description: "Could not load posts",
+              title: "Fehler",
+              description: "Beiträge konnten nicht geladen werden",
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -218,8 +218,8 @@ export default function ProfileView() {
             setMaxPosts(data.postCount);
           } else {
             toast({
-              title: "Error",
-              description: "Could not load posts",
+              title: "Fehler",
+              description: "Beiträge konnten nicht geladen werden",
               status: "error",
               duration: 6000,
               isClosable: false,
@@ -346,9 +346,9 @@ export default function ProfileView() {
                   }).then((res) => {
                     if (res.status === 200) {
                       toast({
-                        title: "Profile updated",
+                        title: "Profil aktualisiert",
                         description:
-                          "Your profile has been updated successfully",
+                          "Dein Profil wurde erfolgreich aktualisiert.",
                         status: "success",
                         position: "top",
                         duration: 3000,
@@ -358,8 +358,8 @@ export default function ProfileView() {
                       });
                     } else {
                       toast({
-                        title: "Error",
-                        description: "Your profile could not be updated.",
+                        title: "Fehler",
+                        description: "Dein Profil konnte nicht aktualisiert werden.",
                         status: "error",
                       });
                     }
@@ -367,7 +367,7 @@ export default function ProfileView() {
                 }}
               >
                 <DrawerCloseButton />
-                <DrawerHeader>Edit Profile</DrawerHeader>
+                <DrawerHeader>Profil bearbeiten</DrawerHeader>
 
                 <DrawerBody>
                   <Flex flexDirection="column" gap={"2rem"}>
@@ -387,7 +387,7 @@ export default function ProfileView() {
                     </Box>
                     <Box textAlign={"center"}>
                       <Image
-                        alt={"Profile Banner"}
+                        alt={"Profil Banner"}
                         src={profile.profileBanner}
                         w={"100%"}
                         borderColor={"#FFF"}
@@ -400,25 +400,25 @@ export default function ProfileView() {
                       />
                     </Box>
                     <FormControl isInvalid={!displayNameValid}>
-                      <FormLabel>Display Name</FormLabel>
+                      <FormLabel>Anzeigename</FormLabel>
                       <Input
                         id={"displayName"}
                         placeholder={"Display Name"}
                         defaultValue={profile.displayName}
                       />
                       <FormErrorMessage>
-                        Display Name is invalid.
+                        Anzeigename wird benötigt.
                       </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!bioValid}>
-                      <FormLabel>Biography</FormLabel>
+                      <FormLabel>Biographie</FormLabel>
                       <Textarea
                         id={"biography"}
-                        placeholder={"Biography"}
+                        placeholder={"Biographie"}
                         defaultValue={profile.bio}
                         maxLength={256}
                       />
-                      <FormErrorMessage>Biography is invalid.</FormErrorMessage>
+                      <FormErrorMessage>Biographie wird benötigt.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!websiteValid}>
                       <FormLabel>Website</FormLabel>
@@ -432,21 +432,21 @@ export default function ProfileView() {
                           defaultValue={profile.website}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Website is invalid.</FormErrorMessage>
+                      <FormErrorMessage>Website wird benötigt.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!locationValid}>
-                      <FormLabel>Location</FormLabel>
+                      <FormLabel>Standort</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaMapMarkerAlt />
                         </InputLeftAddon>
                         <Input
                           id={"location"}
-                          placeholder={"Location"}
+                          placeholder={"Standort"}
                           defaultValue={profile.location}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Location is invalid.</FormErrorMessage>
+                      <FormErrorMessage>Standort wird benötigt.</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!birthdayValid}>
                       <FormLabel>Birthday</FormLabel>
@@ -457,21 +457,21 @@ export default function ProfileView() {
                         <Input
                           id={"birthday"}
                           type={"date"}
-                          placeholder={"Birthday"}
+                          placeholder={"Geburtstag"}
                           defaultValue={profile.birthday}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Birthday is invalid.</FormErrorMessage>
+                      <FormErrorMessage>Geburtstag wird benötigt.</FormErrorMessage>
                     </FormControl>
                   </Flex>
                 </DrawerBody>
 
                 <DrawerFooter>
                   <Button variant="outline" mr={3} onClick={onEditClose}>
-                    Cancel
+                    Abbrechen
                   </Button>
                   <Button colorScheme="blue" type={"submit"}>
-                    Save
+                    Speichern
                   </Button>
                 </DrawerFooter>
               </form>
@@ -587,7 +587,7 @@ function Profile(props: {
                   w={"100%"}
                 >
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]}>
-                    About
+                    Über
                   </Heading>
                   <Text
                     textAlign={"left"}
@@ -596,7 +596,7 @@ function Profile(props: {
                     &quot;{props.profile.bio}&quot;
                   </Text>
                   <Heading as={"h2"} fontSize={["2xl", "3xl"]} mt={"2rem"}>
-                    Information
+                    Informationen
                   </Heading>
                   <Box textAlign={"left"} color={"gray.400"}>
                     {props.profile.verified ? (
@@ -608,7 +608,7 @@ function Profile(props: {
                         color={"green.400"}
                       >
                         <FaCheckCircle />
-                        &nbsp;Official Account
+                        &nbsp;Offizielles Konto
                       </Box>
                     ) : null}
                     {props.profile.specialStatus.length > 0 ? (
@@ -649,7 +649,7 @@ function Profile(props: {
               </Box>
               <Box flex={["100%", "60%"]}>
                 <Heading mb={"4rem"} textAlign={"center"}>
-                  Posts
+                  Beiträge
                 </Heading>
                 {props.currentPosts.map((post) => {
                   // eslint-disable-next-line react/jsx-key
@@ -667,7 +667,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    Previous
+                    Vorherige
                   </Button>
                   <Button
                     flex={"100%"}
@@ -679,7 +679,7 @@ function Profile(props: {
                       });
                     }}
                   >
-                    Next
+                    Nächste
                   </Button>
                 </ButtonGroup>
               </Box>

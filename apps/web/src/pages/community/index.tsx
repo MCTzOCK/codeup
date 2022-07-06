@@ -28,8 +28,6 @@ export default function CommunityHome() {
     });
   }, []);
 
-  const userInfo = useUserInfo();
-
   const hasProfile = useHasProfile();
 
   return (
@@ -69,7 +67,7 @@ function ProfileCreatorHero() {
         >
           <AiFillPlusSquare />
           <Heading color={"white"} mt={"1.2rem"}>
-            Create your profile
+            Erstelle dein Profile
           </Heading>
           <Text
             color={"white"}
@@ -78,8 +76,7 @@ function ProfileCreatorHero() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            Create a profile to start sharing your skills and get feedback from
-            other users.
+            Erstelle dein Profile um deine Fähigkeiten zu teilen und Rückmeldung von anderen zu erhalten!
           </Text>
         </Heading>
       </Flex>
@@ -138,7 +135,6 @@ function CommunityFeed() {
   return (
     <Box p={["1.2rem", "2rem"]}>
       {postIds.map((postId) => {
-        console.log(postId);
         return (
           <>
             <Box

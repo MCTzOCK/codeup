@@ -27,9 +27,7 @@ export default function PostView() {
   const hasProfile = useHasProfile();
 
   useEffect(() => {
-    console.log("No profile found1");
     if (hasProfile.tried && !hasProfile.hasProfile) {
-      console.log("No profile found");
       router.push("/community");
     }
   }, [hasProfile, router]);
@@ -51,7 +49,7 @@ export default function PostView() {
             setReplies(data.post.comments.reverse());
           } else {
             toast({
-              title: "Error",
+              title: "Fehler",
               description: data.error,
               status: "error",
               duration: 9000,
@@ -80,7 +78,7 @@ export default function PostView() {
         >
           <PostCard id={id as string} />
           <Heading size={"lg"} mt={"2rem"}>
-            Comments
+            Kommentare
           </Heading>
           {replies.map((reply) => {
             return (

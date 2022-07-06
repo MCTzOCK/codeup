@@ -70,16 +70,16 @@ export default function Reset() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>Reset Password</Heading>
+              <Heading size={"xl"}>Passwort zurücksetzen</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Enter your email address below and we&apos;ll send you a link to
-                reset your password or&nbsp;
+                Gib deine E-Mail Adresse ein, damit wir dir einen Link senden,
+                oder
                 <Link href={"/account/login"}>
                   <ChakraLink href={"/account/login"} color={"blue.400"}>
-                    Login
+                    logge
                   </ChakraLink>
                 </Link>
-                &nbsp;instead.
+                dich ein.
               </Text>
             </Flex>
             <form
@@ -114,10 +114,10 @@ export default function Reset() {
               }}
             >
               <FormControl isInvalid={emailInvalid}>
-                <FormLabel htmlFor={"email"}>Email</FormLabel>
+                <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
                 <Input
                   id={"email"}
-                  placeholder={"Email"}
+                  placeholder={"E-Mail"}
                   onChange={(e) => {}}
                 />
                 <FormErrorMessage>{emailError}</FormErrorMessage>
@@ -130,7 +130,7 @@ export default function Reset() {
                 w={"100%"}
                 mt={"2rem"}
               >
-                Reset Password
+                Link erhalten
               </Button>
             </form>
           </Flex>

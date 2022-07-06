@@ -26,11 +26,8 @@ export default function NotFound() {
           404
         </Heading>
         <Heading size={"4xl"} color={"red"}>
-          Not Found
+          Nicht gefunden
         </Heading>
-        <Button mt="2rem" size="lg">
-          <Link href={"/"}>Home</Link>
-        </Button>
       </Flex>
     </>
   );

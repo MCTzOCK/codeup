@@ -61,7 +61,6 @@ export default function Settings() {
       setCurrentSelected("home");
     }
     if (query.has("newToken")) {
-      alert("Hello world");
       localStorage.setItem("token", query.get("newToken") as string);
       window.location.href = "/account/settings?component=account";
     }
@@ -86,7 +85,7 @@ export default function Settings() {
           bgColor={useColorModeValue("gray.400", "gray.900")}
           p={"1.2rem"}
         >
-          <Heading textAlign={"center"}>Settings</Heading>
+          <Heading textAlign={"center"}>Einstellungen</Heading>
           <Button
             m={"1.2rem"}
             variant={currentSelected === "home" ? "solid" : "ghost"}
@@ -109,7 +108,7 @@ export default function Settings() {
               router.push("/account/settings?component=account");
             }}
           >
-            Account
+            Konto
           </Button>
         </Flex>
         <Flex direction={"column"} flex={"85%"} minH={"100%"}>
@@ -138,12 +137,11 @@ function Home(props: {
       direction={"column"}
       textAlign={"center"}
     >
-      <Heading mb={"1.2rem"}>Welcome, {props.userInfo.firstName}!</Heading>
+      <Heading mb={"1.2rem"}>Willkommen, {props.userInfo.firstName}!</Heading>
       <Text>
-        Here you can manage your account and other settings to customize CodeUp
-        as you like.
+        Hier kannst du dein Konto und andere Einstellungen anpassen, um CodeUp
+        nach deinen Wünschen zu nutzen.
       </Text>
-      <Text>Pick a section from the left/top to change your preferences!</Text>
     </Flex>
   );
 }
@@ -175,7 +173,7 @@ function Account(props: {
   return (
     <>
       <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
-        Manage Account
+        Konto verwalten
       </Heading>
       <SimpleGrid
         minChildWidth={200}
@@ -193,7 +191,7 @@ function Account(props: {
             const firstName = e.target.elements.firstName.value;
 
             if (firstName === "") {
-              setFirstNameError("First Name cannot be empty!");
+              setFirstNameError("Vorname kann nicht leer sein!");
               setFirstNameButtonDisabled(false);
               return;
             }
@@ -223,7 +221,7 @@ function Account(props: {
         >
           <Flex direction={"column"}>
             <FormControl isInvalid={firstNameError !== null}>
-              <FormLabel htmlFor="firstName">First Name</FormLabel>
+              <FormLabel htmlFor="firstName">Vorname</FormLabel>
               <Input id="firstName" defaultValue={props.userInfo.firstName} />
               <FormErrorMessage>{firstNameError}</FormErrorMessage>
               <Button
@@ -233,7 +231,7 @@ function Account(props: {
                 colorScheme="blue"
                 marginBlock={"1.2rem"}
               >
-                Update
+                Aktualisieren
               </Button>
             </FormControl>
           </Flex>
@@ -248,7 +246,7 @@ function Account(props: {
             const lastName = e.target.elements.lastName.value;
 
             if (lastName === "") {
-              setLastNameError("Last Name cannot be empty!");
+              setLastNameError("Nachname kann nicht leer sein!");
               setLastNameButtonDisabled(false);
               return;
             }
@@ -278,7 +276,7 @@ function Account(props: {
         >
           <Flex direction={"column"}>
             <FormControl isInvalid={lastNameError !== null}>
-              <FormLabel htmlFor="lastName">Last Name</FormLabel>
+              <FormLabel htmlFor="lastName">Nachname</FormLabel>
               <Input id="lastName" defaultValue={props.userInfo.lastName} />
               <FormErrorMessage>{lastNameError}</FormErrorMessage>
               <Button
@@ -288,7 +286,7 @@ function Account(props: {
                 colorScheme="blue"
                 marginBlock={"1.2rem"}
               >
-                Update
+                Aktualisieren
               </Button>
             </FormControl>
           </Flex>
@@ -326,7 +324,7 @@ function Account(props: {
               res.json().then((data) => {
                 if (data.success) {
                   setEmailError(
-                    "Check your email to verify your new email address!"
+                    "Überprüfe deine E-Mails, um deine neue E-Mail-Adresse zu bestätigen."
                   );
                   setEmailButtonDisabled(false);
                 } else {
@@ -349,7 +347,7 @@ function Account(props: {
                 colorScheme="blue"
                 marginBlock={"1.2rem"}
               >
-                Update
+                Aktualisieren
               </Button>
             </FormControl>
           </Flex>
@@ -381,14 +379,14 @@ function Account(props: {
         >
           <Flex direction={"column"}>
             <FormControl>
-              <FormLabel>{"2 Factor"}</FormLabel>
+              <FormLabel>2 Faktor</FormLabel>
               <Button
                 type="submit"
                 disabled={_2faButtonDisabled}
                 isLoading={_2faButtonDisabled}
                 colorScheme={props.userInfo._2fa ? "red" : "green"}
               >
-                {props.userInfo._2fa ? "Disable" : "Enable"}
+                {props.userInfo._2fa ? "Aktivieren" : "Deaktivieren"}
               </Button>
             </FormControl>
           </Flex>

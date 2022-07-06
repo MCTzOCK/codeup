@@ -34,7 +34,7 @@ function App({ Component, pageProps }: AppProps) {
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://codeup.ben-siebert.de/",
+          url: "https://codeup.space/",
           site_name: "CodeUp",
           images: [
             {

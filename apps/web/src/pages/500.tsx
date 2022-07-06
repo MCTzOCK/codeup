@@ -25,7 +25,7 @@ export default function NotFound() {
           500
         </Heading>
         <Heading size={"4xl"} color={"red"}>
-          Internal Server Error
+          Interner Server Fehler
         </Heading>
       </Flex>
     </>

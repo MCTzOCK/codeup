@@ -90,33 +90,33 @@ export default function Register() {
                   justifyContent={"center"}
                   direction={"column"}
                 >
-                  <Heading size={"xl"}>Login</Heading>
+                  <Heading size={"xl"}>Anmelden</Heading>
                   <Text textAlign={"center"} mt={".4rem"}>
-                    Login to your account or&nbsp;
+                    Melde dich mit einem bestehenden Konto an, oder&nbsp;
                     <Link href={"/account/register"}>
                       <ChakraLink color={"blue.400"} href={"/account/register"}>
-                        Register
+                        erstelle
                       </ChakraLink>
                     </Link>
-                    &nbsp; a new one.
+                    &nbsp;ein neues.
                   </Text>
                 </Flex>
                 <FormControl>
-                  <FormLabel htmlFor={"email"}>Email</FormLabel>
+                  <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
                   <Input
                     id={"email"}
-                    placeholder={"Email"}
+                    placeholder={"E-Mail"}
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel htmlFor={"password"}>Password</FormLabel>
+                  <FormLabel htmlFor={"password"}>Passwort</FormLabel>
                   <InputGroup>
                     <Input
                       id={"password"}
-                      placeholder={"Password"}
+                      placeholder={"Passwort"}
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -171,13 +171,13 @@ export default function Register() {
                   Login
                 </Button>
                 <Text textAlign={"center"} mt={"1rem"}>
-                  Forgot your password?&nbsp;
+                  Passwort vergessen?&nbsp;
                   <Link href={"/account/reset"}>
                     <ChakraLink
                       href={"/account/reset-password"}
                       color={"blue.400"}
                     >
-                      Reset it.
+                      Setze es zurück.
                     </ChakraLink>
                   </Link>
                 </Text>
@@ -192,10 +192,10 @@ export default function Register() {
                   direction={"column"}
                 >
                   <Heading size={"xl"} textAlign={"center"}>
-                    2 Factor Authentication
+                    2 Faktor Authentifizierung
                   </Heading>
                   <Text textAlign={"center"} mt={".4rem"}>
-                    Check your email for a code.
+                    Überprüfe dein E-Mail Postfach für einen 2FA Code
                   </Text>
                 </Flex>
                 <HStack alignItems={"center"} justifyContent={"center"}>

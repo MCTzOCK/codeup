@@ -112,9 +112,9 @@ export default function Token() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>Reset Password</Heading>
+              <Heading size={"xl"}>Passwort zurücksetzen</Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Enter your new password below to change it.
+                Gib ein neues Passwort ein.
               </Text>
             </Flex>
             <form
@@ -150,11 +150,11 @@ export default function Token() {
               }}
             >
               <FormControl isInvalid={passwordInvalid}>
-                <FormLabel htmlFor={"password"}>Password</FormLabel>
+                <FormLabel htmlFor={"password"}>Passwort</FormLabel>
                 <InputGroup>
                   <Input
                     id={"password"}
-                    placeholder={"Password"}
+                    placeholder={"Passwort"}
                     disabled={disabled || loading}
                     type={passwordVisible ? "text" : "password"}
                     onChange={(e) => {
@@ -180,8 +180,9 @@ export default function Token() {
                   </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>
-                  Please enter a password with at least 8 characters, one
-                  uppercase, one lowercase, one number and one special character
+                  Bitte gib ein Passwort ein, welches aus mindestens 8
+                  Buchstaben, einen Großbuchstaben, einen Kleinbuchstaben eine
+                  Ziffer und ein Sonderzeichen besteht.
                 </FormErrorMessage>
               </FormControl>
               <Button
@@ -192,7 +193,7 @@ export default function Token() {
                 w={"100%"}
                 mt={"2rem"}
               >
-                Reset Password
+                Passwort zurücksetzen
               </Button>
             </form>
           </Flex>

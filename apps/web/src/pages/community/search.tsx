@@ -53,8 +53,8 @@ export default function Search() {
         .then((res) => setResults({ posts: res.posts, profiles: res.profiles }))
         .catch((err) => {
           toast({
-            title: "Error",
-            description: "Something went wrong while searching.",
+            title: "Fehler",
+            description: "Etwas ist schief gelaufen.",
             status: "error",
             duration: 6000,
           });
@@ -78,7 +78,7 @@ export default function Search() {
             }}
             type={"text"}
             defaultValue={term}
-            placeholder={"Search..."}
+            placeholder={"Suchen..."}
           />
           <InputRightAddon cursor={"pointer"} onClick={() => {}}>
             <FaSearch />
@@ -89,7 +89,7 @@ export default function Search() {
       results.profiles.length > 0 ? (
         <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={"2rem"}>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>Posts</Heading>
+            <Heading textAlign={"center"}>Beiträge</Heading>
             {
               // @ts-ignore
               results.posts
@@ -111,7 +111,7 @@ export default function Search() {
             }
           </Box>
           <Box flex={"100%"} mt={"2rem"}>
-            <Heading textAlign={"center"}>Profiles</Heading>
+            <Heading textAlign={"center"}>Profile</Heading>
             {
               // @ts-ignore
               results.profiles
