@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/duplicate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +151,7 @@
       <workItem from="1657041188254" duration="3603000" />
       <workItem from="1657057701697" duration="231000" />
       <workItem from="1657099864327" duration="2076000" />
-      <workItem from="1657131120848" duration="14810000" />
+      <workItem from="1657131120848" duration="15555000" />
     </task>
     <servers />
   </component>
