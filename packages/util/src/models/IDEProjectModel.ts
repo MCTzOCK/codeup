@@ -21,8 +21,24 @@ const IDEProject = new mongoose.Schema({
     required: true,
   },
   contributors: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "User",
+    type: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        permissions: {
+          type: [String],
+          required: true,
+          /*
+           * Permissions
+           * READ; WRITE; DELETE; DUPLICATE; MANAGE-CONTRIBUTORS; RENAME; EXPORT
+           */
+          default: ["READ", "WRITE", "DUPLICATE"],
+        },
+      },
+    ],
     required: true,
     default: [],
   },
@@ -31,11 +47,11 @@ const IDEProject = new mongoose.Schema({
       {
         path: {
           type: String,
-          default: "/new-file.txt",
+          default: "/README.MD",
         },
         content: {
           type: String,
-          default: "",
+          default: "# Readme\nWillkommen im CodeUp Editor!",
         },
       },
     ],
