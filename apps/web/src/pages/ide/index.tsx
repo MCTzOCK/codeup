@@ -339,6 +339,8 @@ function Open() {
 
   const sBoxId = useId();
 
+  const [projectId, setProjectId] = useState("0");
+
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"center"} mt={"1.2rem"}>
@@ -707,7 +709,7 @@ function Open() {
                                               owner: j.owner,
                                               contributors: j.contributors,
                                             });
-
+                                            setProjectId(project.id);
                                             onContributorOpen();
                                           }}
                                         >
@@ -925,6 +927,49 @@ function Open() {
                                         <Button
                                           variant={"solid"}
                                           colorScheme={"red"}
+                                          onClick={async () => {
+                                            const resp = await fetch(
+                                              "/api/ide/projects/contributors/remove",
+                                              {
+                                                method: "POST",
+                                                headers: {
+                                                  "Content-Type":
+                                                    "application/json",
+                                                },
+                                                body: JSON.stringify({
+                                                  token:
+                                                    localStorage.getItem(
+                                                      "token"
+                                                    ),
+                                                  project: projectId,
+                                                  contributor:
+                                                    contributor.email,
+                                                }),
+                                              }
+                                            );
+                                            if (resp.status === 200) {
+                                              let c0n: any = contributors;
+
+                                              c0n = c0n.contributors.filter(
+                                                (c: any) =>
+                                                  c.email !== contributor.email
+                                              );
+
+                                              setContributors({
+                                                owner: contributors.owner,
+                                                contributors: [...c0n],
+                                              });
+                                            } else {
+                                              const json = await resp.json();
+                                              toast({
+                                                title: "Fehler",
+                                                description: json.error,
+                                                position: "top",
+                                                variant: "solid",
+                                                isClosable: true,
+                                              });
+                                            }
+                                          }}
                                         >
                                           Entfernen
                                         </Button>
