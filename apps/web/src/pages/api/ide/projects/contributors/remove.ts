@@ -89,9 +89,9 @@ export default async function handleRequest(
         }
 
         if (
-          IDEProject.contributors.filter((c: any) =>
+          IDEProject.contributors.find((c: any) =>
             c.user.equals(contributor._id)
-          ).length === 0
+          )
         ) {
           res.status(400).json({
             error: "Contributor not added yet",

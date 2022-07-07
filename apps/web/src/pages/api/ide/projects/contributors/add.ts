@@ -89,9 +89,9 @@ export default async function handleRequest(
         }
 
         if (
-          IDEProject.contributors.filter((c: any) =>
+          IDEProject.contributors.find((c: any) =>
             c.user.equals(contributor._id)
-          ).length > 0 ||
+          ) ||
           IDEProject.owner.equals(contributor._id)
         ) {
           res.status(400).json({
@@ -109,6 +109,14 @@ export default async function handleRequest(
 
         res.status(200).json({
           success: true,
+          contributor: {
+            email: contributor.email,
+            id: contributor._id,
+            permissions: ["READ", "WRITE", "DUPLICATE"],
+            username: contributor.username,
+            firstName: contributor.firstName,
+            lastName: contributor.lastName,
+          },
         });
       } catch (e: any) {
         res.status(500).json({

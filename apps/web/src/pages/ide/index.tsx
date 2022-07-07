@@ -8,6 +8,13 @@
  *
  */
 
+/*
+ * Dear future me,
+ * forgive me. Forgive me for not separating this into
+ * more than one component. I am very sorry for this big mess.
+ * At this time (08.07.2022;00:03) this file has about 1100 lines.
+ * I AM SORRYYY :(
+ */
 import * as React from "react";
 import { useEffect, useId, useState } from "react";
 import redirect from "@codeup/util/src/userworkflow/redirect";
@@ -70,6 +77,7 @@ import { BiDuplicate, BiRename } from "react-icons/bi";
 import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { HiMail } from "react-icons/hi";
 
 export default function Index() {
   useEffect(() => {
@@ -753,6 +761,90 @@ function Open() {
           <ModalBody>
             {contributors ? (
               <>
+                <Flex justifyContent={"right"} mr={[0, "2rem"]}>
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button
+                        variant={"solid"}
+                        colorScheme={"whatsapp"}
+                        leftIcon={<FaPlus />}
+                      >
+                        Hinzufügen
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent bgColor={"black"}>
+                      <PopoverArrow bgColor={"black"} />
+                      <PopoverCloseButton />
+                      <PopoverHeader fontSize={["xl", "2xl"]}>
+                        Mitwirkenden hinzufügen
+                      </PopoverHeader>
+                      <PopoverBody fontSize={["lg", "xl"]}>
+                        <form
+                          onSubmit={async (e) => {
+                            e.preventDefault();
+                            const resp = await fetch(
+                              "/api/ide/projects/contributors/add",
+                              {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  token: localStorage.getItem("token"),
+                                  project: projectId,
+                                  // @ts-ignore
+                                  contributor: e.target.elements.email_i.value,
+                                }),
+                              }
+                            );
+                            if (resp.status === 200) {
+                              let json = await resp.json();
+                              let c0n: any = contributors;
+
+                              c0n.contributors.push(json.contributor);
+
+                              setContributors({
+                                owner: contributors.owner,
+                                contributors: [...c0n.contributors],
+                              });
+                              // @ts-ignore
+                              e.target.elements.email_i.value = "";
+                            } else {
+                              const json = await resp.json();
+                              toast({
+                                title: "Fehler",
+                                description: json.error,
+                                position: "top",
+                                status: "error",
+                                variant: "solid",
+                                isClosable: true,
+                              });
+                            }
+                          }}
+                        >
+                          <Stack>
+                            <FormControl>
+                              <FormLabel>E-Mail</FormLabel>
+                              <InputGroup>
+                                <InputLeftAddon>
+                                  <HiMail />
+                                </InputLeftAddon>
+                                <Input
+                                  id={"email_i"}
+                                  name="email_i"
+                                  placeholder={"E-Mail"}
+                                />
+                              </InputGroup>
+                            </FormControl>
+                            <Button type="submit" colorScheme={"whatsapp"}>
+                              Hinzufügen
+                            </Button>
+                          </Stack>
+                        </form>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+                </Flex>
                 <Flex
                   m={[0, "2rem"]}
                   direction={"column"}
@@ -965,6 +1057,7 @@ function Open() {
                                                 title: "Fehler",
                                                 description: json.error,
                                                 position: "top",
+                                                status: "error",
                                                 variant: "solid",
                                                 isClosable: true,
                                               });
@@ -1076,7 +1169,111 @@ function Open() {
                                         <Button
                                           variant={"solid"}
                                           colorScheme={"blue"}
-                                          onClick={() => {}}
+                                          onClick={async () => {
+                                            const resp = await fetch(
+                                              "/api/ide/projects/contributors/permissions",
+                                              {
+                                                method: "POST",
+                                                headers: {
+                                                  "Content-Type":
+                                                    "application/json",
+                                                },
+                                                body: JSON.stringify({
+                                                  token:
+                                                    localStorage.getItem(
+                                                      "token"
+                                                    ),
+                                                  project: projectId,
+                                                  contributor:
+                                                    contributor.email,
+                                                  permissions: [
+                                                    "READ",
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-write"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "WRITE"
+                                                      : null,
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-delete"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "DELETE"
+                                                      : null,
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-duplicate"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "DUPLICATE"
+                                                      : null,
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-rename"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "RENAME"
+                                                      : null,
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-export"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "EXPORT"
+                                                      : null,
+                                                    (
+                                                      document.getElementById(
+                                                        "cb-upd-perms-" +
+                                                          contributor.id +
+                                                          "-manage_contributors"
+                                                      ) as HTMLInputElement
+                                                    ).checked
+                                                      ? "MANAGE-CONTRIBUTORS"
+                                                      : null,
+                                                  ],
+                                                }),
+                                              }
+                                            );
+                                            if (resp.status === 200) {
+                                              const json = await resp.json();
+                                              let c0n: any = contributors;
+
+                                              c0n.contributors.find(
+                                                (c: any) =>
+                                                  c.id === contributor.id
+                                              ).permissions =
+                                                json.contributor.permissions;
+
+                                              setContributors({
+                                                owner: contributors.owner,
+                                                contributors: [
+                                                  ...c0n.contributors,
+                                                ],
+                                              });
+                                            } else {
+                                              const json = await resp.json();
+                                              toast({
+                                                title: "Fehler",
+                                                description: json.error,
+                                                position: "top",
+                                                status: "error",
+                                                variant: "solid",
+                                                isClosable: true,
+                                              });
+                                            }
+                                          }}
                                         >
                                           Speichern
                                         </Button>
