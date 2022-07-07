@@ -70,7 +70,7 @@ export default async function handleRequest(
         await sendMail(user.email, user.firstName);
 
         res.status(200).json({
-          error: null,
+          success: true,
           token: generateJWT(user),
         });
         return;

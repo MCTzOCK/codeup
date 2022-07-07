@@ -97,7 +97,7 @@ export default async function handleRequest(
     );
 
     res.status(200).json({
-      error: null,
+      success: true,
       message: "User created - Please check your email for an activation link",
     });
   } catch (e: any) {
