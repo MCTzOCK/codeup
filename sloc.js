@@ -20,13 +20,31 @@ paths = paths
   .filter((p) => !p.includes(".afdesign"));
 
 let lines = 0;
+let biggestFile = {
+  path: "",
+  lines: 0,
+};
 
 for (let i = 0; i < paths.length; i++) {
-  lines += getFileLines(paths[i]);
+  let fLines = getFileLines(paths[i]);
+  if (biggestFile.lines < fLines) {
+    biggestFile = {
+      path: paths[i],
+      lines: fLines,
+    };
+  }
+  lines += fLines;
+}
+
+if (process.argv.includes("-v")) {
+  console.log(JSON.stringify(paths, null, 2));
 }
 
 console.log("Total Lines of Code: " + lines);
 console.log("Total Source Files: " + paths.length);
+console.log(
+  "Biggest File: " + biggestFile.path + " with " + biggestFile.lines + " lines"
+);
 
 function getAllPaths(dirPath, arrayOfFiles) {
   files = fs.readdirSync(dirPath);

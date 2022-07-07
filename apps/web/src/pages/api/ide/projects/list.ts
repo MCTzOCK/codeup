@@ -32,9 +32,9 @@ export default async function handleRequest(
     return;
   }
 
-  if (!["OWNER", "CONTRIBUTOR"].includes(req.body.type.toUpperCase())) {
+  if (!["OWNER", "CONTRIBUTOR", "ALL"].includes(req.body.type.toUpperCase())) {
     res.status(400).json({
-      error: "Field type does not match Type ['OWNER' | 'CONTRIBUTOR']",
+      error: "Field type does not match Type ['OWNER' | 'CONTRIBUTOR' | 'ALL']",
     });
     return;
   }
@@ -67,6 +67,16 @@ export default async function handleRequest(
             projects = await IDEProjectModel.find({
               contributors: user.id,
             });
+            break;
+          case "ALL":
+            projects = [
+              ...(await IDEProjectModel.find({
+                contributors: user.id,
+              })),
+              ...(await IDEProjectModel.find({
+                owner: user.id,
+              })),
+            ];
             break;
         }
 

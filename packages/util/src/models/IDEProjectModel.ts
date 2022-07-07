@@ -33,7 +33,7 @@ const IDEProject = new mongoose.Schema({
           required: true,
           /*
            * Permissions
-           * READ; WRITE; DELETE; DUPLICATE; ADMIN; MANAGE-CONTRIBUTORS; RENAME; EXPORT
+           * READ; WRITE; DELETE; DUPLICATE; MANAGE-CONTRIBUTORS; RENAME; EXPORT
            */
           default: ["READ", "WRITE", "DUPLICATE"],
         },
