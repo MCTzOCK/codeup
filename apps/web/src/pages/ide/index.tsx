@@ -55,14 +55,11 @@ import {
   Spinner,
   Stack,
   Tag,
-  TagCloseButton,
-  TagLabel,
   Text,
   Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
@@ -76,7 +73,6 @@ import {
 import { BiDuplicate, BiRename } from "react-icons/bi";
 import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { HiMail } from "react-icons/hi";
 import { useUserInfo } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
