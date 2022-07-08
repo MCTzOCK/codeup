@@ -60,21 +60,25 @@ export default async function handleRequest(
         switch (req.body.type.toUpperCase()) {
           case "OWNER":
             projects = await IDEProjectModel.find({
-              owner: user.id,
+              owner: (decoded as any).id,
             });
             break;
           case "CONTRIBUTOR":
             projects = await IDEProjectModel.find({
-              contributors: user.id,
+              contributors: (decoded as any).id,
             });
             break;
           case "ALL":
             projects = [
               ...(await IDEProjectModel.find({
-                contributors: user.id,
+                contributors: {
+                  $elemMatch: {
+                    user: (decoded as any).id,
+                  },
+                },
               })),
               ...(await IDEProjectModel.find({
-                owner: user.id,
+                owner: (decoded as any).id,
               })),
             ];
             break;

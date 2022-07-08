@@ -78,6 +78,7 @@ import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiMail } from "react-icons/hi";
+import { useUserInfo } from "@codeup/hooks";
 
 export default function Index() {
   useEffect(() => {
@@ -270,7 +271,7 @@ function Open() {
       },
       body: JSON.stringify({
         token: localStorage.getItem("token"),
-        type: "OWNER",
+        type: "ALL",
         minimal: true,
       }),
     }).then((res) => {
@@ -348,6 +349,8 @@ function Open() {
   const sBoxId = useId();
 
   const [projectId, setProjectId] = useState("0");
+
+  const userInfo = useUserInfo();
 
   return (
     <>
@@ -1070,217 +1073,226 @@ function Open() {
                                     </PopoverBody>
                                   </PopoverContent>
                                 </Popover>
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <IconButton
-                                      aria-label={"Berechtigungen verwalten"}
-                                    >
-                                      <FaCogs />
-                                    </IconButton>
-                                  </PopoverTrigger>
-                                  <PopoverContent bgColor={"gray.800"}>
-                                    <PopoverArrow bgColor={"gray.800"} />
-                                    <PopoverCloseButton />
-                                    <PopoverHeader>
-                                      Berechtigungen ändern
-                                    </PopoverHeader>
-                                    <PopoverBody>
-                                      <Stack>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "READ"
-                                          )}
-                                          disabled={true}
-                                        >
-                                          Lesen
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "WRITE"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-write"
+
+                                {userInfo.id !== contributor.id ? (
+                                  <>
+                                    <Popover>
+                                      <PopoverTrigger>
+                                        <IconButton
+                                          aria-label={
+                                            "Berechtigungen verwalten"
                                           }
                                         >
-                                          Schreiben
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "DELETE"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-delete"
-                                          }
-                                        >
-                                          Löschen
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "DUPLICATE"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-duplicate"
-                                          }
-                                        >
-                                          Klonen
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "RENAME"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-rename"
-                                          }
-                                        >
-                                          Umbenennen
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "EXPORT"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-export"
-                                          }
-                                        >
-                                          Exportieren
-                                        </Checkbox>
-                                        <Checkbox
-                                          defaultChecked={contributor.permissions.includes(
-                                            "MANAGE-CONTRIBUTORS"
-                                          )}
-                                          id={
-                                            "cb-upd-perms-" +
-                                            contributor.id +
-                                            "-manage_contributors"
-                                          }
-                                        >
-                                          Mitwirkende verwalten
-                                        </Checkbox>
-                                        <Button
-                                          variant={"solid"}
-                                          colorScheme={"blue"}
-                                          onClick={async () => {
-                                            const resp = await fetch(
-                                              "/api/ide/projects/contributors/permissions",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  project: projectId,
-                                                  contributor:
-                                                    contributor.email,
-                                                  permissions: [
-                                                    "READ",
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-write"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "WRITE"
-                                                      : null,
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-delete"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "DELETE"
-                                                      : null,
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-duplicate"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "DUPLICATE"
-                                                      : null,
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-rename"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "RENAME"
-                                                      : null,
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-export"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "EXPORT"
-                                                      : null,
-                                                    (
-                                                      document.getElementById(
-                                                        "cb-upd-perms-" +
-                                                          contributor.id +
-                                                          "-manage_contributors"
-                                                      ) as HTMLInputElement
-                                                    ).checked
-                                                      ? "MANAGE-CONTRIBUTORS"
-                                                      : null,
-                                                  ],
-                                                }),
+                                          <FaCogs />
+                                        </IconButton>
+                                      </PopoverTrigger>
+                                      <PopoverContent bgColor={"gray.800"}>
+                                        <PopoverArrow bgColor={"gray.800"} />
+                                        <PopoverCloseButton />
+                                        <PopoverHeader>
+                                          Berechtigungen ändern
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <Stack>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "READ"
+                                              )}
+                                              disabled={true}
+                                            >
+                                              Lesen
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "WRITE"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-write"
                                               }
-                                            );
-                                            if (resp.status === 200) {
-                                              const json = await resp.json();
-                                              let c0n: any = contributors;
+                                            >
+                                              Schreiben
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "DELETE"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-delete"
+                                              }
+                                            >
+                                              Löschen
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "DUPLICATE"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-duplicate"
+                                              }
+                                            >
+                                              Klonen
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "RENAME"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-rename"
+                                              }
+                                            >
+                                              Umbenennen
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "EXPORT"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-export"
+                                              }
+                                            >
+                                              Exportieren
+                                            </Checkbox>
+                                            <Checkbox
+                                              defaultChecked={contributor.permissions.includes(
+                                                "MANAGE-CONTRIBUTORS"
+                                              )}
+                                              id={
+                                                "cb-upd-perms-" +
+                                                contributor.id +
+                                                "-manage_contributors"
+                                              }
+                                            >
+                                              Mitwirkende verwalten
+                                            </Checkbox>
+                                            <Button
+                                              variant={"solid"}
+                                              colorScheme={"blue"}
+                                              onClick={async () => {
+                                                const resp = await fetch(
+                                                  "/api/ide/projects/contributors/permissions",
+                                                  {
+                                                    method: "POST",
+                                                    headers: {
+                                                      "Content-Type":
+                                                        "application/json",
+                                                    },
+                                                    body: JSON.stringify({
+                                                      token:
+                                                        localStorage.getItem(
+                                                          "token"
+                                                        ),
+                                                      project: projectId,
+                                                      contributor:
+                                                        contributor.email,
+                                                      permissions: [
+                                                        "READ",
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-write"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "WRITE"
+                                                          : null,
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-delete"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "DELETE"
+                                                          : null,
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-duplicate"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "DUPLICATE"
+                                                          : null,
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-rename"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "RENAME"
+                                                          : null,
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-export"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "EXPORT"
+                                                          : null,
+                                                        (
+                                                          document.getElementById(
+                                                            "cb-upd-perms-" +
+                                                              contributor.id +
+                                                              "-manage_contributors"
+                                                          ) as HTMLInputElement
+                                                        ).checked
+                                                          ? "MANAGE-CONTRIBUTORS"
+                                                          : null,
+                                                      ],
+                                                    }),
+                                                  }
+                                                );
+                                                if (resp.status === 200) {
+                                                  const json =
+                                                    await resp.json();
+                                                  let c0n: any = contributors;
 
-                                              c0n.contributors.find(
-                                                (c: any) =>
-                                                  c.id === contributor.id
-                                              ).permissions =
-                                                json.contributor.permissions;
+                                                  c0n.contributors.find(
+                                                    (c: any) =>
+                                                      c.id === contributor.id
+                                                  ).permissions =
+                                                    json.contributor.permissions;
 
-                                              setContributors({
-                                                owner: contributors.owner,
-                                                contributors: [
-                                                  ...c0n.contributors,
-                                                ],
-                                              });
-                                            } else {
-                                              const json = await resp.json();
-                                              toast({
-                                                title: "Fehler",
-                                                description: json.error,
-                                                position: "top",
-                                                status: "error",
-                                                variant: "solid",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
-                                        >
-                                          Speichern
-                                        </Button>
-                                      </Stack>
-                                    </PopoverBody>
-                                  </PopoverContent>
-                                </Popover>
+                                                  setContributors({
+                                                    owner: contributors.owner,
+                                                    contributors: [
+                                                      ...c0n.contributors,
+                                                    ],
+                                                  });
+                                                } else {
+                                                  const json =
+                                                    await resp.json();
+                                                  toast({
+                                                    title: "Fehler",
+                                                    description: json.error,
+                                                    position: "top",
+                                                    status: "error",
+                                                    variant: "solid",
+                                                    isClosable: true,
+                                                  });
+                                                }
+                                              }}
+                                            >
+                                              Speichern
+                                            </Button>
+                                          </Stack>
+                                        </PopoverBody>
+                                      </PopoverContent>
+                                    </Popover>
+                                  </>
+                                ) : null}
                               </ButtonGroup>
                             </Flex>
                           </Flex>

@@ -65,14 +65,11 @@ export default async function handleRequest(
           return;
         }
 
-        if (
-          IDEProject.contributors.filter((c: any) => c.user.equals(user._id))
-            .length > 0
-        ) {
+        if (IDEProject.contributors.find((c: any) => c.user.equals(user._id))) {
           res.status(200).json({
             success: true,
             permissions: [
-              ...IDEProject.contributors.filter((c: any) =>
+              ...IDEProject.contributors.find((c: any) =>
                 c.user.equals(user._id)
               ).permissions,
             ],

@@ -100,6 +100,17 @@ export default async function handleRequest(
           return;
         }
 
+        if (
+          IDEProject.contributors
+            .find((c: any) => c.user.equals(contributor._id))
+            .user.equals(user._id)
+        ) {
+          res.status(400).json({
+            error: "You can not update yourself.",
+          });
+          return;
+        }
+
         IDEProject.contributors.find((c: any) =>
           c.user.equals(contributor._id)
         ).permissions = req.body.permissions;
