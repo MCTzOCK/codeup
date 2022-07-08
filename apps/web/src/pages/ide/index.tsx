@@ -79,6 +79,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiMail } from "react-icons/hi";
 import { useUserInfo } from "@codeup/hooks";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 export default function Index() {
   useEffect(() => {
@@ -446,7 +447,7 @@ function Open() {
                                 <Menu>
                                   <MenuButton>
                                     <IconButton aria-label={"menu"}>
-                                      <GiHamburgerMenu />
+                                      <FiMoreHorizontal />
                                     </IconButton>
                                   </MenuButton>
                                   <MenuList>

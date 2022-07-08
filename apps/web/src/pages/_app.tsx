@@ -14,8 +14,8 @@ import { NavigationBar, Footer } from "@codeup/components/global";
 const theme = extendTheme({
   config: {
     useSystemColorMode: false,
-    initialColorMode: "dark"
-  }
+    initialColorMode: "dark",
+  },
 });
 
 function App({ Component, pageProps }: AppProps) {
@@ -28,8 +28,8 @@ function App({ Component, pageProps }: AppProps) {
         additionalMetaTags={[
           {
             name: "keywords",
-            content: "seo, keywords"
-          }
+            content: "seo, keywords",
+          },
         ]}
         openGraph={{
           type: "website",
@@ -42,13 +42,13 @@ function App({ Component, pageProps }: AppProps) {
               width: 512,
               height: 512,
               alt: "SEO Image",
-              type: "image/jpg"
-            }
-          ]
+              type: "image/jpg",
+            },
+          ],
         }}
         twitter={{
           handle: "@OfficialMCTzOCK",
-          cardType: "summary_large_image"
+          cardType: "summary_large_image",
         }}
       />
       <ChakraProvider theme={theme}>
@@ -62,7 +62,7 @@ function App({ Component, pageProps }: AppProps) {
             router.pathname.startsWith("/explore") ? (
               <CourseNavigationBar />
             ) : null}
-              <Component {...pageProps} />
+            <Component {...pageProps} />
             {router.pathname.startsWith("/community") ? <PostButton /> : null}
           </Box>
           <Footer />
