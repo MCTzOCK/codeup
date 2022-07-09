@@ -431,7 +431,11 @@ function Open() {
                           <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
                             <Flex direction={"row"}>
                               <Box flex={"20%"} textAlign={"center"}>
-                                {project.name}
+                                <Link href={"/ide/project/" + project.id}>
+                                  <NextLink href={"/ide/project/" + project.id}>
+                                    {project.name}
+                                  </NextLink>
+                                </Link>
                               </Box>
                               <Box flex={[0, "60%"]}></Box>
                               <Box
