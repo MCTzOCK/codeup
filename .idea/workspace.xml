@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/packages/components/course/CourseLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/CourseLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/ModuleCardRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/ModuleCardRow.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +153,7 @@
       <workItem from="1657131120848" duration="17154000" />
       <workItem from="1657188617554" duration="33584000" />
       <workItem from="1657456591262" duration="45000" />
-      <workItem from="1657472158760" duration="2208000" />
+      <workItem from="1657472158760" duration="2348000" />
     </task>
     <servers />
   </component>

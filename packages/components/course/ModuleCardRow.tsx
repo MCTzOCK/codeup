@@ -12,9 +12,7 @@ import * as React from "react";
 import { Flex } from "@chakra-ui/react";
 import { ReactElement } from "react";
 
-export default function ModuleCardRow(props: {
-  children: JSX.Element | JSX.Element[] | ReactElement | ReactElement[];
-}) {
+export default function ModuleCardRow(props: { children: any }) {
   return (
     <Flex direction={"row"} gap={"3rem"} key={"0"}>
       {props.children}
