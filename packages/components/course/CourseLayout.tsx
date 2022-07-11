@@ -12,15 +12,7 @@ import * as React from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { ReactElement, ReactNode } from "react";
 
-export default function CourseLayout(props: {
-  children:
-    | JSX.Element
-    | JSX.Element[]
-    | ReactElement
-    | ReactElement[]
-    | ReactNode
-    | ReactNode[];
-}) {
+export default function CourseLayout(props: { children: any }) {
   return (
     <>
       <Flex w={"100%"} justifyContent={"center"}>
