@@ -10,10 +10,16 @@
 
 import * as React from "react";
 import { Box, Flex } from "@chakra-ui/react";
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 
 export default function CourseLayout(props: {
-  children: JSX.Element | JSX.Element[] | ReactElement | ReactElement[];
+  children:
+    | JSX.Element
+    | JSX.Element[]
+    | ReactElement
+    | ReactElement[]
+    | ReactNode
+    | ReactNode[];
 }) {
   return (
     <>

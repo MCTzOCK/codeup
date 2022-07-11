@@ -72,42 +72,56 @@ export default function NavigationBar() {
           <PopoverContent bg={"black"}>
             <PopoverArrow />
             <PopoverBody>
-              <Flex w={"100%"} direction={"column"}>
-                <Link href={"/extra/project-ideas"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Projektideen
-                  </Button>
-                </Link>
-                <Link href={"/community"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Forum
-                  </Button>
-                </Link>
-                <Link href={"/ide"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    IDE (Editor)
-                  </Button>
-                </Link>
-                <Link href={"/hackathons"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Hackathons
-                  </Button>
-                </Link>
-                <Link href={"/challenges"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Challenges
-                  </Button>
-                </Link>
-                <Link href={"/certificates"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Zertifikate
-                  </Button>
-                </Link>
-                <Link href={"/hosting"}>
-                  <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                    Hosting
-                  </Button>
-                </Link>
+              <Flex w={"100%"} direction={"row"}>
+                <Flex flex={"100%"} direction={"column"}>
+                  <Link href={"/community"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Forum
+                    </Button>
+                  </Link>
+                  <Link href={"/ide"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      IDE (Editor)
+                    </Button>
+                  </Link>
+                  <Link href={"/hackathons"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Hackathons
+                    </Button>
+                  </Link>
+                  <Link href={"/challenges"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Challenges
+                    </Button>
+                  </Link>
+                  <Link href={"/certificates"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Zertifikate
+                    </Button>
+                  </Link>
+                </Flex>
+                <Flex flex={"100%"} direction={"column"}>
+                  <Link href={"/extra/project-ideas"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Projektideen
+                    </Button>
+                  </Link>
+                  <Link href={"/todo"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      ToDo Listen
+                    </Button>
+                  </Link>
+                  <Link href={"/calendar"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Kalender
+                    </Button>
+                  </Link>
+                  <Link href={"/hosting"}>
+                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
+                      Hosting
+                    </Button>
+                  </Link>
+                </Flex>
               </Flex>
             </PopoverBody>
           </PopoverContent>

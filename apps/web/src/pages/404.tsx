@@ -21,6 +21,7 @@ export default function NotFound() {
         alignItems={"center"}
         justifyContent={"center"}
         direction={"column"}
+        textAlign={"center"}
       >
         <Heading size={"xl"} fontFamily={"monospace"} color={"gray.400"}>
           404
