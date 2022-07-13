@@ -386,7 +386,7 @@ function Account(props: {
                 isLoading={_2faButtonDisabled}
                 colorScheme={props.userInfo._2fa ? "red" : "green"}
               >
-                {props.userInfo._2fa ? "Aktivieren" : "Deaktivieren"}
+                {props.userInfo._2fa ? "Deaktivieren" : "Aktivieren"}
               </Button>
             </FormControl>
           </Flex>
