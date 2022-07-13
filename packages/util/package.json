@@ -1,7 +1,7 @@
 {
   "name": "@codeup/util",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "src",
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
   "private": false,
