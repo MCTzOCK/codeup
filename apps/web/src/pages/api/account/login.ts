@@ -54,6 +54,13 @@ export default async function handleRequest(
     return;
   }
 
+  if (!user.active) {
+    res.status(400).json({
+      error: "Account not activated. Check your E-Mail for an activation Link",
+    });
+    return;
+  }
+
   if (!user.twoFactorEnabled) {
     await sendMail(user.email, user.firstName);
     res.status(200).json({
