@@ -32,6 +32,7 @@ import {
   Spinner,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { BsFillHouseDoorFill } from "react-icons/bs";
@@ -174,12 +175,21 @@ function Account(props: {
     React.useState<boolean>(false);
   const [deleteAccountDisabled, setDeleteAccountDisabled] =
     React.useState<boolean>(false);
+  const [changePasswordDisabled, setChangePasswordDisabled] =
+    React.useState<boolean>(false);
 
   const [firstNameError, setFirstNameError] = React.useState<string | null>(
     null
   );
   const [lastNameError, setLastNameError] = React.useState<string | null>(null);
   const [emailError, setEmailError] = React.useState<string | null>(null);
+
+  const toast = useToast({
+    position: "top",
+    isClosable: true,
+    duration: 6000,
+    variant: "solid",
+  });
 
   return (
     <>
@@ -456,6 +466,86 @@ function Account(props: {
                   >
                     Wirklich löschen
                   </Button>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </FormControl>
+        </Flex>
+        <Flex direction={"column"}>
+          <FormControl>
+            <FormLabel>Passwort ändern</FormLabel>
+            <Text>
+              Wenn du das Passwort deines Account änderst, wirst du nicht
+              automatisch von allen Geräten abgemeldet. Diesen Schritt musst du
+              manuell durchführen.
+            </Text>
+            <Popover>
+              <PopoverTrigger>
+                <Button mt={"1.2rem"} colorScheme={"blue"}>
+                  Passwort ändern
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent bgColor={"black"}>
+                <PopoverArrow bgColor={"black"} />
+                <PopoverCloseButton />
+                <PopoverHeader>Passwort ändern</PopoverHeader>
+                <PopoverBody>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setChangePasswordDisabled(true);
+
+                      fetch("/api/account/update", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          token: localStorage.getItem("token") as string,
+                          keyName: "password",
+                          // @ts-ignore
+                          keyValue: e.target.elements.password.value,
+                        }),
+                      }).then((res) => {
+                        res.json().then((data) => {
+                          if (res.status === 200) {
+                            toast({
+                              status: "success",
+                              title: "Erfolgreich",
+                              description:
+                                "Dein Passwort wurde erfolgreich geändert.",
+                            });
+                            setChangePasswordDisabled(false);
+                          } else {
+                            toast({
+                              status: "error",
+                              title: "Fehler",
+                              description: data.error,
+                            });
+                            setChangePasswordDisabled(false);
+                          }
+                        });
+                      });
+                    }}
+                  >
+                    <FormControl>
+                      <FormLabel>Passwort</FormLabel>
+                      <Input
+                        placeholder={"Passwort"}
+                        name={"password"}
+                        id={"password"}
+                        type={"password"}
+                      />
+                    </FormControl>
+                    <Button
+                      type={"submit"}
+                      disabled={changePasswordDisabled}
+                      isLoading={changePasswordDisabled}
+                      mt={"1.2rem"}
+                    >
+                      Passwort ändern
+                    </Button>
+                  </form>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
