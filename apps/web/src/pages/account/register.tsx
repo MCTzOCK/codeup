@@ -264,9 +264,8 @@ export default function Register() {
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         if (
-                          e.target.value.match(
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-                          )
+                          // @ts-ignore
+                          checkPassword(e.target.value)
                         ) {
                           setPasswordInvalid(false);
                           setPassword(e.target.value);
