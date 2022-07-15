@@ -19,6 +19,15 @@ import {
   FormLabel,
   Heading,
   Input,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
   SimpleGrid,
   Spinner,
   Text,
@@ -162,6 +171,8 @@ function Account(props: {
   const [emailButtonDisabled, setEmailButtonDisabled] =
     React.useState<boolean>(false);
   const [_2faButtonDisabled, set_2faButtonDisabled] =
+    React.useState<boolean>(false);
+  const [deleteAccountDisabled, setDeleteAccountDisabled] =
     React.useState<boolean>(false);
 
   const [firstNameError, setFirstNameError] = React.useState<string | null>(
@@ -380,17 +391,76 @@ function Account(props: {
           <Flex direction={"column"}>
             <FormControl>
               <FormLabel>2 Faktor</FormLabel>
+              <Text>
+                Wenn aktiviert, erhälst du, <b>jedes Mal</b>, wenn du versuchst
+                dich anzumelden, eine E-Mail mit der du den Login authorisieren
+                musst.
+              </Text>
               <Button
                 type="submit"
                 disabled={_2faButtonDisabled}
                 isLoading={_2faButtonDisabled}
                 colorScheme={props.userInfo._2fa ? "red" : "green"}
+                mt={"1.2rem"}
               >
                 {props.userInfo._2fa ? "Deaktivieren" : "Aktivieren"}
               </Button>
             </FormControl>
           </Flex>
         </form>
+        <Flex direction={"column"}>
+          <FormControl>
+            <FormLabel>Konto löschen</FormLabel>
+            <Text>
+              Lösche dein Konto, um <b>ALLE</b> von uns gespeicherten Daten zu
+              löschen.&nbsp;
+              <b>ACHTUNG:&nbsp;</b>
+              Diese Aktion kann nicht rückgängig gemacht werden.
+            </Text>
+            <Popover>
+              <PopoverTrigger>
+                <Button colorScheme={"red"} mt={"1.2rem"}>
+                  Konto löschen
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent bgColor={"black"}>
+                <PopoverArrow bgColor={"black"} />
+                <PopoverCloseButton />
+                <PopoverHeader>Konto Löschen</PopoverHeader>
+                <PopoverBody>
+                  Bist du dir sicher, dass du dein Konto wirklich löschen
+                  möchtest. Diese Aktion kann <b>NICHT</b> rückgängig gemacht
+                  werden. Alle persönlichen Daten werden von unseren Servern
+                  gelöscht. Diese können <b>NICHT</b> wiederhergestellt werden.
+                  <Button
+                    disabled={deleteAccountDisabled}
+                    isLoading={deleteAccountDisabled}
+                    colorScheme={"red"}
+                    mt={"1.2rem"}
+                    onClick={() => {
+                      setDeleteAccountDisabled(true);
+
+                      fetch("/api/account/delete", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          token: localStorage.getItem("token") as string,
+                        }),
+                      }).then((res) => {
+                        localStorage.removeItem("token");
+                        window.location.reload();
+                      });
+                    }}
+                  >
+                    Wirklich löschen
+                  </Button>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </FormControl>
+        </Flex>
       </SimpleGrid>
     </>
   );
