@@ -12,9 +12,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import mongoConnect from "@codeup/util/src/mongo";
+import checkPassword from "@codeup/util/src/checkPassword";
 import generateJWT from "@codeup/util/src/generateJWT";
 import { uuid } from "uuidv4";
 import sendMail from "@codeup/util/src/sendMail";
+import * as crypto from "crypto";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -52,7 +54,7 @@ export default async function handleRequest(
       return;
     }
 
-    let allowedKeyNames = ["firstName", "lastName", "email", "2fa"];
+    let allowedKeyNames = ["firstName", "lastName", "email", "2fa", "password"];
 
     if (!allowedKeyNames.includes(req.body.keyName)) {
       res.status(400).json({
@@ -124,6 +126,22 @@ export default async function handleRequest(
         break;
       case "2fa":
         user.twoFactorEnabled = req.body.keyValue === "true";
+        break;
+      case "password":
+        const password = req.body.keyValue;
+
+        if (!checkPassword(password)) {
+          res.status(400).json({
+            error:
+              "Das Passwort muss aus mindestens 8 Buchstaben, einen Großbuchstaben, einen Kleinbuchstaben eine Ziffer und ein Sonderzeichen bestehen.",
+          });
+          return;
+        }
+
+        user.password = crypto
+          .createHash("sha256")
+          .update(password)
+          .digest("hex");
         break;
     }
 
