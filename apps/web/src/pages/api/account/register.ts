@@ -14,6 +14,7 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
 import { uuid } from "uuidv4";
 import sendMail from "@codeup/util/src/sendMail";
+import checkPassword from "@codeup/util/src/checkPassword";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -46,9 +47,7 @@ export default async function handleRequest(
     ) ||
     !(req.body.firstName.length > 0) ||
     !(req.body.lastName.length > 0) ||
-    !req.body.password.match(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    ) ||
+    !checkPassword(req.body.password) ||
     !/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(
       req.body.username
     )

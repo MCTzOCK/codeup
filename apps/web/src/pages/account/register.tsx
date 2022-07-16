@@ -31,6 +31,7 @@ import {
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import checkPassword from "@codeup/util/src/checkPassword";
 
 export default function Register() {
   const [usernameInvalid, setUsernameInvalid] = React.useState(false);
@@ -111,11 +112,7 @@ export default function Register() {
               onSubmit={(e) => {
                 e.preventDefault();
 
-                if (
-                  !password.match(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-                  )
-                ) {
+                if (!checkPassword(password)) {
                   setPasswordInvalid(true);
                   return;
                 }
@@ -267,9 +264,8 @@ export default function Register() {
                       type={passwordVisible ? "text" : "password"}
                       onChange={(e) => {
                         if (
-                          e.target.value.match(
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-                          )
+                          // @ts-ignore
+                          checkPassword(e.target.value)
                         ) {
                           setPasswordInvalid(false);
                           setPassword(e.target.value);

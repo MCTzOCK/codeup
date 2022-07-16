@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/packages/components/course/ModuleCardRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/ModuleCardRow.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/todo/lists/[id]/tasks/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/todo/lists/[id]/tasks/delete.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +59,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;16.9.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;16.9.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/api/ide/projects/contributors&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/api/todo/lists&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -87,11 +88,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\todo\lists" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\contributors" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks\hooks" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
@@ -154,6 +155,7 @@
       <workItem from="1657188617554" duration="33584000" />
       <workItem from="1657456591262" duration="45000" />
       <workItem from="1657472158760" duration="2348000" />
+      <workItem from="1657915903020" duration="4217000" />
     </task>
     <servers />
   </component>

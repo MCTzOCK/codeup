@@ -12,6 +12,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import mongoConnect from "@codeup/util/src/mongo";
 import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
+import checkPassword from "@codeup/util/src/checkPassword";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -46,11 +47,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (
-    !req.body.password.match(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
-  ) {
+  if (!checkPassword(req.body.password)) {
     res.status(400).json({
       error:
         "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character",
