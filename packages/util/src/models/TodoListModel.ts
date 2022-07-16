@@ -31,10 +31,6 @@ const TodoSchema = new mongoose.Schema({
           type: String,
           required: true,
         },
-        description: {
-          type: String,
-          default: "",
-        },
         uuid: {
           type: String,
           required: true,

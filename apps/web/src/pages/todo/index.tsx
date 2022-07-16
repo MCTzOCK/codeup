@@ -16,6 +16,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -30,6 +31,7 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import {
   Popover,
@@ -42,7 +44,7 @@ import {
   PopoverCloseButton,
   PopoverAnchor,
 } from "@chakra-ui/react";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
   Drawer,
@@ -64,8 +66,8 @@ export default function Index() {
       name: string;
       tasks: {
         name: string;
-        description: string;
         finished: boolean;
+        uuid: string;
       }[];
     }[]
   >([]);
@@ -118,8 +120,8 @@ export default function Index() {
     name: string;
     tasks: {
       name: string;
-      description: string;
       finished: boolean;
+      uuid: string;
     }[];
   } | null>(null);
 
@@ -259,7 +261,173 @@ export default function Index() {
           <DrawerHeader>{currentList?.name}</DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="Type here..." />
+            <Flex w={"100%"} alignItems={"center"}>
+              <Heading flex={"40%"} size={"md"}>
+                Aufgaben
+              </Heading>
+              <Box flex={"50%"}></Box>
+              <Popover>
+                <PopoverTrigger>
+                  <IconButton
+                    flex={"10%"}
+                    aria-label={"Aufgabe erstellen"}
+                    icon={<FaPlus />}
+                    colorScheme={"whatsapp"}
+                  />
+                </PopoverTrigger>
+                <PopoverContent bgColor={"black"}>
+                  <PopoverArrow bgColor={"black"} />
+                  <PopoverHeader>Neue Aufgabe</PopoverHeader>
+                  <PopoverBody>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+
+                        fetch(
+                          "/api/todo/lists/" +
+                            currentList?._id +
+                            "/tasks/create",
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              token: localStorage.getItem("token"),
+                              // @ts-ignore
+                              task: e.target.elements.taskname.value,
+                            }),
+                          }
+                        ).then((res) => {
+                          res.json().then((data) => {
+                            if (res.status === 200) {
+                              reloadLists();
+                              let x = currentList;
+                              x?.tasks.push({
+                                // @ts-ignore
+                                name: e.target.elements.taskname.value,
+                                finished: false,
+                                uuid: data.task,
+                              });
+                              setCurrentList(x);
+
+                              toast({
+                                position: "top",
+                                variant: "solid",
+                                status: "success",
+                                title: "Erfolgreich",
+                                description: "Die Aufgabe wurde erstellt",
+                                isClosable: true,
+                                duration: 6000,
+                              });
+                            } else {
+                              toast({
+                                position: "top",
+                                variant: "solid",
+                                status: "error",
+                                title: "Fehler",
+                                description: data.error,
+                                isClosable: true,
+                                duration: 6000,
+                              });
+                            }
+                          });
+                        });
+                      }}
+                    >
+                      <FormControl>
+                        <FormLabel>Name</FormLabel>
+                        <Input
+                          name={"taskname"}
+                          id={"taskname"}
+                          placeholder={"Name"}
+                        />
+                      </FormControl>
+                      <Button type={"submit"} mt={"1.2rem"}>
+                        Erstellen
+                      </Button>
+                    </form>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            </Flex>
+            <Flex w={"100%"} direction={"column"} mt={"2rem"} gap={"2rem"}>
+              {currentList?.tasks.map((task) => {
+                return (
+                  <Flex w={"100%"}>
+                    <VStack flex={"40%"}>
+                      <Heading size={"md"} textAlign={"left"}>
+                        {task.name}
+                      </Heading>
+                    </VStack>
+                    <Box flex={"50%"}></Box>
+                    <Menu>
+                      <MenuButton
+                        flex={"10%"}
+                        as={IconButton}
+                        aria-label={"Menü"}
+                        icon={<FiMoreHorizontal />}
+                      />
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            fetch(
+                              "/api/todo/lists/" +
+                                currentList?._id +
+                                "/tasks/delete",
+                              {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  token: localStorage.getItem("token"),
+                                  // @ts-ignore
+                                  task: task.uuid,
+                                }),
+                              }
+                            ).then((res) => {
+                              res.json().then((data) => {
+                                if (res.status === 200) {
+                                  reloadLists();
+                                  let x = currentList;
+                                  x.tasks = x?.tasks.filter(
+                                    (y) => y.uuid !== task.uuid
+                                  );
+                                  setCurrentList(x);
+
+                                  toast({
+                                    position: "top",
+                                    variant: "solid",
+                                    status: "success",
+                                    title: "Erfolgreich",
+                                    description: "Die Aufgabe wurde gelöscht",
+                                    isClosable: true,
+                                    duration: 6000,
+                                  });
+                                } else {
+                                  toast({
+                                    position: "top",
+                                    variant: "solid",
+                                    status: "error",
+                                    title: "Fehler",
+                                    description: data.error,
+                                    isClosable: true,
+                                    duration: 6000,
+                                  });
+                                }
+                              });
+                            });
+                          }}
+                        >
+                          Löschen
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Flex>
+                );
+              })}
+            </Flex>
           </DrawerBody>
 
           <DrawerFooter>
