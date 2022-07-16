@@ -71,7 +71,7 @@ export default async function handleRequest(
         return;
       }
 
-      const task = list.tasks.find((t) => t.uuid === req.body.task);
+      const task = list.tasks.find((t: any) => t.uuid === req.body.task);
 
       if (!task) {
         res.status(400).json({
@@ -80,7 +80,7 @@ export default async function handleRequest(
         return;
       }
 
-      list.tasks = list.tasks.filter((t) => t.uuid !== req.body.task);
+      list.tasks = list.tasks.filter((t: any) => t.uuid !== req.body.task);
 
       await list.save();
 
