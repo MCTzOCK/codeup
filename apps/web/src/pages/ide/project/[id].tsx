@@ -139,16 +139,6 @@ export default function Index() {
                     rounded={"none"}
                   />
                 </Tooltip>
-                <Tooltip label={"Einstellungen"} placement={"right"} hasArrow>
-                  <IconButton
-                    aria-label={""}
-                    variant="ghost"
-                    size={"lg"}
-                    p={"2rem"}
-                    icon={<FaCogs />}
-                    rounded={"none"}
-                  />
-                </Tooltip>
                 <Tooltip label={"Veröffentlichen"} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
@@ -166,6 +156,16 @@ export default function Index() {
                     size={"lg"}
                     p={"2rem"}
                     icon={<FaEye />}
+                    rounded={"none"}
+                  />
+                </Tooltip>
+                <Tooltip label={"Einstellungen"} placement={"right"} hasArrow>
+                  <IconButton
+                    aria-label={""}
+                    variant="ghost"
+                    size={"lg"}
+                    p={"2rem"}
+                    icon={<FaCogs />}
                     rounded={"none"}
                   />
                 </Tooltip>
