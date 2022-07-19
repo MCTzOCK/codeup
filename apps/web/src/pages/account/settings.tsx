@@ -197,10 +197,11 @@ function Account(props: {
         Konto verwalten
       </Heading>
       <SimpleGrid
-        minChildWidth={200}
+        minChildWidth={250}
         spacing={"2rem"}
         margin={"2rem"}
         columns={1}
+        maxW={"85%"}
       >
         <form
           onSubmit={(e) => {
