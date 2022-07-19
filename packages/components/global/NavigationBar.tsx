@@ -290,6 +290,7 @@ export default function NavigationBar() {
               maxH={"100vh"}
               overflow={"auto"}
               mb={[0, "2rem"]}
+              gap={".4rem"}
             >
               <ExpandedMenuOption
                 name={"Forum"}
