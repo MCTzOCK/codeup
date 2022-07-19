@@ -38,22 +38,48 @@ export default async function handleRequest(
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
 
-      const user = await UserModel.findById((decoded as any).id);
+      try {
+        const user = await UserModel.findById((decoded as any).id);
 
-      if (!user) {
-        res.status(400).json({
-          error: "Invalid token",
+        if (!user) {
+          res.status(400).json({
+            error: "Invalid token",
+          });
+          return;
+        }
+
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
+
+        if (!IDEProject) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("READ")
+          )
+        ) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          project: IDEProject,
         });
-        return;
-      }
-
-      const IDEProject = await IDEProjectModel.findById(req.query.id);
-
-      if (!IDEProject) {
-        res.status(400).json({
-          error: "Project not found",
+      } catch (e: any) {
+        res.status(500).json({
+          error: e.message,
         });
-        return;
       }
     }
   );
