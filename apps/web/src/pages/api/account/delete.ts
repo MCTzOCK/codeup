@@ -36,8 +36,8 @@ export default async function handleRequest(
 
   // @ts-ignore
   jwt.verify(
-    req.headers["x-jwt"],
-    process.env.JWT_SECRET,
+    req.headers["x-jwt"] as string,
+    process.env.JWT_SECRET as string,
     async (err, decoded) => {
       if (err) {
         res.status(400).json({
