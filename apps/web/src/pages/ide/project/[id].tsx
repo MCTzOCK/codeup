@@ -307,9 +307,90 @@ export default function Index() {
                             {permissions.includes('WRITE') ||
                             permissions.includes('OWNER') ? (
                               <>
-                                <MenuItem>Neu</MenuItem>
-                                <MenuItem>Speichern</MenuItem>
-                                <MenuItem>Speichern als</MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    fetch(
+                                      '/api/ide/projects/' +
+                                        project?._id +
+                                        '/file/save?id=' +
+                                        project?._id,
+                                      {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                          token: localStorage.getItem('token'),
+                                          path: currentFile?.path,
+                                          content:
+                                            // @ts-ignore
+                                            editorRef?.current?.getValue(),
+                                        }),
+                                      }
+                                    ).then((res) => {
+                                      res.json().then((data) => {
+                                        if (res.status === 200) {
+                                          let f = project?.files;
+
+                                          if (
+                                            f &&
+                                            f.find(
+                                              (p) =>
+                                                p.path ===
+                                                (currentFile?.path as string)
+                                            )
+                                          ) {
+                                            (
+                                              f.find(
+                                                (p) =>
+                                                  p.path ===
+                                                  (currentFile?.path as string)
+                                              ) as {
+                                                content: string;
+                                                path: string;
+                                              }
+                                            ).content =
+                                              // @ts-ignore
+                                              editorRef?.current?.getValue();
+                                          }
+
+                                          if (project && f) {
+                                            setProject({
+                                              _id: project?._id,
+                                              contributors:
+                                                project?.contributors,
+                                              owner: project?.owner,
+                                              name: project?.name,
+                                              files: f,
+                                            });
+                                          }
+
+                                          toast({
+                                            status: "success",
+                                            variant: "solid",
+                                            position: "top",
+                                            title: "Erfolgreich",
+                                            description: "Die Datei wurde erfolgreich gespeichert",
+                                            isClosable: true,
+                                            duration: 4000
+                                          })
+                                        } else {
+                                          toast({
+                                            status: 'error',
+                                            variant: 'solid',
+                                            position: 'top',
+                                            title: 'Fehler',
+                                            description: data.error,
+                                            isClosable: true,
+                                            duration: 4000,
+                                          });
+                                        }
+                                      });
+                                    });
+                                  }}
+                                >
+                                  Speichern
+                                </MenuItem>
                               </>
                             ) : null}
                             <MenuItem>Schließen</MenuItem>
@@ -423,70 +504,85 @@ export default function Index() {
                                 <PopoverCloseButton />
                                 <PopoverHeader>Neue Datei</PopoverHeader>
                                 <PopoverBody>
-                                  <form onSubmit={(e) => {
-                                    e.preventDefault();
+                                  <form
+                                    onSubmit={(e) => {
+                                      e.preventDefault();
+                                      let path =
+                                        // @ts-ignore
+                                        e.target.elements.newfilepath.value.toLowerCase();
 
-                                    // @ts-ignore
-                                    let path = e.target.elements.newfilepath.value.toLowerCase();
-                                    
-                                    if(!path.startsWith("/")) {
-                                      path = "/" + path;
-                                    }
+                                      if (!path.startsWith('/')) {
+                                        path = '/' + path;
+                                      }
 
-                                    if(project?.files.find(f => f.path === path)) {
-                                      toast({
-                                        status: "error",
-                                        variant: "solid",
-                                        position: "top",
-                                        title: "Fehler",
-                                        description: "Diese Datei existiert bereits.",
-                                        isClosable: true,
-                                        duration: 4000
-                                      })
-                                      return;
-                                    }
+                                      if (
+                                        project?.files.find(
+                                          (f) => f.path === path
+                                        )
+                                      ) {
+                                        toast({
+                                          status: 'error',
+                                          variant: 'solid',
+                                          position: 'top',
+                                          title: 'Fehler',
+                                          description:
+                                            'Diese Datei existiert bereits.',
+                                          isClosable: true,
+                                          duration: 4000,
+                                        });
+                                        return;
+                                      }
 
-                                    fetch("/api/ide/projects/" + project?._id +  "/file/save?id=" + project?._id, {
-                                      method: "POST",
-                                      headers: {
-                                        "Content-Type": "application/json"
-                                      },
-                                      body: JSON.stringify({
-                                        token: localStorage.getItem("token"),
-                                        path,
-                                        content: "0"
-                                      })
-                                    }).then(res => {
-                                      res.json().then(data => {
-                                        if(res.status === 200) {
+                                      fetch(
+                                        '/api/ide/projects/' +
+                                          project?._id +
+                                          '/file/save?id=' +
+                                          project?._id,
+                                        {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                          },
+                                          body: JSON.stringify({
+                                            token:
+                                              localStorage.getItem('token'),
+                                            path,
+                                            content: '0',
+                                          }),
+                                        }
+                                      ).then((res) => {
+                                        res.json().then((data) => {
+                                          if (res.status === 200) {
                                             let f = project?.files;
                                             f?.push({
                                               path,
-                                              content: ""
+                                              content: '',
                                             });
-                                            if(project && f) {
+                                            if (project && f) {
                                               setProject({
                                                 _id: project?._id,
-                                                contributors: project?.contributors,
+                                                contributors:
+                                                  project?.contributors,
                                                 owner: project?.owner,
                                                 name: project?.name,
-                                                files: f
-                                              })
+                                                files: f,
+                                              });
                                             }
-                                        } else {
-                                          toast({
-                                            status: "error",
-                                            variant: "solid",
-                                            position: "top",
-                                            title: "Fehler",
-                                            description: data.error,
-                                            isClosable: true,
-                                            duration: 4000
-                                          })
-                                        }
-                                      })
-                                    })
-                                  }}>
+                                          } else {
+                                            toast({
+                                              status: 'error',
+                                              variant: 'solid',
+                                              position: 'top',
+                                              title: 'Fehler',
+                                              description: data.error,
+                                              isClosable: true,
+                                              duration: 4000,
+                                            });
+                                          }
+                                        });
+                                      });
+                                    }}
+                                  >
                                     <FormControl>
                                       <FormLabel>Pfad</FormLabel>
                                       <Input
@@ -496,7 +592,9 @@ export default function Index() {
                                         placeholder="Pfad"
                                       />
                                     </FormControl>
-                                    <Button type="submit" mt=".6rem">Erstellen</Button>
+                                    <Button type="submit" mt=".6rem">
+                                      Erstellen
+                                    </Button>
                                   </form>
                                 </PopoverBody>
                               </PopoverContent>
@@ -507,83 +605,85 @@ export default function Index() {
                     </Box>
                   </Flex>
                   <Flex direction="column" maxH="90vh" overflow="auto">
-                    {project?.files.sort((a,b) => {
-                      let x = a.path.toLowerCase();
-                      let y = b.path.toLowerCase();
-                      return (x < y) ? -1 : (x > y) ? 1 : 0;
-                    }).map((f) => {
-                      return (
-                        <Flex
-                          direction="row"
-                          p=".4rem"
-                          cursor="pointer"
-                          alignItems="center"
-                          _hover={{
-                            bgColor: 'gray.800',
-                          }}
-                        >
-                          <Box flex="5%" fontSize="xl">
-                            {f.path.toLowerCase().endsWith('.js') ? (
-                              <FaJsSquare />
-                            ) : f.path.toLowerCase().endsWith('.html') ? (
-                              <FaHtml5 />
-                            ) : f.path.toLowerCase().endsWith('.css') ? (
-                              <FaCss3 />
-                            ) : f.path.toLowerCase().endsWith('.md') ? (
-                              <FaMarkdown />
-                            ) : (
-                              <FaFile />
-                            )}
-                          </Box>
-                          <Box flex="20%">{f.path.substring(1)}</Box>
-                          <Box flex="65%"></Box>
-                          <Box flex="10%">
-                            <ButtonGroup>
-                              {permissions.includes('WRITE') ||
-                              permissions.includes('OWNER') ? (
-                                <>
-                                  <Tooltip label="Datei Löschen" hasArrow>
-                                    <IconButton
-                                      aria-label="Löschen"
-                                      size="lg"
-                                      fontSize={'xl'}
-                                      icon={<FiTrash2 />}
-                                      variant="ghost"
-                                    />
-                                  </Tooltip>
-                                  <Tooltip label="Datei Umbenennen" hasArrow>
-                                    <IconButton
-                                      aria-label="Umbenennen"
-                                      size="lg"
-                                      fontSize={'xl'}
-                                      icon={<FiEdit2 />}
-                                      variant="ghost"
-                                    />
-                                  </Tooltip>
-                                </>
-                              ) : null}
+                    {project?.files
+                      .sort((a, b) => {
+                        let x = a.path.toLowerCase();
+                        let y = b.path.toLowerCase();
+                        return x < y ? -1 : x > y ? 1 : 0;
+                      })
+                      .map((f) => {
+                        return (
+                          <Flex
+                            direction="row"
+                            p=".4rem"
+                            cursor="pointer"
+                            alignItems="center"
+                            _hover={{
+                              bgColor: 'gray.800',
+                            }}
+                          >
+                            <Box flex="5%" fontSize="xl">
+                              {f.path.toLowerCase().endsWith('.js') ? (
+                                <FaJsSquare />
+                              ) : f.path.toLowerCase().endsWith('.html') ? (
+                                <FaHtml5 />
+                              ) : f.path.toLowerCase().endsWith('.css') ? (
+                                <FaCss3 />
+                              ) : f.path.toLowerCase().endsWith('.md') ? (
+                                <FaMarkdown />
+                              ) : (
+                                <FaFile />
+                              )}
+                            </Box>
+                            <Box flex="20%">{f.path.substring(1)}</Box>
+                            <Box flex="65%"></Box>
+                            <Box flex="10%">
+                              <ButtonGroup>
+                                {permissions.includes('WRITE') ||
+                                permissions.includes('OWNER') ? (
+                                  <>
+                                    <Tooltip label="Datei Löschen" hasArrow>
+                                      <IconButton
+                                        aria-label="Löschen"
+                                        size="lg"
+                                        fontSize={'xl'}
+                                        icon={<FiTrash2 />}
+                                        variant="ghost"
+                                      />
+                                    </Tooltip>
+                                    <Tooltip label="Datei Umbenennen" hasArrow>
+                                      <IconButton
+                                        aria-label="Umbenennen"
+                                        size="lg"
+                                        fontSize={'xl'}
+                                        icon={<FiEdit2 />}
+                                        variant="ghost"
+                                      />
+                                    </Tooltip>
+                                  </>
+                                ) : null}
 
-                              <Tooltip label="Bearbeiten" hasArrow>
-                                <IconButton
-                                  aria-label="Bearbeiten"
-                                  size="lg"
-                                  fontSize={'xl'}
-                                  icon={<FiEdit />}
-                                  variant="ghost"
-                                  onClick={() => {
-                                    setCurrentFile({
-                                      path: f.path,
-                                      content: f.content,
-                                    });
-                                    onFileMenuClose();
-                                  }}
-                                />
-                              </Tooltip>
-                            </ButtonGroup>
-                          </Box>
-                        </Flex>
-                      );
-                    })}
+                                <Tooltip label="Bearbeiten" hasArrow>
+                                  <IconButton
+                                    aria-label="Bearbeiten"
+                                    size="lg"
+                                    fontSize={'xl'}
+                                    icon={<FiEdit />}
+                                    variant="ghost"
+                                    onClick={() => {
+                                      setCurrentFile({
+                                        path: f.path,
+                                        content: f.content,
+                                      });
+                                      onFileMenuClose();
+                                    }}
+                                  />
+                                </Tooltip>
+                              </ButtonGroup>
+                            </Box>
+                          </Flex>
+                        );
+                      })}
                   </Flex>
                 </Flex>
               </DrawerBody>
