@@ -26,6 +26,21 @@ import {
   getList,
   getMyLists,
 } from "./api/ToDo";
+import {
+  addContributor,
+  createProject,
+  deleteFile,
+  deleteProject,
+  duplicateProject,
+  getContributors,
+  getProject,
+  getProjectPermissions,
+  getProjects,
+  overwriteContributorPermissions,
+  removeContributor,
+  renameProject,
+  saveFile,
+} from "./api/IDE";
 
 const REST = {
   Account: {
@@ -45,6 +60,21 @@ const REST = {
     getList,
     createTask,
     deleteTask,
+  },
+  IDE: {
+    getProjectPermissions,
+    saveFile,
+    deleteFile,
+    getProject,
+    addContributor,
+    removeContributor,
+    getContributors,
+    overwriteContributorPermissions,
+    renameProject,
+    createProject,
+    deleteProject,
+    duplicateProject,
+    getProjects,
   },
   Util: {
     makeRequest: makeRequest,

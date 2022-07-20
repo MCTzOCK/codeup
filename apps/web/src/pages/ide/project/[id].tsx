@@ -8,10 +8,10 @@
  *
  */
 
-import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import redirect from '@codeup/util/src/userworkflow/redirect';
+import * as React from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import redirect from "@codeup/util/src/userworkflow/redirect";
 import {
   Alert,
   AlertDescription,
@@ -51,7 +51,7 @@ import {
   FormLabel,
   Input,
   Stack,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   FaCloudUploadAlt,
   FaCogs,
@@ -65,15 +65,16 @@ import {
   FaPlus,
   FaTrash,
   FaUserFriends,
-} from 'react-icons/fa';
-import Editor, { Monaco, useMonaco } from '@monaco-editor/react';
+} from "react-icons/fa";
+import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 import {
   FiEdit,
   FiEdit2,
   FiFilePlus,
   FiFolderPlus,
   FiTrash2,
-} from 'react-icons/fi';
+} from "react-icons/fi";
+import REST from "@codeup/rest";
 
 export default function Index() {
   const router = useRouter();
@@ -101,7 +102,7 @@ export default function Index() {
     error: string;
   }>({
     show: false,
-    error: '',
+    error: "",
   });
 
   const [project, setProject] = useState<{
@@ -129,55 +130,47 @@ export default function Index() {
 
   useEffect(() => {
     if (router.query.id) {
-      fetch('/api/ide/projects/' + router.query.id, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: localStorage.getItem('token'),
-        }),
+      REST.IDE.getProject({
+        token: localStorage.getItem("token") as string,
+        projectId: router.query.id as string,
       }).then((res) => {
-        res.json().then((data) => {
-          if (res.status === 200) {
-            setProject(data.project);
-          } else {
-            setErrorAlert({
-              error: data.error,
-              show: true,
-            });
-          }
-        });
+        if (res.status === 200) {
+          setProject(res.payload.project);
+        } else {
+          setErrorAlert({
+            error: res.payload.error,
+            show: true,
+          });
+        }
       });
     }
   }, [router]);
 
   const editorRef = useRef(null);
   const monaco = useMonaco();
-  const [monacoTheme, setMonacoTheme] = useState('vs-dark');
+  const [monacoTheme, setMonacoTheme] = useState("vs-dark");
 
   useEffect(() => {
     if (monaco && monaco.editor && project && project.files) {
-      monaco.editor.defineTheme('codeup-dark', {
-        base: 'vs-dark',
+      monaco.editor.defineTheme("codeup-dark", {
+        base: "vs-dark",
         inherit: true,
         rules: [],
         colors: {
-          'editor.background': '#171923',
+          "editor.background": "#171923",
         },
       });
-      setMonacoTheme('codeup-dark');
-
-      if (project.files.find((f) => f.path.toLowerCase() === '/readme.md')) {
+      setMonacoTheme("codeup-dark");
+      if (project.files.find((f) => f.path.toLowerCase() === "/readme.md")) {
         setCurrentFile({
           path: (
             project.files.find(
-              (f) => f.path.toLowerCase() === '/readme.md'
+              (f) => f.path.toLowerCase() === "/readme.md"
             ) as any
           ).path,
           content: (
             project.files.find(
-              (f) => f.path.toLowerCase() === '/readme.md'
+              (f) => f.path.toLowerCase() === "/readme.md"
             ) as any
           ).content,
         });
@@ -193,19 +186,11 @@ export default function Index() {
 
   useEffect(() => {
     if (project && project._id) {
-      fetch('/api/ide/projects/permissions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          project: project._id,
-          token: localStorage.getItem('token'),
-        }),
+      REST.IDE.getProjectPermissions({
+        token: localStorage.getItem("token") as string,
+        projectId: project._id,
       }).then((res) => {
-        res.json().then((data) => {
-          setPermissions(data.permissions);
-        });
+        setPermissions(res.payload.permissions);
       });
     }
   }, [project]);
@@ -213,7 +198,7 @@ export default function Index() {
   return (
     <>
       {errorAlert.show ? (
-        <Alert status="error" variant={'top-accent'}>
+        <Alert status="error" variant={"top-accent"}>
           <AlertIcon />
           <AlertTitle>Fehler!</AlertTitle>
           <AlertDescription>{errorAlert.error}</AlertDescription>
@@ -221,189 +206,176 @@ export default function Index() {
       ) : (
         <>
           <Flex
-            direction={'row'}
-            w={'100%'}
-            minH={'100vh'}
-            id={'editor-wrapper-flex'}
+            direction={"row"}
+            w={"100%"}
+            minH={"100vh"}
+            id={"editor-wrapper-flex"}
           >
             <Box
-              flex={'5%'}
-              minH={'90vh'}
-              bgColor={'gray.900'}
-              w={'100%'}
-              margin={'2rem'}
-              rounded={'xl'}
-              shadow={'2xl'}
+              flex={"5%"}
+              minH={"90vh"}
+              bgColor={"gray.900"}
+              w={"100%"}
+              margin={"2rem"}
+              rounded={"xl"}
+              shadow={"2xl"}
             >
-              <Flex direction={'column'}>
-                <Tooltip label={'Dateien'} placement={'right'} hasArrow>
+              <Flex direction={"column"}>
+                <Tooltip label={"Dateien"} placement={"right"} hasArrow>
                   <IconButton
-                    aria-label={''}
+                    aria-label={""}
                     variant="ghost"
-                    size={'lg'}
-                    p={'2rem'}
+                    size={"lg"}
+                    p={"2rem"}
                     icon={<FaFile />}
-                    rounded={'none'}
-                    roundedTopLeft={'xl'}
-                    roundedTopRight={'xl'}
+                    rounded={"none"}
+                    roundedTopLeft={"xl"}
+                    roundedTopRight={"xl"}
                     onClick={onFileMenuOpen}
                   />
                 </Tooltip>
-                {permissions.includes('MANAGE-CONTRIBUTORS') ||
-                permissions.includes('OWNER') ? (
-                  <Tooltip label={'Mitwirkende'} placement={'right'} hasArrow>
+                {permissions.includes("MANAGE-CONTRIBUTORS") ||
+                permissions.includes("OWNER") ? (
+                  <Tooltip label={"Mitwirkende"} placement={"right"} hasArrow>
                     <IconButton
-                      aria-label={''}
+                      aria-label={""}
                       variant="ghost"
-                      size={'lg'}
-                      p={'2rem'}
+                      size={"lg"}
+                      p={"2rem"}
                       icon={<FaUserFriends />}
-                      rounded={'none'}
+                      rounded={"none"}
                     />
                   </Tooltip>
                 ) : null}
-                <Tooltip label={'Veröffentlichen'} placement={'right'} hasArrow>
+                <Tooltip label={"Veröffentlichen"} placement={"right"} hasArrow>
                   <IconButton
-                    aria-label={''}
+                    aria-label={""}
                     variant="ghost"
-                    size={'lg'}
-                    p={'2rem'}
+                    size={"lg"}
+                    p={"2rem"}
                     icon={<FaCloudUploadAlt />}
-                    rounded={'none'}
+                    rounded={"none"}
                   />
                 </Tooltip>
-                <Tooltip label={'Vorschau'} placement={'right'} hasArrow>
+                <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
                   <IconButton
-                    aria-label={''}
+                    aria-label={""}
                     variant="ghost"
-                    size={'lg'}
-                    p={'2rem'}
+                    size={"lg"}
+                    p={"2rem"}
                     icon={<FaEye />}
-                    rounded={'none'}
+                    rounded={"none"}
                   />
                 </Tooltip>
-                <Tooltip label={'Einstellungen'} placement={'right'} hasArrow>
+                <Tooltip label={"Einstellungen"} placement={"right"} hasArrow>
                   <IconButton
-                    aria-label={''}
+                    aria-label={""}
                     variant="ghost"
-                    size={'lg'}
-                    p={'2rem'}
+                    size={"lg"}
+                    p={"2rem"}
                     icon={<FaCogs />}
-                    rounded={'none'}
+                    rounded={"none"}
                   />
                 </Tooltip>
               </Flex>
             </Box>
             <Box
-              flex={'95%'}
-              minH={'90vh'}
-              bgColor={'gray.900'}
-              w={'100%'}
-              maxW={'100%'}
-              margin={'2rem'}
-              rounded={'xl'}
-              shadow={'2xl'}
+              flex={"95%"}
+              minH={"90vh"}
+              bgColor={"gray.900"}
+              w={"100%"}
+              maxW={"100%"}
+              margin={"2rem"}
+              rounded={"xl"}
+              shadow={"2xl"}
             >
               <Flex
-                direction={'column'}
-                w={'100%'}
-                h={'100%'}
-                p={'.6rem'}
-                gap={'.4rem'}
+                direction={"column"}
+                w={"100%"}
+                h={"100%"}
+                p={".6rem"}
+                gap={".4rem"}
               >
                 {currentFile ? (
                   <>
-                    <Box flex={'5%'}>
+                    <Box flex={"5%"}>
                       <ButtonGroup>
                         <Menu>
-                          <MenuButton as={Button} variant={'ghost'}>
+                          <MenuButton as={Button} variant={"ghost"}>
                             Datei
                           </MenuButton>
-                          <MenuList backgroundColor={'gray.900'}>
-                            {permissions.includes('WRITE') ||
-                            permissions.includes('OWNER') ? (
+                          <MenuList backgroundColor={"gray.900"}>
+                            {permissions.includes("WRITE") ||
+                            permissions.includes("OWNER") ? (
                               <>
                                 <MenuItem
-                                  onClick={() => {
-                                    fetch(
-                                      '/api/ide/projects/' +
-                                        project?._id +
-                                        '/file/save?id=' +
-                                        project?._id,
-                                      {
-                                        method: 'POST',
-                                        headers: {
-                                          'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                          token: localStorage.getItem('token'),
-                                          path: currentFile?.path,
-                                          content:
-                                            // @ts-ignore
-                                            editorRef?.current?.getValue(),
-                                        }),
-                                      }
-                                    ).then((res) => {
-                                      res.json().then((data) => {
-                                        if (res.status === 200) {
-                                          let f = project?.files;
-
-                                          if (
-                                            f &&
-                                            f.find(
-                                              (p) =>
-                                                p.path ===
-                                                (currentFile?.path as string)
-                                            )
-                                          ) {
-                                            (
-                                              f.find(
-                                                (p) =>
-                                                  p.path ===
-                                                  (currentFile?.path as string)
-                                              ) as {
-                                                content: string;
-                                                path: string;
-                                              }
-                                            ).content =
-                                              // @ts-ignore
-                                              editorRef?.current?.getValue();
-                                          }
-
-                                          if (project && f) {
-                                            setProject({
-                                              _id: project?._id,
-                                              contributors:
-                                                project?.contributors,
-                                              owner: project?.owner,
-                                              name: project?.name,
-                                              files: f,
-                                            });
-                                          }
-
-                                          toast({
-                                            status: 'success',
-                                            variant: 'solid',
-                                            position: 'top',
-                                            title: 'Erfolgreich',
-                                            description:
-                                              'Die Datei wurde erfolgreich gespeichert',
-                                            isClosable: true,
-                                            duration: 4000,
-                                          });
-                                        } else {
-                                          toast({
-                                            status: 'error',
-                                            variant: 'solid',
-                                            position: 'top',
-                                            title: 'Fehler',
-                                            description: data.error,
-                                            isClosable: true,
-                                            duration: 4000,
-                                          });
-                                        }
-                                      });
+                                  onClick={async () => {
+                                    const res = await REST.IDE.saveFile({
+                                      token: localStorage.getItem(
+                                        "token"
+                                      ) as string,
+                                      path: currentFile?.path as string,
+                                      content:
+                                        // @ts-ignore
+                                        editorRef?.current?.getValue() as string,
+                                      projectId: project?._id as string,
                                     });
+                                    if (res.status === 200) {
+                                      let f = project?.files;
+
+                                      if (
+                                        f &&
+                                        f.find(
+                                          (p) =>
+                                            p.path ===
+                                            (currentFile?.path as string)
+                                        )
+                                      ) {
+                                        (
+                                          f.find(
+                                            (p) =>
+                                              p.path ===
+                                              (currentFile?.path as string)
+                                          ) as {
+                                            content: string;
+                                            path: string;
+                                          }
+                                        ).content =
+                                          // @ts-ignore
+                                          editorRef?.current?.getValue();
+                                      }
+
+                                      if (project && f) {
+                                        setProject({
+                                          _id: project?._id,
+                                          contributors: project?.contributors,
+                                          owner: project?.owner,
+                                          name: project?.name,
+                                          files: f,
+                                        });
+                                      }
+
+                                      toast({
+                                        status: "success",
+                                        variant: "solid",
+                                        position: "top",
+                                        title: "Erfolgreich",
+                                        description:
+                                          "Die Datei wurde erfolgreich gespeichert",
+                                        isClosable: true,
+                                        duration: 4000,
+                                      });
+                                    } else {
+                                      toast({
+                                        status: "error",
+                                        variant: "solid",
+                                        position: "top",
+                                        title: "Fehler",
+                                        description: res.payload.error,
+                                        isClosable: true,
+                                        duration: 4000,
+                                      });
+                                    }
                                   }}
                                 >
                                   Speichern
@@ -419,14 +391,14 @@ export default function Index() {
                             </MenuItem>
                           </MenuList>
                         </Menu>
-                        {permissions.includes('WRITE') ||
-                        permissions.includes('OWNER') ? (
+                        {permissions.includes("WRITE") ||
+                        permissions.includes("OWNER") ? (
                           <>
                             <Menu>
-                              <MenuButton as={Button} variant={'ghost'}>
+                              <MenuButton as={Button} variant={"ghost"}>
                                 Bearbeiten
                               </MenuButton>
-                              <MenuList backgroundColor={'gray.900'}>
+                              <MenuList backgroundColor={"gray.900"}>
                                 <MenuItem>Rückgängig</MenuItem>
                                 <MenuItem>Wiederholen</MenuItem>
                                 <MenuItem>Ausschneiden</MenuItem>
@@ -439,28 +411,28 @@ export default function Index() {
                           </>
                         ) : null}
                         <Menu>
-                          <MenuButton as={Button} variant={'ghost'}>
+                          <MenuButton as={Button} variant={"ghost"}>
                             Hilfe
                           </MenuButton>
-                          <MenuList backgroundColor={'gray.900'}>
+                          <MenuList backgroundColor={"gray.900"}>
                             <MenuItem>Über</MenuItem>
                             <MenuItem>Support</MenuItem>
                           </MenuList>
                         </Menu>
                       </ButtonGroup>
                     </Box>
-                    <Box flex={'95%'}>
+                    <Box flex={"95%"}>
                       <Editor
                         defaultLanguage={
-                          currentFile?.path.toLowerCase().endsWith('.js')
-                            ? 'javascript'
-                            : currentFile?.path.toLowerCase().endsWith('.html')
-                            ? 'html'
-                            : currentFile?.path.toLowerCase().endsWith('.css')
-                            ? 'css'
-                            : currentFile?.path.toLowerCase().endsWith('.md')
-                            ? 'markdown'
-                            : 'plain'
+                          currentFile?.path.toLowerCase().endsWith(".js")
+                            ? "javascript"
+                            : currentFile?.path.toLowerCase().endsWith(".html")
+                            ? "html"
+                            : currentFile?.path.toLowerCase().endsWith(".css")
+                            ? "css"
+                            : currentFile?.path.toLowerCase().endsWith(".md")
+                            ? "markdown"
+                            : "plain"
                         }
                         defaultValue={currentFile?.content}
                         onMount={handleEditorDidMount}
@@ -468,8 +440,8 @@ export default function Index() {
                         options={{
                           fontSize: editorOptions.fontSize,
                           readOnly:
-                            !permissions.includes('WRITE') &&
-                            !permissions.includes('OWNER'),
+                            !permissions.includes("WRITE") &&
+                            !permissions.includes("OWNER"),
                         }}
                       />
                     </Box>
@@ -496,20 +468,20 @@ export default function Index() {
             isOpen={isFileMenuOpen}
             placement="left"
             onClose={onFileMenuClose}
-            size={['full', 'lg']}
+            size={["full", "lg"]}
           >
             <DrawerOverlay />
-            <DrawerContent bgColor={'gray.900'}>
+            <DrawerContent bgColor={"gray.900"}>
               <DrawerCloseButton />
               <DrawerHeader>Dateien</DrawerHeader>
 
               <DrawerBody>
-                <Flex direction={'column'} w="100%">
+                <Flex direction={"column"} w="100%">
                   <Flex direction="row" w="100%">
                     <Box flex="90%"></Box>
                     <Box flex="10%">
-                      {permissions.includes('WRITE') ||
-                      permissions.includes('OWNER') ? (
+                      {permissions.includes("WRITE") ||
+                      permissions.includes("OWNER") ? (
                         <>
                           <ButtonGroup>
                             <Popover>
@@ -517,7 +489,7 @@ export default function Index() {
                                 <IconButton
                                   aria-label="Neue Datei"
                                   size="lg"
-                                  fontSize={'2xl'}
+                                  fontSize={"2xl"}
                                   icon={<FiFilePlus />}
                                   variant="ghost"
                                 />
@@ -528,14 +500,14 @@ export default function Index() {
                                 <PopoverHeader>Neue Datei</PopoverHeader>
                                 <PopoverBody>
                                   <form
-                                    onSubmit={(e) => {
+                                    onSubmit={async (e) => {
                                       e.preventDefault();
                                       let path =
                                         // @ts-ignore
                                         e.target.elements.newfilepath.value.toLowerCase();
 
-                                      if (!path.startsWith('/')) {
-                                        path = '/' + path;
+                                      if (!path.startsWith("/")) {
+                                        path = "/" + path;
                                       }
 
                                       if (
@@ -544,66 +516,53 @@ export default function Index() {
                                         )
                                       ) {
                                         toast({
-                                          status: 'error',
-                                          variant: 'solid',
-                                          position: 'top',
-                                          title: 'Fehler',
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          title: "Fehler",
                                           description:
-                                            'Diese Datei existiert bereits.',
+                                            "Diese Datei existiert bereits.",
                                           isClosable: true,
                                           duration: 4000,
                                         });
                                         return;
                                       }
 
-                                      fetch(
-                                        '/api/ide/projects/' +
-                                          project?._id +
-                                          '/file/save?id=' +
-                                          project?._id,
-                                        {
-                                          method: 'POST',
-                                          headers: {
-                                            'Content-Type': 'application/json',
-                                          },
-                                          body: JSON.stringify({
-                                            token:
-                                              localStorage.getItem('token'),
-                                            path,
-                                            content: '0',
-                                          }),
-                                        }
-                                      ).then((res) => {
-                                        res.json().then((data) => {
-                                          if (res.status === 200) {
-                                            let f = project?.files;
-                                            f?.push({
-                                              path,
-                                              content: '',
-                                            });
-                                            if (project && f) {
-                                              setProject({
-                                                _id: project?._id,
-                                                contributors:
-                                                  project?.contributors,
-                                                owner: project?.owner,
-                                                name: project?.name,
-                                                files: f,
-                                              });
-                                            }
-                                          } else {
-                                            toast({
-                                              status: 'error',
-                                              variant: 'solid',
-                                              position: 'top',
-                                              title: 'Fehler',
-                                              description: data.error,
-                                              isClosable: true,
-                                              duration: 4000,
-                                            });
-                                          }
-                                        });
+                                      const res = await REST.IDE.saveFile({
+                                        token: localStorage.getItem(
+                                          "token"
+                                        ) as string,
+                                        path: path,
+                                        content: "Happy Coding!",
+                                        projectId: project?._id as string,
                                       });
+
+                                      if (res.status === 200) {
+                                        let f = project?.files;
+                                        f?.push({
+                                          path,
+                                          content: "",
+                                        });
+                                        if (project && f) {
+                                          setProject({
+                                            _id: project?._id,
+                                            contributors: project?.contributors,
+                                            owner: project?.owner,
+                                            name: project?.name,
+                                            files: f,
+                                          });
+                                        }
+                                      } else {
+                                        toast({
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          title: "Fehler",
+                                          description: res.payload.error,
+                                          isClosable: true,
+                                          duration: 4000,
+                                        });
+                                      }
                                     }}
                                   >
                                     <FormControl>
@@ -638,13 +597,13 @@ export default function Index() {
                         return (
                           <Flex direction="row" p=".4rem" alignItems="center">
                             <Box flex="5%" fontSize="xl">
-                              {f.path.toLowerCase().endsWith('.js') ? (
+                              {f.path.toLowerCase().endsWith(".js") ? (
                                 <FaJsSquare />
-                              ) : f.path.toLowerCase().endsWith('.html') ? (
+                              ) : f.path.toLowerCase().endsWith(".html") ? (
                                 <FaHtml5 />
-                              ) : f.path.toLowerCase().endsWith('.css') ? (
+                              ) : f.path.toLowerCase().endsWith(".css") ? (
                                 <FaCss3 />
-                              ) : f.path.toLowerCase().endsWith('.md') ? (
+                              ) : f.path.toLowerCase().endsWith(".md") ? (
                                 <FaMarkdown />
                               ) : (
                                 <FaFile />
@@ -654,21 +613,21 @@ export default function Index() {
                             <Box flex="65%"></Box>
                             <Box flex="10%">
                               <ButtonGroup>
-                                {permissions.includes('WRITE') ||
-                                permissions.includes('OWNER') ? (
+                                {permissions.includes("WRITE") ||
+                                permissions.includes("OWNER") ? (
                                   <>
                                     <Popover>
                                       <PopoverTrigger>
                                         <IconButton
                                           aria-label="Löschen"
                                           size="lg"
-                                          fontSize={'xl'}
+                                          fontSize={"xl"}
                                           icon={<FiTrash2 />}
                                           variant="ghost"
                                         />
                                       </PopoverTrigger>
-                                      <PopoverContent bgColor={'black'}>
-                                        <PopoverArrow bgColor={'black'} />
+                                      <PopoverContent bgColor={"black"}>
+                                        <PopoverArrow bgColor={"black"} />
                                         <PopoverCloseButton />
                                         <PopoverHeader>
                                           Datei Löschen
@@ -686,77 +645,63 @@ export default function Index() {
                                               variant="solid"
                                               colorScheme="red"
                                               mt=".4rem"
-                                              onClick={() => {
-                                                fetch(
-                                                  '/api/ide/projects/' +
-                                                    project?._id +
-                                                    '/file/delete?id=' +
-                                                    project?._id,
-                                                  {
-                                                    method: 'POST',
-                                                    headers: {
-                                                      'Content-Type':
-                                                        'application/json',
-                                                    },
-                                                    body: JSON.stringify({
-                                                      token:
-                                                        localStorage.getItem(
-                                                          'token'
-                                                        ),
-                                                      path: f.path,
-                                                    }),
-                                                  }
-                                                ).then((res) => {
-                                                  res.json().then((data) => {
-                                                    if (res.status === 200) {
-                                                      let f0 = project?.files;
-
-                                                      f0 = f0?.filter(
-                                                        (p) => p.path !== f.path
-                                                      );
-
-                                                      if (
-                                                        currentFile &&
-                                                        currentFile.path ===
-                                                          f.path
-                                                      ) {
-                                                        setCurrentFile(null);
-                                                      }
-
-                                                      if (project && f0) {
-                                                        setProject({
-                                                          _id: project?._id,
-                                                          contributors:
-                                                            project?.contributors,
-                                                          owner: project?.owner,
-                                                          name: project?.name,
-                                                          files: f0,
-                                                        });
-                                                      }
-
-                                                      toast({
-                                                        status: 'success',
-                                                        variant: 'solid',
-                                                        position: 'top',
-                                                        title: 'Erfolgreich',
-                                                        description:
-                                                          'Die Datei wurde erfolgreich gelöscht',
-                                                        isClosable: true,
-                                                        duration: 4000,
-                                                      });
-                                                    } else {
-                                                      toast({
-                                                        status: 'error',
-                                                        variant: 'solid',
-                                                        position: 'top',
-                                                        title: 'Fehler',
-                                                        description: data.error,
-                                                        isClosable: true,
-                                                        duration: 4000,
-                                                      });
-                                                    }
+                                              onClick={async () => {
+                                                const res =
+                                                  await REST.IDE.deleteFile({
+                                                    token: localStorage.getItem(
+                                                      "token"
+                                                    ) as string,
+                                                    projectId: project?._id,
+                                                    path: f.path,
                                                   });
-                                                });
+
+                                                if (res.status === 200) {
+                                                  let f0 = project?.files;
+
+                                                  f0 = f0?.filter(
+                                                    (p) => p.path !== f.path
+                                                  );
+
+                                                  if (
+                                                    currentFile &&
+                                                    currentFile.path === f.path
+                                                  ) {
+                                                    setCurrentFile(null);
+                                                  }
+
+                                                  if (project && f0) {
+                                                    setProject({
+                                                      _id: project?._id,
+                                                      contributors:
+                                                        project?.contributors,
+                                                      owner: project?.owner,
+                                                      name: project?.name,
+                                                      files: f0,
+                                                    });
+                                                  }
+
+                                                  toast({
+                                                    status: "success",
+                                                    variant: "solid",
+                                                    position: "top",
+                                                    title: "Erfolgreich",
+                                                    description:
+                                                      "Die Datei wurde erfolgreich gelöscht",
+                                                    isClosable: true,
+                                                    duration: 4000,
+                                                  });
+                                                } else {
+                                                  toast({
+                                                    status: "error",
+                                                    variant: "solid",
+                                                    position: "top",
+                                                    title: "Fehler",
+                                                    description:
+                                                      res.payload.error,
+                                                    isClosable: true,
+                                                    duration: 4000,
+                                                  });
+                                                }
                                               }}
                                             >
                                               Löschen
@@ -769,7 +714,7 @@ export default function Index() {
                                       <IconButton
                                         aria-label="Umbenennen"
                                         size="lg"
-                                        fontSize={'xl'}
+                                        fontSize={"xl"}
                                         icon={<FiEdit2 />}
                                         variant="ghost"
                                       />
@@ -781,7 +726,7 @@ export default function Index() {
                                   <IconButton
                                     aria-label="Bearbeiten"
                                     size="lg"
-                                    fontSize={'xl'}
+                                    fontSize={"xl"}
                                     icon={<FiEdit />}
                                     variant="ghost"
                                     onClick={() => {
@@ -789,6 +734,8 @@ export default function Index() {
                                         path: f.path,
                                         content: f.content,
                                       });
+                                      // @ts-ignore
+                                      editorRef?.current?.setValue(f.content);
                                       onFileMenuClose();
                                     }}
                                   />

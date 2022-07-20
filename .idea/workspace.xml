@@ -5,7 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/todo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/todo/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/IDE.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/save.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/save.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/add.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/add.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/permissions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/permissions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/remove.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/remove.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/duplicate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/duplicate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/permissions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/permissions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/update/name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/update/name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,11 +111,11 @@
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components\global" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src\videos\html-basics\basics" />
     </key>
   </component>
   <component name="RunManager">

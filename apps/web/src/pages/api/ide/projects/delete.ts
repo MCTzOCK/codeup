@@ -25,7 +25,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.id) {
+  if (!req.body || !req.headers["x-jwt"] || !req.body.id) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,7 +33,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
