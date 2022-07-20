@@ -79,7 +79,7 @@ export default function Index() {
 
   useEffect(() => {
     reloadLists();
-  }, [reloadLists]);
+  }, []);
 
   async function reloadLists() {
     const res = await REST.ToDo.getMyLists(
