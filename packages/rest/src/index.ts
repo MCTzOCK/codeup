@@ -15,6 +15,7 @@ import {
   register,
   reset,
   resetConfirm,
+  update,
 } from "./api/Account";
 import makeRequest from "./makeRequest";
 
@@ -27,6 +28,7 @@ const REST = {
     deleteAccount,
     reset,
     resetConfirm,
+    update,
   },
   Util: {
     makeRequest: makeRequest,

@@ -100,6 +100,7 @@ export async function update(options: {
   return await makeRequest({
     path: "/api/account/update",
     method: "POST",
+    token: options.token,
     body: {
       keyName: options.keyName,
       keyValue: options.keyValue,
