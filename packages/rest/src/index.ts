@@ -18,6 +18,14 @@ import {
   update,
 } from "./api/Account";
 import makeRequest from "./makeRequest";
+import {
+  createList,
+  createTask,
+  deleteList,
+  deleteTask,
+  getList,
+  getMyLists,
+} from "./api/ToDo";
 
 const REST = {
   Account: {
@@ -29,6 +37,14 @@ const REST = {
     reset,
     resetConfirm,
     update,
+  },
+  ToDo: {
+    getMyLists,
+    createList,
+    deleteList,
+    getList,
+    createTask,
+    deleteTask,
   },
   Util: {
     makeRequest: makeRequest,
