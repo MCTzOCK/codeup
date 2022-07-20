@@ -131,7 +131,7 @@ export default function NavigationBar() {
   const ExpandedMenuOption = (props: {
     name: string;
     description: string;
-    icon: ReactNode;
+    icon: any;
     url: string;
   }) => {
     return (
