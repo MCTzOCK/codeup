@@ -13,6 +13,8 @@ import {
   deleteAccount,
   login,
   register,
+  reset,
+  resetConfirm,
 } from "./api/Account";
 import makeRequest from "./makeRequest";
 
@@ -23,6 +25,8 @@ const REST = {
     checkUsername,
     checkResetToken,
     deleteAccount,
+    reset,
+    resetConfirm,
   },
   Util: {
     makeRequest: makeRequest,

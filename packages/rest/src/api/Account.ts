@@ -67,3 +67,42 @@ export async function deleteAccount(token: string): Promise<IResponse> {
     token: token,
   });
 }
+
+export async function reset(email: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/reset",
+    method: "POST",
+    body: {
+      email: email,
+    },
+  });
+}
+
+export async function resetConfirm(options: {
+  resetToken: string;
+  password: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/account/reset-confirm",
+    body: {
+      token: options.resetToken,
+      password: options.password,
+    },
+  });
+}
+
+export async function update(options: {
+  keyName: string;
+  keyValue: string;
+  token: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/update",
+    method: "POST",
+    body: {
+      keyName: options.keyName,
+      keyValue: options.keyValue,
+    },
+  });
+}
