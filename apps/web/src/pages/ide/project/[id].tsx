@@ -157,7 +157,7 @@ export default function Index() {
   const [monacoTheme, setMonacoTheme] = useState('vs-dark');
 
   useEffect(() => {
-    if (monaco && monaco.editor) {
+    if (monaco && monaco.editor && project && project.files) {
       monaco.editor.defineTheme('codeup-dark', {
         base: 'vs-dark',
         inherit: true,
@@ -167,8 +167,23 @@ export default function Index() {
         },
       });
       setMonacoTheme('codeup-dark');
+
+      if (project.files.find((f) => f.path.toLowerCase() === '/readme.md')) {
+        setCurrentFile({
+          path: (
+            project.files.find(
+              (f) => f.path.toLowerCase() === '/readme.md'
+            ) as any
+          ).path,
+          content: (
+            project.files.find(
+              (f) => f.path.toLowerCase() === '/readme.md'
+            ) as any
+          ).content,
+        });
+      }
     }
-  }, [monaco]);
+  }, [monaco, project]);
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
@@ -621,11 +636,7 @@ export default function Index() {
                       })
                       .map((f) => {
                         return (
-                          <Flex
-                            direction="row"
-                            p=".4rem"
-                            alignItems="center"
-                          >
+                          <Flex direction="row" p=".4rem" alignItems="center">
                             <Box flex="5%" fontSize="xl">
                               {f.path.toLowerCase().endsWith('.js') ? (
                                 <FaJsSquare />
@@ -656,8 +667,8 @@ export default function Index() {
                                           variant="ghost"
                                         />
                                       </PopoverTrigger>
-                                      <PopoverContent bgColor={"black"}>
-                                        <PopoverArrow bgColor={"black"} />
+                                      <PopoverContent bgColor={'black'}>
+                                        <PopoverArrow bgColor={'black'} />
                                         <PopoverCloseButton />
                                         <PopoverHeader>
                                           Datei Löschen
@@ -689,7 +700,9 @@ export default function Index() {
                                                     },
                                                     body: JSON.stringify({
                                                       token:
-                                                        localStorage.getItem('token'),
+                                                        localStorage.getItem(
+                                                          'token'
+                                                        ),
                                                       path: f.path,
                                                     }),
                                                   }
@@ -697,15 +710,19 @@ export default function Index() {
                                                   res.json().then((data) => {
                                                     if (res.status === 200) {
                                                       let f0 = project?.files;
-      
+
                                                       f0 = f0?.filter(
                                                         (p) => p.path !== f.path
                                                       );
 
-                                                      if(currentFile && currentFile.path === f.path) {
+                                                      if (
+                                                        currentFile &&
+                                                        currentFile.path ===
+                                                          f.path
+                                                      ) {
                                                         setCurrentFile(null);
                                                       }
-      
+
                                                       if (project && f0) {
                                                         setProject({
                                                           _id: project?._id,
@@ -716,7 +733,7 @@ export default function Index() {
                                                           files: f0,
                                                         });
                                                       }
-      
+
                                                       toast({
                                                         status: 'success',
                                                         variant: 'solid',
@@ -781,6 +798,12 @@ export default function Index() {
                           </Flex>
                         );
                       })}
+                    {(project?.files?.length as number) < 1 ? (
+                      <>
+                        Dieses Projekt beinhaltet keine Dateien. Erstelle die
+                        erste Datei über die Schaltfläche oben rechts.
+                      </>
+                    ) : null}
                   </Flex>
                 </Flex>
               </DrawerBody>
