@@ -393,7 +393,9 @@ export default function Index() {
                                 </MenuItem>
                               </>
                             ) : null}
-                            <MenuItem>Schließen</MenuItem>
+                            <MenuItem onClick={() => {
+                              setCurrentFile(null)
+                            }}>Schließen (OHNE SPEICHERN)</MenuItem>
                           </MenuList>
                         </Menu>
                         {permissions.includes('WRITE') ||
