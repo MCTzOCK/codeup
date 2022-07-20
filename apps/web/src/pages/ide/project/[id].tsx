@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import redirect from "@codeup/util/src/userworkflow/redirect";
 import {
@@ -18,8 +18,14 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
@@ -30,6 +36,7 @@ import {
   FaFile,
   FaUserFriends,
 } from "react-icons/fa";
+import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 
 export default function Index() {
   const router = useRouter();
@@ -90,6 +97,28 @@ export default function Index() {
       });
     }
   }, [router]);
+
+  const editorRef = useRef(null);
+  const monaco = useMonaco();
+  const [monacoTheme, setMonacoTheme] = useState("vs-dark");
+
+  useEffect(() => {
+    if (monaco && monaco.editor) {
+      monaco.editor.defineTheme("codeup-dark", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [],
+        colors: {
+          "editor.background": "#171923",
+        },
+      });
+      setMonacoTheme("codeup-dark");
+    }
+  }, [monaco]);
+
+  function handleEditorDidMount(editor: any, monaco: any) {
+    editorRef.current = editor;
+  }
 
   return (
     <>
@@ -176,10 +205,66 @@ export default function Index() {
               minH={"90vh"}
               bgColor={"gray.900"}
               w={"100%"}
+              maxW={"100%"}
               margin={"2rem"}
               rounded={"xl"}
               shadow={"2xl"}
-            ></Box>
+            >
+              <Flex
+                direction={"column"}
+                w={"100%"}
+                h={"100%"}
+                p={".6rem"}
+                gap={".4rem"}
+              >
+                <Box flex={"5%"}>
+                  <ButtonGroup>
+                    <Menu>
+                      <MenuButton as={Button} variant={"ghost"}>
+                        Datei
+                      </MenuButton>
+                      <MenuList backgroundColor={"gray.900"}>
+                        <MenuItem>Neu</MenuItem>
+                        <MenuItem>Speichern</MenuItem>
+                        <MenuItem>Speichern als</MenuItem>
+                        <MenuItem>Schließen</MenuItem>
+                      </MenuList>
+                    </Menu>
+                    <Menu>
+                      <MenuButton as={Button} variant={"ghost"}>
+                        Bearbeiten
+                      </MenuButton>
+                      <MenuList backgroundColor={"gray.900"}>
+                        <MenuItem>Rückgängig</MenuItem>
+                        <MenuItem>Wiederholen</MenuItem>
+                        <MenuItem>Ausschneiden</MenuItem>
+                        <MenuItem>Kopieren</MenuItem>
+                        <MenuItem>Einfügen</MenuItem>
+                        <MenuItem>Löschen</MenuItem>
+                        <MenuItem>Suchen</MenuItem>
+                      </MenuList>
+                    </Menu>
+                    <Menu>
+                      <MenuButton as={Button} variant={"ghost"}>
+                        Hilfe
+                      </MenuButton>
+                      <MenuList backgroundColor={"gray.900"}>
+                        <MenuItem>Über</MenuItem>
+                        <MenuItem>Support</MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </ButtonGroup>
+                </Box>
+                <Box flex={"95%"}>
+                  <Editor
+                    defaultLanguage="javascript"
+                    defaultValue="// some comment"
+                    onMount={handleEditorDidMount}
+                    theme={monacoTheme}
+                  />
+                </Box>
+              </Flex>
+            </Box>
           </Flex>
         </>
       )}
