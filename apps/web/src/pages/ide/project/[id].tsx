@@ -50,6 +50,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Stack,
 } from '@chakra-ui/react';
 import {
   FaCloudUploadAlt,
@@ -366,14 +367,15 @@ export default function Index() {
                                           }
 
                                           toast({
-                                            status: "success",
-                                            variant: "solid",
-                                            position: "top",
-                                            title: "Erfolgreich",
-                                            description: "Die Datei wurde erfolgreich gespeichert",
+                                            status: 'success',
+                                            variant: 'solid',
+                                            position: 'top',
+                                            title: 'Erfolgreich',
+                                            description:
+                                              'Die Datei wurde erfolgreich gespeichert',
                                             isClosable: true,
-                                            duration: 4000
-                                          })
+                                            duration: 4000,
+                                          });
                                         } else {
                                           toast({
                                             status: 'error',
@@ -393,9 +395,13 @@ export default function Index() {
                                 </MenuItem>
                               </>
                             ) : null}
-                            <MenuItem onClick={() => {
-                              setCurrentFile(null)
-                            }}>Schließen (OHNE SPEICHERN)</MenuItem>
+                            <MenuItem
+                              onClick={() => {
+                                setCurrentFile(null);
+                              }}
+                            >
+                              Schließen (OHNE SPEICHERN)
+                            </MenuItem>
                           </MenuList>
                         </Menu>
                         {permissions.includes('WRITE') ||
@@ -618,11 +624,7 @@ export default function Index() {
                           <Flex
                             direction="row"
                             p=".4rem"
-                            cursor="pointer"
                             alignItems="center"
-                            _hover={{
-                              bgColor: 'gray.800',
-                            }}
                           >
                             <Box flex="5%" fontSize="xl">
                               {f.path.toLowerCase().endsWith('.js') ? (
@@ -644,15 +646,104 @@ export default function Index() {
                                 {permissions.includes('WRITE') ||
                                 permissions.includes('OWNER') ? (
                                   <>
-                                    <Tooltip label="Datei Löschen" hasArrow>
-                                      <IconButton
-                                        aria-label="Löschen"
-                                        size="lg"
-                                        fontSize={'xl'}
-                                        icon={<FiTrash2 />}
-                                        variant="ghost"
-                                      />
-                                    </Tooltip>
+                                    <Popover>
+                                      <PopoverTrigger>
+                                        <IconButton
+                                          aria-label="Löschen"
+                                          size="lg"
+                                          fontSize={'xl'}
+                                          icon={<FiTrash2 />}
+                                          variant="ghost"
+                                        />
+                                      </PopoverTrigger>
+                                      <PopoverContent bgColor={"black"}>
+                                        <PopoverArrow bgColor={"black"} />
+                                        <PopoverCloseButton />
+                                        <PopoverHeader>
+                                          Datei Löschen
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <Stack>
+                                            <Text>
+                                              Bist du dir sicher, dass du die
+                                              Datei&nbsp;
+                                              <code>{f.path}</code>&nbsp;
+                                              <b>UNWIEDERFLICH</b> löschen
+                                              möchtest?
+                                            </Text>
+                                            <Button
+                                              variant="solid"
+                                              colorScheme="red"
+                                              mt=".4rem"
+                                              onClick={() => {
+                                                fetch(
+                                                  '/api/ide/projects/' +
+                                                    project?._id +
+                                                    '/file/delete?id=' +
+                                                    project?._id,
+                                                  {
+                                                    method: 'POST',
+                                                    headers: {
+                                                      'Content-Type':
+                                                        'application/json',
+                                                    },
+                                                    body: JSON.stringify({
+                                                      token:
+                                                        localStorage.getItem('token'),
+                                                      path: f.path,
+                                                    }),
+                                                  }
+                                                ).then((res) => {
+                                                  res.json().then((data) => {
+                                                    if (res.status === 200) {
+                                                      let f0 = project?.files;
+      
+                                                      f0 = f0?.filter(
+                                                        (p) => p.path !== f.path
+                                                      );
+      
+                                                      if (project && f0) {
+                                                        setProject({
+                                                          _id: project?._id,
+                                                          contributors:
+                                                            project?.contributors,
+                                                          owner: project?.owner,
+                                                          name: project?.name,
+                                                          files: f0,
+                                                        });
+                                                      }
+      
+                                                      toast({
+                                                        status: 'success',
+                                                        variant: 'solid',
+                                                        position: 'top',
+                                                        title: 'Erfolgreich',
+                                                        description:
+                                                          'Die Datei wurde erfolgreich gelöscht',
+                                                        isClosable: true,
+                                                        duration: 4000,
+                                                      });
+                                                    } else {
+                                                      toast({
+                                                        status: 'error',
+                                                        variant: 'solid',
+                                                        position: 'top',
+                                                        title: 'Fehler',
+                                                        description: data.error,
+                                                        isClosable: true,
+                                                        duration: 4000,
+                                                      });
+                                                    }
+                                                  });
+                                                });
+                                              }}      
+                                            >
+                                              Löschen
+                                            </Button>
+                                          </Stack>
+                                        </PopoverBody>
+                                      </PopoverContent>
+                                    </Popover>
                                     <Tooltip label="Datei Umbenennen" hasArrow>
                                       <IconButton
                                         aria-label="Umbenennen"
