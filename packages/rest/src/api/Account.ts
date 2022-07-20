@@ -29,3 +29,41 @@ export async function register(options: {
     method: "POST",
   });
 }
+
+export async function login(options: {
+  email: string;
+  password: string;
+  code?: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/login",
+    body: {
+      email: options.email,
+      password: options.password,
+      code: options.code ? options.code : null,
+    },
+    method: "POST",
+  });
+}
+
+export async function checkUsername(name: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/check-username/" + name,
+    method: "GET",
+  });
+}
+
+export async function checkResetToken(token: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/account/check-reset-token/" + token,
+  });
+}
+
+export async function deleteAccount(token: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/account/delete",
+    token: token,
+  });
+}

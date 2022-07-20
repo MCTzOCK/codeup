@@ -11,7 +11,7 @@ import { IResponse } from "./types/IResponse";
 
 export default async function makeRequest(options: {
   path: string;
-  body: object;
+  body?: object;
   token?: string;
   headers?: object;
   method:
@@ -31,7 +31,7 @@ export default async function makeRequest(options: {
   };
 
   if (options.token) {
-    headers["Auth"] = "JWT " + options.token;
+    headers["X-JWT"] = options.token;
   }
 
   if (options.headers) {
@@ -42,9 +42,9 @@ export default async function makeRequest(options: {
   }
 
   const res = await fetch(options.path, {
-    method: "POST",
+    method: options.method,
     headers,
-    body: JSON.stringify(options.body),
+    body: options.body ? JSON.stringify(options.body) : null,
   });
 
   const payload = await res.json();

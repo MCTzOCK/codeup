@@ -7,12 +7,22 @@
  * Created At: 20.07.2022
  *
  */
-import { register } from "./api/Account";
+import {
+  checkResetToken,
+  checkUsername,
+  deleteAccount,
+  login,
+  register,
+} from "./api/Account";
 import makeRequest from "./makeRequest";
 
 const REST = {
   Account: {
-    register: register,
+    register,
+    login,
+    checkUsername,
+    checkResetToken,
+    deleteAccount,
   },
   Util: {
     makeRequest: makeRequest,
