@@ -40,6 +40,16 @@ import {
   Center,
   Link,
   Text,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverHeader,
+  FormControl,
+  FormLabel,
+  Input,
 } from '@chakra-ui/react';
 import {
   FaCloudUploadAlt,
@@ -104,7 +114,6 @@ export default function Index() {
     files: {
       path: string;
       content: string;
-      _id: string;
     }[];
   } | null>(null);
 
@@ -164,6 +173,27 @@ export default function Index() {
     editorRef.current = editor;
   }
 
+  const [permissions, setPermissions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (project && project._id) {
+      fetch('/api/ide/projects/permissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          project: project._id,
+          token: localStorage.getItem('token'),
+        }),
+      }).then((res) => {
+        res.json().then((data) => {
+          setPermissions(data.permissions);
+        });
+      });
+    }
+  }, [project]);
+
   return (
     <>
       {errorAlert.show ? (
@@ -203,16 +233,19 @@ export default function Index() {
                     onClick={onFileMenuOpen}
                   />
                 </Tooltip>
-                <Tooltip label={'Mitwirkende'} placement={'right'} hasArrow>
-                  <IconButton
-                    aria-label={''}
-                    variant="ghost"
-                    size={'lg'}
-                    p={'2rem'}
-                    icon={<FaUserFriends />}
-                    rounded={'none'}
-                  />
-                </Tooltip>
+                {permissions.includes('MANAGE-CONTRIBUTORS') ||
+                permissions.includes('OWNER') ? (
+                  <Tooltip label={'Mitwirkende'} placement={'right'} hasArrow>
+                    <IconButton
+                      aria-label={''}
+                      variant="ghost"
+                      size={'lg'}
+                      p={'2rem'}
+                      icon={<FaUserFriends />}
+                      rounded={'none'}
+                    />
+                  </Tooltip>
+                ) : null}
                 <Tooltip label={'Veröffentlichen'} placement={'right'} hasArrow>
                   <IconButton
                     aria-label={''}
@@ -271,26 +304,36 @@ export default function Index() {
                             Datei
                           </MenuButton>
                           <MenuList backgroundColor={'gray.900'}>
-                            <MenuItem>Neu</MenuItem>
-                            <MenuItem>Speichern</MenuItem>
-                            <MenuItem>Speichern als</MenuItem>
+                            {permissions.includes('WRITE') ||
+                            permissions.includes('OWNER') ? (
+                              <>
+                                <MenuItem>Neu</MenuItem>
+                                <MenuItem>Speichern</MenuItem>
+                                <MenuItem>Speichern als</MenuItem>
+                              </>
+                            ) : null}
                             <MenuItem>Schließen</MenuItem>
                           </MenuList>
                         </Menu>
-                        <Menu>
-                          <MenuButton as={Button} variant={'ghost'}>
-                            Bearbeiten
-                          </MenuButton>
-                          <MenuList backgroundColor={'gray.900'}>
-                            <MenuItem>Rückgängig</MenuItem>
-                            <MenuItem>Wiederholen</MenuItem>
-                            <MenuItem>Ausschneiden</MenuItem>
-                            <MenuItem>Kopieren</MenuItem>
-                            <MenuItem>Einfügen</MenuItem>
-                            <MenuItem>Löschen</MenuItem>
-                            <MenuItem>Suchen</MenuItem>
-                          </MenuList>
-                        </Menu>
+                        {permissions.includes('WRITE') ||
+                        permissions.includes('OWNER') ? (
+                          <>
+                            <Menu>
+                              <MenuButton as={Button} variant={'ghost'}>
+                                Bearbeiten
+                              </MenuButton>
+                              <MenuList backgroundColor={'gray.900'}>
+                                <MenuItem>Rückgängig</MenuItem>
+                                <MenuItem>Wiederholen</MenuItem>
+                                <MenuItem>Ausschneiden</MenuItem>
+                                <MenuItem>Kopieren</MenuItem>
+                                <MenuItem>Einfügen</MenuItem>
+                                <MenuItem>Löschen</MenuItem>
+                                <MenuItem>Suchen</MenuItem>
+                              </MenuList>
+                            </Menu>
+                          </>
+                        ) : null}
                         <Menu>
                           <MenuButton as={Button} variant={'ghost'}>
                             Hilfe
@@ -320,6 +363,9 @@ export default function Index() {
                         theme={monacoTheme}
                         options={{
                           fontSize: editorOptions.fontSize,
+                          readOnly:
+                            !permissions.includes('WRITE') &&
+                            !permissions.includes('OWNER'),
                         }}
                       />
                     </Box>
@@ -327,8 +373,14 @@ export default function Index() {
                 ) : (
                   <>
                     <Center>
-                      <Text color="blue.500" onClick={() => onFileMenuOpen()} cursor="pointer">Öffne eine Datei</Text>, damit du
-                      diese bearbeiten kannst.
+                      <Text
+                        color="blue.500"
+                        onClick={() => onFileMenuOpen()}
+                        cursor="pointer"
+                      >
+                        Öffne eine Datei
+                      </Text>
+                      , damit du diese bearbeiten/lesen kannst.
                     </Center>
                   </>
                 )}
@@ -352,21 +404,114 @@ export default function Index() {
                   <Flex direction="row" w="100%">
                     <Box flex="90%"></Box>
                     <Box flex="10%">
-                      <ButtonGroup>
-                        <Tooltip label="Neuer Datei" hasArrow>
-                          <IconButton
-                            aria-label="Neue Datei"
-                            size="lg"
-                            fontSize={'2xl'}
-                            icon={<FiFilePlus />}
-                            variant="ghost"
-                          />
-                        </Tooltip>
-                      </ButtonGroup>
+                      {permissions.includes('WRITE') ||
+                      permissions.includes('OWNER') ? (
+                        <>
+                          <ButtonGroup>
+                            <Popover>
+                              <PopoverTrigger>
+                                <IconButton
+                                  aria-label="Neue Datei"
+                                  size="lg"
+                                  fontSize={'2xl'}
+                                  icon={<FiFilePlus />}
+                                  variant="ghost"
+                                />
+                              </PopoverTrigger>
+                              <PopoverContent bgColor="black">
+                                <PopoverArrow bgColor="black" />
+                                <PopoverCloseButton />
+                                <PopoverHeader>Neue Datei</PopoverHeader>
+                                <PopoverBody>
+                                  <form onSubmit={(e) => {
+                                    e.preventDefault();
+
+                                    // @ts-ignore
+                                    let path = e.target.elements.newfilepath.value.toLowerCase();
+                                    
+                                    if(!path.startsWith("/")) {
+                                      path = "/" + path;
+                                    }
+
+                                    if(project?.files.find(f => f.path === path)) {
+                                      toast({
+                                        status: "error",
+                                        variant: "solid",
+                                        position: "top",
+                                        title: "Fehler",
+                                        description: "Diese Datei existiert bereits.",
+                                        isClosable: true,
+                                        duration: 4000
+                                      })
+                                      return;
+                                    }
+
+                                    fetch("/api/ide/projects/" + project?._id +  "/file/save?id=" + project?._id, {
+                                      method: "POST",
+                                      headers: {
+                                        "Content-Type": "application/json"
+                                      },
+                                      body: JSON.stringify({
+                                        token: localStorage.getItem("token"),
+                                        path,
+                                        content: "0"
+                                      })
+                                    }).then(res => {
+                                      res.json().then(data => {
+                                        if(res.status === 200) {
+                                            let f = project?.files;
+                                            f?.push({
+                                              path,
+                                              content: ""
+                                            });
+                                            if(project && f) {
+                                              setProject({
+                                                _id: project?._id,
+                                                contributors: project?.contributors,
+                                                owner: project?.owner,
+                                                name: project?.name,
+                                                files: f
+                                              })
+                                            }
+                                        } else {
+                                          toast({
+                                            status: "error",
+                                            variant: "solid",
+                                            position: "top",
+                                            title: "Fehler",
+                                            description: data.error,
+                                            isClosable: true,
+                                            duration: 4000
+                                          })
+                                        }
+                                      })
+                                    })
+                                  }}>
+                                    <FormControl>
+                                      <FormLabel>Pfad</FormLabel>
+                                      <Input
+                                        type="text"
+                                        name="newfilepath"
+                                        id="newfilepath"
+                                        placeholder="Pfad"
+                                      />
+                                    </FormControl>
+                                    <Button type="submit" mt=".6rem">Erstellen</Button>
+                                  </form>
+                                </PopoverBody>
+                              </PopoverContent>
+                            </Popover>
+                          </ButtonGroup>
+                        </>
+                      ) : null}
                     </Box>
                   </Flex>
                   <Flex direction="column" maxH="90vh" overflow="auto">
-                    {project?.files.map((f) => {
+                    {project?.files.sort((a,b) => {
+                      let x = a.path.toLowerCase();
+                      let y = b.path.toLowerCase();
+                      return (x < y) ? -1 : (x > y) ? 1 : 0;
+                    }).map((f) => {
                       return (
                         <Flex
                           direction="row"
@@ -394,24 +539,29 @@ export default function Index() {
                           <Box flex="65%"></Box>
                           <Box flex="10%">
                             <ButtonGroup>
-                              <Tooltip label="Datei Löschen" hasArrow>
-                                <IconButton
-                                  aria-label="Löschen"
-                                  size="lg"
-                                  fontSize={'xl'}
-                                  icon={<FiTrash2 />}
-                                  variant="ghost"
-                                />
-                              </Tooltip>
-                              <Tooltip label="Datei Umbenennen" hasArrow>
-                                <IconButton
-                                  aria-label="Umbenennen"
-                                  size="lg"
-                                  fontSize={'xl'}
-                                  icon={<FiEdit2 />}
-                                  variant="ghost"
-                                />
-                              </Tooltip>
+                              {permissions.includes('WRITE') ||
+                              permissions.includes('OWNER') ? (
+                                <>
+                                  <Tooltip label="Datei Löschen" hasArrow>
+                                    <IconButton
+                                      aria-label="Löschen"
+                                      size="lg"
+                                      fontSize={'xl'}
+                                      icon={<FiTrash2 />}
+                                      variant="ghost"
+                                    />
+                                  </Tooltip>
+                                  <Tooltip label="Datei Umbenennen" hasArrow>
+                                    <IconButton
+                                      aria-label="Umbenennen"
+                                      size="lg"
+                                      fontSize={'xl'}
+                                      icon={<FiEdit2 />}
+                                      variant="ghost"
+                                    />
+                                  </Tooltip>
+                                </>
+                              ) : null}
 
                               <Tooltip label="Bearbeiten" hasArrow>
                                 <IconButton
@@ -425,7 +575,7 @@ export default function Index() {
                                       path: f.path,
                                       content: f.content,
                                     });
-                                    onFileMenuClose()
+                                    onFileMenuClose();
                                   }}
                                 />
                               </Tooltip>
