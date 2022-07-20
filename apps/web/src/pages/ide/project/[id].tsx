@@ -701,6 +701,10 @@ export default function Index() {
                                                       f0 = f0?.filter(
                                                         (p) => p.path !== f.path
                                                       );
+
+                                                      if(currentFile && currentFile.path === f.path) {
+                                                        setCurrentFile(null);
+                                                      }
       
                                                       if (project && f0) {
                                                         setProject({
@@ -736,7 +740,7 @@ export default function Index() {
                                                     }
                                                   });
                                                 });
-                                              }}      
+                                              }}
                                             >
                                               Löschen
                                             </Button>
