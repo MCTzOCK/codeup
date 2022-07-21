@@ -75,6 +75,7 @@ import {
   FiTrash2,
 } from "react-icons/fi";
 import REST from "@codeup/rest";
+import { BiRename } from "react-icons/bi";
 
 export default function Index() {
   const router = useRouter();
@@ -661,8 +662,8 @@ export default function Index() {
                                 <FaFile />
                               )}
                             </Box>
-                            <Box flex="20%">{f.path.substring(1)}</Box>
-                            <Box flex="65%"></Box>
+                            <Box flex="2%"></Box>
+                            <Box flex="83%">{f.path.substring(1)}</Box>
                             <Box flex="10%">
                               <ButtonGroup>
                                 {permissions.includes("WRITE") ||
@@ -762,15 +763,91 @@ export default function Index() {
                                         </PopoverBody>
                                       </PopoverContent>
                                     </Popover>
-                                    <Tooltip label="Datei Umbenennen" hasArrow>
-                                      <IconButton
-                                        aria-label="Umbenennen"
-                                        size="lg"
-                                        fontSize={"xl"}
-                                        icon={<FiEdit2 />}
-                                        variant="ghost"
-                                      />
-                                    </Tooltip>
+                                    <Popover>
+                                      <PopoverTrigger>
+                                        <IconButton
+                                          aria-label="Umbenennen"
+                                          size="lg"
+                                          fontSize={"xl"}
+                                          icon={<BiRename />}
+                                          variant="ghost"
+                                          title={"Umbenennen/Verschieben"}
+                                        />
+                                      </PopoverTrigger>
+                                      <PopoverContent bgColor={"black"}>
+                                        <PopoverArrow bgColor={"black"} />
+                                        <PopoverCloseButton />
+                                        <PopoverHeader>
+                                          Datei umbenennen
+                                        </PopoverHeader>
+                                        <PopoverBody>
+                                          <form
+                                            onSubmit={async (e) => {
+                                              e.preventDefault();
+
+                                              let path =
+                                                // @ts-ignore
+                                                e.target.elements.renamenewpath
+                                                  .value;
+
+                                              if (!path.startsWith("/")) {
+                                                path = `/${path}`;
+                                              }
+
+                                              const rDel =
+                                                await REST.IDE.deleteFile({
+                                                  token: localStorage.getItem(
+                                                    "token"
+                                                  ) as string,
+                                                  path: f.path,
+                                                  projectId:
+                                                    project._id as string,
+                                                });
+
+                                              const rSav =
+                                                await REST.IDE.saveFile({
+                                                  token: localStorage.getItem(
+                                                    "token"
+                                                  ) as string,
+                                                  path,
+                                                  content: f.content,
+                                                  projectId:
+                                                    project._id as string,
+                                                });
+
+                                              const rPro =
+                                                await REST.IDE.getProject({
+                                                  token: localStorage.getItem(
+                                                    "token"
+                                                  ) as string,
+                                                  projectId:
+                                                    project._id as string,
+                                                });
+
+                                              setProject(rPro.payload.project);
+                                            }}
+                                          >
+                                            <Stack>
+                                              <FormControl>
+                                                <FormLabel>
+                                                  Neuer Pfad
+                                                </FormLabel>
+                                                <Input
+                                                  type={"text"}
+                                                  defaultValue={f.path}
+                                                  id={"renamenewpath"}
+                                                  name={"renamenewpath"}
+                                                  placeholder={"Pfad"}
+                                                />
+                                              </FormControl>
+                                              <Button mt={".6rem"}>
+                                                Umbenennen
+                                              </Button>
+                                            </Stack>
+                                          </form>
+                                        </PopoverBody>
+                                      </PopoverContent>
+                                    </Popover>
                                   </>
                                 ) : null}
 
