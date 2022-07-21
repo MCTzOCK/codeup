@@ -25,7 +25,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token) {
+  if (!req.headers["x-jwt"]) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -34,46 +34,50 @@ export default async function handleRequest(
 
   const { id } = req.query;
 
-  // @ts-ignore
-  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
-    await mongoConnect();
+  jwt.verify(
+    req.headers["x-jwt"] as string,
+    // @ts-ignore
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      await mongoConnect();
 
-    const user = await UserModel.findById((decoded as any).id);
+      const user = await UserModel.findById((decoded as any).id);
 
-    if (!user) {
-      res.status(400).json({
-        error: "Invalid token",
-      });
-      return;
-    }
-
-    try {
-      const post = await CommunityPostModel.findById(id);
-
-      if (!post) {
-        res.status(404).json({
-          error: "Not Found",
+      if (!user) {
+        res.status(400).json({
+          error: "Invalid token",
         });
         return;
       }
 
-      if (post.likes.includes(user._id)) {
-        post.likes.splice(post.likes.indexOf(user._id), 1);
-      } else {
-        post.likes.push(user._id);
+      try {
+        const post = await CommunityPostModel.findById(id);
+
+        if (!post) {
+          res.status(404).json({
+            error: "Not Found",
+          });
+          return;
+        }
+
+        if (post.likes.includes(user._id)) {
+          post.likes.splice(post.likes.indexOf(user._id), 1);
+        } else {
+          post.likes.push(user._id);
+        }
+
+        await post.save();
+
+        res.status(200).json({
+          success: true,
+          post: post,
+        });
+      } catch (e) {
+        res.status(500).json({
+          // @ts-ignore
+          error: e.message,
+        });
       }
-
-      await post.save();
-
-      res.status(200).json({
-        success: true,
-        post: post,
-      });
-    } catch (e) {
-      res.status(500).json({
-        // @ts-ignore
-        error: e.message,
-      });
     }
-  });
+  );
 }

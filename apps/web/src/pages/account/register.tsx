@@ -32,6 +32,7 @@ import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import checkPassword from "@codeup/util/src/checkPassword";
+import REST from "@codeup/rest";
 
 export default function Register() {
   const [usernameInvalid, setUsernameInvalid] = React.useState(false);
@@ -109,7 +110,7 @@ export default function Register() {
               </Text>
             </Flex>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
 
                 if (!checkPassword(password)) {
@@ -149,24 +150,22 @@ export default function Register() {
                   username: username,
                 };
 
-                fetch("/api/account/register", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(body),
-                }).then((res) => {
-                  res.json().then((data) => {
-                    if (res.status === 200) {
-                      setAlertType("success");
-                      setAlertMessage(data.message);
-                    } else {
-                      setAlertType("error");
-                      setAlertMessage(data.error);
-                    }
-                    setAlertVisible(true);
-                  });
+                const res = await REST.Account.register({
+                  email,
+                  username,
+                  password,
+                  firstName,
+                  lastName,
                 });
+
+                if (res.status === 200) {
+                  setAlertType("success");
+                  setAlertMessage(res.payload.message);
+                } else {
+                  setAlertType("error");
+                  setAlertMessage(res.payload.error);
+                }
+                setAlertVisible(true);
               }}
             >
               <Flex direction={"column"} gap={"2rem"}>
@@ -175,20 +174,17 @@ export default function Register() {
                   <Input
                     id={"username"}
                     placeholder={"Benutzername"}
-                    onChange={(e) => {
-                      fetch("/api/account/check-username/" + e.target.value, {
-                        method: "GET",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                      }).then((res) => {
-                        if (res.status === 200) {
-                          setUsernameInvalid(false);
-                          setUsername(e.target.value);
-                        } else {
-                          setUsernameInvalid(true);
-                        }
-                      });
+                    onChange={async (e) => {
+                      const res = await REST.Account.checkUsername(
+                        e.target.value
+                      );
+
+                      if (res.status === 200) {
+                        setUsernameInvalid(false);
+                        setUsername(e.target.value);
+                      } else {
+                        setUsernameInvalid(true);
+                      }
                     }}
                   />
                   <FormErrorMessage>

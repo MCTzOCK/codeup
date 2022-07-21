@@ -18,14 +18,14 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
+  if (req.method !== "GET") {
     res.status(405).json({
       error: "Method not allowed",
     });
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.project) {
+  if (!req.headers["x-jwt"] || !req.query.id) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,7 +33,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
@@ -48,7 +48,7 @@ export default async function handleRequest(
           return;
         }
 
-        const IDEProject = await IDEProjectModel.findById(req.body.project);
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
 
         if (!IDEProject) {
           res.status(400).json({

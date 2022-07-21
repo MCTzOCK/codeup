@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { Player } from "@remotion/player";
+import REST from "@codeup/rest";
 
 export default function Home() {
   return <></>;

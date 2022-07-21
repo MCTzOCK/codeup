@@ -25,65 +25,69 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.update) {
+  if (!req.body || !req.headers["x-jwt"] || !req.body.update) {
     res.status(400).json({
       error: "Missing required fields",
     });
     return;
   }
 
-  // @ts-ignore
-  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-      res.status(400).json({
-        error: "Invalid token",
-      });
-      return;
-    } else {
-      await mongoConnect();
-      const user = await UserModel.findOne({
-        _id: (decoded as any).id as string,
-      });
-
-      if (!user) {
+  jwt.verify(
+    req.headers["x-jwt"] as string,
+    // @ts-ignore
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      if (err) {
         res.status(400).json({
-          error: "User not found",
+          error: "Invalid token",
         });
         return;
-      }
-
-      const profile = await CommunityProfileModel.findOne({
-        user: user._id,
-      });
-
-      if (profile) {
-        const allowedUpdates = [
-          "profilePicture",
-          "profileBanner",
-          "displayName",
-          "bio",
-          "website",
-          "location",
-          "birthday",
-        ];
-
-        Object.keys(req.body.update).forEach((key) => {
-          if (allowedUpdates.includes(key)) {
-            profile[key] = req.body.update[key];
-          }
-        });
-
-        await profile.save();
-
-        res.status(200).json({
-          success: true,
-        });
       } else {
-        res.status(400).json({
-          error: "Profile not found",
+        await mongoConnect();
+        const user = await UserModel.findOne({
+          _id: (decoded as any).id as string,
         });
-        return;
+
+        if (!user) {
+          res.status(400).json({
+            error: "User not found",
+          });
+          return;
+        }
+
+        const profile = await CommunityProfileModel.findOne({
+          user: user._id,
+        });
+
+        if (profile) {
+          const allowedUpdates = [
+            "profilePicture",
+            "profileBanner",
+            "displayName",
+            "bio",
+            "website",
+            "location",
+            "birthday",
+          ];
+
+          Object.keys(req.body.update).forEach((key) => {
+            if (allowedUpdates.includes(key)) {
+              profile[key] = req.body.update[key];
+            }
+          });
+
+          await profile.save();
+
+          res.status(200).json({
+            success: true,
+          });
+        } else {
+          res.status(400).json({
+            error: "Profile not found",
+          });
+          return;
+        }
       }
     }
-  });
+  );
 }

@@ -34,6 +34,7 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
+import REST from "@codeup/rest";
 
 const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
   if (!editor) {
@@ -426,47 +427,40 @@ const TipTap = (props: {
         <Button
           mt={"2rem"}
           colorScheme={"whatsapp"}
-          onClick={() => {
+          onClick={async () => {
             const html = editor?.getHTML();
-            fetch("/api/community/post/create", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                content: html,
-                parent: props.parentPost || null,
-              }),
-            }).then((res) => {
-              res.json().then((data) => {
-                if (data.success) {
-                  if (props.parentPost) {
-                    toast({
-                      title: "Kommentar erstellt!",
-                      description:
-                        "Dein Kommentar wurde erstellt mund ist bald sichtbar.",
-                      status: "success",
-                      duration: 6000,
-                      isClosable: false,
-                      position: "top",
-                    });
-                    if (props.setShowEditor) {
-                      props.setShowEditor(false);
-                    }
-                  } else {
-                    window.location.href = "/community/post/" + data.post;
-                  }
-                } else {
-                  toast({
-                    title: "Fehler",
-                    description: data.error,
-                    status: "error",
-                    duration: 9000,
-                  });
-                }
-              });
+
+            const res = await REST.Community.createPost({
+              token: localStorage.getItem("token") as string,
+              content: html as string,
+              parent: props.parentPost || null,
             });
+
+            if (res.payload.success) {
+              if (props.parentPost) {
+                toast({
+                  title: "Kommentar erstellt!",
+                  description:
+                    "Dein Kommentar wurde erstellt mund ist bald sichtbar.",
+                  status: "success",
+                  duration: 6000,
+                  isClosable: false,
+                  position: "top",
+                });
+                if (props.setShowEditor) {
+                  props.setShowEditor(false);
+                }
+              } else {
+                window.location.href = "/community/post/" + res.payload.post;
+              }
+            } else {
+              toast({
+                title: "Fehler",
+                description: res.payload.error,
+                status: "error",
+                duration: 9000,
+              });
+            }
           }}
         >
           Posten

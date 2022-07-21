@@ -25,7 +25,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token) {
+  if (!req.headers["x-jwt"]) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -34,41 +34,45 @@ export default async function handleRequest(
 
   const { name } = req.query;
 
-  // @ts-ignore
-  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
-    await mongoConnect();
+  jwt.verify(
+    req.headers["x-jwt"] as string,
+    // @ts-ignore
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      await mongoConnect();
 
-    const user = await UserModel.findById((decoded as any).id);
+      const user = await UserModel.findById((decoded as any).id);
 
-    if (!user) {
-      res.status(400).json({
-        error: "Invalid token",
+      if (!user) {
+        res.status(400).json({
+          error: "Invalid token",
+        });
+        return;
+      }
+
+      const profile = await CommunityProfileModel.findOne({
+        username: name,
       });
-      return;
-    }
 
-    const profile = await CommunityProfileModel.findOne({
-      username: name,
-    });
+      if (!profile) {
+        res.status(400).json({
+          error: "Profile not found",
+        });
+        return;
+      }
 
-    if (!profile) {
-      res.status(400).json({
-        error: "Profile not found",
+      if (profile.followers.includes(user.username)) {
+        profile.followers.splice(profile.followers.indexOf(user.username), 1);
+      } else {
+        profile.followers.push(user.username);
+      }
+
+      await profile.save();
+
+      res.status(200).json({
+        success: true,
+        following: profile.followers.includes(user.username),
       });
-      return;
     }
-
-    if (profile.followers.includes(user.username)) {
-      profile.followers.splice(profile.followers.indexOf(user.username), 1);
-    } else {
-      profile.followers.push(user.username);
-    }
-
-    await profile.save();
-
-    res.status(200).json({
-      success: true,
-      following: profile.followers.includes(user.username),
-    });
-  });
+  );
 }

@@ -29,14 +29,19 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.keyName || !req.body.keyValue) {
+  if (
+    !req.body ||
+    !req.headers["x-jwt"] ||
+    !req.body.keyName ||
+    !req.body.keyValue
+  ) {
     res.status(400).json({
       error: "Missing parameters",
     });
     return;
   }
 
-  const token = req.body.token;
+  const token = req.headers["x-jwt"] as string;
 
   if (jwt.verify(token, process.env.JWT_SECRET as string)) {
     const decoded = jwt.decode(token) as any;

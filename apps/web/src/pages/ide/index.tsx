@@ -76,6 +76,7 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { HiMail } from "react-icons/hi";
 import { useUserInfo } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
+import REST from "@codeup/rest";
 
 export default function Index() {
   useEffect(() => {
@@ -184,21 +185,13 @@ function Create() {
 
               setLoading(true);
 
-              const resp = await fetch("/api/ide/projects/create", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  token: localStorage.getItem("token"),
-                  // @ts-ignore
-                  name: e.target.elements[nameId].value,
-                }),
+              const res = await REST.IDE.createProject({
+                token: localStorage.getItem("token") as string,
+                // @ts-ignore
+                name: e.target.elements[nameId].value,
               });
 
-              const json = await resp.json();
-
-              if (resp.status === 200) {
+              if (res.status === 200) {
                 toast({
                   title: "Erfolgreich",
                   description: "Das Projekt wurde erstellt",
@@ -213,7 +206,7 @@ function Create() {
                 setLoading(false);
                 toast({
                   title: "Fehler",
-                  description: json.error,
+                  description: res.payload.error,
                   status: "error",
                   variant: "solid",
                   position: "top",
@@ -261,56 +254,39 @@ function Open() {
   const toast = useToast();
 
   useEffect(() => {
-    fetch("/api/ide/projects/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-        type: "ALL",
-        minimal: true,
-      }),
-    }).then((res) => {
-      res.json().then(async (json) => {
-        if (res.status === 200) {
-          let pList = [];
+    REST.IDE.getProjects({
+      token: localStorage.getItem("token") as string,
+      type: "ALL",
+    }).then(async (res) => {
+      if (res.status === 200) {
+        let pList = [];
 
-          for (const project of json.projects) {
-            const r = await fetch("/api/ide/projects/permissions", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                project: project.id,
-              }),
-            });
+        for (const project of res.payload.projects) {
+          const r = await REST.IDE.getProjectPermissions({
+            token: localStorage.getItem("token") as string,
+            projectId: project._id,
+          });
 
-            const j = await r.json();
-
-            pList.push({
-              id: project.id,
-              name: project.name,
-              permissions: j.permissions,
-            });
-          }
-
-          setProjectList(pList);
-          setFilteredProjectList(pList);
-          setLoading(false);
-        } else {
-          toast({
-            title: "Fehler",
-            description: json.error,
-            status: "error",
-            variant: "solid",
-            position: "top",
-            isClosable: true,
+          pList.push({
+            id: project._id,
+            name: project.name,
+            permissions: r.payload.permissions,
           });
         }
-      });
+
+        setProjectList(pList);
+        setFilteredProjectList(pList);
+        setLoading(false);
+      } else {
+        toast({
+          title: "Fehler",
+          description: res.payload.error,
+          status: "error",
+          variant: "solid",
+          position: "top",
+          isClosable: true,
+        });
+      }
     });
   }, []);
 
@@ -460,24 +436,13 @@ function Open() {
                                           gap={".6rem"}
                                           color={"red.400"}
                                           onClick={async () => {
-                                            const res = await fetch(
-                                              "/api/ide/projects/delete",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
+                                            const res =
+                                              await REST.IDE.deleteProject({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id,
+                                              });
 
                                             if (res.status === 200) {
                                               let npl = projectList.filter(
@@ -503,7 +468,7 @@ function Open() {
                                             } else {
                                               toast({
                                                 title: "Fehler",
-                                                description: json.error,
+                                                description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
                                                 position: "top",
@@ -533,25 +498,14 @@ function Open() {
                                               return;
                                             }
 
-                                            const res = await fetch(
-                                              "/api/ide/projects/update/name",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                  name: newName,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
+                                            const res =
+                                              await REST.IDE.renameProject({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id,
+                                                newName,
+                                              });
 
                                             if (res.status === 200) {
                                               let npl = projectList.map((p) => {
@@ -585,7 +539,7 @@ function Open() {
                                             } else {
                                               toast({
                                                 title: "Fehler",
-                                                description: json.error,
+                                                description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
                                                 position: "top",
@@ -617,31 +571,20 @@ function Open() {
                                               return;
                                             }
 
-                                            const res = await fetch(
-                                              "/api/ide/projects/duplicate",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                  name: newName,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
+                                            const res =
+                                              await REST.IDE.duplicateProject({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id,
+                                                name: newName,
+                                              });
 
                                             if (res.status === 200) {
                                               setProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: json.project,
+                                                  id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
                                                 },
@@ -650,7 +593,7 @@ function Open() {
                                               setFilteredProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: json.project,
+                                                  id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
                                                 },
@@ -673,7 +616,7 @@ function Open() {
                                             } else {
                                               toast({
                                                 title: "Fehler",
-                                                description: json.error,
+                                                description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
                                                 position: "top",
@@ -697,29 +640,18 @@ function Open() {
                                           gap={".6rem"}
                                           color={"pink.400"}
                                           onClick={async () => {
-                                            const res = await fetch(
-                                              "/api/ide/projects/contributors/list",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  project: project.id,
-                                                }),
-                                              }
-                                            );
-
-                                            const j = await res.json();
+                                            const res =
+                                              await REST.IDE.getContributors({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id,
+                                              });
 
                                             setContributors({
-                                              owner: j.owner,
-                                              contributors: j.contributors,
+                                              owner: res.payload.owner,
+                                              contributors:
+                                                res.payload.contributors,
                                             });
                                             setProjectId(project.id);
                                             onContributorOpen();
@@ -786,26 +718,17 @@ function Open() {
                         <form
                           onSubmit={async (e) => {
                             e.preventDefault();
-                            const resp = await fetch(
-                              "/api/ide/projects/contributors/add",
-                              {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  token: localStorage.getItem("token"),
-                                  project: projectId,
-                                  // @ts-ignore
-                                  contributor: e.target.elements.email_i.value,
-                                }),
-                              }
-                            );
-                            if (resp.status === 200) {
-                              let json = await resp.json();
+
+                            const res = await REST.IDE.addContributor({
+                              token: localStorage.getItem("token") as string,
+                              projectId: projectId,
+                              // @ts-ignore
+                              email: e.target.elements.email_i.value,
+                            });
+                            if (res.status === 200) {
                               let c0n: any = contributors;
 
-                              c0n.contributors.push(json.contributor);
+                              c0n.contributors.push(res.payload.contributor);
 
                               setContributors({
                                 owner: contributors.owner,
@@ -814,10 +737,9 @@ function Open() {
                               // @ts-ignore
                               e.target.elements.email_i.value = "";
                             } else {
-                              const json = await resp.json();
                               toast({
                                 title: "Fehler",
-                                description: json.error,
+                                description: res.payload.error,
                                 position: "top",
                                 status: "error",
                                 variant: "solid",
@@ -1024,26 +946,16 @@ function Open() {
                                           variant={"solid"}
                                           colorScheme={"red"}
                                           onClick={async () => {
-                                            const resp = await fetch(
-                                              "/api/ide/projects/contributors/remove",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  project: projectId,
-                                                  contributor:
-                                                    contributor.email,
-                                                }),
-                                              }
-                                            );
-                                            if (resp.status === 200) {
+                                            const res =
+                                              await REST.IDE.removeContributor({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: projectId,
+                                                email: contributor.email,
+                                              });
+
+                                            if (res.status === 200) {
                                               let c0n: any = contributors;
 
                                               c0n = c0n.contributors.filter(
@@ -1056,10 +968,9 @@ function Open() {
                                                 contributors: [...c0n],
                                               });
                                             } else {
-                                              const json = await resp.json();
                                               toast({
                                                 title: "Fehler",
-                                                description: json.error,
+                                                description: res.payload.error,
                                                 position: "top",
                                                 status: "error",
                                                 variant: "solid",
@@ -1179,21 +1090,15 @@ function Open() {
                                               variant={"solid"}
                                               colorScheme={"blue"}
                                               onClick={async () => {
-                                                const resp = await fetch(
-                                                  "/api/ide/projects/contributors/permissions",
-                                                  {
-                                                    method: "POST",
-                                                    headers: {
-                                                      "Content-Type":
-                                                        "application/json",
-                                                    },
-                                                    body: JSON.stringify({
+                                                const res =
+                                                  await REST.IDE.overwriteContributorPermissions(
+                                                    {
                                                       token:
                                                         localStorage.getItem(
                                                           "token"
-                                                        ),
-                                                      project: projectId,
-                                                      contributor:
+                                                        ) as string,
+                                                      projectId: projectId,
+                                                      contributorEmail:
                                                         contributor.email,
                                                       permissions: [
                                                         "READ",
@@ -1252,19 +1157,16 @@ function Open() {
                                                           ? "MANAGE-CONTRIBUTORS"
                                                           : null,
                                                       ],
-                                                    }),
-                                                  }
-                                                );
-                                                if (resp.status === 200) {
-                                                  const json =
-                                                    await resp.json();
+                                                    }
+                                                  );
+                                                if (res.status === 200) {
                                                   let c0n: any = contributors;
 
                                                   c0n.contributors.find(
                                                     (c: any) =>
                                                       c.id === contributor.id
                                                   ).permissions =
-                                                    json.contributor.permissions;
+                                                    res.payload.contributor.permissions;
 
                                                   setContributors({
                                                     owner: contributors.owner,
@@ -1273,11 +1175,10 @@ function Open() {
                                                     ],
                                                   });
                                                 } else {
-                                                  const json =
-                                                    await resp.json();
                                                   toast({
                                                     title: "Fehler",
-                                                    description: json.error,
+                                                    description:
+                                                      res.payload.error,
                                                     position: "top",
                                                     status: "error",
                                                     variant: "solid",
