@@ -79,6 +79,7 @@ import REST from "@codeup/rest";
 export default function Index() {
   const router = useRouter();
   const toast = useToast();
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const [editorOptions, setEditorOptions] = useState<{
     fontSize: number;
@@ -161,7 +162,12 @@ export default function Index() {
         },
       });
       setMonacoTheme("codeup-dark");
-      if (project.files.find((f) => f.path.toLowerCase() === "/readme.md")) {
+
+      if (
+        project.files.find((f) => f.path.toLowerCase() === "/readme.md") &&
+        firstLoad
+      ) {
+        setFirstLoad(false);
         setCurrentFile({
           path: (
             project.files.find(
@@ -383,11 +389,57 @@ export default function Index() {
                               </>
                             ) : null}
                             <MenuItem
-                              onClick={() => {
+                              onClick={async () => {
+                                const res = await REST.IDE.saveFile({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  path: currentFile?.path as string,
+                                  content:
+                                    // @ts-ignore
+                                    editorRef?.current?.getValue() as string,
+                                  projectId: project?._id as string,
+                                });
+
+                                if (res.status === 200) {
+                                  let f = project?.files;
+
+                                  if (
+                                    f &&
+                                    f.find(
+                                      (p) =>
+                                        p.path === (currentFile?.path as string)
+                                    )
+                                  ) {
+                                    (
+                                      f.find(
+                                        (p) =>
+                                          p.path ===
+                                          (currentFile?.path as string)
+                                      ) as {
+                                        content: string;
+                                        path: string;
+                                      }
+                                    ).content =
+                                      // @ts-ignore
+                                      editorRef?.current?.getValue();
+                                  }
+
+                                  if (project && f) {
+                                    setProject({
+                                      _id: project?._id,
+                                      contributors: project?.contributors,
+                                      owner: project?.owner,
+                                      name: project?.name,
+                                      files: f,
+                                    });
+                                  }
+                                }
+
                                 setCurrentFile(null);
                               }}
                             >
-                              Schließen (OHNE SPEICHERN)
+                              Schließen
                             </MenuItem>
                           </MenuList>
                         </Menu>
