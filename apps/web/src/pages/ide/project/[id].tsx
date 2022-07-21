@@ -708,53 +708,18 @@ export default function Index() {
                                                     path: f.path,
                                                   });
 
-                                                if (res.status === 200) {
-                                                  let f0 = project?.files;
-
-                                                  f0 = f0?.filter(
-                                                    (p) => p.path !== f.path
-                                                  );
-
-                                                  if (
-                                                    currentFile &&
-                                                    currentFile.path === f.path
-                                                  ) {
-                                                    setCurrentFile(null);
-                                                  }
-
-                                                  if (project && f0) {
-                                                    setProject({
-                                                      _id: project?._id,
-                                                      contributors:
-                                                        project?.contributors,
-                                                      owner: project?.owner,
-                                                      name: project?.name,
-                                                      files: f0,
-                                                    });
-                                                  }
-
-                                                  toast({
-                                                    status: "success",
-                                                    variant: "solid",
-                                                    position: "top",
-                                                    title: "Erfolgreich",
-                                                    description:
-                                                      "Die Datei wurde erfolgreich gelöscht",
-                                                    isClosable: true,
-                                                    duration: 4000,
+                                                const rPro =
+                                                  await REST.IDE.getProject({
+                                                    token: localStorage.getItem(
+                                                      "token"
+                                                    ) as string,
+                                                    projectId:
+                                                      project._id as string,
                                                   });
-                                                } else {
-                                                  toast({
-                                                    status: "error",
-                                                    variant: "solid",
-                                                    position: "top",
-                                                    title: "Fehler",
-                                                    description:
-                                                      res.payload.error,
-                                                    isClosable: true,
-                                                    duration: 4000,
-                                                  });
-                                                }
+
+                                                setProject(
+                                                  rPro.payload.project
+                                                );
                                               }}
                                             >
                                               Löschen
