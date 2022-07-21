@@ -30,6 +30,7 @@ import { useUserInfo } from "@codeup/hooks";
 import TipTap from "./TipTap";
 import { useRouter } from "next/router";
 import { GiHamburgerMenu } from "react-icons/gi";
+import REST from "@codeup/rest";
 
 export default function PostCard(props: { id: string }) {
   const userInfo = useUserInfo();
@@ -89,50 +90,36 @@ export default function PostCard(props: { id: string }) {
 
   useEffect(() => {
     if (post.username !== "") {
-      fetch("/api/community/profile/" + post.username, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data.success) {
-            setAuthorData(data.profile);
-          } else {
-            toast({
-              title: "Fehler",
-              description: data.error,
-              status: "error",
-              duration: 9000,
-              position: "top",
-            });
-          }
-        });
+      REST.Community.getProfile(post.username).then((res) => {
+        if (res.payload.success) {
+          setAuthorData(res.payload.profile);
+        } else {
+          toast({
+            title: "Fehler",
+            description: res.payload.error,
+            status: "error",
+            duration: 9000,
+            position: "top",
+          });
+        }
       });
     }
   }, [post, toast]);
 
   useEffect(() => {
     if (props.id) {
-      fetch("/api/community/post/" + props.id, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data.success) {
-            setPost(data.post);
-          } else {
-            toast({
-              title: "Fehler",
-              description: data.error,
-              status: "error",
-              duration: 9000,
-              position: "top",
-            });
-          }
-        });
+      REST.Community.getPost(props.id).then((res) => {
+        if (res.payload.success) {
+          setPost(res.payload.post);
+        } else {
+          toast({
+            title: "Fehler",
+            description: res.payload.error,
+            status: "error",
+            duration: 9000,
+            position: "top",
+          });
+        }
       });
     }
   }, [router, props.id, toast]);
@@ -173,41 +160,34 @@ export default function PostCard(props: { id: string }) {
               <MenuList>
                 {userInfo.username === post.username ? (
                   <MenuItem
-                    onClick={() => {
-                      fetch("/api/community/post/" + post._id + "/delete", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          token: localStorage.getItem("token"),
-                        }),
-                      }).then((res) => {
-                        res.json().then((data) => {
-                          if (data.success) {
-                            toast({
-                              title: "Erfolg",
-                              description: "Der Beitrag wurde gelöscht",
-                              status: "success",
-                              duration: 6000,
-                              position: "top",
-                              onCloseComplete: () => {
-                                if (!post.parent) {
-                                  router.push("/community");
-                                }
-                              },
-                            });
-                          } else {
-                            toast({
-                              title: "Fehler",
-                              description: data.error,
-                              status: "error",
-                              duration: 6000,
-                              position: "top",
-                            });
-                          }
-                        });
+                    onClick={async () => {
+                      const r = await REST.Community.deletePost({
+                        postId: post._id,
+                        token: localStorage.getItem("token") as string,
                       });
+
+                      if (r.payload.success) {
+                        toast({
+                          title: "Erfolg",
+                          description: "Der Beitrag wurde gelöscht",
+                          status: "success",
+                          duration: 6000,
+                          position: "top",
+                          onCloseComplete: () => {
+                            if (!post.parent) {
+                              router.push("/community");
+                            }
+                          },
+                        });
+                      } else {
+                        toast({
+                          title: "Fehler",
+                          description: r.payload.error,
+                          status: "error",
+                          duration: 6000,
+                          position: "top",
+                        });
+                      }
                     }}
                   >
                     Löschen
@@ -262,30 +242,23 @@ export default function PostCard(props: { id: string }) {
                 post.likes.includes(userInfo.id) ? <FaHeart /> : <FaRegHeart />
               }
               flex="100%"
-              onClick={() => {
-                fetch("/api/community/post/" + post._id + "/like", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    token: localStorage.getItem("token"),
-                  }),
-                }).then((res) => {
-                  res.json().then((data) => {
-                    if (data.success) {
-                      setPost(data.post);
-                    } else {
-                      toast({
-                        title: "Fehler",
-                        description: data.error,
-                        status: "error",
-                        duration: 9000,
-                        position: "top",
-                      });
-                    }
-                  });
+              onClick={async () => {
+                const r = await REST.Community.likePost({
+                  token: localStorage.getItem("token") as string,
+                  postId: post._id,
                 });
+
+                if (r.payload.success) {
+                  setPost(r.payload.post);
+                } else {
+                  toast({
+                    title: "Fehler",
+                    description: r.payload.error,
+                    status: "error",
+                    duration: 9000,
+                    position: "top",
+                  });
+                }
               }}
               variant={"ghost"}
               size={"lg"}

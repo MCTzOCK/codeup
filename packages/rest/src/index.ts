@@ -41,6 +41,22 @@ import {
   renameProject,
   saveFile,
 } from "./api/IDE";
+import {
+  createPost,
+  createProfile,
+  deletePost,
+  existsProfile,
+  getFeed,
+  getPost,
+  getProfile,
+  getProfileFollowers,
+  getProfilePosts,
+  isFollowing,
+  likePost,
+  search,
+  toggleFollow,
+  updateProfile,
+} from "./api/Community";
 
 const REST = {
   Account: {
@@ -75,6 +91,22 @@ const REST = {
     deleteProject,
     duplicateProject,
     getProjects,
+  },
+  Community: {
+    search,
+    getFeed,
+    existsProfile,
+    createPost,
+    getPost,
+    likePost,
+    deletePost,
+    createProfile,
+    getProfile,
+    updateProfile,
+    isFollowing,
+    getProfileFollowers,
+    getProfilePosts,
+    toggleFollow,
   },
   Util: {
     makeRequest: makeRequest,

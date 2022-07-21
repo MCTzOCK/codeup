@@ -5,23 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/IDE.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/Community.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/delete.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/save.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/file/save.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/add.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/add.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/list.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/permissions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/permissions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/remove.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/contributors/remove.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/delete.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/duplicate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/duplicate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/list.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/permissions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/permissions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/update/name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/update/name.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/like.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/[id]/like.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/post/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/toggle-follow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/[name]/toggle-follow.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/community/profile/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/post/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/post/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/profile/create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/create.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/search.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileAvatarModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileAvatarModifier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileBannerModifier.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileBannerModifier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileDataDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileDataDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileFollowerDisplay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
