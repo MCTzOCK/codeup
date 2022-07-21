@@ -699,6 +699,12 @@ export default function Index() {
                                               colorScheme="red"
                                               mt=".4rem"
                                               onClick={async () => {
+                                                if (
+                                                  currentFile?.path === f.path
+                                                ) {
+                                                  setCurrentFile(null);
+                                                }
+
                                                 const res =
                                                   await REST.IDE.deleteFile({
                                                     token: localStorage.getItem(
