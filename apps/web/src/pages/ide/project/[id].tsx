@@ -198,6 +198,8 @@ export default function Index() {
   }, [monaco, project]);
 
   useEffect(() => {
+    return;
+
     window.addEventListener("keydown", listener, true);
 
     function listener(ev: KeyboardEvent) {
@@ -205,6 +207,8 @@ export default function Index() {
         ev.preventDefault();
 
         if (currentFile) {
+          console.log(currentFile);
+
           REST.IDE.saveFile({
             token: localStorage.getItem("token") as string,
             projectId: project?._id as string,
