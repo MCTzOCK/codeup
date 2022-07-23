@@ -26,6 +26,13 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Tooltip,
   useDisclosure,
   useToast,
@@ -56,11 +63,13 @@ import {
   FaCloudUploadAlt,
   FaCogs,
   FaCss3,
+  FaExternalLinkAlt,
   FaEye,
   FaFile,
   FaFolderPlus,
   FaHtml5,
   FaJsSquare,
+  FaKeyboard,
   FaMarkdown,
   FaPlus,
   FaTrash,
@@ -202,6 +211,12 @@ export default function Index() {
     }
   }, [project]);
 
+  const {
+    isOpen: isPreviewOpen,
+    onOpen: onPreviewOpen,
+    onClose: onPreviewClose,
+  } = useDisclosure();
+
   return (
     <>
       {errorAlert.show ? (
@@ -264,13 +279,28 @@ export default function Index() {
                     rounded={"none"}
                   />
                 </Tooltip>
-                <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
+                {currentFile && currentFile.path.endsWith(".html") ? (
+                  <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      p={"2rem"}
+                      icon={<FaEye />}
+                      rounded={"none"}
+                      onClick={() => {
+                        onPreviewOpen();
+                      }}
+                    />
+                  </Tooltip>
+                ) : null}
+                <Tooltip label={"Tastenkürzel"} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
                     variant="ghost"
                     size={"lg"}
                     p={"2rem"}
-                    icon={<FaEye />}
+                    icon={<FaKeyboard />}
                     rounded={"none"}
                   />
                 </Tooltip>
@@ -811,7 +841,10 @@ export default function Index() {
                                                   placeholder={"Pfad"}
                                                 />
                                               </FormControl>
-                                              <Button mt={".6rem"}>
+                                              <Button
+                                                mt={".6rem"}
+                                                type={"submit"}
+                                              >
                                                 Umbenennen
                                               </Button>
                                             </Stack>
@@ -836,6 +869,43 @@ export default function Index() {
                                       });
                                       // @ts-ignore
                                       editorRef?.current?.setValue(f.content);
+                                      // @ts-ignore
+                                      editorRef?.current?.updateOptions({
+                                        defaultLanguage: f.path
+                                          .toLowerCase()
+                                          .endsWith(".js")
+                                          ? "javascript"
+                                          : f.path
+                                              .toLowerCase()
+                                              .endsWith(".html")
+                                          ? "html"
+                                          : f.path
+                                              .toLowerCase()
+                                              .endsWith(".css")
+                                          ? "css"
+                                          : f.path.toLowerCase().endsWith(".md")
+                                          ? "markdown"
+                                          : "plain",
+                                      });
+
+                                      // @ts-ignore
+                                      monaco.editor.setModelLanguage(
+                                        // @ts-ignore
+                                        editorRef?.current?.getModel(),
+                                        f.path.toLowerCase().endsWith(".js")
+                                          ? "javascript"
+                                          : f.path
+                                              .toLowerCase()
+                                              .endsWith(".html")
+                                          ? "html"
+                                          : f.path
+                                              .toLowerCase()
+                                              .endsWith(".css")
+                                          ? "css"
+                                          : f.path.toLowerCase().endsWith(".md")
+                                          ? "markdown"
+                                          : "plain"
+                                      );
                                       onFileMenuClose();
                                     }}
                                   />
@@ -862,8 +932,68 @@ export default function Index() {
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
+          <PreviewModal
+            project={project?._id}
+            path={currentFile?.path}
+            isOpen={isPreviewOpen}
+            onOpen={onPreviewOpen}
+            onClose={onPreviewClose}
+          />
         </>
       )}
+    </>
+  );
+}
+
+function PreviewModal(props: {
+  project: string | undefined;
+  path: string | undefined;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      {props.project && props.path ? (
+        <Modal isOpen={props.isOpen} onClose={props.onClose} size={"full"}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Modal Title</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <iframe
+                width={"100%"}
+                style={{ border: "none", height: "80vh" }}
+                src={
+                  "/api/ide/projects/" + props.project + "/preview" + props.path
+                }
+              ></iframe>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                rightIcon={<FaExternalLinkAlt />}
+                variant="outline"
+                mr={3}
+                onClick={() => {
+                  window.open(
+                    "/api/ide/projects/" +
+                      props.project +
+                      "/preview" +
+                      props.path,
+                    "_blank"
+                  );
+                }}
+              >
+                Vollbild
+              </Button>
+              <Button variant="outline" mr={3} onClick={props.onClose}>
+                Schließen
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      ) : null}
     </>
   );
 }

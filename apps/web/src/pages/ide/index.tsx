@@ -407,8 +407,20 @@ function Open() {
                           <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
                             <Flex direction={"row"}>
                               <Box flex={"20%"} textAlign={"center"}>
-                                <Link href={"/ide/project/" + project.id}>
-                                  <NextLink href={"/ide/project/" + project.id}>
+                                <Link
+                                  href={
+                                    "/ide/project/" +
+                                    project.id +
+                                    "#editor-wrapper-flex"
+                                  }
+                                >
+                                  <NextLink
+                                    href={
+                                      "/ide/project/" +
+                                      project.id +
+                                      "#editor-wrapper-flex"
+                                    }
+                                  >
                                     {project.name}
                                   </NextLink>
                                 </Link>
