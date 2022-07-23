@@ -58,6 +58,7 @@ import {
   FormLabel,
   Input,
   Stack,
+  Kbd,
 } from "@chakra-ui/react";
 import {
   FaCloudUploadAlt,
@@ -85,6 +86,8 @@ import {
 } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
+import { editor } from "monaco-editor";
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 export default function Index() {
   const router = useRouter();
@@ -193,6 +196,45 @@ export default function Index() {
       }
     }
   }, [monaco, project]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", listener, true);
+
+    function listener(ev: KeyboardEvent) {
+      if (ev.key === "s" && ev.ctrlKey) {
+        ev.preventDefault();
+
+        if (currentFile) {
+          REST.IDE.saveFile({
+            token: localStorage.getItem("token") as string,
+            projectId: project?._id as string,
+            path: currentFile.path,
+            // @ts-ignore
+            content: editorRef?.current?.getValue(),
+          }).then(async () => {
+            const r = await REST.IDE.getProject({
+              token: localStorage.getItem("token") as string,
+              projectId: project?._id as string,
+            });
+
+            setProject(r.payload.project);
+
+            toast({
+              status: "success",
+              variant: "solid",
+              position: "top",
+              title: "Erfolgreich",
+              description: "Die Datei wurde erfolgreich gespeichert",
+              isClosable: true,
+              duration: 4000,
+            });
+          });
+        }
+      }
+    }
+
+    return () => window.removeEventListener("keydown", listener, true);
+  }, []);
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
@@ -415,7 +457,7 @@ export default function Index() {
                                     }
                                   }}
                                 >
-                                  Speichern
+                                  Speichern&nbsp;<Kbd>STRG</Kbd>+<Kbd>S</Kbd>
                                 </MenuItem>
                               </>
                             ) : null}
