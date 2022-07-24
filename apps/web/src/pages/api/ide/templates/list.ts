@@ -16,8 +16,6 @@ export default async function handleRequest(
 ) {
   const t = await IDETemplateModel.find({});
 
-  console.log(123);
-
   res.status(200).json({
     success: true,
     templates: t,

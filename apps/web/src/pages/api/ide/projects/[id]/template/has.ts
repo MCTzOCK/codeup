@@ -66,7 +66,7 @@ export default async function handleRequest(
         }
 
         const tpl = await IDETemplateModel.findOne({
-          project: IDEProject._id,
+          project: req.query.id,
         });
 
         if (!tpl) {
@@ -79,7 +79,7 @@ export default async function handleRequest(
 
         res.status(200).json({
           success: true,
-          hasTemplate: false,
+          hasTemplate: true,
         });
       } catch (e: any) {
         res.status(500).json({

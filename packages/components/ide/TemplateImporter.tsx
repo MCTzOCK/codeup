@@ -26,7 +26,7 @@ import {
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
 
-export function TemplateImporter(props: { templateId: string }) {
+export default function TemplateImporter(props: { templateId: string }) {
   const [importProgress, setImportProgress] = useState(0);
   const {
     isOpen: isImportOpen,

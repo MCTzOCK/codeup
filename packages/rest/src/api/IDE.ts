@@ -297,7 +297,7 @@ export async function hasTemplate(options: {
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/ide/projects/" + options.projectId + "/template/has",
-    method: "POST",
+    method: "GET",
     token: options.token,
   });
 }

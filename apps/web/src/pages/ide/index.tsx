@@ -53,11 +53,13 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
+  FaCloudUploadAlt,
   FaFileExport,
   FaFileImport,
   FaPlus,
   FaRegFolderOpen,
   FaSearch,
+  FaTrash,
   FaUsersCog,
 } from "react-icons/fa";
 import { BiDuplicate, BiRename } from "react-icons/bi";
@@ -71,6 +73,8 @@ import Networking from "@codeup/util/src/Networking";
 
 import { HiTemplate } from "react-icons/hi";
 import TemplatePicker from "@codeup/components/ide/TemplatePicker";
+import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
+import { router } from "next/client";
 
 export default function Index() {
   useEffect(() => {
@@ -522,10 +526,10 @@ function Create() {
 
 function Open() {
   const [projectList, setProjectList] = useState<
-    { name: string; id: string; permissions: string[] }[]
+    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
   >([]);
   const [filteredProjectList, setFilteredProjectList] = useState<
-    { name: string; id: string; permissions: string[] }[]
+    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
   >([]);
   const [query, setQuery] = useState<string>("");
 
@@ -546,10 +550,16 @@ function Open() {
             projectId: project._id,
           });
 
+          const hasTemplate = await REST.IDE.hasTemplate({
+            token: localStorage.getItem("token") as string,
+            projectId: project._id,
+          });
+
           pList.push({
             id: project._id,
             name: project.name,
             permissions: r.payload.permissions,
+            hasTemplate: hasTemplate.payload.hasTemplate,
           });
         }
 
@@ -603,6 +613,14 @@ function Open() {
   const [projectId, setProjectId] = useState("0");
 
   const userInfo = useUserInfo();
+
+  const {
+    isOpen: isPublisherOpen,
+    onOpen: onPublisherOpen,
+    onClose: onPublisherClose,
+  } = useDisclosure();
+
+  const [publisherTemplateId, setPublisherTemplateId] = useState("0");
 
   return (
     <>
@@ -720,53 +738,54 @@ function Open() {
                                   <MenuList fontSize={"xl"}>
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("DELETE") ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const res =
+                                            await REST.IDE.deleteProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                            });
+
+                                          if (res.status === 200) {
+                                            let npl = projectList.filter(
+                                              (p) => p.id !== project.id
+                                            );
+                                            setProjectList(npl);
+                                            setFilteredProjectList(npl);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich gelöscht",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"red.400"}
-                                          onClick={async () => {
-                                            const res =
-                                              await REST.IDE.deleteProject({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: project.id,
-                                              });
-
-                                            if (res.status === 200) {
-                                              let npl = projectList.filter(
-                                                (p) => p.id !== project.id
-                                              );
-                                              setProjectList(npl);
-                                              setFilteredProjectList(npl);
-                                              setQuery("");
-                                              (
-                                                document.getElementById(
-                                                  sBoxId
-                                                ) as HTMLInputElement
-                                              ).value = "";
-                                              toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich gelöscht",
-                                                status: "success",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            } else {
-                                              toast({
-                                                title: "Fehler",
-                                                description: res.payload.error,
-                                                status: "error",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
                                         >
                                           <BsFillTrashFill /> Löschen
                                         </Flex>
@@ -774,70 +793,72 @@ function Open() {
                                     ) : null}
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("RENAME") ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async (e) => {
+                                          const newName = prompt(
+                                            "Gib den neuen Namen ein"
+                                          );
+
+                                          if (!newName) {
+                                            return;
+                                          }
+
+                                          const res =
+                                            await REST.IDE.renameProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                              newName,
+                                            });
+
+                                          if (res.status === 200) {
+                                            let npl = projectList.map((p) => {
+                                              if (p.id === project.id) {
+                                                return {
+                                                  id: p.id,
+                                                  name: newName,
+                                                  permissions: p.permissions,
+                                                  hasTemplate: p.hasTemplate,
+                                                };
+                                              } else {
+                                                return p;
+                                              }
+                                            });
+                                            setProjectList(npl);
+                                            setFilteredProjectList(npl);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich umbenannt",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"green.400"}
-                                          onClick={async (e) => {
-                                            const newName = prompt(
-                                              "Gib den neuen Namen ein"
-                                            );
-
-                                            if (!newName) {
-                                              return;
-                                            }
-
-                                            const res =
-                                              await REST.IDE.renameProject({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: project.id,
-                                                newName,
-                                              });
-
-                                            if (res.status === 200) {
-                                              let npl = projectList.map((p) => {
-                                                if (p.id === project.id) {
-                                                  return {
-                                                    id: p.id,
-                                                    name: newName,
-                                                    permissions: p.permissions,
-                                                  };
-                                                } else {
-                                                  return p;
-                                                }
-                                              });
-                                              setProjectList(npl);
-                                              setFilteredProjectList(npl);
-                                              setQuery("");
-                                              (
-                                                document.getElementById(
-                                                  sBoxId
-                                                ) as HTMLInputElement
-                                              ).value = "";
-                                              toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich umbenannt",
-                                                status: "success",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            } else {
-                                              toast({
-                                                title: "Fehler",
-                                                description: res.payload.error,
-                                                status: "error",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
                                         >
                                           <BsFillPencilFill /> Umbenennen
                                         </Flex>
@@ -847,7 +868,72 @@ function Open() {
                                     project.permissions.includes(
                                       "DUPLICATE"
                                     ) ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const newName = prompt(
+                                            "Gib den neuen Namen ein"
+                                          );
+
+                                          if (!newName) {
+                                            return;
+                                          }
+
+                                          const res =
+                                            await REST.IDE.duplicateProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                              name: newName,
+                                            });
+
+                                          if (res.status === 200) {
+                                            setProjectList([
+                                              ...projectList,
+                                              {
+                                                id: res.payload.project,
+                                                name: newName,
+                                                permissions: ["OWNER"],
+                                                hasTemplate: false,
+                                              },
+                                            ]);
+
+                                            setFilteredProjectList([
+                                              ...projectList,
+                                              {
+                                                id: res.payload.project,
+                                                name: newName,
+                                                permissions: ["OWNER"],
+                                                hasTemplate: false,
+                                              },
+                                            ]);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich dupliziert",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
@@ -878,6 +964,7 @@ function Open() {
                                                   id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
+                                                  hasTemplate: false,
                                                 },
                                               ]);
 
@@ -887,6 +974,7 @@ function Open() {
                                                   id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
+                                                  hasTemplate: false,
                                                 },
                                               ]);
                                               setQuery("");
@@ -924,16 +1012,17 @@ function Open() {
                                     project.permissions.includes(
                                       "MANAGE-CONTRIBUTORS"
                                     ) ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          setProjectId(project.id);
+                                          onContributorOpen();
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"pink.400"}
-                                          onClick={async () => {
-                                            setProjectId(project.id);
-                                            onContributorOpen();
-                                          }}
                                         >
                                           <FaUsersCog /> Mitwirkende verwalten
                                         </Flex>
@@ -941,50 +1030,106 @@ function Open() {
                                     ) : null}
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("EXPORT") ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const fullProject = (
+                                            await REST.IDE.getProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id as string,
+                                            })
+                                          ).payload.project;
+
+                                          const exportObject: any = {};
+
+                                          exportObject.codeUp = {
+                                            version: "1.0",
+                                            href: location.href,
+                                            exportedAt:
+                                              new Date().toLocaleString(),
+                                            userInfo: userInfo,
+                                          };
+
+                                          exportObject.name = fullProject.name;
+
+                                          exportObject.files =
+                                            fullProject.files;
+
+                                          Networking.download(
+                                            fullProject.name + ".cupp",
+                                            JSON.stringify(
+                                              exportObject,
+                                              null,
+                                              2
+                                            ),
+                                            "text/plain"
+                                          );
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"yellow.400"}
-                                          onClick={async () => {
-                                            const fullProject = (
-                                              await REST.IDE.getProject({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: project.id as string,
-                                              })
-                                            ).payload.project;
-
-                                            const exportObject: any = {};
-
-                                            exportObject.codeUp = {
-                                              version: "1.0",
-                                              href: location.href,
-                                              exportedAt:
-                                                new Date().toLocaleString(),
-                                              userInfo: userInfo,
-                                            };
-
-                                            exportObject.name =
-                                              fullProject.name;
-
-                                            exportObject.files =
-                                              fullProject.files;
-
-                                            Networking.download(
-                                              fullProject.name + ".cupp",
-                                              JSON.stringify(
-                                                exportObject,
-                                                null,
-                                                2
-                                              ),
-                                              "text/plain"
-                                            );
-                                          }}
                                         >
                                           <FaFileExport /> Exportieren
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") &&
+                                    !project.hasTemplate ? (
+                                      <MenuItem
+                                        onClick={async () => {
+                                          setPublisherTemplateId(project.id);
+                                          onPublisherOpen();
+                                        }}
+                                      >
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"purple.400"}
+                                        >
+                                          <FaCloudUploadAlt /> Vorlage
+                                          Veröffentlichen
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") &&
+                                    project.hasTemplate ? (
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const res =
+                                            await REST.IDE.removeTemplate({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                            });
+
+                                          toast({
+                                            status: "success",
+                                            position: "top",
+                                            variant: "solid",
+                                            isClosable: true,
+                                            duration: 3000,
+                                            title: "Erfolgreich",
+                                            description:
+                                              "Die Vorlage wurde erfolgreich gelöscht!",
+                                            onCloseComplete: () => {
+                                              window.location.reload();
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"purple.400"}
+                                        >
+                                          <FaTrash /> Vorlage Löschen
                                         </Flex>
                                       </MenuItem>
                                     ) : null}
@@ -1016,6 +1161,12 @@ function Open() {
         onOpen={onContributorOpen}
         onClose={onContributorClose}
         projectId={projectId}
+      />
+      <TemplatePublisher
+        isOpen={isPublisherOpen}
+        onOpen={onPublisherOpen}
+        onClose={onPublisherClose}
+        projectId={publisherTemplateId}
       />
     </>
   );

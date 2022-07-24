@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/templates/list.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/ide/TemplateImporter.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePublisher.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/template/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/template/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/template/has.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/template/has.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/templates/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/templates/list.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplateImporter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplateImporter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/components/ide/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/IDE.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/IDE.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/models/IDETemplateModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/IDETemplateModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +32,8 @@
         <option value="com.haulmont.rcb.index" />
         <option value="com.haulmont.rcb.useInitial" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -168,7 +166,7 @@
       <workItem from="1658033604175" duration="6406000" />
       <workItem from="1658061116357" duration="4000" />
       <workItem from="1658176716943" duration="14746000" />
-      <workItem from="1658609207573" duration="33074000" />
+      <workItem from="1658609207573" duration="37475000" />
     </task>
     <servers />
   </component>

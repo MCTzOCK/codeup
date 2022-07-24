@@ -32,7 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus, FaStar } from "react-icons/fa";
 import { useUserInfo } from "@codeup/hooks";
-import { TemplateImporter } from "./TemplateImporter";
+import TemplateImporter from "./TemplateImporter";
 
 export default function TemplatePicker() {
   const [templates, setTemplates] = useState<
