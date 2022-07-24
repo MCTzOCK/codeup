@@ -641,9 +641,7 @@ function Open() {
                                       </MenuItem>
                                     ) : null}
                                     {project.permissions.includes("OWNER") ||
-                                    project.permissions.includes(
-                                      "MANAGE-CONTRIBUTORS"
-                                    ) ? (
+                                    project.permissions.includes("EXPORT") ? (
                                       <MenuItem>
                                         <Flex
                                           direction={"row"}
