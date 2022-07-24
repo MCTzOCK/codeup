@@ -246,7 +246,6 @@ export async function updateTemplate(options: {
   update: {
     displayName?: string;
     description?: string;
-    splashImage?: string;
   };
 }): Promise<IResponse> {
   return await makeRequest({
@@ -300,5 +299,12 @@ export async function hasTemplate(options: {
     path: "/api/ide/projects/" + options.projectId + "/template/has",
     method: "POST",
     token: options.token,
+  });
+}
+
+export async function getAllTemplates(): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/templates/list",
+    method: "GET",
   });
 }

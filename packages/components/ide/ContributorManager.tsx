@@ -105,7 +105,8 @@ export default function ContributorManager(props: {
           <ModalHeader>Mitwirkende verwalten</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {props.projectId !== "0" &&
+            {props.projectId &&
+            props.projectId !== "0" &&
             contributors &&
             contributors.owner &&
             contributors.contributors ? (
@@ -134,7 +135,7 @@ export default function ContributorManager(props: {
 
                             const res = await REST.IDE.addContributor({
                               token: localStorage.getItem("token") as string,
-                              projectId: props.projectId,
+                              projectId: props.projectId as string,
                               // @ts-ignore
                               email: e.target.elements.email_i.value,
                             });
@@ -364,7 +365,8 @@ export default function ContributorManager(props: {
                                                 token: localStorage.getItem(
                                                   "token"
                                                 ) as string,
-                                                projectId: props.projectId,
+                                                projectId:
+                                                  props.projectId as string,
                                                 email: contributor.email,
                                               });
 
@@ -511,7 +513,7 @@ export default function ContributorManager(props: {
                                                           "token"
                                                         ) as string,
                                                       projectId:
-                                                        props.projectId,
+                                                        props.projectId as string,
                                                       contributorEmail:
                                                         contributor.email,
                                                       permissions: [

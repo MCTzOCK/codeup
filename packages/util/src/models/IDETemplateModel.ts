@@ -28,9 +28,6 @@ const IDETemplate = new mongoose.Schema({
     type: String,
     required: true,
   },
-  splashImage: {
-    type: String,
-  },
   ratings: {
     type: [
       {

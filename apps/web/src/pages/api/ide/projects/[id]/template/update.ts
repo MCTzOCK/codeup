@@ -76,7 +76,7 @@ export default async function handleRequest(
           return;
         }
 
-        const allowedKeys = ["displayName", "description", "splashImage"];
+        const allowedKeys = ["displayName", "description"];
 
         for (const key of Object.keys(req.body.update)) {
           if (allowedKeys.includes(key)) {

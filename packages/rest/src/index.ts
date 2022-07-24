@@ -32,6 +32,7 @@ import {
   deleteFile,
   deleteProject,
   duplicateProject,
+  getAllTemplates,
   getContributors,
   getProject,
   getProjectPermissions,
@@ -103,6 +104,7 @@ const REST = {
     rateTemplate,
     useTemplate,
     hasTemplate,
+    getAllTemplates,
   },
   Community: {
     search,

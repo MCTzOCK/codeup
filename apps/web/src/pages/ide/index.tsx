@@ -70,6 +70,7 @@ import { ContributorManager } from "@codeup/components/ide";
 import Networking from "@codeup/util/src/Networking";
 
 import { HiTemplate } from "react-icons/hi";
+import TemplatePicker from "@codeup/components/ide/TemplatePicker";
 
 export default function Index() {
   useEffect(() => {
@@ -442,6 +443,11 @@ function Create() {
                   </Button>
                 </FormControl>
               </form>
+            </>
+          ) : null}
+          {section === "templates" ? (
+            <>
+              <TemplatePicker />
             </>
           ) : null}
         </Box>
