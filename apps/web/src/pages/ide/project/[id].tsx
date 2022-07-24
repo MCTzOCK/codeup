@@ -339,7 +339,9 @@ export default function Index() {
                     rounded={"none"}
                   />
                 </Tooltip>
-                {currentFile && currentFile.path.endsWith(".html") ? (
+                {currentFile &&
+                currentFile.path.endsWith(".html") &&
+                !settingsOpen ? (
                   <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
@@ -508,8 +510,7 @@ export default function Index() {
                                         }
                                       }}
                                     >
-                                      Speichern&nbsp;<Kbd>STRG</Kbd>+
-                                      <Kbd>S</Kbd>
+                                      Speichern
                                     </MenuItem>
                                   </>
                                 ) : null}
