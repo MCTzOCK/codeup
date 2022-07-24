@@ -1,10 +1,10 @@
 /**
- * src/pages/account/is_reset_token_valid.ts
+ * apps/web/src/pages/api/account/check-reset-token/[token].ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 06.06.2022
+ * Created At: 20.07.2022
  *
  */
 import { NextApiRequest, NextApiResponse } from "next";

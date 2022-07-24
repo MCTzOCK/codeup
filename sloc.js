@@ -20,19 +20,15 @@ paths = paths
   .filter((p) => !p.includes(".afdesign"));
 
 let lines = 0;
-let biggestFile = {
-  path: "",
-  lines: 0,
-};
+
+let filesWithLines = [];
 
 for (let i = 0; i < paths.length; i++) {
   let fLines = getFileLines(paths[i]);
-  if (biggestFile.lines < fLines) {
-    biggestFile = {
-      path: paths[i],
-      lines: fLines,
-    };
-  }
+  filesWithLines.push({
+    path: paths[i],
+    lines: fLines,
+  })
   lines += fLines;
 }
 
@@ -42,9 +38,18 @@ if (process.argv.includes("-v")) {
 
 console.log("Total Lines of Code: " + lines);
 console.log("Total Source Files: " + paths.length);
-console.log(
-  "Biggest File: " + biggestFile.path + " with " + biggestFile.lines + " lines"
-);
+filesWithLines.sort((a, b) => b.lines - a.lines);
+console.log("Top Biggest Files:");
+filesWithLines.slice(0, 10).forEach((f, i) => {
+  console.log((i + 1) + ". " + f.path + ": " + f.lines);
+});
+
+if(process.argv.includes("--list-all")) {
+  filesWithLines.slice(10, filesWithLines.length).forEach((f, i) => {
+    console.log((i + 11) + ". " + f.path + ": " + f.lines);
+  })
+}
+
 
 function getAllPaths(dirPath, arrayOfFiles) {
   files = fs.readdirSync(dirPath);

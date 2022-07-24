@@ -27,49 +27,53 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token) {
+  if (!req.headers["x-jwt"]) {
     res.status(400).json({
-      error: "Token is missing",
+      error: "Auth-Header is missing",
     });
     return;
   }
 
   // @ts-ignore
-  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-      res.status(400).json({
-        error: "Invalid token",
-        details: err,
+  jwt.verify(
+    req.headers["x-jwt"] as string,
+    process.env.JWT_SECRET as string,
+    async (err, decoded) => {
+      if (err) {
+        res.status(400).json({
+          error: "Invalid token",
+          details: err,
+        });
+        return;
+      }
+
+      await mongoConnect();
+
+      const user = await UserModel.findById((decoded as any).id);
+
+      if (!user) {
+        res.status(400).json({
+          error: "Invalid token",
+        });
+        return;
+      }
+
+      await sendMail(
+        user.email,
+        "Konto gelöscht",
+        "Dein Konto wurde erfolgreich gelöscht!",
+        user.firstName
+      );
+
+      await user.remove();
+
+      // DELETE: CommunityProfile, CommunityPosts, TodoLists with no contributors, IDEProjects with no contributors
+      // DELETE: CourseProgress
+
+      res.status(200).json({
+        success: true,
+        message: "Deleted.",
       });
-      return;
     }
-
-    await mongoConnect();
-
-    const user = await UserModel.findById((decoded as any).id);
-
-    if (!user) {
-      res.status(400).json({
-        error: "Invalid token",
-      });
-      return;
-    }
-
-    await sendMail(
-      user.email,
-      "Konto gelöscht",
-      "Dein Konto wurde erfolgreich gelöscht!",
-      user.firstName
-    );
-
-    await user.remove();
-
-    // DELETE: CommunityProfile, CommunityPosts, TodoLists with no contributors, IDEProjects with no contributors
-    // DELETE: CourseProgress
-
-    res.status(200).json({
-      success: true,
-      message: "Deleted.",
-    });
-  });
+  );
 }

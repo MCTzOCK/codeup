@@ -57,6 +57,7 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import { useHasProfile, useUserInfo } from "@codeup/hooks";
+import REST from "@codeup/rest";
 
 //
 // we need to disable SSR until I finally know
@@ -149,20 +150,13 @@ export default function ProfileView() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/community/profile/" + name, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      res.json().then((data) => {
-        if (res.status === 200) {
-          setProfile(data.profile);
-          setNotFound(false);
-        } else {
-          setNotFound(true);
-        }
-      });
+    REST.Community.getProfile(name as string).then((res) => {
+      if (res.status === 200) {
+        setProfile(res.payload.profile);
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
     });
   }, [name, userInfo]);
 
@@ -174,58 +168,43 @@ export default function ProfileView() {
 
   useEffect(() => {
     if (name !== undefined) {
-      fetch(
-        "/api/community/profile/" +
-          name +
-          "/posts?from=" +
-          currentRange.from +
-          "&to=" +
-          currentRange.to,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      REST.Community.getProfilePosts({
+        name: name as string,
+        from: currentRange.from,
+        to: currentRange.to,
+      }).then((res) => {
+        if (res.status === 200) {
+          setCurrentPosts(res.payload.posts);
+        } else {
+          toast({
+            title: "Fehler",
+            description: "Beiträge konnten nicht geladen werden",
+            status: "error",
+            duration: 6000,
+            isClosable: false,
+          });
         }
-      ).then((res) => {
-        res.json().then((data) => {
-          if (res.status === 200) {
-            setCurrentPosts(data.posts);
-          } else {
-            toast({
-              title: "Fehler",
-              description: "Beiträge konnten nicht geladen werden",
-              status: "error",
-              duration: 6000,
-              isClosable: false,
-            });
-          }
-        });
       });
     }
   }, [currentRange, name, toast]);
 
   useEffect(() => {
     if (name !== undefined) {
-      fetch("/api/community/profile/" + name + "/posts?count=true", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      REST.Community.getProfilePosts({
+        name: name as string,
+        count: true,
       }).then((res) => {
-        res.json().then((data) => {
-          if (res.status === 200) {
-            setMaxPosts(data.postCount);
-          } else {
-            toast({
-              title: "Fehler",
-              description: "Beiträge konnten nicht geladen werden",
-              status: "error",
-              duration: 6000,
-              isClosable: false,
-            });
-          }
-        });
+        if (res.status === 200) {
+          setMaxPosts(res.payload.postCount);
+        } else {
+          toast({
+            title: "Fehler",
+            description: "Beiträge konnten nicht geladen werden",
+            status: "error",
+            duration: 6000,
+            isClosable: false,
+          });
+        }
       });
     }
   }, [name, toast]);
@@ -328,21 +307,15 @@ export default function ProfileView() {
                     return;
                   }
 
-                  fetch("/api/community/profile/update", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
+                  REST.Community.updateProfile({
+                    token: localStorage.getItem("token") as string,
+                    update: {
+                      displayName,
+                      bio,
+                      location,
+                      birthday,
+                      website,
                     },
-                    body: JSON.stringify({
-                      token: localStorage.getItem("token"),
-                      update: {
-                        displayName,
-                        bio,
-                        location,
-                        birthday,
-                        website,
-                      },
-                    }),
                   }).then((res) => {
                     if (res.status === 200) {
                       toast({
@@ -359,7 +332,8 @@ export default function ProfileView() {
                     } else {
                       toast({
                         title: "Fehler",
-                        description: "Dein Profil konnte nicht aktualisiert werden.",
+                        description:
+                          "Dein Profil konnte nicht aktualisiert werden.",
                         status: "error",
                       });
                     }
@@ -418,7 +392,9 @@ export default function ProfileView() {
                         defaultValue={profile.bio}
                         maxLength={256}
                       />
-                      <FormErrorMessage>Biographie wird benötigt.</FormErrorMessage>
+                      <FormErrorMessage>
+                        Biographie wird benötigt.
+                      </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!websiteValid}>
                       <FormLabel>Website</FormLabel>
@@ -432,7 +408,9 @@ export default function ProfileView() {
                           defaultValue={profile.website}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Website wird benötigt.</FormErrorMessage>
+                      <FormErrorMessage>
+                        Website wird benötigt.
+                      </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!locationValid}>
                       <FormLabel>Standort</FormLabel>
@@ -446,7 +424,9 @@ export default function ProfileView() {
                           defaultValue={profile.location}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Standort wird benötigt.</FormErrorMessage>
+                      <FormErrorMessage>
+                        Standort wird benötigt.
+                      </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!birthdayValid}>
                       <FormLabel>Birthday</FormLabel>
@@ -461,7 +441,9 @@ export default function ProfileView() {
                           defaultValue={profile.birthday}
                         />
                       </InputGroup>
-                      <FormErrorMessage>Geburtstag wird benötigt.</FormErrorMessage>
+                      <FormErrorMessage>
+                        Geburtstag wird benötigt.
+                      </FormErrorMessage>
                     </FormControl>
                   </Flex>
                 </DrawerBody>

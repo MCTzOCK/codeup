@@ -16,6 +16,13 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   FormControl,
   FormLabel,
@@ -26,35 +33,22 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
   Text,
-  Tooltip,
   useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-} from "@chakra-ui/react";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
+import REST from "@codeup/rest";
 
 export default function Index() {
   const router = useRouter();
@@ -87,32 +81,24 @@ export default function Index() {
     reloadLists();
   }, []);
 
-  function reloadLists() {
-    fetch("/api/todo/my-lists", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-      }),
-    }).then((res) => {
-      res.json().then((data) => {
-        if (res.status === 200) {
-          setLists(data.lists);
-        } else {
-          toast({
-            position: "top",
-            variant: "solid",
-            status: "error",
-            title: "Fehler",
-            description: data.error,
-            isClosable: true,
-            duration: 6000,
-          });
-        }
+  async function reloadLists() {
+    const res = await REST.ToDo.getMyLists(
+      localStorage.getItem("token") as string
+    );
+
+    if (res.status === 200) {
+      setLists(res.payload.lists);
+    } else {
+      toast({
+        position: "top",
+        variant: "solid",
+        status: "error",
+        title: "Fehler",
+        description: res.payload.error,
+        isClosable: true,
+        duration: 6000,
       });
-    });
+    }
   }
 
   const [currentList, setCurrentList] = React.useState<{
@@ -158,47 +144,38 @@ export default function Index() {
             <PopoverHeader>Neue Liste</PopoverHeader>
             <PopoverBody>
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
 
-                  fetch("/api/todo/lists/create", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      token: localStorage.getItem("token"),
-                      // @ts-ignore
-                      name: e.target.elements.name.value,
-                    }),
-                  }).then((res) => {
-                    res.json().then((data) => {
-                      if (res.status === 200) {
-                        // @ts-ignore
-                        e.target.elements.name.value = "";
-                        reloadLists();
-                        toast({
-                          position: "top",
-                          variant: "solid",
-                          status: "success",
-                          title: "Erfolgreich",
-                          description: "Die Liste wurde erstellt",
-                          isClosable: true,
-                          duration: 6000,
-                        });
-                      } else {
-                        toast({
-                          position: "top",
-                          variant: "solid",
-                          status: "error",
-                          title: "Fehler",
-                          description: data.error,
-                          isClosable: true,
-                          duration: 6000,
-                        });
-                      }
-                    });
+                  const res = await REST.ToDo.createList({
+                    token: localStorage.getItem("token") as string,
+                    // @ts-ignore
+                    name: e.target.elements.name.value,
                   });
+                  if (res.status === 200) {
+                    // @ts-ignore
+                    e.target.elements.name.value = "";
+                    reloadLists();
+                    toast({
+                      position: "top",
+                      variant: "solid",
+                      status: "success",
+                      title: "Erfolgreich",
+                      description: "Die Liste wurde erstellt",
+                      isClosable: true,
+                      duration: 6000,
+                    });
+                  } else {
+                    toast({
+                      position: "top",
+                      variant: "solid",
+                      status: "error",
+                      title: "Fehler",
+                      description: res.payload.error,
+                      isClosable: true,
+                      duration: 6000,
+                    });
+                  }
                 }}
               >
                 <FormControl>
@@ -280,59 +257,57 @@ export default function Index() {
                   <PopoverHeader>Neue Aufgabe</PopoverHeader>
                   <PopoverBody>
                     <form
-                      onSubmit={(e) => {
+                      onSubmit={async (e) => {
                         e.preventDefault();
 
-                        fetch(
-                          "/api/todo/lists/" +
-                            currentList?._id +
-                            "/tasks/create",
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              token: localStorage.getItem("token"),
-                              // @ts-ignore
-                              task: e.target.elements.taskname.value,
-                            }),
-                          }
-                        ).then((res) => {
-                          res.json().then((data) => {
-                            if (res.status === 200) {
-                              reloadLists();
-                              let x = currentList;
-                              x?.tasks.push({
-                                // @ts-ignore
-                                name: e.target.elements.taskname.value,
-                                finished: false,
-                                uuid: data.task,
-                              });
-                              setCurrentList(x);
-
-                              toast({
-                                position: "top",
-                                variant: "solid",
-                                status: "success",
-                                title: "Erfolgreich",
-                                description: "Die Aufgabe wurde erstellt",
-                                isClosable: true,
-                                duration: 6000,
-                              });
-                            } else {
-                              toast({
-                                position: "top",
-                                variant: "solid",
-                                status: "error",
-                                title: "Fehler",
-                                description: data.error,
-                                isClosable: true,
-                                duration: 6000,
-                              });
+                        const res = await REST.ToDo.createTask({
+                          token: localStorage.getItem("token") as string,
+                          listId: (
+                            currentList as {
+                              _id: string;
+                              name: string;
+                              tasks: {
+                                name: string;
+                                finished: boolean;
+                                uuid: string;
+                              }[];
                             }
-                          });
+                          )._id as string,
+                          // @ts-ignore
+                          task: e.target.elements.taskname.value,
                         });
+
+                        if (res.status === 200) {
+                          reloadLists();
+                          let x = currentList;
+                          x?.tasks.push({
+                            // @ts-ignore
+                            name: e.target.elements.taskname.value,
+                            finished: false,
+                            uuid: res.payload.task,
+                          });
+                          setCurrentList(x);
+
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "success",
+                            title: "Erfolgreich",
+                            description: "Die Aufgabe wurde erstellt",
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        } else {
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "error",
+                            title: "Fehler",
+                            description: res.payload.error,
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        }
                       }}
                     >
                       <FormControl>
@@ -370,54 +345,51 @@ export default function Index() {
                       />
                       <MenuList>
                         <MenuItem
-                          onClick={() => {
-                            fetch(
-                              "/api/todo/lists/" +
-                                currentList?._id +
-                                "/tasks/delete",
-                              {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  token: localStorage.getItem("token"),
-                                  // @ts-ignore
-                                  task: task.uuid,
-                                }),
-                              }
-                            ).then((res) => {
-                              res.json().then((data) => {
-                                if (res.status === 200) {
-                                  reloadLists();
-                                  let x = currentList;
-                                  x.tasks = x?.tasks.filter(
-                                    (y) => y.uuid !== task.uuid
-                                  );
-                                  setCurrentList(x);
-
-                                  toast({
-                                    position: "top",
-                                    variant: "solid",
-                                    status: "success",
-                                    title: "Erfolgreich",
-                                    description: "Die Aufgabe wurde gelöscht",
-                                    isClosable: true,
-                                    duration: 6000,
-                                  });
-                                } else {
-                                  toast({
-                                    position: "top",
-                                    variant: "solid",
-                                    status: "error",
-                                    title: "Fehler",
-                                    description: data.error,
-                                    isClosable: true,
-                                    duration: 6000,
-                                  });
+                          onClick={async () => {
+                            const res = await REST.ToDo.deleteTask({
+                              token: localStorage.getItem("token") as string,
+                              listId: (
+                                currentList as {
+                                  _id: string;
+                                  name: string;
+                                  tasks: {
+                                    name: string;
+                                    finished: boolean;
+                                    uuid: string;
+                                  }[];
                                 }
-                              });
+                              )._id as string,
+                              taskUUID: task.uuid,
                             });
+
+                            if (res.status === 200) {
+                              reloadLists();
+                              let x = currentList;
+                              x.tasks = x?.tasks.filter(
+                                (y) => y.uuid !== task.uuid
+                              );
+                              setCurrentList(x);
+
+                              toast({
+                                position: "top",
+                                variant: "solid",
+                                status: "success",
+                                title: "Erfolgreich",
+                                description: "Die Aufgabe wurde gelöscht",
+                                isClosable: true,
+                                duration: 6000,
+                              });
+                            } else {
+                              toast({
+                                position: "top",
+                                variant: "solid",
+                                status: "error",
+                                title: "Fehler",
+                                description: res.payload.error,
+                                isClosable: true,
+                                duration: 6000,
+                              });
+                            }
                           }}
                         >
                           Löschen
@@ -449,43 +421,45 @@ export default function Index() {
                     <Button
                       mt={"2rem"}
                       colorScheme={"red"}
-                      onClick={() => {
-                        fetch("/api/todo/lists/delete", {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            token: localStorage.getItem("token"),
-                            list: currentList?._id,
-                          }),
-                        }).then((res) => {
-                          res.json().then((data) => {
-                            if (res.status === 200) {
-                              reloadLists();
-                              onClose();
-                              toast({
-                                position: "top",
-                                variant: "solid",
-                                status: "success",
-                                title: "Erfolgreich",
-                                description: "Die Liste wurde gelöscht",
-                                isClosable: true,
-                                duration: 6000,
-                              });
-                            } else {
-                              toast({
-                                position: "top",
-                                variant: "solid",
-                                status: "error",
-                                title: "Fehler",
-                                description: data.error,
-                                isClosable: true,
-                                duration: 6000,
-                              });
+                      onClick={async () => {
+                        const res = await REST.ToDo.deleteList({
+                          token: localStorage.getItem("token") as string,
+                          listId: (
+                            currentList as {
+                              _id: string;
+                              name: string;
+                              tasks: {
+                                name: string;
+                                finished: boolean;
+                                uuid: string;
+                              }[];
                             }
-                          });
+                          )._id as string,
                         });
+
+                        if (res.status === 200) {
+                          reloadLists();
+                          onClose();
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "success",
+                            title: "Erfolgreich",
+                            description: "Die Liste wurde gelöscht",
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        } else {
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "error",
+                            title: "Fehler",
+                            description: res.payload.error,
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        }
                       }}
                     >
                       Liste Löschen

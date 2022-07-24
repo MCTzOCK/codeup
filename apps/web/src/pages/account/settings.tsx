@@ -38,6 +38,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useUserInfo } from "@codeup/hooks";
+import REST from "@codeup/rest";
 
 export default function Settings() {
   const router = useRouter();
@@ -197,13 +198,14 @@ function Account(props: {
         Konto verwalten
       </Heading>
       <SimpleGrid
-        minChildWidth={200}
+        minChildWidth={250}
         spacing={"2rem"}
         margin={"2rem"}
         columns={1}
+        maxW={"85%"}
       >
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             setFirstNameButtonDisabled(true);
             setFirstNameError(null);
@@ -217,27 +219,19 @@ function Account(props: {
               return;
             }
 
-            fetch("/api/account/update", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token") as string,
-                keyName: "firstName",
-                keyValue: firstName,
-              }),
-            }).then((res) => {
-              res.json().then((data) => {
-                if (data.success) {
-                  localStorage.setItem("token", data.newToken);
-                  window.location.reload();
-                } else {
-                  setFirstNameError(data.error);
-                  setFirstNameButtonDisabled(false);
-                }
-              });
+            const res = await REST.Account.update({
+              keyName: "firstName",
+              keyValue: firstName,
+              token: localStorage.getItem("token") as string,
             });
+
+            if (res.payload.success) {
+              localStorage.setItem("token", res.payload.newToken);
+              window.location.reload();
+            } else {
+              setFirstNameError(res.payload.error);
+              setFirstNameButtonDisabled(false);
+            }
           }}
         >
           <Flex direction={"column"}>
@@ -258,7 +252,7 @@ function Account(props: {
           </Flex>
         </form>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             setLastNameButtonDisabled(true);
             setLastNameError(null);
@@ -272,27 +266,19 @@ function Account(props: {
               return;
             }
 
-            fetch("/api/account/update", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token") as string,
-                keyName: "lastName",
-                keyValue: lastName,
-              }),
-            }).then((res) => {
-              res.json().then((data) => {
-                if (data.success) {
-                  localStorage.setItem("token", data.newToken);
-                  window.location.reload();
-                } else {
-                  setLastNameError(data.error);
-                  setLastNameButtonDisabled(false);
-                }
-              });
+            const res = await REST.Account.update({
+              keyName: "lastName",
+              keyValue: lastName,
+              token: localStorage.getItem("token") as string,
             });
+
+            if (res.payload.success) {
+              localStorage.setItem("token", res.payload.newToken);
+              window.location.reload();
+            } else {
+              setLastNameError(res.payload.error);
+              setLastNameButtonDisabled(false);
+            }
           }}
         >
           <Flex direction={"column"}>
@@ -313,7 +299,7 @@ function Account(props: {
           </Flex>
         </form>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             setEmailButtonDisabled(true);
             setEmailError(null);
@@ -331,29 +317,21 @@ function Account(props: {
               return;
             }
 
-            fetch("/api/account/update", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token") as string,
-                keyName: "email",
-                keyValue: email,
-              }),
-            }).then((res) => {
-              res.json().then((data) => {
-                if (data.success) {
-                  setEmailError(
-                    "Überprüfe deine E-Mails, um deine neue E-Mail-Adresse zu bestätigen."
-                  );
-                  setEmailButtonDisabled(false);
-                } else {
-                  setEmailError(data.error);
-                  setEmailButtonDisabled(false);
-                }
-              });
+            const res = await REST.Account.update({
+              keyName: "email",
+              keyValue: email,
+              token: localStorage.getItem("token") as string,
             });
+
+            if (res.payload.success) {
+              setEmailError(
+                "Überprüfe deine E-Mails, um deine neue E-Mail-Adresse zu bestätigen."
+              );
+              setEmailButtonDisabled(false);
+            } else {
+              setEmailError(res.payload.error);
+              setEmailButtonDisabled(false);
+            }
           }}
         >
           <Flex direction={"column"}>
@@ -374,28 +352,20 @@ function Account(props: {
           </Flex>
         </form>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             set_2faButtonDisabled(true);
 
-            fetch("/api/account/update", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token") as string,
-                keyName: "2fa",
-                keyValue: !props.userInfo._2fa === true ? "true" : "false",
-              }),
-            }).then((res) => {
-              res.json().then((data) => {
-                if (data.success) {
-                  localStorage.setItem("token", data.newToken);
-                  window.location.reload();
-                }
-              });
+            const res = await REST.Account.update({
+              keyName: "2fa",
+              keyValue: !props.userInfo._2fa === true ? "true" : "false",
+              token: localStorage.getItem("token") as string,
             });
+
+            if (res.payload.success) {
+              localStorage.setItem("token", res.payload.newToken);
+              window.location.reload();
+            }
           }}
         >
           <Flex direction={"column"}>
@@ -447,21 +417,15 @@ function Account(props: {
                     isLoading={deleteAccountDisabled}
                     colorScheme={"red"}
                     mt={"1.2rem"}
-                    onClick={() => {
+                    onClick={async () => {
                       setDeleteAccountDisabled(true);
 
-                      fetch("/api/account/delete", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          token: localStorage.getItem("token") as string,
-                        }),
-                      }).then((res) => {
-                        localStorage.removeItem("token");
-                        window.location.reload();
-                      });
+                      const res = await REST.Account.deleteAccount(
+                        localStorage.getItem("token") as string
+                      );
+
+                      localStorage.removeItem("token");
+                      window.location.reload();
                     }}
                   >
                     Wirklich löschen
@@ -491,41 +455,33 @@ function Account(props: {
                 <PopoverHeader>Passwort ändern</PopoverHeader>
                 <PopoverBody>
                   <form
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault();
                       setChangePasswordDisabled(true);
 
-                      fetch("/api/account/update", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          token: localStorage.getItem("token") as string,
-                          keyName: "password",
-                          // @ts-ignore
-                          keyValue: e.target.elements.password.value,
-                        }),
-                      }).then((res) => {
-                        res.json().then((data) => {
-                          if (res.status === 200) {
-                            toast({
-                              status: "success",
-                              title: "Erfolgreich",
-                              description:
-                                "Dein Passwort wurde erfolgreich geändert.",
-                            });
-                            setChangePasswordDisabled(false);
-                          } else {
-                            toast({
-                              status: "error",
-                              title: "Fehler",
-                              description: data.error,
-                            });
-                            setChangePasswordDisabled(false);
-                          }
-                        });
+                      const res = await REST.Account.update({
+                        keyName: "password",
+                        // @ts-ignore
+                        keyValue: e.target.elements.password.value,
+                        token: localStorage.getItem("token") as string,
                       });
+
+                      if (res.status === 200) {
+                        toast({
+                          status: "success",
+                          title: "Erfolgreich",
+                          description:
+                            "Dein Passwort wurde erfolgreich geändert.",
+                        });
+                        setChangePasswordDisabled(false);
+                      } else {
+                        toast({
+                          status: "error",
+                          title: "Fehler",
+                          description: res.payload.error,
+                        });
+                        setChangePasswordDisabled(false);
+                      }
                     }}
                   >
                     <FormControl>

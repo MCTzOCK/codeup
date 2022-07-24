@@ -25,6 +25,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { PostCard } from "@codeup/components/community/post";
+import REST from "@codeup/rest";
 
 export default function Search() {
   const [term, setTerm] = useState("");
@@ -47,18 +48,12 @@ export default function Search() {
 
   useEffect(() => {
     if (term.length > 2) {
-      fetch(`/api/community/search?term=${term}`)
-        .then((res) => res.json())
-        // @ts-ignore
-        .then((res) => setResults({ posts: res.posts, profiles: res.profiles }))
-        .catch((err) => {
-          toast({
-            title: "Fehler",
-            description: "Etwas ist schief gelaufen.",
-            status: "error",
-            duration: 6000,
-          });
+      REST.Community.search(term).then((res) => {
+        setResults({
+          posts: res.payload.posts,
+          profiles: res.payload.posts,
         });
+      });
     }
   }, [term, toast]);
 

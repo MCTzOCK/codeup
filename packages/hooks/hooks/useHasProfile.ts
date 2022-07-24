@@ -9,6 +9,7 @@
  */
 import { useEffect, useState } from "react";
 import useUserInfo from "./useUserInfo";
+import REST from "@codeup/rest";
 
 export default function useHasProfile(): {
   hasProfile: boolean;
@@ -23,12 +24,7 @@ export default function useHasProfile(): {
 
   useEffect(() => {
     if (userInfo.id !== "") {
-      fetch("/api/community/has-profile/" + userInfo.id, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
+      REST.Community.existsProfile(userInfo.id).then((res) => {
         if (res.status === 200) {
           setHasProfile({
             hasProfile: true,

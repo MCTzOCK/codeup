@@ -44,7 +44,7 @@
   </component>
   <component name="ProblemsViewState">
     <option name="autoscrollToSource" value="true" />
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2AAcEfEdPoCsXrOKOPD6I7wLwXN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -59,7 +59,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "16.9.0",
     "javascript.nodejs.core.library.typings.version": "16.9.0",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/package.json",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/api/ide/projects/[id]/template",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -88,18 +88,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]\template" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\rest" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\todo\lists" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\contributors" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\hooks\hooks" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components\global" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\src\videos\html-basics\basics" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\public\_static\tts\courses\html-basics\basics" />
     </key>
   </component>
   <component name="RunManager">
@@ -158,7 +158,8 @@
       <workItem from="1657915903020" duration="4217000" />
       <workItem from="1658033604175" duration="6406000" />
       <workItem from="1658061116357" duration="4000" />
-      <workItem from="1658176716943" duration="4634000" />
+      <workItem from="1658176716943" duration="14746000" />
+      <workItem from="1658609207573" duration="39072000" />
     </task>
     <servers />
   </component>

@@ -22,6 +22,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserInfo } from "@codeup/hooks";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import REST from "@codeup/rest";
 
 export default function ProfileMenuButton(props: {
   profile: {
@@ -48,22 +49,15 @@ export default function ProfileMenuButton(props: {
 
   useEffect(() => {
     if (userInfo.username.length > 0 && props.profile.username.length > 0) {
-      fetch(
-        `/api/community/profile/${props.profile.username}/is-following/${userInfo.username}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      REST.Community.isFollowing(
+        props.profile.username,
+        userInfo.username
       ).then((res) => {
-        res.json().then((data) => {
-          if (res.status === 200) {
-            setFollowing(data.isFollowing);
-          } else {
-            setFollowing(false);
-          }
-        });
+        if (res.status === 200) {
+          setFollowing(res.payload.isFollowing);
+        } else {
+          setFollowing(false);
+        }
       });
     }
   }, [userInfo, props.profile.username]);
@@ -74,25 +68,15 @@ export default function ProfileMenuButton(props: {
         marginRight={"2rem"}
         colorScheme={isFollowing ? "red" : "blue"}
         leftIcon={isFollowing ? <FaMinus /> : <FaPlus />}
-        onClick={() => {
-          fetch(
-            `/api/community/profile/${props.profile.username}/toggle-follow`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token"),
-              }),
-            }
-          ).then((res) => {
-            res.json().then((data) => {
-              if (res.status === 200) {
-                setFollowing(data.following);
-              }
-            });
+        onClick={async () => {
+          const res = await REST.Community.toggleFollow({
+            token: localStorage.getItem("token") as string,
+            profile: props.profile.username,
           });
+
+          if (res.status === 200) {
+            setFollowing(res.payload.following);
+          }
         }}
       >
         {isFollowing ? "Unfollow" : "Follow"}

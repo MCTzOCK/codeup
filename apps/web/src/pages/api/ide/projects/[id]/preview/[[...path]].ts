@@ -18,7 +18,86 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const path = (req.query.path as string[])?.join("/") || "index.html";
+  let path = (req.query.path as string[])?.join("/") || "/index.html";
 
-  res.end("Pathname: " + path);
+  if (!path.startsWith("/")) {
+    path = "/" + path;
+  }
+
+  console.log(req.cookies);
+
+  if (req.method !== "GET") {
+    res.status(405).json({
+      error: "Method not allowed",
+    });
+    return;
+  }
+
+  if (!req.query.id || !req.cookies.jwt) {
+    res.status(400).json({
+      error: "Missing required fields",
+    });
+    return;
+  }
+
+  jwt.verify(
+    req.cookies.jwt as string,
+    process.env.JWT_SECRET as string,
+    async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
+      await mongoConnect();
+
+      try {
+        const user = await UserModel.findById((decoded as any).id);
+
+        if (!user) {
+          res.status(400).json({
+            error: "Invalid token",
+          });
+          return;
+        }
+
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
+
+        if (!IDEProject) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("READ")
+          )
+        ) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        const file = IDEProject.files.find(
+          (f: any) => f.path.toLowerCase() === path.toLowerCase()
+        );
+
+        if (!file) {
+          res.status(404).write("Not Found");
+          res.end();
+          return;
+        }
+
+        res.status(200).write(file.content);
+
+        res.end();
+      } catch (e: any) {
+        res.status(500).json({
+          error: e.message,
+        });
+      }
+    }
+  );
 }

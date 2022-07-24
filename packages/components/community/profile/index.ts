@@ -15,6 +15,5 @@ export { default as ProfileBadges } from "./ProfileBadges";
 export { default as ProfileBanner } from "./ProfileBanner";
 export { default as ProfileBannerModifier } from "./ProfileBannerModifier";
 export { default as ProfileDataDisplay } from "./ProfileDataDisplay";
-export { default as ProfileFollowerDisplay } from "./ProfileFollowerDisplay";
 export { default as ProfileMenuButton } from "./ProfileMenuButton";
 export { default as ProfileNotFound } from "./ProfileNotFound";

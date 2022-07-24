@@ -22,7 +22,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Checkbox,
   Divider,
   Flex,
   FormControl,
@@ -39,31 +38,24 @@ import {
   MenuList,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  SimpleGrid,
+  Progress,
+  ProgressLabel,
   Spinner,
   Stack,
-  Tag,
   Text,
-  Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
-  FaCogs,
+  FaCloudUploadAlt,
+  FaFileExport,
+  FaFileImport,
   FaPlus,
   FaRegFolderOpen,
   FaSearch,
@@ -73,9 +65,16 @@ import {
 import { BiDuplicate, BiRename } from "react-icons/bi";
 import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { HiMail } from "react-icons/hi";
 import { useUserInfo } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
+import REST from "@codeup/rest";
+import { ContributorManager } from "@codeup/components/ide";
+import Networking from "@codeup/util/src/Networking";
+
+import { HiTemplate } from "react-icons/hi";
+import TemplatePicker from "@codeup/components/ide/TemplatePicker";
+import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
+import { router } from "next/client";
 
 export default function Index() {
   useEffect(() => {
@@ -161,16 +160,85 @@ function Create() {
   const toast = useToast();
   const nameId = useId();
 
-  const router = useRouter();
-
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [section, setSection] = useState("menu");
+
+  function Card(props: {
+    icon: any;
+    title: string;
+    section?: string;
+    onClick?: () => void;
+  }) {
+    return (
+      <>
+        <Box
+          flex={"33%"}
+          backgroundColor={"gray.800"}
+          shadow={"xl"}
+          rounded={"xl"}
+          h={"100%"}
+          cursor={"pointer"}
+          onClick={() => {
+            if (props.section) {
+              setSection(props.section);
+            }
+            if (props.onClick) {
+              props.onClick();
+            }
+          }}
+        >
+          <Flex direction={"row"} h={"100%"} w={"100%"}>
+            <Flex
+              flex={"30%"}
+              fontSize={"6xl"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              h={"100%"}
+              w={"100%"}
+            >
+              {props.icon}
+            </Flex>
+            <Flex
+              flex={"70%"}
+              pl={".2rem"}
+              justifyContent={"center"}
+              h={"100%"}
+              w={"100%"}
+              direction={"column"}
+            >
+              <Heading size={"lg"}>{props.title}</Heading>
+            </Flex>
+          </Flex>
+        </Box>
+      </>
+    );
+  }
+
+  const importFileInputId = useId();
+
+  const [importProgress, setImportProgress] = useState(0);
+  const {
+    isOpen: isImportOpen,
+    onOpen: onImportOpen,
+    onClose: onImportClose,
+  } = useDisclosure();
+
+  const [importProgressMax, setImportProgressMax] = useState(0);
+  const [importProgressCurrent, setImportProgressCurrent] = useState("");
+
+  const [importFinished, setImportFinished] = useState(false);
+
+  const [importedProjectId, setImportedProjectId] = useState("");
+
+  const router = useRouter();
 
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"center"} mt={"1.2rem"}>
         <Box
-          w={["100%", "65%"]}
-          minW={["100%", "65%"]}
+          w={["100%", "85%"]}
+          minW={["100%", "85%"]}
           backgroundColor={"gray.900"}
           p={"1.2rem"}
           rounded={"xl"}
@@ -178,82 +246,290 @@ function Create() {
           <Heading textAlign={"center"} size={"xl"}>
             Projekt Erstellen
           </Heading>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
+          <Divider mt={"1.2rem"} />
+          {section === "menu" ? (
+            <>
+              <Box mt={"1.2rem"}>
+                <Flex
+                  direction={["column", "row"]}
+                  gap={["1.2rem", "2rem"]}
+                  h={["30vh", "15vh"]}
+                >
+                  <Card
+                    icon={<FaPlus />}
+                    title={"Leeres Projekt"}
+                    section={"empty"}
+                  />
+                  <Card
+                    icon={<FaFileImport />}
+                    title={"Importieren"}
+                    onClick={async () => {
+                      const element = document.getElementById(
+                        importFileInputId
+                      ) as HTMLInputElement;
 
-              setLoading(true);
+                      element.click();
 
-              const resp = await fetch("/api/ide/projects/create", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  token: localStorage.getItem("token"),
-                  // @ts-ignore
-                  name: e.target.elements[nameId].value,
-                }),
-              });
+                      element.onchange = async (e) => {
+                        const target = e.target as HTMLInputElement;
 
-              const json = await resp.json();
+                        if (target && target.files) {
+                          if (target.files.length > 0) {
+                            const file = target.files.item(0);
 
-              if (resp.status === 200) {
-                toast({
-                  title: "Erfolgreich",
-                  description: "Das Projekt wurde erstellt",
-                  status: "success",
-                  variant: "solid",
-                  position: "top",
-                  isClosable: true,
-                });
-                setLoading(false);
-                router.push("/ide?component=open");
-              } else {
-                setLoading(false);
-                toast({
-                  title: "Fehler",
-                  description: json.error,
-                  status: "error",
-                  variant: "solid",
-                  position: "top",
-                  isClosable: true,
-                });
-              }
-            }}
-          >
-            <FormControl>
-              <FormLabel>Projekt Name</FormLabel>
-              <InputGroup>
-                <InputLeftAddon>
-                  <BiRename />
-                </InputLeftAddon>
-                <Input
-                  disabled={loading}
-                  type={"text"}
-                  id={nameId}
-                  placeholder={"Projekt Name"}
-                />
-              </InputGroup>
-            </FormControl>
-            <FormControl mt={"2rem"}>
-              <Button isLoading={loading} type={"submit"}>
-                Erstellen
-              </Button>
-            </FormControl>
-          </form>
+                            if (file) {
+                              try {
+                                const data = JSON.parse(await file.text());
+                                if (
+                                  !(
+                                    data.codeUp &&
+                                    data.codeUp.version &&
+                                    data.codeUp.version === "1.0"
+                                  )
+                                ) {
+                                  toast({
+                                    status: "error",
+                                    position: "top",
+                                    variant: "solid",
+                                    isClosable: true,
+                                    duration: 3000,
+                                    title: "Fehler",
+                                    description:
+                                      "Die Datei-Version (codeUp.version) ist nicht 1.0. Die Datei kann nicht gelesen werden.",
+                                  });
+                                  return;
+                                }
+
+                                if (!(data.files && data.name)) {
+                                  toast({
+                                    status: "error",
+                                    position: "top",
+                                    variant: "solid",
+                                    isClosable: true,
+                                    duration: 3000,
+                                    title: "Fehler",
+                                    description:
+                                      "Die Datei beinhaltet keine Projekt Daten.",
+                                  });
+                                  return;
+                                }
+
+                                onImportOpen();
+
+                                const cRes = await REST.IDE.createProject({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  name:
+                                    data.name +
+                                    " - Imported " +
+                                    new Date().toLocaleTimeString(),
+                                });
+
+                                await REST.IDE.deleteFile({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  projectId: cRes.payload.project._id,
+                                  path: "/README.MD",
+                                });
+
+                                setImportProgressMax(data.files.length);
+                                setImportProgress(0);
+
+                                for (const [
+                                  index,
+                                  file,
+                                ] of data.files.entries()) {
+                                  setImportProgressCurrent(file.path);
+
+                                  await REST.IDE.saveFile({
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    projectId: cRes.payload.project._id,
+                                    path: file.path,
+                                    content: file.content,
+                                  });
+
+                                  setImportProgress(index + 1);
+                                }
+
+                                setImportProgress(0);
+                                setImportProgressCurrent("");
+                                setImportProgressMax(1);
+                                setImportedProjectId(cRes.payload.project._id);
+
+                                setImportFinished(true);
+                              } catch (e: any) {
+                                toast({
+                                  status: "error",
+                                  position: "top",
+                                  variant: "solid",
+                                  isClosable: true,
+                                  duration: 3000,
+                                  title: "Fehler",
+                                  description:
+                                    "Die Datei konnte nicht gelesen werden: " +
+                                    e.message,
+                                });
+                              }
+                            }
+                          }
+                        }
+                      };
+                    }}
+                  />
+                  <Card
+                    icon={<HiTemplate />}
+                    title={"Vorlage"}
+                    section={"templates"}
+                  />
+                </Flex>
+              </Box>
+            </>
+          ) : null}
+          {section === "empty" ? (
+            <>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  setLoading(true);
+
+                  const res = await REST.IDE.createProject({
+                    token: localStorage.getItem("token") as string,
+                    // @ts-ignore
+                    name: e.target.elements[nameId].value,
+                  });
+
+                  if (res.status === 200) {
+                    toast({
+                      title: "Erfolgreich",
+                      description: "Das Projekt wurde erstellt",
+                      status: "success",
+                      variant: "solid",
+                      position: "top",
+                      isClosable: true,
+                    });
+                    setLoading(false);
+                    router.push("/ide?component=open");
+                  } else {
+                    setLoading(false);
+                    toast({
+                      title: "Fehler",
+                      description: res.payload.error,
+                      status: "error",
+                      variant: "solid",
+                      position: "top",
+                      isClosable: true,
+                    });
+                  }
+                }}
+              >
+                <FormControl>
+                  <FormLabel>Projekt Name</FormLabel>
+                  <InputGroup>
+                    <InputLeftAddon>
+                      <BiRename />
+                    </InputLeftAddon>
+                    <Input
+                      disabled={loading}
+                      type={"text"}
+                      id={nameId}
+                      placeholder={"Projekt Name"}
+                    />
+                  </InputGroup>
+                </FormControl>
+                <FormControl mt={"2rem"}>
+                  <Button isLoading={loading} type={"submit"}>
+                    Erstellen
+                  </Button>
+                </FormControl>
+              </form>
+            </>
+          ) : null}
+          {section === "templates" ? (
+            <>
+              <TemplatePicker />
+            </>
+          ) : null}
         </Box>
       </Flex>
+      <input
+        type={"file"}
+        id={importFileInputId}
+        style={{ visibility: "hidden" }}
+        accept={".cupp,.codeup"}
+      />
+
+      <Modal isOpen={isImportOpen} onClose={onImportClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {importFinished ? "Import abgeschlossen" : "Importieren"}
+          </ModalHeader>
+          <ModalBody>
+            {importFinished ? (
+              <>
+                <Text color={"gray.400"}>
+                  Der Import wurde abgeschlossen! Du kannst das Projekt nun
+                  bearbeiten.
+                </Text>
+                <Stack direction={"column"} mt={"2rem"} gap={".4rem"}>
+                  <Button
+                    variant={"solid"}
+                    colorScheme={"blue"}
+                    onClick={() => {
+                      router.push(
+                        "/ide/project/" +
+                          importedProjectId +
+                          "#editor-wrapper-flex"
+                      );
+                    }}
+                  >
+                    Bearbeiten
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    onClick={() => {
+                      setImportedProjectId("0");
+                      onImportClose();
+                    }}
+                  >
+                    Später
+                  </Button>
+                </Stack>
+              </>
+            ) : (
+              <>
+                <Progress
+                  size={"lg"}
+                  max={importProgressMax}
+                  value={importProgress}
+                  w={"100%"}
+                  rounded={"xl"}
+                  hasStripe
+                />
+                <Text color={"gray.500"}>
+                  Importiere Datei <code>{importProgressCurrent}</code>
+                </Text>
+              </>
+            )}
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
 
 function Open() {
   const [projectList, setProjectList] = useState<
-    { name: string; id: string; permissions: string[] }[]
+    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
   >([]);
   const [filteredProjectList, setFilteredProjectList] = useState<
-    { name: string; id: string; permissions: string[] }[]
+    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
   >([]);
   const [query, setQuery] = useState<string>("");
 
@@ -261,56 +537,45 @@ function Open() {
   const toast = useToast();
 
   useEffect(() => {
-    fetch("/api/ide/projects/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-        type: "ALL",
-        minimal: true,
-      }),
-    }).then((res) => {
-      res.json().then(async (json) => {
-        if (res.status === 200) {
-          let pList = [];
+    REST.IDE.getProjects({
+      token: localStorage.getItem("token") as string,
+      type: "ALL",
+    }).then(async (res) => {
+      if (res.status === 200) {
+        let pList = [];
 
-          for (const project of json.projects) {
-            const r = await fetch("/api/ide/projects/permissions", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                project: project.id,
-              }),
-            });
+        for (const project of res.payload.projects) {
+          const r = await REST.IDE.getProjectPermissions({
+            token: localStorage.getItem("token") as string,
+            projectId: project._id,
+          });
 
-            const j = await r.json();
+          const hasTemplate = await REST.IDE.hasTemplate({
+            token: localStorage.getItem("token") as string,
+            projectId: project._id,
+          });
 
-            pList.push({
-              id: project.id,
-              name: project.name,
-              permissions: j.permissions,
-            });
-          }
-
-          setProjectList(pList);
-          setFilteredProjectList(pList);
-          setLoading(false);
-        } else {
-          toast({
-            title: "Fehler",
-            description: json.error,
-            status: "error",
-            variant: "solid",
-            position: "top",
-            isClosable: true,
+          pList.push({
+            id: project._id,
+            name: project.name,
+            permissions: r.payload.permissions,
+            hasTemplate: hasTemplate.payload.hasTemplate,
           });
         }
-      });
+
+        setProjectList(pList);
+        setFilteredProjectList(pList);
+        setLoading(false);
+      } else {
+        toast({
+          title: "Fehler",
+          description: res.payload.error,
+          status: "error",
+          variant: "solid",
+          position: "top",
+          isClosable: true,
+        });
+      }
     });
   }, []);
 
@@ -348,6 +613,14 @@ function Open() {
   const [projectId, setProjectId] = useState("0");
 
   const userInfo = useUserInfo();
+
+  const {
+    isOpen: isPublisherOpen,
+    onOpen: onPublisherOpen,
+    onClose: onPublisherClose,
+  } = useDisclosure();
+
+  const [publisherTemplateId, setPublisherTemplateId] = useState("0");
 
   return (
     <>
@@ -431,8 +704,20 @@ function Open() {
                           <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
                             <Flex direction={"row"}>
                               <Box flex={"20%"} textAlign={"center"}>
-                                <Link href={"/ide/project/" + project.id}>
-                                  <NextLink href={"/ide/project/" + project.id}>
+                                <Link
+                                  href={
+                                    "/ide/project/" +
+                                    project.id +
+                                    "#editor-wrapper-flex"
+                                  }
+                                >
+                                  <NextLink
+                                    href={
+                                      "/ide/project/" +
+                                      project.id +
+                                      "#editor-wrapper-flex"
+                                    }
+                                  >
                                     {project.name}
                                   </NextLink>
                                 </Link>
@@ -450,67 +735,57 @@ function Open() {
                                       <FiMoreHorizontal />
                                     </IconButton>
                                   </MenuButton>
-                                  <MenuList>
+                                  <MenuList fontSize={"xl"}>
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("DELETE") ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const res =
+                                            await REST.IDE.deleteProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                            });
+
+                                          if (res.status === 200) {
+                                            let npl = projectList.filter(
+                                              (p) => p.id !== project.id
+                                            );
+                                            setProjectList(npl);
+                                            setFilteredProjectList(npl);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich gelöscht",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"red.400"}
-                                          onClick={async () => {
-                                            const res = await fetch(
-                                              "/api/ide/projects/delete",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
-
-                                            if (res.status === 200) {
-                                              let npl = projectList.filter(
-                                                (p) => p.id !== project.id
-                                              );
-                                              setProjectList(npl);
-                                              setFilteredProjectList(npl);
-                                              setQuery("");
-                                              (
-                                                document.getElementById(
-                                                  sBoxId
-                                                ) as HTMLInputElement
-                                              ).value = "";
-                                              toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich gelöscht",
-                                                status: "success",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            } else {
-                                              toast({
-                                                title: "Fehler",
-                                                description: json.error,
-                                                status: "error",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
                                         >
                                           <BsFillTrashFill /> Löschen
                                         </Flex>
@@ -518,81 +793,72 @@ function Open() {
                                     ) : null}
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("RENAME") ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async (e) => {
+                                          const newName = prompt(
+                                            "Gib den neuen Namen ein"
+                                          );
+
+                                          if (!newName) {
+                                            return;
+                                          }
+
+                                          const res =
+                                            await REST.IDE.renameProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                              newName,
+                                            });
+
+                                          if (res.status === 200) {
+                                            let npl = projectList.map((p) => {
+                                              if (p.id === project.id) {
+                                                return {
+                                                  id: p.id,
+                                                  name: newName,
+                                                  permissions: p.permissions,
+                                                  hasTemplate: p.hasTemplate,
+                                                };
+                                              } else {
+                                                return p;
+                                              }
+                                            });
+                                            setProjectList(npl);
+                                            setFilteredProjectList(npl);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich umbenannt",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"green.400"}
-                                          onClick={async (e) => {
-                                            const newName = prompt(
-                                              "Gib den neuen Namen ein"
-                                            );
-
-                                            if (!newName) {
-                                              return;
-                                            }
-
-                                            const res = await fetch(
-                                              "/api/ide/projects/update/name",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                  name: newName,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
-
-                                            if (res.status === 200) {
-                                              let npl = projectList.map((p) => {
-                                                if (p.id === project.id) {
-                                                  return {
-                                                    id: p.id,
-                                                    name: newName,
-                                                    permissions: p.permissions,
-                                                  };
-                                                } else {
-                                                  return p;
-                                                }
-                                              });
-                                              setProjectList(npl);
-                                              setFilteredProjectList(npl);
-                                              setQuery("");
-                                              (
-                                                document.getElementById(
-                                                  sBoxId
-                                                ) as HTMLInputElement
-                                              ).value = "";
-                                              toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich umbenannt",
-                                                status: "success",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            } else {
-                                              toast({
-                                                title: "Fehler",
-                                                description: json.error,
-                                                status: "error",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
                                         >
                                           <BsFillPencilFill /> Umbenennen
                                         </Flex>
@@ -602,7 +868,72 @@ function Open() {
                                     project.permissions.includes(
                                       "DUPLICATE"
                                     ) ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const newName = prompt(
+                                            "Gib den neuen Namen ein"
+                                          );
+
+                                          if (!newName) {
+                                            return;
+                                          }
+
+                                          const res =
+                                            await REST.IDE.duplicateProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                              name: newName,
+                                            });
+
+                                          if (res.status === 200) {
+                                            setProjectList([
+                                              ...projectList,
+                                              {
+                                                id: res.payload.project,
+                                                name: newName,
+                                                permissions: ["OWNER"],
+                                                hasTemplate: false,
+                                              },
+                                            ]);
+
+                                            setFilteredProjectList([
+                                              ...projectList,
+                                              {
+                                                id: res.payload.project,
+                                                name: newName,
+                                                permissions: ["OWNER"],
+                                                hasTemplate: false,
+                                              },
+                                            ]);
+                                            setQuery("");
+                                            (
+                                              document.getElementById(
+                                                sBoxId
+                                              ) as HTMLInputElement
+                                            ).value = "";
+                                            toast({
+                                              title: "Erfolg",
+                                              description:
+                                                "Das Projekt wurde erfolgreich dupliziert",
+                                              status: "success",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          } else {
+                                            toast({
+                                              title: "Fehler",
+                                              description: res.payload.error,
+                                              status: "error",
+                                              variant: "solid",
+                                              position: "top",
+                                              isClosable: true,
+                                            });
+                                          }
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
@@ -617,42 +948,33 @@ function Open() {
                                               return;
                                             }
 
-                                            const res = await fetch(
-                                              "/api/ide/projects/duplicate",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  id: project.id,
-                                                  name: newName,
-                                                }),
-                                              }
-                                            );
-                                            const json = await res.json();
+                                            const res =
+                                              await REST.IDE.duplicateProject({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id,
+                                                name: newName,
+                                              });
 
                                             if (res.status === 200) {
                                               setProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: json.project,
+                                                  id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
+                                                  hasTemplate: false,
                                                 },
                                               ]);
 
                                               setFilteredProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: json.project,
+                                                  id: res.payload.project,
                                                   name: newName,
                                                   permissions: ["OWNER"],
+                                                  hasTemplate: false,
                                                 },
                                               ]);
                                               setQuery("");
@@ -673,7 +995,7 @@ function Open() {
                                             } else {
                                               toast({
                                                 title: "Fehler",
-                                                description: json.error,
+                                                description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
                                                 position: "top",
@@ -690,42 +1012,124 @@ function Open() {
                                     project.permissions.includes(
                                       "MANAGE-CONTRIBUTORS"
                                     ) ? (
-                                      <MenuItem>
+                                      <MenuItem
+                                        onClick={async () => {
+                                          setProjectId(project.id);
+                                          onContributorOpen();
+                                        }}
+                                      >
                                         <Flex
                                           direction={"row"}
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"pink.400"}
-                                          onClick={async () => {
-                                            const res = await fetch(
-                                              "/api/ide/projects/contributors/list",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  project: project.id,
-                                                }),
-                                              }
-                                            );
-
-                                            const j = await res.json();
-
-                                            setContributors({
-                                              owner: j.owner,
-                                              contributors: j.contributors,
-                                            });
-                                            setProjectId(project.id);
-                                            onContributorOpen();
-                                          }}
                                         >
                                           <FaUsersCog /> Mitwirkende verwalten
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") ||
+                                    project.permissions.includes("EXPORT") ? (
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const fullProject = (
+                                            await REST.IDE.getProject({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id as string,
+                                            })
+                                          ).payload.project;
+
+                                          const exportObject: any = {};
+
+                                          exportObject.codeUp = {
+                                            version: "1.0",
+                                            href: location.href,
+                                            exportedAt:
+                                              new Date().toLocaleString(),
+                                            userInfo: userInfo,
+                                          };
+
+                                          exportObject.name = fullProject.name;
+
+                                          exportObject.files =
+                                            fullProject.files;
+
+                                          Networking.download(
+                                            fullProject.name + ".cupp",
+                                            JSON.stringify(
+                                              exportObject,
+                                              null,
+                                              2
+                                            ),
+                                            "text/plain"
+                                          );
+                                        }}
+                                      >
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"yellow.400"}
+                                        >
+                                          <FaFileExport /> Exportieren
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") &&
+                                    !project.hasTemplate ? (
+                                      <MenuItem
+                                        onClick={async () => {
+                                          setPublisherTemplateId(project.id);
+                                          onPublisherOpen();
+                                        }}
+                                      >
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"purple.400"}
+                                        >
+                                          <FaCloudUploadAlt /> Vorlage
+                                          Veröffentlichen
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") &&
+                                    project.hasTemplate ? (
+                                      <MenuItem
+                                        onClick={async () => {
+                                          const res =
+                                            await REST.IDE.removeTemplate({
+                                              token: localStorage.getItem(
+                                                "token"
+                                              ) as string,
+                                              projectId: project.id,
+                                            });
+
+                                          toast({
+                                            status: "success",
+                                            position: "top",
+                                            variant: "solid",
+                                            isClosable: true,
+                                            duration: 3000,
+                                            title: "Erfolgreich",
+                                            description:
+                                              "Die Vorlage wurde erfolgreich gelöscht!",
+                                            onCloseComplete: () => {
+                                              window.location.reload();
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"purple.400"}
+                                        >
+                                          <FaTrash /> Vorlage Löschen
                                         </Flex>
                                       </MenuItem>
                                     ) : null}
@@ -752,567 +1156,18 @@ function Open() {
           ) : null}
         </Box>
       </Flex>
-      <Modal
+      <ContributorManager
         isOpen={isContributorOpen}
+        onOpen={onContributorOpen}
         onClose={onContributorClose}
-        size={["full", "5xl"]}
-        scrollBehavior={"inside"}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Mitwirkende verwalten</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {contributors ? (
-              <>
-                <Flex justifyContent={"right"} mr={[0, "2rem"]}>
-                  <Popover>
-                    <PopoverTrigger>
-                      <Button
-                        variant={"solid"}
-                        colorScheme={"whatsapp"}
-                        leftIcon={<FaPlus />}
-                      >
-                        Hinzufügen
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent bgColor={"black"}>
-                      <PopoverArrow bgColor={"black"} />
-                      <PopoverCloseButton />
-                      <PopoverHeader fontSize={["xl", "2xl"]}>
-                        Mitwirkenden hinzufügen
-                      </PopoverHeader>
-                      <PopoverBody fontSize={["lg", "xl"]}>
-                        <form
-                          onSubmit={async (e) => {
-                            e.preventDefault();
-                            const resp = await fetch(
-                              "/api/ide/projects/contributors/add",
-                              {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  token: localStorage.getItem("token"),
-                                  project: projectId,
-                                  // @ts-ignore
-                                  contributor: e.target.elements.email_i.value,
-                                }),
-                              }
-                            );
-                            if (resp.status === 200) {
-                              let json = await resp.json();
-                              let c0n: any = contributors;
-
-                              c0n.contributors.push(json.contributor);
-
-                              setContributors({
-                                owner: contributors.owner,
-                                contributors: [...c0n.contributors],
-                              });
-                              // @ts-ignore
-                              e.target.elements.email_i.value = "";
-                            } else {
-                              const json = await resp.json();
-                              toast({
-                                title: "Fehler",
-                                description: json.error,
-                                position: "top",
-                                status: "error",
-                                variant: "solid",
-                                isClosable: true,
-                              });
-                            }
-                          }}
-                        >
-                          <Stack>
-                            <FormControl>
-                              <FormLabel>E-Mail</FormLabel>
-                              <InputGroup>
-                                <InputLeftAddon>
-                                  <HiMail />
-                                </InputLeftAddon>
-                                <Input
-                                  id={"email_i"}
-                                  name="email_i"
-                                  placeholder={"E-Mail"}
-                                />
-                              </InputGroup>
-                            </FormControl>
-                            <Button type="submit" colorScheme={"whatsapp"}>
-                              Hinzufügen
-                            </Button>
-                          </Stack>
-                        </form>
-                      </PopoverBody>
-                    </PopoverContent>
-                  </Popover>
-                </Flex>
-                <Flex
-                  m={[0, "2rem"]}
-                  direction={"column"}
-                  fontSize={["xl", "2xl"]}
-                >
-                  <Flex direction={"row"} mb={"1.2rem"}>
-                    <Box flex={"20%"} fontWeight={"bold"}>
-                      Name
-                    </Box>
-                    <Box flex={"60%"}></Box>
-                    <Flex
-                      flex={"20%"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      fontWeight={"bold"}
-                    >
-                      Berechtigungen
-                    </Flex>
-                  </Flex>
-                  <Divider />
-                  <Flex direction={"row"} mt={"1.2rem"} mb={"1.2rem"}>
-                    <Box flex={"20%"}>
-                      {contributors.owner.firstName}&nbsp;
-                      {contributors.owner.lastName}
-                      <br />
-                      <Text color={"gray.500"} fontSize={["lg", "xl"]}>
-                        @{contributors.owner.username}
-                      </Text>
-                    </Box>
-                    <Box flex={"60%"}></Box>
-                    <Flex
-                      flex={"20%"}
-                      alignItems={"center"}
-                      justifyContent={"right"}
-                    >
-                      <Tooltip
-                        label={
-                          "Diesem Benutzer gehört das Projekt, er hat alle Berechtigungen, inklusive der Verwaltung von Mitwirkenden"
-                        }
-                        hasArrow={true}
-                      >
-                        <Tag size={"lg"} variant={"solid"} colorScheme={"red"}>
-                          Besitzer
-                        </Tag>
-                      </Tooltip>
-                    </Flex>
-                  </Flex>
-                  <Divider />
-                  {contributors.contributors.map((contributor) => {
-                    return (
-                      <>
-                        <Flex direction={"row"} mt={"1.2rem"} mb={"1.2rem"}>
-                          <Box flex={"20%"}>
-                            {contributor.firstName}&nbsp;
-                            {contributor.lastName}
-                            <br />
-                            <Text color={"gray.500"} fontSize={["lg", "xl"]}>
-                              @{contributor.username}
-                            </Text>
-                          </Box>
-                          <Box flex={"20%"}></Box>
-                          <Flex
-                            flex={"60%"}
-                            justifyContent={"right"}
-                            direction={["column", "row"]}
-                            gap={["2rem", 0]}
-                          >
-                            <Box flex={"80%"}>
-                              <SimpleGrid
-                                minChildWidth={130}
-                                w={"100%"}
-                                spacing={3}
-                              >
-                                {contributor.permissions.includes("READ") ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Lesen
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes("WRITE") ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Schreiben
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes("DELETE") ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Löschen
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes(
-                                  "DUPLICATE"
-                                ) ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Klonen
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes("RENAME") ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Umbenennen
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes("EXPORT") ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Exportieren
-                                  </Tag>
-                                ) : null}
-                                {contributor.permissions.includes(
-                                  "MANAGE-CONTRIBUTORS"
-                                ) ? (
-                                  <Tag
-                                    size={"lg"}
-                                    variant={"solid"}
-                                    colorScheme={"teal"}
-                                  >
-                                    Mitwirkende verwalten
-                                  </Tag>
-                                ) : null}
-                              </SimpleGrid>
-                            </Box>
-                            <Flex
-                              flex={"20%"}
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                            >
-                              <ButtonGroup>
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <IconButton
-                                      aria-label={"Mitwirkenden entfernen"}
-                                    >
-                                      <FaTrash />
-                                    </IconButton>
-                                  </PopoverTrigger>
-                                  <PopoverContent bgColor={"gray.800"}>
-                                    <PopoverArrow bgColor={"gray.800"} />
-                                    <PopoverCloseButton />
-                                    <PopoverHeader>
-                                      Mitwirkenden entfernen
-                                    </PopoverHeader>
-                                    <PopoverBody>
-                                      <Stack>
-                                        <Text fontSize={"lg"}>
-                                          Willst du den mitwirkenden&nbsp;
-                                          {contributor.firstName}&nbsp;
-                                          {contributor.lastName}&nbsp;(
-                                          {contributor.username}) wirklich
-                                          entfernen?
-                                        </Text>
-                                        <Button
-                                          variant={"solid"}
-                                          colorScheme={"red"}
-                                          onClick={async () => {
-                                            const resp = await fetch(
-                                              "/api/ide/projects/contributors/remove",
-                                              {
-                                                method: "POST",
-                                                headers: {
-                                                  "Content-Type":
-                                                    "application/json",
-                                                },
-                                                body: JSON.stringify({
-                                                  token:
-                                                    localStorage.getItem(
-                                                      "token"
-                                                    ),
-                                                  project: projectId,
-                                                  contributor:
-                                                    contributor.email,
-                                                }),
-                                              }
-                                            );
-                                            if (resp.status === 200) {
-                                              let c0n: any = contributors;
-
-                                              c0n = c0n.contributors.filter(
-                                                (c: any) =>
-                                                  c.email !== contributor.email
-                                              );
-
-                                              setContributors({
-                                                owner: contributors.owner,
-                                                contributors: [...c0n],
-                                              });
-                                            } else {
-                                              const json = await resp.json();
-                                              toast({
-                                                title: "Fehler",
-                                                description: json.error,
-                                                position: "top",
-                                                status: "error",
-                                                variant: "solid",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
-                                        >
-                                          Entfernen
-                                        </Button>
-                                      </Stack>
-                                    </PopoverBody>
-                                  </PopoverContent>
-                                </Popover>
-
-                                {userInfo.id !== contributor.id ? (
-                                  <>
-                                    <Popover>
-                                      <PopoverTrigger>
-                                        <IconButton
-                                          aria-label={
-                                            "Berechtigungen verwalten"
-                                          }
-                                        >
-                                          <FaCogs />
-                                        </IconButton>
-                                      </PopoverTrigger>
-                                      <PopoverContent bgColor={"gray.800"}>
-                                        <PopoverArrow bgColor={"gray.800"} />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                          Berechtigungen ändern
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                          <Stack>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "READ"
-                                              )}
-                                              disabled={true}
-                                            >
-                                              Lesen
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "WRITE"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-write"
-                                              }
-                                            >
-                                              Schreiben
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "DELETE"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-delete"
-                                              }
-                                            >
-                                              Löschen
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "DUPLICATE"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-duplicate"
-                                              }
-                                            >
-                                              Klonen
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "RENAME"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-rename"
-                                              }
-                                            >
-                                              Umbenennen
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "EXPORT"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-export"
-                                              }
-                                            >
-                                              Exportieren
-                                            </Checkbox>
-                                            <Checkbox
-                                              defaultChecked={contributor.permissions.includes(
-                                                "MANAGE-CONTRIBUTORS"
-                                              )}
-                                              id={
-                                                "cb-upd-perms-" +
-                                                contributor.id +
-                                                "-manage_contributors"
-                                              }
-                                            >
-                                              Mitwirkende verwalten
-                                            </Checkbox>
-                                            <Button
-                                              variant={"solid"}
-                                              colorScheme={"blue"}
-                                              onClick={async () => {
-                                                const resp = await fetch(
-                                                  "/api/ide/projects/contributors/permissions",
-                                                  {
-                                                    method: "POST",
-                                                    headers: {
-                                                      "Content-Type":
-                                                        "application/json",
-                                                    },
-                                                    body: JSON.stringify({
-                                                      token:
-                                                        localStorage.getItem(
-                                                          "token"
-                                                        ),
-                                                      project: projectId,
-                                                      contributor:
-                                                        contributor.email,
-                                                      permissions: [
-                                                        "READ",
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-write"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "WRITE"
-                                                          : null,
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-delete"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "DELETE"
-                                                          : null,
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-duplicate"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "DUPLICATE"
-                                                          : null,
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-rename"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "RENAME"
-                                                          : null,
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-export"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "EXPORT"
-                                                          : null,
-                                                        (
-                                                          document.getElementById(
-                                                            "cb-upd-perms-" +
-                                                              contributor.id +
-                                                              "-manage_contributors"
-                                                          ) as HTMLInputElement
-                                                        ).checked
-                                                          ? "MANAGE-CONTRIBUTORS"
-                                                          : null,
-                                                      ],
-                                                    }),
-                                                  }
-                                                );
-                                                if (resp.status === 200) {
-                                                  const json =
-                                                    await resp.json();
-                                                  let c0n: any = contributors;
-
-                                                  c0n.contributors.find(
-                                                    (c: any) =>
-                                                      c.id === contributor.id
-                                                  ).permissions =
-                                                    json.contributor.permissions;
-
-                                                  setContributors({
-                                                    owner: contributors.owner,
-                                                    contributors: [
-                                                      ...c0n.contributors,
-                                                    ],
-                                                  });
-                                                } else {
-                                                  const json =
-                                                    await resp.json();
-                                                  toast({
-                                                    title: "Fehler",
-                                                    description: json.error,
-                                                    position: "top",
-                                                    status: "error",
-                                                    variant: "solid",
-                                                    isClosable: true,
-                                                  });
-                                                }
-                                              }}
-                                            >
-                                              Speichern
-                                            </Button>
-                                          </Stack>
-                                        </PopoverBody>
-                                      </PopoverContent>
-                                    </Popover>
-                                  </>
-                                ) : null}
-                              </ButtonGroup>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      </>
-                    );
-                  })}
-                </Flex>
-              </>
-            ) : null}
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onContributorClose}>
-              Schließen
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        projectId={projectId}
+      />
+      <TemplatePublisher
+        isOpen={isPublisherOpen}
+        onOpen={onPublisherOpen}
+        onClose={onPublisherClose}
+        projectId={publisherTemplateId}
+      />
     </>
   );
 }

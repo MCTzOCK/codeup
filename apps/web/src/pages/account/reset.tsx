@@ -26,6 +26,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import REST from "@codeup/rest";
 
 export default function Reset() {
   const [alertVisible, setAlertVisible] = React.useState(false);
@@ -83,34 +84,25 @@ export default function Reset() {
               </Text>
             </Flex>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
                 setLoading(true);
+                const res = await REST.Account.reset(
+                  // @ts-ignore
+                  e.target.elements.email.value as string
+                );
 
-                fetch("/api/account/reset", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    // @ts-ignore
-                    email: e.target.elements.email.value,
-                  }),
-                }).then((res) => {
-                  res.json().then((data) => {
-                    setLoading(false);
-                    if (res.status === 200) {
-                      setAlertVisible(true);
-                      setAlertMessage(data.message);
-                      setAlertType("success");
-                      setForceDisable(true);
-                    } else {
-                      setAlertVisible(true);
-                      setAlertMessage(data.error);
-                      setAlertType("error");
-                    }
-                  });
-                });
+                setLoading(false);
+                if (res.status === 200) {
+                  setAlertVisible(true);
+                  setAlertMessage(res.payload.message);
+                  setAlertType("success");
+                  setForceDisable(true);
+                } else {
+                  setAlertVisible(true);
+                  setAlertMessage(res.payload.error);
+                  setAlertType("error");
+                }
               }}
             >
               <FormControl isInvalid={emailInvalid}>

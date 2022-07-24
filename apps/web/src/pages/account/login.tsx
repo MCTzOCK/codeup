@@ -33,6 +33,7 @@ import {
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import REST from "@codeup/rest";
 
 export default function Register() {
   const [email, setEmail] = React.useState("");
@@ -137,35 +138,27 @@ export default function Register() {
                   type={"button"}
                   isLoading={btnDisabled}
                   disabled={btnDisabled}
-                  onClick={() => {
+                  onClick={async () => {
                     setBtnDisabled(true);
 
-                    fetch("/api/account/login", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        email,
-                        password,
-                      }),
-                    }).then((res) => {
-                      res.json().then((data) => {
-                        if (res.status !== 200) {
-                          setAlertType("error");
-                          setAlertMessage(data.error);
-                          setAlertVisible(true);
-                          setBtnDisabled(false);
-                        } else {
-                          if (data.token) {
-                            localStorage.setItem("token", data.token);
-                            window.location.href = "/dashboard";
-                          } else {
-                            set2fa(true);
-                          }
-                        }
-                      });
+                    const res = await REST.Account.login({
+                      email,
+                      password,
                     });
+
+                    if (res.status !== 200) {
+                      setAlertType("error");
+                      setAlertMessage(res.payload.error);
+                      setAlertVisible(true);
+                      setBtnDisabled(false);
+                    } else {
+                      if (res.payload.token) {
+                        localStorage.setItem("token", res.payload.token);
+                        window.location.href = "/dashboard";
+                      } else {
+                        set2fa(true);
+                      }
+                    }
                   }}
                 >
                   Login
@@ -201,36 +194,28 @@ export default function Register() {
                 <HStack alignItems={"center"} justifyContent={"center"}>
                   <PinInput
                     size="lg"
-                    onComplete={(code) => {
-                      fetch("/api/account/login", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          email,
-                          password,
-                          code,
-                        }),
-                      }).then((res) => {
-                        res.json().then((data) => {
-                          if (res.status !== 200) {
-                            setAlertType("error");
-                            setAlertMessage(data.error);
-                            setAlertVisible(true);
-                          } else {
-                            localStorage.setItem("token", data.token);
-                            const redirect = new URLSearchParams(
-                              window.location.search
-                            ).get("redirect");
-                            if (redirect) {
-                              window.location.href = redirect;
-                            } else {
-                              window.location.href = "/dashboard";
-                            }
-                          }
-                        });
+                    onComplete={async (code) => {
+                      const res = await REST.Account.login({
+                        email,
+                        password,
+                        code,
                       });
+
+                      if (res.status !== 200) {
+                        setAlertType("error");
+                        setAlertMessage(res.payload.error);
+                        setAlertVisible(true);
+                      } else {
+                        localStorage.setItem("token", res.payload.token);
+                        const redirect = new URLSearchParams(
+                          window.location.search
+                        ).get("redirect");
+                        if (redirect) {
+                          window.location.href = redirect;
+                        } else {
+                          window.location.href = "/dashboard";
+                        }
+                      }
                     }}
                   >
                     <PinInputField />

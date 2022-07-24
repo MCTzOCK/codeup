@@ -24,6 +24,7 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
+import REST from "@codeup/rest";
 
 export default function ProfileAvatarModifier(props: {
   isOpen: boolean;
@@ -83,19 +84,13 @@ export default function ProfileAvatarModifier(props: {
                             res.text().then((data) => {
                               const url = "https://upload.craftions.net" + data;
 
-                              fetch("/api/community/profile/update", {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json",
+                              REST.Community.updateProfile({
+                                token: localStorage.getItem("token") as string,
+                                update: {
+                                  profilePicture: url,
                                 },
-                                body: JSON.stringify({
-                                  token: localStorage.getItem("token"),
-                                  update: {
-                                    profilePicture: url,
-                                  },
-                                }),
-                              }).then((uRes) => {
-                                if (uRes.status === 200) {
+                              }).then((res) => {
+                                if (res.status === 200) {
                                   toast({
                                     title: "Profil aktualisiert",
                                     description:
