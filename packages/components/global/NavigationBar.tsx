@@ -302,9 +302,7 @@ export default function NavigationBar() {
               />
               <ExpandedMenuOption
                 name={"IDE (Editor)"}
-                description={
-                  "Chatte mit erfahrenen Programmierern und Einsteigern."
-                }
+                description={"Verwirkliche deine Projekteideen"}
                 icon={<BiCodeAlt />}
                 url={"/ide"}
               />
