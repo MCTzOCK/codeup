@@ -21,8 +21,6 @@ import redirect from "@codeup/util/src/userworkflow/redirect";
 import {
   Box,
   Button,
-  ButtonGroup,
-  Checkbox,
   Divider,
   Flex,
   FormControl,
@@ -37,47 +35,28 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  SimpleGrid,
   Spinner,
-  Stack,
-  Tag,
-  Text,
-  Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
-  FaCogs,
+  FaFileExport,
   FaPlus,
   FaRegFolderOpen,
   FaSearch,
-  FaTrash,
   FaUsersCog,
 } from "react-icons/fa";
 import { BiDuplicate, BiRename } from "react-icons/bi";
 import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { HiMail } from "react-icons/hi";
 import { useUserInfo } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { ContributorManager } from "@codeup/components/ide";
+import Networking from "@codeup/util/src/Networking";
+import { serialize } from "bson";
 
 export default function Index() {
   useEffect(() => {
@@ -439,7 +418,7 @@ function Open() {
                                       <FiMoreHorizontal />
                                     </IconButton>
                                   </MenuButton>
-                                  <MenuList>
+                                  <MenuList fontSize={"xl"}>
                                     {project.permissions.includes("OWNER") ||
                                     project.permissions.includes("DELETE") ? (
                                       <MenuItem>
@@ -658,6 +637,56 @@ function Open() {
                                           }}
                                         >
                                           <FaUsersCog /> Mitwirkende verwalten
+                                        </Flex>
+                                      </MenuItem>
+                                    ) : null}
+                                    {project.permissions.includes("OWNER") ||
+                                    project.permissions.includes(
+                                      "MANAGE-CONTRIBUTORS"
+                                    ) ? (
+                                      <MenuItem>
+                                        <Flex
+                                          direction={"row"}
+                                          alignItems={"center"}
+                                          gap={".6rem"}
+                                          color={"yellow.400"}
+                                          onClick={async () => {
+                                            const fullProject = (
+                                              await REST.IDE.getProject({
+                                                token: localStorage.getItem(
+                                                  "token"
+                                                ) as string,
+                                                projectId: project.id as string,
+                                              })
+                                            ).payload.project;
+
+                                            const exportObject: any = {};
+
+                                            exportObject.codeUp = {
+                                              version: "1.0",
+                                              href: location.href,
+                                              exportedAt:
+                                                Date.now().toLocaleString(),
+                                              userInfo: userInfo,
+                                            };
+
+                                            exportObject.name =
+                                              fullProject.name;
+
+                                            exportObject.files =
+                                              fullProject.files;
+
+                                            const data =
+                                              serialize(exportObject);
+
+                                            Networking.download(
+                                              fullProject.name + ".cupp",
+                                              data.toString(),
+                                              "text/plain"
+                                            );
+                                          }}
+                                        >
+                                          <FaFileExport /> Exportieren
                                         </Flex>
                                       </MenuItem>
                                     ) : null}
