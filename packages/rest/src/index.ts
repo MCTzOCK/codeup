@@ -40,6 +40,9 @@ import {
   removeContributor,
   renameProject,
   saveFile,
+  publishTemplate,
+  removeTemplate,
+  updateTemplate,
 } from "./api/IDE";
 import {
   createPost,
@@ -91,6 +94,9 @@ const REST = {
     deleteProject,
     duplicateProject,
     getProjects,
+    publishTemplate,
+    removeTemplate,
+    updateTemplate,
   },
   Community: {
     search,

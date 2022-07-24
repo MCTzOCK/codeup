@@ -209,3 +209,52 @@ export async function getProjects(options: {
     },
   });
 }
+
+export async function publishTemplate(options: {
+  token: string;
+  projectId: string;
+  displayName: string;
+  description: string;
+  splashImage?: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/template/publish",
+    method: "POST",
+    token: options.token,
+    body: {
+      displayName: options.displayName,
+      description: options.description,
+      splashImage: options.splashImage,
+    },
+  });
+}
+
+export async function removeTemplate(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/template/remove",
+    method: "POST",
+    token: options.token,
+  });
+}
+
+export async function updateTemplate(options: {
+  token: string;
+  projectId: string;
+  update: {
+    displayName?: string;
+    description?: string;
+    splashImage?: string;
+  };
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/template/update",
+    token: options.token,
+    method: "POST",
+    body: {
+      update: options.update,
+    },
+  });
+}

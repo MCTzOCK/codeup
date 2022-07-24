@@ -38,13 +38,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -67,8 +60,6 @@ import {
   FaCloudUploadAlt,
   FaCogs,
   FaCss3,
-  FaDoorOpen,
-  FaExternalLinkAlt,
   FaEye,
   FaFile,
   FaHome,
@@ -76,14 +67,12 @@ import {
   FaJsSquare,
   FaKeyboard,
   FaMarkdown,
-  FaRegFolderOpen,
   FaUserFriends,
 } from "react-icons/fa";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { FiEdit, FiFilePlus, FiTrash2 } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
-import { editor } from "monaco-editor";
 import { ContributorManager, PreviewModal } from "@codeup/components/ide";
 
 export default function Index() {
