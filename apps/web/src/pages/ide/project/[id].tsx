@@ -67,13 +67,16 @@ import {
   FaCloudUploadAlt,
   FaCogs,
   FaCss3,
+  FaDoorOpen,
   FaExternalLinkAlt,
   FaEye,
   FaFile,
+  FaHome,
   FaHtml5,
   FaJsSquare,
   FaKeyboard,
   FaMarkdown,
+  FaRegFolderOpen,
   FaUserFriends,
 } from "react-icons/fa";
 import Editor, { useMonaco } from "@monaco-editor/react";
@@ -295,7 +298,7 @@ export default function Index() {
               rounded={"xl"}
               shadow={"2xl"}
             >
-              <Flex direction={"column"}>
+              <Flex direction={"column"} h={"100%"}>
                 <Tooltip label={"Dateien"} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
@@ -375,6 +378,19 @@ export default function Index() {
                     rounded={"none"}
                     onClick={() => {
                       setSettingsOpen(!settingsOpen);
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip label={"Hautpmenü"} placement={"right"} hasArrow>
+                  <IconButton
+                    aria-label={""}
+                    variant="ghost"
+                    size={"lg"}
+                    p={"2rem"}
+                    icon={<FaHome />}
+                    rounded={"none"}
+                    onClick={() => {
+                      router.push("/ide?component=open");
                     }}
                   />
                 </Tooltip>
