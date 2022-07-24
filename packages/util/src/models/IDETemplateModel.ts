@@ -39,10 +39,17 @@ const IDETemplate = new mongoose.Schema({
           ref: "User",
           required: true,
         },
-        rating: Number,
+        rating: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     required: true,
+  },
+  uses: {
+    type: Number,
+    default: 0,
   },
 });
 

@@ -36,13 +36,16 @@ import {
   getProject,
   getProjectPermissions,
   getProjects,
+  hasTemplate,
   overwriteContributorPermissions,
+  publishTemplate,
+  rateTemplate,
   removeContributor,
+  removeTemplate,
   renameProject,
   saveFile,
-  publishTemplate,
-  removeTemplate,
   updateTemplate,
+  useTemplate,
 } from "./api/IDE";
 import {
   createPost,
@@ -97,6 +100,9 @@ const REST = {
     publishTemplate,
     removeTemplate,
     updateTemplate,
+    rateTemplate,
+    useTemplate,
+    hasTemplate,
   },
   Community: {
     search,

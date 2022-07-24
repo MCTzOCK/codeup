@@ -258,3 +258,47 @@ export async function updateTemplate(options: {
     },
   });
 }
+
+export async function getTemplate(templateId: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/templates/" + templateId,
+    method: "GET",
+  });
+}
+
+export async function rateTemplate(options: {
+  token: string;
+  templateId: string;
+  rating: number;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/templates/" + options.templateId + "/rating",
+    method: "POST",
+    token: options.token,
+    body: {
+      rating: options.rating,
+    },
+  });
+}
+
+export async function useTemplate(options: {
+  token: string;
+  templateId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/templates/" + options.templateId + "/use",
+    method: "POST",
+    token: options.token,
+  });
+}
+
+export async function hasTemplate(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/template/has",
+    method: "POST",
+    token: options.token,
+  });
+}

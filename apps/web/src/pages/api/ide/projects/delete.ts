@@ -13,6 +13,7 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
+import IDETemplateModel from "@codeup/util/src/models/IDETemplateModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -62,6 +63,14 @@ export default async function handleRequest(
             error: "You do not have permissions to delete this project",
           });
           return;
+        }
+
+        const tpl = await IDETemplateModel.findOne({
+          project: IDEProject._id,
+        });
+
+        if (tpl) {
+          await tpl.remove();
         }
 
         await IDEProject.remove();
