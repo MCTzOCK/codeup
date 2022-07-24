@@ -74,6 +74,8 @@ import { FiEdit, FiFilePlus, FiTrash2 } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
 import { ContributorManager, PreviewModal } from "@codeup/components/ide";
+import { editor } from "monaco-editor";
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 export default function Index() {
   const router = useRouter();
@@ -195,7 +197,6 @@ export default function Index() {
         JSON.parse(localStorage.getItem("monaco.options") as string)
       );
     }
-    return;
 
     window.addEventListener("keydown", listener, true);
 
@@ -204,8 +205,6 @@ export default function Index() {
         ev.preventDefault();
 
         if (currentFile) {
-          console.log(currentFile);
-
           REST.IDE.saveFile({
             token: localStorage.getItem("token") as string,
             projectId: project?._id as string,
@@ -569,34 +568,6 @@ export default function Index() {
                                 >
                                   Schließen
                                 </MenuItem>
-                              </MenuList>
-                            </Menu>
-                            {permissions.includes("WRITE") ||
-                            permissions.includes("OWNER") ? (
-                              <>
-                                <Menu>
-                                  <MenuButton as={Button} variant={"ghost"}>
-                                    Bearbeiten
-                                  </MenuButton>
-                                  <MenuList backgroundColor={"gray.900"}>
-                                    <MenuItem>Rückgängig</MenuItem>
-                                    <MenuItem>Wiederholen</MenuItem>
-                                    <MenuItem>Ausschneiden</MenuItem>
-                                    <MenuItem>Kopieren</MenuItem>
-                                    <MenuItem>Einfügen</MenuItem>
-                                    <MenuItem>Löschen</MenuItem>
-                                    <MenuItem>Suchen</MenuItem>
-                                  </MenuList>
-                                </Menu>
-                              </>
-                            ) : null}
-                            <Menu>
-                              <MenuButton as={Button} variant={"ghost"}>
-                                Hilfe
-                              </MenuButton>
-                              <MenuList backgroundColor={"gray.900"}>
-                                <MenuItem>Über</MenuItem>
-                                <MenuItem>Support</MenuItem>
                               </MenuList>
                             </Menu>
                           </ButtonGroup>
