@@ -88,6 +88,13 @@ import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
 
 export default function Index() {
   const router = useRouter();
@@ -198,6 +205,11 @@ export default function Index() {
   }, [monaco, project]);
 
   useEffect(() => {
+    if (localStorage.getItem("monaco.options")) {
+      setEditorOptions(
+        JSON.parse(localStorage.getItem("monaco.options") as string)
+      );
+    }
     return;
 
     window.addEventListener("keydown", listener, true);
@@ -262,6 +274,8 @@ export default function Index() {
     onOpen: onPreviewOpen,
     onClose: onPreviewClose,
   } = useDisclosure();
+
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -335,6 +349,9 @@ export default function Index() {
                       icon={<FaEye />}
                       rounded={"none"}
                       onClick={() => {
+                        document.cookie =
+                          (("jwt=" + localStorage.getItem("token")) as string) +
+                          "; path=/";
                         onPreviewOpen();
                       }}
                     />
@@ -358,6 +375,9 @@ export default function Index() {
                     p={"2rem"}
                     icon={<FaCogs />}
                     rounded={"none"}
+                    onClick={() => {
+                      setSettingsOpen(!settingsOpen);
+                    }}
                   />
                 </Tooltip>
               </Flex>
@@ -379,18 +399,120 @@ export default function Index() {
                 p={".6rem"}
                 gap={".4rem"}
               >
-                {currentFile ? (
+                {settingsOpen ? (
                   <>
-                    <Box flex={"5%"}>
-                      <ButtonGroup>
-                        <Menu>
-                          <MenuButton as={Button} variant={"ghost"}>
-                            Datei
-                          </MenuButton>
-                          <MenuList backgroundColor={"gray.900"}>
-                            {permissions.includes("WRITE") ||
-                            permissions.includes("OWNER") ? (
-                              <>
+                    <Heading size={"lg"} textAlign={"center"}>
+                      Einstellungen
+                    </Heading>
+                    <Box maxH={"85vh"} h={"100%"} overflow={"auto"}>
+                      <Flex direction={"column"}>
+                        <Box padding={"2rem"} maxW={["100%", "25%"]}>
+                          <Heading size={"md"}>Schriftgröße</Heading>
+                          <NumberInput
+                            defaultValue={editorOptions.fontSize}
+                            mt={"1.2rem"}
+                          >
+                            <NumberInputField />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  </>
+                ) : null}
+                {!settingsOpen ? (
+                  <>
+                    {currentFile ? (
+                      <>
+                        <Box flex={"5%"}>
+                          <ButtonGroup>
+                            <Menu>
+                              <MenuButton as={Button} variant={"ghost"}>
+                                Datei
+                              </MenuButton>
+                              <MenuList backgroundColor={"gray.900"}>
+                                {permissions.includes("WRITE") ||
+                                permissions.includes("OWNER") ? (
+                                  <>
+                                    <MenuItem
+                                      onClick={async () => {
+                                        const res = await REST.IDE.saveFile({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          path: currentFile?.path as string,
+                                          content:
+                                            // @ts-ignore
+                                            editorRef?.current?.getValue() as string,
+                                          projectId: project?._id as string,
+                                        });
+                                        if (res.status === 200) {
+                                          let f = project?.files;
+
+                                          if (
+                                            f &&
+                                            f.find(
+                                              (p) =>
+                                                p.path ===
+                                                (currentFile?.path as string)
+                                            )
+                                          ) {
+                                            (
+                                              f.find(
+                                                (p) =>
+                                                  p.path ===
+                                                  (currentFile?.path as string)
+                                              ) as {
+                                                content: string;
+                                                path: string;
+                                              }
+                                            ).content =
+                                              // @ts-ignore
+                                              editorRef?.current?.getValue();
+                                          }
+
+                                          if (project && f) {
+                                            setProject({
+                                              _id: project?._id,
+                                              contributors:
+                                                project?.contributors,
+                                              owner: project?.owner,
+                                              name: project?.name,
+                                              files: f,
+                                            });
+                                          }
+
+                                          toast({
+                                            status: "success",
+                                            variant: "solid",
+                                            position: "top",
+                                            title: "Erfolgreich",
+                                            description:
+                                              "Die Datei wurde erfolgreich gespeichert",
+                                            isClosable: true,
+                                            duration: 4000,
+                                          });
+                                        } else {
+                                          toast({
+                                            status: "error",
+                                            variant: "solid",
+                                            position: "top",
+                                            title: "Fehler",
+                                            description: res.payload.error,
+                                            isClosable: true,
+                                            duration: 4000,
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      Speichern&nbsp;<Kbd>STRG</Kbd>+
+                                      <Kbd>S</Kbd>
+                                    </MenuItem>
+                                  </>
+                                ) : null}
                                 <MenuItem
                                   onClick={async () => {
                                     const res = await REST.IDE.saveFile({
@@ -403,6 +525,7 @@ export default function Index() {
                                         editorRef?.current?.getValue() as string,
                                       projectId: project?._id as string,
                                     });
+
                                     if (res.status === 200) {
                                       let f = project?.files;
 
@@ -437,158 +560,92 @@ export default function Index() {
                                           files: f,
                                         });
                                       }
-
-                                      toast({
-                                        status: "success",
-                                        variant: "solid",
-                                        position: "top",
-                                        title: "Erfolgreich",
-                                        description:
-                                          "Die Datei wurde erfolgreich gespeichert",
-                                        isClosable: true,
-                                        duration: 4000,
-                                      });
-                                    } else {
-                                      toast({
-                                        status: "error",
-                                        variant: "solid",
-                                        position: "top",
-                                        title: "Fehler",
-                                        description: res.payload.error,
-                                        isClosable: true,
-                                        duration: 4000,
-                                      });
                                     }
+
+                                    setCurrentFile(null);
                                   }}
                                 >
-                                  Speichern&nbsp;<Kbd>STRG</Kbd>+<Kbd>S</Kbd>
+                                  Schließen
                                 </MenuItem>
-                              </>
-                            ) : null}
-                            <MenuItem
-                              onClick={async () => {
-                                const res = await REST.IDE.saveFile({
-                                  token: localStorage.getItem(
-                                    "token"
-                                  ) as string,
-                                  path: currentFile?.path as string,
-                                  content:
-                                    // @ts-ignore
-                                    editorRef?.current?.getValue() as string,
-                                  projectId: project?._id as string,
-                                });
-
-                                if (res.status === 200) {
-                                  let f = project?.files;
-
-                                  if (
-                                    f &&
-                                    f.find(
-                                      (p) =>
-                                        p.path === (currentFile?.path as string)
-                                    )
-                                  ) {
-                                    (
-                                      f.find(
-                                        (p) =>
-                                          p.path ===
-                                          (currentFile?.path as string)
-                                      ) as {
-                                        content: string;
-                                        path: string;
-                                      }
-                                    ).content =
-                                      // @ts-ignore
-                                      editorRef?.current?.getValue();
-                                  }
-
-                                  if (project && f) {
-                                    setProject({
-                                      _id: project?._id,
-                                      contributors: project?.contributors,
-                                      owner: project?.owner,
-                                      name: project?.name,
-                                      files: f,
-                                    });
-                                  }
-                                }
-
-                                setCurrentFile(null);
-                              }}
-                            >
-                              Schließen
-                            </MenuItem>
-                          </MenuList>
-                        </Menu>
-                        {permissions.includes("WRITE") ||
-                        permissions.includes("OWNER") ? (
-                          <>
-                            <Menu>
-                              <MenuButton as={Button} variant={"ghost"}>
-                                Bearbeiten
-                              </MenuButton>
-                              <MenuList backgroundColor={"gray.900"}>
-                                <MenuItem>Rückgängig</MenuItem>
-                                <MenuItem>Wiederholen</MenuItem>
-                                <MenuItem>Ausschneiden</MenuItem>
-                                <MenuItem>Kopieren</MenuItem>
-                                <MenuItem>Einfügen</MenuItem>
-                                <MenuItem>Löschen</MenuItem>
-                                <MenuItem>Suchen</MenuItem>
                               </MenuList>
                             </Menu>
-                          </>
-                        ) : null}
-                        <Menu>
-                          <MenuButton as={Button} variant={"ghost"}>
-                            Hilfe
-                          </MenuButton>
-                          <MenuList backgroundColor={"gray.900"}>
-                            <MenuItem>Über</MenuItem>
-                            <MenuItem>Support</MenuItem>
-                          </MenuList>
-                        </Menu>
-                      </ButtonGroup>
-                    </Box>
-                    <Box flex={"95%"}>
-                      <Editor
-                        defaultLanguage={
-                          currentFile?.path.toLowerCase().endsWith(".js")
-                            ? "javascript"
-                            : currentFile?.path.toLowerCase().endsWith(".html")
-                            ? "html"
-                            : currentFile?.path.toLowerCase().endsWith(".css")
-                            ? "css"
-                            : currentFile?.path.toLowerCase().endsWith(".md")
-                            ? "markdown"
-                            : "plain"
-                        }
-                        defaultValue={currentFile?.content}
-                        onMount={handleEditorDidMount}
-                        theme={monacoTheme}
-                        options={{
-                          fontSize: editorOptions.fontSize,
-                          readOnly:
-                            !permissions.includes("WRITE") &&
-                            !permissions.includes("OWNER"),
-                        }}
-                      />
-                    </Box>
+                            {permissions.includes("WRITE") ||
+                            permissions.includes("OWNER") ? (
+                              <>
+                                <Menu>
+                                  <MenuButton as={Button} variant={"ghost"}>
+                                    Bearbeiten
+                                  </MenuButton>
+                                  <MenuList backgroundColor={"gray.900"}>
+                                    <MenuItem>Rückgängig</MenuItem>
+                                    <MenuItem>Wiederholen</MenuItem>
+                                    <MenuItem>Ausschneiden</MenuItem>
+                                    <MenuItem>Kopieren</MenuItem>
+                                    <MenuItem>Einfügen</MenuItem>
+                                    <MenuItem>Löschen</MenuItem>
+                                    <MenuItem>Suchen</MenuItem>
+                                  </MenuList>
+                                </Menu>
+                              </>
+                            ) : null}
+                            <Menu>
+                              <MenuButton as={Button} variant={"ghost"}>
+                                Hilfe
+                              </MenuButton>
+                              <MenuList backgroundColor={"gray.900"}>
+                                <MenuItem>Über</MenuItem>
+                                <MenuItem>Support</MenuItem>
+                              </MenuList>
+                            </Menu>
+                          </ButtonGroup>
+                        </Box>
+                        <Box flex={"95%"}>
+                          <Editor
+                            defaultLanguage={
+                              currentFile?.path.toLowerCase().endsWith(".js")
+                                ? "javascript"
+                                : currentFile?.path
+                                    .toLowerCase()
+                                    .endsWith(".html")
+                                ? "html"
+                                : currentFile?.path
+                                    .toLowerCase()
+                                    .endsWith(".css")
+                                ? "css"
+                                : currentFile?.path
+                                    .toLowerCase()
+                                    .endsWith(".md")
+                                ? "markdown"
+                                : "plain"
+                            }
+                            defaultValue={currentFile?.content}
+                            onMount={handleEditorDidMount}
+                            theme={monacoTheme}
+                            options={{
+                              fontSize: editorOptions.fontSize,
+                              readOnly:
+                                !permissions.includes("WRITE") &&
+                                !permissions.includes("OWNER"),
+                            }}
+                          />
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Center>
+                          <Text
+                            color="blue.500"
+                            onClick={() => onFileMenuOpen()}
+                            cursor="pointer"
+                          >
+                            Öffne eine Datei
+                          </Text>
+                          , damit du diese bearbeiten/lesen kannst.
+                        </Center>
+                      </>
+                    )}
                   </>
-                ) : (
-                  <>
-                    <Center>
-                      <Text
-                        color="blue.500"
-                        onClick={() => onFileMenuOpen()}
-                        cursor="pointer"
-                      >
-                        Öffne eine Datei
-                      </Text>
-                      , damit du diese bearbeiten/lesen kannst.
-                    </Center>
-                  </>
-                )}
+                ) : null}
               </Flex>
             </Box>
           </Flex>
@@ -909,30 +966,16 @@ export default function Index() {
                                     icon={<FiEdit />}
                                     variant="ghost"
                                     onClick={() => {
+                                      setSettingsOpen(false);
+
                                       setCurrentFile({
                                         path: f.path,
                                         content: f.content,
                                       });
                                       // @ts-ignore
                                       editorRef?.current?.setValue(f.content);
-                                      // @ts-ignore
-                                      editorRef?.current?.updateOptions({
-                                        defaultLanguage: f.path
-                                          .toLowerCase()
-                                          .endsWith(".js")
-                                          ? "javascript"
-                                          : f.path
-                                              .toLowerCase()
-                                              .endsWith(".html")
-                                          ? "html"
-                                          : f.path
-                                              .toLowerCase()
-                                              .endsWith(".css")
-                                          ? "css"
-                                          : f.path.toLowerCase().endsWith(".md")
-                                          ? "markdown"
-                                          : "plain",
-                                      });
+
+                                      onFileMenuClose();
 
                                       // @ts-ignore
                                       monaco.editor.setModelLanguage(
@@ -952,7 +995,6 @@ export default function Index() {
                                           ? "markdown"
                                           : "plain"
                                       );
-                                      onFileMenuClose();
                                     }}
                                   />
                                 </Tooltip>
@@ -998,10 +1040,15 @@ function PreviewModal(props: {
   onOpen: () => void;
   onClose: () => void;
 }) {
+  const onClose = () => {
+    // document.cookie = "jwt=; path=/";
+    props.onClose();
+  };
+
   return (
     <>
       {props.project && props.path ? (
-        <Modal isOpen={props.isOpen} onClose={props.onClose} size={"full"}>
+        <Modal isOpen={props.isOpen} onClose={onClose} size={"full"}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Modal Title</ModalHeader>
@@ -1033,7 +1080,7 @@ function PreviewModal(props: {
               >
                 Vollbild
               </Button>
-              <Button variant="outline" mr={3} onClick={props.onClose}>
+              <Button variant="outline" mr={3} onClick={onClose}>
                 Schließen
               </Button>
             </ModalFooter>
