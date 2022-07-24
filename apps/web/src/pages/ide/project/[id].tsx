@@ -20,45 +20,48 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
+  FormControl,
+  FormLabel,
+  Heading,
   IconButton,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Stack,
+  Text,
   Tooltip,
   useDisclosure,
   useToast,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Heading,
-  Center,
-  Link,
-  Text,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverHeader,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Kbd,
 } from "@chakra-ui/react";
 import {
   FaCloudUploadAlt,
@@ -67,34 +70,18 @@ import {
   FaExternalLinkAlt,
   FaEye,
   FaFile,
-  FaFolderPlus,
   FaHtml5,
   FaJsSquare,
   FaKeyboard,
   FaMarkdown,
-  FaPlus,
-  FaTrash,
   FaUserFriends,
 } from "react-icons/fa";
-import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
-import {
-  FiEdit,
-  FiEdit2,
-  FiFilePlus,
-  FiFolderPlus,
-  FiTrash2,
-} from "react-icons/fi";
+import Editor, { useMonaco } from "@monaco-editor/react";
+import { FiEdit, FiFilePlus, FiTrash2 } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
 import { editor } from "monaco-editor";
-import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
-import {
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-} from "@chakra-ui/react";
+import { ContributorManager, PreviewModal } from "@codeup/components/ide";
 
 export default function Index() {
   const router = useRouter();
@@ -116,6 +103,12 @@ export default function Index() {
     isOpen: isFileMenuOpen,
     onOpen: onFileMenuOpen,
     onClose: onFileMenuClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isContributorOpen,
+    onOpen: onContributorOpen,
+    onClose: onContributorClose,
   } = useDisclosure();
 
   const [errorAlert, setErrorAlert] = useState<{
@@ -326,6 +319,9 @@ export default function Index() {
                       p={"2rem"}
                       icon={<FaUserFriends />}
                       rounded={"none"}
+                      onClick={() => {
+                        onContributorOpen();
+                      }}
                     />
                   </Tooltip>
                 ) : null}
@@ -1028,66 +1024,14 @@ export default function Index() {
             onOpen={onPreviewOpen}
             onClose={onPreviewClose}
           />
+          <ContributorManager
+            isOpen={isContributorOpen}
+            onOpen={onContributorOpen}
+            onClose={onContributorClose}
+            projectId={project?._id}
+          />
         </>
       )}
-    </>
-  );
-}
-
-function PreviewModal(props: {
-  project: string | undefined;
-  path: string | undefined;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}) {
-  const onClose = () => {
-    // document.cookie = "jwt=; path=/";
-    props.onClose();
-  };
-
-  return (
-    <>
-      {props.project && props.path ? (
-        <Modal isOpen={props.isOpen} onClose={onClose} size={"full"}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <iframe
-                width={"100%"}
-                style={{ border: "none", height: "80vh" }}
-                src={
-                  "/api/ide/projects/" + props.project + "/preview" + props.path
-                }
-              ></iframe>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                rightIcon={<FaExternalLinkAlt />}
-                variant="outline"
-                mr={3}
-                onClick={() => {
-                  window.open(
-                    "/api/ide/projects/" +
-                      props.project +
-                      "/preview" +
-                      props.path,
-                    "_blank"
-                  );
-                }}
-              >
-                Vollbild
-              </Button>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Schließen
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      ) : null}
     </>
   );
 }
