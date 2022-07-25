@@ -15,6 +15,7 @@ import useHover from "./hooks/useHover";
 import useUserInfo from "./hooks/useUserInfo";
 import useUserLoggedIn from "./hooks/useUserLoggedIn";
 import useUserLoggedInRedirect from "./hooks/useUserLoggedInRedirect";
+import useKeyPress from "./hooks/useKeyPress";
 
 export {
   useCourseRedirect,
@@ -24,4 +25,5 @@ export {
   useUserInfo,
   useUserLoggedInRedirect,
   useUserLoggedIn,
+  useKeyPress,
 };

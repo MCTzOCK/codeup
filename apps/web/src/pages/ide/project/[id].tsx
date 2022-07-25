@@ -76,6 +76,7 @@ import { BiRename } from "react-icons/bi";
 import { ContributorManager, PreviewModal } from "@codeup/components/ide";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import { useKeyPress } from "@codeup/hooks";
 
 export default function Index() {
   const router = useRouter();
@@ -191,50 +192,43 @@ export default function Index() {
     }
   }, [monaco, project]);
 
+  const saveKeyPress = useKeyPress("s", true);
+  const openKeyPress = useKeyPress("o", true);
+
   useEffect(() => {
-    if (localStorage.getItem("monaco.options")) {
-      setEditorOptions(
-        JSON.parse(localStorage.getItem("monaco.options") as string)
-      );
+    if (saveKeyPress && currentFile) {
+      REST.IDE.saveFile({
+        token: localStorage.getItem("token") as string,
+        projectId: project?._id as string,
+        path: currentFile.path,
+        // @ts-ignore
+        content: editorRef?.current?.getValue(),
+      }).then(async () => {
+        const r = await REST.IDE.getProject({
+          token: localStorage.getItem("token") as string,
+          projectId: project?._id as string,
+        });
+
+        setProject(r.payload.project);
+
+        toast({
+          status: "success",
+          variant: "solid",
+          position: "top",
+          title: "Erfolgreich",
+          description: "Die Datei wurde erfolgreich gespeichert",
+          isClosable: true,
+          duration: 4000,
+        });
+      });
     }
+  }, [saveKeyPress, currentFile]);
 
-    window.addEventListener("keydown", listener, true);
-
-    function listener(ev: KeyboardEvent) {
-      if (ev.key === "s" && ev.ctrlKey) {
-        ev.preventDefault();
-
-        if (currentFile) {
-          REST.IDE.saveFile({
-            token: localStorage.getItem("token") as string,
-            projectId: project?._id as string,
-            path: currentFile.path,
-            // @ts-ignore
-            content: editorRef?.current?.getValue(),
-          }).then(async () => {
-            const r = await REST.IDE.getProject({
-              token: localStorage.getItem("token") as string,
-              projectId: project?._id as string,
-            });
-
-            setProject(r.payload.project);
-
-            toast({
-              status: "success",
-              variant: "solid",
-              position: "top",
-              title: "Erfolgreich",
-              description: "Die Datei wurde erfolgreich gespeichert",
-              isClosable: true,
-              duration: 4000,
-            });
-          });
-        }
-      }
+  useEffect(() => {
+    if (openKeyPress) {
+      onFileMenuOpen();
     }
-
-    return () => window.removeEventListener("keydown", listener, true);
-  }, []);
+  }, [openKeyPress]);
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
