@@ -45,6 +45,7 @@ export default function PreviewModal(props: {
               <iframe
                 width={"100%"}
                 style={{ border: "none", height: "80vh" }}
+                id={"ifr-prev"}
                 src={
                   "/api/ide/projects/" + props.project + "/preview" + props.path
                 }
@@ -66,10 +67,35 @@ export default function PreviewModal(props: {
                   );
                 }}
               >
-                Vollbild
+                In neuem Tab öffnen
               </Button>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Schließen
+
+              <Button
+                variant="outline"
+                mr={3}
+                onClick={() => {
+                  const iframe = document.getElementById(
+                    "ifr-prev"
+                  ) as HTMLIFrameElement;
+
+                  if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                    // @ts-ignore
+                  } else if (iframe.webkitRequestFullscreen) {
+                    // @ts-ignore
+                    iframe.webkitRequestFullscreen();
+                    // @ts-ignore
+                  } else if (iframe.mozRequestFullScreen) {
+                    // @ts-ignore
+                    iframe.mozRequestFullScreen();
+                    // @ts-ignore
+                  } else if (iframe.msRequestFullscreen) {
+                    // @ts-ignore
+                    iframe.msRequestFullscreen();
+                  }
+                }}
+              >
+                Vollbild
               </Button>
             </ModalFooter>
           </ModalContent>
