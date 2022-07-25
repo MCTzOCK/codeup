@@ -73,7 +73,11 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import { FiEdit, FiFilePlus, FiTrash2 } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { BiRename } from "react-icons/bi";
-import { ContributorManager, PreviewModal } from "@codeup/components/ide";
+import {
+  ContributorManager,
+  KeyboardShortcuts,
+  PreviewModal,
+} from "@codeup/components/ide";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import { useKeyPress } from "@codeup/hooks";
@@ -253,6 +257,12 @@ export default function Index() {
     onClose: onPreviewClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isKSOpen,
+    onOpen: onKSOpen,
+    onClose: onKSClose,
+  } = useDisclosure();
+
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
   return (
@@ -348,6 +358,9 @@ export default function Index() {
                     p={"2rem"}
                     icon={<FaKeyboard />}
                     rounded={"none"}
+                    onClick={() => {
+                      onKSOpen();
+                    }}
                   />
                 </Tooltip>
                 <Tooltip label={"Einstellungen"} placement={"right"} hasArrow>
@@ -999,6 +1012,11 @@ export default function Index() {
             onOpen={onContributorOpen}
             onClose={onContributorClose}
             projectId={project?._id}
+          />
+          <KeyboardShortcuts
+            isOpen={isKSOpen}
+            onOpen={onKSOpen}
+            onClose={onKSClose}
           />
         </>
       )}
