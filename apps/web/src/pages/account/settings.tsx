@@ -425,6 +425,7 @@ function Account(props: {
                       );
 
                       localStorage.removeItem("token");
+                      document.cookie = "jwt=;path=/";
                       window.location.reload();
                     }}
                   >
