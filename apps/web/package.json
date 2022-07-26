@@ -47,6 +47,7 @@
     "react-icons": "^4.4.0",
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
+    "sass": "^1.54.0",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

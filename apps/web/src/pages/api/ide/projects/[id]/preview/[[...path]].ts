@@ -13,6 +13,8 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
+import * as ts from "typescript";
+import * as sass from "sass";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -23,9 +25,6 @@ export default async function handleRequest(
   if (!path.startsWith("/")) {
     path = "/" + path;
   }
-
-  console.log(req.cookies);
-
   if (req.method !== "GET") {
     res.status(405).json({
       error: "Method not allowed",
@@ -90,7 +89,28 @@ export default async function handleRequest(
           return;
         }
 
-        res.status(200).write(file.content);
+        let ret = file.content;
+
+        if (file.path.toLowerCase().endsWith(".ts")) {
+          ret = ts.transpileModule(ret, {
+            compilerOptions: {
+              module: ts.ModuleKind.ESNext,
+            },
+          }).outputText;
+        }
+
+        if (
+          file.path.toLowerCase().endsWith(".scss") ||
+          file.path.toLowerCase().endsWith(".sass")
+        ) {
+          ret = sass.compileString(file.content, {
+            syntax: file.path.toLowerCase().endsWith(".scss")
+              ? "scss"
+              : "indented",
+          }).css;
+        }
+
+        res.status(200).write(ret);
 
         res.end();
       } catch (e: any) {

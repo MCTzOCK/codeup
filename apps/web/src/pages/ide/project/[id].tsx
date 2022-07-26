@@ -59,14 +59,10 @@ import {
 import {
   FaCloudUploadAlt,
   FaCogs,
-  FaCss3,
   FaEye,
   FaFile,
   FaHome,
-  FaHtml5,
-  FaJsSquare,
   FaKeyboard,
-  FaMarkdown,
   FaUserFriends,
 } from "react-icons/fa";
 import Editor, { useMonaco } from "@monaco-editor/react";
@@ -78,14 +74,60 @@ import {
   KeyboardShortcuts,
   PreviewModal,
 } from "@codeup/components/ide";
-import { editor } from "monaco-editor";
-import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import { useKeyPress } from "@codeup/hooks";
+import {
+  SiCss3,
+  SiHtml5,
+  SiJavascript,
+  SiMarkdown,
+  SiSass,
+  SiTypescript,
+} from "react-icons/si";
 
 export default function Index() {
   const router = useRouter();
   const toast = useToast();
   const [firstLoad, setFirstLoad] = useState(true);
+
+  const LANGUAGES: {
+    [key: string]: {
+      icon: any;
+      language: string;
+    };
+  } = {
+    md: {
+      language: "markdown",
+      icon: <SiMarkdown />,
+    },
+    js: {
+      language: "javascript",
+      icon: <SiJavascript />,
+    },
+    html: {
+      language: "html",
+      icon: <SiHtml5 />,
+    },
+    css: {
+      language: "css",
+      icon: <SiCss3 />,
+    },
+    ts: {
+      language: "typescript",
+      icon: <SiTypescript />,
+    },
+    scss: {
+      language: "scss",
+      icon: <SiSass />,
+    },
+    sass: {
+      language: "sass",
+      icon: <SiSass />,
+    },
+    _default: {
+      language: "plain",
+      icon: <FaFile />,
+    },
+  };
 
   const [editorOptions, setEditorOptions] = useState<{
     fontSize: number;
@@ -227,12 +269,6 @@ export default function Index() {
       });
     }
   }, [saveKeyPress, currentFile]);
-
-  useEffect(() => {
-    if (openKeyPress) {
-      onFileMenuOpen();
-    }
-  }, [openKeyPress]);
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
@@ -582,21 +618,13 @@ export default function Index() {
                         <Box flex={"95%"}>
                           <Editor
                             defaultLanguage={
-                              currentFile?.path.toLowerCase().endsWith(".js")
-                                ? "javascript"
-                                : currentFile?.path
-                                    .toLowerCase()
-                                    .endsWith(".html")
-                                ? "html"
-                                : currentFile?.path
-                                    .toLowerCase()
-                                    .endsWith(".css")
-                                ? "css"
-                                : currentFile?.path
-                                    .toLowerCase()
-                                    .endsWith(".md")
-                                ? "markdown"
-                                : "plain"
+                              LANGUAGES[
+                                currentFile?.path.split(".").pop() as string
+                              ]
+                                ? LANGUAGES[
+                                    currentFile?.path.split(".").pop() as string
+                                  ].language
+                                : LANGUAGES["_default"].language
                             }
                             defaultValue={currentFile?.content}
                             onMount={handleEditorDidMount}
@@ -763,17 +791,10 @@ export default function Index() {
                         return (
                           <Flex direction="row" p=".4rem" alignItems="center">
                             <Box flex="5%" fontSize="xl">
-                              {f.path.toLowerCase().endsWith(".js") ? (
-                                <FaJsSquare />
-                              ) : f.path.toLowerCase().endsWith(".html") ? (
-                                <FaHtml5 />
-                              ) : f.path.toLowerCase().endsWith(".css") ? (
-                                <FaCss3 />
-                              ) : f.path.toLowerCase().endsWith(".md") ? (
-                                <FaMarkdown />
-                              ) : (
-                                <FaFile />
-                              )}
+                              {LANGUAGES[f.path.split(".").pop() as string]
+                                ? LANGUAGES[f.path.split(".").pop() as string]
+                                    .icon
+                                : LANGUAGES["_default"].icon}
                             </Box>
                             <Box flex="2%"></Box>
                             <Box flex="83%">{f.path.substring(1)}</Box>
@@ -961,19 +982,13 @@ export default function Index() {
                                       monaco.editor.setModelLanguage(
                                         // @ts-ignore
                                         editorRef?.current?.getModel(),
-                                        f.path.toLowerCase().endsWith(".js")
-                                          ? "javascript"
-                                          : f.path
-                                              .toLowerCase()
-                                              .endsWith(".html")
-                                          ? "html"
-                                          : f.path
-                                              .toLowerCase()
-                                              .endsWith(".css")
-                                          ? "css"
-                                          : f.path.toLowerCase().endsWith(".md")
-                                          ? "markdown"
-                                          : "plain"
+                                        LANGUAGES[
+                                          f.path.split(".").pop() as string
+                                        ]
+                                          ? LANGUAGES[
+                                              f.path.split(".").pop() as string
+                                            ].language
+                                          : LANGUAGES["_default"].language
                                       );
                                     }}
                                   />
