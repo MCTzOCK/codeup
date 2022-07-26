@@ -215,6 +215,10 @@ export default function Index() {
           "editor.background": "#171923",
         },
       });
+      monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+        target: monaco.languages.typescript.ScriptTarget.ESNext,
+        allowNonTsExtensions: true,
+      });
       setMonacoTheme("codeup-dark");
 
       if (
