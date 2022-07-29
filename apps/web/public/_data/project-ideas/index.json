@@ -1,0 +1,64 @@
+[
+  {
+    "name": "ToDo App",
+    "description": "Eine App, welches es ermöglicht Aufgaben in Listen zu organisieren",
+    "level": "Einfach",
+    "showcase": "/todo",
+    "source": "https://github.com/mctzock/codeup/blob/develop/apps/web/src/pages/todo/index.tsx"
+  },
+  {
+    "name": "Stoppuhr",
+    "description": "Eine einfache Stoppuhr auf einer Website",
+    "level": "Einfach",
+    "showcase": "https://mctzock.github.io/codeup-examples/clock/#stopwatch",
+    "source": "https://github.com/mctzock/codeup-examples/tree/main/clock"
+  },
+  {
+    "name": "Timer",
+    "description": "Eine einfacher Timer auf einer Website",
+    "level": "Einfach",
+    "showcase": "https://mctzock.github.io/codeup-examples/clock/#timer",
+    "source": "https://github.com/mctzock/codeup-examples/tree/main/clock"
+  },
+  {
+    "name": "Tageszeit",
+    "description": "Anzeige der Tageszeit auf einer Website",
+    "level": "Einfach",
+    "showcase": "https://mctzock.github.io/codeup-examples/clock/#time",
+    "source": "https://github.com/mctzock/codeup-examples/tree/main/clock"
+  },
+  {
+    "name": "Portfolio Website",
+    "description": "Präsentation der eigenen Projekte und Fähigkeiten",
+    "level": "Fortgeschritten",
+    "showcase": "https://ben-siebert.com",
+    "source": "https://github.com/mctzock/website-v2/tree/main"
+  },
+  {
+    "name": "Wortzähler",
+    "description": "Eine Website die zählt, wie viele Worte ein Text beinhaltet",
+    "level": "Einfach",
+    "showcase": "https://portsoc.github.io/wordcount/",
+    "source": "https://github.com/portsoc/wordcount/tree/master"
+  },
+  {
+    "name": "Passwortgenerator",
+    "description": "Eine Website die ein sicheres Passwort erstellen kann",
+    "level": "Mittel",
+    "showcase": "https://password.live/",
+    "source": "https://github.com/devshawn/password.live/tree/master"
+  },
+  {
+    "name": "Quiz-Spiel",
+    "description": "Ein einfaches Quiz Spiel",
+    "level": "Mittel",
+    "showcase": "https://the-manpreet-singh.github.io/Quiz-game/",
+    "source": "https://github.com/The-manpreet-singh/Quiz-game/tree/master"
+  },
+  {
+    "name": "",
+    "description": "",
+    "level": "",
+    "showcase": ""
+  }
+]
