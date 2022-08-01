@@ -161,7 +161,7 @@ export default function NavigationBar() {
             <Box flex={"80%"}>
               <Flex w={"100%"} direction={"column"}>
                 <Heading size={"lg"}>{props.name}</Heading>
-                <Text color={"gray.500"}>{props.description}</Text>
+                <Text color={"gray.300"}>{props.description}</Text>
               </Flex>
             </Box>
           </Flex>
