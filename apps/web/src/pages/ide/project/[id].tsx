@@ -83,6 +83,7 @@ import {
   SiSass,
   SiTypescript,
 } from "react-icons/si";
+import FileManager from "@codeup/components/ide/FileManager";
 
 export default function Index() {
   const router = useRouter();
@@ -134,6 +135,16 @@ export default function Index() {
   }>({
     fontSize: 22,
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("monaco.props") !== null) {
+      setEditorOptions(
+        JSON.parse(localStorage.getItem("monaco.props") as string)
+      );
+    } else {
+      localStorage.setItem("monaco.props", JSON.stringify(editorOptions));
+    }
+  }, []);
 
   const [currentFile, setCurrentFile] = useState<{
     path: string;
@@ -212,7 +223,7 @@ export default function Index() {
         inherit: true,
         rules: [],
         colors: {
-          "editor.background": "#171923",
+          "editor.background": "#141517",
         },
       });
       monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -273,6 +284,12 @@ export default function Index() {
       });
     }
   }, [saveKeyPress, currentFile]);
+
+  useEffect(() => {
+    if (openKeyPress && !isFileMenuOpen) {
+      onFileMenuOpen();
+    }
+  }, [openKeyPress]);
 
   function handleEditorDidMount(editor: any, monaco: any) {
     editorRef.current = editor;
@@ -412,6 +429,22 @@ export default function Index() {
                     icon={<FaCogs />}
                     rounded={"none"}
                     onClick={() => {
+                      if (currentFile) {
+                        REST.IDE.saveFile({
+                          token: localStorage.getItem("token") as string,
+                          projectId: project?._id as string,
+                          path: currentFile?.path,
+                          // @ts-ignore
+                          content: editorRef?.current?.getValue(),
+                        }).then(async () => {
+                          const r = await REST.IDE.getProject({
+                            token: localStorage.getItem("token") as string,
+                            projectId: project?._id as string,
+                          });
+
+                          setProject(r.payload.project);
+                        });
+                      }
                       setSettingsOpen(!settingsOpen);
                     }}
                   />
@@ -460,6 +493,18 @@ export default function Index() {
                           <NumberInput
                             defaultValue={editorOptions.fontSize}
                             mt={"1.2rem"}
+                            onChange={(s, n) => {
+                              let x = editorOptions;
+
+                              x.fontSize = n;
+
+                              setEditorOptions(x);
+
+                              localStorage.setItem(
+                                "monaco.props",
+                                JSON.stringify(x)
+                              );
+                            }}
                           >
                             <NumberInputField />
                             <NumberInputStepper>
@@ -661,364 +706,18 @@ export default function Index() {
               </Flex>
             </Box>
           </Flex>
-
-          <Drawer
-            isOpen={isFileMenuOpen}
-            placement="left"
-            onClose={onFileMenuClose}
-            size={["full", "lg"]}
-          >
-            <DrawerOverlay />
-            <DrawerContent bgColor={"gray.900"}>
-              <DrawerCloseButton />
-              <DrawerHeader>Dateien</DrawerHeader>
-
-              <DrawerBody>
-                <Flex direction={"column"} w="100%">
-                  <Flex direction="row" w="100%">
-                    <Box flex="90%"></Box>
-                    <Box flex="10%">
-                      {permissions.includes("WRITE") ||
-                      permissions.includes("OWNER") ? (
-                        <>
-                          <ButtonGroup>
-                            <Popover>
-                              <PopoverTrigger>
-                                <IconButton
-                                  aria-label="Neue Datei"
-                                  size="lg"
-                                  fontSize={"2xl"}
-                                  icon={<FiFilePlus />}
-                                  variant="ghost"
-                                />
-                              </PopoverTrigger>
-                              <PopoverContent bgColor="black">
-                                <PopoverArrow bgColor="black" />
-                                <PopoverCloseButton />
-                                <PopoverHeader>Neue Datei</PopoverHeader>
-                                <PopoverBody>
-                                  <form
-                                    onSubmit={async (e) => {
-                                      e.preventDefault();
-                                      let path =
-                                        // @ts-ignore
-                                        e.target.elements.newfilepath.value.toLowerCase();
-
-                                      if (!path.startsWith("/")) {
-                                        path = "/" + path;
-                                      }
-
-                                      if (
-                                        project?.files.find(
-                                          (f) => f.path === path
-                                        )
-                                      ) {
-                                        toast({
-                                          status: "error",
-                                          variant: "solid",
-                                          position: "top",
-                                          title: "Fehler",
-                                          description:
-                                            "Diese Datei existiert bereits.",
-                                          isClosable: true,
-                                          duration: 4000,
-                                        });
-                                        return;
-                                      }
-
-                                      const res = await REST.IDE.saveFile({
-                                        token: localStorage.getItem(
-                                          "token"
-                                        ) as string,
-                                        path: path,
-                                        content: "Happy Coding!",
-                                        projectId: project?._id as string,
-                                      });
-
-                                      if (res.status === 200) {
-                                        let f = project?.files;
-                                        f?.push({
-                                          path,
-                                          content: "",
-                                        });
-                                        if (project && f) {
-                                          setProject({
-                                            _id: project?._id,
-                                            contributors: project?.contributors,
-                                            owner: project?.owner,
-                                            name: project?.name,
-                                            files: f,
-                                          });
-                                        }
-                                      } else {
-                                        toast({
-                                          status: "error",
-                                          variant: "solid",
-                                          position: "top",
-                                          title: "Fehler",
-                                          description: res.payload.error,
-                                          isClosable: true,
-                                          duration: 4000,
-                                        });
-                                      }
-                                    }}
-                                  >
-                                    <FormControl>
-                                      <FormLabel>Pfad</FormLabel>
-                                      <Input
-                                        type="text"
-                                        name="newfilepath"
-                                        id="newfilepath"
-                                        placeholder="Pfad"
-                                      />
-                                    </FormControl>
-                                    <Button type="submit" mt=".6rem">
-                                      Erstellen
-                                    </Button>
-                                  </form>
-                                </PopoverBody>
-                              </PopoverContent>
-                            </Popover>
-                          </ButtonGroup>
-                        </>
-                      ) : null}
-                    </Box>
-                  </Flex>
-                  <Flex direction="column" maxH="90vh" overflow="auto">
-                    {project?.files
-                      .sort((a, b) => {
-                        let x = a.path.toLowerCase();
-                        let y = b.path.toLowerCase();
-                        return x < y ? -1 : x > y ? 1 : 0;
-                      })
-                      .map((f) => {
-                        return (
-                          <Flex direction="row" p=".4rem" alignItems="center">
-                            <Box flex="5%" fontSize="xl">
-                              {LANGUAGES[f.path.split(".").pop() as string]
-                                ? LANGUAGES[f.path.split(".").pop() as string]
-                                    .icon
-                                : LANGUAGES["_default"].icon}
-                            </Box>
-                            <Box flex="2%"></Box>
-                            <Box flex="83%">{f.path.substring(1)}</Box>
-                            <Box flex="10%">
-                              <ButtonGroup>
-                                {permissions.includes("WRITE") ||
-                                permissions.includes("OWNER") ? (
-                                  <>
-                                    <Popover>
-                                      <PopoverTrigger>
-                                        <IconButton
-                                          aria-label="Löschen"
-                                          size="lg"
-                                          fontSize={"xl"}
-                                          icon={<FiTrash2 />}
-                                          variant="ghost"
-                                        />
-                                      </PopoverTrigger>
-                                      <PopoverContent bgColor={"black"}>
-                                        <PopoverArrow bgColor={"black"} />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                          Datei Löschen
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                          <Stack>
-                                            <Text>
-                                              Bist du dir sicher, dass du die
-                                              Datei&nbsp;
-                                              <code>{f.path}</code>&nbsp;
-                                              <b>UNWIEDERFLICH</b> löschen
-                                              möchtest?
-                                            </Text>
-                                            <Button
-                                              variant="solid"
-                                              colorScheme="red"
-                                              mt=".4rem"
-                                              onClick={async () => {
-                                                if (
-                                                  currentFile?.path === f.path
-                                                ) {
-                                                  setCurrentFile(null);
-                                                }
-
-                                                const res =
-                                                  await REST.IDE.deleteFile({
-                                                    token: localStorage.getItem(
-                                                      "token"
-                                                    ) as string,
-                                                    projectId: project?._id,
-                                                    path: f.path,
-                                                  });
-
-                                                const rPro =
-                                                  await REST.IDE.getProject({
-                                                    token: localStorage.getItem(
-                                                      "token"
-                                                    ) as string,
-                                                    projectId:
-                                                      project._id as string,
-                                                  });
-
-                                                setProject(
-                                                  rPro.payload.project
-                                                );
-                                              }}
-                                            >
-                                              Löschen
-                                            </Button>
-                                          </Stack>
-                                        </PopoverBody>
-                                      </PopoverContent>
-                                    </Popover>
-                                    <Popover>
-                                      <PopoverTrigger>
-                                        <IconButton
-                                          aria-label="Umbenennen"
-                                          size="lg"
-                                          fontSize={"xl"}
-                                          icon={<BiRename />}
-                                          variant="ghost"
-                                          title={"Umbenennen/Verschieben"}
-                                        />
-                                      </PopoverTrigger>
-                                      <PopoverContent bgColor={"black"}>
-                                        <PopoverArrow bgColor={"black"} />
-                                        <PopoverCloseButton />
-                                        <PopoverHeader>
-                                          Datei umbenennen
-                                        </PopoverHeader>
-                                        <PopoverBody>
-                                          <form
-                                            onSubmit={async (e) => {
-                                              e.preventDefault();
-
-                                              let path =
-                                                // @ts-ignore
-                                                e.target.elements.renamenewpath
-                                                  .value;
-
-                                              if (!path.startsWith("/")) {
-                                                path = `/${path}`;
-                                              }
-
-                                              const rDel =
-                                                await REST.IDE.deleteFile({
-                                                  token: localStorage.getItem(
-                                                    "token"
-                                                  ) as string,
-                                                  path: f.path,
-                                                  projectId:
-                                                    project._id as string,
-                                                });
-
-                                              const rSav =
-                                                await REST.IDE.saveFile({
-                                                  token: localStorage.getItem(
-                                                    "token"
-                                                  ) as string,
-                                                  path,
-                                                  content: f.content,
-                                                  projectId:
-                                                    project._id as string,
-                                                });
-
-                                              const rPro =
-                                                await REST.IDE.getProject({
-                                                  token: localStorage.getItem(
-                                                    "token"
-                                                  ) as string,
-                                                  projectId:
-                                                    project._id as string,
-                                                });
-
-                                              setProject(rPro.payload.project);
-                                            }}
-                                          >
-                                            <Stack>
-                                              <FormControl>
-                                                <FormLabel>
-                                                  Neuer Pfad
-                                                </FormLabel>
-                                                <Input
-                                                  type={"text"}
-                                                  defaultValue={f.path}
-                                                  id={"renamenewpath"}
-                                                  name={"renamenewpath"}
-                                                  placeholder={"Pfad"}
-                                                />
-                                              </FormControl>
-                                              <Button
-                                                mt={".6rem"}
-                                                type={"submit"}
-                                              >
-                                                Umbenennen
-                                              </Button>
-                                            </Stack>
-                                          </form>
-                                        </PopoverBody>
-                                      </PopoverContent>
-                                    </Popover>
-                                  </>
-                                ) : null}
-
-                                <Tooltip label="Bearbeiten" hasArrow>
-                                  <IconButton
-                                    aria-label="Bearbeiten"
-                                    size="lg"
-                                    fontSize={"xl"}
-                                    icon={<FiEdit />}
-                                    variant="ghost"
-                                    onClick={() => {
-                                      setSettingsOpen(false);
-
-                                      setCurrentFile({
-                                        path: f.path,
-                                        content: f.content,
-                                      });
-                                      // @ts-ignore
-                                      editorRef?.current?.setValue(f.content);
-
-                                      onFileMenuClose();
-
-                                      // @ts-ignore
-                                      monaco.editor.setModelLanguage(
-                                        // @ts-ignore
-                                        editorRef?.current?.getModel(),
-                                        LANGUAGES[
-                                          f.path.split(".").pop() as string
-                                        ]
-                                          ? LANGUAGES[
-                                              f.path.split(".").pop() as string
-                                            ].language
-                                          : LANGUAGES["_default"].language
-                                      );
-                                    }}
-                                  />
-                                </Tooltip>
-                              </ButtonGroup>
-                            </Box>
-                          </Flex>
-                        );
-                      })}
-                    {(project?.files?.length as number) < 1 ? (
-                      <>
-                        Dieses Projekt beinhaltet keine Dateien. Erstelle die
-                        erste Datei über die Schaltfläche oben rechts.
-                      </>
-                    ) : null}
-                  </Flex>
-                </Flex>
-              </DrawerBody>
-
-              <DrawerFooter>
-                <Button variant="outline" mr={3} onClick={onFileMenuClose}>
-                  Schließen
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+          <FileManager
+            onFileMenuClose={onFileMenuClose}
+            isFileMenuOpen={isFileMenuOpen}
+            permissions={permissions}
+            project={project}
+            setProject={setProject}
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            setSettingsOpen={setSettingsOpen}
+            editorRef={editorRef}
+            monaco={monaco}
+          />
           <PreviewModal
             project={project?._id}
             path={currentFile?.path}
