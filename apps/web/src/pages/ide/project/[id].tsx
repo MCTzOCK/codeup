@@ -212,7 +212,7 @@ export default function Index() {
         inherit: true,
         rules: [],
         colors: {
-          "editor.background": "#171923",
+          "editor.background": "#141517",
         },
       });
       monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
