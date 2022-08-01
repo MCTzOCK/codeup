@@ -15,6 +15,7 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import * as ts from "typescript";
 import * as sass from "sass";
+import { lookup as mimeLookup } from "mime-types";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -109,6 +110,11 @@ export default async function handleRequest(
               : "indented",
           }).css;
         }
+
+        res.setHeader(
+          "Content-Type",
+          mimeLookup(file.path.toLowerCase()) as string
+        );
 
         res.status(200).write(ret);
 
