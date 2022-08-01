@@ -38,7 +38,13 @@ import {
   Tooltip,
   DrawerFooter,
 } from "@chakra-ui/react";
-import { FiFilePlus, FiTrash2, FiEdit } from "react-icons/fi";
+import {
+  FiFilePlus,
+  FiTrash2,
+  FiEdit,
+  FiUpload,
+  FiDownload,
+} from "react-icons/fi";
 import {
   SiMarkdown,
   SiJavascript,
@@ -49,6 +55,7 @@ import {
 } from "react-icons/si";
 import { FaFile } from "react-icons/fa";
 import { BiRename } from "react-icons/bi";
+import { lookup } from "mime-types";
 
 export default function FileManager(props: {
   onFileMenuClose: () => void;
@@ -136,7 +143,7 @@ export default function FileManager(props: {
             <Flex direction={"column"} w="100%">
               <Flex direction="row" w="100%">
                 <Box flex="90%"></Box>
-                <Box flex="10%">
+                <Flex flex="10%" direction={"row"}>
                   {props.permissions.includes("WRITE") ||
                   props.permissions.includes("OWNER") ? (
                     <>
@@ -242,7 +249,48 @@ export default function FileManager(props: {
                       </ButtonGroup>
                     </>
                   ) : null}
-                </Box>
+                  <Tooltip label={"Datei hochladen"} hasArrow>
+                    <IconButton
+                      aria-label="Datei hochladen"
+                      size="lg"
+                      fontSize={"2xl"}
+                      icon={<FiUpload />}
+                      variant="ghost"
+                      onClick={() => {
+                        const f = document.createElement("input");
+                        f.type = "file";
+                        f.style.display = "none";
+
+                        f.onchange = async () => {
+                          if (f.files && f.files.length > 0) {
+                            const file = f.files.item(0);
+                            if (file) {
+                              const content = await file.text();
+
+                              await REST.IDE.saveFile({
+                                token: localStorage.getItem("token") as string,
+                                path: "/" + file.name,
+                                content: content,
+                                projectId: props.project?._id as string,
+                              });
+
+                              const x = await REST.IDE.getProject({
+                                token: localStorage.getItem("token") as string,
+                                projectId: props.project?._id as string,
+                              });
+
+                              props.setProject(x.payload.project);
+                            }
+                          }
+                        };
+
+                        document.body.appendChild(f);
+                        f.click();
+                        document.body.removeChild(f);
+                      }}
+                    />
+                  </Tooltip>
+                </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
                 {props.project?.files
@@ -448,6 +496,38 @@ export default function FileManager(props: {
                                         ].language
                                       : LANGUAGES["_default"].language
                                   );
+                                }}
+                              />
+                            </Tooltip>
+                            <Tooltip label={"Herunterladen"} hasArrow>
+                              <IconButton
+                                aria-label="Datei herunterladen"
+                                size="lg"
+                                fontSize={"2xl"}
+                                icon={<FiDownload />}
+                                variant="ghost"
+                                onClick={() => {
+                                  const element = document.createElement("a");
+                                  element.setAttribute(
+                                    "href",
+                                    "data:" +
+                                      lookup(f.path) +
+                                      ";charset=utf-8," +
+                                      encodeURIComponent(f.content)
+                                  );
+                                  element.setAttribute(
+                                    "download",
+                                    f.path.split("/")[
+                                      f.path.split("/").length - 1
+                                    ]
+                                  );
+
+                                  element.style.display = "none";
+                                  document.body.appendChild(element);
+
+                                  element.click();
+
+                                  document.body.removeChild(element);
                                 }}
                               />
                             </Tooltip>
