@@ -28,14 +28,24 @@ import {
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
+import { useUserInfo } from "@codeup/hooks";
 
 export default function TemplatePublisher(props: {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
   projectId: string;
+  setProjectList: (list: any) => void;
+  projectList: {
+    name: string;
+    id: string;
+    permissions: string[];
+    hasTemplate: boolean;
+  }[];
 }) {
   const toast = useToast();
+
+  const userInfo = useUserInfo();
 
   return (
     <>
@@ -90,6 +100,20 @@ export default function TemplatePublisher(props: {
                 description,
               });
 
+              let y = props.projectList;
+
+              if (y.find((p) => p.id === props.projectId) !== undefined) {
+                (
+                  y.find((p) => p.id === props.projectId) as {
+                    hasTemplate: boolean | undefined;
+                  }
+                ).hasTemplate = true;
+              }
+
+              props.setProjectList(y);
+
+              props.onClose();
+
               toast({
                 status: "success",
                 position: "top",
@@ -98,9 +122,6 @@ export default function TemplatePublisher(props: {
                 variant: "solid",
                 title: "Erfolgreich",
                 description: "Die Vorlage wurde veröffentlicht",
-                onCloseComplete: () => {
-                  window.location.reload();
-                },
               });
             }}
           >

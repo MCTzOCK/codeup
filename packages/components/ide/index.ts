@@ -8,9 +8,6 @@
  *
  */
 
-import * as React from "react";
 export { default as ContributorManager } from "./ContributorManager";
 export { default as PreviewModal } from "./PreviewModal";
-export { default as TemplatePicker } from "./TemplatePicker";
-export { default as TemplateImporter } from "./TemplateImporter";
 export { default as KeyboardShortcuts } from "./KeyboardShortcuts";

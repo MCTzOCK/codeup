@@ -215,7 +215,6 @@ export async function publishTemplate(options: {
   projectId: string;
   displayName: string;
   description: string;
-  splashImage?: string;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/ide/projects/" + options.projectId + "/template/publish",
@@ -224,7 +223,6 @@ export async function publishTemplate(options: {
     body: {
       displayName: options.displayName,
       description: options.description,
-      splashImage: options.splashImage,
     },
   });
 }
