@@ -1108,6 +1108,22 @@ function Open() {
                                               projectId: project.id,
                                             });
 
+                                          let y = projectList;
+
+                                          (
+                                            y.find(
+                                              (p) => p.id === project.id
+                                            ) as any
+                                          ).hasTemplate = false;
+
+                                          setProjectList(y);
+
+                                          setQuery(project.name);
+
+                                          setTimeout(() => {
+                                            setQuery(query);
+                                          }, 100);
+
                                           toast({
                                             status: "success",
                                             position: "top",
@@ -1117,9 +1133,6 @@ function Open() {
                                             title: "Erfolgreich",
                                             description:
                                               "Die Vorlage wurde erfolgreich gelöscht!",
-                                            onCloseComplete: () => {
-                                              window.location.reload();
-                                            },
                                           });
                                         }}
                                       >
@@ -1167,6 +1180,8 @@ function Open() {
         onOpen={onPublisherOpen}
         onClose={onPublisherClose}
         projectId={publisherTemplateId}
+        setProjectList={setProjectList}
+        projectList={projectList}
       />
     </>
   );

@@ -15,6 +15,10 @@ const IDETemplate = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  authorDisplayName: {
+    type: String,
+    required: true,
+  },
   displayName: {
     type: String,
     required: true,

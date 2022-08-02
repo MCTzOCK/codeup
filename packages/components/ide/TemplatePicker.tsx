@@ -29,6 +29,7 @@ import {
   PopoverBody,
   IconButton,
   ButtonGroup,
+  Link,
 } from "@chakra-ui/react";
 import { FaPlus, FaStar } from "react-icons/fa";
 import { useUserInfo } from "@codeup/hooks";
@@ -39,6 +40,7 @@ export default function TemplatePicker() {
     {
       _id: string;
       owner: string;
+      authorDisplayName: string;
       displayName: string;
       project: string;
       description: string;
@@ -147,6 +149,20 @@ export default function TemplatePicker() {
                               {rating}
                               &nbsp;&nbsp;/&nbsp;&nbsp;5&nbsp;
                               <FaStar color={"orange"} />
+                            </Flex>
+                            <Flex
+                              alignItems={"center"}
+                              justifyContent={"center"}
+                            >
+                              von&nbsp;
+                              <Link
+                                color={"blue.300"}
+                                href={
+                                  "/community/profile/" + t.authorDisplayName
+                                }
+                              >
+                                {t.authorDisplayName}
+                              </Link>
                             </Flex>
                             <Flex
                               alignItems={"center"}

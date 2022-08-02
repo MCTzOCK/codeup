@@ -88,6 +88,7 @@ export default async function handleRequest(
           description: req.body.description,
           splashImage: req.body.splashImage,
           project: IDEProject._id,
+          authorDisplayName: user.username,
         });
 
         await template.save();
