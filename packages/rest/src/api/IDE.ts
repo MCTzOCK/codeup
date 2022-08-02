@@ -223,7 +223,6 @@ export async function publishTemplate(options: {
     body: {
       displayName: options.displayName,
       description: options.description,
-      author: options.author,
     },
   });
 }
