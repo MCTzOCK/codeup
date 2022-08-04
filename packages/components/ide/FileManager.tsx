@@ -308,21 +308,51 @@ export default function FileManager(props: {
                           if (f.files && f.files.length > 0) {
                             const file = f.files.item(0);
                             if (file) {
-                              const content = await file.text();
+                              if (file.type.startsWith("text/")) {
+                                const content = await file.text();
 
-                              await REST.IDE.saveFile({
-                                token: localStorage.getItem("token") as string,
-                                path: "/" + file.name,
-                                content: content,
-                                projectId: props.project?._id as string,
-                              });
+                                await REST.IDE.saveFile({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  path: "/" + file.name,
+                                  content: content,
+                                  projectId: props.project?._id as string,
+                                });
 
-                              const x = await REST.IDE.getProject({
-                                token: localStorage.getItem("token") as string,
-                                projectId: props.project?._id as string,
-                              });
+                                const x = await REST.IDE.getProject({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  projectId: props.project?._id as string,
+                                });
 
-                              props.setProject(x.payload.project);
+                                props.setProject(x.payload.project);
+                              } else {
+                                const FR = new FileReader();
+
+                                FR.readAsDataURL(file);
+
+                                FR.onload = async () => {
+                                  await REST.IDE.saveFile({
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    path: "/" + file.name,
+                                    content: FR.result as string,
+                                    projectId: props.project?._id as string,
+                                  });
+
+                                  const x = await REST.IDE.getProject({
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    projectId: props.project?._id as string,
+                                  });
+                                  props.setProject(x.payload.project);
+                                };
+                                return;
+                              }
                             }
                           }
                         };
@@ -767,7 +797,32 @@ function FileEntry(props: {
                 icon={<FiDownload />}
                 variant="ghost"
                 onClick={() => {
+                  if (
+                    props.structure.contents.match(
+                      /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i
+                    )
+                  ) {
+                    const element = document.createElement("a");
+
+                    element.setAttribute("href", props.structure.contents);
+                    element.setAttribute(
+                      "download",
+                      props.structure.fullPath.split("/")[
+                        props.structure.fullPath.split("/").length - 1
+                      ]
+                    );
+
+                    element.style.display = "none";
+                    document.body.appendChild(element);
+
+                    element.click();
+
+                    document.body.removeChild(element);
+                    return;
+                  }
+
                   const element = document.createElement("a");
+
                   element.setAttribute(
                     "href",
                     "data:" +

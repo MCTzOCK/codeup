@@ -111,6 +111,15 @@ export default async function handleRequest(
           }).css;
         }
 
+        if (
+          ret.match(
+            /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i
+          )
+        ) {
+          res.redirect(ret);
+          return;
+        }
+
         res.setHeader(
           "Content-Type",
           mimeLookup(file.path.toLowerCase()) as string

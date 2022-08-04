@@ -322,7 +322,7 @@ function Create() {
                                   ) as string,
                                   name:
                                     data.name +
-                                    " - Imported " +
+                                    " - Impo. " +
                                     new Date().toLocaleTimeString(),
                                 });
 
@@ -896,13 +896,12 @@ function Open() {
                                     ) ? (
                                       <MenuItem
                                         onClick={async () => {
-                                          const newName = prompt(
-                                            "Gib den neuen Namen ein"
-                                          );
-
-                                          if (!newName) {
-                                            return;
-                                          }
+                                          const newName =
+                                            project.name +
+                                            " - Dupl. " +
+                                            new Date(
+                                              Date.now()
+                                            ).toLocaleTimeString();
 
                                           const res =
                                             await REST.IDE.duplicateProject({
