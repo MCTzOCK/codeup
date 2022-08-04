@@ -199,6 +199,7 @@ export async function duplicateProject(options: {
 export async function getProjects(options: {
   token: string;
   type: "OWNER" | "CONTRIBUTOR" | "ALL";
+  minimal?: boolean;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/ide/projects/list",
@@ -206,6 +207,7 @@ export async function getProjects(options: {
     token: options.token,
     body: {
       type: options.type,
+      minimal: options.minimal,
     },
   });
 }

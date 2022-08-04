@@ -27,6 +27,7 @@ export default function ModuleCard(props: {
         href={!props.locked ? props.url : undefined}
         style={{ flex: "100%" }}
         target={"_blank"}
+        rel={"noreferrer"}
       >
         <Box
           backgroundColor={props.locked ? "black" : props.color}
