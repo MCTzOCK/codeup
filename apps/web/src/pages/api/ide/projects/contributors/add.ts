@@ -105,6 +105,8 @@ export default async function handleRequest(
           permissions: ["READ", "WRITE", "DUPLICATE"],
         });
 
+        IDEProject.updated_at = Date.now();
+
         await IDEProject.save();
 
         res.status(200).json({

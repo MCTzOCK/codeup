@@ -66,6 +66,7 @@ export default async function handleRequest(
 
         await IDEProject.update({
           name: req.body.name,
+          updated_at: Date.now(),
         });
 
         res.status(200).json({

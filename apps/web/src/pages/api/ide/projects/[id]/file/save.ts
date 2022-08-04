@@ -93,6 +93,8 @@ export default async function handleRequest(
           content: req.body.content,
         });
 
+        IDEProject.updated_at = Date.now();
+
         await IDEProject.save();
 
         res.status(200).json({
