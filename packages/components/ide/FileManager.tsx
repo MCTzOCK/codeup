@@ -279,19 +279,7 @@ export default function FileManager(props: {
                                 <FormControl isRequired mt={".6rem"}>
                                   <FormLabel>Dateiendung</FormLabel>
                                   <Select name="nf_extension" id="nf_extension">
-                                    <option disabled={true}>Struktur</option>
-                                    <option value={".html"}>HTML</option>
-                                    <option disabled={true}>Aussehen</option>
-                                    <option value={".css"}>CSS</option>
-                                    <option value={".scss"}>SCSS</option>
-                                    <option value={".sass"}>Sass</option>
-                                    <option disabled={true}>Logik</option>
-                                    <option value={".js"}>JavaScript</option>
-                                    <option value={".ts"}>TypeScript</option>
-                                    <option disabled={true}>Anderes</option>
-                                    <option value={".txt"}>Text</option>
-                                    <option value={".json"}>JSON</option>
-                                    <option value={".xml"}>XML</option>
+                                    <FileExtensionOptions />
                                   </Select>
                                 </FormControl>
                                 <Button type="submit" mt=".6rem">
@@ -703,9 +691,18 @@ function FileEntry(props: {
                             // @ts-ignore
                             e.target.elements.renamenewpath.value;
 
+                          let extension =
+                            // @ts-ignore
+                            e.target.elements.rf_extension.selectedOptions[0]
+                              .value;
+
                           if (!path.startsWith("/")) {
-                            path = `/${path}`;
+                            path = "/" + path;
                           }
+
+                          path = path.replace(/\/\//g, "/");
+
+                          path = path += extension;
 
                           const rDel = await REST.IDE.deleteFile({
                             token: localStorage.getItem("token") as string,
@@ -736,11 +733,21 @@ function FileEntry(props: {
                             <FormLabel>Neuer Pfad</FormLabel>
                             <Input
                               type={"text"}
-                              defaultValue={props.structure.fullPath}
+                              defaultValue={
+                                props.structure.fullPath
+                                  ?.split(".")[0]
+                                  .split("/")[1]
+                              }
                               id={"renamenewpath"}
                               name={"renamenewpath"}
                               placeholder={"Pfad"}
                             />
+                          </FormControl>
+                          <FormControl isRequired mt={".6rem"}>
+                            <FormLabel>Dateiendung</FormLabel>
+                            <Select name={"rf_extension"} id={"rf_extension"}>
+                              <FileExtensionOptions />
+                            </Select>
                           </FormControl>
                           <Button mt={".6rem"} type={"submit"}>
                             Umbenennen
@@ -787,6 +794,26 @@ function FileEntry(props: {
           </ButtonGroup>
         </Box>
       </Flex>
+    </>
+  );
+}
+
+function FileExtensionOptions() {
+  return (
+    <>
+      <option disabled={true}>Struktur</option>
+      <option value={".html"}>HTML</option>
+      <option disabled={true}>Aussehen</option>
+      <option value={".css"}>CSS</option>
+      <option value={".scss"}>SCSS</option>
+      <option value={".sass"}>Sass</option>
+      <option disabled={true}>Logik</option>
+      <option value={".js"}>JavaScript</option>
+      <option value={".ts"}>TypeScript</option>
+      <option disabled={true}>Anderes</option>
+      <option value={".txt"}>Text</option>
+      <option value={".json"}>JSON</option>
+      <option value={".xml"}>XML</option>
     </>
   );
 }
