@@ -82,6 +82,9 @@ export default async function handleRequest(
           return;
         }
 
+        IDEProject.updated_at = Date.now();
+        await IDEProject.save();
+
         const template = await IDETemplateModel.create({
           owner: user._id,
           displayName: req.body.displayName,

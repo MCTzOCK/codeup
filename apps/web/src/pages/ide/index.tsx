@@ -526,10 +526,22 @@ function Create() {
 
 function Open() {
   const [projectList, setProjectList] = useState<
-    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
+    {
+      name: string;
+      id: string;
+      permissions: string[];
+      hasTemplate: boolean;
+      updated_at: string;
+    }[]
   >([]);
   const [filteredProjectList, setFilteredProjectList] = useState<
-    { name: string; id: string; permissions: string[]; hasTemplate: boolean }[]
+    {
+      name: string;
+      id: string;
+      permissions: string[];
+      hasTemplate: boolean;
+      updated_at: string;
+    }[]
   >([]);
   const [query, setQuery] = useState<string>("");
 
@@ -560,6 +572,7 @@ function Open() {
             name: project.name,
             permissions: r.payload.permissions,
             hasTemplate: hasTemplate.payload.hasTemplate,
+            updated_at: project.updated_at,
           });
         }
 
@@ -704,23 +717,35 @@ function Open() {
                           <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
                             <Flex direction={"row"}>
                               <Box flex={"20%"} textAlign={"center"}>
-                                <Link
-                                  href={
-                                    "/ide/project/" +
-                                    project.id +
-                                    "#editor-wrapper-flex"
-                                  }
-                                >
-                                  <NextLink
+                                <Flex direction={"column"}>
+                                  <Link
                                     href={
                                       "/ide/project/" +
                                       project.id +
                                       "#editor-wrapper-flex"
                                     }
+                                    flex={"100%"}
                                   >
-                                    {project.name}
-                                  </NextLink>
-                                </Link>
+                                    <NextLink
+                                      href={
+                                        "/ide/project/" +
+                                        project.id +
+                                        "#editor-wrapper-flex"
+                                      }
+                                    >
+                                      {project.name}
+                                    </NextLink>
+                                  </Link>
+                                  <Text color={"gray.500"} fontSize={"lg"}>
+                                    {new Date(
+                                      project.updated_at
+                                    ).toLocaleDateString()}
+                                    &nbsp;
+                                    {new Date(
+                                      project.updated_at
+                                    ).toLocaleTimeString()}
+                                  </Text>
+                                </Flex>
                               </Box>
                               <Box flex={[0, "60%"]}></Box>
                               <Box
@@ -820,6 +845,7 @@ function Open() {
                                                   name: newName,
                                                   permissions: p.permissions,
                                                   hasTemplate: p.hasTemplate,
+                                                  updated_at: p.updated_at,
                                                 };
                                               } else {
                                                 return p;
@@ -891,20 +917,26 @@ function Open() {
                                             setProjectList([
                                               ...projectList,
                                               {
-                                                id: res.payload.project,
+                                                id: res.payload.project._id,
                                                 name: newName,
                                                 permissions: ["OWNER"],
                                                 hasTemplate: false,
+                                                updated_at:
+                                                  res.payload.project
+                                                    .updated_at,
                                               },
                                             ]);
 
                                             setFilteredProjectList([
                                               ...projectList,
                                               {
-                                                id: res.payload.project,
+                                                id: res.payload.project._id,
                                                 name: newName,
                                                 permissions: ["OWNER"],
                                                 hasTemplate: false,
+                                                updated_at:
+                                                  res.payload.project
+                                                    .updated_at,
                                               },
                                             ]);
                                             setQuery("");
@@ -961,20 +993,26 @@ function Open() {
                                               setProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: res.payload.project,
+                                                  id: res.payload.project._id,
                                                   name: newName,
                                                   permissions: ["OWNER"],
                                                   hasTemplate: false,
+                                                  updated_at:
+                                                    res.payload.project
+                                                      .updated_at,
                                                 },
                                               ]);
 
                                               setFilteredProjectList([
                                                 ...projectList,
                                                 {
-                                                  id: res.payload.project,
+                                                  id: res.payload.project._id,
                                                   name: newName,
                                                   permissions: ["OWNER"],
                                                   hasTemplate: false,
+                                                  updated_at:
+                                                    res.payload.project
+                                                      .updated_at,
                                                 },
                                               ]);
                                               setQuery("");

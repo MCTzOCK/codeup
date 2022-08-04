@@ -78,6 +78,8 @@ export default async function handleRequest(
           );
         }
 
+        IDEProject.updated_at = Date.now();
+
         await IDEProject.save();
 
         res.status(200).json({

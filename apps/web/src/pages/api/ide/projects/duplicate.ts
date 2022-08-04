@@ -74,7 +74,7 @@ export default async function handleRequest(
 
         res.status(200).json({
           success: true,
-          project: DupIDEProject._id,
+          project: DupIDEProject,
         });
       } catch (e: any) {
         res.status(500).json({

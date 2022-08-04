@@ -58,6 +58,15 @@ const IDEProject = new mongoose.Schema({
     required: true,
     default: [{}],
   },
+  updated_at: {
+    type: Date,
+    default: Date.now,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+    immutable: true,
+  },
 });
 
 export default mongoose.models?.IDEProject ||

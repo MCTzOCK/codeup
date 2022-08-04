@@ -76,6 +76,9 @@ export default async function handleRequest(
           return;
         }
 
+        IDEProject.updated_at = Date.now();
+        await IDEProject.save();
+
         await tpl.remove();
 
         res.status(200).json({
