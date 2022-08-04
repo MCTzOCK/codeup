@@ -364,7 +364,8 @@ export default function FileManager(props: {
                             </Box>
                             <Box flex="2%"></Box>
                             <Box flex="83%">
-                              /home/@{userInfo.username}/{props.project?.name}
+                              /home/@{userInfo.username}/code/
+                              {props.project?.name}
                             </Box>
                           </Flex>
                         </Box>
