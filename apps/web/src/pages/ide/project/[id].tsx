@@ -258,30 +258,7 @@ export default function Index() {
 
   useEffect(() => {
     if (saveKeyPress && currentFile) {
-      REST.IDE.saveFile({
-        token: localStorage.getItem("token") as string,
-        projectId: project?._id as string,
-        path: currentFile.path,
-        // @ts-ignore
-        content: editorRef?.current?.getValue(),
-      }).then(async () => {
-        const r = await REST.IDE.getProject({
-          token: localStorage.getItem("token") as string,
-          projectId: project?._id as string,
-        });
-
-        setProject(r.payload.project);
-
-        toast({
-          status: "success",
-          variant: "solid",
-          position: "top",
-          title: "Erfolgreich",
-          description: "Die Datei wurde erfolgreich gespeichert",
-          isClosable: true,
-          duration: 4000,
-        });
-      });
+      save();
     }
   }, [saveKeyPress, currentFile]);
 
@@ -321,6 +298,61 @@ export default function Index() {
   } = useDisclosure();
 
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+
+  const save = async () => {
+    const res = await REST.IDE.saveFile({
+      token: localStorage.getItem("token") as string,
+      path: currentFile?.path as string,
+      content:
+        // @ts-ignore
+        editorRef?.current?.getValue() as string,
+      projectId: project?._id as string,
+    });
+    if (res.status === 200) {
+      let f = project?.files;
+
+      if (f && f.find((p) => p.path === (currentFile?.path as string))) {
+        (
+          f.find((p) => p.path === (currentFile?.path as string)) as {
+            content: string;
+            path: string;
+          }
+        ).content =
+          // @ts-ignore
+          editorRef?.current?.getValue();
+      }
+
+      if (project && f) {
+        setProject({
+          _id: project?._id,
+          contributors: project?.contributors,
+          owner: project?.owner,
+          name: project?.name,
+          files: f,
+        });
+      }
+
+      toast({
+        status: "success",
+        variant: "solid",
+        position: "top",
+        title: "Erfolgreich",
+        description: "Die Datei wurde erfolgreich gespeichert",
+        isClosable: true,
+        duration: 4000,
+      });
+    } else {
+      toast({
+        status: "error",
+        variant: "solid",
+        position: "top",
+        title: "Fehler",
+        description: res.payload.error,
+        isClosable: true,
+        duration: 4000,
+      });
+    }
+  };
 
   return (
     <>
@@ -398,7 +430,8 @@ export default function Index() {
                       p={"2rem"}
                       icon={<FaEye />}
                       rounded={"none"}
-                      onClick={() => {
+                      onClick={async () => {
+                        await save();
                         document.cookie =
                           (("jwt=" + localStorage.getItem("token")) as string) +
                           "; path=/";
@@ -533,73 +566,7 @@ export default function Index() {
                                   <>
                                     <MenuItem
                                       onClick={async () => {
-                                        const res = await REST.IDE.saveFile({
-                                          token: localStorage.getItem(
-                                            "token"
-                                          ) as string,
-                                          path: currentFile?.path as string,
-                                          content:
-                                            // @ts-ignore
-                                            editorRef?.current?.getValue() as string,
-                                          projectId: project?._id as string,
-                                        });
-                                        if (res.status === 200) {
-                                          let f = project?.files;
-
-                                          if (
-                                            f &&
-                                            f.find(
-                                              (p) =>
-                                                p.path ===
-                                                (currentFile?.path as string)
-                                            )
-                                          ) {
-                                            (
-                                              f.find(
-                                                (p) =>
-                                                  p.path ===
-                                                  (currentFile?.path as string)
-                                              ) as {
-                                                content: string;
-                                                path: string;
-                                              }
-                                            ).content =
-                                              // @ts-ignore
-                                              editorRef?.current?.getValue();
-                                          }
-
-                                          if (project && f) {
-                                            setProject({
-                                              _id: project?._id,
-                                              contributors:
-                                                project?.contributors,
-                                              owner: project?.owner,
-                                              name: project?.name,
-                                              files: f,
-                                            });
-                                          }
-
-                                          toast({
-                                            status: "success",
-                                            variant: "solid",
-                                            position: "top",
-                                            title: "Erfolgreich",
-                                            description:
-                                              "Die Datei wurde erfolgreich gespeichert",
-                                            isClosable: true,
-                                            duration: 4000,
-                                          });
-                                        } else {
-                                          toast({
-                                            status: "error",
-                                            variant: "solid",
-                                            position: "top",
-                                            title: "Fehler",
-                                            description: res.payload.error,
-                                            isClosable: true,
-                                            duration: 4000,
-                                          });
-                                        }
+                                        save();
                                       }}
                                     >
                                       Speichern
