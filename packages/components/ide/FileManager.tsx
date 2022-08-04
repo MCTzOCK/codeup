@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import REST from "@codeup/rest";
+import pathsToStructure from "@codeup/util/src/pathsToStructure";
 import {
   Drawer,
   DrawerOverlay,
@@ -56,6 +57,7 @@ import {
 import { FaFile } from "react-icons/fa";
 import { BiRename } from "react-icons/bi";
 import { lookup } from "mime-types";
+import { useEffect, useState } from "react";
 
 export default function FileManager(props: {
   onFileMenuClose: () => void;
@@ -125,6 +127,22 @@ export default function FileManager(props: {
       icon: <FaFile />,
     },
   };
+
+  const [structure, setStructure] = useState<any>([]);
+
+  useEffect(() => {
+    let paths = [];
+
+    if (props.project) {
+      for (const file of props.project.files) {
+        paths.push(file.path);
+      }
+
+      const x = pathsToStructure(paths);
+      console.log(x);
+      setStructure(x);
+    }
+  }, [props.project]);
 
   return (
     <>
@@ -293,249 +311,6 @@ export default function FileManager(props: {
                 </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
-                {props.project?.files
-                  .sort((a, b) => {
-                    let x = a.path.toLowerCase();
-                    let y = b.path.toLowerCase();
-                    return x < y ? -1 : x > y ? 1 : 0;
-                  })
-                  .map((f) => {
-                    return (
-                      <Flex direction="row" p=".4rem" alignItems="center">
-                        <Box flex="5%" fontSize="xl">
-                          {LANGUAGES[f.path.split(".").pop() as string]
-                            ? LANGUAGES[f.path.split(".").pop() as string].icon
-                            : LANGUAGES["_default"].icon}
-                        </Box>
-                        <Box flex="2%"></Box>
-                        <Box flex="83%">{f.path.substring(1)}</Box>
-                        <Box flex="10%">
-                          <ButtonGroup>
-                            {props.permissions.includes("WRITE") ||
-                            props.permissions.includes("OWNER") ? (
-                              <>
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <IconButton
-                                      aria-label="Löschen"
-                                      size="lg"
-                                      fontSize={"xl"}
-                                      icon={<FiTrash2 />}
-                                      variant="ghost"
-                                    />
-                                  </PopoverTrigger>
-                                  <PopoverContent bgColor={"black"}>
-                                    <PopoverArrow bgColor={"black"} />
-                                    <PopoverCloseButton />
-                                    <PopoverHeader>Datei Löschen</PopoverHeader>
-                                    <PopoverBody>
-                                      <Stack>
-                                        <Text>
-                                          Bist du dir sicher, dass du die
-                                          Datei&nbsp;
-                                          <code>{f.path}</code>&nbsp;
-                                          <b>UNWIEDERFLICH</b> löschen möchtest?
-                                        </Text>
-                                        <Button
-                                          variant="solid"
-                                          colorScheme="red"
-                                          mt=".4rem"
-                                          onClick={async () => {
-                                            if (
-                                              props.currentFile?.path === f.path
-                                            ) {
-                                              props.setCurrentFile(null);
-                                            }
-
-                                            const res =
-                                              await REST.IDE.deleteFile({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: props.project
-                                                  ?._id as string,
-                                                path: f.path,
-                                              });
-
-                                            const rPro =
-                                              await REST.IDE.getProject({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: props.project
-                                                  ?._id as string,
-                                              });
-
-                                            props.setProject(
-                                              rPro.payload.project
-                                            );
-                                          }}
-                                        >
-                                          Löschen
-                                        </Button>
-                                      </Stack>
-                                    </PopoverBody>
-                                  </PopoverContent>
-                                </Popover>
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <IconButton
-                                      aria-label="Umbenennen"
-                                      size="lg"
-                                      fontSize={"xl"}
-                                      icon={<BiRename />}
-                                      variant="ghost"
-                                      title={"Umbenennen/Verschieben"}
-                                    />
-                                  </PopoverTrigger>
-                                  <PopoverContent bgColor={"black"}>
-                                    <PopoverArrow bgColor={"black"} />
-                                    <PopoverCloseButton />
-                                    <PopoverHeader>
-                                      Datei umbenennen
-                                    </PopoverHeader>
-                                    <PopoverBody>
-                                      <form
-                                        onSubmit={async (e) => {
-                                          e.preventDefault();
-
-                                          let path =
-                                            // @ts-ignore
-                                            e.target.elements.renamenewpath
-                                              .value;
-
-                                          if (!path.startsWith("/")) {
-                                            path = `/${path}`;
-                                          }
-
-                                          const rDel =
-                                            await REST.IDE.deleteFile({
-                                              token: localStorage.getItem(
-                                                "token"
-                                              ) as string,
-                                              path: f.path,
-                                              projectId: props.project
-                                                ?._id as string,
-                                            });
-
-                                          const rSav = await REST.IDE.saveFile({
-                                            token: localStorage.getItem(
-                                              "token"
-                                            ) as string,
-                                            path,
-                                            content:
-                                              f.content.length > 0
-                                                ? f.content
-                                                : "Pfad: " + f.path,
-                                            projectId: props.project
-                                              ?._id as string,
-                                          });
-
-                                          const rPro =
-                                            await REST.IDE.getProject({
-                                              token: localStorage.getItem(
-                                                "token"
-                                              ) as string,
-                                              projectId: props.project
-                                                ?._id as string,
-                                            });
-
-                                          props.setProject(
-                                            rPro.payload.project
-                                          );
-                                        }}
-                                      >
-                                        <Stack>
-                                          <FormControl>
-                                            <FormLabel>Neuer Pfad</FormLabel>
-                                            <Input
-                                              type={"text"}
-                                              defaultValue={f.path}
-                                              id={"renamenewpath"}
-                                              name={"renamenewpath"}
-                                              placeholder={"Pfad"}
-                                            />
-                                          </FormControl>
-                                          <Button mt={".6rem"} type={"submit"}>
-                                            Umbenennen
-                                          </Button>
-                                        </Stack>
-                                      </form>
-                                    </PopoverBody>
-                                  </PopoverContent>
-                                </Popover>
-                              </>
-                            ) : null}
-
-                            <Tooltip label="Bearbeiten" hasArrow>
-                              <IconButton
-                                aria-label="Bearbeiten"
-                                size="lg"
-                                fontSize={"xl"}
-                                icon={<FiEdit />}
-                                variant="ghost"
-                                onClick={() => {
-                                  props.setSettingsOpen(false);
-
-                                  props.setCurrentFile({
-                                    path: f.path,
-                                    content: f.content,
-                                  });
-                                  // @ts-ignore
-                                  props.editorRef?.current?.setValue(f.content);
-
-                                  props.onFileMenuClose();
-
-                                  // @ts-ignore
-                                  props.monaco.editor.setModelLanguage(
-                                    // @ts-ignore
-                                    props.editorRef?.current?.getModel(),
-                                    LANGUAGES[f.path.split(".").pop() as string]
-                                      ? LANGUAGES[
-                                          f.path.split(".").pop() as string
-                                        ].language
-                                      : LANGUAGES["_default"].language
-                                  );
-                                }}
-                              />
-                            </Tooltip>
-                            <Tooltip label={"Herunterladen"} hasArrow>
-                              <IconButton
-                                aria-label="Datei herunterladen"
-                                size="lg"
-                                fontSize={"2xl"}
-                                icon={<FiDownload />}
-                                variant="ghost"
-                                onClick={() => {
-                                  const element = document.createElement("a");
-                                  element.setAttribute(
-                                    "href",
-                                    "data:" +
-                                      lookup(f.path) +
-                                      ";charset=utf-8," +
-                                      encodeURIComponent(f.content)
-                                  );
-                                  element.setAttribute(
-                                    "download",
-                                    f.path.split("/")[
-                                      f.path.split("/").length - 1
-                                    ]
-                                  );
-
-                                  element.style.display = "none";
-                                  document.body.appendChild(element);
-
-                                  element.click();
-
-                                  document.body.removeChild(element);
-                                }}
-                              />
-                            </Tooltip>
-                          </ButtonGroup>
-                        </Box>
-                      </Flex>
-                    );
-                  })}
                 {(props.project?.files?.length as number) < 1 ? (
                   <>
                     Dieses Projekt beinhaltet keine Dateien. Erstelle die erste
