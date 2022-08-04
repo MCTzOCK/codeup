@@ -321,18 +321,27 @@ export default function FileManager(props: {
                 </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
-                <Accordion allowMultiple allowToggle borderColor={"gray.900"}>
+                <Accordion
+                  allowMultiple
+                  allowToggle
+                  borderColor={"gray.900"}
+                  defaultIndex={[0]}
+                >
                   <AccordionItem borderWidth={0}>
                     <h2>
                       <AccordionButton>
                         <Box flex="1" textAlign="left">
-                          <Flex direction="row" p=".4rem" alignItems="center">
+                          <Flex direction="row" alignItems="center">
                             <Box flex="5%" fontSize="xl">
                               <FaHome />
                             </Box>
                             <Box flex="2%"></Box>
                             <Box flex="83%">
-                              /home/@{userInfo.username}/{props.project?.name}
+                              /home/@{userInfo.username}/{props.project?.name}@
+                              {
+                                // @ts-ignore
+                                props.project?.__v
+                              }
                             </Box>
                           </Flex>
                         </Box>
@@ -402,7 +411,7 @@ function getFileComponentTree(
                 <h2>
                   <AccordionButton>
                     <Box flex={"1"} textAlign={"left"}>
-                      <Flex direction="row" p=".4rem" alignItems="center">
+                      <Flex direction="row" alignItems="center">
                         <Box flex="5%" fontSize="xl">
                           <FaFolder />
                         </Box>
@@ -479,7 +488,7 @@ function getFileComponentTree(
               <h2>
                 <AccordionButton>
                   <Box flex={"1"} textAlign={"left"}>
-                    <Flex direction="row" p=".4rem" alignItems="center">
+                    <Flex direction="row" alignItems="center">
                       <Box flex="5%" fontSize="xl">
                         <FaFolder />
                       </Box>
@@ -541,7 +550,6 @@ function FileEntry(props: {
     <>
       <Flex
         direction="row"
-        p=".4rem"
         alignItems="center"
         // @ts-ignore
         ref={hoverRef}
