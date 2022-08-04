@@ -43,6 +43,7 @@ import {
   Tooltip,
   useToast,
   Stack,
+  Select,
   Text,
   Link,
 } from "@chakra-ui/react";
@@ -198,9 +199,18 @@ export default function FileManager(props: {
                                     // @ts-ignore
                                     e.target.elements.newfilepath.value.toLowerCase();
 
+                                  let extension =
+                                    // @ts-ignore
+                                    e.target.elements.nf_extension
+                                      .selectedOptions[0].value;
+
                                   if (!path.startsWith("/")) {
                                     path = "/" + path;
                                   }
+
+                                  path = path.replace(/\/\//g, "/");
+
+                                  path = path += extension;
 
                                   if (
                                     props.project?.files.find(
@@ -258,7 +268,7 @@ export default function FileManager(props: {
                                   }
                                 }}
                               >
-                                <FormControl>
+                                <FormControl isRequired>
                                   <FormLabel>Pfad</FormLabel>
                                   <Input
                                     type="text"
@@ -266,6 +276,24 @@ export default function FileManager(props: {
                                     id="newfilepath"
                                     placeholder="Pfad"
                                   />
+                                </FormControl>
+                                <FormControl isRequired mt={".6rem"}>
+                                  <FormLabel>Dateiendung</FormLabel>
+                                  <Select name="nf_extension" id="nf_extension">
+                                    <option disabled={true}>Struktur</option>
+                                    <option value={".html"}>HTML</option>
+                                    <option disabled={true}>Aussehen</option>
+                                    <option value={".css"}>CSS</option>
+                                    <option value={".scss"}>SCSS</option>
+                                    <option value={".sass"}>Sass</option>
+                                    <option disabled={true}>Logik</option>
+                                    <option value={".js"}>JavaScript</option>
+                                    <option value={".ts"}>TypeScript</option>
+                                    <option disabled={true}>Anderes</option>
+                                    <option value={".txt"}>Text</option>
+                                    <option value={".json"}>JSON</option>
+                                    <option value={".xml"}>XML</option>
+                                  </Select>
                                 </FormControl>
                                 <Button type="submit" mt=".6rem">
                                   Erstellen
@@ -337,11 +365,7 @@ export default function FileManager(props: {
                             </Box>
                             <Box flex="2%"></Box>
                             <Box flex="83%">
-                              /home/@{userInfo.username}/{props.project?.name}@
-                              {
-                                // @ts-ignore
-                                props.project?.__v
-                              }
+                              /home/@{userInfo.username}/{props.project?.name}
                             </Box>
                           </Flex>
                         </Box>
