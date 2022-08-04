@@ -87,7 +87,11 @@ export default async function handleRequest(
         if (req.body.minimal) {
           let t: any[] = [];
           projects.map((project) => {
-            t.push({ name: project.name, id: project._id });
+            t.push({
+              name: project.name,
+              id: project._id,
+              updated_at: project.updated_at,
+            });
           });
           res.status(200).json({
             success: true,
