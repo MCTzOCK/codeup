@@ -148,7 +148,6 @@ export default function FileManager(props: {
       }
 
       const x = pathsToStructure(paths, contents);
-      console.log(x);
       setStructure(x);
     }
   }, [props.project]);
