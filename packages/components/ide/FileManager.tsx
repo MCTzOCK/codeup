@@ -9,55 +9,50 @@
  */
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import pathsToStructure from "@codeup/util/src/pathsToStructure";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  ButtonGroup,
   Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerHeader,
   DrawerBody,
   DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
-  ButtonGroup,
-  Popover,
-  PopoverTrigger,
-  IconButton,
-  Box,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  useToast,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
-  Button,
-  Stack,
-  Text,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Tooltip,
-  DrawerFooter,
+  useToast,
 } from "@chakra-ui/react";
+import { FiFilePlus, FiUpload } from "react-icons/fi";
 import {
-  FiFilePlus,
-  FiTrash2,
-  FiEdit,
-  FiUpload,
-  FiDownload,
-} from "react-icons/fi";
-import {
-  SiMarkdown,
-  SiJavascript,
-  SiHtml5,
   SiCss3,
-  SiTypescript,
+  SiHtml5,
+  SiJavascript,
+  SiMarkdown,
   SiSass,
+  SiTypescript,
 } from "react-icons/si";
 import { FaFile } from "react-icons/fa";
-import { BiRename } from "react-icons/bi";
-import { lookup } from "mime-types";
-import { useEffect, useState } from "react";
 
 export default function FileManager(props: {
   onFileMenuClose: () => void;
@@ -311,6 +306,7 @@ export default function FileManager(props: {
                 </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
+                {getFileComponentTree(structure)}
                 {(props.project?.files?.length as number) < 1 ? (
                   <>
                     Dieses Projekt beinhaltet keine Dateien. Erstelle die erste
@@ -330,4 +326,76 @@ export default function FileManager(props: {
       </Drawer>
     </>
   );
+}
+
+function getFileComponentTree(structure: any) {
+  if (structure && structure[0] && structure[0].children) {
+    const r = [<></>];
+
+    structure[0].children.map((x: any) => {
+      if (x.children.length > 0) {
+        r.push(
+          <>
+            <Accordion allowMultiple defaultIndex={[0]} mt={"1.2rem"}>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex={"1"} textAlign={"left"}>
+                      {x.name}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  {x.children.map((y: any) => {
+                    console.log(y);
+                    return getFileComponentTree(y);
+                  })}
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </>
+        );
+      } else {
+        r.push(
+          <Button variant={"ghost"} mt={"1.2rem"}>
+            {x.name}
+          </Button>
+        );
+      }
+    });
+
+    return r;
+  } else {
+    if (structure.name && structure.children.length < 1) {
+      return (
+        <Button variant={"ghost"} mt={"1.2rem"}>
+          {structure.name}
+        </Button>
+      );
+    } else {
+      return (
+        <>
+          <Accordion allowMultiple defaultIndex={[0]} mt={"1.2rem"}>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex={"1"} textAlign={"left"}>
+                    {structure.name}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                {structure.children.map((y: any) => {
+                  return getFileComponentTree(y);
+                })}
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </>
+      );
+    }
+    return <>1</>;
+  }
 }
