@@ -42,8 +42,17 @@ import {
   PopoverTrigger,
   Tooltip,
   useToast,
+  Stack,
+  Text,
+  Link,
 } from "@chakra-ui/react";
-import { FiFilePlus, FiUpload } from "react-icons/fi";
+import {
+  FiDownload,
+  FiEdit,
+  FiFilePlus,
+  FiUpload,
+  FiTrash2,
+} from "react-icons/fi";
 import {
   SiCss3,
   SiHtml5,
@@ -52,7 +61,10 @@ import {
   SiSass,
   SiTypescript,
 } from "react-icons/si";
-import { FaFile } from "react-icons/fa";
+import { FaFile, FaFolder, FaHome } from "react-icons/fa";
+import { BiRename } from "react-icons/bi";
+import { lookup } from "mime-types";
+import { useHover, useUserInfo } from "@codeup/hooks";
 
 export default function FileManager(props: {
   onFileMenuClose: () => void;
@@ -126,18 +138,21 @@ export default function FileManager(props: {
   const [structure, setStructure] = useState<any>([]);
 
   useEffect(() => {
-    let paths = [];
-
     if (props.project) {
+      let paths = [];
+      let contents: { [path: string]: string } = {};
       for (const file of props.project.files) {
         paths.push(file.path);
+        contents[file.path] = file.content;
       }
 
-      const x = pathsToStructure(paths);
+      const x = pathsToStructure(paths, contents);
       console.log(x);
       setStructure(x);
     }
   }, [props.project]);
+
+  const userInfo = useUserInfo();
 
   return (
     <>
@@ -306,7 +321,41 @@ export default function FileManager(props: {
                 </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
-                {getFileComponentTree(structure)}
+                <Accordion allowMultiple allowToggle borderColor={"gray.900"}>
+                  <AccordionItem borderWidth={0}>
+                    <h2>
+                      <AccordionButton>
+                        <Box flex="1" textAlign="left">
+                          <Flex direction="row" p=".4rem" alignItems="center">
+                            <Box flex="5%" fontSize="xl">
+                              <FaHome />
+                            </Box>
+                            <Box flex="2%"></Box>
+                            <Box flex="83%">
+                              /home/@{userInfo.username}/{props.project?.name}
+                            </Box>
+                          </Flex>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel>
+                      {getFileComponentTree(
+                        structure,
+                        LANGUAGES,
+                        props.permissions,
+                        props.currentFile,
+                        props.setCurrentFile,
+                        props.project,
+                        props.setProject,
+                        props.onFileMenuClose,
+                        props.editorRef,
+                        props.monaco,
+                        props.setSettingsOpen
+                      )}
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
                 {(props.project?.files?.length as number) < 1 ? (
                   <>
                     Dieses Projekt beinhaltet keine Dateien. Erstelle die erste
@@ -328,7 +377,19 @@ export default function FileManager(props: {
   );
 }
 
-function getFileComponentTree(structure: any) {
+function getFileComponentTree(
+  structure: any,
+  LANGUAGES: any,
+  permissions: string[],
+  currentFile: any,
+  setCurrentFile: (cf: any) => void,
+  project: any,
+  setProject: (cf: any) => void,
+  onFileMenuClose: () => void,
+  editorRef: any,
+  monaco: any,
+  setSettingsOpen: (b: boolean) => void
+) {
   if (structure && structure[0] && structure[0].children) {
     const r = [<></>];
 
@@ -336,20 +397,37 @@ function getFileComponentTree(structure: any) {
       if (x.children.length > 0) {
         r.push(
           <>
-            <Accordion allowMultiple defaultIndex={[0]} mt={"1.2rem"}>
-              <AccordionItem>
+            <Accordion allowMultiple allowToggle>
+              <AccordionItem borderWidth={"0"} borderColor={"gray.900"}>
                 <h2>
                   <AccordionButton>
                     <Box flex={"1"} textAlign={"left"}>
-                      {x.name}
+                      <Flex direction="row" p=".4rem" alignItems="center">
+                        <Box flex="5%" fontSize="xl">
+                          <FaFolder />
+                        </Box>
+                        <Box flex="2%"></Box>
+                        <Box flex="83%">{x.name}</Box>
+                      </Flex>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
                   {x.children.map((y: any) => {
-                    console.log(y);
-                    return getFileComponentTree(y);
+                    return getFileComponentTree(
+                      y,
+                      LANGUAGES,
+                      permissions,
+                      currentFile,
+                      setCurrentFile,
+                      project,
+                      setProject,
+                      onFileMenuClose,
+                      editorRef,
+                      monaco,
+                      setSettingsOpen
+                    );
                   })}
                 </AccordionPanel>
               </AccordionItem>
@@ -358,9 +436,19 @@ function getFileComponentTree(structure: any) {
         );
       } else {
         r.push(
-          <Button variant={"ghost"} mt={"1.2rem"}>
-            {x.name}
-          </Button>
+          <FileEntry
+            structure={x}
+            LANGUAGES={LANGUAGES}
+            permissions={permissions}
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            project={project}
+            setProject={setProject}
+            onFileMenuClose={onFileMenuClose}
+            editorRef={editorRef}
+            monaco={monaco}
+            setSettingsOpen={setSettingsOpen}
+          />
         );
       }
     });
@@ -369,33 +457,300 @@ function getFileComponentTree(structure: any) {
   } else {
     if (structure.name && structure.children.length < 1) {
       return (
-        <Button variant={"ghost"} mt={"1.2rem"}>
-          {structure.name}
-        </Button>
+        <FileEntry
+          structure={structure}
+          LANGUAGES={LANGUAGES}
+          permissions={permissions}
+          currentFile={currentFile}
+          setCurrentFile={setCurrentFile}
+          project={project}
+          setProject={setProject}
+          onFileMenuClose={onFileMenuClose}
+          editorRef={editorRef}
+          monaco={monaco}
+          setSettingsOpen={setSettingsOpen}
+        />
       );
     } else {
       return (
         <>
-          <Accordion allowMultiple defaultIndex={[0]} mt={"1.2rem"}>
-            <AccordionItem>
+          <Accordion allowMultiple allowToggle>
+            <AccordionItem borderWidth={"0"} borderColor={"gray.900"}>
               <h2>
                 <AccordionButton>
                   <Box flex={"1"} textAlign={"left"}>
-                    {structure.name}
+                    <Flex direction="row" p=".4rem" alignItems="center">
+                      <Box flex="5%" fontSize="xl">
+                        <FaFolder />
+                      </Box>
+                      <Box flex="2%"></Box>
+                      <Box flex="83%">{structure.name}</Box>
+                    </Flex>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                {structure.children.map((y: any) => {
-                  return getFileComponentTree(y);
-                })}
+                {structure.children && structure.children.map
+                  ? structure.children.map((y: any) => {
+                      return getFileComponentTree(
+                        y,
+                        LANGUAGES,
+                        permissions,
+                        currentFile,
+                        setCurrentFile,
+                        project,
+                        setProject,
+                        onFileMenuClose,
+                        editorRef,
+                        monaco,
+                        setSettingsOpen
+                      );
+                    })
+                  : null}
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
         </>
       );
     }
-    return <>1</>;
   }
+}
+
+function FileEntry(props: {
+  structure: {
+    name: string;
+    children?: any[];
+    fullPath: string;
+    contents: string;
+  };
+  LANGUAGES: any;
+  permissions: string[];
+  currentFile: any;
+  setCurrentFile: (cf: any) => void;
+  project: any;
+  setProject: (cf: any) => void;
+  editorRef: any;
+  monaco: any;
+  onFileMenuClose: () => void;
+  setSettingsOpen: (b: boolean) => void;
+}) {
+  const [hoverRef, isHovering] = useHover();
+
+  return (
+    <>
+      <Flex
+        direction="row"
+        p=".4rem"
+        alignItems="center"
+        // @ts-ignore
+        ref={hoverRef}
+      >
+        <Box flex="5%" fontSize="xl">
+          {props.LANGUAGES[props.structure.name.split(".").pop() as string]
+            ? props.LANGUAGES[props.structure.name.split(".").pop() as string]
+                .icon
+            : props.LANGUAGES["_default"].icon}
+        </Box>
+        <Box flex="2%"></Box>
+        <Box
+          flex="83%"
+          onClick={() => {
+            props.setSettingsOpen(false);
+
+            props.setCurrentFile({
+              path: props.structure.fullPath,
+              content: props.structure.contents,
+            });
+            // @ts-ignore
+            props.editorRef?.current?.setValue(props.structure.contents);
+
+            props.onFileMenuClose();
+
+            // @ts-ignore
+            props.monaco.editor.setModelLanguage(
+              // @ts-ignore
+              props.editorRef?.current?.getModel(),
+              props.LANGUAGES[
+                props.structure.fullPath.split(".").pop() as string
+              ]
+                ? props.LANGUAGES[
+                    props.structure.fullPath.split(".").pop() as string
+                  ].language
+                : props.LANGUAGES["_default"].language
+            );
+          }}
+        >
+          <Stack>
+            <Link w={"100%"}>{props.structure.name}</Link>
+          </Stack>
+        </Box>
+        <Box flex="10%" visibility={isHovering ? "visible" : "hidden"}>
+          <ButtonGroup>
+            {props.permissions.includes("WRITE") ||
+            props.permissions.includes("OWNER") ? (
+              <>
+                <Popover>
+                  <PopoverTrigger>
+                    <IconButton
+                      aria-label="Löschen"
+                      size="lg"
+                      fontSize={"xl"}
+                      icon={<FiTrash2 />}
+                      variant="ghost"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent bgColor={"black"}>
+                    <PopoverArrow bgColor={"black"} />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Datei Löschen</PopoverHeader>
+                    <PopoverBody>
+                      <Stack>
+                        <Text>
+                          Bist du dir sicher, dass du die Datei&nbsp;
+                          <code>{props.structure.fullPath}</code>&nbsp;
+                          <b>UNWIEDERFLICH</b> löschen möchtest?
+                        </Text>
+                        <Button
+                          variant="solid"
+                          colorScheme="red"
+                          mt=".4rem"
+                          onClick={async () => {
+                            if (
+                              props.currentFile?.path ===
+                              props.structure.fullPath
+                            ) {
+                              props.setCurrentFile(null);
+                            }
+
+                            const res = await REST.IDE.deleteFile({
+                              token: localStorage.getItem("token") as string,
+                              projectId: props.project?._id as string,
+                              path: props.structure.fullPath,
+                            });
+
+                            const rPro = await REST.IDE.getProject({
+                              token: localStorage.getItem("token") as string,
+                              projectId: props.project?._id as string,
+                            });
+
+                            props.setProject(rPro.payload.project);
+                          }}
+                        >
+                          Löschen
+                        </Button>
+                      </Stack>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+                <Popover>
+                  <PopoverTrigger>
+                    <IconButton
+                      aria-label="Umbenennen"
+                      size="lg"
+                      fontSize={"xl"}
+                      icon={<BiRename />}
+                      variant="ghost"
+                      title={"Umbenennen/Verschieben"}
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent bgColor={"black"}>
+                    <PopoverArrow bgColor={"black"} />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Datei umbenennen</PopoverHeader>
+                    <PopoverBody>
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+
+                          let path =
+                            // @ts-ignore
+                            e.target.elements.renamenewpath.value;
+
+                          if (!path.startsWith("/")) {
+                            path = `/${path}`;
+                          }
+
+                          const rDel = await REST.IDE.deleteFile({
+                            token: localStorage.getItem("token") as string,
+                            path: props.structure.fullPath,
+                            projectId: props.project?._id as string,
+                          });
+
+                          const rSav = await REST.IDE.saveFile({
+                            token: localStorage.getItem("token") as string,
+                            path,
+                            content:
+                              props.structure.contents.length > 0
+                                ? props.structure.contents
+                                : "Pfad: " + props.structure.fullPath,
+                            projectId: props.project?._id as string,
+                          });
+
+                          const rPro = await REST.IDE.getProject({
+                            token: localStorage.getItem("token") as string,
+                            projectId: props.project?._id as string,
+                          });
+
+                          props.setProject(rPro.payload.project);
+                        }}
+                      >
+                        <Stack>
+                          <FormControl>
+                            <FormLabel>Neuer Pfad</FormLabel>
+                            <Input
+                              type={"text"}
+                              defaultValue={props.structure.fullPath}
+                              id={"renamenewpath"}
+                              name={"renamenewpath"}
+                              placeholder={"Pfad"}
+                            />
+                          </FormControl>
+                          <Button mt={".6rem"} type={"submit"}>
+                            Umbenennen
+                          </Button>
+                        </Stack>
+                      </form>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              </>
+            ) : null}
+            <Tooltip label={"Herunterladen"} hasArrow>
+              <IconButton
+                aria-label="Datei herunterladen"
+                size="lg"
+                fontSize={"2xl"}
+                icon={<FiDownload />}
+                variant="ghost"
+                onClick={() => {
+                  const element = document.createElement("a");
+                  element.setAttribute(
+                    "href",
+                    "data:" +
+                      lookup(props.structure.fullPath) +
+                      ";charset=utf-8," +
+                      encodeURIComponent(props.structure.contents)
+                  );
+                  element.setAttribute(
+                    "download",
+                    props.structure.fullPath.split("/")[
+                      props.structure.fullPath.split("/").length - 1
+                    ]
+                  );
+
+                  element.style.display = "none";
+                  document.body.appendChild(element);
+
+                  element.click();
+
+                  document.body.removeChild(element);
+                }}
+              />
+            </Tooltip>
+          </ButtonGroup>
+        </Box>
+      </Flex>
+    </>
+  );
 }

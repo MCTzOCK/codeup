@@ -8,7 +8,10 @@
  *
  */
 
-export default function pathsToStructure(paths: string[]) {
+export default function pathsToStructure(
+  paths: string[],
+  contents: { [path: string]: string }
+) {
   let result: any = [];
   let level = { result };
 
@@ -16,13 +19,18 @@ export default function pathsToStructure(paths: string[]) {
     path.split("/").reduce((r: any, name: any, i: any, a: any) => {
       if (!r[name]) {
         r[name] = { result: [] };
-        r.result.push({ name, children: r[name].result });
+        r.result.push({
+          name,
+          children: r[name].result,
+          fullPath: path,
+          contents: contents[path],
+        });
       }
       return r[name];
     }, level);
   }
 
-  result[0].name = "/home/runner";
+  result[0].name = "/root";
 
   return result;
 }
