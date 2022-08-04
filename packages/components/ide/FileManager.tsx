@@ -435,7 +435,11 @@ function getFileComponentTree(
                 <h2>
                   <AccordionButton>
                     <Box flex={"1"} textAlign={"left"}>
-                      <Flex direction="row" alignItems="center">
+                      <Flex
+                        direction="row"
+                        alignItems="center"
+                        justifyContent={"left"}
+                      >
                         <Box flex="5%" fontSize="xl">
                           <FaFolder />
                         </Box>
