@@ -28,6 +28,7 @@ export default function redirect(options: {
       }
     } catch (e) {
       localStorage.removeItem("token");
+      document.cookie = "jwt=;path=/";
       if (!options.allowAnonymous) {
         if (options.redirectToLogin) {
           window.location.href = `/account/login${

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import { useHasProfile } from "@codeup/hooks";
 import { PostCard } from "@codeup/components/community/post";
+import REST from "@codeup/rest";
 
 export default function PostView() {
   const router = useRouter();
@@ -34,30 +35,25 @@ export default function PostView() {
 
   useEffect(() => {
     if (id) {
-      fetch("/api/community/post/" + id, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data.success) {
-            if (data.post.parent !== null) {
-              router.push("/community/post/" + data.post.parent);
+      if (typeof id === "string") {
+        REST.Community.getPost(id).then((res) => {
+          if (res.payload.success) {
+            if (res.payload.post.parent !== null) {
+              router.push("/community/post/" + res.payload.post.parent);
               return;
             }
-            setReplies(data.post.comments.reverse());
+            setReplies(res.payload.post.comments.reverse());
           } else {
             toast({
               title: "Fehler",
-              description: data.error,
+              description: res.payload.error,
               status: "error",
               duration: 9000,
               position: "top",
             });
           }
         });
-      });
+      }
     }
   }, [router, id, toast]);
 

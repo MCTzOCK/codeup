@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import { useHasProfile } from "@codeup/hooks";
+import REST from "@codeup/rest";
 
 export default function Create() {
   const hasProfile = useHasProfile();
@@ -78,30 +79,22 @@ export default function Create() {
               // @ts-ignore
               const bio = e.target.elements.bio.value;
 
-              fetch("/api/community/profile/create", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  displayName,
-                  bio,
-                  token: localStorage.getItem("token"),
-                }),
+              REST.Community.createProfile({
+                displayName,
+                biography: bio,
+                token: localStorage.getItem("token") as string,
               }).then((res) => {
-                res.json().then((data) => {
-                  if (data.success) {
-                    toast({
-                      title: "Erfolg",
-                      description: "Dein Profil wurde erstellt.",
-                      status: "success",
-                      duration: 3000,
-                      onCloseComplete: () => {
-                        window.location.href = "/community";
-                      },
-                    });
-                  }
-                });
+                if (res.payload.success) {
+                  toast({
+                    title: "Erfolg",
+                    description: "Dein Profil wurde erstellt.",
+                    status: "success",
+                    duration: 3000,
+                    onCloseComplete: () => {
+                      window.location.href = "/community";
+                    },
+                  });
+                }
               });
             }}
           >

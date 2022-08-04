@@ -16,6 +16,7 @@ export default function Logout() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       localStorage.removeItem("token");
+      document.cookie = "jwt=;path=/";
     }
     window.location.href = "/";
   }, []);

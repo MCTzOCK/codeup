@@ -1,0 +1,129 @@
+/**
+ * apps/web/src/pages/api/ide/projects/[id]/preview/[[...path]].tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 17.07.2022
+ *
+ */
+
+import { NextApiRequest, NextApiResponse } from "next";
+import mongoConnect from "@codeup/util/src/mongo";
+import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
+import UserModel from "@codeup/util/src/models/UserModel";
+import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
+import * as ts from "typescript";
+import * as sass from "sass";
+import { lookup as mimeLookup } from "mime-types";
+
+export default async function handleRequest(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  let path = (req.query.path as string[])?.join("/") || "/index.html";
+
+  if (!path.startsWith("/")) {
+    path = "/" + path;
+  }
+  if (req.method !== "GET") {
+    res.status(405).json({
+      error: "Method not allowed",
+    });
+    return;
+  }
+
+  if (!req.query.id || !req.cookies.jwt) {
+    res.status(400).json({
+      error: "Missing required fields",
+    });
+    return;
+  }
+
+  jwt.verify(
+    req.cookies.jwt as string,
+    process.env.JWT_SECRET as string,
+    async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
+      await mongoConnect();
+
+      try {
+        const user = await UserModel.findById((decoded as any).id);
+
+        if (!user) {
+          res.status(400).json({
+            error: "Invalid token",
+          });
+          return;
+        }
+
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
+
+        if (!IDEProject) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("READ")
+          )
+        ) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        const file = IDEProject.files.find(
+          (f: any) => f.path.toLowerCase() === path.toLowerCase()
+        );
+
+        if (!file) {
+          res.status(404).write("Not Found");
+          res.end();
+          return;
+        }
+
+        let ret = file.content;
+
+        if (file.path.toLowerCase().endsWith(".ts")) {
+          ret = ts.transpileModule(ret, {
+            compilerOptions: {
+              module: ts.ModuleKind.ESNext,
+            },
+          }).outputText;
+        }
+
+        if (
+          file.path.toLowerCase().endsWith(".scss") ||
+          file.path.toLowerCase().endsWith(".sass")
+        ) {
+          ret = sass.compileString(file.content, {
+            syntax: file.path.toLowerCase().endsWith(".scss")
+              ? "scss"
+              : "indented",
+          }).css;
+        }
+
+        res.setHeader(
+          "Content-Type",
+          mimeLookup(file.path.toLowerCase()) as string
+        );
+
+        res.status(200).write(ret);
+
+        res.end();
+      } catch (e: any) {
+        res.status(500).json({
+          error: e.message,
+        });
+      }
+    }
+  );
+}

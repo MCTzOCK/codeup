@@ -17,6 +17,7 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { PostCard } from "@codeup/components/community/post";
+import REST from "@codeup/rest";
 
 export default function CommunityHome() {
   useEffect(() => {
@@ -76,7 +77,8 @@ function ProfileCreatorHero() {
             fontWeight={"normal"}
             mt={"1.2rem"}
           >
-            Erstelle dein Profile um deine Fähigkeiten zu teilen und Rückmeldung von anderen zu erhalten!
+            Erstelle dein Profile um deine Fähigkeiten zu teilen und Rückmeldung
+            von anderen zu erhalten!
           </Text>
         </Heading>
       </Flex>
@@ -97,22 +99,13 @@ function CommunityFeed() {
   useEffect(() => {
     let origPosts = postIds;
 
-    fetch(
-      "/api/community/feed?from=" +
-        currentRange.from +
-        "&to=" +
-        currentRange.to +
-        "&idsOnly=true&noReplies=true",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => {
-      res.json().then((data) => {
-        setPostIds(origPosts.concat(data.posts));
-      });
+    REST.Community.getFeed({
+      from: currentRange.from,
+      to: currentRange.to,
+      idsOnly: true,
+      noReplies: true,
+    }).then((res) => {
+      setPostIds(res.payload.posts);
     });
   }, [currentRange]);
 

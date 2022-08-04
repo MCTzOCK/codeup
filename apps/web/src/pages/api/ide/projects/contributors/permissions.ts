@@ -27,7 +27,7 @@ export default async function handleRequest(
 
   if (
     !req.body ||
-    !req.body.token ||
+    !req.headers["x-jwt"] ||
     !req.body.project ||
     !req.body.contributor ||
     !req.body.permissions
@@ -39,7 +39,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();

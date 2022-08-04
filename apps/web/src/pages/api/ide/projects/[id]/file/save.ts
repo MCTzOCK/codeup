@@ -1,10 +1,10 @@
 /**
- * apps/web/src/pages/api/ide/projects/permissions.ts
+ * apps/web/src/pages/api/ide/projects/[id]/file/save.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 07.07.2022
+ * Created At: 20.07.2022
  *
  */
 
@@ -25,7 +25,13 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.project) {
+  if (
+    !req.body ||
+    !req.headers["x-jwt"] ||
+    !req.query.id ||
+    !req.body.path ||
+    !req.body.content
+  ) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,7 +39,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
@@ -43,12 +49,12 @@ export default async function handleRequest(
 
         if (!user) {
           res.status(400).json({
-            error: "User not found",
+            error: "Invalid token",
           });
           return;
         }
 
-        const IDEProject = await IDEProjectModel.findById(req.body.project);
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
 
         if (!IDEProject) {
           res.status(400).json({
@@ -57,31 +63,41 @@ export default async function handleRequest(
           return;
         }
 
-        if (IDEProject.owner.equals(user._id)) {
-          res.status(200).json({
-            success: true,
-            permissions: ["OWNER"],
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("WRITE")
+          )
+        ) {
+          res.status(400).json({
+            error: "Project not found",
           });
           return;
         }
 
-        if (IDEProject.contributors.find((c: any) => c.user.equals(user._id))) {
+        if (IDEProject.files.find((f: any) => f.path === req.body.path)) {
+          IDEProject.files.find((f: any) => f.path === req.body.path).content =
+            req.body.content;
+          await IDEProject.save();
           res.status(200).json({
             success: true,
-            permissions: [
-              ...IDEProject.contributors.find((c: any) =>
-                c.user.equals(user._id)
-              ).permissions,
-            ],
           });
           return;
         }
+
+        IDEProject.files.push({
+          path: req.body.path,
+          content: req.body.content,
+        });
+
+        await IDEProject.save();
 
         res.status(200).json({
           success: true,
-          permissions: [],
         });
-        return;
       } catch (e: any) {
         res.status(500).json({
           error: e.message,

@@ -29,22 +29,40 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Text,
   useDisclosure,
   useMediaQuery,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserInfo } from "@codeup/hooks";
 import Link from "next/link";
 import { AiFillCaretDown } from "react-icons/ai";
+import { ReactNode } from "react";
+import { FaComment } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { BiCodeAlt } from "react-icons/bi";
+import { TbCertificate } from "react-icons/tb";
+import { HiLightBulb } from "react-icons/hi";
+import {
+  BsCheck2Square,
+  BsFillCalendar2WeekFill,
+  BsGlobe,
+} from "react-icons/bs";
 
 export default function NavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const userInfo = useUserInfo();
-
   const router = useRouter();
+
+  const {
+    isOpen: isMoreMenuOpen,
+    onOpen: onMoreMenuOpen,
+    onClose: onMoreMenuClose,
+  } = useDisclosure();
+
+  const userInfo = useUserInfo();
 
   const Menu = () => {
     return (
@@ -59,73 +77,14 @@ export default function NavigationBar() {
             Kurse
           </Button>
         </Link>
-        <Popover>
-          <PopoverTrigger>
-            <Button
-              variant={"ghost"}
-              size={"lg"}
-              rightIcon={<AiFillCaretDown />}
-            >
-              Mehr
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent bg={"black"}>
-            <PopoverArrow />
-            <PopoverBody>
-              <Flex w={"100%"} direction={"row"}>
-                <Flex flex={"100%"} direction={"column"}>
-                  <Link href={"/community"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Forum
-                    </Button>
-                  </Link>
-                  <Link href={"/ide"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      IDE (Editor)
-                    </Button>
-                  </Link>
-                  <Link href={"/hackathons"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Hackathons
-                    </Button>
-                  </Link>
-                  <Link href={"/challenges"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Challenges
-                    </Button>
-                  </Link>
-                  <Link href={"/certificates"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Zertifikate
-                    </Button>
-                  </Link>
-                </Flex>
-                <Flex flex={"100%"} direction={"column"}>
-                  <Link href={"/extra/project-ideas"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Projektideen
-                    </Button>
-                  </Link>
-                  <Link href={"/todo"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      ToDo Listen
-                    </Button>
-                  </Link>
-                  <Link href={"/calendar"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Kalender
-                    </Button>
-                  </Link>
-                  <Link href={"/hosting"}>
-                    <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                      Hosting
-                    </Button>
-                  </Link>
-                </Flex>
-              </Flex>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+        <Button
+          variant={"ghost"}
+          size={"lg"}
+          rightIcon={<AiFillCaretDown />}
+          onClick={onMoreMenuOpen}
+        >
+          Mehr
+        </Button>
         {userInfo.id !== "" ? (
           <>
             <Popover>
@@ -165,6 +124,48 @@ export default function NavigationBar() {
             </Popover>
           </>
         ) : null}
+      </>
+    );
+  };
+
+  const ExpandedMenuOption = (props: {
+    name: string;
+    description: string;
+    icon: any;
+    url: string;
+  }) => {
+    return (
+      <>
+        <Box
+          padding={".8rem"}
+          maxW={400}
+          rounded={"xl"}
+          _hover={{
+            backgroundColor: "whiteAlpha.200",
+          }}
+          _active={{
+            backgroundColor: "whiteAlpha.300",
+          }}
+          cursor={"pointer"}
+          transition={"200ms"}
+          onClick={async () => {
+            await onMoreMenuClose();
+            await onClose();
+            await router.push(props.url);
+          }}
+        >
+          <Flex direction={"row"} w={"100%"} alignItems={"center"} h={"100%"}>
+            <Box flex={"10%"}>
+              <Heading color={"white"}>{props.icon}</Heading>
+            </Box>
+            <Box flex={"80%"}>
+              <Flex w={"100%"} direction={"column"}>
+                <Heading size={"lg"}>{props.name}</Heading>
+                <Text color={"gray.300"}>{props.description}</Text>
+              </Flex>
+            </Box>
+          </Flex>
+        </Box>
       </>
     );
   };
@@ -272,6 +273,77 @@ export default function NavigationBar() {
         </Flex>
       </Box>
       <Divider />
+      <Drawer
+        isOpen={isMoreMenuOpen}
+        placement={"top"}
+        size={["full", "xl"]}
+        onClose={onMoreMenuClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent bgColor={"black"}>
+          <DrawerCloseButton />
+          <DrawerHeader>Mehr Angebote</DrawerHeader>
+
+          <DrawerBody>
+            <SimpleGrid
+              minChildWidth={300}
+              maxH={"100vh"}
+              overflow={"auto"}
+              mb={[0, "2rem"]}
+              gap={".4rem"}
+            >
+              <ExpandedMenuOption
+                name={"Forum"}
+                description={
+                  "Chatte mit erfahrenen Programmierern und Einsteigern."
+                }
+                icon={<FaComment />}
+                url={"/community"}
+              />
+              <ExpandedMenuOption
+                name={"IDE (Editor)"}
+                description={"Verwirkliche deine Projekteideen"}
+                icon={<BiCodeAlt />}
+                url={"/ide"}
+              />
+              <ExpandedMenuOption
+                name={"Zertifikate"}
+                description={"Erhalte Zertifikate für absolvierte Kurse."}
+                icon={<TbCertificate />}
+                url={"/certificates"}
+              />
+              <ExpandedMenuOption
+                name={"Projektideen"}
+                description={"Finde Inspirationen für Projekte."}
+                icon={<HiLightBulb />}
+                url={"/project-ideas"}
+              />
+              <ExpandedMenuOption
+                name={"Todo"}
+                description={
+                  "Plane Projekte oder anderes mit einfachen Todo Listen."
+                }
+                icon={<BsCheck2Square />}
+                url={"/todo"}
+              />
+              <ExpandedMenuOption
+                name={"Kalender"}
+                description={"Plane anstehende Termine."}
+                icon={<BsFillCalendar2WeekFill />}
+                url={"/calendar"}
+              />
+              <ExpandedMenuOption
+                name={"Hosting"}
+                description={
+                  "Veröffentliche deine Web-Projekte mit wenig Aufwand."
+                }
+                icon={<BsGlobe />}
+                url={"/hosting"}
+              />
+            </SimpleGrid>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }

@@ -25,56 +25,65 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.displayName || !req.body.bio) {
+  if (
+    !req.body ||
+    !req.headers["x-jwt"] ||
+    !req.body.displayName ||
+    !req.body.bio
+  ) {
     res.status(400).json({
       error: "Missing required fields",
     });
     return;
   }
 
-  // @ts-ignore
-  jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (err) {
-      res.status(400).json({
-        error: "Invalid token",
-      });
-      return;
-    } else {
-      await mongoConnect();
-      const user = await UserModel.findOne({
-        _id: (decoded as any).id as string,
-      });
-
-      if (!user) {
+  jwt.verify(
+    req.headers["x-jwt"] as string,
+    // @ts-ignore
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      if (err) {
         res.status(400).json({
-          error: "User not found",
+          error: "Invalid token",
+        });
+        return;
+      } else {
+        await mongoConnect();
+        const user = await UserModel.findOne({
+          _id: (decoded as any).id as string,
+        });
+
+        if (!user) {
+          res.status(400).json({
+            error: "User not found",
+          });
+          return;
+        }
+
+        const oldProfile = await CommunityProfileModel.findOne({
+          user: user._id,
+        });
+
+        if (oldProfile) {
+          res.status(400).json({
+            error: "Profile already exists",
+          });
+          return;
+        }
+
+        const profile = await CommunityProfileModel.create({
+          user: user._id,
+          displayName: req.body.displayName,
+          bio: req.body.bio,
+          username: user.username,
+        });
+
+        res.status(200).json({
+          profile: profile,
+          success: true,
         });
         return;
       }
-
-      const oldProfile = await CommunityProfileModel.findOne({
-        user: user._id,
-      });
-
-      if (oldProfile) {
-        res.status(400).json({
-          error: "Profile already exists",
-        });
-        return;
-      }
-
-      const profile = await CommunityProfileModel.create({
-        user: user._id,
-        displayName: req.body.displayName,
-        bio: req.body.bio,
-        username: user.username,
-      });
-
-      res.status(200).json({
-        profile: profile,
-        success: true,
-      });
-      return;
     }
-  });
+  );
 }

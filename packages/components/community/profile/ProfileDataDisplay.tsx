@@ -27,6 +27,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import REST from "@codeup/rest";
 
 export default function ProfileDataDisplay(props: {
   profile: {
@@ -42,22 +43,13 @@ export default function ProfileDataDisplay(props: {
   } = useDisclosure();
 
   useEffect(() => {
-    fetch(
-      "/api/community/profile/" +
-        props.profile.username +
-        "/followers?count=true",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    REST.Community.getProfileFollowers({
+      name: props.profile.username,
+      count: true,
+    }).then((res) => {
+      if (res.status === 200) {
+        setFollowersCount(res.payload.count);
       }
-    ).then((res) => {
-      res.json().then((data) => {
-        if (res.status === 200) {
-          setFollowersCount(data.count);
-        }
-      });
     });
   }, [props.profile]);
 
@@ -65,30 +57,22 @@ export default function ProfileDataDisplay(props: {
 
   useEffect(() => {
     if (props.profile.username.length > 0) {
-      fetch("/api/community/profile/" + props.profile.username + "/followers", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      REST.Community.getProfileFollowers({
+        name: props.profile.username,
       }).then((res) => {
-        res.json().then((data) => {
-          let f: any[] = [];
-          console.log(data.followers);
+        let f: any[] = [];
 
-          data.followers.forEach(async (follower: string) => {
-            const r = await fetch("/api/community/profile/" + follower);
+        res.payload.followers.forEach(async (follower: string) => {
+          const r = await REST.Community.getProfile(follower);
 
-            const j = await r.json();
-
-            f.push({
-              username: j.profile.username,
-              displayName: j.profile.displayName,
-              avatar: j.profile.profilePicture,
-              bio: j.profile.bio,
-            });
+          f.push({
+            username: r.payload.profile.username,
+            displayName: r.payload.profile.displayName,
+            avatar: r.payload.profile.profilePicture,
+            bio: r.payload.profile.bio,
           });
-          setFollowers(f as never[]);
         });
+        setFollowers(f as never[]);
       });
     }
   }, [props.profile]);

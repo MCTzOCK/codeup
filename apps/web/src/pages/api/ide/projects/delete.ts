@@ -13,6 +13,7 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
+import IDETemplateModel from "@codeup/util/src/models/IDETemplateModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -25,7 +26,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.token || !req.body.id) {
+  if (!req.body || !req.headers["x-jwt"] || !req.body.id) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,7 +34,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
@@ -62,6 +63,14 @@ export default async function handleRequest(
             error: "You do not have permissions to delete this project",
           });
           return;
+        }
+
+        const tpl = await IDETemplateModel.findOne({
+          project: IDEProject._id,
+        });
+
+        if (tpl) {
+          await tpl.remove();
         }
 
         await IDEProject.remove();

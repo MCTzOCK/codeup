@@ -18,14 +18,14 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
+  if (req.method !== "GET") {
     res.status(405).json({
       error: "Method not allowed",
     });
     return;
   }
 
-  if (!req.body || !req.body.token || !req.query.id) {
+  if (!req.headers["x-jwt"] || !req.query.id) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,7 +33,7 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       if (err) {

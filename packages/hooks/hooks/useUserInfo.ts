@@ -36,6 +36,7 @@ export default function useUserInfo(): {
         setUserInfo(decoded as any);
       } catch (e) {
         localStorage.removeItem("token");
+        document.cookie = "jwt=;path=/";
       }
     }
   }, []);

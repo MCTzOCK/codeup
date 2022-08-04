@@ -30,6 +30,7 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import REST from "@codeup/rest";
 
 export default function Token() {
   const router = useRouter();
@@ -57,20 +58,14 @@ export default function Token() {
     if (token === undefined) {
       return;
     }
-    fetch("/api/account/check-reset-token?token=" + token, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      res.json().then((data) => {
-        if (res.status !== 200) {
-          setAlertVisible(true);
-          setAlertMessage(data.error);
-          setAlertType("error");
-          setDisabled(true);
-        }
-      });
+
+    REST.Account.checkResetToken(token as string).then((res) => {
+      if (res.status !== 200) {
+        setAlertVisible(true);
+        setAlertMessage(res.payload.error);
+        setAlertType("error");
+        setDisabled(true);
+      }
     });
   }, [token]);
 
@@ -118,35 +113,27 @@ export default function Token() {
               </Text>
             </Flex>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
                 setLoading(true);
 
-                fetch("/api/account/reset-confirm", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    // @ts-ignore
-                    password: e.target.elements.password.value,
-                    token: token,
-                  }),
-                }).then((res) => {
-                  res.json().then((data) => {
-                    setLoading(false);
-                    if (res.status === 200) {
-                      setAlertVisible(true);
-                      setAlertMessage(data.message);
-                      setAlertType("success");
-                      setDisabled(true);
-                    } else {
-                      setAlertVisible(true);
-                      setAlertMessage(data.error);
-                      setAlertType("error");
-                    }
-                  });
+                const res = await REST.Account.resetConfirm({
+                  resetToken: token as string,
+                  // @ts-ignore
+                  password: e.target.elements.password.value,
                 });
+
+                setLoading(false);
+                if (res.status === 200) {
+                  setAlertVisible(true);
+                  setAlertMessage(res.payload.message);
+                  setAlertType("success");
+                  setDisabled(true);
+                } else {
+                  setAlertVisible(true);
+                  setAlertMessage(res.payload.error);
+                  setAlertType("error");
+                }
               }}
             >
               <FormControl isInvalid={passwordInvalid}>

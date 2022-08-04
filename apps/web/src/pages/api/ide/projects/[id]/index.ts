@@ -18,14 +18,14 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
+  if (req.method !== "GET") {
     res.status(405).json({
       error: "Method not allowed",
     });
     return;
   }
 
-  if (!req.body || !req.body.token || !req.query.id) {
+  if (!req.headers["x-jwt"] || !req.query.id) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -33,27 +33,53 @@ export default async function handleRequest(
   }
 
   jwt.verify(
-    req.body.token,
+    req.headers["x-jwt"] as string,
     process.env.JWT_SECRET as string,
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
 
-      const user = await UserModel.findById((decoded as any).id);
+      try {
+        const user = await UserModel.findById((decoded as any).id);
 
-      if (!user) {
-        res.status(400).json({
-          error: "Invalid token",
+        if (!user) {
+          res.status(400).json({
+            error: "Invalid token",
+          });
+          return;
+        }
+
+        const IDEProject = await IDEProjectModel.findById(req.query.id);
+
+        if (!IDEProject) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("READ")
+          )
+        ) {
+          res.status(400).json({
+            error: "Project not found",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          project: IDEProject,
         });
-        return;
-      }
-
-      const IDEProject = await IDEProjectModel.findById(req.query.id);
-
-      if (!IDEProject) {
-        res.status(400).json({
-          error: "Project not found",
+      } catch (e: any) {
+        res.status(500).json({
+          error: e.message,
         });
-        return;
       }
     }
   );
