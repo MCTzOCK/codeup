@@ -67,6 +67,10 @@ const IDEProject = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
+  pinned: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+  },
 });
 
 export default mongoose.models?.IDEProject ||
