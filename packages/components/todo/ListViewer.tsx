@@ -39,6 +39,8 @@ import {
   Input,
   FormControl,
   FormLabel,
+  Text,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import ListItem from "./ListItem";
@@ -226,9 +228,67 @@ export default function ListViewer(props: {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={props.onClose}>
-              Schließen
-            </Button>
+            <ButtonGroup>
+              <Popover>
+                <PopoverTrigger>
+                  <Button variant={"outline"} colorScheme="red">
+                    Liste Löschen
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent bgColor={"black"}>
+                  <PopoverArrow bgColor={"black"} />
+                  <PopoverHeader>Liste Löschen</PopoverHeader>
+                  <PopoverBody>
+                    <Text>
+                      Bist du dir sicher, dass du die Liste&nbsp;
+                      <i>{props.currentList.name}</i> wirklich löschen
+                      willst?&nbsp;
+                      <b>ACHTUNG:</b>&nbsp;Dieser Vorgang kann nicht rückgängig
+                      gemacht werden!
+                    </Text>
+                    <Button
+                      mt={"2rem"}
+                      colorScheme={"red"}
+                      onClick={async () => {
+                        const res = await REST.ToDo.deleteList({
+                          token: localStorage.getItem("token") as string,
+                          listId: props.currentList?._id as string,
+                        });
+
+                        if (res.status === 200) {
+                          props.reloadLists();
+                          props.onClose();
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "success",
+                            title: "Erfolgreich",
+                            description: "Die Liste wurde gelöscht",
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        } else {
+                          toast({
+                            position: "top",
+                            variant: "solid",
+                            status: "error",
+                            title: "Fehler",
+                            description: res.payload.error,
+                            isClosable: true,
+                            duration: 6000,
+                          });
+                        }
+                      }}
+                    >
+                      Liste Löschen
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+              <Button variant="outline" mr={3} onClick={props.onClose}>
+                Schließen
+              </Button>
+            </ButtonGroup>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
