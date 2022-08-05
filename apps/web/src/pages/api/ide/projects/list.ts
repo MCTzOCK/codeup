@@ -91,6 +91,7 @@ export default async function handleRequest(
               name: project.name,
               id: project._id,
               updated_at: project.updated_at,
+              pinned: project.pinned,
             });
           });
           res.status(200).json({

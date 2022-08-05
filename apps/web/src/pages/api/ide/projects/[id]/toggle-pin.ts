@@ -74,7 +74,7 @@ export default async function handleRequest(
 
         if (IDEProject.pinned.includes(user._id)) {
           IDEProject.pinned = IDEProject.pinned.filter(
-            (x) => !x.equals(user._id)
+            (x: any) => !x.equals(user._id)
           );
         } else {
           IDEProject.pinned.push(user._id);

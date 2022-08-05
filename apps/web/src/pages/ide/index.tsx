@@ -21,7 +21,6 @@ import redirect from "@codeup/util/src/userworkflow/redirect";
 import {
   Box,
   Button,
-  ButtonGroup,
   Checkbox,
   Divider,
   Flex,
@@ -44,7 +43,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Progress,
-  ProgressLabel,
   Spinner,
   Stack,
   Text,
@@ -61,6 +59,7 @@ import {
   FaPlus,
   FaRegFolderOpen,
   FaSearch,
+  FaThumbtack,
   FaTrash,
   FaUsersCog,
 } from "react-icons/fa";
@@ -76,7 +75,6 @@ import Networking from "@codeup/util/src/Networking";
 import { HiTemplate } from "react-icons/hi";
 import TemplatePicker from "@codeup/components/ide/TemplatePicker";
 import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
-import { router } from "next/client";
 import * as generate from "project-name-generator";
 
 export default function Index() {
@@ -567,6 +565,7 @@ function Open() {
       permissions: string[];
       hasTemplate: boolean;
       updated_at: string;
+      pinned: string[];
     }[]
   >([]);
   const [filteredProjectList, setFilteredProjectList] = useState<
@@ -576,6 +575,7 @@ function Open() {
       permissions: string[];
       hasTemplate: boolean;
       updated_at: string;
+      pinned: string[];
     }[]
   >([]);
   const [query, setQuery] = useState<string>("");
@@ -608,6 +608,7 @@ function Open() {
             permissions: r.payload.permissions,
             hasTemplate: hasTemplate.payload.hasTemplate,
             updated_at: project.updated_at,
+            pinned: project.pinned,
           });
         }
 
@@ -887,6 +888,7 @@ function Open() {
                                             hasTemplate: false,
                                             updated_at:
                                               res.payload.project.updated_at,
+                                            pinned: res.payload.project.pinned,
                                           },
                                         ];
                                         (
@@ -1097,6 +1099,7 @@ function Open() {
                                                   permissions: p.permissions,
                                                   hasTemplate: p.hasTemplate,
                                                   updated_at: p.updated_at,
+                                                  pinned: p.pinned,
                                                 };
                                               } else {
                                                 return p;
@@ -1170,6 +1173,8 @@ function Open() {
                                                 updated_at:
                                                   res.payload.project
                                                     .updated_at,
+                                                pinned:
+                                                  res.payload.project.pinned,
                                               },
                                             ]);
 
@@ -1183,6 +1188,8 @@ function Open() {
                                                 updated_at:
                                                   res.payload.project
                                                     .updated_at,
+                                                pinned:
+                                                  res.payload.project.pinned,
                                               },
                                             ]);
                                             setQuery("");
@@ -1360,6 +1367,52 @@ function Open() {
                                         </Flex>
                                       </MenuItem>
                                     ) : null}
+                                    <MenuItem
+                                      onClick={async () => {
+                                        let l = projectList;
+                                        const beforePinned =
+                                          project.pinned.includes(userInfo.id);
+
+                                        await REST.IDE.toggleProjectPin({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          projectId: project.id,
+                                        });
+
+                                        l = l.map((x) => {
+                                          if (x.id !== project.id) {
+                                            return x;
+                                          } else {
+                                            if (beforePinned) {
+                                              x.pinned = x.pinned.filter(
+                                                (y) => y !== userInfo.id
+                                              );
+                                            } else {
+                                              x.pinned.push(userInfo.id);
+                                            }
+                                            return x;
+                                          }
+                                        });
+
+                                        setProjectList(l);
+                                        setQuery("");
+                                        setFilteredProjectList(l);
+                                      }}
+                                    >
+                                      <Flex
+                                        direction={"row"}
+                                        alignItems={"center"}
+                                        gap={".6rem"}
+                                        color={"blue.600"}
+                                      >
+                                        <FaThumbtack />
+                                        &nbsp;
+                                        {project.pinned.includes(userInfo.id)
+                                          ? "Abheften"
+                                          : "Anheften"}
+                                      </Flex>
+                                    </MenuItem>
                                   </MenuList>
                                 </Menu>
                               </Box>
