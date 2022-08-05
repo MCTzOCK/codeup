@@ -930,6 +930,12 @@ function Open() {
                     ) : null}
                     {filteredProjectList
                       .sort((a, b) => {
+                        return (
+                          Number(new Date(b.updated_at)) -
+                          Number(new Date(a.updated_at))
+                        );
+                      })
+                      .sort((a, b) => {
                         if (
                           a.pinned.includes(userInfo.id) &&
                           !b.pinned.includes(userInfo.id)
