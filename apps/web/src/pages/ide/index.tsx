@@ -76,6 +76,7 @@ import { HiTemplate } from "react-icons/hi";
 import TemplatePicker from "@codeup/components/ide/TemplatePicker";
 import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
 import { router } from "next/client";
+import * as generate from "project-name-generator";
 
 export default function Index() {
   useEffect(() => {
@@ -723,8 +724,8 @@ function Open() {
                       <>
                         <Box pt={".75rem"} pb={".75rem"} fontSize={"2xl"}>
                           <Flex direction={"row"}>
-                            <Box flex={"10%"}></Box>
-                            <Box flex={"20%"} textAlign={"center"}>
+                            <Box flex={"5%"}></Box>
+                            <Box flex={"20%"} textAlign={"left"}>
                               {selectedProjects.length} Projekte
                             </Box>
                             <Box flex={[0, "50%"]}></Box>
@@ -823,6 +824,68 @@ function Open() {
                                   }}
                                 >
                                   Exportieren
+                                </Button>
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<BiDuplicate />}
+                                  colorScheme={"blue"}
+                                  onClick={async () => {
+                                    let npl = projectList;
+
+                                    for (const projectId of selectedProjects) {
+                                      const newName = generate.default().dashed;
+
+                                      const res =
+                                        await REST.IDE.duplicateProject({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          projectId: projectId,
+                                          name: newName,
+                                        });
+
+                                      if (res.status === 200) {
+                                        npl = [
+                                          ...npl,
+                                          {
+                                            id: res.payload.project._id,
+                                            name: newName,
+                                            permissions: ["OWNER"],
+                                            hasTemplate: false,
+                                            updated_at:
+                                              res.payload.project.updated_at,
+                                          },
+                                        ];
+                                        (
+                                          document.getElementById(
+                                            sBoxId
+                                          ) as HTMLInputElement
+                                        ).value = "";
+                                        toast({
+                                          title: "Erfolg",
+                                          description:
+                                            "Das Projekt wurde erfolgreich dupliziert",
+                                          status: "success",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      } else {
+                                        toast({
+                                          title: "Fehler",
+                                          description: res.payload.error,
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      }
+                                    }
+                                    setProjectList(npl);
+                                    setFilteredProjectList(npl);
+                                  }}
+                                >
+                                  Klonen
                                 </Button>
                               </Flex>
                             </Box>
@@ -1052,11 +1115,7 @@ function Open() {
                                       <MenuItem
                                         onClick={async () => {
                                           const newName =
-                                            project.name +
-                                            " - Dupl. " +
-                                            new Date(
-                                              Date.now()
-                                            ).toLocaleTimeString();
+                                            generate.default().dashed;
 
                                           const res =
                                             await REST.IDE.duplicateProject({
