@@ -9,12 +9,10 @@
  */
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { decode, verify, JwtPayload, VerifyErrors } from "jsonwebtoken";
-import { uuid } from "uuidv4";
+import { JwtPayload, verify, VerifyErrors } from "jsonwebtoken";
 import mongoConnect from "@codeup/util/src/mongo";
 import UserModel from "@codeup/util/src/models/UserModel";
 import TodoListModel from "@codeup/util/src/models/TodoListModel";
-import { isNullOrUndefined } from "util";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -71,8 +69,6 @@ export default async function handleRequest(
         });
         return;
       }
-
-      isNullOrUndefined();
 
       if (
         ![null, undefined].includes(
