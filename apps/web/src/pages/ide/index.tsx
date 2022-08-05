@@ -22,6 +22,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Divider,
   Flex,
   FormControl,
@@ -75,6 +76,7 @@ import { HiTemplate } from "react-icons/hi";
 import TemplatePicker from "@codeup/components/ide/TemplatePicker";
 import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
 import { router } from "next/client";
+import * as generate from "project-name-generator";
 
 export default function Index() {
   useEffect(() => {
@@ -635,6 +637,12 @@ function Open() {
 
   const [publisherTemplateId, setPublisherTemplateId] = useState("0");
 
+  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+
+  useEffect(() => {
+    console.log(selectedProjects);
+  }, [selectedProjects]);
+
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"center"} mt={"1.2rem"}>
@@ -694,6 +702,7 @@ function Open() {
                   <Flex direction={"column"} mt={"2rem"}>
                     <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
                       <Flex direction={"row"}>
+                        <Box flex={"10%"}></Box>
                         <Box
                           flex={"20%"}
                           textAlign={"center"}
@@ -701,7 +710,7 @@ function Open() {
                         >
                           Name
                         </Box>
-                        <Box flex={[0, "60%"]}></Box>
+                        <Box flex={[0, "50%"]}></Box>
                         <Box
                           flex={"20%"}
                           textAlign={"center"}
@@ -711,11 +720,217 @@ function Open() {
                         </Box>
                       </Flex>
                     </Box>
+                    {selectedProjects.length > 0 ? (
+                      <>
+                        <Box pt={".75rem"} pb={".75rem"} fontSize={"2xl"}>
+                          <Flex direction={"row"}>
+                            <Box flex={"5%"}></Box>
+                            <Box flex={"20%"} textAlign={"left"}>
+                              {selectedProjects.length} Projekte
+                            </Box>
+                            <Box flex={[0, "50%"]}></Box>
+                            <Box flex={"20%"}>
+                              <Flex
+                                w={"100%"}
+                                h={"100%"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                              >
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<FaTrash />}
+                                  colorScheme={"red"}
+                                  onClick={async () => {
+                                    let npl = projectList;
+
+                                    for (const projectId of selectedProjects) {
+                                      const res = await REST.IDE.deleteProject({
+                                        token: localStorage.getItem(
+                                          "token"
+                                        ) as string,
+                                        projectId: projectId,
+                                      });
+
+                                      if (res.status === 200) {
+                                        npl = npl.filter(
+                                          (p) => p.id !== projectId
+                                        );
+                                        (
+                                          document.getElementById(
+                                            sBoxId
+                                          ) as HTMLInputElement
+                                        ).value = "";
+                                        toast({
+                                          title: "Erfolg",
+                                          description: `Das Projekt ${projectId} wurde erfolgreich gelöscht`,
+                                          status: "success",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      } else {
+                                        toast({
+                                          title: "Fehler",
+                                          description: res.payload.error,
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      }
+                                    }
+                                    setSelectedProjects([]);
+                                    setProjectList(npl);
+                                    setFilteredProjectList(npl);
+                                    setQuery("");
+                                  }}
+                                >
+                                  Löschen
+                                </Button>
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<FaFileExport />}
+                                  colorScheme={"orange"}
+                                  onClick={async () => {
+                                    for (const projectId of selectedProjects) {
+                                      const fullProject = (
+                                        await REST.IDE.getProject({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          projectId: projectId as string,
+                                        })
+                                      ).payload.project;
+
+                                      const exportObject: any = {};
+
+                                      exportObject.codeUp = {
+                                        version: "1.0",
+                                        href: location.href,
+                                        exportedAt: new Date().toLocaleString(),
+                                        userInfo: userInfo,
+                                      };
+
+                                      exportObject.name = fullProject.name;
+
+                                      exportObject.files = fullProject.files;
+
+                                      Networking.download(
+                                        fullProject.name + ".cupp",
+                                        JSON.stringify(exportObject, null, 2),
+                                        "text/plain"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  Exportieren
+                                </Button>
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<BiDuplicate />}
+                                  colorScheme={"blue"}
+                                  onClick={async () => {
+                                    let npl = projectList;
+
+                                    for (const projectId of selectedProjects) {
+                                      const newName = generate.default().dashed;
+
+                                      const res =
+                                        await REST.IDE.duplicateProject({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          projectId: projectId,
+                                          name: newName,
+                                        });
+
+                                      if (res.status === 200) {
+                                        npl = [
+                                          ...npl,
+                                          {
+                                            id: res.payload.project._id,
+                                            name: newName,
+                                            permissions: ["OWNER"],
+                                            hasTemplate: false,
+                                            updated_at:
+                                              res.payload.project.updated_at,
+                                          },
+                                        ];
+                                        (
+                                          document.getElementById(
+                                            sBoxId
+                                          ) as HTMLInputElement
+                                        ).value = "";
+                                        toast({
+                                          title: "Erfolg",
+                                          description:
+                                            "Das Projekt wurde erfolgreich dupliziert",
+                                          status: "success",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      } else {
+                                        toast({
+                                          title: "Fehler",
+                                          description: res.payload.error,
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      }
+                                    }
+                                    setProjectList(npl);
+                                    setFilteredProjectList(npl);
+                                  }}
+                                >
+                                  Klonen
+                                </Button>
+                              </Flex>
+                            </Box>
+                          </Flex>
+                        </Box>
+                      </>
+                    ) : null}
                     {filteredProjectList.map((project) => {
                       return (
                         <>
-                          <Box pt={"0.75rem"} pb={"0.75rem"} fontSize={"2xl"}>
+                          <Box
+                            pt={"0.75rem"}
+                            pb={"0.75rem"}
+                            fontSize={"2xl"}
+                            bgColor={
+                              selectedProjects.includes(project.id)
+                                ? "gray.800"
+                                : "gray.900"
+                            }
+                          >
                             <Flex direction={"row"}>
+                              <Box flex={"10%"}>
+                                <Flex
+                                  justifyContent={"center"}
+                                  alignItems={"center"}
+                                  h={"100%"}
+                                >
+                                  <Checkbox
+                                    size={"lg"}
+                                    onChange={(e) => {
+                                      console.log(e.target.checked);
+                                      if (e.target.checked) {
+                                        setSelectedProjects([
+                                          project.id,
+                                          ...selectedProjects,
+                                        ]);
+                                      } else {
+                                        let x = selectedProjects;
+                                        x = x.filter((y) => y !== project.id);
+                                        setSelectedProjects(x);
+                                      }
+                                    }}
+                                  />
+                                </Flex>
+                              </Box>
                               <Box flex={"20%"} textAlign={"center"}>
                                 <Flex direction={"column"}>
                                   <Link
@@ -747,7 +962,7 @@ function Open() {
                                   </Text>
                                 </Flex>
                               </Box>
-                              <Box flex={[0, "60%"]}></Box>
+                              <Box flex={[0, "50%"]}></Box>
                               <Box
                                 flex={"20%"}
                                 alignItems={"center"}
@@ -756,7 +971,10 @@ function Open() {
                               >
                                 <Menu>
                                   <MenuButton>
-                                    <IconButton aria-label={"menu"}>
+                                    <IconButton
+                                      variant="outline"
+                                      aria-label={"menu"}
+                                    >
                                       <FiMoreHorizontal />
                                     </IconButton>
                                   </MenuButton>
@@ -897,11 +1115,7 @@ function Open() {
                                       <MenuItem
                                         onClick={async () => {
                                           const newName =
-                                            project.name +
-                                            " - Dupl. " +
-                                            new Date(
-                                              Date.now()
-                                            ).toLocaleTimeString();
+                                            generate.default().dashed;
 
                                           const res =
                                             await REST.IDE.duplicateProject({
@@ -970,76 +1184,6 @@ function Open() {
                                           alignItems={"center"}
                                           gap={".6rem"}
                                           color={"blue.400"}
-                                          onClick={async () => {
-                                            const newName = prompt(
-                                              "Gib den neuen Namen ein"
-                                            );
-
-                                            if (!newName) {
-                                              return;
-                                            }
-
-                                            const res =
-                                              await REST.IDE.duplicateProject({
-                                                token: localStorage.getItem(
-                                                  "token"
-                                                ) as string,
-                                                projectId: project.id,
-                                                name: newName,
-                                              });
-
-                                            if (res.status === 200) {
-                                              setProjectList([
-                                                ...projectList,
-                                                {
-                                                  id: res.payload.project._id,
-                                                  name: newName,
-                                                  permissions: ["OWNER"],
-                                                  hasTemplate: false,
-                                                  updated_at:
-                                                    res.payload.project
-                                                      .updated_at,
-                                                },
-                                              ]);
-
-                                              setFilteredProjectList([
-                                                ...projectList,
-                                                {
-                                                  id: res.payload.project._id,
-                                                  name: newName,
-                                                  permissions: ["OWNER"],
-                                                  hasTemplate: false,
-                                                  updated_at:
-                                                    res.payload.project
-                                                      .updated_at,
-                                                },
-                                              ]);
-                                              setQuery("");
-                                              (
-                                                document.getElementById(
-                                                  sBoxId
-                                                ) as HTMLInputElement
-                                              ).value = "";
-                                              toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich dupliziert",
-                                                status: "success",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            } else {
-                                              toast({
-                                                title: "Fehler",
-                                                description: res.payload.error,
-                                                status: "error",
-                                                variant: "solid",
-                                                position: "top",
-                                                isClosable: true,
-                                              });
-                                            }
-                                          }}
                                         >
                                           <BiDuplicate /> Klonen
                                         </Flex>
