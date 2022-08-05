@@ -25,6 +25,7 @@ import {
   deleteTask,
   getList,
   getMyLists,
+  toggleItemFinish,
 } from "./api/ToDo";
 import {
   addContributor,
@@ -84,6 +85,7 @@ const REST = {
     getList,
     createTask,
     deleteTask,
+    toggleItemFinish,
   },
   IDE: {
     getProjectPermissions,

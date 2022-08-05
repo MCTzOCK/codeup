@@ -25,7 +25,7 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.headers["x-jwt"] || !req.query.id || !req.body.taskId) {
+  if (!req.body || !req.headers["x-jwt"] || !req.query.id || !req.body.task) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -72,11 +72,11 @@ export default async function handleRequest(
 
       if (
         ![null, undefined].includes(
-          list.tasks.find((t) => t.uuid === req.body.taskId)
+          list.tasks.find((t) => t.uuid === req.body.task)
         )
       ) {
-        list.tasks.find((t) => t.uuid === req.body.taskId).finished =
-          !list.tasks.find((t) => t.uuid === req.body.taskId).finished;
+        list.tasks.find((t) => t.uuid === req.body.task).finished =
+          !list.tasks.find((t) => t.uuid === req.body.task).finished;
         await list.save();
       } else {
         res.status(400).json({
