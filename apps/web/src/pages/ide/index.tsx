@@ -998,7 +998,23 @@ function Open() {
                                           "#editor-wrapper-flex"
                                         }
                                       >
-                                        {project.name}
+                                        <Flex
+                                          alignItems={"center"}
+                                          justifyContent={"center"}
+                                          gap={".6rem"}
+                                        >
+                                          <Text
+                                            fontSize={"lg"}
+                                            color={"blue.600"}
+                                          >
+                                            {project.pinned.includes(
+                                              userInfo.id
+                                            ) ? (
+                                              <FaThumbtack />
+                                            ) : null}
+                                          </Text>
+                                          {project.name}
+                                        </Flex>
                                       </NextLink>
                                     </Link>
                                     <Text color={"gray.500"} fontSize={"lg"}>
