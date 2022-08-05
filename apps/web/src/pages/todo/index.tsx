@@ -221,7 +221,7 @@ export default function Index() {
                 {list.name}
               </Heading>
               <Text textAlign={"center"} color={"gray.600"}>
-                {list.tasks.length} Aufgaben
+                {list.tasks.filter((t) => !t.finished).length} Aufgaben
               </Text>
             </Box>
           );
