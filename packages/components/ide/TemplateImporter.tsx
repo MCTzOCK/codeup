@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
+import * as generate from "project-name-generator";
 
 export default function TemplateImporter(props: { templateId: string }) {
   const [importProgress, setImportProgress] = useState(0);
@@ -48,7 +49,6 @@ export default function TemplateImporter(props: { templateId: string }) {
   useEffect(() => {
     if (props.templateId && props.templateId !== "0" && !isImportOpen && !f) {
       f = true;
-      const name = prompt("Gib einen Namen ein");
       onImportOpen();
       REST.IDE.useTemplate({
         token: localStorage.getItem("token") as string,
@@ -56,7 +56,7 @@ export default function TemplateImporter(props: { templateId: string }) {
       }).then((useTemplateRes) => {
         REST.IDE.createProject({
           token: localStorage.getItem("token") as string,
-          name: name || new Date().toLocaleTimeString(),
+          name: generate.default().dashed,
         }).then(async (createProjectRes) => {
           await REST.IDE.deleteFile({
             token: localStorage.getItem("token") as string,
