@@ -48,6 +48,7 @@ import {
   Spinner,
   Stack,
   Text,
+  Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
@@ -67,7 +68,7 @@ import { BiDuplicate, BiRename } from "react-icons/bi";
 import { default as NextLink } from "next/link";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { useUserInfo } from "@codeup/hooks";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { FiMoreHorizontal, FiRotateCcw } from "react-icons/fi";
 import REST from "@codeup/rest";
 import { ContributorManager } from "@codeup/components/ide";
 import Networking from "@codeup/util/src/Networking";
@@ -234,6 +235,10 @@ function Create() {
   const [importedProjectId, setImportedProjectId] = useState("");
 
   const router = useRouter();
+
+  const [suggestedProjectName, setSuggestedProjectName] = useState(
+    generate.default().dashed
+  );
 
   return (
     <>
@@ -428,8 +433,9 @@ function Create() {
                     });
                   }
                 }}
+                id={"c_form"}
               >
-                <FormControl>
+                <FormControl mt={"2rem"} isRequired>
                   <FormLabel>Projekt Name</FormLabel>
                   <InputGroup>
                     <InputLeftAddon>
@@ -443,8 +449,35 @@ function Create() {
                     />
                   </InputGroup>
                 </FormControl>
-                <FormControl mt={"2rem"}>
-                  <Button isLoading={loading} type={"submit"}>
+                <Text mt={"1.2rem"}>
+                  Wie wäre es mit&nbsp;
+                  <Link
+                    color={"blue.400"}
+                    onClick={() => {
+                      (
+                        document.getElementById(nameId) as HTMLInputElement
+                      ).value = suggestedProjectName;
+                      (
+                        document.getElementById("c_for_sb") as HTMLButtonElement
+                      ).click();
+                    }}
+                  >
+                    {suggestedProjectName}
+                  </Link>
+                  <Tooltip label={"Neuer Vorschlag"} hasArrow>
+                    <IconButton
+                      ml={".6rem"}
+                      aria-label={"regenerate"}
+                      icon={<FiRotateCcw />}
+                      variant={"ghost"}
+                      onClick={() => {
+                        setSuggestedProjectName(generate.default().dashed);
+                      }}
+                    />
+                  </Tooltip>
+                </Text>
+                <FormControl mt={"1.2rem"}>
+                  <Button isLoading={loading} id="c_for_sb" type={"submit"}>
                     Erstellen
                   </Button>
                 </FormControl>
