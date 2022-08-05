@@ -786,6 +786,44 @@ function Open() {
                                 >
                                   Löschen
                                 </Button>
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<FaFileExport />}
+                                  colorScheme={"orange"}
+                                  onClick={async () => {
+                                    for (const projectId of selectedProjects) {
+                                      const fullProject = (
+                                        await REST.IDE.getProject({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          projectId: projectId as string,
+                                        })
+                                      ).payload.project;
+
+                                      const exportObject: any = {};
+
+                                      exportObject.codeUp = {
+                                        version: "1.0",
+                                        href: location.href,
+                                        exportedAt: new Date().toLocaleString(),
+                                        userInfo: userInfo,
+                                      };
+
+                                      exportObject.name = fullProject.name;
+
+                                      exportObject.files = fullProject.files;
+
+                                      Networking.download(
+                                        fullProject.name + ".cupp",
+                                        JSON.stringify(exportObject, null, 2),
+                                        "text/plain"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  Exportieren
+                                </Button>
                               </Flex>
                             </Box>
                           </Flex>
