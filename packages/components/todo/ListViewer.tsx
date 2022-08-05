@@ -188,6 +188,7 @@ export default function ListViewer(props: {
                             finished={task.finished}
                             currentList={props.currentList}
                             setCurrentList={props.setCurrentList}
+                            reloadLists={props.reloadLists}
                           />
                         );
                       })}
