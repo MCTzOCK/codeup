@@ -220,7 +220,7 @@ export default function Index() {
               <Heading size={"md"} textAlign={"center"}>
                 {list.name}
               </Heading>
-              <Text textAlign={"center"} color={"gray.600"}>
+              <Text textAlign={"center"} color={"gray.500"}>
                 {list.tasks.filter((t) => !t.finished).length} Aufgaben
               </Text>
             </Box>
