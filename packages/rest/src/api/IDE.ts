@@ -308,3 +308,14 @@ export async function getAllTemplates(): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function toggleProjectPin(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/toggle-pin",
+    token: options.token,
+    method: "POST",
+  });
+}

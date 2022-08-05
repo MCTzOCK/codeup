@@ -45,6 +45,7 @@ import {
   removeTemplate,
   renameProject,
   saveFile,
+  toggleProjectPin,
   updateTemplate,
   useTemplate,
 } from "./api/IDE";
@@ -105,6 +106,7 @@ const REST = {
     useTemplate,
     hasTemplate,
     getAllTemplates,
+    toggleProjectPin,
   },
   Community: {
     search,
