@@ -86,3 +86,18 @@ export async function deleteTask(options: {
     },
   });
 }
+
+export async function toggleItemFinish(options: {
+  token: string;
+  listId: string;
+  taskUUID: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/lists/" + options.listId + "/tasks/toggle-finish",
+    token: options.token,
+    method: "POST",
+    body: {
+      task: options.taskUUID,
+    },
+  });
+}
