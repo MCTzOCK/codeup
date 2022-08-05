@@ -719,6 +719,79 @@ function Open() {
                         </Box>
                       </Flex>
                     </Box>
+                    {selectedProjects.length > 0 ? (
+                      <>
+                        <Box pt={".75rem"} pb={".75rem"} fontSize={"2xl"}>
+                          <Flex direction={"row"}>
+                            <Box flex={"10%"}></Box>
+                            <Box flex={"20%"} textAlign={"center"}>
+                              {selectedProjects.length} Projekte
+                            </Box>
+                            <Box flex={[0, "50%"]}></Box>
+                            <Box flex={"20%"}>
+                              <Flex
+                                w={"100%"}
+                                h={"100%"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                              >
+                                <Button
+                                  variant={"ghost"}
+                                  leftIcon={<FaTrash />}
+                                  colorScheme={"red"}
+                                  onClick={async () => {
+                                    let npl = projectList;
+
+                                    for (const projectId of selectedProjects) {
+                                      const res = await REST.IDE.deleteProject({
+                                        token: localStorage.getItem(
+                                          "token"
+                                        ) as string,
+                                        projectId: projectId,
+                                      });
+
+                                      if (res.status === 200) {
+                                        npl = npl.filter(
+                                          (p) => p.id !== projectId
+                                        );
+                                        (
+                                          document.getElementById(
+                                            sBoxId
+                                          ) as HTMLInputElement
+                                        ).value = "";
+                                        toast({
+                                          title: "Erfolg",
+                                          description: `Das Projekt ${projectId} wurde erfolgreich gelöscht`,
+                                          status: "success",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      } else {
+                                        toast({
+                                          title: "Fehler",
+                                          description: res.payload.error,
+                                          status: "error",
+                                          variant: "solid",
+                                          position: "top",
+                                          isClosable: true,
+                                        });
+                                      }
+                                    }
+                                    setSelectedProjects([]);
+                                    setProjectList(npl);
+                                    setFilteredProjectList(npl);
+                                    setQuery("");
+                                  }}
+                                >
+                                  Löschen
+                                </Button>
+                              </Flex>
+                            </Box>
+                          </Flex>
+                        </Box>
+                      </>
+                    ) : null}
                     {filteredProjectList.map((project) => {
                       return (
                         <>
