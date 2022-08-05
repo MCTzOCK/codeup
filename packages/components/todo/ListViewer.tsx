@@ -194,6 +194,33 @@ export default function ListViewer(props: {
                       })}
                   </AccordionPanel>
                 </AccordionItem>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        <Heading size={"md"}>Erledigt</Heading>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    {props.currentList.tasks
+                      .filter((t) => t.finished)
+                      .map((task) => {
+                        return (
+                          <ListItem
+                            listId={props.currentList?._id || ""}
+                            name={task.name}
+                            uuid={task.uuid}
+                            finished={task.finished}
+                            currentList={props.currentList}
+                            setCurrentList={props.setCurrentList}
+                            reloadLists={props.reloadLists}
+                          />
+                        );
+                      })}
+                  </AccordionPanel>
+                </AccordionItem>
               </Accordion>
             </Flex>
           </DrawerBody>

@@ -72,11 +72,11 @@ export default async function handleRequest(
 
       if (
         ![null, undefined].includes(
-          list.tasks.find((t) => t.uuid === req.body.task)
+          list.tasks.find((t: any) => t.uuid === req.body.task)
         )
       ) {
-        list.tasks.find((t) => t.uuid === req.body.task).finished =
-          !list.tasks.find((t) => t.uuid === req.body.task).finished;
+        list.tasks.find((t: any) => t.uuid === req.body.task).finished =
+          !list.tasks.find((t: any) => t.uuid === req.body.task).finished;
         await list.save();
       } else {
         res.status(400).json({
@@ -89,7 +89,8 @@ export default async function handleRequest(
 
       res.status(200).json({
         success: true,
-        finished: list.tasks.find((t) => t.uuid === req.body.taskId).finished,
+        finished: list.tasks.find((t: any) => t.uuid === req.body.task)
+          .finished,
       });
     }
   );

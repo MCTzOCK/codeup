@@ -18,6 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
+import { ImCross, ImCheckmark } from "react-icons/im";
 import REST from "@codeup/rest";
 
 export default function ListItem(props: {
@@ -35,7 +36,34 @@ export default function ListItem(props: {
     <>
       <Flex w={"100%"} alignItems={"center"}>
         <Box flex={"10%"}>
-          <Checkbox size={"lg"} defaultChecked={props.finished} />
+          <IconButton
+            aria-label={"check-uncheck"}
+            icon={
+              props.finished ? (
+                <ImCross color={"red"} />
+              ) : (
+                <ImCheckmark color={"lime"} />
+              )
+            }
+            variant={"ghost"}
+            onClick={async () => {
+              const res = await REST.ToDo.toggleItemFinish({
+                token: localStorage.getItem("token") as string,
+                listId: props.listId,
+                taskUUID: props.uuid,
+              });
+
+              props.reloadLists();
+
+              let x = props.currentList;
+              (x.tasks as any).find(
+                (y: any) => y.uuid === props.uuid
+              ).finished = !(x.tasks as any).find(
+                (y: any) => y.uuid === props.uuid
+              ).finished;
+              props.setCurrentList(x);
+            }}
+          />
         </Box>
         <Box flex={"80%"}>{props.name}</Box>
         <Box flex={"10%"}>
