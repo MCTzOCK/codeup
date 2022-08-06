@@ -76,6 +76,7 @@ import { HiTemplate } from "react-icons/hi";
 import TemplatePicker from "@codeup/components/ide/TemplatePicker";
 import TemplatePublisher from "@codeup/components/ide/TemplatePublisher";
 import * as generate from "project-name-generator";
+import byteSize from "byte-size";
 
 export default function Index() {
   useEffect(() => {
@@ -566,6 +567,11 @@ function Open() {
       hasTemplate: boolean;
       updated_at: string;
       pinned: string[];
+      stats: {
+        total_files: number;
+        total_contributors: number;
+        total_size: number;
+      };
     }[]
   >([]);
   const [filteredProjectList, setFilteredProjectList] = useState<
@@ -576,6 +582,11 @@ function Open() {
       hasTemplate: boolean;
       updated_at: string;
       pinned: string[];
+      stats: {
+        total_files: number;
+        total_contributors: number;
+        total_size: number;
+      };
     }[]
   >([]);
   const [query, setQuery] = useState<string>("");
@@ -610,6 +621,7 @@ function Open() {
             hasTemplate: hasTemplate.payload.hasTemplate,
             updated_at: project.updated_at,
             pinned: project.pinned,
+            stats: project.stats,
           });
         }
 
@@ -745,7 +757,14 @@ function Open() {
                         >
                           Name
                         </Box>
-                        <Box flex={[0, "50%"]}></Box>
+                        <Box
+                          flex={[0, "50%"]}
+                          textAlign={"center"}
+                          fontWeight={"bold"}
+                          display={["none", "initial"]}
+                        >
+                          Statistik
+                        </Box>
                         <Box
                           flex={"20%"}
                           textAlign={"center"}
@@ -890,6 +909,11 @@ function Open() {
                                             updated_at:
                                               res.payload.project.updated_at,
                                             pinned: res.payload.project.pinned,
+                                            stats: {
+                                              total_files: 1,
+                                              total_contributors: 1,
+                                              total_size: 0,
+                                            },
                                           },
                                         ];
                                         (
@@ -1035,7 +1059,34 @@ function Open() {
                                     </Text>
                                   </Flex>
                                 </Box>
-                                <Box flex={[0, "50%"]}></Box>
+                                <Box
+                                  flex={[0, "50%"]}
+                                  display={["none", "initial"]}
+                                  textAlign={"center"}
+                                >
+                                  <Flex direction={"column"} gap={".4rem"}>
+                                    <Text fontSize={"md"}>
+                                      {project.stats.total_files}&nbsp;
+                                      {project.stats.total_files === 1
+                                        ? "Datei"
+                                        : "Dateien"}
+                                    </Text>
+                                    <Text fontSize={"md"}>
+                                      {project.stats.total_contributors}&nbsp;
+                                      {project.stats.total_contributors === 1
+                                        ? "Mitwirkender"
+                                        : "Mitwirkende"}
+                                    </Text>
+                                    <Text fontSize={"md"}>
+                                      <>
+                                        Projektgröße:&nbsp;
+                                        {byteSize(
+                                          project.stats.total_size
+                                        ).toString()}
+                                      </>
+                                    </Text>
+                                  </Flex>
+                                </Box>
                                 <Box
                                   flex={"20%"}
                                   alignItems={"center"}
@@ -1138,6 +1189,7 @@ function Open() {
                                                     hasTemplate: p.hasTemplate,
                                                     updated_at: p.updated_at,
                                                     pinned: p.pinned,
+                                                    stats: p.stats,
                                                   };
                                                 } else {
                                                   return p;
@@ -1213,6 +1265,11 @@ function Open() {
                                                       .updated_at,
                                                   pinned:
                                                     res.payload.project.pinned,
+                                                  stats: {
+                                                    total_files: 1,
+                                                    total_contributors: 1,
+                                                    total_size: 0,
+                                                  },
                                                 },
                                               ]);
 
@@ -1228,6 +1285,11 @@ function Open() {
                                                       .updated_at,
                                                   pinned:
                                                     res.payload.project.pinned,
+                                                  stats: {
+                                                    total_files: 1,
+                                                    total_contributors: 1,
+                                                    total_size: 0,
+                                                  },
                                                 },
                                               ]);
                                               setQuery("");
