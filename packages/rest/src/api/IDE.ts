@@ -200,6 +200,7 @@ export async function getProjects(options: {
   token: string;
   type: "OWNER" | "CONTRIBUTOR" | "ALL";
   minimal?: boolean;
+  withStats?: boolean;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/ide/projects/list",
@@ -208,6 +209,7 @@ export async function getProjects(options: {
     body: {
       type: options.type,
       minimal: options.minimal,
+      withStats: options.withStats,
     },
   });
 }
