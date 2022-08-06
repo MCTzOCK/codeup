@@ -92,6 +92,8 @@ export default async function handleRequest(
               id: project._id,
               updated_at: project.updated_at,
               pinned: project.pinned,
+              stats:
+                req.body.withStats === true ? getStats(project) : undefined,
             });
           });
           res.status(200).json({
@@ -101,9 +103,22 @@ export default async function handleRequest(
           return;
         }
 
+        let ret = projects;
+
+        if (req.body.withStats === true) {
+          let x: typeof projects = [];
+          projects.map((project) => {
+            x.push({
+              ...project._doc,
+              stats: getStats(project),
+            });
+          });
+          ret = x;
+        }
+
         res.status(200).json({
           success: true,
-          projects,
+          projects: ret,
         });
       } catch (e: any) {
         res.status(500).json({
@@ -112,4 +127,12 @@ export default async function handleRequest(
       }
     }
   );
+}
+
+function getStats(project: any) {
+  return {
+    total_files: project.files.length,
+    total_contributors: project.contributors.length,
+    total_size: new TextEncoder().encode(JSON.stringify(project)).length,
+  };
 }

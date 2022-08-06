@@ -587,6 +587,7 @@ function Open() {
     REST.IDE.getProjects({
       token: localStorage.getItem("token") as string,
       type: "ALL",
+      withStats: true,
     }).then(async (res) => {
       if (res.status === 200) {
         let pList = [];
