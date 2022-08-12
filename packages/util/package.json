@@ -6,6 +6,11 @@
   "license": "GPL-3.0-only",
   "private": false,
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "@chakra-ui/react": "^2.1.2",
+    "@codeup/rest": "*",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@monaco-editor/react": "^4.4.5",
+    "mongoose": "^6.3.5"
   }
 }
