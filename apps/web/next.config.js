@@ -5,6 +5,18 @@ const withTM = require("next-transpile-modules")([
   "@codeup/rest",
 ]);
 
-module.exports = withTM({
-  reactStrictMode: true,
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+    providerImportSource: "@mdx-js/react",
+  },
 });
+
+module.exports = withTM(
+  withMDX({
+    reactStrictMode: true,
+    pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  })
+);
