@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/hooks/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +68,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.json.schema&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -163,7 +160,8 @@
       <workItem from="1658061116357" duration="4000" />
       <workItem from="1658176716943" duration="14746000" />
       <workItem from="1658609207573" duration="39072000" />
-      <workItem from="1660320221593" duration="2017000" />
+      <workItem from="1660320221593" duration="3120000" />
+      <workItem from="1660378523645" duration="978000" />
     </task>
     <servers />
   </component>

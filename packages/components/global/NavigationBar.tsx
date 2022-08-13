@@ -98,7 +98,7 @@ export default function NavigationBar() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent bg={"black"}>
-                <PopoverArrow />
+                <PopoverArrow bg={"black"} />
                 <PopoverBody>
                   <Flex w={"100%"} direction={"column"}>
                     <Link href={"/account/settings"}>
