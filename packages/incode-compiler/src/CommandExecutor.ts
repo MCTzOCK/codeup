@@ -20,6 +20,7 @@ import RemoveCommand from "./commands/RemoveCommand";
 import PrintCommand from "./commands/PrintCommand";
 import AskCommand from "./commands/AskCommand";
 import FunctionCommand from "./commands/FunctionCommand";
+import CallCommand from "./commands/CallCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -43,6 +44,7 @@ export default class CommandExecutor {
     gib: new PrintCommand(),
     frage: new AskCommand(),
     funktion: new FunctionCommand(),
+    rufe: new CallCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {
