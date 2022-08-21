@@ -44,6 +44,30 @@ export default class IFCommand implements Command {
           )}
         }
       })`;
+    } else if (
+      ["gedrückt", "berührt", "verlassen"].includes(
+        sourceTree.args[1].toLowerCase()
+      )
+    ) {
+      let event = "";
+      if (sourceTree.args[1].toLowerCase() === "gedrückt") {
+        event = "click";
+      } else if (sourceTree.args[1].toLowerCase() === "berührt") {
+        event = "mouseover";
+      } else if (sourceTree.args[1].toLowerCase() === "verlassen") {
+        event = "mouseleave";
+      }
+
+      return `${sourceTree.args[2]}.addEventListener("${event}", (event) => {
+          ${CommandExecutor.run(
+            AbstractSyntaxTreeGenerator.generate(
+              sourceTree.args
+                .slice(3, sourceTree.args.length)
+                .join(" ")
+                .replace(/\u0000/g, " ")
+            )[0]
+          )}
+      })`;
     }
 
     return "";
