@@ -7,11 +7,17 @@
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
   "private": false,
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@codeup/incode-ast-generator": "*",
+    "@types/jest": "^28.1.7",
     "@types/js-beautify": "^1.13.3",
     "@types/uglify-js": "^3.16.0",
+    "jest": "^28.1.3",
     "js-beautify": "^1.14.5",
+    "ts-jest": "^28.0.8",
     "uglify-js": "^3.16.3"
   }
 }
