@@ -50,21 +50,21 @@ export default class CommandExecutor {
   public static run(sourceTree: AbstractSyntaxTree): string {
     let ret = "";
 
-    if (sourceTree.command.toLowerCase() in CommandExecutor.COMMANDS) {
-      try {
+    try {
+      if (sourceTree.command.toLowerCase() in CommandExecutor.COMMANDS) {
         ret += `${CommandExecutor.COMMANDS[
           sourceTree.command.toLowerCase()
         ].run(sourceTree)}`;
-      } catch (e) {
-        ret += "/* COMPILING ERROR */\n";
-        ret += "/* --------------- */\n";
-        ret += `/* ${e.message} */\n`;
-        ret += `/* ${e.stack} */\n`;
-        ret += `/* ${e.name} */\n`;
-        ret += "/* --------------- */\n";
+      } else {
+        throw new Error(`Command ${sourceTree.command} not found`);
       }
-    } else {
-      ret += sourceTree.args.join(" ");
+    } catch (e) {
+      ret += "/* COMPILING ERROR */\n";
+      ret += "/* --------------- */\n";
+      ret += `/* ${e.message} */\n`;
+      ret += `/* ${e.stack} */\n`;
+      ret += `/* ${e.name} */\n`;
+      ret += "/* --------------- */\n";
     }
 
     if (sourceTree.children.length > 0) {

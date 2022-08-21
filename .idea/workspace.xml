@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sloc.js" beforeDir="false" afterPath="$PROJECT_DIR$/sloc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +165,7 @@
       <workItem from="1660320221593" duration="3120000" />
       <workItem from="1660378523645" duration="1455000" />
       <workItem from="1661018279947" duration="307000" />
-      <workItem from="1661018610904" duration="12428000" />
+      <workItem from="1661018610904" duration="12948000" />
     </task>
     <servers />
   </component>
