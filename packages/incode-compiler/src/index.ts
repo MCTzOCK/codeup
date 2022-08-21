@@ -34,7 +34,9 @@ export function compile(
   }
 
   ast.forEach((node) => {
-    code += CommandExecutor.run(node);
+    if (node.command.trim() !== "") {
+      code += CommandExecutor.run(node);
+    }
   });
 
   code += "}}";
