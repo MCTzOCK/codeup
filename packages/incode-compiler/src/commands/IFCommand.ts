@@ -13,6 +13,7 @@ import {
   AbstractSyntaxTreeGenerator,
 } from "@codeup/incode-ast-generator";
 import CommandExecutor from "../CommandExecutor";
+import ConditionParser from "../ConditionParser";
 
 export default class IFCommand implements Command {
   /*
@@ -68,8 +69,11 @@ export default class IFCommand implements Command {
             )[0]
           )}
       })`;
-    }
+    } else {
+      sourceTree.args = ["_", ...sourceTree.args];
+      const cond = ConditionParser.parse(sourceTree);
 
-    return "";
+      return `if(${cond})`;
+    }
   }
 }
