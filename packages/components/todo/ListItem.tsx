@@ -18,7 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
-import { ImCross, ImCheckmark } from "react-icons/im";
+import { BsCheckCircleFill, BsCircle } from "react-icons/bs";
 import REST from "@codeup/rest";
 
 export default function ListItem(props: {
@@ -40,9 +40,9 @@ export default function ListItem(props: {
             aria-label={"check-uncheck"}
             icon={
               props.finished ? (
-                <ImCross color={"red"} />
+                <BsCheckCircleFill color={"pink"} />
               ) : (
-                <ImCheckmark color={"lime"} />
+                <BsCircle color={"pink"} />
               )
             }
             variant={"ghost"}

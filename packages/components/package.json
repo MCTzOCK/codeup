@@ -6,19 +6,22 @@
     "lint": "eslint *.ts*"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "tsconfig": "*",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
     "@chakra-ui/react": "^2.1.2",
     "@codeup/hooks": "*",
-    "@codeup/util": "*",
     "@codeup/rest": "*",
+    "@codeup/util": "*",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@monaco-editor/react": "^4.4.5",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "*",
-    "react": "^18.2.0",
-    "tsconfig": "*",
-    "typescript": "^4.5.2"
+    "react-icons": "^4.4.0",
+    "react": "^18.2.0"
   }
 }
