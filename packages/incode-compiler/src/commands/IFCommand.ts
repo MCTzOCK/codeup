@@ -58,7 +58,7 @@ export default class IFCommand implements Command {
         event = "mouseleave";
       }
 
-      return `${sourceTree.args[2]}.addEventListener("${event}", (event) => {
+      return `${sourceTree.args[0]}.addEventListener("${event}", (event) => {
           ${CommandExecutor.run(
             AbstractSyntaxTreeGenerator.generate(
               sourceTree.args
