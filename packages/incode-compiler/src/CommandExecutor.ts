@@ -11,6 +11,7 @@ import { AbstractSyntaxTree } from "@codeup/incode-ast-generator";
 import { Command } from "./types/Command";
 import CommentCommand from "./commands/CommentCommand";
 import CreateCommand from "./commands/CreateCommand";
+import AddCommand from "./commands/AddCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -25,6 +26,7 @@ export default class CommandExecutor {
     "#": new CommentCommand(),
     "!": new CommentCommand(),
     erstelle: new CreateCommand(),
+    addiere: new AddCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {

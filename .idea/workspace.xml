@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CommentCommand.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/types/Command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/types/DOM.Elements.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/AddCommand.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +167,7 @@
       <workItem from="1660320221593" duration="3120000" />
       <workItem from="1660378523645" duration="1455000" />
       <workItem from="1661018279947" duration="307000" />
-      <workItem from="1661018610904" duration="4225000" />
+      <workItem from="1661018610904" duration="4552000" />
     </task>
     <servers />
   </component>

@@ -24,8 +24,6 @@ export default class CreateCommand implements Command {
       if (sourceTree.args.length === 3) {
         return `let ${name} = null;`;
       } else {
-        console.log(sourceTree.args);
-
         const value = sourceTree.args[6].replace(/\u0000/g, " ");
         if (!value) {
           throw new Error("Missing value");
