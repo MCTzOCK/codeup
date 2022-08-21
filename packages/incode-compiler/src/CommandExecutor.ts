@@ -23,6 +23,7 @@ import FunctionCommand from "./commands/FunctionCommand";
 import CallCommand from "./commands/CallCommand";
 import SetCommand from "./commands/SetCommand";
 import RepeatCommand from "./commands/RepeatCommand";
+import IFCommand from "./commands/IFCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -49,6 +50,7 @@ export default class CommandExecutor {
     rufe: new CallCommand(),
     setze: new SetCommand(),
     wiederhole: new RepeatCommand(),
+    wenn: new IFCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {
