@@ -11,6 +11,13 @@ import { Command } from "../types/Command";
 import { AbstractSyntaxTree } from "@codeup/incode-ast-generator";
 
 export default class CommentCommand implements Command {
+  /*
+   * Comment Command
+   *
+   * Usage:   // <comment>
+   *          # <comment>
+   *          ! <comment>
+   */
   run(sourceTree: AbstractSyntaxTree): string {
     return `//${sourceTree.args.join(" ")}`;
   }

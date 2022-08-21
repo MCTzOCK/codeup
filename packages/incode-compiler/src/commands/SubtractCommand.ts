@@ -11,6 +11,11 @@ import { Command } from "../types/Command";
 import { AbstractSyntaxTree } from "@codeup/incode-ast-generator";
 
 export default class SubtractCommand implements Command {
+  /*
+   * Subtract Command
+   *
+   * Usage: Subtrahiere <zahl|variable> von <variable>
+   */
   run(sourceTree: AbstractSyntaxTree): string {
     if (sourceTree.args.length < 3) {
       throw new Error("Missing arguments");

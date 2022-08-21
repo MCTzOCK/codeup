@@ -11,6 +11,11 @@ import { Command } from "../types/Command";
 import { AbstractSyntaxTree } from "@codeup/incode-ast-generator";
 
 export default class AddCommand implements Command {
+  /*
+   * Add Command
+   *
+   * Usage: Addiere <zahl|variable> zu <variable>
+   */
   run(sourceTree: AbstractSyntaxTree): string {
     if (sourceTree.args.length < 3) {
       throw new Error("Missing arguments");

@@ -12,6 +12,13 @@ import { AbstractSyntaxTree } from "@codeup/incode-ast-generator";
 import { DOM } from "../types/DOM.Elements";
 
 export default class CreateCommand implements Command {
+  /*
+   * Create Command
+   *
+   * Usage: Erstelle <name> als Variable
+   * Usage: Erstelle <name> als Variable mit dem Wert <value>
+   * Usage: Erstelle <name> als <DOM.Element>
+   */
   run(sourceTree: AbstractSyntaxTree): string {
     const name = sourceTree.args[0];
     const type = sourceTree.args[2];
