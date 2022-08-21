@@ -21,6 +21,7 @@ import PrintCommand from "./commands/PrintCommand";
 import AskCommand from "./commands/AskCommand";
 import FunctionCommand from "./commands/FunctionCommand";
 import CallCommand from "./commands/CallCommand";
+import SetCommand from "./commands/SetCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -45,6 +46,7 @@ export default class CommandExecutor {
     frage: new AskCommand(),
     funktion: new FunctionCommand(),
     rufe: new CallCommand(),
+    setze: new SetCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {
