@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/AddCommand.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/SubtractCommand.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +62,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "16.9.0",
     "javascript.nodejs.core.library.typings.version": "16.9.0",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/incode-compiler",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/incode-compiler/src/commands",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -92,11 +91,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-compiler\src\commands" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-compiler" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]\template" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\rest" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\todo\lists" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\contributors" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
@@ -167,7 +166,7 @@
       <workItem from="1660320221593" duration="3120000" />
       <workItem from="1660378523645" duration="1455000" />
       <workItem from="1661018279947" duration="307000" />
-      <workItem from="1661018610904" duration="4552000" />
+      <workItem from="1661018610904" duration="4688000" />
     </task>
     <servers />
   </component>
