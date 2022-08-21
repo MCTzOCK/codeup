@@ -18,6 +18,7 @@ import DivideCommand from "./commands/DivideCommand";
 import AppendCommand from "./commands/AppendCommand";
 import RemoveCommand from "./commands/RemoveCommand";
 import PrintCommand from "./commands/PrintCommand";
+import AskCommand from "./commands/AskCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -39,6 +40,7 @@ export default class CommandExecutor {
     füge: new AppendCommand(),
     entferne: new RemoveCommand(),
     gib: new PrintCommand(),
+    frage: new AskCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {
