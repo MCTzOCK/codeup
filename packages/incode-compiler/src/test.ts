@@ -12,7 +12,7 @@ import * as x from "./index";
 
 console.log(
   x.compile(
-    "Erstelle x als Variable mit dem Wert 42\nMultipliziere x mit 2",
+    "Erstelle x als Variable mit dem Wert 42\nDividiere x durch 2",
     false
   )
 );

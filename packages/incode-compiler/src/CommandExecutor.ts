@@ -14,6 +14,7 @@ import CreateCommand from "./commands/CreateCommand";
 import AddCommand from "./commands/AddCommand";
 import SubtractCommand from "./commands/SubtractCommand";
 import MultiplyCommand from "./commands/MultiplyCommand";
+import DivideCommand from "./commands/DivideCommand";
 
 export default class CommandExecutor {
   public static readonly COMMANDS: {
@@ -31,6 +32,7 @@ export default class CommandExecutor {
     addiere: new AddCommand(),
     subtrahiere: new SubtractCommand(),
     multipliziere: new MultiplyCommand(),
+    dividiere: new DivideCommand(),
   };
 
   public static run(sourceTree: AbstractSyntaxTree): string {
