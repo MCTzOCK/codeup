@@ -9,3 +9,5 @@
  */
 
 export { AbstractSyntaxTreeGenerator } from "./AbstractSyntaxTreeGenerator";
+export { AbstractSyntaxTree } from "./types/AbstractSyntaxTree";
+export { PreCompiler } from "./util/PreCompiler";

@@ -29,7 +29,6 @@ export default function PreviewModal(props: {
   onClose: () => void;
 }) {
   const onClose = () => {
-    // document.cookie = "jwt=; path=/";
     props.onClose();
   };
 
@@ -48,6 +47,9 @@ export default function PreviewModal(props: {
                 id={"ifr-prev"}
                 src={
                   "/api/ide/projects/" + props.project + "/preview" + props.path
+                }
+                sandbox={
+                  "allow-forms allow-orientation-lock allow-popups allow-presentation allow-scripts"
                 }
               ></iframe>
             </ModalBody>

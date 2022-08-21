@@ -1,0 +1,17 @@
+{
+  "name": "@codeup/incode-compiler",
+  "version": "1.0.0",
+  "description": "Integration of InCode's Language Compiler",
+  "main": "src/index.ts",
+  "repository": "https://github.com/MCTzOCK/codeup",
+  "author": "Ben Siebert",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "dependencies": {
+    "@codeup/incode-ast-generator": "*",
+    "@types/js-beautify": "^1.13.3",
+    "@types/uglify-js": "^3.16.0",
+    "js-beautify": "^1.14.5",
+    "uglify-js": "^3.16.3"
+  }
+}

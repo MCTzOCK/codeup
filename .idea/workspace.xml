@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/incode-ast-generator/AbstractSyntaxTreeGenerator.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-ast-generator/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-ast-generator/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-ast-generator/types/AbstractSyntaxTree.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/incode-ast-generator/util/PreCompiler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CommentCommand.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/types/Command.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/src/types/DOM.Elements.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/incode-compiler/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,32 +62,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;16.9.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;16.9.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/api/ide/projects/[id]/template&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "16.9.0",
+    "javascript.nodejs.core.library.typings.version": "16.9.0",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/packages/incode-compiler",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "discord-application",
+    "ts.external.directory.path": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Shell Script&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Shell Script"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -92,11 +99,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-compiler" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]\template" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\rest" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\todo\lists" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\contributors" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
@@ -166,6 +173,8 @@
       <workItem from="1658609207573" duration="39072000" />
       <workItem from="1660320221593" duration="3120000" />
       <workItem from="1660378523645" duration="1455000" />
+      <workItem from="1661018279947" duration="307000" />
+      <workItem from="1661018610904" duration="4225000" />
     </task>
     <servers />
   </component>
