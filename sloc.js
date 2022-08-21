@@ -5,6 +5,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const byteSize = require("byte-size");
 
 let paths = getAllPaths(".", []);
 
@@ -20,6 +21,7 @@ paths = paths
   .filter((p) => !p.includes(".afdesign"));
 
 let lines = 0;
+let size = 0;
 
 let filesWithLines = [];
 
@@ -28,7 +30,7 @@ for (let i = 0; i < paths.length; i++) {
   filesWithLines.push({
     path: paths[i],
     lines: fLines,
-  })
+  });
   lines += fLines;
 }
 
@@ -38,18 +40,18 @@ if (process.argv.includes("-v")) {
 
 console.log("Total Lines of Code: " + lines);
 console.log("Total Source Files: " + paths.length);
+console.log("Total Source Size: " + byteSize(size));
 filesWithLines.sort((a, b) => b.lines - a.lines);
 console.log("Top Biggest Files:");
 filesWithLines.slice(0, 10).forEach((f, i) => {
-  console.log((i + 1) + ". " + f.path + ": " + f.lines);
+  console.log(i + 1 + ". " + f.path + ": " + f.lines);
 });
 
-if(process.argv.includes("--list-all")) {
+if (process.argv.includes("--list-all")) {
   filesWithLines.slice(10, filesWithLines.length).forEach((f, i) => {
-    console.log((i + 11) + ". " + f.path + ": " + f.lines);
-  })
+    console.log(i + 11 + ". " + f.path + ": " + f.lines);
+  });
 }
-
 
 function getAllPaths(dirPath, arrayOfFiles) {
   files = fs.readdirSync(dirPath);
@@ -68,5 +70,7 @@ function getAllPaths(dirPath, arrayOfFiles) {
 }
 
 function getFileLines(p) {
-  return fs.readFileSync(p).toString().split("\n").length;
+  let file = fs.readFileSync(p, "utf8");
+  size += file.toString().length;
+  return file.toString().split("\n").length;
 }
