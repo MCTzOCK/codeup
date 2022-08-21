@@ -53,9 +53,3 @@ export function compile(
 }
 
 export { CommandExecutor, Command };
-
-console.log(
-  compile(
-    "Wiederhole solange x gleich 2 ist und y gleich 3 ist oder z gleich 4 ist"
-  )
-);
