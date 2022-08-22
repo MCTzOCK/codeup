@@ -16,6 +16,7 @@ import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import * as ts from "typescript";
 import * as sass from "sass";
 import { lookup as mimeLookup } from "mime-types";
+import { compile } from "@codeup/incode-compiler";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -109,6 +110,14 @@ export default async function handleRequest(
               ? "scss"
               : "indented",
           }).css;
+        }
+
+        if (file.path.toLowerCase().endsWith(".ic")) {
+          ret = `<html><head><title>${
+            file.path
+          }</title></head><body><script defer>${compile(
+            ret
+          )}</script></body></html>`;
         }
 
         if (

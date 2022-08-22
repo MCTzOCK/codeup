@@ -856,6 +856,8 @@ function FileEntry(props: {
 function FileExtensionOptions() {
   return (
     <>
+      <option disabled={true}>All-In-One</option>
+      <option value={".ic"}>InCode</option>
       <option disabled={true}>Struktur</option>
       <option value={".html"}>HTML</option>
       <option disabled={true}>Aussehen</option>

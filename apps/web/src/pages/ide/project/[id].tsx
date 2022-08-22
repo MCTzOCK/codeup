@@ -420,8 +420,9 @@ export default function Index() {
                   />
                 </Tooltip>
                 {currentFile &&
-                currentFile.path.endsWith(".html") &&
-                !settingsOpen ? (
+                !settingsOpen &&
+                (currentFile.path.toLowerCase().endsWith(".html") ||
+                  currentFile.path.toLowerCase().endsWith(".ic")) ? (
                   <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
