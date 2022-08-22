@@ -2,14 +2,13 @@ import "../styles/globals.css";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
 import { PostButton } from "@codeup/components/community/post";
-import { useUserInfo } from "@codeup/hooks";
 import { CourseNavigationBar } from "@codeup/components/course";
-import { NavigationBar, Footer } from "@codeup/components/global";
+import { Footer, NavigationBar } from "@codeup/components/global";
 
 const theme = extendTheme({
   config: {
@@ -124,7 +123,9 @@ function App({ Component, pageProps }: AppProps) {
             router.pathname.startsWith("/explore") ? (
               <CourseNavigationBar />
             ) : null}
+
             <Component {...pageProps} />
+
             {router.pathname.startsWith("/community") ? <PostButton /> : null}
           </Box>
           <Footer />

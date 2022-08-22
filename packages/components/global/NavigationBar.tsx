@@ -49,6 +49,7 @@ import {
   BsFillCalendar2WeekFill,
   BsGlobe,
 } from "react-icons/bs";
+import InCodeIcon from "../icons/InCodeIcon";
 
 export default function NavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -158,6 +159,7 @@ export default function NavigationBar() {
             <Box flex={"10%"}>
               <Heading color={"white"}>{props.icon}</Heading>
             </Box>
+            <Box flex={"10%"}></Box>
             <Box flex={"80%"}>
               <Flex w={"100%"} direction={"column"}>
                 <Heading size={"lg"}>{props.name}</Heading>
@@ -305,6 +307,12 @@ export default function NavigationBar() {
                 description={"Verwirkliche deine Projekteideen"}
                 icon={<BiCodeAlt />}
                 url={"/ide"}
+              />
+              <ExpandedMenuOption
+                name={"InCode Docs"}
+                description={"Dokumentation der InCode Programmiersprache"}
+                icon={<InCodeIcon />}
+                url={"/redirect?url=https://incode.codeup.space"}
               />
               <ExpandedMenuOption
                 name={"Zertifikate"}
