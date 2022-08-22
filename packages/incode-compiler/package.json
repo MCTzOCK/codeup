@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build-typescript": "tsc"
   },
   "dependencies": {
     "@codeup/incode-ast-generator": "*",

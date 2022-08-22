@@ -8,6 +8,6 @@
   "license": "GPL-3.0-only",
   "private": false,
   "scripts": {
-    "build": "tsc"
+    "build-typescript": "tsc"
   }
 }
