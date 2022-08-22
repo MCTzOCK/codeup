@@ -12,6 +12,7 @@ let paths = getAllPaths(".", []);
 paths = paths
   .filter((p) => !p.includes("node_modules"))
   .filter((p) => !p.includes(".next"))
+  .filter((p) => !p.includes("dist"))
   .filter((p) => !p.includes(".turbo"))
   .filter((p) => !p.includes(".git"))
   .filter((p) => !p.includes(".idea"))
