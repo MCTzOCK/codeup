@@ -329,9 +329,9 @@ export default function Index() {
             [/wert/, "type"],
             [/farbe/, "type"],
             [/hintergrundfarbe/, "type"],
-            [/text/, "type"],
             [/textdekoration/, "type"],
             [/textausrichtung/, "type"],
+            [/text/, "type"],
             [/schriftbreite/, "type"],
             [/schriftart/, "type"],
             [/abstand-oben/, "type"],
@@ -395,6 +395,10 @@ export default function Index() {
             [/ungeordnete-liste/, "type"],
             [/geordnete-liste/, "type"],
             [/link/, "type"],
+
+            [/gedrückt/, "event"],
+            [/berührt/, "event"],
+            [/verlassen/, "event"],
           ],
         },
       });
@@ -432,6 +436,14 @@ export default function Index() {
           {
             token: "condition-joiner",
             foreground: "#2086d9",
+          },
+          {
+            token: "value",
+            foreground: "#d9b420",
+          },
+          {
+            token: "event",
+            foreground: "#20d992",
           },
         ],
         colors: {
