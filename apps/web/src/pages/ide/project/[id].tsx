@@ -259,6 +259,8 @@ export default function Index() {
             [/stopp/, "command"],
             [/funktion/, "command"],
 
+            [/#([a-f0-9]{3}|[a-f0-9]{6})/, "value"],
+
             [/\/\/.*/, "comment"],
             [/#.*/, "comment"],
             [/!.*/, "comment"],
