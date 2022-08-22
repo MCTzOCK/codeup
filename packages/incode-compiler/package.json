@@ -2,13 +2,14 @@
   "name": "@codeup/incode-compiler",
   "version": "1.0.0",
   "description": "Integration of InCode's Language Compiler",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "repository": "https://github.com/MCTzOCK/codeup",
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
   "private": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "dependencies": {
     "@codeup/incode-ast-generator": "*",

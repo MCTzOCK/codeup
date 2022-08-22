@@ -13,6 +13,8 @@
     "@codeup/components": "*",
     "@codeup/hooks": "*",
     "@codeup/util": "*",
+    "@codeup/incode-compiler": "*",
+    "@codeup/incode-ast-generator": "*",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@mdx-js/loader": "^2.1.2",

@@ -46,8 +46,8 @@ export class AbstractSyntaxTreeGenerator {
 
       const firstWord = wordList[0];
 
-      ast.intents = firstWord.split("\t").length - 1;
-      ast.command = firstWord.replace(/\t/g, "");
+      ast.intents = firstWord.split("    ").length - 1;
+      ast.command = firstWord.replace(/ {4}/g, "");
       ast.args = wordList.slice(1);
 
       temp.push(ast);

@@ -124,6 +124,10 @@ export default function Index() {
       language: "sass",
       icon: <SiSass />,
     },
+    ic: {
+      language: "codeup-incode",
+      icon: <FaHome />,
+    },
     _default: {
       language: "plain",
       icon: <FaFile />,
@@ -230,7 +234,226 @@ export default function Index() {
         target: monaco.languages.typescript.ScriptTarget.ESNext,
         allowNonTsExtensions: true,
       });
-      setMonacoTheme("codeup-dark");
+
+      monaco.languages.register({ id: "codeup-incode" });
+
+      monaco.languages.setMonarchTokensProvider("codeup-incode", {
+        ignoreCase: true,
+        tokenizer: {
+          root: [
+            [/erstelle/, "command"],
+            [/addiere/, "command"],
+            [/subtrahiere/, "command"],
+            [/multipliziere/, "command"],
+            [/dividiere/, "command"],
+            [/füge/, "command"],
+            [/entferne/, "command"],
+            [/gib/, "command"],
+            [/frage/, "command"],
+            [/funktion/, "command"],
+            [/rufe/, "command"],
+            [/setze/, "command"],
+            [/wiederhole/, "command"],
+            [/wenn/, "command"],
+            [/sonst/, "command"],
+            [/stopp/, "command"],
+            [/funktion/, "command"],
+
+            [/#([a-f0-9]{3}|[a-f0-9]{6})/, "value"],
+
+            [/\/\/.*/, "comment"],
+            [/#.*/, "comment"],
+            [/!.*/, "comment"],
+
+            [/".*"/, "data"],
+
+            [/\d+/, "data"],
+
+            [/in/, "secondary"],
+            [/der/, "secondary"],
+            [/die/, "secondary"],
+            [/das/, "secondary"],
+            [/den/, "secondary"],
+            [/dem/, "secondary"],
+            [/auf/, "secondary"],
+            [/aus/, "secondary"],
+            [/als/, "secondary"],
+            [/mit/, "secondary"],
+            [/zum/, "secondary"],
+            [/zu/, "secondary"],
+            [/von/, "secondary"],
+            [/durch/, "secondary"],
+            [/hinzu/, "secondary"],
+            [/von/, "secondary"],
+            [/vom/, "secondary"],
+            [/speicher/, "secondary"],
+            [/Antwort/, "secondary"],
+            [/ist/, "secondary"],
+            [/wird/, "secondary"],
+
+            [/und/, "condition-joiner"],
+            [/oder/, "condition-joiner"],
+
+            [/gleich/, "operator"],
+            [/ungleich/, "operator"],
+            [/kleiner/, "operator"],
+            [/kleiner-gleich/, "operator"],
+            [/größer/, "operator"],
+            [/größer-gleich/, "operator"],
+
+            [/unterstrichen/, "value"],
+            [/überstrichen/, "value"],
+            [/durchgestrichen/, "value"],
+            [/unterstrichen-überstrichen/, "value"],
+            [/links/, "value"],
+            [/zentriert/, "value"],
+            [/rechts/, "value"],
+            [/normal/, "value"],
+            [/fett/, "value"],
+            [/schwächer/, "value"],
+            [/leichter/, "value"],
+            [/absolut/, "value"],
+            [/relativ/, "value"],
+            [/fest/, "value"],
+            [/keine/, "value"],
+            [/durchgezogen/, "value"],
+            [/gestrichen/, "value"],
+            [/gepunktet/, "value"],
+            [/doppelt/, "value"],
+            [/unsichtbar/, "value"],
+            [/sichtbar/, "value"],
+
+            [/solange/, "type"],
+            [/taste/, "type"],
+            [/variable/, "type"],
+            [/dialogbox/, "type"],
+            [/bildschirm/, "type"],
+            [/wert/, "type"],
+            [/farbe/, "type"],
+            [/hintergrundfarbe/, "type"],
+            [/textdekoration/, "type"],
+            [/textausrichtung/, "type"],
+            [/text/, "type"],
+            [/schriftbreite/, "type"],
+            [/schriftart/, "type"],
+            [/abstand-oben/, "type"],
+            [/abstand-unten/, "type"],
+            [/abstand-rechts/, "type"],
+            [/abstand-links/, "type"],
+            [/abstand/, "type"],
+            [/innerer-abstand-oben/, "type"],
+            [/innerer-abstand-unten/, "type"],
+            [/innerer-abstand-rechts/, "type"],
+            [/innerer-abstand-links/, "type"],
+            [/innerer-abstand/, "type"],
+            [/schriftgröße/, "type"],
+            [/breite/, "type"],
+            [/höhe/, "type"],
+            [/quelle/, "type"],
+            [/position/, "type"],
+            [/umrandungsbreite-oben/, "type"],
+            [/umrandungsbreite-unten/, "type"],
+            [/umrandungsbreite-links/, "type"],
+            [/umrandungsbreite-rechts/, "type"],
+            [/umrandungsbreite/, "type"],
+            [/umrandungsstil-oben/, "type"],
+            [/umrandungsstil-unten/, "type"],
+            [/umrandungsstil-links/, "type"],
+            [/umrandungsstil-rechts/, "type"],
+            [/umrandungsstil/, "type"],
+            [/umrandungsradius/, "type"],
+            [/umrandungsradius-oben-links/, "type"],
+            [/umrandungsradius-oben-rechts/, "type"],
+            [/umrandungsradius-unten-links/, "type"],
+            [/umrandungsradius-unten-rechts/, "type"],
+            [/umrandungsfarbe/, "type"],
+            [/umrandungsfarbe-oben/, "type"],
+            [/umrandungsfarbe-rechts/, "type"],
+            [/umrandungsfarbe-links/, "type"],
+            [/umrandungsfarbe-unten/, "type"],
+            [/sichtbarkeit/, "type"],
+
+            [/knopf/, "type"],
+            [/textfeld/, "type"],
+            [/absatz/, "type"],
+            [/text/, "type"],
+            [/bild/, "type"],
+            [/überschrift/, "type"],
+            [/überschrift2/, "type"],
+            [/überschrift3/, "type"],
+            [/überschrift4/, "type"],
+            [/überschrift5/, "type"],
+            [/überschrift6/, "type"],
+            [/tabelle/, "type"],
+            [/zeile/, "type"],
+            [/spalte/, "type"],
+            [/zeilenumbruch/, "type"],
+            [/video/, "type"],
+            [/audio/, "type"],
+            [/fenster/, "type"],
+            [/container/, "type"],
+            [/listenpunkt/, "type"],
+            [/liste/, "type"],
+            [/ungeordnete-liste/, "type"],
+            [/geordnete-liste/, "type"],
+            [/link/, "type"],
+
+            [/gedrückt/, "event"],
+            [/berührt/, "event"],
+            [/verlassen/, "event"],
+          ],
+        },
+      });
+
+      monaco.editor.defineTheme("codeup-dark-incode", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+          {
+            token: "command",
+            foreground: "#ffa500",
+            fontStyle: "bold",
+          },
+          {
+            token: "comment",
+            foreground: "#808080",
+          },
+          {
+            token: "data",
+            foreground: "#FF00FF",
+          },
+          {
+            token: "secondary",
+            foreground: "#545454",
+          },
+          {
+            token: "type",
+            foreground: "#38d920",
+          },
+          {
+            token: "operator",
+            foreground: "#d92020",
+            fontStyle: "italic",
+          },
+          {
+            token: "condition-joiner",
+            foreground: "#2086d9",
+          },
+          {
+            token: "value",
+            foreground: "#d9b420",
+          },
+          {
+            token: "event",
+            foreground: "#20d992",
+          },
+        ],
+        colors: {
+          "editor.background": "#141517",
+        },
+      });
+
+      setMonacoTheme("codeup-dark-incode");
 
       if (
         project.files.find((f) => f.path.toLowerCase() === "/readme.md") &&
@@ -420,8 +643,9 @@ export default function Index() {
                   />
                 </Tooltip>
                 {currentFile &&
-                currentFile.path.endsWith(".html") &&
-                !settingsOpen ? (
+                !settingsOpen &&
+                (currentFile.path.toLowerCase().endsWith(".html") ||
+                  currentFile.path.toLowerCase().endsWith(".ic")) ? (
                   <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
@@ -556,79 +780,14 @@ export default function Index() {
                       <>
                         <Box flex={"5%"}>
                           <ButtonGroup>
-                            <Menu>
-                              <MenuButton as={Button} variant={"ghost"}>
-                                Datei
-                              </MenuButton>
-                              <MenuList backgroundColor={"gray.900"}>
-                                {permissions.includes("WRITE") ||
-                                permissions.includes("OWNER") ? (
-                                  <>
-                                    <MenuItem
-                                      onClick={async () => {
-                                        save();
-                                      }}
-                                    >
-                                      Speichern
-                                    </MenuItem>
-                                  </>
-                                ) : null}
-                                <MenuItem
-                                  onClick={async () => {
-                                    const res = await REST.IDE.saveFile({
-                                      token: localStorage.getItem(
-                                        "token"
-                                      ) as string,
-                                      path: currentFile?.path as string,
-                                      content:
-                                        // @ts-ignore
-                                        editorRef?.current?.getValue() as string,
-                                      projectId: project?._id as string,
-                                    });
-
-                                    if (res.status === 200) {
-                                      let f = project?.files;
-
-                                      if (
-                                        f &&
-                                        f.find(
-                                          (p) =>
-                                            p.path ===
-                                            (currentFile?.path as string)
-                                        )
-                                      ) {
-                                        (
-                                          f.find(
-                                            (p) =>
-                                              p.path ===
-                                              (currentFile?.path as string)
-                                          ) as {
-                                            content: string;
-                                            path: string;
-                                          }
-                                        ).content =
-                                          // @ts-ignore
-                                          editorRef?.current?.getValue();
-                                      }
-
-                                      if (project && f) {
-                                        setProject({
-                                          _id: project?._id,
-                                          contributors: project?.contributors,
-                                          owner: project?.owner,
-                                          name: project?.name,
-                                          files: f,
-                                        });
-                                      }
-                                    }
-
-                                    setCurrentFile(null);
-                                  }}
-                                >
-                                  Schließen
-                                </MenuItem>
-                              </MenuList>
-                            </Menu>
+                            <Button
+                              variant={"ghost"}
+                              onClick={async () => {
+                                save();
+                              }}
+                            >
+                              Speichern
+                            </Button>
                           </ButtonGroup>
                         </Box>
                         <Box flex={"95%"}>
@@ -646,6 +805,8 @@ export default function Index() {
                             onMount={handleEditorDidMount}
                             theme={monacoTheme}
                             options={{
+                              insertSpaces: false,
+                              wrappingIndent: "indent",
                               fontSize: editorOptions.fontSize,
                               readOnly:
                                 !permissions.includes("WRITE") &&

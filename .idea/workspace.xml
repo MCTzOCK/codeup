@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/todo/ListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/todo/ListItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,14 +95,34 @@
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\rest" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-ast-generator\src" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components\global" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.build">
+    <configuration name="build (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/incode-ast-generator/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/incode-compiler/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="stats" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -117,6 +135,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.build (1)" />
         <item itemvalue="npm.stats" />
       </list>
     </recent_temporary>
@@ -166,6 +186,7 @@
       <workItem from="1660378523645" duration="1455000" />
       <workItem from="1661018279947" duration="307000" />
       <workItem from="1661018610904" duration="23065000" />
+      <workItem from="1661153917200" duration="8396000" />
     </task>
     <servers />
   </component>

@@ -44,7 +44,7 @@ export default class IFCommand implements Command {
             )[0]
           )}
         }
-      })`;
+      });`;
     } else if (
       ["gedrückt", "berührt", "verlassen"].includes(
         sourceTree.args[1].toLowerCase()
@@ -68,7 +68,7 @@ export default class IFCommand implements Command {
                 .replace(/\u0000/g, " ")
             )[0]
           )}
-      })`;
+      });`;
     } else {
       sourceTree.args = ["_", ...sourceTree.args];
       const cond = ConditionParser.parse(sourceTree);

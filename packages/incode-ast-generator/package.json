@@ -2,9 +2,12 @@
   "name": "@codeup/incode-ast-generator",
   "version": "1.0.0",
   "description": "Integration of InCode's Abstract Syntax Tree (AST) Generator",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "repository": "https://github.com/MCTzOCK/codeup",
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
-  "private": false
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  }
 }
