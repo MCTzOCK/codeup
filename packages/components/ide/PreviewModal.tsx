@@ -48,9 +48,6 @@ export default function PreviewModal(props: {
                 src={
                   "/api/ide/projects/" + props.project + "/preview" + props.path
                 }
-                sandbox={
-                  "allow-forms allow-orientation-lock allow-popups allow-presentation allow-scripts"
-                }
               ></iframe>
             </ModalBody>
 

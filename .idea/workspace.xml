@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/sloc.js" beforeDir="false" afterPath="$PROJECT_DIR$/sloc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/ide/project/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/PreviewModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/dist/AbstractSyntaxTreeGenerator.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/dist/AbstractSyntaxTreeGenerator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/dist/AbstractSyntaxTreeGenerator.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/dist/AbstractSyntaxTreeGenerator.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/src/AbstractSyntaxTreeGenerator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/src/AbstractSyntaxTreeGenerator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/dist/commands/IFCommand.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/dist/commands/IFCommand.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/dist/commands/IFCommand.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/dist/commands/IFCommand.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/commands/IFCommand.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/IFCommand.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +111,7 @@
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\components\global" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build (1)">
+  <component name="RunManager" selected="npm.build">
     <configuration name="build (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/packages/incode-ast-generator/package.json" />
       <command value="run" />
@@ -135,8 +144,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.build (1)" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.build (1)" />
         <item itemvalue="npm.stats" />
       </list>
     </recent_temporary>
@@ -186,7 +195,7 @@
       <workItem from="1660378523645" duration="1455000" />
       <workItem from="1661018279947" duration="307000" />
       <workItem from="1661018610904" duration="23065000" />
-      <workItem from="1661153917200" duration="1048000" />
+      <workItem from="1661153917200" duration="5100000" />
     </task>
     <servers />
   </component>

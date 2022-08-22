@@ -34,7 +34,7 @@ var IFCommand = /** @class */ (function () {
             return "document.addEventListener(\"keydown\", (event) => {\n        if(event.key === \"".concat(sourceTree.args[1], "\") {\n          ").concat(CommandExecutor_1.default.run(incode_ast_generator_1.AbstractSyntaxTreeGenerator.generate(sourceTree.args
                 .slice(4, sourceTree.args.length)
                 .join(" ")
-                .replace(/\u0000/g, " "))[0]), "\n        }\n      })");
+                .replace(/\u0000/g, " "))[0]), "\n        }\n      });");
         }
         else if (["gedrückt", "berührt", "verlassen"].includes(sourceTree.args[1].toLowerCase())) {
             var event_1 = "";
@@ -50,7 +50,7 @@ var IFCommand = /** @class */ (function () {
             return "".concat(sourceTree.args[0], ".addEventListener(\"").concat(event_1, "\", (event) => {\n          ").concat(CommandExecutor_1.default.run(incode_ast_generator_1.AbstractSyntaxTreeGenerator.generate(sourceTree.args
                 .slice(3, sourceTree.args.length)
                 .join(" ")
-                .replace(/\u0000/g, " "))[0]), "\n      })");
+                .replace(/\u0000/g, " "))[0]), "\n      });");
         }
         else {
             sourceTree.args = __spreadArray(["_"], sourceTree.args, true);

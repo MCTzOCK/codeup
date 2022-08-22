@@ -130,6 +130,10 @@ export default function FileManager(props: {
       language: "sass",
       icon: <SiSass />,
     },
+    ic: {
+      language: "codeup-incode",
+      icon: <FaHome />,
+    },
     _default: {
       language: "plain",
       icon: <FaFile />,
