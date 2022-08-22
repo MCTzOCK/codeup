@@ -780,79 +780,14 @@ export default function Index() {
                       <>
                         <Box flex={"5%"}>
                           <ButtonGroup>
-                            <Menu>
-                              <MenuButton as={Button} variant={"ghost"}>
-                                Datei
-                              </MenuButton>
-                              <MenuList backgroundColor={"gray.900"}>
-                                {permissions.includes("WRITE") ||
-                                permissions.includes("OWNER") ? (
-                                  <>
-                                    <MenuItem
-                                      onClick={async () => {
-                                        save();
-                                      }}
-                                    >
-                                      Speichern
-                                    </MenuItem>
-                                  </>
-                                ) : null}
-                                <MenuItem
-                                  onClick={async () => {
-                                    const res = await REST.IDE.saveFile({
-                                      token: localStorage.getItem(
-                                        "token"
-                                      ) as string,
-                                      path: currentFile?.path as string,
-                                      content:
-                                        // @ts-ignore
-                                        editorRef?.current?.getValue() as string,
-                                      projectId: project?._id as string,
-                                    });
-
-                                    if (res.status === 200) {
-                                      let f = project?.files;
-
-                                      if (
-                                        f &&
-                                        f.find(
-                                          (p) =>
-                                            p.path ===
-                                            (currentFile?.path as string)
-                                        )
-                                      ) {
-                                        (
-                                          f.find(
-                                            (p) =>
-                                              p.path ===
-                                              (currentFile?.path as string)
-                                          ) as {
-                                            content: string;
-                                            path: string;
-                                          }
-                                        ).content =
-                                          // @ts-ignore
-                                          editorRef?.current?.getValue();
-                                      }
-
-                                      if (project && f) {
-                                        setProject({
-                                          _id: project?._id,
-                                          contributors: project?.contributors,
-                                          owner: project?.owner,
-                                          name: project?.name,
-                                          files: f,
-                                        });
-                                      }
-                                    }
-
-                                    setCurrentFile(null);
-                                  }}
-                                >
-                                  Schließen
-                                </MenuItem>
-                              </MenuList>
-                            </Menu>
+                            <Button
+                              variant={"ghost"}
+                              onClick={async () => {
+                                save();
+                              }}
+                            >
+                              Speichern
+                            </Button>
                           </ButtonGroup>
                         </Box>
                         <Box flex={"95%"}>
