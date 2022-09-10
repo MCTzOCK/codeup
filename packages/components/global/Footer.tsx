@@ -45,6 +45,11 @@ export default function Footer() {
           >
             Twitter
           </Link>
+          <br />
+          <br />
+          <Text color="gray.700">
+            Vector Graphics from undraw.co, Icons from react-icons
+          </Text>
         </Text>
       </Box>
     </>
