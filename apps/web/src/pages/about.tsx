@@ -9,7 +9,6 @@
  */
 
 import { Flex, Heading, Link, SimpleGrid } from "@chakra-ui/react";
-import Image from "next/image";
 
 export default function About() {
   return (
@@ -20,7 +19,7 @@ export default function About() {
         gap="2rem"
         direction={"column"}
         textAlign={"center"}
-        paddingInline={[0, "30%"]}
+        paddingInline={["1rem", "30%"]}
       >
         <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
           Über CodeUp
