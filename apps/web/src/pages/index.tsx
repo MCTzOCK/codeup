@@ -27,6 +27,26 @@ export default function Home() {
 
   return (
     <>
+      <Box
+        position={"fixed"}
+        top="0"
+        left="0"
+        width={"100%"}
+        height="100vh"
+        backgroundColor={"gray.800"}
+        zIndex={5}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        className="hp-loader"
+        flexDirection={"column"}
+        gap="4rem"
+      >
+        <img src="/codeup.svg" width={512} height={512} />
+        <Heading fontFamily="ARCADE" color={"white"}>
+          Loading CodeUp ...
+        </Heading>
+      </Box>
       <Flex
         direction={["column", "row"]}
         gap="2rem"

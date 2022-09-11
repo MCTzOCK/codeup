@@ -1,5 +1,12 @@
 @import url("https://rsms.me/inter/inter.css");
 
+@font-face {
+  font-family: ARCADE;
+  src: url(ARCADE_R.TTF);
+}
+
+/* Global Styles */
+
 html,
 body {
   padding: 0;
@@ -17,4 +24,42 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Home Page Animation */
+
+.hp-loader {
+  animation: hp-loader 4s ease;
+  animation-fill-mode: forwards;
+  display: block;
+}
+
+.hp-loader img {
+  animation: imgBlinkLight 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 2;
+}
+
+@keyframes hp-loader {
+  0% {
+    transform: translateX(0%);
+  }
+  60% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translate(0%, 100%);
+  }
+}
+
+@keyframes imgBlinkLight {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
