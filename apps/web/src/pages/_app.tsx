@@ -1,8 +1,8 @@
 import "../styles/globals.css";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React from "react";
+import { Box, ChakraProvider, extendTheme, useToast } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
@@ -118,10 +118,6 @@ function App({ Component, pageProps }: AppProps) {
           <Box minH={"96vh"}>
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
-            ) : null}
-            {router.pathname.startsWith("/course") ||
-            router.pathname.startsWith("/explore") ? (
-              <CourseNavigationBar />
             ) : null}
 
             <Component {...pageProps} />
