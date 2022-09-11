@@ -1,5 +1,5 @@
 /**
- * src/pages/404.tsx
+ * src/pages/505.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -10,21 +10,24 @@
 
 import * as React from "react";
 import { Flex, Heading } from "@chakra-ui/react";
+import Image from "next/image";
 
 export default function NotFound() {
   return (
     <>
       <Flex
+        mt="4rem"
         w={"100%"}
-        h={"98vh"}
-        alignItems={"center"}
-        justifyContent={"center"}
+        gap="2rem"
         direction={"column"}
+        textAlign={"center"}
       >
-        <Heading size={"xl"} fontFamily={"monospace"} color={"gray.400"}>
-          500
-        </Heading>
-        <Heading size={"4xl"} color={"red"}>
+        <Image
+          src="/_static/vectors/error/500.svg"
+          width={"512"}
+          height={"512"}
+        />
+        <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
           Interner Server Fehler
         </Heading>
       </Flex>
