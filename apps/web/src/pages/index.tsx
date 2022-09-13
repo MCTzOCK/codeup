@@ -36,13 +36,13 @@ export default function Home() {
         backgroundColor={"gray.800"}
         zIndex={5}
         display="flex"
-        justifyContent="center"
         alignItems="center"
+        textAlign={"center"}
         className="hp-loader"
-        flexDirection={"column"}
-        gap="4rem"
+        flexDirection={"column-reverse"}
+        pb="2rem"
       >
-        <img src="/codeup.svg" width={512} height={512} />
+        <div className="hp-image hp-image-0"></div>
         <Heading fontFamily="ARCADE" color={"white"}>
           Loading CodeUp ...
         </Heading>

@@ -1,0 +1,109 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@font-face {
+  font-family: ARCADE;
+  src: url(ARCADE_R.TTF);
+}
+
+/* Global Styles */
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Home Page Animation */
+
+.hp-loader {
+  animation: hp-loader 0.1s ease;
+  animation-fill-mode: forwards;
+  animation-delay: 4s;
+  display: block;
+}
+
+.hp-loader {
+  .hp-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-image: url("/codeup.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 512px;
+    height: 512px;
+  }
+  .hp-image-0 {
+    animation: imgPolyPath 2s infinite ease;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes imgPolyPath {
+  0% {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    // clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+  }
+  10% {
+    clip-path: polygon(0 0, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  20% {
+    clip-path: polygon(0 0, 100% 50%, 50% 100%, 0 100%);
+  }
+
+  30% {
+    clip-path: polygon(0 0, 100% 50%, 100% 100%, 0 100%);
+  }
+
+  40% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  50% {
+    clip-path: polygon(0 0, 50% 0, 100% 100%, 0 100%);
+  }
+
+  60% {
+    clip-path: polygon(0 50%, 50% 0, 100% 100%, 0 100%);
+  }
+
+  70% {
+    clip-path: polygon(0 50%, 50% 0, 100% 100%, 50% 100%);
+  }
+
+  80% {
+    clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+  }
+
+  100% {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+}
+
+@keyframes hp-loader {
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+    z-index: -4;
+  }
+}

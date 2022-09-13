@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme, useToast } from "@chakra-ui/react";
