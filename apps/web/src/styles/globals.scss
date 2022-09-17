@@ -58,7 +58,6 @@ a {
 @keyframes imgPolyPath {
   0% {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    // clip-path: polygon(100% 0, 0% 100%, 100% 100%);
   }
   10% {
     clip-path: polygon(0 0, 100% 50%, 50% 100%, 0% 50%);

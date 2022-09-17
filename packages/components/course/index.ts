@@ -8,17 +8,10 @@
  *
  */
 
-import * as React from "react";
-import { default as CourseLayout } from "./CourseLayout";
 import { default as CourseNavigationBar } from "./CourseNavigationBar";
 import { default as CourseTitle } from "./CourseTitle";
 import { default as ModuleCard } from "./ModuleCard";
 import { default as ModuleCardRow } from "./ModuleCardRow";
+import { default as Quiz } from "./Quiz";
 
-export {
-  CourseTitle,
-  ModuleCard,
-  CourseNavigationBar,
-  CourseLayout,
-  ModuleCardRow,
-};
+export { CourseTitle, ModuleCard, CourseNavigationBar, ModuleCardRow, Quiz };

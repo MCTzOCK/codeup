@@ -26,6 +26,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { Quiz } from "@codeup/components/course";
 import * as React from "react";
 import CodeBlock from "../../../special-components/CodeBlock";
 
@@ -45,13 +46,18 @@ const code_template_html_document = `<!-- Definiere die Sprache des Dokuments --
 export default function Basics() {
   return (
     <>
-      <Flex direction="column" gap="2rem" margin={["1.2rem", "4rem"]}>
+      <Flex
+        direction="column"
+        gap="2rem"
+        margin={["1.2rem", "4rem"]}
+        marginInline={["1.2rem", "10rem"]}
+      >
         <Heading size="xl">HTML Basics - Grundlagen</Heading>
         <Box>
           <Heading size="lg">Was ist HTML?</Heading>
           <Text fontSize="1.5rem" mt="1.2rem">
             HTML steht für <b>H</b>yper<b>t</b>ext <b>M</b>arkup <b>L</b>anguage
-            und ist eine <b>Markup-Sprache</b>. Das bedeutet, dass HTML
+            und ist eine <b>Markup-Sprache</b>. Das bedeutet, dass HTML&nbsp;
             <b>Tags</b> verwendet, um Elemente, wie Texte und Bilder, zu
             formatieren. HTML Tags sind in spitzen Klammern geschrieben und
             beginnen mit einem
@@ -116,7 +122,7 @@ export default function Basics() {
         </Box>
         <Box id="die-wichtigsten-tags">
           <Heading size="lg">Die wichtigsten Tags</Heading>
-          <SimpleGrid columns={[1, 2, 3]} spacing="1rem" mt="1.2rem">
+          <SimpleGrid columns={[1, 2]} spacing="1rem" mt="1.2rem">
             <TagCard
               title="Überschriften"
               tag={
@@ -302,6 +308,127 @@ export default function Basics() {
             />
           </SimpleGrid>
         </Box>
+        <Quiz
+          title="HTML Grundlagen"
+          questions={[
+            {
+              question: "Welche der Antworten ist ein HTML-Tag?",
+              difficulty: "easy",
+              answers: [
+                {
+                  answer: "[h1]Überschrift[/h1]",
+                  correct: false,
+                },
+                {
+                  answer: "{h1}Überschrift{/h1}",
+                  correct: false,
+                },
+                {
+                  answer: "<h1>Überschrift</h1>",
+                  correct: true,
+                },
+                {
+                  answer: "(h1)Überschrift(/h1)",
+                  correct: false,
+                },
+              ],
+            },
+            {
+              question: "Womit sollte ein HTML-Dokument beginnen?",
+              difficulty: "medium",
+              answers: [
+                {
+                  answer: "<html>",
+                  correct: false,
+                },
+                {
+                  answer: "<!DOCTYPE html>",
+                  correct: true,
+                },
+                {
+                  answer: "<head>",
+                  correct: false,
+                },
+                {
+                  answer: "<body>",
+                  correct: false,
+                },
+              ],
+            },
+            {
+              question: "Mit welchem Tag kann ein Absatz erstellt werden?",
+              difficulty: "medium",
+              answers: [
+                {
+                  answer: "<p>",
+                  correct: true,
+                },
+                {
+                  answer: "<a>",
+                  correct: false,
+                },
+                {
+                  answer: "<div>",
+                  correct: false,
+                },
+                {
+                  answer: "<h1>",
+                  correct: false,
+                },
+              ],
+            },
+            {
+              question: "Womit wird eine geordnete Liste erstellt?",
+              difficulty: "easy",
+              answers: [
+                {
+                  answer: "<ul>",
+                  correct: false,
+                },
+                {
+                  answer: "<ol>",
+                  correct: true,
+                },
+              ],
+            },
+            {
+              question: "Was ist kein korrektes Attribut?",
+              difficulty: "hard",
+              answers: [
+                {
+                  answer: 'class="title"',
+                  correct: false,
+                },
+                {
+                  answer: 'class="title subtitle"',
+                  correct: false,
+                },
+                {
+                  answer: "class=title subtitle",
+                  correct: true,
+                },
+              ],
+            },
+            {
+              question: "Wie wird ein Bild eingebunden?",
+              difficulty: "hard",
+              answers: [
+                {
+                  answer: '<img src="bild.png" />',
+                  correct: true,
+                },
+                {
+                  answer: "<img bild.png />",
+                  correct: false,
+                },
+                {
+                  answer: '<img "bild.png" />',
+                  correct: false,
+                },
+              ],
+            },
+          ]}
+        />
       </Flex>
     </>
   );

@@ -348,20 +348,6 @@ export default function NavigationBar() {
                 icon={<BsCheck2Square />}
                 url={"/todo"}
               />
-              <ExpandedMenuOption
-                name={"Kalender"}
-                description={"Plane anstehende Termine."}
-                icon={<BsFillCalendar2WeekFill />}
-                url={"/calendar"}
-              />
-              <ExpandedMenuOption
-                name={"Hosting"}
-                description={
-                  "Veröffentliche deine Web-Projekte mit wenig Aufwand."
-                }
-                icon={<BsGlobe />}
-                url={"/hosting"}
-              />
             </SimpleGrid>
           </DrawerBody>
         </DrawerContent>
