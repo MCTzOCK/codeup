@@ -1,5 +1,5 @@
 /**
- * src/pages/course/javascript-basics/index.tsx
+ * src/pages/course/html-basics/index.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.

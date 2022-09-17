@@ -45,7 +45,7 @@ const CodeBlock = ({
       <Highlight
         {...defaultProps}
         theme={darkTheme}
-        code={children}
+        code={children + "\n"}
         language={language}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (

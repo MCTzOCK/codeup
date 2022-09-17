@@ -119,11 +119,14 @@ function App({ Component, pageProps }: AppProps) {
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
             ) : null}
-            {router.pathname.startsWith("/course") ||
-            router.pathname.startsWith("/explore") ? (
-              <CourseNavigationBar />
-            ) : null}
 
+            {/*
+               Will probably be removed in the future
+                {router.pathname.startsWith("/course") ||
+                router.pathname.startsWith("/explore") ? (
+                  <CourseNavigationBar />
+                ) : null}
+               */}
             <Component {...pageProps} />
 
             {router.pathname.startsWith("/community") ? <PostButton /> : null}

@@ -50,7 +50,7 @@ export default function Basics() {
         direction="column"
         gap="2rem"
         margin={["1.2rem", "4rem"]}
-        marginInline={["1.2rem", "10rem"]}
+        marginInline={["1.2rem", "16rem"]}
       >
         <Heading size="xl">HTML Basics - Grundlagen</Heading>
         <Box>

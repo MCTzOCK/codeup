@@ -11,35 +11,33 @@
 import * as React from "react";
 
 import {
-  AccordionItem,
+  Accordion,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Badge,
   Box,
   Button,
-  Flex,
-  Heading,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Text,
-  useDisclosure,
-  Progress,
-  Divider,
-  Spinner,
+  ButtonGroup,
   CircularProgress,
   CircularProgressLabel,
-  ButtonGroup,
-  Accordion,
-  Badge,
+  Divider,
+  Flex,
+  Heading,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Progress,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { FaPrint, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { FaTwitter } from "react-icons/fa";
 
 export default function Quiz(props: {
   title: string;
