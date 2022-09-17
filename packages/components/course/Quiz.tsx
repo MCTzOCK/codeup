@@ -36,7 +36,9 @@ import {
   ButtonGroup,
   Accordion,
   Badge,
+  IconButton,
 } from "@chakra-ui/react";
+import { FaTwitter } from "react-icons/fa";
 
 export default function Quiz(props: {
   title: string;
@@ -69,9 +71,10 @@ export default function Quiz(props: {
         onEsc={() => {
           return;
         }}
+        scrollBehavior={"inside"}
       >
         <ModalOverlay backgroundColor="black" />
-        <ModalContent backgroundColor={"black"}>
+        <ModalContent backgroundColor={"black"} id="codeup-quiz-modal">
           <ModalHeader backgroundColor={"black"}>
             {props.title} (
             {finished
@@ -165,21 +168,44 @@ export default function Quiz(props: {
                     })}
                   </Accordion>
 
-                  <Button
-                    colorScheme="blue"
-                    variant="outline"
-                    mt="3rem"
-                    onClick={() => {
-                      setCurrentQuestion(0);
-                      setCorrectAnswers(0);
-                      setCorrectAnswersList([]);
-                      setFinished(false);
-                      onClose();
-                    }}
-                  >
-                    Schließen
-                  </Button>
+                  <ButtonGroup mt="3rem" isAttached>
+                    <Button
+                      colorScheme="blue"
+                      variant="outline"
+                      onClick={() => {
+                        setCurrentQuestion(0);
+                        setCorrectAnswers(0);
+                        setCorrectAnswersList([]);
+                        setFinished(false);
+                        onClose();
+                      }}
+                    >
+                      Schließen
+                    </Button>
+                  </ButtonGroup>
                 </Flex>
+
+                <IconButton
+                  icon={<FaTwitter />}
+                  aria-label="Share on Twitter"
+                  colorScheme="twitter"
+                  onClick={async () => {
+                    window.open(
+                      `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
+                        props.questions.length
+                      }%20Fragen%20im%20%23CodeUp%20Quiz%20%22${
+                        props.title
+                      }%22%20richtig%20beantwortet.%20Wie%20viel%20schaffst%20du%3F%20${encodeURIComponent(
+                        window.location.href
+                      )}`,
+                      "_blank"
+                    );
+                  }}
+                  variant="outline"
+                  position={"absolute"}
+                  top={"2rem"}
+                  right={"2rem"}
+                />
               </>
             ) : null}
             {!finished ? (
@@ -238,7 +264,19 @@ export default function Quiz(props: {
               </>
             ) : null}
           </ModalBody>
-          <ModalFooter backgroundColor={"black"}></ModalFooter>
+          <ModalFooter backgroundColor={"black"}>
+            <Flex
+              justifyContent={"center"}
+              gap="1.2rem"
+              width={"100%"}
+              alignItems="center"
+            >
+              <img src="/codeup.svg" width={64} height={64} />
+              <Heading color={"white"} size="lg">
+                CodeUp
+              </Heading>
+            </Flex>
+          </ModalFooter>
         </ModalContent>
       </Modal>
       <Box mt="1rem">
