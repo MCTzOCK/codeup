@@ -9,17 +9,35 @@ const byteSize = require("byte-size");
 
 let paths = getAllPaths(".", []);
 
-paths = paths
-  .filter((p) => !p.includes("node_modules"))
-  .filter((p) => !p.includes(".next"))
-  .filter((p) => !p.includes("dist"))
-  .filter((p) => !p.includes(".turbo"))
-  .filter((p) => !p.includes(".git"))
-  .filter((p) => !p.includes(".idea"))
-  .filter((p) => !p.includes(".lock"))
-  .filter((p) => !p.includes("LICENSE"))
-  .filter((p) => !p.includes(".ico"))
-  .filter((p) => !p.includes(".afdesign"));
+const disallowed = [
+  ".turbo",
+  ".git",
+  ".idea",
+  ".ico",
+  ".docusaurus",
+  ".TTF",
+  ".afdesign",
+  "LICENSE",
+  ".lock",
+  "package-lock.json",
+  ".log",
+  "node_modules",
+  ".next",
+  "dist",
+];
+
+// filter disallowed files
+paths = paths.filter((p) => {
+  let allowed = true;
+  disallowed.forEach((d) => {
+    if (p.includes(d)) {
+      allowed = false;
+    }
+  });
+  return allowed;
+});
+
+console.log("[i] Applied " + disallowed.length + " filters");
 
 let lines = 0;
 let size = 0;

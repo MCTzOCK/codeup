@@ -38,7 +38,8 @@ import {
   Badge,
   IconButton,
 } from "@chakra-ui/react";
-import { FaTwitter } from "react-icons/fa";
+import { FaPrint, FaTwitter } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Quiz(props: {
   title: string;
@@ -59,6 +60,18 @@ export default function Quiz(props: {
   const [correctAnswersList, setCorrectAnswersList] = React.useState<number[]>(
     []
   );
+  const [finishedValue, setFinishedValue] = React.useState(0);
+
+  React.useEffect(() => {
+    if (
+      finished &&
+      finishedValue < 100 &&
+      finishedValue <
+        Math.round((correctAnswers * 100) / props.questions.length)
+    ) {
+      setFinishedValue(finishedValue + 1);
+    }
+  }, [finished, finishedValue]);
 
   return (
     <>
@@ -91,12 +104,11 @@ export default function Quiz(props: {
                   direction="column"
                 >
                   <CircularProgress
-                    value={(correctAnswers / props.questions.length) * 100}
+                    value={finishedValue}
                     color={
-                      (correctAnswers / props.questions.length) * 100 >= 50 &&
-                      (correctAnswers / props.questions.length) * 100 < 75
+                      finishedValue >= 50 && finishedValue < 75
                         ? "orange.400"
-                        : (correctAnswers / props.questions.length) * 100 >= 75
+                        : finishedValue >= 75
                         ? "green.400"
                         : "red.400"
                     }
@@ -106,19 +118,14 @@ export default function Quiz(props: {
                   >
                     <CircularProgressLabel
                       color={
-                        (correctAnswers / props.questions.length) * 100 >= 50 &&
-                        (correctAnswers / props.questions.length) * 100 < 75
+                        finishedValue >= 50 && finishedValue < 75
                           ? "orange.400"
-                          : (correctAnswers / props.questions.length) * 100 >=
-                            75
+                          : finishedValue >= 75
                           ? "green.400"
                           : "red.400"
                       }
                     >
-                      {Math.round(
-                        (correctAnswers / props.questions.length) * 100
-                      )}
-                      %
+                      {finishedValue}%
                     </CircularProgressLabel>
                   </CircularProgress>
 
@@ -175,6 +182,7 @@ export default function Quiz(props: {
                       onClick={() => {
                         setCurrentQuestion(0);
                         setCorrectAnswers(0);
+                        setFinishedValue(0);
                         setCorrectAnswersList([]);
                         setFinished(false);
                         onClose();
@@ -185,82 +193,105 @@ export default function Quiz(props: {
                   </ButtonGroup>
                 </Flex>
 
-                <IconButton
-                  icon={<FaTwitter />}
-                  aria-label="Share on Twitter"
-                  colorScheme="twitter"
-                  onClick={async () => {
-                    window.open(
-                      `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
-                        props.questions.length
-                      }%20Fragen%20im%20%23CodeUp%20Quiz%20%22${
-                        props.title
-                      }%22%20richtig%20beantwortet.%20Wie%20viel%20schaffst%20du%3F%20${encodeURIComponent(
-                        window.location.href
-                      )}`,
-                      "_blank"
-                    );
-                  }}
-                  variant="outline"
+                <ButtonGroup
+                  isAttached
                   position={"absolute"}
                   top={"2rem"}
                   right={"2rem"}
-                />
+                >
+                  <IconButton
+                    icon={<FaTwitter />}
+                    aria-label="Share on Twitter"
+                    colorScheme="twitter"
+                    onClick={async () => {
+                      window.open(
+                        `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
+                          props.questions.length
+                        }%20Fragen%20im%20%23CodeUp%20Quiz%20%22${
+                          props.title
+                        }%22%20richtig%20beantwortet.%20Wie%20viel%20schaffst%20du%3F%20${encodeURIComponent(
+                          window.location.href
+                        )}`,
+                        "_blank"
+                      );
+                    }}
+                  />
+                </ButtonGroup>
               </>
             ) : null}
             {!finished ? (
               <>
-                <Progress
-                  size="sm"
-                  value={(currentQuestion / props.questions.length) * 100}
-                  colorScheme={"green"}
-                />
+                <motion.div
+                  animate={{
+                    opacity: 1,
+                    x: 0,
+                  }}
+                  initial={{
+                    opacity: 0,
+                    x: -100,
+                  }}
+                  // @ts-ignore
+                  transition={{
+                    duration: 0.3,
+                  }}
+                  key={currentQuestion}
+                  exit={{
+                    x: -40,
+                  }}
+                >
+                  <Progress
+                    size="sm"
+                    value={(currentQuestion / props.questions.length) * 100}
+                    colorScheme={"green"}
+                  />
 
-                <Text fontSize={"1.5rem"} mt={"1rem"}>
-                  {props.questions[currentQuestion].question}
-                  <Badge
-                    ml="1rem"
-                    variant="outline"
-                    colorScheme={
-                      props.questions[currentQuestion].difficulty === "easy"
-                        ? "green"
+                  <Text fontSize={"1.5rem"} mt={"1rem"}>
+                    {props.questions[currentQuestion].question}
+                    <Badge
+                      ml="1rem"
+                      variant="outline"
+                      colorScheme={
+                        props.questions[currentQuestion].difficulty === "easy"
+                          ? "green"
+                          : props.questions[currentQuestion].difficulty ===
+                            "medium"
+                          ? "orange"
+                          : "red"
+                      }
+                    >
+                      {props.questions[currentQuestion].difficulty === "easy"
+                        ? "Einfach"
                         : props.questions[currentQuestion].difficulty ===
                           "medium"
-                        ? "orange"
-                        : "red"
-                    }
-                  >
-                    {props.questions[currentQuestion].difficulty === "easy"
-                      ? "Einfach"
-                      : props.questions[currentQuestion].difficulty === "medium"
-                      ? "Mittel"
-                      : "Schwer"}
-                  </Badge>
-                </Text>
-                <Divider mt={"1rem"} />
-                <Flex direction={"column"} gap={"1rem"} mt={"1rem"}>
-                  {props.questions[currentQuestion].answers.map((a, i) => (
-                    <Button
-                      key={i}
-                      onClick={() => {
-                        if (a.correct) {
-                          setCorrectAnswers(correctAnswers + 1);
-                          setCorrectAnswersList([
-                            ...correctAnswersList,
-                            currentQuestion,
-                          ]);
-                        }
-                        if (currentQuestion + 1 < props.questions.length) {
-                          setCurrentQuestion(currentQuestion + 1);
-                        } else {
-                          setFinished(true);
-                        }
-                      }}
-                    >
-                      {a.answer}
-                    </Button>
-                  ))}
-                </Flex>
+                        ? "Mittel"
+                        : "Schwer"}
+                    </Badge>
+                  </Text>
+                  <Divider mt={"1rem"} />
+                  <Flex direction={"column"} gap={"1rem"} mt={"1rem"}>
+                    {props.questions[currentQuestion].answers.map((a, i) => (
+                      <Button
+                        key={i}
+                        onClick={() => {
+                          if (a.correct) {
+                            setCorrectAnswers(correctAnswers + 1);
+                            setCorrectAnswersList([
+                              ...correctAnswersList,
+                              currentQuestion,
+                            ]);
+                          }
+                          if (currentQuestion + 1 < props.questions.length) {
+                            setCurrentQuestion(currentQuestion + 1);
+                          } else {
+                            setFinished(true);
+                          }
+                        }}
+                      >
+                        {a.answer}
+                      </Button>
+                    ))}
+                  </Flex>
+                </motion.div>
               </>
             ) : null}
           </ModalBody>
@@ -294,6 +325,7 @@ export default function Quiz(props: {
             setFinished(false);
             setCurrentQuestion(0);
             setCorrectAnswers(0);
+            setFinishedValue(0);
             setCorrectAnswersList([]);
             onOpen();
           }}

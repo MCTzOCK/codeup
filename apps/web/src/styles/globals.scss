@@ -106,3 +106,13 @@ a {
     z-index: -4;
   }
 }
+
+/* Printing Quiz results */
+
+@media print {
+  body,
+  html,
+  #root {
+    height: 100%;
+  }
+}
