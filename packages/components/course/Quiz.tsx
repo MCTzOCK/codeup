@@ -73,8 +73,11 @@ export default function Quiz(props: {
         <ModalOverlay backgroundColor="black" />
         <ModalContent backgroundColor={"black"}>
           <ModalHeader backgroundColor={"black"}>
-            {props.title} (Frage&nbsp;{currentQuestion + 1} von&nbsp;
-            {props.questions.length})
+            {props.title} (
+            {finished
+              ? "Ergebnis"
+              : `Frage ${currentQuestion + 1} von ${props.questions.length}`}
+            )
           </ModalHeader>
           <ModalBody backgroundColor={"black"}>
             {finished ? (
