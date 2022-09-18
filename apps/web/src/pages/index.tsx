@@ -17,12 +17,15 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
+import { useLoggedIn } from "@codeup/hooks";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
+  const loggedIn = useLoggedIn();
+
   const allowLoadingAnimation = false;
 
   const variants: Variants = {
