@@ -29,6 +29,7 @@ export default function CodeUpModal(props: {
   noCloseButton?: boolean;
   children: React.ReactNode;
   title?: string;
+  blackBackground?: boolean;
 }) {
   return (
     <>
@@ -39,7 +40,10 @@ export default function CodeUpModal(props: {
         isCentered
         scrollBehavior={"inside"}
       >
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+        <ModalOverlay
+          bg={props.blackBackground ? "black" : "blackAlpha.300"}
+          backdropFilter={props.blackBackground ? "blur(0px)" : "blur(10px)"}
+        />
         <ModalContent backgroundColor={"black"}>
           <ModalHeader>
             {props.title ? <Heading size={"lg"}>{props.title}</Heading> : null}

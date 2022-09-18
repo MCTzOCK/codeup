@@ -38,6 +38,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FaTwitter } from "react-icons/fa";
+import CodeUpModal from "../codeup/CodeUpModal";
 
 export default function Quiz(props: {
   title: string;
@@ -73,241 +74,223 @@ export default function Quiz(props: {
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
+      <CodeUpModal
+        onOpen={onOpen}
         onClose={onClose}
-        size={["full", "2xl"]}
-        isCentered
-        closeOnOverlayClick={false}
-        onEsc={() => {
-          return;
-        }}
-        scrollBehavior={"inside"}
+        isOpen={isOpen}
+        blackBackground={true}
+        title={
+          props.title +
+          " (" +
+          (finished
+            ? "Ergebnis"
+            : "Frage " +
+              currentQuestion +
+              1 +
+              " von " +
+              props.questions.length) +
+          ")"
+        }
+        noCloseButton={true}
       >
-        <ModalOverlay backgroundColor="black" />
-        <ModalContent backgroundColor={"black"} id="codeup-quiz-modal">
-          <ModalHeader backgroundColor={"black"}>
-            {props.title} (
-            {finished
-              ? "Ergebnis"
-              : `Frage ${currentQuestion + 1} von ${props.questions.length}`}
-            )
-          </ModalHeader>
-          <ModalBody backgroundColor={"black"}>
-            {finished ? (
-              <>
-                <Flex
-                  alignItems="center"
-                  justifyContent="center"
-                  direction="column"
+        {finished ? (
+          <>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              direction="column"
+            >
+              <CircularProgress
+                value={finishedValue}
+                color={
+                  finishedValue >= 50 && finishedValue < 75
+                    ? "orange.400"
+                    : finishedValue >= 75
+                    ? "green.400"
+                    : "red.400"
+                }
+                thickness={"10px"}
+                mt={"1.2rem"}
+                size="120px"
+              >
+                <CircularProgressLabel
+                  color={
+                    finishedValue >= 50 && finishedValue < 75
+                      ? "orange.400"
+                      : finishedValue >= 75
+                      ? "green.400"
+                      : "red.400"
+                  }
                 >
-                  <CircularProgress
-                    value={finishedValue}
-                    color={
-                      finishedValue >= 50 && finishedValue < 75
-                        ? "orange.400"
-                        : finishedValue >= 75
-                        ? "green.400"
-                        : "red.400"
-                    }
-                    thickness={"10px"}
-                    mt={"1.2rem"}
-                    size="120px"
-                  >
-                    <CircularProgressLabel
-                      color={
-                        finishedValue >= 50 && finishedValue < 75
-                          ? "orange.400"
-                          : finishedValue >= 75
-                          ? "green.400"
-                          : "red.400"
-                      }
-                    >
-                      {finishedValue}%
-                    </CircularProgressLabel>
-                  </CircularProgress>
+                  {finishedValue}%
+                </CircularProgressLabel>
+              </CircularProgress>
 
-                  <Text color={"white"} mt="2rem">
-                    Du hast {correctAnswers} von {props.questions.length} Fragen
-                    richtig beantwortet.
-                  </Text>
+              <Text color={"white"} mt="2rem">
+                Du hast {correctAnswers} von {props.questions.length} Fragen
+                richtig beantwortet.
+              </Text>
 
-                  <Heading color={"white"} mt="3rem" size="lg">
-                    Richtige Antworten
-                  </Heading>
-                  <Accordion mt="1.2rem" allowToggle>
-                    {props.questions.map((q, i) => {
-                      return (
-                        <AccordionItem key={i}>
-                          <AccordionButton>
-                            <Box
-                              flex="1"
-                              textAlign="left"
-                              color={
-                                correctAnswersList.includes(i)
-                                  ? "green.400"
-                                  : "red.400"
+              <Heading color={"white"} mt="3rem" size="lg">
+                Richtige Antworten
+              </Heading>
+              <Accordion mt="1.2rem" allowToggle>
+                {props.questions.map((q, i) => {
+                  return (
+                    <AccordionItem key={i}>
+                      <AccordionButton>
+                        <Box
+                          flex="1"
+                          textAlign="left"
+                          color={
+                            correctAnswersList.includes(i)
+                              ? "green.400"
+                              : "red.400"
+                          }
+                        >
+                          &gt;&nbsp;{q.question}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                      <AccordionPanel pb={4}>
+                        {q.answers.map((a, i) => {
+                          return (
+                            <Text
+                              color={a.correct ? "green.400" : "gray.400"}
+                              key={i}
+                              textDecoration={
+                                !a.correct ? "line-through" : "none"
                               }
                             >
-                              &gt;&nbsp;{q.question}
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                          <AccordionPanel pb={4}>
-                            {q.answers.map((a, i) => {
-                              return (
-                                <Text
-                                  color={a.correct ? "green.400" : "gray.400"}
-                                  key={i}
-                                  textDecoration={
-                                    !a.correct ? "line-through" : "none"
-                                  }
-                                >
-                                  {a.answer}
-                                </Text>
-                              );
-                            })}
-                          </AccordionPanel>
-                        </AccordionItem>
-                      );
-                    })}
-                  </Accordion>
+                              {a.answer}
+                            </Text>
+                          );
+                        })}
+                      </AccordionPanel>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
 
-                  <ButtonGroup mt="3rem" isAttached>
-                    <Button
-                      colorScheme="blue"
-                      variant="outline"
-                      onClick={() => {
-                        setCurrentQuestion(0);
-                        setCorrectAnswers(0);
-                        setFinishedValue(0);
-                        setCorrectAnswersList([]);
-                        setFinished(false);
-                        onClose();
-                      }}
-                    >
-                      Schließen
-                    </Button>
-                  </ButtonGroup>
-                </Flex>
-
-                <ButtonGroup
-                  isAttached
-                  position={"absolute"}
-                  top={"2rem"}
-                  right={"2rem"}
-                >
-                  <IconButton
-                    icon={<FaTwitter />}
-                    aria-label="Share on Twitter"
-                    colorScheme="twitter"
-                    onClick={async () => {
-                      window.open(
-                        `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
-                          props.questions.length
-                        }%20Fragen%20im%20%23CodeUp%20Quiz%20%22${
-                          props.title
-                        }%22%20richtig%20beantwortet.%20Wie%20viel%20schaffst%20du%3F%20${encodeURIComponent(
-                          window.location.href
-                        )}`,
-                        "_blank"
-                      );
-                    }}
-                  />
-                </ButtonGroup>
-              </>
-            ) : null}
-            {!finished ? (
-              <>
-                <motion.div
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                  }}
-                  initial={{
-                    opacity: 0,
-                    x: -100,
-                  }}
-                  // @ts-ignore
-                  transition={{
-                    duration: 0.3,
-                  }}
-                  key={currentQuestion}
-                  exit={{
-                    x: -40,
+              <ButtonGroup mt="3rem" isAttached>
+                <Button
+                  colorScheme="blue"
+                  variant="outline"
+                  onClick={() => {
+                    setCurrentQuestion(0);
+                    setCorrectAnswers(0);
+                    setFinishedValue(0);
+                    setCorrectAnswersList([]);
+                    setFinished(false);
+                    onClose();
                   }}
                 >
-                  <Progress
-                    size="sm"
-                    value={(currentQuestion / props.questions.length) * 100}
-                    colorScheme={"green"}
-                  />
-
-                  <Text fontSize={"1.5rem"} mt={"1rem"}>
-                    {props.questions[currentQuestion].question}
-                    <Badge
-                      ml="1rem"
-                      variant="outline"
-                      colorScheme={
-                        props.questions[currentQuestion].difficulty === "easy"
-                          ? "green"
-                          : props.questions[currentQuestion].difficulty ===
-                            "medium"
-                          ? "orange"
-                          : "red"
-                      }
-                    >
-                      {props.questions[currentQuestion].difficulty === "easy"
-                        ? "Einfach"
-                        : props.questions[currentQuestion].difficulty ===
-                          "medium"
-                        ? "Mittel"
-                        : "Schwer"}
-                    </Badge>
-                  </Text>
-                  <Divider mt={"1rem"} />
-                  <Flex direction={"column"} gap={"1rem"} mt={"1rem"}>
-                    {props.questions[currentQuestion].answers.map((a, i) => (
-                      <Button
-                        key={i}
-                        onClick={() => {
-                          if (a.correct) {
-                            setCorrectAnswers(correctAnswers + 1);
-                            setCorrectAnswersList([
-                              ...correctAnswersList,
-                              currentQuestion,
-                            ]);
-                          }
-                          if (currentQuestion + 1 < props.questions.length) {
-                            setCurrentQuestion(currentQuestion + 1);
-                          } else {
-                            setFinished(true);
-                          }
-                        }}
-                      >
-                        {a.answer}
-                      </Button>
-                    ))}
-                  </Flex>
-                </motion.div>
-              </>
-            ) : null}
-          </ModalBody>
-          <ModalFooter backgroundColor={"black"}>
-            <Flex
-              justifyContent={"center"}
-              gap="1.2rem"
-              width={"100%"}
-              alignItems="center"
-            >
-              <img src="/codeup.svg" width={64} height={64} />
-              <Heading color={"white"} size="lg">
-                CodeUp
-              </Heading>
+                  Schließen
+                </Button>
+              </ButtonGroup>
             </Flex>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+
+            <ButtonGroup
+              isAttached
+              position={"absolute"}
+              top={"2rem"}
+              right={"2rem"}
+            >
+              <IconButton
+                icon={<FaTwitter />}
+                aria-label="Share on Twitter"
+                colorScheme="twitter"
+                onClick={async () => {
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
+                      props.questions.length
+                    }%20Fragen%20im%20%23CodeUp%20Quiz%20%22${
+                      props.title
+                    }%22%20richtig%20beantwortet.%20Wie%20viel%20schaffst%20du%3F%20${encodeURIComponent(
+                      window.location.href
+                    )}`,
+                    "_blank"
+                  );
+                }}
+              />
+            </ButtonGroup>
+          </>
+        ) : null}
+        {!finished ? (
+          <>
+            <motion.div
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              initial={{
+                opacity: 0,
+                x: -100,
+              }}
+              // @ts-ignore
+              transition={{
+                duration: 0.3,
+              }}
+              key={currentQuestion}
+              exit={{
+                x: -40,
+              }}
+            >
+              <Progress
+                size="sm"
+                value={(currentQuestion / props.questions.length) * 100}
+                colorScheme={"green"}
+              />
+
+              <Text fontSize={"1.5rem"} mt={"1rem"}>
+                {props.questions[currentQuestion].question}
+                <Badge
+                  ml="1rem"
+                  variant="outline"
+                  colorScheme={
+                    props.questions[currentQuestion].difficulty === "easy"
+                      ? "green"
+                      : props.questions[currentQuestion].difficulty === "medium"
+                      ? "orange"
+                      : "red"
+                  }
+                >
+                  {props.questions[currentQuestion].difficulty === "easy"
+                    ? "Einfach"
+                    : props.questions[currentQuestion].difficulty === "medium"
+                    ? "Mittel"
+                    : "Schwer"}
+                </Badge>
+              </Text>
+              <Divider mt={"1rem"} />
+              <Flex direction={"column"} gap={"1rem"} mt={"1rem"}>
+                {props.questions[currentQuestion].answers.map((a, i) => (
+                  <Button
+                    key={i}
+                    onClick={() => {
+                      if (a.correct) {
+                        setCorrectAnswers(correctAnswers + 1);
+                        setCorrectAnswersList([
+                          ...correctAnswersList,
+                          currentQuestion,
+                        ]);
+                      }
+                      if (currentQuestion + 1 < props.questions.length) {
+                        setCurrentQuestion(currentQuestion + 1);
+                      } else {
+                        setFinished(true);
+                      }
+                    }}
+                  >
+                    {a.answer}
+                  </Button>
+                ))}
+              </Flex>
+            </motion.div>
+          </>
+        ) : null}
+      </CodeUpModal>
+
       <Box mt="1rem">
         <Heading size={"lg"}>Quiz</Heading>
         <Text fontSize="1.5rem" mt="1.2rem">
