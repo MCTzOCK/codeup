@@ -45,6 +45,7 @@ import { TbCertificate } from "react-icons/tb";
 import { HiLightBulb } from "react-icons/hi";
 import { BsCheck2Square } from "react-icons/bs";
 import InCodeIcon from "../icons/InCodeIcon";
+import UserAuthAction from "./UserAuthAction";
 
 export default function NavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -59,6 +60,12 @@ export default function NavigationBar() {
   } = useDisclosure();
 
   const { loggedIn, userInfo } = useLoggedIn();
+
+  const {
+    isOpen: isUserAuthOpen,
+    onOpen: onUserAuthOpen,
+    onClose: onUserAuthClose,
+  } = useDisclosure();
 
   const Menu = () => {
     return (
@@ -177,20 +184,16 @@ export default function NavigationBar() {
       <>
         {!loggedIn ? (
           <>
-            <Link href={"/account/register"}>
-              <Button
-                variant={"solid"}
-                colorScheme={"whatsapp"}
-                onClick={onClose}
-              >
-                Beitreten
-              </Button>
-            </Link>
-            <Link href={"/account/login"}>
-              <Button variant={"solid"} onClick={onClose}>
-                Anmelden
-              </Button>
-            </Link>
+            <Button
+              variant={"solid"}
+              onClick={() => {
+                onClose();
+                onUserAuthOpen();
+              }}
+              colorScheme={"whatsapp"}
+            >
+              Anmelden
+            </Button>
           </>
         ) : (
           <>
@@ -212,6 +215,11 @@ export default function NavigationBar() {
 
   return (
     <>
+      <UserAuthAction
+        onOpen={onUserAuthOpen}
+        onClose={onUserAuthClose}
+        isOpen={isUserAuthOpen}
+      />
       <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"flex-start"} textAlign={["center", "left"]}>
