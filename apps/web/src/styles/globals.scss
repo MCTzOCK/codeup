@@ -17,6 +17,9 @@ body {
   scroll-behavior: smooth;
 }
 
+* {
+  scrollbar-width: thin;
+}
 a {
   color: inherit;
   text-decoration: none;

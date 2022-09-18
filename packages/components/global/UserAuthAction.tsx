@@ -46,7 +46,11 @@ export default function UserAuthAction(props: {
         isCentered
         scrollBehavior={"inside"}
       >
-        <ModalOverlay backgroundColor={"black"} />
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px)"
+          // bg="black"
+        />
         <ModalContent backgroundColor={"black"}>
           <ModalHeader>
             <ModalCloseButton />
