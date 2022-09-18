@@ -85,8 +85,7 @@ export default function Quiz(props: {
           (finished
             ? "Ergebnis"
             : "Frage " +
-              currentQuestion +
-              1 +
+              (currentQuestion + 1) +
               " von " +
               props.questions.length) +
           ")"
