@@ -28,6 +28,10 @@ export default function HTMLCourseSections() {
           title: "Links",
           url: "/course/html-basics/links",
         },
+        {
+          title: "Bilder",
+          url: "/course/html-basics/image",
+        },
       ]}
     />
   );
