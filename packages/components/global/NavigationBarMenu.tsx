@@ -55,58 +55,6 @@ export default function NavigationBarMenu(props: {
       >
         Mehr
       </Button>
-      {loggedIn ? (
-        <>
-          <Popover>
-            <PopoverTrigger>
-              <Button
-                variant={"ghost"}
-                size={"lg"}
-                rightIcon={<AiFillCaretDown />}
-              >
-                Konto
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent bg={"black"}>
-              <PopoverArrow bg={"black"} />
-              <PopoverBody>
-                <Flex w={"100%"} direction={"column"}>
-                  <Link href={"/account/settings"}>
-                    <Button
-                      variant={"ghost"}
-                      size={"lg"}
-                      onClick={props.onClose}
-                    >
-                      Einstellungen
-                    </Button>
-                  </Link>
-
-                  <Link href={"/dashboard"}>
-                    <Button
-                      variant={"ghost"}
-                      size={"lg"}
-                      onClick={props.onClose}
-                    >
-                      Dashboard
-                    </Button>
-                  </Link>
-
-                  <Button
-                    variant={"ghost"}
-                    size={"lg"}
-                    onClick={() => {
-                      props.onClose();
-                      props.onLogoutOpen();
-                    }}
-                  >
-                    Abmelden
-                  </Button>
-                </Flex>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        </>
-      ) : null}
     </>
   );
 }

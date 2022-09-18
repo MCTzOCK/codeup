@@ -91,8 +91,7 @@ export default async function handleRequest(
         .update(req.body.password)
         .digest("hex"),
       activationToken: acToken,
-      profilePicture:
-        "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64"),
+      profilePicture: svg,
     });
 
     await user.save();
