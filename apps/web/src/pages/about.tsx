@@ -186,6 +186,12 @@ export default function About() {
             name={"InCode"}
             icon={"/_static/vectors/tech/incode.svg"}
           />
+          <TechListItem
+            name={"DiceBear"}
+            icon={
+              "https://camo.githubusercontent.com/ac918a0462f377851e54ba49534b13cbdfb64a778d9a2845a23c0df23c2cfa9c/68747470733a2f2f64696365626561722e636f6d2f6170692f6d616c652f736565642e7376673f6d6f6f643d6861707079"
+            }
+          />
         </SimpleGrid>
       </Flex>
     </>
