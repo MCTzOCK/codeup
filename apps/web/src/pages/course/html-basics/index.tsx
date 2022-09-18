@@ -1,5 +1,5 @@
 /**
- * src/pages/course/javascript-basics/index.tsx
+ * src/pages/course/html-basics/index.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -11,7 +11,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import redirect from "@codeup/util/src/userworkflow/redirect";
-import { CourseProgress } from "@codeup/util/src/types/CourseProgress"
+import { CourseProgress } from "@codeup/util/src/types/CourseProgress";
 import { Flex, Grid, GridItem, Spinner } from "@chakra-ui/react";
 import { ModuleCard, ModuleCardRow } from "@codeup/components/course";
 import Xarrow from "react-xarrows";
@@ -31,29 +31,17 @@ export default function Index() {
       redirectToLogin: true,
     });
 
-    fetch("/api/course/progress", {
-      method: "POST",
+    fetch("/api/course/html-basics/progress", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "X-JWT": localStorage.getItem("token") as string,
       },
-      body: JSON.stringify({
-        token: localStorage.getItem("token"),
-        course: "html-basics",
-      }),
-    }).then((res) => {
-      res.json().then((data) => {
-        if (!data.success) {
-          alert("Could not fetch data");
-        } else {
-          setProgress({
-            user: data.progress.user,
-            finishedCourse: data.progress.finishedCourse,
-            finishedModules: data.progress.finishedModules,
-            course: data.progress.course,
-          });
-        }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.info(data);
       });
-    });
   }, []);
 
   return (

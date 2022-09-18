@@ -8,9 +8,6 @@
  *
  */
 
-import * as React from "react";
-import { useEffect } from "react";
-import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import {
   Button,
   Flex,
@@ -20,25 +17,26 @@ import {
   Heading,
   Input,
   Popover,
-  PopoverTrigger,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
+  PopoverTrigger,
   SimpleGrid,
   Spinner,
   Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { FaUserCircle } from "react-icons/fa";
-import { BsFillHouseDoorFill } from "react-icons/bs";
-import { useRouter } from "next/router";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { useEffect } from "react";
+import { BsFillHouseDoorFill } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Settings() {
   const router = useRouter();
@@ -52,7 +50,7 @@ export default function Settings() {
     });
   }, []);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -73,7 +71,7 @@ export default function Settings() {
     }
     if (query.has("newToken")) {
       localStorage.setItem("token", query.get("newToken") as string);
-      window.location.href = "/account/settings?component=account";
+      // window.location.href = "/account/settings?component=account";
     }
   }, [userInfo]);
 
@@ -192,6 +190,8 @@ function Account(props: {
     variant: "solid",
   });
 
+  const router = useRouter();
+
   return (
     <>
       <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
@@ -227,7 +227,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              setFirstNameButtonDisabled(false);
             } else {
               setFirstNameError(res.payload.error);
               setFirstNameButtonDisabled(false);
@@ -274,7 +274,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              setLastNameButtonDisabled(false);
             } else {
               setLastNameError(res.payload.error);
               setLastNameButtonDisabled(false);
@@ -364,7 +364,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              set_2faButtonDisabled(false);
             }
           }}
         >
@@ -426,7 +426,8 @@ function Account(props: {
 
                       localStorage.removeItem("token");
                       document.cookie = "jwt=;path=/";
-                      window.location.reload();
+
+                      await router.push("/");
                     }}
                   >
                     Wirklich löschen

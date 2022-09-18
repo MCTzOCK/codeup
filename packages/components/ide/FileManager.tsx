@@ -33,6 +33,7 @@ import {
   FormLabel,
   IconButton,
   Input,
+  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -40,20 +41,13 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Select,
+  Stack,
+  Text,
   Tooltip,
   useToast,
-  Stack,
-  Select,
-  Text,
-  Link,
 } from "@chakra-ui/react";
-import {
-  FiDownload,
-  FiEdit,
-  FiFilePlus,
-  FiUpload,
-  FiTrash2,
-} from "react-icons/fi";
+import { FiDownload, FiFilePlus, FiTrash2, FiUpload } from "react-icons/fi";
 import {
   SiCss3,
   SiHtml5,
@@ -65,7 +59,7 @@ import {
 import { FaFile, FaFolder, FaHome } from "react-icons/fa";
 import { BiRename } from "react-icons/bi";
 import { lookup } from "mime-types";
-import { useHover, useUserInfo } from "@codeup/hooks";
+import { useHover, useLoggedIn } from "@codeup/hooks";
 import InCodeIcon from "../icons/InCodeIcon";
 
 export default function FileManager(props: {
@@ -157,7 +151,7 @@ export default function FileManager(props: {
     }
   }, [props.project]);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   return (
     <>

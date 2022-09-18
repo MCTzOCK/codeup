@@ -26,14 +26,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaComment, FaHeart, FaRegHeart } from "react-icons/fa";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import TipTap from "./TipTap";
 import { useRouter } from "next/router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import REST from "@codeup/rest";
 
 export default function PostCard(props: { id: string }) {
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
   const toast = useToast();
   const router = useRouter();
   const [showEditor, setShowEditor] = useState(false);

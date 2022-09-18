@@ -8,8 +8,8 @@
  *
  */
 import { useEffect, useState } from "react";
-import useUserInfo from "./useUserInfo";
 import REST from "@codeup/rest";
+import { useLoggedIn } from "./useLoggedIn";
 
 export default function useHasProfile(): {
   hasProfile: boolean;
@@ -20,10 +20,10 @@ export default function useHasProfile(): {
     tried: false,
   });
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
-    if (userInfo.id !== "") {
+    if (loggedIn) {
       REST.Community.existsProfile(userInfo.id).then((res) => {
         if (res.status === 200) {
           setHasProfile({
@@ -38,7 +38,7 @@ export default function useHasProfile(): {
         }
       });
     }
-  }, [userInfo]);
+  }, [userInfo, loggedIn]);
 
   return hasProfile;
 }

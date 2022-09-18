@@ -11,8 +11,11 @@
 import * as React from "react";
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { Course } from "@codeup/util/src/courses/Course";
+import { useRouter } from "next/router";
 
 export default function CourseCard(props: { course: Course }) {
+  const router = useRouter();
+
   return (
     <>
       <Box shadow={"xl"} rounded={"xl"} bg={"gray.900"}>
@@ -30,7 +33,12 @@ export default function CourseCard(props: { course: Course }) {
                 <Heading>{props.course.displayName}</Heading>
                 <Text color={"gray.500"}>{props.course.description}</Text>
                 <Flex mt={"1.2rem"}>
-                  <Button colorScheme={props.course.colorScheme}>
+                  <Button
+                    colorScheme={props.course.colorScheme}
+                    onClick={() => {
+                      router.push("/course/" + props.course.name);
+                    }}
+                  >
                     Kurs öffnen
                   </Button>
                 </Flex>

@@ -9,45 +9,45 @@
  */
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import {
+  Box,
   Button,
+  ButtonGroup,
+  Checkbox,
+  Divider,
   Flex,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftAddon,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Popover,
   PopoverArrow,
-  PopoverContent,
-  PopoverTrigger,
-  PopoverCloseButton,
-  PopoverHeader,
   PopoverBody,
-  useToast,
-  Stack,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputLeftAddon,
-  Input,
-  Box,
-  Tooltip,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
-  IconButton,
-  ModalFooter,
-  Divider,
-  Text,
+  Stack,
   Tag,
-  ButtonGroup,
-  Checkbox,
+  Text,
+  Tooltip,
+  useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { FaPlus, FaTrash, FaCogs } from "react-icons/fa";
+import { FaCogs, FaPlus, FaTrash } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function ContributorManager(props: {
   isOpen: boolean;
@@ -57,7 +57,7 @@ export default function ContributorManager(props: {
 }) {
   const toast = useToast();
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   const [contributors, setContributors] = useState<{
     owner: {

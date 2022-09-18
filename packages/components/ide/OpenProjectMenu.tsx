@@ -28,22 +28,19 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Select,
   Spinner,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import {
   FaCloudUploadAlt,
   FaFileExport,
   FaSearch,
-  FaSort,
   FaSortNumericDownAlt,
   FaSortNumericUpAlt,
-  FaSortUp,
   FaThumbtack,
   FaTrash,
   FaUsersCog,
@@ -155,7 +152,7 @@ export default function OpenProjectMenu() {
 
   const [projectId, setProjectId] = useState("0");
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   const {
     isOpen: isPublisherOpen,

@@ -8,6 +8,7 @@
  *
  */
 
-import * as React from "react";
 export { default as Footer } from "./Footer";
 export { default as NavigationBar } from "./NavigationBar";
+export { default as UserAuthAction } from "./UserAuthAction";
+export { default as UserAuthRegister } from "./UserAuthRegister";

@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import TipTap from "./TipTap";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function PostButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,13 +30,11 @@ export default function PostButton() {
 
   const [showPostButton, setShowPostButton] = useState(false);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
-    if (userInfo.id !== "") {
-      setShowPostButton(true);
-    }
-  }, [userInfo]);
+    setShowPostButton(loggedIn);
+  }, [loggedIn]);
 
   return (
     <>

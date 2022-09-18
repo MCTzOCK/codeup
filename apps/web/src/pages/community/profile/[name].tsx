@@ -56,7 +56,7 @@ import {
   FaInfo,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import { useHasProfile, useUserInfo } from "@codeup/hooks";
+import { useHasProfile, useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
 
 //
@@ -138,7 +138,7 @@ export default function ProfileView() {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [maxPosts, setMaxPosts] = useState(0);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     redirect({
@@ -347,7 +347,7 @@ export default function ProfileView() {
                   <Flex flexDirection="column" gap={"2rem"}>
                     <Box textAlign={"center"}>
                       <Avatar
-                        src={profile.profilePicture}
+                        src={"/api/account/" + userInfo.username + "/picture"}
                         w={128}
                         h={128}
                         borderColor={"#FFF"}
@@ -520,7 +520,9 @@ function Profile(props: {
         >
           <ProfileBanner url={props.profile.profileBanner} />
           <Flex flexDirection={["column", "row"]} flex={"100%"} gap={"1.2rem"}>
-            <ProfileAvatar url={props.profile.profilePicture} />
+            <ProfileAvatar
+              url={"/api/account/" + props.profile.username + "/picture"}
+            />
             <Flex
               justifyContent={"center"}
               alignItems={"center"}

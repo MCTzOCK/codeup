@@ -1,8 +1,8 @@
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React from "react";
+import { Box, ChakraProvider, extendTheme, useToast } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
@@ -119,11 +119,14 @@ function App({ Component, pageProps }: AppProps) {
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
             ) : null}
-            {router.pathname.startsWith("/course") ||
-            router.pathname.startsWith("/explore") ? (
-              <CourseNavigationBar />
-            ) : null}
 
+            {/*
+               Will probably be removed in the future
+                {router.pathname.startsWith("/course") ||
+                router.pathname.startsWith("/explore") ? (
+                  <CourseNavigationBar />
+                ) : null}
+               */}
             <Component {...pageProps} />
 
             {router.pathname.startsWith("/community") ? <PostButton /> : null}

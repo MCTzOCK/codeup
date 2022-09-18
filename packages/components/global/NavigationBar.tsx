@@ -10,6 +10,12 @@
 
 import * as React from "react";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Divider,
@@ -24,36 +30,36 @@ import {
   Heading,
   IconButton,
   Link as ChakraLink,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
+  SimpleGrid,
   Text,
   useDisclosure,
   useMediaQuery,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useUserInfo } from "@codeup/hooks";
 import Link from "next/link";
-import { AiFillCaretDown } from "react-icons/ai";
-import { ReactNode } from "react";
 import { FaComment } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
 import { HiLightBulb } from "react-icons/hi";
-import {
-  BsCheck2Square,
-  BsFillCalendar2WeekFill,
-  BsGlobe,
-} from "react-icons/bs";
+import { BsCheck2Square } from "react-icons/bs";
 import InCodeIcon from "../icons/InCodeIcon";
+import UserAuthAction from "./UserAuthAction";
+import NavigationBarMenu from "./NavigationBarMenu";
+import MenuButtons from "./MenuButtons";
+import { useEffect } from "react";
 
 export default function NavigationBar() {
+  const whatEverRef = React.useRef();
+
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isLogoutOpen,
+    onOpen: onLogoutOpen,
+    onClose: onLogoutClose,
+  } = useDisclosure();
 
   const router = useRouter();
 
@@ -63,71 +69,17 @@ export default function NavigationBar() {
     onClose: onMoreMenuClose,
   } = useDisclosure();
 
-  const userInfo = useUserInfo();
+  const {
+    isOpen: isUserAuthOpen,
+    onOpen: onUserAuthOpen,
+    onClose: onUserAuthClose,
+  } = useDisclosure();
 
-  const Menu = () => {
-    return (
-      <>
-        <Link href={"/"}>
-          <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Home
-          </Button>
-        </Link>
-        <Link href={"/explore"}>
-          <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-            Kurse
-          </Button>
-        </Link>
-        <Button
-          variant={"ghost"}
-          size={"lg"}
-          rightIcon={<AiFillCaretDown />}
-          onClick={onMoreMenuOpen}
-        >
-          Mehr
-        </Button>
-        {userInfo.id !== "" ? (
-          <>
-            <Popover>
-              <PopoverTrigger>
-                <Button
-                  variant={"ghost"}
-                  size={"lg"}
-                  rightIcon={<AiFillCaretDown />}
-                >
-                  Konto
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent bg={"black"}>
-                <PopoverArrow bg={"black"} />
-                <PopoverBody>
-                  <Flex w={"100%"} direction={"column"}>
-                    <Link href={"/account/settings"}>
-                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Einstellungen
-                      </Button>
-                    </Link>
-
-                    <Link href={"/dashboard"}>
-                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Dashboard
-                      </Button>
-                    </Link>
-
-                    <Link href={"/account/logout"}>
-                      <Button variant={"ghost"} size={"lg"} onClick={onClose}>
-                        Abmelden
-                      </Button>
-                    </Link>
-                  </Flex>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          </>
-        ) : null}
-      </>
-    );
-  };
+  useEffect(() => {
+    if (router.asPath.includes("#login")) {
+      onUserAuthOpen();
+    }
+  }, []);
 
   const ExpandedMenuOption = (props: {
     name: string;
@@ -172,50 +124,28 @@ export default function NavigationBar() {
     );
   };
 
-  const MenuButtons = () => {
-    return (
-      <>
-        {userInfo.id === "" ? (
-          <>
-            <Link href={"/account/register"}>
-              <Button
-                variant={"solid"}
-                colorScheme={"whatsapp"}
-                onClick={onClose}
-              >
-                Beitreten
-              </Button>
-            </Link>
-            <Link href={"/account/login"}>
-              <Button variant={"solid"} onClick={onClose}>
-                Anmelden
-              </Button>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href={"/dashboard"}>
-              <Button variant={"solid"} colorScheme={"blue"} onClick={onClose}>
-                Dashboard
-              </Button>
-            </Link>
-            <Link href={"/account/logout"}>
-              <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                Abmelden
-              </Button>
-            </Link>
-          </>
-        )}
-      </>
-    );
-  };
-
   return (
     <>
+      <UserAuthAction
+        onOpen={onUserAuthOpen}
+        onClose={onUserAuthClose}
+        isOpen={isUserAuthOpen}
+      />
       <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"flex-start"} textAlign={["center", "left"]}>
-            <ChakraLink href={"/"}>CodeUp</ChakraLink>
+            <Link href={"/"}>
+              <ChakraLink
+                href={"/"}
+                display={"flex"}
+                flexDirection="row"
+                alignItems={"center"}
+                gap="1.2rem"
+              >
+                <img src="/codeup.svg" width="48" />
+                CodeUp
+              </ChakraLink>
+            </Link>
           </Heading>
           <Flex
             justifyContent={isMobile ? "right" : "center"}
@@ -223,7 +153,12 @@ export default function NavigationBar() {
             alignItems={"center"}
           >
             {!isMobile ? (
-              <Menu />
+              <NavigationBarMenu
+                onClose={onClose}
+                onOpen={onOpen}
+                onMoreMenuOpen={onMoreMenuOpen}
+                onLogoutOpen={onLogoutOpen}
+              />
             ) : (
               <>
                 <IconButton
@@ -245,7 +180,12 @@ export default function NavigationBar() {
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>
-                        <Menu />
+                        <NavigationBarMenu
+                          onClose={onClose}
+                          onOpen={onOpen}
+                          onMoreMenuOpen={onMoreMenuOpen}
+                          onLogoutOpen={onLogoutOpen}
+                        />
                       </Flex>
                     </DrawerBody>
 
@@ -254,7 +194,11 @@ export default function NavigationBar() {
                       alignItems={"center"}
                       justifyContent={"center"}
                     >
-                      <MenuButtons />
+                      <MenuButtons
+                        onClose={onClose}
+                        onUserAuthOpen={onUserAuthOpen}
+                        onLogoutOpen={onLogoutOpen}
+                      />
                     </DrawerFooter>
                   </DrawerContent>
                 </Drawer>
@@ -269,7 +213,11 @@ export default function NavigationBar() {
               gap={"1.2rem"}
               mt={["2rem", 0]}
             >
-              <MenuButtons />
+              <MenuButtons
+                onClose={onClose}
+                onUserAuthOpen={onUserAuthOpen}
+                onLogoutOpen={onLogoutOpen}
+              />
             </Flex>
           ) : null}
         </Flex>
@@ -309,8 +257,8 @@ export default function NavigationBar() {
                 url={"/ide"}
               />
               <ExpandedMenuOption
-                name={"InCode Docs"}
-                description={"Dokumentation der InCode Programmiersprache"}
+                name={"InCode"}
+                description={"Dokumentation unserer Programmiersprache InCode"}
                 icon={<InCodeIcon />}
                 url={"/redirect?url=https://incode.codeup.space"}
               />
@@ -334,24 +282,51 @@ export default function NavigationBar() {
                 icon={<BsCheck2Square />}
                 url={"/todo"}
               />
-              <ExpandedMenuOption
-                name={"Kalender"}
-                description={"Plane anstehende Termine."}
-                icon={<BsFillCalendar2WeekFill />}
-                url={"/calendar"}
-              />
-              <ExpandedMenuOption
-                name={"Hosting"}
-                description={
-                  "Veröffentliche deine Web-Projekte mit wenig Aufwand."
-                }
-                icon={<BsGlobe />}
-                url={"/hosting"}
-              />
             </SimpleGrid>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
+
+      <AlertDialog
+        isOpen={isLogoutOpen}
+        onClose={onLogoutClose}
+        isCentered
+        // @ts-ignore
+        leastDestructiveRef={whatEverRef}
+      >
+        <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
+          <AlertDialogContent bg={"black"}>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Abmelden
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Willst du dich wirklich abmelden?</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                onClick={onLogoutClose}
+                // @ts-ignore
+                ref={whatEverRef}
+              >
+                Abbrechen
+              </Button>
+              <Button
+                colorScheme="red"
+                variant={"outline"}
+                onClick={() => {
+                  onClose();
+                  onLogoutClose();
+                  localStorage.removeItem("token");
+                  router.push("/");
+                }}
+                ml={3}
+              >
+                Abmelden
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }

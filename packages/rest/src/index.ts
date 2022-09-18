@@ -16,6 +16,7 @@ import {
   reset,
   resetConfirm,
   update,
+  verify,
 } from "./api/Account";
 import makeRequest from "./makeRequest";
 import {
@@ -77,6 +78,7 @@ const REST = {
     reset,
     resetConfirm,
     update,
+    verify,
   },
   ToDo: {
     getMyLists,

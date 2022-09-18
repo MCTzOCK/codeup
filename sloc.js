@@ -9,17 +9,33 @@ const byteSize = require("byte-size");
 
 let paths = getAllPaths(".", []);
 
-paths = paths
-  .filter((p) => !p.includes("node_modules"))
-  .filter((p) => !p.includes(".next"))
-  .filter((p) => !p.includes("dist"))
-  .filter((p) => !p.includes(".turbo"))
-  .filter((p) => !p.includes(".git"))
-  .filter((p) => !p.includes(".idea"))
-  .filter((p) => !p.includes(".lock"))
-  .filter((p) => !p.includes("LICENSE"))
-  .filter((p) => !p.includes(".ico"))
-  .filter((p) => !p.includes(".afdesign"));
+const disallowed = [
+  ".turbo",
+  ".git",
+  ".idea",
+  ".ico",
+  ".docusaurus",
+  ".TTF",
+  ".afdesign",
+  "LICENSE",
+  ".lock",
+  "package-lock.json",
+  ".log",
+  "node_modules",
+  ".next",
+  "dist",
+];
+
+// filter disallowed files
+paths = paths.filter((p) => {
+  let allowed = true;
+  disallowed.forEach((d) => {
+    if (p.includes(d)) {
+      allowed = false;
+    }
+  });
+  return allowed;
+});
 
 let lines = 0;
 let size = 0;
@@ -39,11 +55,18 @@ if (process.argv.includes("-v")) {
   console.log(JSON.stringify(paths, null, 2));
 }
 
-console.log("Total Lines of Code: " + lines);
-console.log("Total Source Files: " + paths.length);
-console.log("Total Source Size: " + byteSize(size));
+console.warn("\u001b[31mProject Statistics\u001b[0m");
+console.table({
+  "Total Lines": lines,
+  "Total Files": paths.length,
+  "Total Size": byteSize(size).value + " " + byteSize(size).unit,
+  "Total Characters": size,
+});
+
+console.log("\n");
+
+console.warn("\u001b[31mBigest Files\u001b[0m");
 filesWithLines.sort((a, b) => b.lines - a.lines);
-console.log("Top Biggest Files:");
 filesWithLines.slice(0, 10).forEach((f, i) => {
   console.log(i + 1 + ". " + f.path + ": " + f.lines);
 });

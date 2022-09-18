@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useUserInfo, useHasProfile } from "@codeup/hooks";
+import { useHasProfile } from "@codeup/hooks";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import { AiFillPlusSquare } from "react-icons/ai";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";

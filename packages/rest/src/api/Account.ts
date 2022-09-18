@@ -107,3 +107,11 @@ export async function update(options: {
     },
   });
 }
+
+export async function verify(token: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/verify",
+    method: "GET",
+    token: token,
+  });
+}

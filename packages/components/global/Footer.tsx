@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { Box, Divider, Link, Text } from "@chakra-ui/react";
+import { Box, Divider, Link, Text, chakra } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
@@ -45,6 +45,11 @@ export default function Footer() {
           >
             Twitter
           </Link>
+          <br />
+          <br />
+          <chakra.span color="gray.700">
+            Vector Graphics from undraw.co, Icons from react-icons
+          </chakra.span>
         </Text>
       </Box>
     </>

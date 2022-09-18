@@ -27,8 +27,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
-import { useRouter } from "next/router";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function TemplatePublisher(props: {
   isOpen: boolean;
@@ -45,7 +44,7 @@ export default function TemplatePublisher(props: {
 }) {
   const toast = useToast();
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   return (
     <>

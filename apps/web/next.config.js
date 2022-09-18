@@ -1,3 +1,5 @@
+const path = require("path");
+
 const withTM = require("next-transpile-modules")([
   "@codeup/components",
   "@codeup/util",
@@ -18,5 +20,8 @@ module.exports = withTM(
   withMDX({
     reactStrictMode: true,
     pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+    sassOptions: {
+      includePaths: [path.join(__dirname, "src", "styles")],
+    },
   })
 );

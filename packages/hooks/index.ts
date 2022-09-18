@@ -16,6 +16,7 @@ import useUserInfo from "./hooks/useUserInfo";
 import useUserLoggedIn from "./hooks/useUserLoggedIn";
 import useUserLoggedInRedirect from "./hooks/useUserLoggedInRedirect";
 import useKeyPress from "./hooks/useKeyPress";
+import { useLoggedIn } from "./hooks/useLoggedIn";
 
 export {
   useCourseRedirect,
@@ -26,4 +27,5 @@ export {
   useUserLoggedInRedirect,
   useUserLoggedIn,
   useKeyPress,
+  useLoggedIn,
 };
