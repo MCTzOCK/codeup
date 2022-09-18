@@ -44,6 +44,10 @@ export default function HTMLCourseSections() {
           title: "Formulare",
           url: "/course/html-basics/forms",
         },
+        {
+          title: "Tabellen",
+          url: "/course/html-basics/tables",
+        },
       ]}
     />
   );
