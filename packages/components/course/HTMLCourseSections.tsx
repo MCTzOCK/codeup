@@ -40,6 +40,10 @@ export default function HTMLCourseSections() {
           title: "Listen",
           url: "/course/html-basics/lists",
         },
+        {
+          title: "Formulare",
+          url: "/course/html-basics/forms",
+        },
       ]}
     />
   );
