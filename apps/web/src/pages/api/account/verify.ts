@@ -21,8 +21,11 @@ export default async function handleRequest(
     const token = headers["x-jwt"];
 
     if (verify(token as string, process.env.JWT_SECRET as string)) {
+      const decoded = decode(token as string);
+
       res.status(200).json({
         verified: true,
+        data: decoded,
       });
     } else {
       res.status(401).json({

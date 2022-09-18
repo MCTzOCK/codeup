@@ -29,26 +29,21 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  SimpleGrid,
   Text,
   useDisclosure,
   useMediaQuery,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import Link from "next/link";
 import { AiFillCaretDown } from "react-icons/ai";
-import { ReactNode } from "react";
 import { FaComment } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
 import { HiLightBulb } from "react-icons/hi";
-import {
-  BsCheck2Square,
-  BsFillCalendar2WeekFill,
-  BsGlobe,
-} from "react-icons/bs";
+import { BsCheck2Square } from "react-icons/bs";
 import InCodeIcon from "../icons/InCodeIcon";
 
 export default function NavigationBar() {
@@ -63,7 +58,7 @@ export default function NavigationBar() {
     onClose: onMoreMenuClose,
   } = useDisclosure();
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   const Menu = () => {
     return (
@@ -91,7 +86,7 @@ export default function NavigationBar() {
         >
           Mehr
         </Button>
-        {userInfo.id !== "" ? (
+        {loggedIn ? (
           <>
             <Popover>
               <PopoverTrigger>
@@ -180,7 +175,7 @@ export default function NavigationBar() {
   const MenuButtons = () => {
     return (
       <>
-        {userInfo.id === "" ? (
+        {!loggedIn ? (
           <>
             <Link href={"/account/register"}>
               <Button

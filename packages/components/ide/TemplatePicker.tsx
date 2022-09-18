@@ -17,22 +17,20 @@ import {
   Flex,
   Heading,
   Input,
+  Link,
   Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
   Spinner,
   Stack,
   Text,
-  PopoverTrigger,
-  PopoverHeader,
-  PopoverContent,
-  PopoverArrow,
-  PopoverBody,
-  IconButton,
-  ButtonGroup,
-  Link,
 } from "@chakra-ui/react";
 import { FaPlus, FaStar } from "react-icons/fa";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import TemplateImporter from "./TemplateImporter";
 
 export default function TemplatePicker() {
@@ -65,7 +63,7 @@ export default function TemplatePicker() {
   const [importing, setImporting] = useState(false);
   const [importTemplate, setImportTemplate] = useState("0");
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   return (
     <>

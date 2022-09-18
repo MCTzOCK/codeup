@@ -5,8 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/verify.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/verify.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/community/profile/[name].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/OpenProjectMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/OpenProjectMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplatePublisher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePublisher.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +89,7 @@
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -139,9 +156,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.stats" />
         <item itemvalue="npm.build" />
         <item itemvalue="npm.build (1)" />
-        <item itemvalue="npm.stats" />
       </list>
     </recent_temporary>
   </component>
@@ -192,6 +209,9 @@
       <workItem from="1661018610904" duration="23065000" />
       <workItem from="1661153917200" duration="8396000" />
       <workItem from="1662849813010" duration="230000" />
+      <workItem from="1663492307713" duration="71000" />
+      <workItem from="1663492412595" duration="461000" />
+      <workItem from="1663493176160" duration="237000" />
     </task>
     <servers />
   </component>

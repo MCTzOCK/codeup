@@ -11,10 +11,26 @@
 import REST from "@codeup/rest";
 import { useEffect, useState } from "react";
 
-export function useLoggedIn(): boolean {
+export function useLoggedIn(): {
+  loggedIn: boolean;
+  userInfo: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    _2fa: boolean;
+    username: string;
+  };
+} {
   const [loggedIn, setLoggedIn] = useState(false);
-
-  // check every 10 ms if the token has changed
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    _2fa: false,
+    username: "",
+  });
 
   useEffect(() => {
     let token: string | null = null;
@@ -22,10 +38,11 @@ export function useLoggedIn(): boolean {
       const newToken = localStorage.getItem("token");
       if (newToken !== null) {
         if (newToken !== token) {
-          REST.Account.verify(newToken).then((res) => {
+          REST.Account.verify(newToken).then(async (res) => {
             if (res.status === 200) {
               token = newToken;
               setLoggedIn(true);
+              setUserInfo(res.payload.data);
             } else {
               token = null;
               setLoggedIn(false);
@@ -41,5 +58,8 @@ export function useLoggedIn(): boolean {
     return () => clearInterval(interval);
   }, []);
 
-  return loggedIn;
+  return {
+    loggedIn,
+    userInfo,
+  };
 }

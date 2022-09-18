@@ -20,7 +20,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import REST from "@codeup/rest";
 
@@ -37,7 +37,7 @@ export default function ProfileMenuButton(props: {
 }) {
   const [isOwner, setIsOwner] = useState(false);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     if (userInfo.username === props.profile.username) {

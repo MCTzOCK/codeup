@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const loggedIn = useLoggedIn();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   const allowLoadingAnimation = false;
 

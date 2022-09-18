@@ -56,7 +56,7 @@ import {
   FaInfo,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import { useHasProfile, useUserInfo } from "@codeup/hooks";
+import { useHasProfile, useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
 
 //
@@ -138,7 +138,7 @@ export default function ProfileView() {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [maxPosts, setMaxPosts] = useState(0);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     redirect({

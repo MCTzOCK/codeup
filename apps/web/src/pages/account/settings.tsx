@@ -8,9 +8,6 @@
  *
  */
 
-import * as React from "react";
-import { useEffect } from "react";
-import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import {
   Button,
   Flex,
@@ -20,25 +17,26 @@ import {
   Heading,
   Input,
   Popover,
-  PopoverTrigger,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
+  PopoverTrigger,
   SimpleGrid,
   Spinner,
   Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { FaUserCircle } from "react-icons/fa";
-import { BsFillHouseDoorFill } from "react-icons/bs";
-import { useRouter } from "next/router";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
+import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { useEffect } from "react";
+import { BsFillHouseDoorFill } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Settings() {
   const router = useRouter();
@@ -52,7 +50,7 @@ export default function Settings() {
     });
   }, []);
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);

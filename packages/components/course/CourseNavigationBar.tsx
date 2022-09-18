@@ -27,14 +27,14 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useUserInfo } from "@codeup/hooks";
+import { useLoggedIn } from "@codeup/hooks";
 import Link from "next/link";
 
 export default function CourseNavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const userInfo = useUserInfo();
+  const { loggedIn, userInfo } = useLoggedIn();
   const Menu = () => {
     return (
       <>
