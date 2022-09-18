@@ -37,8 +37,6 @@ paths = paths.filter((p) => {
   return allowed;
 });
 
-console.log("[i] Applied " + disallowed.length + " filters");
-
 let lines = 0;
 let size = 0;
 
@@ -57,11 +55,18 @@ if (process.argv.includes("-v")) {
   console.log(JSON.stringify(paths, null, 2));
 }
 
-console.log("Total Lines of Code: " + lines);
-console.log("Total Source Files: " + paths.length);
-console.log("Total Source Size: " + byteSize(size));
+console.warn("\u001b[31mProject Statistics\u001b[0m");
+console.table({
+  "Total Lines": lines,
+  "Total Files": paths.length,
+  "Total Size": byteSize(size).value + " " + byteSize(size).unit,
+  "Total Characters": size,
+});
+
+console.log("\n");
+
+console.warn("\u001b[31mBigest Files\u001b[0m");
 filesWithLines.sort((a, b) => b.lines - a.lines);
-console.log("Top Biggest Files:");
 filesWithLines.slice(0, 10).forEach((f, i) => {
   console.log(i + 1 + ". " + f.path + ": " + f.lines);
 });

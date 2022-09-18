@@ -347,7 +347,7 @@ export default function ProfileView() {
                   <Flex flexDirection="column" gap={"2rem"}>
                     <Box textAlign={"center"}>
                       <Avatar
-                        src={profile.profilePicture}
+                        src={"/api/account/" + userInfo.username + "/picture"}
                         w={128}
                         h={128}
                         borderColor={"#FFF"}
@@ -520,7 +520,9 @@ function Profile(props: {
         >
           <ProfileBanner url={props.profile.profileBanner} />
           <Flex flexDirection={["column", "row"]} flex={"100%"} gap={"1.2rem"}>
-            <ProfileAvatar url={props.profile.profilePicture} />
+            <ProfileAvatar
+              url={"/api/account/" + props.profile.username + "/picture"}
+            />
             <Flex
               justifyContent={"center"}
               alignItems={"center"}
