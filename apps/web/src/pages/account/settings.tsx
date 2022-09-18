@@ -71,7 +71,7 @@ export default function Settings() {
     }
     if (query.has("newToken")) {
       localStorage.setItem("token", query.get("newToken") as string);
-      window.location.href = "/account/settings?component=account";
+      // window.location.href = "/account/settings?component=account";
     }
   }, [userInfo]);
 
@@ -190,6 +190,8 @@ function Account(props: {
     variant: "solid",
   });
 
+  const router = useRouter();
+
   return (
     <>
       <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
@@ -225,7 +227,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              setFirstNameButtonDisabled(false);
             } else {
               setFirstNameError(res.payload.error);
               setFirstNameButtonDisabled(false);
@@ -272,7 +274,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              setLastNameButtonDisabled(false);
             } else {
               setLastNameError(res.payload.error);
               setLastNameButtonDisabled(false);
@@ -362,7 +364,7 @@ function Account(props: {
 
             if (res.payload.success) {
               localStorage.setItem("token", res.payload.newToken);
-              window.location.reload();
+              set_2faButtonDisabled(false);
             }
           }}
         >
@@ -424,7 +426,8 @@ function Account(props: {
 
                       localStorage.removeItem("token");
                       document.cookie = "jwt=;path=/";
-                      window.location.reload();
+
+                      await router.push("/");
                     }}
                   >
                     Wirklich löschen
