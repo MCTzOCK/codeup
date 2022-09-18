@@ -63,7 +63,7 @@ export default function MenuButtons(props: {
                 size={"md"}
               />
             </MenuButton>
-            <MenuList bg={"black"}>
+            <MenuList bg={"black"} zIndex={10}>
               <br />
               <Center>
                 <Avatar

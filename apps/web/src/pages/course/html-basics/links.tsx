@@ -11,10 +11,12 @@
 import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { Quiz } from "@codeup/components/course";
 import CodeBlock from "../../../special-components/CodeBlock";
+import HTMLCourseSections from "@codeup/components/course/HTMLCourseSections";
 
 export default function Lesson() {
   return (
     <>
+      <HTMLCourseSections />
       <Flex
         direction="column"
         gap="2rem"

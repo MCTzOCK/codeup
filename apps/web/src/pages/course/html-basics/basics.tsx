@@ -29,6 +29,7 @@ import {
 import { Quiz } from "@codeup/components/course";
 import * as React from "react";
 import CodeBlock from "../../../special-components/CodeBlock";
+import HTMLCourseSections from "@codeup/components/course/HTMLCourseSections";
 
 const code_template_html_document = `<!-- Definiere die Sprache des Dokuments -->
 <!DOCTYPE html>
@@ -46,6 +47,7 @@ const code_template_html_document = `<!-- Definiere die Sprache des Dokuments --
 export default function Basics() {
   return (
     <>
+      <HTMLCourseSections />
       <Flex
         direction="column"
         gap="2rem"
