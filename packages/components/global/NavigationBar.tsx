@@ -228,16 +228,18 @@ export default function NavigationBar() {
       <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"flex-start"} textAlign={["center", "left"]}>
-            <ChakraLink
-              href={"/"}
-              display={"flex"}
-              flexDirection="row"
-              alignItems={"center"}
-              gap="1.2rem"
-            >
-              <img src="/codeup.svg" width="48" />
-              CodeUp
-            </ChakraLink>
+            <Link href={"/"}>
+              <ChakraLink
+                href={"/"}
+                display={"flex"}
+                flexDirection="row"
+                alignItems={"center"}
+                gap="1.2rem"
+              >
+                <img src="/codeup.svg" width="48" />
+                CodeUp
+              </ChakraLink>
+            </Link>
           </Heading>
           <Flex
             justifyContent={isMobile ? "right" : "center"}
