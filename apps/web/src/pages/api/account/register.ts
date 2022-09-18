@@ -15,6 +15,8 @@ import * as crypto from "crypto";
 import { uuid } from "uuidv4";
 import sendMail from "@codeup/util/src/sendMail";
 import checkPassword from "@codeup/util/src/checkPassword";
+import { createAvatar } from "@dicebear/avatars";
+import * as style from "@dicebear/avatars-bottts-sprites";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -74,6 +76,11 @@ export default async function handleRequest(
   try {
     const acToken = uuid();
 
+    const svg = createAvatar(style, {
+      seed: req.body.username,
+      colorful: true,
+    });
+
     const user = await UserModel.create({
       username: req.body.username,
       email: req.body.email,
@@ -84,6 +91,8 @@ export default async function handleRequest(
         .update(req.body.password)
         .digest("hex"),
       activationToken: acToken,
+      profilePicture:
+        "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64"),
     });
 
     await user.save();
@@ -91,7 +100,7 @@ export default async function handleRequest(
     await sendMail(
       req.body.email,
       "Account activation",
-      `Please click the following link to activate your account:\nhttp://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=http://${req.headers.host}/account/login\n\nIf you did not request this email, please ignore it.`,
+      `Please click the following link to activate your account:\nhttps://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=https://${req.headers.host}#login\n\nIf you did not request this email, please ignore it.`,
       req.body.firstName
     );
 
