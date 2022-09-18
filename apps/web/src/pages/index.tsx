@@ -14,6 +14,7 @@ import {
   ButtonGroup,
   Flex,
   Heading,
+  Link,
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -100,8 +101,18 @@ export default function Home() {
         <b>TypeScript</b>,&nbsp;
         <b>HTML</b>,&nbsp;
         <b>CSS</b>,&nbsp;
-        <b>Sass/SCSS</b>,&nbsp;und <b>InCode</b>, sodass du dir selbst die
-        Sprache aussuchen kannst, die dir am besten gefällt.
+        <b>Sass/SCSS</b>, sodass du dir selbst die Sprache aussuchen kannst, die
+        dir am besten gefällt. Neben den gängigen Sprachen haben wir zusätzlich
+        eine eigene Sprache namens&nbsp;<b>InCode</b>&nbsp;entwickelt, die dir
+        das Programmieren noch einfacher macht! Du kannst sie&nbsp;
+        <Link
+          color={"blue.400"}
+          target={"_blank"}
+          href={"//incode.codeup.space"}
+        >
+          hier
+        </Link>
+        &nbsp;lernen.
       </Card>
       <Card
         title="Plane deine Projekte"

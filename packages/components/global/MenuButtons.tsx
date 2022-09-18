@@ -90,7 +90,7 @@ export default function MenuButtons(props: {
               <MenuItem
                 color={"red"}
                 onClick={() => {
-                  localStorage.removeItem("token");
+                  props.onLogoutOpen();
                 }}
               >
                 Abmelden

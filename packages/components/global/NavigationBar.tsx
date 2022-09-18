@@ -257,8 +257,8 @@ export default function NavigationBar() {
                 url={"/ide"}
               />
               <ExpandedMenuOption
-                name={"InCode Docs"}
-                description={"Dokumentation der InCode Programmiersprache"}
+                name={"InCode"}
+                description={"Dokumentation unserer Programmiersprache InCode"}
                 icon={<InCodeIcon />}
                 url={"/redirect?url=https://incode.codeup.space"}
               />
