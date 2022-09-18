@@ -32,6 +32,10 @@ export default function HTMLCourseSections() {
           title: "Bilder",
           url: "/course/html-basics/image",
         },
+        {
+          title: "Andere Medien",
+          url: "/course/html-basics/other-media",
+        },
       ]}
     />
   );
