@@ -30,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import UserAuthRegister from "./UserAuthRegister";
 import UserAuthLogin from "./UserAuthLogin";
+import UserAuthReset from "./UserAuthReset";
 
 export default function UserAuthAction(props: {
   onOpen: () => void;
@@ -41,7 +42,7 @@ export default function UserAuthAction(props: {
       <Modal
         isOpen={props.isOpen}
         onClose={props.onClose}
-        size={["full", "xl"]}
+        size={["full", "2xl"]}
         isCentered
         scrollBehavior={"inside"}
       >
@@ -55,6 +56,7 @@ export default function UserAuthAction(props: {
               <TabList>
                 <Tab>Registrieren</Tab>
                 <Tab>Anmelden</Tab>
+                <Tab>Passwort Zurücksetzen</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -62,6 +64,9 @@ export default function UserAuthAction(props: {
                 </TabPanel>
                 <TabPanel>
                   <UserAuthLogin onClose={props.onClose} />
+                </TabPanel>
+                <TabPanel>
+                  <UserAuthReset />
                 </TabPanel>
               </TabPanels>
             </Tabs>

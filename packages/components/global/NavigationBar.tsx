@@ -202,11 +202,16 @@ export default function NavigationBar() {
                 Dashboard
               </Button>
             </Link>
-            <Link href={"/account/logout"}>
-              <Button variant={"solid"} colorScheme={"red"} onClick={onClose}>
-                Abmelden
-              </Button>
-            </Link>
+            <Button
+              variant={"solid"}
+              colorScheme={"red"}
+              onClick={() => {
+                onClose();
+                localStorage.removeItem("token");
+              }}
+            >
+              Abmelden
+            </Button>
           </>
         )}
       </>
