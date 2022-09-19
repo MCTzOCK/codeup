@@ -38,7 +38,7 @@ export default function CourseNavigationBar() {
   const Menu = () => {
     return (
       <>
-        <Link href={"/explore"}>
+        <Link href={"/courses"}>
           <Button variant={"ghost"} size={"lg"} onClick={onClose}>
             Alle Kurse
           </Button>

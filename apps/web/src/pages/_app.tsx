@@ -123,7 +123,7 @@ function App({ Component, pageProps }: AppProps) {
             {/*
                Will probably be removed in the future
                 {router.pathname.startsWith("/course") ||
-                router.pathname.startsWith("/explore") ? (
+                router.pathname.startsWith("/courses") ? (
                   <CourseNavigationBar />
                 ) : null}
                */}

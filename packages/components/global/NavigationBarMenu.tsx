@@ -42,7 +42,7 @@ export default function NavigationBarMenu(props: {
           Über Uns
         </Button>
       </Link>
-      <Link href={"/explore"}>
+      <Link href={"/courses"}>
         <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
           Kurse
         </Button>

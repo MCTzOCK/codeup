@@ -17,35 +17,35 @@ export default function HTMLCourseSections() {
       course={"HTML Basics"}
       sections={[
         {
-          title: "Grundlagen",
+          title: "Grundlagen - Einführung in den Kurs",
           url: "/course/html-basics/basics",
         },
         {
-          title: "Texte",
+          title: "Texte - Arten von Texten und Texte formatieren",
           url: "/course/html-basics/text",
         },
         {
-          title: "Links",
+          title: "Links - Links und interne Links",
           url: "/course/html-basics/links",
         },
         {
-          title: "Bilder",
+          title: "Bilder - Bilder einfügen, beschreiben und skalieren.",
           url: "/course/html-basics/image",
         },
         {
-          title: "Andere Medien",
+          title: "Andere Medien - Videos, Audios und Webseiten einbinden.",
           url: "/course/html-basics/other-media",
         },
         {
-          title: "Listen",
+          title: "Listen - Arten von Listen und Einträge erstellen.",
           url: "/course/html-basics/lists",
         },
         {
-          title: "Formulare",
+          title: "Formulare - Komponenten und Formulare erstellen.",
           url: "/course/html-basics/forms",
         },
         {
-          title: "Tabellen",
+          title: "Tabellen - Tabellen, Spalten, Zeilen, etc.",
           url: "/course/html-basics/tables",
         },
       ]}
