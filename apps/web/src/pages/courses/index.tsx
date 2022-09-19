@@ -20,8 +20,8 @@ export default function Index() {
     redirect({
       forceAnonymous: false,
       redirectToLogin: true,
-      redirectTo: "/explore",
-      allowAnonymous: false
+      redirectTo: "/courses",
+      allowAnonymous: false,
     });
   }, []);
 
