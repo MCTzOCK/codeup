@@ -13,6 +13,7 @@ import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { FaFile } from "react-icons/fa";
 import { useRouter } from "next/router";
 import CodeUpModal from "../codeup/CodeUpModal";
+import { useEffect } from "react";
 
 export default function CourseSections(props: {
   course: string;
@@ -24,6 +25,44 @@ export default function CourseSections(props: {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [buttonVisible, setButtonVisible] = React.useState(true);
+
+  useEffect(() => {
+    window.addEventListener(
+      "codeup::courses:open_sections?" +
+        props.course.toLowerCase().replace(" ", "_"),
+      onOpen
+    );
+
+    return () => {
+      window.removeEventListener(
+        "codeup::courses:open_sections?" +
+          props.course.toLowerCase().replace(" ", "_"),
+        onOpen
+      );
+    };
+  });
+
+  useEffect(() => {
+    const handler = () => {
+      setButtonVisible(!buttonVisible);
+    };
+
+    window.addEventListener(
+      "codeup::courses:toggle_s_button?" +
+        props.course.toLowerCase().replace(" ", "_"),
+      handler
+    );
+
+    return () => {
+      window.removeEventListener(
+        "codeup::courses:toggle_s_button?" +
+          props.course.toLowerCase().replace(" ", "_"),
+        handler
+      );
+    };
+  });
 
   return (
     <>
@@ -43,6 +82,8 @@ export default function CourseSections(props: {
           colorScheme={"blue"}
           onClick={onOpen}
           size={"lg"}
+          display={buttonVisible ? "initial" : "none"}
+          id={"open-sections-" + props.course.toLowerCase().replace(" ", "_")}
         >
           Lektionen
         </Button>
