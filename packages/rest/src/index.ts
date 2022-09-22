@@ -12,6 +12,7 @@ import {
   checkUsername,
   deleteAccount,
   login,
+  loginWithUsername,
   register,
   reset,
   resetConfirm,
@@ -72,6 +73,7 @@ const REST = {
   Account: {
     register,
     login,
+    loginWithUsername,
     checkUsername,
     checkResetToken,
     deleteAccount,
