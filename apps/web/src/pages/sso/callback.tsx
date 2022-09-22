@@ -1,0 +1,44 @@
+/**
+ * apps/web/src/pages/sso/callback.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 22.09.2022
+ *
+ */
+
+import * as React from "react";
+import { useRouter } from "next/router";
+import { Flex, Spinner } from "@chakra-ui/react";
+import { useEffect } from "react";
+
+export default function Callback() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (window) {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+
+      const params = Object.fromEntries(urlSearchParams.entries());
+
+      if (params.token) {
+        localStorage.setItem("token", params.token);
+        router.push("/");
+      } else {
+        router.push("/sso/error?error=Kein Token erhalten.");
+      }
+    }
+  }, []);
+
+  return (
+    <Flex
+      alignItems={"center"}
+      justifyContent={"center"}
+      w={"100%"}
+      h={"100vh"}
+    >
+      <Spinner size={"xl"} />
+    </Flex>
+  );
+}

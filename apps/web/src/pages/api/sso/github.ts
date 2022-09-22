@@ -50,7 +50,7 @@ export default async function handleRequest(
   });
 
   if (response.status !== 200) {
-    res.redirect("/500");
+    res.redirect("/sso/error?error=Zugriff verweigert.");
     return;
   }
 
@@ -65,7 +65,7 @@ export default async function handleRequest(
   });
 
   if (userResponse.status !== 200) {
-    res.redirect("/sso-error?error=Benutzer konnte nicht abgerufen werden.");
+    res.redirect("/sso/error?error=Benutzer konnte nicht abgerufen werden.");
     return;
   }
 
@@ -74,11 +74,11 @@ export default async function handleRequest(
   const userId = user.id;
 
   const existingUser = await UserModel.findOne({
-    username: "github:" + userId,
+    sso: "github:" + userId,
   });
 
   if (existingUser) {
-    res.redirect("/sso-callback?token=" + generateJWT(existingUser));
+    res.redirect("/sso/callback?token=" + generateJWT(existingUser));
   } else {
     const emailResponse = await fetch("https://api.github.com/user/emails", {
       headers: {
@@ -87,7 +87,7 @@ export default async function handleRequest(
     });
 
     if (emailResponse.status !== 200) {
-      res.redirect("/sso-error?error=E-Mails konnten nicht abgerufen werden.");
+      res.redirect("/sso/error?error=E-Mails konnten nicht abgerufen werden.");
       return;
     }
 
@@ -110,7 +110,7 @@ export default async function handleRequest(
     });
 
     if (existingEmail) {
-      res.redirect("/sso-error?error=E-Mail wird bereits verwendet.");
+      res.redirect("/sso/error?error=E-Mail wird bereits verwendet.");
       return;
     }
 
@@ -128,16 +128,17 @@ export default async function handleRequest(
       twoFactorEnabled: false,
       active: true,
       profilePicture: svg,
-      sso: "GitHub",
+      sso: "github:" + userId,
     });
 
     await newUser.save();
 
     const token = generateJWT(newUser);
 
-    res.redirect("/sso-callback?token=" + token);
+    res.redirect("/sso/callback?token=" + token);
   }
 }
+
 function randomString(size: number) {
   const chars =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$%&{([)]}?+*~#-_.:,;<|>/";
