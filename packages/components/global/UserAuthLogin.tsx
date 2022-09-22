@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import REST from "@codeup/rest";
+import { IResponse } from "@codeup/rest/src/types/IResponse";
 
 export default function UserAuthLogin(props: { onClose: () => void }) {
   const [email, setEmail] = React.useState("");
@@ -61,10 +62,19 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
               setBtnDisabled(true);
               setAlertVisible(false);
 
-              const res = await REST.Account.login({
-                email,
-                password,
-              });
+              let res: IResponse;
+
+              if (email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+                res = await REST.Account.login({
+                  email,
+                  password,
+                });
+              } else {
+                res = await REST.Account.loginWithUsername({
+                  username: email,
+                  password,
+                });
+              }
 
               if (res.status !== 200) {
                 setAlertType("error");
@@ -83,10 +93,12 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
           >
             <Flex direction={"column"} gap={"2rem"}>
               <FormControl>
-                <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
+                <FormLabel htmlFor={"email"}>
+                  E-Mail oder Benutzername
+                </FormLabel>
                 <Input
                   id={"email"}
-                  placeholder={"E-Mail"}
+                  placeholder={"E-Mail oder Benutzername"}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
