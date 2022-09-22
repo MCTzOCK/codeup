@@ -46,6 +46,22 @@ export async function login(options: {
   });
 }
 
+export async function loginWithUsername(options: {
+  username: string;
+  password: string;
+  code?: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/login",
+    body: {
+      username: options.username,
+      password: options.password,
+      code: options.code ? options.code : null,
+    },
+    method: "POST",
+  });
+}
+
 export async function checkUsername(name: string): Promise<IResponse> {
   return await makeRequest({
     path: "/api/account/check-username/" + name,
