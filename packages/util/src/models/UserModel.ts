@@ -79,6 +79,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  sso: {
+    type: String,
+    default: "",
+  },
 });
 
 export default mongoose.models?.User || mongoose.model("User", UserSchema);

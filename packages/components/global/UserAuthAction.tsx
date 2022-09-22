@@ -32,6 +32,7 @@ import UserAuthRegister from "./UserAuthRegister";
 import UserAuthLogin from "./UserAuthLogin";
 import UserAuthReset from "./UserAuthReset";
 import CodeUpModal from "../codeup/CodeUpModal";
+import UserAuthSSO from "./UserAuthSSO";
 
 export default function UserAuthAction(props: {
   onOpen: () => void;
@@ -45,13 +46,17 @@ export default function UserAuthAction(props: {
         onClose={props.onClose}
         isOpen={props.isOpen}
       >
-        <Tabs isFitted variant={"line"} colorScheme={"red"}>
+        <Tabs isFitted variant={"line"} colorScheme={"red"} flex={"50%"}>
           <TabList>
+            <Tab>SSO</Tab>
             <Tab>Registrieren</Tab>
             <Tab>Anmelden</Tab>
             <Tab>Passwort Zurücksetzen</Tab>
           </TabList>
           <TabPanels>
+            <TabPanel>
+              <UserAuthSSO />
+            </TabPanel>
             <TabPanel>
               <UserAuthRegister />
             </TabPanel>
