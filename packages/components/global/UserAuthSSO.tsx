@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { Button, ButtonGroup, Grid, Heading, Text } from "@chakra-ui/react";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaGitlab, FaMicrosoft } from "react-icons/fa";
 import { useRouter } from "next/router";
 
 export default function UserAuthSSO() {
@@ -29,6 +29,16 @@ export default function UserAuthSSO() {
           size={"lg"}
         >
           GitHub
+        </Button>
+        <Button
+          colorScheme={"gray"}
+          onClick={() => {
+            router.push("/api/sso/request?type=gitlab");
+          }}
+          leftIcon={<FaGitlab />}
+          size={"lg"}
+        >
+          GitLab
         </Button>
       </Grid>
     </>

@@ -124,7 +124,7 @@ export default async function handleRequest(
       email: primaryEmail,
       firstName: name.split(" ")[0],
       lastName: name.split(" ")[name.split(" ").length - 1],
-      password: createHash("sha256").update(randomString(128)).digest("hex"),
+      password: createHash("sha256").update(randomString0(128)).digest("hex"),
       twoFactorEnabled: false,
       active: true,
       profilePicture: svg,
@@ -139,7 +139,7 @@ export default async function handleRequest(
   }
 }
 
-function randomString(size: number) {
+function randomString0(size: number) {
   const chars =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!$%&{([)]}?+*~#-_.:,;<|>/";
   let result = "";

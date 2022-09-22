@@ -34,6 +34,11 @@ export default async function handleRequest(
         `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URI}&scope=user&allow_signup=false`
       );
       break;
+    case "gitlab":
+      res.redirect(
+        `https://gitlab.com/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.GITLAB_REDIRECT_URI}&response_type=code`
+      );
+      break;
     default:
       res.redirect("/sso/error?error=Unbekannter Anbieter");
   }
