@@ -26,16 +26,29 @@ export default async function handleRequest(
     return;
   }
 
-  if (!req.body || !req.body.email || !req.body.password) {
+  if (!req.body || !req.body.password) {
     res.status(400).json({
       error: "Missing required fields",
     });
     return;
   }
 
+  if (!req.body.email && !req.body.username) {
+    res.status(400).json({
+      error: "Missing either E-Mail oder Username",
+    });
+    return;
+  }
+
   await mongoConnect();
 
-  const user = await UserModel.findOne({ email: req.body.email });
+  let user: any | null = null;
+
+  if (req.body.email) {
+    user = await UserModel.findOne({ email: req.body.email });
+  } else {
+    user = await UserModel.findOne({ username: req.body.username });
+  }
 
   if (!user) {
     res.status(400).json({
