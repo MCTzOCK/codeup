@@ -11,13 +11,21 @@
 import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Index() {
-  const { loggedIn, userInfo } = useLoggedIn();
+  const { loggedIn, userInfo, loaded } = useLoggedIn();
+
+  const router = useRouter();
 
   useEffect(() => {
-    alert(userInfo.sso);
-  }, [loggedIn, userInfo]);
+    if (loaded) {
+      if (!loggedIn) {
+        router.push("/");
+        window.dispatchEvent(new CustomEvent("codeup::open_login"));
+      }
+    }
+  }, [loaded, loggedIn]);
 
   return <></>;
 }
