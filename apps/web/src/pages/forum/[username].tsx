@@ -36,6 +36,12 @@ import {
   Button,
   AlertDialog,
   useDisclosure,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Textarea,
+  ButtonGroup,
+  useToast,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -75,6 +81,11 @@ export default function Profile() {
     username: string;
     profilePicture: string;
   } | null>(null);
+
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [saving, setSaving] = useState<boolean>(false);
+
+  const toast = useToast();
 
   useEffect(() => {
     if (router.query.username) {
@@ -118,7 +129,7 @@ export default function Profile() {
                     position={"absolute"}
                     top={"2rem"}
                     right={"1rem"}
-                    zIndex={1}
+                    zIndex={editMode ? -1 : 1}
                   >
                     <Menu>
                       <MenuButton>
@@ -130,7 +141,13 @@ export default function Profile() {
                         />
                       </MenuButton>
                       <MenuList>
-                        <MenuItem>Bearbeiten</MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            setEditMode(true);
+                          }}
+                        >
+                          Bearbeiten
+                        </MenuItem>
                         <MenuItem onClick={onDeleteProfileOpen}>
                           Löschen
                         </MenuItem>
@@ -146,27 +163,56 @@ export default function Profile() {
                   size={"xl"}
                 />
                 <Box ml={4}>
-                  <Heading
-                    size={"lg"}
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={"1.2rem"}
-                  >
-                    {profile.displayName}
-                    {profile.verified ? (
-                      <>
-                        <chakra.span color={"green.500"}>
-                          <FaCheckCircle />
-                        </chakra.span>
-                      </>
-                    ) : null}
-                  </Heading>
+                  {editMode ? (
+                    <>
+                      <Input
+                        type={"text"}
+                        id={"edit-display_name"}
+                        placeholder={"Anzeigename"}
+                        defaultValue={profile.displayName}
+                        onChange={(e) => {}}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Heading
+                        size={"lg"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        gap={"1.2rem"}
+                      >
+                        {profile.displayName}
+                        {profile.verified ? (
+                          <>
+                            <chakra.span color={"green.500"}>
+                              <FaCheckCircle />
+                            </chakra.span>
+                          </>
+                        ) : null}
+                      </Heading>
+                    </>
+                  )}
                   <Text color={"gray"}>@{profile.username}</Text>
                 </Box>
               </Flex>
               <Box mt={4}>
                 <UnorderedList>
-                  {profile.website ? (
+                  {editMode ? (
+                    <>
+                      <InputGroup mt={4}>
+                        <InputLeftAddon>
+                          <FaGlobe />
+                        </InputLeftAddon>
+                        <Input
+                          type={"text"}
+                          id={"edit-website"}
+                          placeholder={"Webseite"}
+                          defaultValue={profile.website}
+                        />
+                      </InputGroup>
+                    </>
+                  ) : null}
+                  {profile.website && !editMode ? (
                     <>
                       <Link
                         href={profile.website}
@@ -184,7 +230,22 @@ export default function Profile() {
                       </Link>
                     </>
                   ) : null}
-                  {profile.location ? (
+                  {editMode ? (
+                    <>
+                      <InputGroup mt={4}>
+                        <InputLeftAddon>
+                          <FaMapMarkerAlt />
+                        </InputLeftAddon>
+                        <Input
+                          type={"text"}
+                          id={"edit-location"}
+                          placeholder={"Ort"}
+                          defaultValue={profile.location}
+                        />
+                      </InputGroup>
+                    </>
+                  ) : null}
+                  {profile.location && !editMode ? (
                     <>
                       <ListItem
                         display={"flex"}
@@ -211,8 +272,111 @@ export default function Profile() {
                 </UnorderedList>
               </Box>
               <Box mt={4}>
-                <Text>{profile.bio}</Text>
+                {editMode ? (
+                  <>
+                    <Textarea defaultValue={profile.bio} id={"edit-bio"} />
+                  </>
+                ) : (
+                  <Text>{profile.bio}</Text>
+                )}
               </Box>
+              {editMode ? (
+                <Box mt={4}>
+                  <ButtonGroup w={"100%"} justifyContent={"flex-end"}>
+                    <Button
+                      colorScheme={"gray"}
+                      onClick={() => {
+                        setEditMode(false);
+                      }}
+                    >
+                      Abbrechen
+                    </Button>
+                    <Button
+                      colorScheme={"green"}
+                      isLoading={saving}
+                      onClick={async () => {
+                        setSaving(true);
+
+                        const displayName = document.getElementById(
+                          "edit-display_name"
+                        ) as HTMLInputElement;
+
+                        const website = document.getElementById(
+                          "edit-website"
+                        ) as HTMLInputElement;
+
+                        const location = document.getElementById(
+                          "edit-location"
+                        ) as HTMLInputElement;
+
+                        const bio = document.getElementById(
+                          "edit-bio"
+                        ) as HTMLInputElement;
+
+                        const data = {
+                          displayName: displayName.value,
+                          website: website.value,
+                          location: location.value,
+                          bio: bio.value,
+                        };
+
+                        const r = await REST.Forum.modifyProfileV2({
+                          token: localStorage.getItem("token") as string,
+                          username: profile.username,
+                          update: {
+                            displayName:
+                              data.displayName !== profile.displayName
+                                ? data.displayName
+                                : undefined,
+                            website:
+                              data.website !== profile.website
+                                ? data.website
+                                : undefined,
+                            location:
+                              data.location !== profile.location
+                                ? data.location
+                                : undefined,
+                            bio:
+                              data.bio !== profile.bio ? data.bio : undefined,
+                          },
+                        });
+
+                        if (r.status === 200) {
+                          const p = await REST.Forum.getProfileV2(
+                            profile.username
+                          );
+
+                          if (p.status === 200) {
+                            setProfile(p.payload.profile);
+                            setSaving(false);
+                            setEditMode(false);
+                          } else {
+                            toast({
+                              title: "Fehler",
+                              description: p.payload.message,
+                              status: "error",
+                              duration: 5000,
+                              isClosable: true,
+                              position: "top",
+                            });
+                          }
+                        } else {
+                          toast({
+                            title: "Fehler",
+                            description: r.payload.message,
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                            position: "top",
+                          });
+                        }
+                      }}
+                    >
+                      Speichern
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              ) : null}
             </Box>
           </Flex>
         </>

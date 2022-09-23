@@ -30,11 +30,9 @@ export async function getProfile(username: string): Promise<IResponse> {
 }
 
 export async function modifyProfile(options: {
+  update: { [key: string]: string | undefined | null };
   token: string;
   username: string;
-  update: {
-    [key: string]: string;
-  };
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/forum/" + options.username + "/profile",
