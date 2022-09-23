@@ -24,6 +24,18 @@ import {
   Link,
   IconButton,
   Tooltip,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  Button,
+  AlertDialog,
+  useDisclosure,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -36,11 +48,19 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 export default function Profile() {
   const router = useRouter();
 
   const { loggedIn, loaded, userInfo } = useLoggedIn();
+
+  const {
+    isOpen: isDeleteProfileOpen,
+    onOpen: onDeleteProfileOpen,
+    onClose: onDeleteProfileClose,
+  } = useDisclosure();
+  const whatEverRef = React.useRef();
 
   const [profile, setProfile] = useState<{
     _id: string;
@@ -82,7 +102,7 @@ export default function Profile() {
       ) : null}
       {profile ? (
         <>
-          <Flex mt={"2rem"} w={"100%"} justifyContent={"center"}>
+          <Flex mt={[0, "2rem"]} w={"100%"} justifyContent={"center"}>
             <Box
               w={"100%"}
               maxW={"600px"}
@@ -100,30 +120,22 @@ export default function Profile() {
                     right={"1rem"}
                     zIndex={1}
                   >
-                    <Tooltip
-                      label={"Profil bearbeiten"}
-                      bg={"black"}
-                      hasArrow
-                      color={"white"}
-                    >
-                      <IconButton
-                        aria-label={"Edit"}
-                        icon={<FaPen />}
-                        variant={"ghost"}
-                      />
-                    </Tooltip>
-                    <Tooltip
-                      label={"Profil löschen"}
-                      bg={"black"}
-                      hasArrow
-                      color={"white"}
-                    >
-                      <IconButton
-                        aria-label={"Löschen"}
-                        icon={<FaTrashAlt />}
-                        variant={"ghost"}
-                      />
-                    </Tooltip>
+                    <Menu>
+                      <MenuButton>
+                        <IconButton
+                          aria-label={"Edit"}
+                          icon={<FiMoreHorizontal />}
+                          variant={"ghost"}
+                          size={"lg"}
+                        />
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem>Bearbeiten</MenuItem>
+                        <MenuItem onClick={onDeleteProfileOpen}>
+                          Löschen
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
                   </Box>
                 </>
               ) : null}
@@ -205,6 +217,53 @@ export default function Profile() {
           </Flex>
         </>
       ) : null}
+      <AlertDialog
+        isOpen={isDeleteProfileOpen}
+        onClose={onDeleteProfileClose}
+        isCentered
+        // @ts-ignore
+        leastDestructiveRef={whatEverRef}
+      >
+        <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
+          <AlertDialogContent bg={"black"}>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Profil löschen
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Willst du dein Profil wirklich unwiederruflich löschen?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                onClick={onDeleteProfileClose}
+                // @ts-ignore
+                ref={whatEverRef}
+              >
+                Abbrechen
+              </Button>
+              <Button
+                colorScheme="red"
+                variant={"outline"}
+                onClick={async () => {
+                  if (profile) {
+                    await REST.Forum.deleteProfileV2({
+                      username: profile.username,
+                      token: localStorage.getItem("token") || "",
+                    });
+                  }
+
+                  onDeleteProfileClose();
+                  router.push("/forum");
+                }}
+                ml={3}
+              >
+                Löschen
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }
