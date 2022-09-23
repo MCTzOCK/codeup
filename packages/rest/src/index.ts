@@ -68,6 +68,12 @@ import {
   toggleFollow,
   updateProfile,
 } from "./api/Community";
+import {
+  createProfile as createProfileV2,
+  deleteProfile as deleteProfileV2,
+  getProfile as getProfileV2,
+  modifyProfile as modifyProfileV2,
+} from "./api/Forum";
 
 const REST = {
   Account: {
@@ -132,6 +138,12 @@ const REST = {
   },
   Util: {
     makeRequest: makeRequest,
+  },
+  Forum: {
+    createProfileV2: createProfileV2,
+    deleteProfileV2: deleteProfileV2,
+    getProfileV2: getProfileV2,
+    modifyProfileV2: modifyProfileV2,
   },
 };
 
