@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/sso/gitlab.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/sso/github.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/sso/github.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/sso/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/sso/request.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/UserAuthSSO.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/UserAuthSSO.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/sso/gitlab.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/sso/gitlab.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/forum/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/forum/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

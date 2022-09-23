@@ -9,7 +9,15 @@
  */
 
 import * as React from "react";
+import { useLoggedIn } from "@codeup/hooks";
+import { useEffect } from "react";
 
 export default function Index() {
+  const { loggedIn, userInfo } = useLoggedIn();
+
+  useEffect(() => {
+    alert(userInfo.sso);
+  }, [loggedIn, userInfo]);
+
   return <></>;
 }
