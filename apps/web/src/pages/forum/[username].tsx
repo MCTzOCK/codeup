@@ -22,6 +22,8 @@ import {
   UnorderedList,
   ListItem,
   Link,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -30,10 +32,15 @@ import {
   FaGlobe,
   FaMapMarker,
   FaMapMarkerAlt,
+  FaPen,
+  FaTrashAlt,
 } from "react-icons/fa";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function Profile() {
   const router = useRouter();
+
+  const { loggedIn, loaded, userInfo } = useLoggedIn();
 
   const [profile, setProfile] = useState<{
     _id: string;
@@ -83,7 +90,44 @@ export default function Profile() {
               borderRadius={"md"}
               boxShadow={"md"}
               bg={"gray.700"}
+              position={"relative"}
             >
+              {loggedIn && userInfo.username === profile.username ? (
+                <>
+                  <Box
+                    position={"absolute"}
+                    top={"2rem"}
+                    right={"1rem"}
+                    zIndex={1}
+                  >
+                    <Tooltip
+                      label={"Profil bearbeiten"}
+                      bg={"black"}
+                      hasArrow
+                      color={"white"}
+                    >
+                      <IconButton
+                        aria-label={"Edit"}
+                        icon={<FaPen />}
+                        variant={"ghost"}
+                      />
+                    </Tooltip>
+                    <Tooltip
+                      label={"Profil löschen"}
+                      bg={"black"}
+                      hasArrow
+                      color={"white"}
+                    >
+                      <IconButton
+                        aria-label={"Löschen"}
+                        icon={<FaTrashAlt />}
+                        variant={"ghost"}
+                      />
+                    </Tooltip>
+                  </Box>
+                </>
+              ) : null}
+
               <Flex alignItems={"center"}>
                 <Avatar
                   src={"/api/account/" + profile.username + "/picture"}
