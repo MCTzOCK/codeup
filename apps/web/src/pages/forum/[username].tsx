@@ -377,6 +377,9 @@ export default function Profile() {
                   </ButtonGroup>
                 </Box>
               ) : null}
+              <Box mt={8}>
+                <Heading size={"lg"}>Beiträge</Heading>
+              </Box>
             </Box>
           </Flex>
         </>

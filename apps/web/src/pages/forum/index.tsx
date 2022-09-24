@@ -44,6 +44,11 @@ import {
   Textarea,
   ButtonGroup,
   useToast,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 
 export default function Index() {
