@@ -68,6 +68,13 @@ export default async function handler(
       return;
     }
 
+    if (post.user.toString() !== user._id.toString()) {
+      res.status(401).json({
+        error: "Unauthorized",
+      });
+      return;
+    }
+
     await post.delete();
 
     res.status(200).json({
