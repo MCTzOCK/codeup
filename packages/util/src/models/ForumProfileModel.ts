@@ -16,6 +16,10 @@ const ForumProfile = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
   displayName: {
     type: String,
     required: true,

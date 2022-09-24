@@ -106,6 +106,7 @@ export default async function handleRequest(
       } else {
         const newProfile = await ForumProfileModel.create({
           user: user._id,
+          username: user.username,
           displayName: user.firstName + " " + user.lastName,
           verified: false,
           bio: "CodeUp Benutzer",

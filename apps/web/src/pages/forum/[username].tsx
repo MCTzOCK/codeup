@@ -57,6 +57,7 @@ import {
   FaBirthdayCake,
   FaCheckCircle,
   FaClock,
+  FaEnvelope,
   FaGlobe,
   FaMapMarker,
   FaMapMarkerAlt,
@@ -146,7 +147,12 @@ export default function Profile() {
       ) : null}
       {profile ? (
         <>
-          <Flex mt={[0, "2rem"]} w={"100%"} justifyContent={"center"}>
+          <Flex
+            mt={[0, "2rem"]}
+            mb={[0, "2rem"]}
+            w={"100%"}
+            justifyContent={"center"}
+          >
             <Box
               w={"100%"}
               maxW={"600px"}
@@ -156,6 +162,24 @@ export default function Profile() {
               bg={"gray.700"}
               position={"relative"}
             >
+              {userInfo.username !== profile.username ? (
+                <>
+                  <Box
+                    position={"absolute"}
+                    top={"2rem"}
+                    right={"1rem"}
+                    zIndex={editMode ? -1 : 1}
+                  >
+                    <IconButton
+                      aria-label={"Nachricht schreiben"}
+                      icon={<FaEnvelope />}
+                      onClick={() => {
+                        router.push(`/forum/messages/${profile.username}`);
+                      }}
+                    />
+                  </Box>
+                </>
+              ) : null}
               {loggedIn && userInfo.username === profile.username ? (
                 <>
                   <Box
@@ -347,10 +371,17 @@ export default function Profile() {
                         ) as HTMLInputElement;
 
                         const data = {
-                          displayName: displayName.value,
-                          website: website.value,
-                          location: location.value,
-                          bio: bio.value,
+                          displayName:
+                            displayName.value === ""
+                              ? "CodeUp Benutzer"
+                              : displayName.value,
+                          website:
+                            website.value === ""
+                              ? "https://codeup.space"
+                              : website.value,
+                          location:
+                            location.value === "" ? "CodeUp" : location.value,
+                          bio: bio.value === "" ? "CodeUp Benutzer" : bio.value,
                         };
 
                         const r = await REST.Forum.modifyProfileV2({

@@ -56,6 +56,7 @@ export async function deleteProfile(options: {
 export async function createPost(options: {
   token: string;
   content: string;
+  parent?: string;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/forum/post",
@@ -63,6 +64,7 @@ export async function createPost(options: {
     token: options.token,
     body: {
       content: options.content,
+      parent: options.parent,
     },
   });
 }
@@ -109,5 +111,12 @@ export async function likePost(options: {
     path: "/api/forum/post/" + options.id + "/like",
     method: "POST",
     token: options.token,
+  });
+}
+
+export async function getComments(postId: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post/" + postId + "/comments",
+    method: "GET",
   });
 }

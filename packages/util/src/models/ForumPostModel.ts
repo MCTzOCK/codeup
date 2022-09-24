@@ -35,6 +35,11 @@ const ForumPost = new mongoose.Schema({
     default: [],
     required: true,
   },
+  parent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ForumPost",
+    default: null,
+  },
 });
 
 export default mongoose.models?.ForumPost ||

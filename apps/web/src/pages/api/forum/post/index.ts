@@ -64,6 +64,30 @@ export default async function handler(
       return;
     }
 
+    if (req.body.parent) {
+      const parent = await ForumPostModel.findById(req.body.parent);
+      if (!parent) {
+        res.status(400).json({
+          error: "Bad request",
+        });
+        return;
+      }
+      const post = await ForumPostModel.create({
+        user: user._id,
+        username: user.username,
+        content: req.body.content,
+        parent: parent._id,
+      });
+
+      await post.save();
+
+      res.status(200).json({
+        post,
+      });
+
+      return;
+    }
+
     const post = await ForumPostModel.create({
       user: user._id,
       username: user.username,
