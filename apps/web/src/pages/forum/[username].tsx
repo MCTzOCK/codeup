@@ -44,6 +44,13 @@ import {
   useToast,
   Divider,
   Badge,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverTrigger,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -404,7 +411,66 @@ export default function Profile() {
                 </Box>
               ) : null}
               <Box mt={8}>
-                <Heading size={"lg"}>Beiträge</Heading>
+                <Flex w={"100%"} alignItems={"center"}>
+                  <Heading size={"lg"} flex={"100%"}>
+                    Beiträge
+                  </Heading>
+                  {profile.username === userInfo.username ? (
+                    <>
+                      <Box flex={"100%"} textAlign={"right"}>
+                        <Popover>
+                          <PopoverTrigger>
+                            <Button colorScheme={"green"}>Neu</Button>
+                          </PopoverTrigger>
+                          <PopoverContent bg={"black"} textAlign={"left"}>
+                            <PopoverArrow bg={"black"} />
+                            <PopoverHeader>Neuer Beitrag</PopoverHeader>
+                            <PopoverBody>
+                              <Textarea
+                                id={"new-post_text"}
+                                placeholder={"Inhalt"}
+                              />
+                            </PopoverBody>
+                            <PopoverFooter>
+                              <Button
+                                colorScheme={"green"}
+                                onClick={async () => {
+                                  const content = document.getElementById(
+                                    "new-post_text"
+                                  ) as HTMLInputElement;
+
+                                  const r = await REST.Forum.createPostV2({
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    content: content.value,
+                                  });
+
+                                  if (r.status === 200) {
+                                    reloadPosts();
+                                    content.value = "";
+                                  } else {
+                                    toast({
+                                      title: "Fehler",
+                                      description:
+                                        "Der Beitrag konnte nicht veröffentlicht werden",
+                                      status: "error",
+                                      duration: 5000,
+                                      isClosable: true,
+                                      position: "top",
+                                    });
+                                  }
+                                }}
+                              >
+                                Veröffentlichen
+                              </Button>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </Popover>
+                      </Box>
+                    </>
+                  ) : null}
+                </Flex>
                 <Box mt={4}>
                   {posts.length === 0 ? (
                     <Text>Keine Beiträge vorhanden</Text>
