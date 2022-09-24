@@ -84,6 +84,8 @@ import {
   createChat as createChatV2,
   getChatList as getChatListV2,
   deleteChat as deleteChatV2,
+  getChatMessages as getChatMessagesV2,
+  sendMessage as sendMessageV2,
 } from "./api/Forum";
 
 const REST = {
@@ -166,6 +168,8 @@ const REST = {
     createChatV2: createChatV2,
     getChatListV2: getChatListV2,
     deleteChatV2: deleteChatV2,
+    sendMessageV2: sendMessageV2,
+    getChatMessagesV2: getChatMessagesV2,
   },
 };
 

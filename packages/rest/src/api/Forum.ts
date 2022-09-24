@@ -165,3 +165,29 @@ export async function deleteChat(options: {
     },
   });
 }
+
+export async function getChatMessages(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/chats/" + options.id + "/messages",
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function sendMessage(options: {
+  token: string;
+  id: string;
+  content: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/chats/" + options.id + "/messages",
+    method: "POST",
+    token: options.token,
+    body: {
+      content: options.content,
+    },
+  });
+}
