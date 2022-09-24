@@ -120,3 +120,10 @@ export async function getComments(postId: string): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function getAllPosts(): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post/all",
+    method: "GET",
+  });
+}

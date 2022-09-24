@@ -14,7 +14,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
 import PostCardV2 from "./PostCardV2";
 
-export default function DeferedPostCardV2(props: {
+export default function DeferredPostCardV2(props: {
   post: {
     parent: string | null;
     _id: string;
@@ -25,6 +25,7 @@ export default function DeferedPostCardV2(props: {
     createdAt: string;
     __v: 0;
   };
+  debug?: boolean;
   reloadPosts?: () => void;
 }) {
   const [profile, setProfile] = useState<any>(null);

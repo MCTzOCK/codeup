@@ -26,6 +26,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
+import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 
 export default function Index() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -45,7 +46,11 @@ export default function Index() {
       username: string;
     }[]
   >([]);
+
+  const [posts, setPosts] = React.useState<any[]>([]);
+
   const [profileQuery, setProfileQuery] = React.useState("");
+  const [postQuery, setPostQuery] = React.useState("");
 
   const router = useRouter();
 
@@ -73,6 +78,11 @@ export default function Index() {
       REST.Forum.getProfilesV2().then((res) => {
         if (res.status === 200) {
           setProfiles(res.payload.profiles);
+        }
+      });
+      REST.Forum.getAllPostsV2().then((res) => {
+        if (res.status === 200) {
+          setPosts(res.payload.posts);
         }
       });
     }
@@ -140,93 +150,137 @@ export default function Index() {
         </>
       ) : (
         <>
-          <Flex w={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
-            <Box
-              w={"100%"}
-              maxW={"600px"}
-              p={4}
-              bg={"gray.700"}
-              borderRadius={"md"}
-              boxShadow={"md"}
-            >
-              <Heading size={"lg"}>Öffentliche Profile</Heading>
-              <Text mt={4}>
-                Hier findest du alle öffentlichen Profile der Community.
-              </Text>
-              <Input
-                mt={4}
-                placeholder={"Profil suchen..."}
-                onChange={(e) => {
-                  setProfileQuery(e.target.value);
-                }}
-              />
-              <Flex
+          <Flex
+            w={"100%"}
+            direction={["column", "row"]}
+            gap={"2rem"}
+            mb={"2rem"}
+          >
+            <Flex flex={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
+              <Box
                 w={"100%"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
+                maxW={"600px"}
+                p={4}
+                bg={"gray.700"}
+                borderRadius={"md"}
+                boxShadow={"md"}
               >
-                {profiles.map((profile) => (
-                  <>
-                    {profile.displayName
-                      .toLowerCase()
-                      .includes(profileQuery.toLowerCase()) ||
-                    profile.username
-                      .toLowerCase()
-                      .includes(profileQuery.toLowerCase()) ? (
-                      <>
-                        <Flex
-                          w={"100%"}
-                          p={4}
-                          bg={"gray.600"}
-                          borderRadius={"md"}
-                          mt={4}
-                          justifyContent={"space-between"}
-                          alignItems={"center"}
-                          _hover={{
-                            bg: "gray.500",
-                          }}
-                          cursor={"pointer"}
-                          onClick={() => {
-                            router.push(`/forum/${profile.username}`);
-                          }}
-                        >
-                          <Flex direction={"row"}>
-                            <Avatar
-                              size={"lg"}
-                              src={
-                                "/api/account/" + profile.username + "/picture"
-                              }
-                            />
-                            <Flex flexDirection={"column"} ml={4}>
-                              <Heading
-                                size={"md"}
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={"1.2rem"}
-                              >
-                                {profile.displayName}
-                                {profile.verified ? (
-                                  <>
-                                    <chakra.span color={"green.500"}>
-                                      <FaCheckCircle />
-                                    </chakra.span>
-                                  </>
-                                ) : null}
-                              </Heading>
-                              <Text color={"gray"}>@{profile.username}</Text>
-                              <Text>{profile.bio}</Text>
+                <Heading size={"lg"}>Öffentliche Profile</Heading>
+                <Text mt={4}>
+                  Hier findest du alle öffentlichen Profile der Community.
+                </Text>
+                <Input
+                  mt={4}
+                  placeholder={"Profil suchen..."}
+                  onChange={(e) => {
+                    setProfileQuery(e.target.value);
+                  }}
+                />
+                <Flex
+                  w={"100%"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  {profiles.map((profile) => (
+                    <>
+                      {profile.displayName
+                        .toLowerCase()
+                        .includes(profileQuery.toLowerCase()) ||
+                      profile.username
+                        .toLowerCase()
+                        .includes(profileQuery.toLowerCase()) ? (
+                        <>
+                          <Flex
+                            w={"100%"}
+                            p={4}
+                            bg={"gray.600"}
+                            borderRadius={"md"}
+                            mt={4}
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                            _hover={{
+                              bg: "gray.500",
+                            }}
+                            cursor={"pointer"}
+                            onClick={() => {
+                              router.push(`/forum/${profile.username}`);
+                            }}
+                          >
+                            <Flex direction={"row"}>
+                              <Avatar
+                                size={"lg"}
+                                src={
+                                  "/api/account/" +
+                                  profile.username +
+                                  "/picture"
+                                }
+                              />
+                              <Flex flexDirection={"column"} ml={4}>
+                                <Heading
+                                  size={"md"}
+                                  display={"flex"}
+                                  alignItems={"center"}
+                                  gap={"1.2rem"}
+                                >
+                                  {profile.displayName}
+                                  {profile.verified ? (
+                                    <>
+                                      <chakra.span color={"green.500"}>
+                                        <FaCheckCircle />
+                                      </chakra.span>
+                                    </>
+                                  ) : null}
+                                </Heading>
+                                <Text color={"gray"}>@{profile.username}</Text>
+                                <Text>{profile.bio}</Text>
+                              </Flex>
                             </Flex>
                           </Flex>
-                        </Flex>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ))}
+                </Flex>
+              </Box>
+            </Flex>
+            <Flex flex={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
+              <Box
+                w={"100%"}
+                maxW={"600px"}
+                p={4}
+                bg={"gray.700"}
+                borderRadius={"md"}
+                boxShadow={"md"}
+              >
+                <Heading size={"lg"}>Beiträge</Heading>
+                <Text mt={4}>Hier findest du alle Beiträge.</Text>
+                <Input
+                  mt={4}
+                  placeholder={"Beiträge suchen..."}
+                  onChange={(e) => {
+                    setPostQuery(e.target.value);
+                  }}
+                />
+                <Flex w={"100%"} flexDirection={"column"}>
+                  {posts.map((post) => {
+                    return (
+                      <>
+                        {post.content.toLowerCase().includes(postQuery) ? (
+                          <DeferredPostCardV2
+                            post={post}
+                            debug={true}
+                            reloadPosts={() => {}}
+                          />
+                        ) : null}
                       </>
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                ))}
-              </Flex>
-            </Box>
+                    );
+                  })}
+                </Flex>
+              </Box>
+            </Flex>
           </Flex>
         </>
       )}

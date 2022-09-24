@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import { useLoggedIn } from "@codeup/hooks/hooks/useLoggedIn";
-import DeferedPostCardV2 from "@codeup/components/forum/DeferedPostCardV2";
+import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 
 export default function PostView() {
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function PostView() {
               bg={"gray.700"}
               position={"relative"}
             >
-              <DeferedPostCardV2 post={post} reloadPosts={reloadPosts} />
+              <DeferredPostCardV2 post={post} reloadPosts={reloadPosts} />
               <Divider />
               <Heading size={"lg"} mt={4}>
                 Kommentare
@@ -111,7 +111,7 @@ export default function PostView() {
                 <>
                   {comments.map((comment) => {
                     return (
-                      <DeferedPostCardV2
+                      <DeferredPostCardV2
                         post={comment}
                         key={comment._id}
                         reloadPosts={reloadPosts}

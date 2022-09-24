@@ -75,6 +75,14 @@ export default async function handler(
       return;
     }
 
+    const children = await ForumPostModel.find({
+      parent: post._id,
+    });
+
+    for (const child of children) {
+      await child.delete();
+    }
+
     await post.delete();
 
     res.status(200).json({
