@@ -127,3 +127,41 @@ export async function getAllPosts(): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function createChat(options: {
+  token: string;
+  user: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/chats",
+    method: "POST",
+    token: options.token,
+    body: {
+      user: options.user,
+    },
+  });
+}
+
+export async function getChatList(options: {
+  token: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/chats",
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function deleteChat(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/chats",
+    method: "DELETE",
+    token: options.token,
+    body: {
+      chat: options.id,
+    },
+  });
+}

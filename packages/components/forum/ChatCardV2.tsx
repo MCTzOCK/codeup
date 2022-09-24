@@ -9,18 +9,31 @@
  */
 
 import * as React from "react";
-import { Avatar, chakra, Flex, Heading, Text } from "@chakra-ui/react";
-import { FaCheckCircle } from "react-icons/fa";
+import {
+  Avatar,
+  Button,
+  chakra,
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
+import { FaCheckCircle, FaTrash } from "react-icons/fa";
+import REST from "@codeup/rest";
 
 export default function ChatCardV2(props: {
   chat: {
-    id: number;
+    id: string;
     username: string;
     displayName: string;
     verified: boolean;
   };
-  setActiveChat: (i: number) => void;
+  setActiveChat: (i: string) => void;
+  reloadChats: () => void;
 }) {
+  const toast = useToast();
+
   return (
     <>
       <Flex
@@ -38,7 +51,7 @@ export default function ChatCardV2(props: {
           size={"md"}
           src={"/api/account/" + props.chat.username + "/picture"}
         />
-        <Flex direction={"column"}>
+        <Flex direction={"column"} flex={"100%"}>
           <Heading size={"md"}>{props.chat.displayName}</Heading>
           <Text color={"gray"}>@{props.chat.username}</Text>
         </Flex>
@@ -48,6 +61,32 @@ export default function ChatCardV2(props: {
             <FaCheckCircle />
           </chakra.span>
         ) : null}
+        <Flex flex={"100%"} alignItems={"center"} justifyContent={"flex-end"}>
+          <IconButton
+            aria-label={"delete_chat"}
+            icon={<FaTrash />}
+            onClick={() => {
+              REST.Forum.deleteChatV2({
+                token: localStorage.getItem("token") as string,
+                id: props.chat.id,
+              }).then((res) => {
+                if (res.status === 200) {
+                  props.reloadChats();
+                  props.setActiveChat("");
+                } else {
+                  toast({
+                    title: "Fehler",
+                    description: "Der Chat konnte nicht gelöscht werden.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                  });
+                }
+              });
+            }}
+          />
+        </Flex>
       </Flex>
     </>
   );

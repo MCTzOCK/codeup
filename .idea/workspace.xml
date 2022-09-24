@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/forum/[username]/profile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/forum/[username]/profile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/forum/messages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/forum/messages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/forum/ChatCardV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/forum/ChatCardV2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Forum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Forum.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

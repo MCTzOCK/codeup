@@ -81,6 +81,9 @@ import {
   likePost as likePostV2,
   getComments as getCommentsV2,
   getAllPosts as getAllPostsV2,
+  createChat as createChatV2,
+  getChatList as getChatListV2,
+  deleteChat as deleteChatV2,
 } from "./api/Forum";
 
 const REST = {
@@ -160,6 +163,9 @@ const REST = {
     likePostV2: likePostV2,
     getCommentsV2: getCommentsV2,
     getAllPostsV2: getAllPostsV2,
+    createChatV2: createChatV2,
+    getChatListV2: getChatListV2,
+    deleteChatV2: deleteChatV2,
   },
 };
 
