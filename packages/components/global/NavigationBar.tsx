@@ -248,7 +248,7 @@ export default function NavigationBar() {
                   "Chatte mit erfahrenen Programmierern und Einsteigern."
                 }
                 icon={<FaComment />}
-                url={"/community"}
+                url={"/forum"}
               />
               <ExpandedMenuOption
                 name={"IDE (Editor)"}
