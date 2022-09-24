@@ -42,6 +42,7 @@ import { useRouter } from "next/router";
 import ChatCardV2 from "@codeup/components/forum/ChatCardV2";
 import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
+import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
 
 export default function MessageView() {
   const [chats, setChats] = useState<
@@ -75,6 +76,16 @@ export default function MessageView() {
   };
 
   useEffect(reloadChats, []);
+
+  useEffect(() => {
+    const s = setInterval(() => {
+      reloadChats();
+    }, 1000);
+
+    return () => {
+      clearInterval(s);
+    };
+  }, []);
 
   const toast = useToast();
 
@@ -208,7 +219,34 @@ export default function MessageView() {
               : null}
           </Flex>
         </Box>
-        <Box flex={"75%"}>{activeChat}</Box>
+        <Box flex={"75%"}>
+          <Flex
+            direction={"column"}
+            w={"100%"}
+            minH={"100%"}
+            maxH={"100%"}
+            overflow={"auto"}
+          >
+            <Heading size={"lg"} textAlign={"center"} mt={4}>
+              Chat
+            </Heading>
+            <Divider mt={4} />
+            {activeChat ? (
+              <>
+                <ChatViewV2 chatId={activeChat} setActiveChat={setActiveChat} />
+              </>
+            ) : (
+              <Flex
+                w={"100%"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                mt={4}
+              >
+                <Text>Wähle einen Chat aus</Text>
+              </Flex>
+            )}
+          </Flex>
+        </Box>
       </Flex>
     </>
   );

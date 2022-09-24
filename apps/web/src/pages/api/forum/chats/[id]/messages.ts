@@ -71,11 +71,7 @@ export default async function handleRequest(
       }
 
       res.status(200).json({
-        messages: chat.messages.sort((a, b) => {
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        }),
+        messages: chat.messages,
       });
 
       return;
@@ -114,11 +110,7 @@ export default async function handleRequest(
       await chat.save();
 
       res.status(200).json({
-        messages: chat.messages.sort((a, b) => {
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        }),
+        messages: chat.messages,
       });
     }
   } catch (e) {
