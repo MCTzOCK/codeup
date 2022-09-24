@@ -33,12 +33,21 @@ import UserAuthLogin from "./UserAuthLogin";
 import UserAuthReset from "./UserAuthReset";
 import CodeUpModal from "../codeup/CodeUpModal";
 import UserAuthSSO from "./UserAuthSSO";
+import { useEffect } from "react";
 
 export default function UserAuthAction(props: {
   onOpen: () => void;
   onClose: () => void;
   isOpen: boolean;
 }) {
+  useEffect(() => {
+    window.addEventListener("codeup::open_login", props.onOpen);
+
+    return () => {
+      window.removeEventListener("codeup::open_login", props.onOpen);
+    };
+  });
+
   return (
     <>
       <CodeUpModal

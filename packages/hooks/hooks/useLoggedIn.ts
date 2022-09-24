@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 export function useLoggedIn(): {
   loggedIn: boolean;
+  loaded: boolean;
   userInfo: {
     id: string;
     email: string;
@@ -23,6 +24,7 @@ export function useLoggedIn(): {
   };
 } {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({
     id: "",
     email: "",
@@ -48,11 +50,13 @@ export function useLoggedIn(): {
               setLoggedIn(false);
               localStorage.removeItem("token");
             }
+            setLoaded(true);
           });
         }
       } else {
         token = null;
         setLoggedIn(false);
+        setLoaded(true);
       }
     }, 100);
     return () => clearInterval(interval);
@@ -60,6 +64,7 @@ export function useLoggedIn(): {
 
   return {
     loggedIn,
+    loaded,
     userInfo,
   };
 }

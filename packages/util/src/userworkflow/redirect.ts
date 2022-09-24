@@ -31,18 +31,14 @@ export default function redirect(options: {
       document.cookie = "jwt=;path=/";
       if (!options.allowAnonymous) {
         if (options.redirectToLogin) {
-          window.location.href = `/account/login${
-            options.redirectTo ? `?redirect=${options.redirectTo}` : ""
-          }`;
+          window.location.href = `/#login`;
         }
       }
     }
   } else {
     if (!options.allowAnonymous) {
       if (options.redirectToLogin) {
-        window.location.href = `/account/login${
-          options.redirectTo ? `?redirect=${options.redirectTo}` : ""
-        }`;
+        window.location.href = `/#login`;
       }
     }
   }

@@ -9,6 +9,7 @@ import { CommunityNavigationBar } from "@codeup/components/community";
 import { PostButton } from "@codeup/components/community/post";
 import { CourseNavigationBar } from "@codeup/components/course";
 import { Footer, NavigationBar } from "@codeup/components/global";
+import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
 
 const theme = extendTheme({
   config: {
@@ -118,6 +119,9 @@ function App({ Component, pageProps }: AppProps) {
           <Box minH={"96vh"}>
             {router.pathname.startsWith("/community") ? (
               <CommunityNavigationBar />
+            ) : null}
+            {router.pathname.startsWith("/forum") ? (
+              <ForumNavigationBar />
             ) : null}
 
             {/*

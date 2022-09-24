@@ -14,6 +14,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/avatars-bottts-sprites";
 import { createHash } from "crypto";
+import { default as mongoConnect } from "@codeup/util/src/mongo";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -72,6 +73,8 @@ export default async function handleRequest(
   const user = await userResponse.json();
 
   const userId = user.id;
+
+  await mongoConnect();
 
   const existingUser = await UserModel.findOne({
     sso: "github:" + userId,

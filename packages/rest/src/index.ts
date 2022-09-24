@@ -68,6 +68,25 @@ import {
   toggleFollow,
   updateProfile,
 } from "./api/Community";
+import {
+  createProfile as createProfileV2,
+  deleteProfile as deleteProfileV2,
+  getProfile as getProfileV2,
+  modifyProfile as modifyProfileV2,
+  createPost as createPostV2,
+  getPost as getPostV2,
+  deletePost as deletePostV2,
+  getProfilePosts as getProfilePostsV2,
+  getProfiles as getProfilesV2,
+  likePost as likePostV2,
+  getComments as getCommentsV2,
+  getAllPosts as getAllPostsV2,
+  createChat as createChatV2,
+  getChatList as getChatListV2,
+  deleteChat as deleteChatV2,
+  getChatMessages as getChatMessagesV2,
+  sendMessage as sendMessageV2,
+} from "./api/Forum";
 
 const REST = {
   Account: {
@@ -132,6 +151,25 @@ const REST = {
   },
   Util: {
     makeRequest: makeRequest,
+  },
+  Forum: {
+    createProfileV2: createProfileV2,
+    deleteProfileV2: deleteProfileV2,
+    getProfileV2: getProfileV2,
+    modifyProfileV2: modifyProfileV2,
+    createPostV2: createPostV2,
+    getPostV2: getPostV2,
+    deletePostV2: deletePostV2,
+    getProfilePostsV2: getProfilePostsV2,
+    getProfilesV2: getProfilesV2,
+    likePostV2: likePostV2,
+    getCommentsV2: getCommentsV2,
+    getAllPostsV2: getAllPostsV2,
+    createChatV2: createChatV2,
+    getChatListV2: getChatListV2,
+    deleteChatV2: deleteChatV2,
+    sendMessageV2: sendMessageV2,
+    getChatMessagesV2: getChatMessagesV2,
   },
 };
 

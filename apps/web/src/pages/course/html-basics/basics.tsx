@@ -79,11 +79,12 @@ export default function Basics() {
             <br />
             <br />
             Ein Beispiel für ein HTML Tag mit einem Attribut ist&nbsp;
-            <b>&lt;h1 class="title"&gt;</b>. Dieses Tag definiert eine
+            <b>&lt;h1 class=&qout;title&qout;&gt;</b>. Dieses Tag definiert eine
             Überschrift mit dem Attribut <b>class</b> und dem Wert <b>title</b>.
             Ein Attribut kann auch mehrere Werte haben. Ein Beispiel für ein
-            Attribut mit mehreren Werten ist <b>class="title subtitle"</b>.
-            Dieses Tag definiert eine Überschrift mit dem Attribut <b>class</b>
+            Attribut mit mehreren Werten ist&nbsp;
+            <b>class=&qout;title subtitle&qout;</b>. Dieses Tag definiert eine
+            Überschrift mit dem Attribut <b>class</b>
             &nbsp; und den Werten <b>title</b> und <b>subtitle</b>.
           </Text>
         </Box>

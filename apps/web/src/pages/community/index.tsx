@@ -107,6 +107,7 @@ function CommunityFeed() {
     }).then((res) => {
       setPostIds(res.payload.posts);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRange]);
 
   useEffect(() => {

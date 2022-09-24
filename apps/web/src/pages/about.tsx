@@ -214,7 +214,8 @@ function TechListItem(props: { name: string; icon: string }) {
       justifyContent={"center"}
       textAlign="center"
     >
-      <img src={props.icon} width={"64"} height={"64"} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={props.icon} width={"64"} height={"64"} alt={""} />
       <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
         {props.name}
       </Heading>
