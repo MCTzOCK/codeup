@@ -9,6 +9,7 @@
  */
 import { NextApiRequest, NextApiResponse } from "next";
 import ForumProfileModel from "@codeup/util/src/models/ForumProfileModel";
+import ForumPostModel from "@codeup/util/src/models/ForumPostModel";
 import UserModel from "@codeup/util/src/models/UserModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { decode, verify } from "jsonwebtoken";
@@ -162,6 +163,18 @@ export default async function handleRequest(
           error: "Unauthorized",
         });
         return;
+      }
+
+      const posts = await ForumPostModel.find({ user: user._id });
+
+      for (const post of posts) {
+        const children = await ForumPostModel.find({ parent: post._id });
+
+        for (const child of children) {
+          await child.delete();
+        }
+
+        await post.delete();
       }
 
       await profile.remove();
