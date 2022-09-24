@@ -82,7 +82,7 @@ export default function PostCardV2(props: {
       position={"relative"}
       cursor={isFullScreen ? "default" : "pointer"}
       _hover={{
-        bg: isFullScreen ? "transparent" : "blackAlpha.500",
+        bg: isFullScreen ? "gray.700" : "gray.600",
       }}
       onClick={
         isFullScreen
