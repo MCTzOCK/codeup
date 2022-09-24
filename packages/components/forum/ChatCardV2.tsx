@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCheckCircle, FaTrash } from "react-icons/fa";
 import REST from "@codeup/rest";
+import { useRouter } from "next/router";
 
 export default function ChatCardV2(props: {
   chat: {
@@ -34,6 +35,8 @@ export default function ChatCardV2(props: {
 }) {
   const toast = useToast();
 
+  const router = useRouter();
+
   return (
     <>
       <Flex
@@ -44,7 +47,12 @@ export default function ChatCardV2(props: {
         key={props.chat.id}
         cursor={"pointer"}
         onClick={() => {
-          props.setActiveChat(props.chat.id);
+          // check if mobile
+          if (window.innerWidth < 768) {
+            router.push("/forum/messages/" + props.chat.id);
+          } else {
+            props.setActiveChat(props.chat.id);
+          }
         }}
       >
         <Avatar

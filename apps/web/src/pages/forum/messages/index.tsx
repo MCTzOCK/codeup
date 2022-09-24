@@ -92,7 +92,7 @@ export default function MessageView() {
   return (
     <>
       <Flex direction={"row"} w={"100%"} h={"100vh"}>
-        <Box flex={"25%"} shadow={"xl"}>
+        <Box flex={["100%", "25%"]} shadow={"xl"}>
           <Flex
             direction={"column"}
             w={"100%"}
@@ -219,7 +219,7 @@ export default function MessageView() {
               : null}
           </Flex>
         </Box>
-        <Box flex={"75%"}>
+        <Box flex={[0, "75%"]} display={["none", "initial"]}>
           <Flex
             direction={"column"}
             w={"100%"}
