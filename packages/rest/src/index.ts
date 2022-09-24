@@ -77,6 +77,7 @@ import {
   getPost as getPostV2,
   deletePost as deletePostV2,
   getProfilePosts as getProfilePostsV2,
+  getProfiles as getProfilesV2,
 } from "./api/Forum";
 
 const REST = {
@@ -152,6 +153,7 @@ const REST = {
     getPostV2: getPostV2,
     deletePostV2: deletePostV2,
     getProfilePostsV2: getProfilePostsV2,
+    getProfilesV2: getProfilesV2,
   },
 };
 

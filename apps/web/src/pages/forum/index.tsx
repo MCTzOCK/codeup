@@ -9,52 +9,43 @@
  */
 
 import * as React from "react";
-import { useLoggedIn } from "@codeup/hooks";
 import { useEffect } from "react";
+import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
 import {
-  Flex,
-  Spinner,
-  Box,
-  Heading,
   Avatar,
-  Text,
-  chakra,
-  UnorderedList,
-  ListItem,
-  Link,
-  IconButton,
-  Tooltip,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
+  Box,
   Button,
-  AlertDialog,
-  useDisclosure,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Textarea,
   ButtonGroup,
+  chakra,
+  Flex,
+  Heading,
+  Input,
+  Text,
   useToast,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
 } from "@chakra-ui/react";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function Index() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
 
   const [hasProfile, setHasProfile] = React.useState(false);
+  const [profiles, setProfiles] = React.useState<
+    {
+      _id: string;
+      user: string;
+      displayName: string;
+      verified: boolean;
+      bio: string;
+      website: string;
+      location: string;
+      createdAt: string;
+      __v: number;
+      username: string;
+    }[]
+  >([]);
+  const [profileQuery, setProfileQuery] = React.useState("");
 
   const router = useRouter();
 
@@ -76,6 +67,16 @@ export default function Index() {
       });
     }
   }, [loaded, userInfo]);
+
+  useEffect(() => {
+    if (hasProfile) {
+      REST.Forum.getProfilesV2().then((res) => {
+        if (res.status === 200) {
+          setProfiles(res.payload.profiles);
+        }
+      });
+    }
+  }, [hasProfile]);
 
   const toast = useToast();
 
@@ -137,7 +138,99 @@ export default function Index() {
             </Box>
           </Flex>
         </>
-      ) : null}
+      ) : (
+        <>
+          <Flex w={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
+            <Box
+              w={"100%"}
+              maxW={"600px"}
+              p={4}
+              bg={"gray.700"}
+              borderRadius={"md"}
+              boxShadow={"md"}
+            >
+              <Heading size={"lg"}>Öffentliche Profile</Heading>
+              <Text mt={4}>
+                Hier findest du alle öffentlichen Profile der Community.
+              </Text>
+              <Input
+                mt={4}
+                placeholder={"Profil suchen..."}
+                onChange={(e) => {
+                  setProfileQuery(e.target.value);
+                }}
+              />
+              <Flex
+                w={"100%"}
+                flexDirection={"column"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                {profiles.map((profile) => (
+                  <>
+                    {profile.displayName
+                      .toLowerCase()
+                      .includes(profileQuery.toLowerCase()) ||
+                    profile.username
+                      .toLowerCase()
+                      .includes(profileQuery.toLowerCase()) ? (
+                      <>
+                        <Flex
+                          w={"100%"}
+                          p={4}
+                          bg={"gray.600"}
+                          borderRadius={"md"}
+                          mt={4}
+                          justifyContent={"space-between"}
+                          alignItems={"center"}
+                        >
+                          <Flex direction={"row"}>
+                            <Avatar
+                              size={"lg"}
+                              src={
+                                "/api/account/" + profile.username + "/picture"
+                              }
+                            />
+                            <Flex flexDirection={"column"} ml={4}>
+                              <Heading
+                                size={"md"}
+                                display={"flex"}
+                                alignItems={"center"}
+                                gap={"1.2rem"}
+                              >
+                                {profile.displayName}
+                                {profile.verified ? (
+                                  <>
+                                    <chakra.span color={"green.500"}>
+                                      <FaCheckCircle />
+                                    </chakra.span>
+                                  </>
+                                ) : null}
+                              </Heading>
+                              <Text color={"gray"}>@{profile.username}</Text>
+                              <Text>{profile.bio}</Text>
+                            </Flex>
+                          </Flex>
+                          <Button
+                            colorScheme={"green"}
+                            onClick={() => {
+                              router.push(`/forum/${profile.username}`);
+                            }}
+                          >
+                            Profil ansehen
+                          </Button>
+                        </Flex>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ))}
+              </Flex>
+            </Box>
+          </Flex>
+        </>
+      )}
     </>
   );
 }

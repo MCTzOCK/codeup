@@ -93,3 +93,10 @@ export async function deletePost(options: {
     token: options.token,
   });
 }
+
+export async function getProfiles(): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/profiles",
+    method: "GET",
+  });
+}
