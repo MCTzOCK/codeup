@@ -1,5 +1,5 @@
 /**
- * apps/web/src/pages/api/forum/post/[id].ts
+ * apps/web/src/pages/api/forum/post/[id]/index.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
