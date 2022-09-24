@@ -183,6 +183,13 @@ export default function Index() {
                           mt={4}
                           justifyContent={"space-between"}
                           alignItems={"center"}
+                          _hover={{
+                            bg: "gray.500",
+                          }}
+                          cursor={"pointer"}
+                          onClick={() => {
+                            router.push(`/forum/${profile.username}`);
+                          }}
                         >
                           <Flex direction={"row"}>
                             <Avatar
@@ -211,14 +218,6 @@ export default function Index() {
                               <Text>{profile.bio}</Text>
                             </Flex>
                           </Flex>
-                          <Button
-                            colorScheme={"green"}
-                            onClick={() => {
-                              router.push(`/forum/${profile.username}`);
-                            }}
-                          >
-                            Profil ansehen
-                          </Button>
                         </Flex>
                       </>
                     ) : (
