@@ -89,6 +89,14 @@ export default function MessageView() {
 
   const toast = useToast();
 
+  useEffect(() => {
+    // activeChat should be set to the query parameter "chat" if it is not empty
+
+    if (router.query.chat && router.query.chat !== "") {
+      setActiveChat(router.query.chat as string);
+    }
+  }, [router]);
+
   return (
     <>
       <Flex direction={"row"} w={"100%"} h={"100vh"}>

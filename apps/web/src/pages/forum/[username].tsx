@@ -173,8 +173,26 @@ export default function Profile() {
                     <IconButton
                       aria-label={"Nachricht schreiben"}
                       icon={<FaEnvelope />}
-                      onClick={() => {
-                        router.push(`/forum/messages/${profile.username}`);
+                      onClick={async () => {
+                        const r = await REST.Forum.createChatV2({
+                          user: profile.username,
+                          token: localStorage.getItem("token") as string,
+                        });
+
+                        if (r.status === 200) {
+                          router.push(
+                            "/forum/messages?chat=" + r.payload.chat._id
+                          );
+                        } else {
+                          toast({
+                            title: "Fehler",
+                            description:
+                              "Beim Erstellen des Chats ist ein Fehler aufgetreten.",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                          });
+                        }
                       }}
                     />
                   </Box>
