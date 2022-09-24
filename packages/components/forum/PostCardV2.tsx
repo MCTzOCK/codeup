@@ -80,7 +80,8 @@ export default function PostCardV2(props: {
             } else {
               toast({
                 title: "Fehler",
-                description: "Beim Liken des Posts ist ein Fehler aufgetreten.",
+                description:
+                  "Beim Liken des Beitrags ist ein Fehler aufgetreten.",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
