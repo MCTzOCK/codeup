@@ -53,6 +53,7 @@ export default async function handler(
     const decoded = decode(req.headers["x-jwt"] as string);
 
     const user = await UserModel.findOne({
+      // @ts-ignore
       username: decoded.username,
     });
 
