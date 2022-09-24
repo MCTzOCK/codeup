@@ -27,6 +27,7 @@ export default function NotFound() {
           src="/_static/vectors/error/404.svg"
           width={"512"}
           height={"512"}
+          alt={""}
         />
         <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
           Diese Seite wurde nicht gefunden

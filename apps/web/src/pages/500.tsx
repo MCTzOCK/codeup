@@ -26,6 +26,7 @@ export default function NotFound() {
           src="/_static/vectors/error/500.svg"
           width={"512"}
           height={"512"}
+          alt={""}
         />
         <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
           Interner Server Fehler
