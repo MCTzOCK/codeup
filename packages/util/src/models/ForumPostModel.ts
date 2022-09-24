@@ -29,6 +29,12 @@ const ForumPost = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    default: [],
+    required: true,
+  },
 });
 
 export default mongoose.models?.ForumPost ||

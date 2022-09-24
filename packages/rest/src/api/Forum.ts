@@ -100,3 +100,14 @@ export async function getProfiles(): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function likePost(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post/" + options.id + "/like",
+    method: "POST",
+    token: options.token,
+  });
+}

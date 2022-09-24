@@ -484,6 +484,7 @@ export default function Profile() {
                               profile={profile}
                               postOwner={userInfo.username === profile.username}
                               reloadPosts={reloadPosts}
+                              userId={userInfo.id}
                             />
                             <Divider />
                           </>
