@@ -42,11 +42,14 @@ import {
   Textarea,
   ButtonGroup,
   useToast,
+  Divider,
+  Badge,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
   FaBirthdayCake,
   FaCheckCircle,
+  FaClock,
   FaGlobe,
   FaMapMarker,
   FaMapMarkerAlt,
@@ -55,6 +58,7 @@ import {
 } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
+import PostCardV2 from "@codeup/components/forum/PostCardV2";
 
 export default function Profile() {
   const router = useRouter();
@@ -84,6 +88,7 @@ export default function Profile() {
 
   const [editMode, setEditMode] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
+  const [posts, setPosts] = useState<any[]>([]);
 
   const toast = useToast();
 
@@ -99,6 +104,27 @@ export default function Profile() {
     }
   }, [router]);
 
+  const reloadPosts = () => {
+    if (profile && profile.username) {
+      REST.Forum.getProfilePostsV2({
+        username: profile.username,
+      }).then((res) => {
+        if (res.status === 200) {
+          setPosts(res.payload.posts);
+        } else {
+          toast({
+            title: "Fehler",
+            description: "Beim Laden der Beiträge ist ein Fehler aufgetreten.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      });
+    }
+  };
+
+  useEffect(reloadPosts, [profile]);
   return (
     <>
       {!profile ? (
@@ -379,6 +405,27 @@ export default function Profile() {
               ) : null}
               <Box mt={8}>
                 <Heading size={"lg"}>Beiträge</Heading>
+                <Box mt={4}>
+                  {posts.length === 0 ? (
+                    <Text>Keine Beiträge vorhanden</Text>
+                  ) : (
+                    <>
+                      {posts.map((post) => {
+                        return (
+                          <>
+                            <PostCardV2
+                              post={post}
+                              profile={profile}
+                              postOwner={userInfo.username === profile.username}
+                              reloadPosts={reloadPosts}
+                            />
+                            <Divider />
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
+                </Box>
               </Box>
             </Box>
           </Flex>

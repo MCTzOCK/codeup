@@ -52,3 +52,44 @@ export async function deleteProfile(options: {
     token: options.token,
   });
 }
+
+export async function createPost(options: {
+  token: string;
+  content: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post",
+    method: "POST",
+    token: options.token,
+    body: {
+      content: options.content,
+    },
+  });
+}
+
+export async function getPost(id: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post/" + id,
+    method: "GET",
+  });
+}
+
+export async function getProfilePosts(options: {
+  username: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/" + options.username + "/posts",
+    method: "GET",
+  });
+}
+
+export async function deletePost(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/post/" + options.id + "/delete",
+    method: "POST",
+    token: options.token,
+  });
+}
