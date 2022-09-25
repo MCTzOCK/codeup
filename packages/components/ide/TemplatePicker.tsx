@@ -32,6 +32,7 @@ import {
 import { FaPlus, FaStar } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import TemplateImporter from "./TemplateImporter";
+import { useRouter } from "next/router";
 
 export default function TemplatePicker() {
   const [templates, setTemplates] = useState<
@@ -64,6 +65,8 @@ export default function TemplatePicker() {
   const [importTemplate, setImportTemplate] = useState("0");
 
   const { loggedIn, userInfo } = useLoggedIn();
+
+  const router = useRouter();
 
   return (
     <>
@@ -155,9 +158,9 @@ export default function TemplatePicker() {
                               von&nbsp;
                               <Link
                                 color={"blue.300"}
-                                href={
-                                  "/community/profile/" + t.authorDisplayName
-                                }
+                                onClick={() => {
+                                  router.push("/forum/" + t.authorDisplayName);
+                                }}
                               >
                                 {t.authorDisplayName}
                               </Link>
