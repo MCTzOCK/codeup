@@ -103,7 +103,7 @@ export default function ChatViewV2(props: {
                 mb={"2rem"}
                 p={"2rem"}
               >
-                <Box maxW={"50%"}>
+                <Box maxW={["100%", "50%"]}>
                   <Flex
                     w={"100%"}
                     alignItems={"center"}
