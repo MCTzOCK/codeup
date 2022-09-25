@@ -50,7 +50,7 @@ export default function Index() {
   const [posts, setPosts] = React.useState<any[]>([]);
 
   const [profileQuery, setProfileQuery] = React.useState("");
-  const [postQuery, setPostQuery] = React.useState("");
+  const [postQuery, setPostQuery] = React.useState<string>("");
 
   const router = useRouter();
 
@@ -268,7 +268,9 @@ export default function Index() {
                   {posts.map((post) => {
                     return (
                       <>
-                        {post.content.toLowerCase().includes(postQuery) ? (
+                        {post.content
+                          .toLowerCase()
+                          .includes(postQuery.toLowerCase()) ? (
                           <DeferredPostCardV2
                             post={post}
                             debug={true}
