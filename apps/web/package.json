@@ -44,6 +44,7 @@
     "@types/project-name-generator": "^2.1.1",
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
+    "configcat-js-ssr": "^5.5.0",
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.5.1",

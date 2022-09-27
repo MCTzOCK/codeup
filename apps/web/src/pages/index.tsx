@@ -16,37 +16,18 @@ import {
   Heading,
   Link,
   Text,
-  useMediaQuery,
 } from "@chakra-ui/react";
-import { useLoggedIn } from "@codeup/hooks";
-import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import * as configcat from "configcat-js-ssr";
 
-export default function Home() {
-  const { loggedIn, userInfo } = useLoggedIn();
-
+export default function Home(props: { randomFlag: boolean }) {
   const allowLoadingAnimation = false;
-
-  const variants: Variants = {
-    offscreen: {
-      y: 300,
-      opacity: 0,
-    },
-    onscreen: {
-      y: 50,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        bounce: 0.4,
-        duration: 0.8,
-      },
-    },
-  };
 
   return (
     <>
+      {props.randomFlag ? "Random Flag" : "No Random Flag"}
       {allowLoadingAnimation ? (
         <Box
           position={"fixed"}
@@ -225,4 +206,16 @@ function CallToActionButton(props: { text: string; url: string }) {
       </a>
     </ButtonGroup>
   );
+}
+
+export async function getServerSideProps() {
+  const configCatClient = configcat.createClient("");
+
+  const randomFlag = await configCatClient.getValueAsync("random_flag", false);
+
+  return {
+    props: {
+      randomFlag,
+    },
+  };
 }
