@@ -22,7 +22,8 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "byte-size": "^8.1.0"
+    "byte-size": "^8.1.0",
+    "configcat-js-ssr": "^5.5.0"
   },
   "packageManager": "yarn@1.22.19"
 }

@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -47,7 +48,6 @@ import InCodeIcon from "../icons/InCodeIcon";
 import UserAuthAction from "./UserAuthAction";
 import NavigationBarMenu from "./NavigationBarMenu";
 import MenuButtons from "./MenuButtons";
-import { useEffect } from "react";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();

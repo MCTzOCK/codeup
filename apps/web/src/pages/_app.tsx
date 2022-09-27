@@ -1,13 +1,12 @@
 import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
-import { Box, ChakraProvider, extendTheme, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import React from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
 import { PostButton } from "@codeup/components/community/post";
-import { CourseNavigationBar } from "@codeup/components/course";
 import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
 

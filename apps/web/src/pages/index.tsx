@@ -20,14 +20,12 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import * as configcat from "configcat-js-ssr";
 
-export default function Home(props: { randomFlag: boolean }) {
+export default function Home() {
   const allowLoadingAnimation = false;
 
   return (
     <>
-      {props.randomFlag ? "Random Flag" : "No Random Flag"}
       {allowLoadingAnimation ? (
         <Box
           position={"fixed"}
@@ -206,16 +204,4 @@ function CallToActionButton(props: { text: string; url: string }) {
       </a>
     </ButtonGroup>
   );
-}
-
-export async function getServerSideProps() {
-  const configCatClient = configcat.createClient("");
-
-  const randomFlag = await configCatClient.getValueAsync("random_flag", false);
-
-  return {
-    props: {
-      randomFlag,
-    },
-  };
 }
