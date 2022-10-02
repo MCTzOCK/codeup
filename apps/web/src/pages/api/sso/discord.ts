@@ -86,47 +86,58 @@ export default async function handleRequest(
 
   await mongoConnect();
 
-  const existingUsername = await UserModel.findOne({
-    username: username,
-  });
 
-  if (existingUsername) {
-    username = "discord:" + userId;
-  }
-
-  const existingEmail = await UserModel.findOne({
-    email: primaryEmail,
-  });
-
-  if (existingEmail) {
-    res.redirect("/sso/error?error=E-Mail wird bereits verwendet.");
-    return;
-  }
-
-  const svg = createAvatar(style, {
-    seed: userId,
-    colorful: true,
-  });
-
-  const newUser = await UserModel.create({
-    username,
-    email: primaryEmail,
-    firstName: name.split(" ")[0],
-    lastName: name.split(" ")[name.split(" ").length - 1],
-    password: createHash("sha256").update(randomString0(128)).digest("hex"),
-    twoFactorEnabled: false,
-    active: true,
-    profilePicture: svg,
+  const existingUser = await UserModel.findOne({
     sso: "discord:" + userId,
   });
 
-  await newUser.save();
+  if (existingUser) {
+    res.redirect("/sso/callback?token=" + generateJWT(existingUser));
+  } else {
+    const existingUsername = await UserModel.findOne({
+      username: username,
+    });
+  
+    if (existingUsername) {
+      username = "discord:" + userId;
+    }
+  
+    const existingEmail = await UserModel.findOne({
+      email: primaryEmail,
+    });
+  
+    if (existingEmail) {
+      res.redirect("/sso/error?error=E-Mail wird bereits verwendet.");
+      return;
+    }
+  
+    const svg = createAvatar(style, {
+      seed: userId,
+      colorful: true,
+    });
+  
+    const newUser = await UserModel.create({
+      username,
+      email: primaryEmail,
+      firstName: name.split(" ")[0],
+      lastName: name.split(" ")[name.split(" ").length - 1],
+      password: createHash("sha256").update(randomString0(128)).digest("hex"),
+      twoFactorEnabled: false,
+      active: true,
+      profilePicture: svg,
+      sso: "discord:" + userId,
+    });
+  
+    await newUser.save();
+  
+    const token0 = generateJWT(newUser);
+  
+    res.redirect("/sso/callback?token=" + token0);
+  
+  
+  }
 
-  const token0 = generateJWT(newUser);
-
-  res.redirect("/sso/callback?token=" + token0);
-
-
+  
 }
 
 function randomString0(size: number) {
