@@ -39,6 +39,11 @@ export default async function handleRequest(
         `https://gitlab.com/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.GITLAB_REDIRECT_URI}&response_type=code`
       );
       break;
+    case "discord":
+      res.redirect(
+        `https://discord.com/api/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&redirect_uri=${process.env.DISCORD_REDIRECT_URI}&response_type=code&scope=email%20identify`
+      );
+      break;
     default:
       res.redirect("/sso/error?error=Unbekannter Anbieter");
   }
