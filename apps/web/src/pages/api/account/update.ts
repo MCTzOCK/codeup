@@ -107,8 +107,8 @@ export default async function handleRequest(
 
             await sendMail(
               user.email,
-              "E-Mail Change Request",
-              `Please click the following link to confirm your email change:\nhttp://${
+              "E-Mail Adresse ändern",
+              `Klicke den folgenden Link um deine E-Mail Adresse zu ändern:\nhttp://${
                 req.headers.host
               }/api/account/action?operation=changeEmail&token=${
                 user.emailChangeCode
@@ -118,7 +118,7 @@ export default async function handleRequest(
                 }/account/settings?component=account&newToken=${generateJWT(
                   user
                 )}`
-              )}\n\nIf you did not request this change, please contact the support immediately at codeup@ben-siebert.de`,
+              )}\n\nWenn du diese Aktion nicht beabsichtigt hast, dann kontaktiere sofort den Support unter hello@ben-siebert.de`,
               user.firstName
             );
 

@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/account/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/generateJWT.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/generateJWT.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/register.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/reset.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/generateMail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/generateMail.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,33 +58,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "16.14.2",
-    "javascript.nodejs.core.library.typings.version": "16.11.63",
-    "last_opened_file_path": "/Users/ben/Desktop/Projekte/codeup",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "/Users/ben/Desktop/Projekte/codeup/node_modules/prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "ts.external.directory.path": "/Users/ben/Desktop/Projekte/codeup/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;16.14.2&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;16.11.63&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ben/Desktop/Projekte/codeup&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/ben/Desktop/Projekte/codeup/node_modules/prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/ben/Desktop/Projekte/codeup/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Shell Script"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -198,7 +199,7 @@
       <workItem from="1663492412595" duration="461000" />
       <workItem from="1663493176160" duration="237000" />
       <workItem from="1664804143895" duration="403000" />
-      <workItem from="1664804584251" duration="2184000" />
+      <workItem from="1664804584251" duration="4287000" />
     </task>
     <servers />
   </component>
