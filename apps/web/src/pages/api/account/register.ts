@@ -99,13 +99,13 @@ export default async function handleRequest(
     await sendMail(
       req.body.email,
       "Account activation",
-      `Please click the following link to activate your account:\nhttps://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=https://${req.headers.host}#login\n\nIf you did not request this email, please ignore it.`,
+      `Bitte klicke den folgenden Link um dein Konto zu aktivieren:\nhttps://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=https://${req.headers.host}#login\n\nWenn du dich nicht registriert hast, kannst du diese E-Mail ignorieren.`,
       req.body.firstName
     );
 
     res.status(200).json({
       success: true,
-      message: "User created - Please check your email for an activation link",
+      message: "Überprüfe deine E-Mails für einen Aktivierungslink",
     });
   } catch (e: any) {
     res.status(500).json({
