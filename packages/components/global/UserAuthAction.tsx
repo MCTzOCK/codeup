@@ -13,8 +13,10 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   Flex,
   Heading,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,11 +24,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
 } from "@chakra-ui/react";
 import UserAuthRegister from "./UserAuthRegister";
 import UserAuthLogin from "./UserAuthLogin";
@@ -34,6 +38,7 @@ import UserAuthReset from "./UserAuthReset";
 import CodeUpModal from "../codeup/CodeUpModal";
 import UserAuthSSO from "./UserAuthSSO";
 import { useEffect } from "react";
+import DividerWithText from "./DividerWithText";
 
 export default function UserAuthAction(props: {
   onOpen: () => void;
@@ -54,8 +59,37 @@ export default function UserAuthAction(props: {
         onOpen={props.onOpen}
         onClose={props.onClose}
         isOpen={props.isOpen}
+        title={"Anmelden"}
       >
         <Tabs isFitted variant={"line"} colorScheme={"red"} flex={"50%"}>
+          <TabList>
+            <Tab>Registrieren</Tab>
+            <Tab>Anmelden</Tab>
+            <Tab>Passwort Zurücksetzen</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <UserAuthRegister />
+            </TabPanel>
+            <TabPanel>
+              <UserAuthLogin onClose={props.onClose} />
+            </TabPanel>
+            <TabPanel>
+              <UserAuthReset />
+            </TabPanel>
+          </TabPanels>
+          <DividerWithText />
+          <UserAuthSSO />
+        </Tabs>
+      </CodeUpModal>
+    </>
+  );
+}
+
+/*
+ OLD CODE
+ --------
+<Tabs isFitted variant={"line"} colorScheme={"red"} flex={"50%"}>
           <TabList>
             <Tab>SSO</Tab>
             <Tab>Registrieren</Tab>
@@ -77,7 +111,4 @@ export default function UserAuthAction(props: {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </CodeUpModal>
-    </>
-  );
-}
+ */

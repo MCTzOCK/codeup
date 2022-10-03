@@ -8,49 +8,55 @@
  *
  */
 
-import * as React from 'react';
-import { Button, ButtonGroup, Grid, Heading, Text } from '@chakra-ui/react';
-import { FaDiscord, FaGithub, FaGitlab, FaMicrosoft } from 'react-icons/fa';
-import { useRouter } from 'next/router';
+import * as React from "react";
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  Heading,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FaDiscord, FaGithub, FaGitlab, FaMicrosoft } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export default function UserAuthSSO() {
   const router = useRouter();
 
   return (
     <>
-      <Heading>Anmelden mit</Heading>
-      <Grid templateColumns={'repeat(2, 1fr)'} gap={6} mt={'2rem'}>
+      <Stack spacing={4}>
         <Button
-          colorScheme={'gray'}
+          colorScheme={"gray"}
           onClick={() => {
-            router.push('/api/sso/request?type=github');
+            router.push("/api/sso/request?type=github");
           }}
           leftIcon={<FaGithub />}
-          size={'lg'}
+          size={"lg"}
         >
           GitHub
         </Button>
         <Button
-          colorScheme={'gray'}
+          colorScheme={"gray"}
           onClick={() => {
-            router.push('/api/sso/request?type=gitlab');
+            router.push("/api/sso/request?type=gitlab");
           }}
           leftIcon={<FaGitlab />}
-          size={'lg'}
+          size={"lg"}
         >
           GitLab
         </Button>
         <Button
-          colorScheme={'gray'}
+          colorScheme={"gray"}
           onClick={() => {
-            router.push('/api/sso/request?type=discord');
+            router.push("/api/sso/request?type=discord");
           }}
           leftIcon={<FaDiscord />}
-          size={'lg'}
+          size={"lg"}
         >
           Discord
         </Button>
-      </Grid>
+      </Stack>
     </>
   );
 }
