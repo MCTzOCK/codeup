@@ -57,6 +57,7 @@ export default function Settings() {
     if (query.has("component")) {
       switch (query.get("component")) {
         case "account":
+          // @ts-ignore
           setCurrentComponent(<Account userInfo={userInfo} />);
           setCurrentSelected("account");
           break;
@@ -71,8 +72,9 @@ export default function Settings() {
     }
     if (query.has("newToken")) {
       localStorage.setItem("token", query.get("newToken") as string);
-      // window.location.href = "/account/settings?component=account";
     }
+
+    console.log(userInfo);
   }, [userInfo]);
 
   const [currentComponent, setCurrentComponent] =
@@ -113,6 +115,7 @@ export default function Settings() {
             leftIcon={<FaUserCircle />}
             onClick={() => {
               setCurrentSelected("account");
+              // @ts-ignore
               setCurrentComponent(<Account userInfo={userInfo} />);
               router.push("/account/settings?component=account");
             }}
@@ -162,6 +165,7 @@ function Account(props: {
     firstName: string;
     lastName: string;
     _2fa: boolean;
+    sso: string;
   };
 }) {
   const [firstNameButtonDisabled, setFirstNameButtonDisabled] =
@@ -337,11 +341,17 @@ function Account(props: {
           <Flex direction={"column"}>
             <FormControl isInvalid={emailError !== null}>
               <FormLabel htmlFor="email">E-Mail</FormLabel>
-              <Input id="email" defaultValue={props.userInfo.email} />
+              <Input
+                id="email"
+                defaultValue={props.userInfo.email}
+                disabled={props.userInfo.sso !== "no-sso"}
+              />
               <FormErrorMessage>{emailError}</FormErrorMessage>
               <Button
                 type="submit"
-                disabled={emailButtonDisabled}
+                disabled={
+                  props.userInfo.sso !== "no-sso" || emailButtonDisabled
+                }
                 isLoading={emailButtonDisabled}
                 colorScheme="blue"
                 marginBlock={"1.2rem"}
@@ -374,11 +384,12 @@ function Account(props: {
               <Text>
                 Wenn aktiviert, erhälst du, <b>jedes Mal</b>, wenn du versuchst
                 dich anzumelden, eine E-Mail mit der du den Login authorisieren
-                musst.
+                musst. Diese Option steht dir nicht zur Verfügung, wenn du dich
+                mit einem SSO Anbieter angemeldet hast.
               </Text>
               <Button
                 type="submit"
-                disabled={_2faButtonDisabled}
+                disabled={props.userInfo.sso !== "no-sso" || _2faButtonDisabled}
                 isLoading={_2faButtonDisabled}
                 colorScheme={props.userInfo._2fa ? "red" : "green"}
                 mt={"1.2rem"}
@@ -443,11 +454,16 @@ function Account(props: {
             <Text>
               Wenn du das Passwort deines Account änderst, wirst du nicht
               automatisch von allen Geräten abgemeldet. Diesen Schritt musst du
-              manuell durchführen.
+              manuell durchführen. Diese Option steht dir nicht zur Verfügung,
+              wenn du dich mit einem SSO Anbieter angemeldet hast.
             </Text>
             <Popover>
               <PopoverTrigger>
-                <Button mt={"1.2rem"} colorScheme={"blue"}>
+                <Button
+                  mt={"1.2rem"}
+                  colorScheme={"blue"}
+                  disabled={props.userInfo.sso !== "no-sso"}
+                >
                   Passwort ändern
                 </Button>
               </PopoverTrigger>

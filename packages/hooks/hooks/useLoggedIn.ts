@@ -21,6 +21,7 @@ export function useLoggedIn(): {
     lastName: string;
     _2fa: boolean;
     username: string;
+    sso?: string | boolean;
   };
 } {
   const [loggedIn, setLoggedIn] = useState(false);
