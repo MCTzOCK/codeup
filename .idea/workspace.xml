@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/contact.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/codeup/about.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/contact.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/contact.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBarMenu.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,11 +101,11 @@
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-compiler\src\commands\__tests__" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/web/src/pages/codeup" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\course\[course]" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\public\_data\incode-docs" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-ast-generator\src" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\ide\projects\[id]" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build">

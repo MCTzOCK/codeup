@@ -17,10 +17,13 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
+import { FaCaretDown } from "react-icons/fa";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -37,11 +40,30 @@ export default function NavigationBarMenu(props: {
           Home
         </Button>
       </Link>
-      <Link href={"/about"}>
-        <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
-          Über Uns
-        </Button>
-      </Link>
+      <Popover>
+        <PopoverTrigger>
+          <Button variant={"ghost"} size={"lg"} rightIcon={<FaCaretDown />}>
+            CodeUp
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent bg={"black"}>
+          <PopoverArrow bg={"black"} />
+          <PopoverBody>
+            <Stack textAlign={"center"}>
+              <Link href={"/codeup/about"} onClick={props.onClose}>
+                <Text fontSize={"xl"} cursor={"pointer"}>
+                  Über Uns
+                </Text>
+              </Link>
+              <Link href={"/codeup/contact"} onClick={props.onClose}>
+                <Text fontSize={"xl"} cursor={"pointer"}>
+                  Kontakt
+                </Text>
+              </Link>
+            </Stack>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
       <Link href={"/courses"}>
         <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
           Kurse

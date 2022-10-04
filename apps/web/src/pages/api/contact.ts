@@ -77,7 +77,7 @@ export default async function handleRequest(
         : process.env.CONTACT_LOW;
 
     sendMail(
-      email_recipient,
+      email_recipient as string,
       "[CODEUP] Neue Nachricht von " + user.username,
       `Neue Kontaktanfrage von ${user.username} (${email}):<br /><br />${req.body.message}`,
       "Ben"
