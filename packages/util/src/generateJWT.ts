@@ -7,7 +7,7 @@
  * Created At: 06.06.2022
  *
  */
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 export default function generateJWT(user: any) {
   return jwt.sign(
@@ -19,6 +19,7 @@ export default function generateJWT(user: any) {
       _2fa: user.twoFactorEnabled,
       username: user.username,
       sso: user.sso || false,
+      admin: user.admin || false,
     },
     process.env.JWT_SECRET as string,
     {

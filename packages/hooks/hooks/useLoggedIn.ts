@@ -22,6 +22,7 @@ export function useLoggedIn(): {
     _2fa: boolean;
     username: string;
     sso?: string | boolean;
+    admin: boolean;
   };
 } {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -33,6 +34,7 @@ export function useLoggedIn(): {
     lastName: "",
     _2fa: false,
     username: "",
+    admin: false,
   });
 
   useEffect(() => {
