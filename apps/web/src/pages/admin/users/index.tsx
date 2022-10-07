@@ -11,12 +11,22 @@
 import { useLoggedIn } from "@codeup/hooks";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { FaCheck, FaFilter, FaUser } from "react-icons/fa";
+import {
+  FaCheck,
+  FaEdit,
+  FaEllipsisH,
+  FaEllipsisV,
+  FaEye,
+  FaFilter,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Avatar,
   Box,
   Button,
   Center,
@@ -37,6 +47,7 @@ import {
   Progress,
   Spinner,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -49,6 +60,7 @@ import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateL
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 export default function UserManagement() {
   const [users, setUsers] = useState<
@@ -178,96 +190,105 @@ export default function UserManagement() {
                     </Flex>
                   </Box>
                   <Box w={"100%"}>
-                    <Table variant="simple">
-                      <Thead>
-                        <Tr>
-                          <Th>Profilbild</Th>
-                          <Th>Name</Th>
-                          <Th>E-Mail</Th>
-                          <Th>Admin</Th>
-                          <Th>Aktiv</Th>
-                          <Th>2FA</Th>
-                          <Th>Erstellt am</Th>
-                          <Th>Aktionen</Th>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                        {users
-                          .filter((user) => {
-                            if (query === "") {
-                              return true;
-                            } else {
+                    <TableContainer>
+                      <Table variant="simple">
+                        <Thead>
+                          <Tr>
+                            <Th>Profilbild</Th>
+                            <Th>Name</Th>
+                            <Th>E-Mail</Th>
+                            <Th>Admin</Th>
+                            <Th>Aktiv</Th>
+                            <Th>2FA</Th>
+                            <Th>Erstellt am</Th>
+                            <Th>Aktionen</Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {users
+                            .filter((user) => {
+                              if (query === "") {
+                                return true;
+                              } else {
+                                return (
+                                  user.username
+                                    .toLowerCase()
+                                    .includes(query.toLowerCase()) ||
+                                  user.email
+                                    .toLowerCase()
+                                    .includes(query.toLowerCase())
+                                );
+                              }
+                            })
+                            .filter((user) => {
+                              if (filter === "all") {
+                                return true;
+                              } else if (filter === "admin") {
+                                return user.admin;
+                              } else if (filter === "active") {
+                                return user.active;
+                              } else if (filter === "inactive") {
+                                return !user.active;
+                              } else {
+                                return true;
+                              }
+                            })
+                            .map((user) => {
                               return (
-                                user.username
-                                  .toLowerCase()
-                                  .includes(query.toLowerCase()) ||
-                                user.email
-                                  .toLowerCase()
-                                  .includes(query.toLowerCase())
-                              );
-                            }
-                          })
-                          .filter((user) => {
-                            if (filter === "all") {
-                              return true;
-                            } else if (filter === "admin") {
-                              return user.admin;
-                            } else if (filter === "active") {
-                              return user.active;
-                            } else if (filter === "inactive") {
-                              return !user.active;
-                            } else {
-                              return true;
-                            }
-                          })
-                          .map((user) => {
-                            return (
-                              <Tr>
-                                <Td>
-                                  <img
-                                    src={
-                                      "/api/account/" +
-                                      user.username +
-                                      "/picture"
-                                    }
-                                    style={{
-                                      width: "2rem",
-                                      height: "2rem",
-                                      borderRadius: "50%",
-                                      marginRight: "1rem",
-                                    }}
-                                    alt={"Profile Picture"}
-                                  />
-                                </Td>
-                                <Td>
-                                  <Flex direction={"column"}>
-                                    <Text>
-                                      {user.firstName}&nbsp;{user.lastName}
-                                    </Text>
-                                    <Text>@{user.username}</Text>
-                                  </Flex>
-                                </Td>
-                                <Td>{user.email}</Td>
-                                <Td>{user.admin ? "Ja" : "Nein"}</Td>
-                                <Td>{user.active ? "Ja" : "Nein"}</Td>
-                                <Td>{user.twoFactorEnabled ? "Ja" : "Nein"}</Td>
-                                <Td>
-                                  {new Date(user.createdAt).toLocaleString()}
-                                </Td>
-                                <Td>
-                                  <HStack>
-                                    <IconButton
-                                      aria-label="Edit"
-                                      icon={<FaUser />}
-                                      onClick={() => {}}
+                                <Tr>
+                                  <Td>
+                                    <Avatar
+                                      size={"md"}
+                                      src={
+                                        "/api/account/" +
+                                        user.username +
+                                        "/picture"
+                                      }
                                     />
-                                  </HStack>
-                                </Td>
-                              </Tr>
-                            );
-                          })}
-                      </Tbody>
-                    </Table>
+                                  </Td>
+                                  <Td>
+                                    <Flex direction={"column"}>
+                                      <Text>
+                                        {user.firstName}&nbsp;{user.lastName}
+                                      </Text>
+                                      <Text>@{user.username}</Text>
+                                    </Flex>
+                                  </Td>
+                                  <Td>{user.email}</Td>
+                                  <Td>{user.admin ? "Ja" : "Nein"}</Td>
+                                  <Td>{user.active ? "Ja" : "Nein"}</Td>
+                                  <Td>
+                                    {user.twoFactorEnabled ? "Ja" : "Nein"}
+                                  </Td>
+                                  <Td>
+                                    {new Date(user.createdAt).toLocaleString()}
+                                  </Td>
+                                  <Td>
+                                    <Menu>
+                                      <MenuButton
+                                        as={IconButton}
+                                        icon={<FaEllipsisH />}
+                                        aria-label={"Aktionen"}
+                                      />
+                                      <MenuList>
+                                        <MenuItem icon={<FaEye />}>
+                                          Anzeigen
+                                        </MenuItem>
+                                        <MenuItem icon={<FaEdit />}>
+                                          Bearbeiten
+                                        </MenuItem>
+                                        <MenuItem icon={<FaTrash />}>
+                                          Löschen
+                                        </MenuItem>
+                                      </MenuList>
+                                    </Menu>
+                                  </Td>
+                                </Tr>
+                              );
+                            })}
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
                   </Box>
                 </Flex>
               </Flex>
