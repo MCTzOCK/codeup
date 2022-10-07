@@ -58,6 +58,7 @@ import {
   FaLock,
   FaEnvelope,
   FaPen,
+  FaUserShield,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
@@ -372,6 +373,40 @@ export default function AdminUserViewer(props: {
                   icon={<FaEdit />}
                   colorScheme={"orange"}
                   onClick={() => setEditMode(true)}
+                />
+                <IconButton
+                  aria-label={"toggle admin"}
+                  icon={<FaUserShield />}
+                  colorScheme={"blue"}
+                  onClick={async () => {
+                    try {
+                      const update: { [key: string]: any } = {
+                        admin: !props.user?.admin,
+                      };
+
+                      const r = await REST.Admin.updateAccount({
+                        token: localStorage.getItem("token") as string,
+                        username: props.user?.username as string,
+                        update: update,
+                      });
+
+                      const userU = r.payload.user;
+
+                      const newUsers = props.users.map((user) => {
+                        if (user.username === props.user?.username) {
+                          return userU;
+                        } else {
+                          return user;
+                        }
+                      });
+
+                      props.setUsers(newUsers);
+
+                      props.setCurrentUser(userU);
+                    } catch (e) {
+                      alert(e);
+                    }
+                  }}
                 />
               </ButtonGroup>
             ) : null}

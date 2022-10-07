@@ -44,7 +44,9 @@ export default async function handleRequest(
       process.env.JWT_SECRET as string
     ) as any;
 
-    if (!decoded.admin) {
+    const adminuser = await UserModel.findOne({ username: decoded.username });
+
+    if (!adminuser.admin) {
       res.status(401).json({
         error: "Unauthorized",
       });
