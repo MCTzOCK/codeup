@@ -285,6 +285,33 @@ export default function AdminUserViewer(props: {
                       aria-label={"deactivate"}
                       icon={<FaWindowClose />}
                       colorScheme={"red"}
+                      onClick={async () => {
+                        const update: { [key: string]: any } = {
+                          active: false,
+                        };
+
+                        const r = await REST.Admin.updateAccount({
+                          token: localStorage.getItem("token") as string,
+                          username: props.user?.username as string,
+                          update: update,
+                        });
+
+                        const userU = r.payload.user;
+
+                        const newUsers = props.users.map((user) => {
+                          if (user.username === props.user?.username) {
+                            return userU;
+                          } else {
+                            return user;
+                          }
+                        });
+
+                        props.setUsers(newUsers);
+
+                        props.setCurrentUser(userU);
+
+                        setEditMode(false);
+                      }}
                     />
                   </>
                 ) : (
@@ -293,6 +320,33 @@ export default function AdminUserViewer(props: {
                       aria-label={"activate"}
                       icon={<FaCheckSquare />}
                       colorScheme={"green"}
+                      onClick={async () => {
+                        const update: { [key: string]: any } = {
+                          active: true,
+                        };
+
+                        const r = await REST.Admin.updateAccount({
+                          token: localStorage.getItem("token") as string,
+                          username: props.user?.username as string,
+                          update: update,
+                        });
+
+                        const userU = r.payload.user;
+
+                        const newUsers = props.users.map((user) => {
+                          if (user.username === props.user?.username) {
+                            return userU;
+                          } else {
+                            return user;
+                          }
+                        });
+
+                        props.setUsers(newUsers);
+
+                        props.setCurrentUser(userU);
+
+                        setEditMode(false);
+                      }}
                     />
                   </>
                 )}
