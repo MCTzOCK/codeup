@@ -14,6 +14,6 @@ export async function listAccounts(token: string): Promise<IResponse> {
   return makeRequest({
     method: "GET",
     token,
-    path: "/admin/account/list",
+    path: "/api/admin/account/list",
   });
 }
