@@ -117,23 +117,6 @@ export default function UserManagement() {
     );
   }, []);
 
-  const reload = async () => {
-    const r = await REST.Admin.listAccounts(
-      localStorage.getItem("token") as string
-    );
-
-    if (r.status === 200) {
-      setUsers(r.payload.accounts);
-
-      if (currentUser !== null) {
-        const u = r.payload.accounts.find((u) => u.id === currentUser.id);
-        setCurrentUser(u);
-      }
-    } else {
-      setError("Benutzer konnten nicht aktualisiert werden.");
-    }
-  };
-
   return (
     <>
       {loaded && error !== "" ? (
