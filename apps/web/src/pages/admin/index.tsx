@@ -8,7 +8,7 @@
  *
  */
 import { useLoggedIn } from "@codeup/hooks";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   CircularProgress,
@@ -20,28 +20,11 @@ import {
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import AdminLayout from "@codeup/components/admin/AdminLayout";
 
 export default function AdminDashboard() {
-  const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
-
   const router = useRouter();
-
-  useEffect(() => {
-    if (!userLoaded) return;
-
-    if (!loggedIn) {
-      router.push(
-        "/error?error=Du bist nicht dazu berechtigt diese Seite zu sehen!"
-      );
-      return;
-    }
-
-    if (!userInfo.admin) {
-      router.push(
-        "/error?error=Du bist nicht dazu berechtigt diese Seite zu sehen!"
-      );
-    }
-  }, [loggedIn, userInfo, userLoaded]);
 
   const sections: {
     title: string;
@@ -59,11 +42,7 @@ export default function AdminDashboard() {
 
   return (
     <>
-      {!userLoaded ? (
-        <>
-          <AuthenticateLoadingIndicator />
-        </>
-      ) : (
+      <AdminLayout>
         <>
           <Flex w={"100%"} h={"100vh"} direction={"column"}>
             <Heading textAlign={"center"} size={"lg"} mt={4}>
@@ -101,7 +80,7 @@ export default function AdminDashboard() {
             </Grid>
           </Flex>
         </>
-      )}
+      </AdminLayout>
     </>
   );
 }

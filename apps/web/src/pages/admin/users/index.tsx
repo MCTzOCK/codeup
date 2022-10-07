@@ -42,38 +42,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import AdminLayout from "@codeup/components/admin/AdminLayout";
 
 export default function UserManagement() {
-  const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
-
-  useEffect(() => {
-    if (!userLoaded) return;
-
-    if (!loggedIn) {
-      router.push(
-        "/error?error=Du bist nicht dazu berechtigt diese Seite zu sehen!"
-      );
-      return;
-    }
-
-    if (!userInfo.admin) {
-      router.push(
-        "/error?error=Du bist nicht dazu berechtigt diese Seite zu sehen!"
-      );
-    }
-  }, [loggedIn, userInfo, userLoaded]);
-
-  const toast = useToast();
-
-  const [users, setUsers] = useState([]);
-
   return (
     <>
-      {!userLoaded ? (
-        <>
-          <AuthenticateLoadingIndicator />
-        </>
-      ) : null}
+      <AdminLayout>123</AdminLayout>
     </>
   );
 }
