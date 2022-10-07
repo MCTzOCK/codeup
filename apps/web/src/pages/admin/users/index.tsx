@@ -201,7 +201,6 @@ export default function UserManagement() {
                             <Th>Aktiv</Th>
                             <Th>2FA</Th>
                             <Th>Erstellt am</Th>
-                            <Th>Aktionen</Th>
                           </Tr>
                         </Thead>
                         <Tbody>
@@ -235,7 +234,12 @@ export default function UserManagement() {
                             })
                             .map((user) => {
                               return (
-                                <Tr>
+                                <Tr
+                                  _hover={{
+                                    backgroundColor: "gray.700",
+                                  }}
+                                  cursor={"pointer"}
+                                >
                                   <Td>
                                     <Avatar
                                       size={"md"}
@@ -262,26 +266,6 @@ export default function UserManagement() {
                                   </Td>
                                   <Td>
                                     {new Date(user.createdAt).toLocaleString()}
-                                  </Td>
-                                  <Td>
-                                    <Menu>
-                                      <MenuButton
-                                        as={IconButton}
-                                        icon={<FaEllipsisH />}
-                                        aria-label={"Aktionen"}
-                                      />
-                                      <MenuList>
-                                        <MenuItem icon={<FaEye />}>
-                                          Anzeigen
-                                        </MenuItem>
-                                        <MenuItem icon={<FaEdit />}>
-                                          Bearbeiten
-                                        </MenuItem>
-                                        <MenuItem icon={<FaTrash />}>
-                                          Löschen
-                                        </MenuItem>
-                                      </MenuList>
-                                    </Menu>
                                   </Td>
                                 </Tr>
                               );
