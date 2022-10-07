@@ -54,6 +54,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
@@ -61,37 +62,42 @@ import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import { FiMoreHorizontal } from "react-icons/fi";
+import AdminUserViewer from "@codeup/components/admin/AdminUserViewer";
+
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  twoFactorEnabled: boolean;
+  twoFactorCode: string;
+  active: boolean;
+  activationToken: string;
+  deletionToken: string;
+  resetToken: string;
+  emailChangeCode: string;
+  newEmail: string;
+  profilePicture: string;
+  createdAt: string;
+  sso: string;
+  admin: boolean;
+  __v: number;
+};
 
 export default function UserManagement() {
-  const [users, setUsers] = useState<
-    {
-      id: string;
-      username: string;
-      email: string;
-      password: string;
-      firstName: string;
-      lastName: string;
-      twoFactorEnabled: boolean;
-      twoFactorCode: string;
-      active: boolean;
-      activationToken: string;
-      deletionToken: string;
-      resetToken: string;
-      emailChangeCode: string;
-      newEmail: string;
-      profilePicture: string;
-      createdAt: string;
-      sso: string;
-      admin: boolean;
-      __v: number;
-    }[]
-  >([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const [loaded, setLoaded] = useState<boolean>(true);
 
   const [error, setError] = useState<string>("");
 
   const [query, setQuery] = useState<string>("");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const [filter, setFilter] = useState<
     "admin" | "active" | "inactive" | "all" | ""
@@ -110,6 +116,23 @@ export default function UserManagement() {
       }
     );
   }, []);
+
+  const reload = async () => {
+    const r = await REST.Admin.listAccounts(
+      localStorage.getItem("token") as string
+    );
+
+    if (r.status === 200) {
+      setUsers(r.payload.accounts);
+
+      if (currentUser !== null) {
+        const u = r.payload.accounts.find((u) => u.id === currentUser.id);
+        setCurrentUser(u);
+      }
+    } else {
+      setError("Benutzer konnten nicht aktualisiert werden.");
+    }
+  };
 
   return (
     <>
@@ -239,6 +262,10 @@ export default function UserManagement() {
                                     backgroundColor: "gray.700",
                                   }}
                                   cursor={"pointer"}
+                                  onClick={() => {
+                                    setCurrentUser(user);
+                                    onOpen();
+                                  }}
                                 >
                                   <Td>
                                     <Avatar
@@ -277,6 +304,15 @@ export default function UserManagement() {
                 </Flex>
               </Flex>
             </>
+            <AdminUserViewer
+              onOpen={onOpen}
+              onClose={onClose}
+              isOpen={isOpen}
+              user={(currentUser as User) || null}
+              users={users}
+              setUsers={setUsers}
+              setCurrentUser={setCurrentUser}
+            />
           </AdminLayout>
         </>
       ) : null}

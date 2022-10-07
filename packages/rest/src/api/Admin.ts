@@ -17,3 +17,19 @@ export async function listAccounts(token: string): Promise<IResponse> {
     path: "/api/admin/account/list",
   });
 }
+
+export async function updateAccount(options: {
+  token: string;
+  username: string;
+  update: { [key: string]: string };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/account/update",
+    body: {
+      username: options.username,
+      update: options.update,
+    },
+  });
+}
