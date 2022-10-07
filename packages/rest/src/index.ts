@@ -87,8 +87,12 @@ import {
   getChatMessages as getChatMessagesV2,
   sendMessage as sendMessageV2,
 } from "./api/Forum";
+import { listAccounts } from "./api/Admin";
 
 const REST = {
+  Admin: {
+    listAccounts,
+  },
   Account: {
     register,
     login,
