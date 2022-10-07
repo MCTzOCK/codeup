@@ -278,6 +278,23 @@ export default function AdminUserViewer(props: {
                   colorScheme={"red"}
                   aria-label={"delete"}
                   icon={<FaTrash />}
+                  onClick={async () => {
+                    const r = await REST.Admin.deleteAccount({
+                      token: localStorage.getItem("token") as string,
+                      username: props.user?.username as string,
+                    });
+
+                    if (r.payload.success) {
+                      const newUsers = props.users.filter(
+                        (user) => user.username !== props.user?.username
+                      );
+
+                      props.setUsers(newUsers);
+                      props.setCurrentUser(null);
+
+                      props.onClose();
+                    }
+                  }}
                 />
                 {props.user?.active ? (
                   <>

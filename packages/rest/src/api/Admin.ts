@@ -33,3 +33,17 @@ export async function updateAccount(options: {
     },
   });
 }
+
+export async function deleteAccount(options: {
+  token: string;
+  username: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/account/delete",
+    body: {
+      username: options.username,
+    },
+  });
+}
