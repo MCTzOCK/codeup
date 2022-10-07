@@ -15,6 +15,7 @@ import {
   Flex,
   Grid,
   Heading,
+  Icon,
   Progress,
   Spinner,
 } from "@chakra-ui/react";
@@ -54,7 +55,10 @@ export default function AdminDashboard() {
                   key={section.title}
                   w={"100%"}
                   h={"100%"}
-                  direction={"column"}
+                  direction={"row"}
+                  gap={"6rem"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
                   p={4}
                   border={"1px solid"}
                   borderColor={"gray.200"}
@@ -66,15 +70,17 @@ export default function AdminDashboard() {
                     boxShadow: "2xl",
                   }}
                 >
-                  <Flex justifyContent={"center"} alignItems={"center"}>
-                    {section.icon}
+                  <Flex alignItems={"center"}>
+                    <Heading size={"4xl"}>{section.icon}</Heading>
                   </Flex>
-                  <Heading size={"md"} mt={4} textAlign={"center"}>
-                    {section.title}
-                  </Heading>
-                  <Heading size={"sm"} mt={4} textAlign={"center"}>
-                    {section.description}
-                  </Heading>
+                  <Flex direction={"column"} alignItems={"left"}>
+                    <Heading size={"xl"} textAlign={"left"}>
+                      {section.title}
+                    </Heading>
+                    <Heading size={"sm"} mt={4} textAlign={"left"}>
+                      {section.description}
+                    </Heading>
+                  </Flex>
                 </Flex>
               ))}
             </Grid>

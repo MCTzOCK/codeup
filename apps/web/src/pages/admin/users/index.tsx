@@ -48,7 +48,7 @@ import AdminLayout from "@codeup/components/admin/AdminLayout";
 export default function UserManagement() {
   return (
     <>
-      <AdminLayout>123</AdminLayout>
+      <AdminLayout>Users</AdminLayout>
     </>
   );
 }
