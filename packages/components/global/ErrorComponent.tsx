@@ -14,6 +14,7 @@ import { Flex, Heading, Image } from "@chakra-ui/react";
 export default function ErrorComponent(props: {
   title?: string;
   description: string;
+  image?: string;
 }) {
   return (
     <>
@@ -25,7 +26,7 @@ export default function ErrorComponent(props: {
         textAlign={"center"}
       >
         <Image
-          src="/_static/vectors/error/warning.svg"
+          src={props.image ?? "/_static/vectors/error/warning.svg"}
           width={"512"}
           height={"512"}
           alt={""}

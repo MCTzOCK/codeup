@@ -12,27 +12,16 @@ import * as React from "react";
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
 
 export default function NotFound() {
   return (
     <>
-      <Flex
-        mt="4rem"
-        w={"100%"}
-        gap="2rem"
-        direction={"column"}
-        textAlign={"center"}
-      >
-        <Image
-          src="/_static/vectors/error/404.svg"
-          width={"512"}
-          height={"512"}
-          alt={""}
-        />
-        <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
-          Diese Seite wurde nicht gefunden
-        </Heading>
-      </Flex>
+      <ErrorComponent
+        description={"Die angeforderte Seite konnte nicht gefunden werden."}
+        title={"Seite nicht gefunden"}
+        image={"/_static/vectors/error/404.svg"}
+      />
     </>
   );
 }
