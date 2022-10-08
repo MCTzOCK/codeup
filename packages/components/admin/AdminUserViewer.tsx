@@ -62,6 +62,7 @@ import {
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
+import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -93,6 +94,8 @@ export default function AdminUserViewer(props: {
   setCurrentUser: (user: any) => void;
 }) {
   const [editMode, setEditMode] = React.useState(false);
+
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   return (
     <>
@@ -379,33 +382,34 @@ export default function AdminUserViewer(props: {
                   icon={<FaUserShield />}
                   colorScheme={"blue"}
                   onClick={async () => {
-                    try {
-                      const update: { [key: string]: any } = {
-                        admin: !props.user?.admin,
-                      };
+                    const update: { [key: string]: any } = {
+                      admin: !props.user?.admin,
+                    };
 
-                      const r = await REST.Admin.updateAccount({
-                        token: localStorage.getItem("token") as string,
-                        username: props.user?.username as string,
-                        update: update,
-                      });
+                    const r = await REST.Admin.updateAccount({
+                      token: localStorage.getItem("token") as string,
+                      username: props.user?.username as string,
+                      update: update,
+                    });
 
-                      const userU = r.payload.user;
+                    const userU = r.payload.user;
 
-                      const newUsers = props.users.map((user) => {
-                        if (user.username === props.user?.username) {
-                          return userU;
-                        } else {
-                          return user;
-                        }
-                      });
-
-                      props.setUsers(newUsers);
-
-                      props.setCurrentUser(userU);
-                    } catch (e) {
-                      alert(e);
+                    if (userU.username === userInfo.username) {
+                      localStorage.removeItem("token");
+                      return;
                     }
+
+                    const newUsers = props.users.map((user) => {
+                      if (user.username === props.user?.username) {
+                        return userU;
+                      } else {
+                        return user;
+                      }
+                    });
+
+                    props.setUsers(newUsers);
+
+                    props.setCurrentUser(userU);
                   }}
                 />
               </ButtonGroup>
