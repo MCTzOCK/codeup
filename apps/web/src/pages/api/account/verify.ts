@@ -25,7 +25,10 @@ export default async function handleRequest(
 
     try {
       if (verify(token as string, process.env.JWT_SECRET as string)) {
-        const decoded = decode(token as string);
+        const decoded = verify(
+          token as string,
+          process.env.JWT_SECRET as string
+        ) as any;
 
         await mongoConnect();
 

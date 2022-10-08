@@ -47,3 +47,29 @@ export async function deleteAccount(options: {
     },
   });
 }
+
+export async function createAccount(options: {
+  token: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  active: boolean;
+  admin: boolean;
+  password: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/account/create",
+    body: {
+      username: options.username,
+      email: options.email,
+      firstName: options.firstName,
+      lastName: options.lastName,
+      active: options.active,
+      admin: options.admin,
+      password: options.password,
+    },
+  });
+}

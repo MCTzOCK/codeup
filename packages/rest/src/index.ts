@@ -91,6 +91,7 @@ import {
   listAccounts,
   updateAccount,
   deleteAccount as deleteAccountA,
+  createAccount,
 } from "./api/Admin";
 
 const REST = {
@@ -98,6 +99,7 @@ const REST = {
     listAccounts,
     updateAccount,
     deleteAccount: deleteAccountA,
+    createAccount,
   },
   Account: {
     register,

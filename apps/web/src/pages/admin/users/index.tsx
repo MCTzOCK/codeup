@@ -18,6 +18,8 @@ import {
   FaEllipsisV,
   FaEye,
   FaFilter,
+  FaHome,
+  FaPlus,
   FaTrash,
   FaUser,
 } from "react-icons/fa";
@@ -63,6 +65,7 @@ import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import { FiMoreHorizontal } from "react-icons/fi";
 import AdminUserViewer from "@codeup/components/admin/AdminUserViewer";
+import AdminUserCreator from "@codeup/components/admin/AdminUserCreator";
 
 type User = {
   id: string;
@@ -96,6 +99,11 @@ export default function UserManagement() {
   const [query, setQuery] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenViewer,
+    onOpen: onOpenViewer,
+    onClose: onCloseViewer,
+  } = useDisclosure();
 
   const [currentUser, setCurrentUser] = useState<any>(null);
 
@@ -129,9 +137,38 @@ export default function UserManagement() {
           <AdminLayout>
             <>
               <Flex w={"100%"} h={"100vh"} direction={"column"}>
-                <Heading textAlign={"center"} size={"lg"} mt={4}>
-                  Benutzerverwaltung
-                </Heading>
+                <Flex
+                  w={"100%"}
+                  direction={"row"}
+                  justify={"space-between"}
+                  alignItems={"center"}
+                  p={"2rem"}
+                >
+                  <Button
+                    onClick={() => router.push("/admin")}
+                    colorScheme={"red"}
+                    leftIcon={<FaHome />}
+                  >
+                    Zurück
+                  </Button>
+                  <Heading
+                    textAlign={"center"}
+                    size={"lg"}
+                    mt={4}
+                    flex={"100%"}
+                  >
+                    Benutzerverwaltung
+                  </Heading>
+                  <Button
+                    onClick={() => {
+                      onOpenViewer();
+                    }}
+                    colorScheme={"green"}
+                    leftIcon={<FaPlus />}
+                  >
+                    Neu
+                  </Button>
+                </Flex>
                 <Flex
                   w={"100%"}
                   h={"100%"}
@@ -295,6 +332,13 @@ export default function UserManagement() {
               users={users}
               setUsers={setUsers}
               setCurrentUser={setCurrentUser}
+            />
+            <AdminUserCreator
+              onOpen={onOpenViewer}
+              onClose={onCloseViewer}
+              isOpen={isOpenViewer}
+              setUsers={setUsers}
+              users={users}
             />
           </AdminLayout>
         </>
