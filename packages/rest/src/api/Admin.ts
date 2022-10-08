@@ -73,3 +73,11 @@ export async function createAccount(options: {
     },
   });
 }
+
+export async function listForumProfiles(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/forum_profiles/list",
+  });
+}
