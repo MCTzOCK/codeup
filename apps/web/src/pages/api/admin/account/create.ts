@@ -37,7 +37,7 @@ export default async function handleRequest(
       return;
     }
 
-    const { username, email, firstName, lastName, active, admin, password } =
+    const { username, email, firstName, lastName, active, password } =
       req.body;
 
     if (
@@ -46,7 +46,6 @@ export default async function handleRequest(
       !firstName ||
       !lastName ||
       !active ||
-      !admin ||
       !password
     ) {
       res.status(400).json({
@@ -98,7 +97,7 @@ export default async function handleRequest(
       firstName,
       lastName,
       active,
-      admin,
+      admin: req.body.admin || false,
       password: createHash("sha256").update(password).digest("hex"),
       profilePicture: svg,
     });
@@ -112,6 +111,8 @@ export default async function handleRequest(
   } catch (e) {
     res.status(500).json({
       error: "Internal Server Error",
+      // @ts-ignore
+      message: e.message
     });
   }
 }

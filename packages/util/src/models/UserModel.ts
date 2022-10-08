@@ -81,7 +81,7 @@ const UserSchema = new mongoose.Schema({
   },
   sso: {
     type: String,
-    default: "",
+    default: "no-sso",
   },
   admin: {
     type: Boolean,

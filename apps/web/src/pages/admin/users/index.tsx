@@ -151,7 +151,7 @@ export default function UserManagement() {
         <>
           <AdminLayout>
             <>
-              <Flex w={"100%"} h={"100vh"} direction={"column"}>
+              <Flex w={"100%"} minH={"100vh"} h="fit-content" direction={"column"}>
                 <Flex
                   w={"100%"}
                   direction={"row"}
@@ -286,13 +286,13 @@ export default function UserManagement() {
                       <Table variant="simple">
                         <Thead>
                           <Tr>
-                            <Th>Profilbild</Th>
-                            <Th>Name</Th>
-                            <Th>E-Mail</Th>
-                            <Th>Admin</Th>
-                            <Th>Aktiv</Th>
-                            <Th>2FA</Th>
-                            <Th>Erstellt am</Th>
+                            <Th fontSize="lg">Profilbild</Th>
+                            <Th fontSize="lg">Name</Th>
+                            <Th fontSize="lg">E-Mail</Th>
+                            <Th fontSize="lg">Admin</Th>
+                            <Th fontSize="lg">Aktiv</Th>
+                            <Th fontSize="lg">2FA</Th>
+                            <Th fontSize="lg">Erstellt am</Th>
                           </Tr>
                         </Thead>
                         <Tbody>
