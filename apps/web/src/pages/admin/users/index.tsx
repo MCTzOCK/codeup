@@ -20,6 +20,7 @@ import {
   FaFilter,
   FaHome,
   FaPlus,
+  FaSort,
   FaTrash,
   FaUser,
 } from "react-icons/fa";
@@ -109,8 +110,12 @@ export default function UserManagement() {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const [filter, setFilter] = useState<
-    "admin" | "active" | "inactive" | "all" | ""
+    "admin" | "active" | "inactive" | "all"
   >("all");
+
+  const [sort, setSort] = useState<"alphabetical" | "newest" | "oldest">(
+    "alphabetical"
+  );
 
   const [usersLoading, setUsersLoading] = useState(false);
 
@@ -244,6 +249,33 @@ export default function UserManagement() {
                             </MenuItem>
                           </MenuList>
                         </Menu>
+                        <Menu>
+                          <MenuButton
+                            as={IconButton}
+                            icon={<FaSort />}
+                            aria-label={"Sort"}
+                          />
+                          <MenuList>
+                            <MenuItem
+                              icon={sort === "alphabetical" ? <FaCheck /> : <></>}
+                              onClick={() => setSort("alphabetical")}
+                            >
+                              Alphabetisch
+                            </MenuItem>
+                            <MenuItem
+                              icon={sort === "newest" ? <FaCheck /> : <></>}
+                              onClick={() => setSort("newest")}
+                            >
+                              Neueste zuerst
+                            </MenuItem>
+                            <MenuItem
+                              icon={sort === "oldest" ? <FaCheck /> : <></>}
+                              onClick={() => setSort("oldest")}
+                            >
+                              Älteste zuerst
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
                       </ButtonGroup>
                     </Flex>
                   </Box>
@@ -290,6 +322,23 @@ export default function UserManagement() {
                                     return !user.active;
                                   } else {
                                     return true;
+                                  }
+                                })
+                                .sort((a, b) => {
+                                  if (sort === "alphabetical") {
+                                    return a.username.localeCompare(b.username);
+                                  } else if (sort === "newest") {
+                                    return (
+                                      new Date(b.createdAt).getTime() -
+                                      new Date(a.createdAt).getTime()
+                                    );
+                                  } else if (sort === "oldest") {
+                                    return (
+                                      new Date(a.createdAt).getTime() -
+                                      new Date(b.createdAt).getTime()
+                                    );
+                                  } else {
+                                    return 0;
                                   }
                                 })
                                 .map((user) => {
