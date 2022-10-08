@@ -51,10 +51,12 @@ import {
   Progress,
   Spinner,
   Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
   Text,
+  Tfoot,
   Th,
   Thead,
   Tr,
@@ -205,7 +207,7 @@ export default function UserManagement() {
                         </InputLeftElement>
                         <Input
                           type="text"
-                          placeholder="Benutzername"
+                          placeholder="Benutzername oder E-Mail"
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
                         />
@@ -396,6 +398,36 @@ export default function UserManagement() {
                             </>
                           )}
                         </Tbody>
+                        <TableCaption>
+                          {users
+                                .filter((user) => {
+                                  if (query === "") {
+                                    return true;
+                                  } else {
+                                    return (
+                                      user.username
+                                        .toLowerCase()
+                                        .includes(query.toLowerCase()) ||
+                                      user.email
+                                        .toLowerCase()
+                                        .includes(query.toLowerCase())
+                                    );
+                                  }
+                                })
+                                .filter((user) => {
+                                  if (filter === "all") {
+                                    return true;
+                                  } else if (filter === "admin") {
+                                    return user.admin;
+                                  } else if (filter === "active") {
+                                    return user.active;
+                                  } else if (filter === "inactive") {
+                                    return !user.active;
+                                  } else {
+                                    return true;
+                                  }
+                                }).length} Benutzer gefunden
+                        </TableCaption>
                       </Table>
                     </TableContainer>
                   </Box>
