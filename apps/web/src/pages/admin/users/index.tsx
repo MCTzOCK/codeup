@@ -31,6 +31,7 @@ import {
   Avatar,
   Box,
   Button,
+  ButtonGroup,
   Center,
   CircularProgress,
   Flex,
@@ -63,7 +64,7 @@ import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateL
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { FiMoreHorizontal, FiRotateCw } from "react-icons/fi";
 import AdminUserViewer from "@codeup/components/admin/AdminUserViewer";
 import AdminUserCreator from "@codeup/components/admin/AdminUserCreator";
 
@@ -111,18 +112,25 @@ export default function UserManagement() {
     "admin" | "active" | "inactive" | "all" | ""
   >("all");
 
-  useEffect(() => {
+  const [usersLoading, setUsersLoading] = useState(false);
+
+  const reload = () => {
+    setUsersLoading(true);
     REST.Admin.listAccounts(localStorage.getItem("token") as string).then(
       (res) => {
         if (res.status === 200) {
           setUsers(res.payload.accounts);
           setLoaded(true);
+          setUsersLoading(false);
         } else {
           setError("Benutzer konnten nicht geladen werden.");
           setLoaded(true);
         }
       }
     );
+  };
+  useEffect(() => {
+    reload();
   }, []);
 
   return (
@@ -197,39 +205,46 @@ export default function UserManagement() {
                           onChange={(e) => setQuery(e.target.value)}
                         />
                       </InputGroup>
-                      <Menu>
-                        <MenuButton
-                          as={IconButton}
-                          icon={<FaFilter />}
-                          aria-label={"Filter"}
+                      <ButtonGroup>
+                        <IconButton
+                          aria-label={"refresh"}
+                          icon={<FiRotateCw />}
+                          onClick={reload}
                         />
-                        <MenuList>
-                          <MenuItem
-                            icon={filter === "all" ? <FaCheck /> : <></>}
-                            onClick={() => setFilter("all")}
-                          >
-                            Alle
-                          </MenuItem>
-                          <MenuItem
-                            icon={filter === "admin" ? <FaCheck /> : <></>}
-                            onClick={() => setFilter("admin")}
-                          >
-                            Admins
-                          </MenuItem>
-                          <MenuItem
-                            icon={filter === "active" ? <FaCheck /> : <></>}
-                            onClick={() => setFilter("active")}
-                          >
-                            Aktive
-                          </MenuItem>
-                          <MenuItem
-                            icon={filter === "inactive" ? <FaCheck /> : <></>}
-                            onClick={() => setFilter("inactive")}
-                          >
-                            Inaktive
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
+                        <Menu>
+                          <MenuButton
+                            as={IconButton}
+                            icon={<FaFilter />}
+                            aria-label={"Filter"}
+                          />
+                          <MenuList>
+                            <MenuItem
+                              icon={filter === "all" ? <FaCheck /> : <></>}
+                              onClick={() => setFilter("all")}
+                            >
+                              Alle
+                            </MenuItem>
+                            <MenuItem
+                              icon={filter === "admin" ? <FaCheck /> : <></>}
+                              onClick={() => setFilter("admin")}
+                            >
+                              Admins
+                            </MenuItem>
+                            <MenuItem
+                              icon={filter === "active" ? <FaCheck /> : <></>}
+                              onClick={() => setFilter("active")}
+                            >
+                              Aktive
+                            </MenuItem>
+                            <MenuItem
+                              icon={filter === "inactive" ? <FaCheck /> : <></>}
+                              onClick={() => setFilter("inactive")}
+                            >
+                              Inaktive
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </ButtonGroup>
                     </Flex>
                   </Box>
                   <Box w={"100%"}>
@@ -247,76 +262,90 @@ export default function UserManagement() {
                           </Tr>
                         </Thead>
                         <Tbody>
-                          {users
-                            .filter((user) => {
-                              if (query === "") {
-                                return true;
-                              } else {
-                                return (
-                                  user.username
-                                    .toLowerCase()
-                                    .includes(query.toLowerCase()) ||
-                                  user.email
-                                    .toLowerCase()
-                                    .includes(query.toLowerCase())
-                                );
-                              }
-                            })
-                            .filter((user) => {
-                              if (filter === "all") {
-                                return true;
-                              } else if (filter === "admin") {
-                                return user.admin;
-                              } else if (filter === "active") {
-                                return user.active;
-                              } else if (filter === "inactive") {
-                                return !user.active;
-                              } else {
-                                return true;
-                              }
-                            })
-                            .map((user) => {
-                              return (
-                                <Tr
-                                  _hover={{
-                                    backgroundColor: "gray.700",
-                                  }}
-                                  cursor={"pointer"}
-                                  onClick={() => {
-                                    setCurrentUser(user);
-                                    onOpen();
-                                  }}
-                                >
-                                  <Td>
-                                    <Avatar
-                                      size={"md"}
-                                      src={
-                                        "/api/account/" +
-                                        user.username +
-                                        "/picture"
-                                      }
-                                    />
-                                  </Td>
-                                  <Td>
-                                    <Flex direction={"column"}>
-                                      <Text>
-                                        {user.firstName}&nbsp;{user.lastName}
-                                      </Text>
-                                      <Text>@{user.username}</Text>
-                                    </Flex>
-                                  </Td>
-                                  <Td>{user.email}</Td>
-                                  <Td>{user.admin ? "Ja" : "Nein"}</Td>
-                                  <Td>{user.active ? "Ja" : "Nein"}</Td>
-                                  <Td>
-                                    {user.twoFactorEnabled ? "Ja" : "Nein"}
-                                  </Td>
-                                  <Td>
-                                    {new Date(user.createdAt).toLocaleString()}
-                                  </Td>
-                                </Tr>
-                              );
-                            })}
+                          {!usersLoading ? (
+                            <>
+                              {users
+                                .filter((user) => {
+                                  if (query === "") {
+                                    return true;
+                                  } else {
+                                    return (
+                                      user.username
+                                        .toLowerCase()
+                                        .includes(query.toLowerCase()) ||
+                                      user.email
+                                        .toLowerCase()
+                                        .includes(query.toLowerCase())
+                                    );
+                                  }
+                                })
+                                .filter((user) => {
+                                  if (filter === "all") {
+                                    return true;
+                                  } else if (filter === "admin") {
+                                    return user.admin;
+                                  } else if (filter === "active") {
+                                    return user.active;
+                                  } else if (filter === "inactive") {
+                                    return !user.active;
+                                  } else {
+                                    return true;
+                                  }
+                                })
+                                .map((user) => {
+                                  return (
+                                    <Tr
+                                      _hover={{
+                                        backgroundColor: "gray.700",
+                                      }}
+                                      cursor={"pointer"}
+                                      onClick={() => {
+                                        setCurrentUser(user);
+                                        onOpen();
+                                      }}
+                                    >
+                                      <Td>
+                                        <Avatar
+                                          size={"md"}
+                                          src={
+                                            "/api/account/" +
+                                            user.username +
+                                            "/picture"
+                                          }
+                                        />
+                                      </Td>
+                                      <Td>
+                                        <Flex direction={"column"}>
+                                          <Text>
+                                            {user.firstName}&nbsp;
+                                            {user.lastName}
+                                          </Text>
+                                          <Text>@{user.username}</Text>
+                                        </Flex>
+                                      </Td>
+                                      <Td>{user.email}</Td>
+                                      <Td>{user.admin ? "Ja" : "Nein"}</Td>
+                                      <Td>{user.active ? "Ja" : "Nein"}</Td>
+                                      <Td>
+                                        {user.twoFactorEnabled ? "Ja" : "Nein"}
+                                      </Td>
+                                      <Td>
+                                        {new Date(
+                                          user.createdAt
+                                        ).toLocaleString()}
+                                      </Td>
+                                    </Tr>
+                                  );
+                                })}
+                            </>
+                          ) : (
+                            <>
+                              <Flex gap={"2rem"} alignItems={"center"}>
+                                <Spinner size={"lg"} />
+                                Lade Benutzer...
+                              </Flex>
+                            </>
+                          )}
                         </Tbody>
                       </Table>
                     </TableContainer>
