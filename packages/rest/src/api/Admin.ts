@@ -81,3 +81,17 @@ export async function listForumProfiles(token: string): Promise<IResponse> {
     path: "/api/admin/forum_profiles/list",
   });
 }
+
+export async function deleteForumProfile(options: {
+  token: string;
+  username: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/forum_profiles/delete",
+    body: {
+      username: options.username,
+    },
+  });
+}

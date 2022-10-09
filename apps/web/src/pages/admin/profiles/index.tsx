@@ -8,12 +8,20 @@
  *
  */
 import AdminLayout from "@codeup/components/admin/AdminLayout";
-import { Avatar, Box, Button, Flex, Heading } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  useDisclosure,
+} from "@chakra-ui/react";
 import router from "next/router";
 import { FaHome, FaPlus } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useEffect, useState } from "react";
 import DataTable from "@codeup/components/extra/DataTable";
+import AdminProfileViewer from "@codeup/components/admin/AdminProfileViewer";
 
 export default function AdminProfiles() {
   const [profiles, setProfiles] = useState<any[]>([]);
@@ -22,14 +30,16 @@ export default function AdminProfiles() {
 
   const [error, setError] = useState<string>("");
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [currentProfile, setCurrentProfile] = useState<any>(null);
+
   const reload = () => {
     REST.Admin.listForumProfiles(localStorage.getItem("token") as string).then(
       (res) => {
         if (res.status === 200) {
           setProfiles(res.payload.profiles);
           setLoaded(true);
-
-          console.log(res.payload.profiles);
         } else {
           setError("Profile konnten nicht geladen werden.");
           setLoaded(true);
@@ -43,7 +53,10 @@ export default function AdminProfiles() {
 
   const profileToRow = (profile: any) => {
     return [
-      () => {},
+      () => {
+        onOpen();
+        setCurrentProfile(profile);
+      },
       <Avatar
         size={"md"}
         src={"/api/account/" + profile.username + "/picture"}
@@ -176,6 +189,7 @@ export default function AdminProfiles() {
             </Box>
           </Flex>
         </Flex>
+        <AdminProfileViewer onOpen={onOpen} onClose={onClose} isOpen={isOpen} />
       </AdminLayout>
     </>
   );
