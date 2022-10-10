@@ -95,3 +95,19 @@ export async function deleteForumProfile(options: {
     },
   });
 }
+
+export async function updateForumProfile(options: {
+  token: string;
+  username: string;
+  update: { [key: string]: string };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/forum_profiles/update",
+    body: {
+      username: options.username,
+      update: options.update,
+    },
+  });
+}
