@@ -54,8 +54,8 @@ export default function AdminProfiles() {
   const profileToRow = (profile: any) => {
     return [
       () => {
-        onOpen();
         setCurrentProfile(profile);
+        onOpen();
       },
       <Avatar
         size={"md"}
@@ -189,7 +189,15 @@ export default function AdminProfiles() {
             </Box>
           </Flex>
         </Flex>
-        <AdminProfileViewer onOpen={onOpen} onClose={onClose} isOpen={isOpen} />
+        <AdminProfileViewer
+          onOpen={onOpen}
+          onClose={onClose}
+          isOpen={isOpen}
+          profile={currentProfile}
+          setCurrentProfile={setCurrentProfile}
+          setProfiles={setProfiles}
+          profiles={profiles}
+        />
       </AdminLayout>
     </>
   );

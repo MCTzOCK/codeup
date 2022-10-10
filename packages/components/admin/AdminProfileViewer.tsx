@@ -46,6 +46,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 import {
   FaCheck,
@@ -68,10 +69,28 @@ export default function AdminProfileViewer(props: {
   onOpen: () => void;
   onClose: () => void;
   isOpen: boolean;
+  profile: {
+    username: string;
+    displayName: string;
+    verified: boolean;
+    bio: string;
+    website: string;
+    location: string;
+    createdAt: string;
+  };
+  profiles: any[];
+  setProfiles: (profiles: any[]) => void;
+  setCurrentProfile: (profile: any) => void;
 }) {
   const [editMode, setEditMode] = React.useState(false);
 
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const toast = useToast();
+
+  if (!props.profile) {
+    return <></>;
+  }
 
   return (
     <>
@@ -84,7 +103,85 @@ export default function AdminProfileViewer(props: {
         isOpen={props.isOpen}
         title={"Profilverwaltung"}
       >
-        123
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+          <Box>
+            <Heading size="md">{props.profile.displayName}</Heading>
+            <Avatar
+              size={"xl"}
+              src={"/api/account/" + props.profile.username + "/picture"}
+              mt={4}
+            />
+            <Text mt={4}>
+              <b>Benutzername:</b> @{props.profile.username}
+            </Text>
+            <Text mt={4}>
+              <b>Erstellt am:</b>{" "}
+              {new Date(props.profile.createdAt).toLocaleString()}
+            </Text>
+            <Text mt={4} alignItems={"center"} justifyContent={"center"}>
+              <b>Verifiziert:</b>&nbsp;
+              {props.profile.verified ? (
+                <Icon as={FaCheckSquare} color={"green.500"} />
+              ) : (
+                <Icon as={FaWindowClose} color={"red.500"} />
+              )}
+            </Text>
+            <Text mt={4}>
+              <b>Biografie:</b> {props.profile.bio}
+            </Text>
+            <Text mt={4}>
+              <b>Website:</b> {props.profile.website}
+            </Text>
+            <Text mt={4}>
+              <b>Ort:</b> {props.profile.location}
+            </Text>
+          </Box>
+          <Box>
+            <Heading size="md">Aktionen</Heading>
+            <ButtonGroup mt={4} spacing={4}>
+              <Button
+                leftIcon={<Icon as={FaEdit} />}
+                colorScheme={"blue"}
+                onClick={() => {}}
+              >
+                Bearbeiten
+              </Button>
+              <Button
+                leftIcon={<Icon as={FaTrash} />}
+                colorScheme={"red"}
+                onClick={async () => {
+                  const r = await REST.Admin.deleteForumProfile({
+                    token: localStorage.getItem("token") as string,
+                    username: props.profile.username,
+                  });
+
+                  if (r.status === 200) {
+                    props.setProfiles(
+                      props.profiles.filter(
+                        // @ts-ignore
+                        (profile) => profile.username !== props.profile.username
+                      )
+                    );
+
+                    props.onClose();
+                  } else {
+                    toast({
+                      title: "Fehler",
+                      description:
+                        "Beim Löschen des Profils ist ein Fehler aufgetreten.",
+                      status: "error",
+                      duration: 5000,
+                      isClosable: true,
+                      position: "top",
+                    });
+                  }
+                }}
+              >
+                Löschen
+              </Button>
+            </ButtonGroup>
+          </Box>
+        </Grid>
       </CodeUpModal>
     </>
   );
