@@ -59,24 +59,27 @@ export default async function handleRequest(
           $in: [username],
         },
       });
-      const filteredChats: {
-        id: string;
-        users: { username: string; displayName: string; verified: boolean }[];
-      }[] = [];
+      const filteredChats: any[] = [];
 
+      console.log(1);
       for (const chat of chats) {
         let users = [];
 
+        console.log(2);
         for (const username0 of chat.users) {
+          console.log(3);
+          console.log(username0);
           const profile = await ForumProfileModel.findOne({
             username: username0,
           });
+          console.log(profile);
 
           users.push({
             username: username0,
             displayName: profile.displayName,
             verified: profile.verified,
           });
+          console.log(users);
         }
         filteredChats.push({
           id: chat._id,
@@ -173,7 +176,8 @@ export default async function handleRequest(
     }
   } catch (e) {
     res.status(500).json({
-      error: e,
+      // @ts-ignore
+      error: e.message,
     });
   }
 }
