@@ -82,13 +82,6 @@ const theme = extendTheme({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
-  fetch("/api/forum/profiles").then((res) => {
-    res.json().then((data) => {
-      console.log(data);
-    });
-  });
-
   return (
     <>
       <DefaultSeo
