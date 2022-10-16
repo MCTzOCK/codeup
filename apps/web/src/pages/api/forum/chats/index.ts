@@ -59,14 +59,10 @@ export default async function handleRequest(
           $in: [username],
         },
       });
-      const filteredChats: {
-        id: string;
-        users: { username: string; displayName: string; verified: boolean }[];
-      }[] = [];
+      const filteredChats: any[] = [];
 
       for (const chat of chats) {
         let users = [];
-
         for (const username0 of chat.users) {
           const profile = await ForumProfileModel.findOne({
             username: username0,
@@ -173,7 +169,8 @@ export default async function handleRequest(
     }
   } catch (e) {
     res.status(500).json({
-      error: e,
+      // @ts-ignore
+      error: e.message,
     });
   }
 }

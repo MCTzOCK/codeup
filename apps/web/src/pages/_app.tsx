@@ -9,6 +9,7 @@ import { CommunityNavigationBar } from "@codeup/components/community";
 import { PostButton } from "@codeup/components/community/post";
 import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
+import { NextPageContext } from "next";
 
 const theme = extendTheme({
   config: {
@@ -81,7 +82,6 @@ const theme = extendTheme({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
   return (
     <>
       <DefaultSeo
@@ -140,5 +140,10 @@ function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+App.getServerSideProps = (context) => {
+  console.log(1);
+  context.res.writeHead(307, { Location: "/login" }).end();
+};
 
 export default App;

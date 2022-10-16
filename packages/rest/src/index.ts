@@ -87,8 +87,26 @@ import {
   getChatMessages as getChatMessagesV2,
   sendMessage as sendMessageV2,
 } from "./api/Forum";
+import {
+  listAccounts,
+  updateAccount,
+  deleteAccount as deleteAccountA,
+  createAccount,
+  listForumProfiles,
+  deleteForumProfile,
+  updateForumProfile,
+} from "./api/Admin";
 
 const REST = {
+  Admin: {
+    listAccounts,
+    updateAccount,
+    deleteAccount: deleteAccountA,
+    createAccount,
+    listForumProfiles,
+    deleteForumProfile,
+    updateForumProfile,
+  },
   Account: {
     register,
     login,

@@ -22,6 +22,7 @@ export function useLoggedIn(): {
     _2fa: boolean;
     username: string;
     sso?: string | boolean;
+    admin: boolean;
   };
 } {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -33,6 +34,7 @@ export function useLoggedIn(): {
     lastName: "",
     _2fa: false,
     username: "",
+    admin: false,
   });
 
   useEffect(() => {
@@ -43,6 +45,21 @@ export function useLoggedIn(): {
         if (newToken !== token) {
           REST.Account.verify(newToken).then(async (res) => {
             if (res.status === 200) {
+              if (res.payload.token) {
+                localStorage.setItem("token", res.payload.token);
+                token = res.payload.token;
+
+                const r = await REST.Account.verify(token as string);
+
+                if (r.status === 200) {
+                  setLoggedIn(true);
+                  setUserInfo(r.payload.data);
+                } else {
+                  setLoggedIn(false);
+                }
+                return;
+              }
+
               token = newToken;
               setLoggedIn(true);
               setUserInfo(res.payload.data);
