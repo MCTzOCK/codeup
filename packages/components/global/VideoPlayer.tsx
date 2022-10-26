@@ -24,24 +24,9 @@ export default function VideoPlayer(props: {
     }
   }, []);
 
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      // @ts-ignore
-      if (ref.current.plyr) {
-        // @ts-ignore
-        ref.current.plyr.on("pause", () => {
-          console.log("pause");
-        });
-      }
-    }
-  });
-
   return (
     <>
       <Plyr
-        ref={ref}
         source={{
           type: "video",
           title: "Intro",
