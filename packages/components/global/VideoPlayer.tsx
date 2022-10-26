@@ -9,14 +9,14 @@
  */
 
 import * as React from "react";
-import { useEffect, useState } from "react";
-import Plyr from "plyr-react";
-import "plyr-react/plyr.css"
+import { useEffect, useRef, useState } from "react";
+import Plyr, { usePlyr } from "plyr-react";
+import "plyr-react/plyr.css";
 
 export default function VideoPlayer(props: {
   url: string;
+  onEnded: () => void;
 }) {
-
   const [hasWindow, setHasWindow] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -24,31 +24,44 @@ export default function VideoPlayer(props: {
     }
   }, []);
 
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      // @ts-ignore
+      if (ref.current.plyr) {
+        // @ts-ignore
+        ref.current.plyr.on("pause", () => {
+          console.log("pause");
+        });
+      }
+    }
+  });
+
   return (
     <>
-      {
-        hasWindow && (
-          <>
-            <Plyr source={{
-              type: 'video',
-              title: 'Intro',
-              sources: [
-                {
-                  src: props.url,
-                  provider: 'youtube',
-                  size: 720,
-                },
-              ],
-              poster: '',
-              previewThumbnails: {
-                src: '',
-              },
-              tracks: [
-              ],
-            }} />
-          </>
-        )
-      }
+      <Plyr
+        ref={ref}
+        source={{
+          type: "video",
+          title: "Intro",
+          sources: [
+            {
+              src: props.url,
+              provider: "youtube",
+              size: 720,
+            },
+          ],
+          poster: "",
+          previewThumbnails: {
+            src: "",
+          },
+          tracks: [],
+        }}
+        onPause={() => {
+          alert("Video paused");
+        }}
+      />
     </>
   );
 }
