@@ -33,7 +33,12 @@ export default function BasicsV2() {
           direction={"column"}
         >
           <Box w={"1080px"} h={"720px"}>
-            <VideoPlayer url={"https://www.youtube.com/watch?v=tKlkDMoHmM8"} />
+            <VideoPlayer
+              url={"https://www.youtube.com/watch?v=tKlkDMoHmM8"}
+              onEnded={() => {
+                alert("Video ended");
+              }}
+            />
           </Box>
 
           <Heading size="lg" textAlign={"center"}>
