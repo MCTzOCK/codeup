@@ -64,10 +64,6 @@ export default function New() {
     );
   }, []);
 
-  useEffect(() => {
-    console.log(quizQuestions);
-  }, [quizQuestions]);
-
   return (
     <>
       <AdminLayout>
@@ -80,6 +76,42 @@ export default function New() {
               <form
                 onSubmit={async (e) => {
                   e.preventDefault();
+
+                  const data = new FormData(e.target as HTMLFormElement);
+
+                  const title = data.get("title") as string;
+                  const friendlyName = data.get("friendlyName") as string;
+                  const youtubeURL = ("https://www.youtube.com/watch?v=" +
+                    data.get("youtubeId")) as string;
+                  const course = data.get("course") as string;
+                  const transcript = data.get("transcript") as string;
+                  const quiz = quizQuestions;
+
+                  console.table({
+                    title,
+                    friendlyName,
+                    youtubeURL,
+                    course,
+                    transcript,
+                    quiz,
+                  });
+
+                  const res = await REST.Admin.createVideo({
+                    token: localStorage.getItem("token") as string,
+                    title,
+                    friendlyName,
+                    youtubeURL,
+                    course,
+                    transcript,
+                    quiz,
+                  });
+
+                  if (res.status === 200) {
+                    router.push("/admin/contents/videos");
+                  } else {
+                    alert("Error. View console for more information.");
+                    console.error(res);
+                  }
                 }}
               >
                 <FormControl isRequired>
@@ -123,11 +155,11 @@ export default function New() {
                   </InputGroup>
                 </FormControl>
                 <FormControl mt={"2rem"} isRequired>
-                  <FormLabel>Kurs</FormLabel>
+                  <FormLabel>Kurs Zugehörigkeit</FormLabel>
                   <Select name={"course"}>
                     <option value={"__codeup.no_course"}>Kein Kurs</option>
-                    {courses?.map((course: string) => (
-                      <option value={course}>{course}</option>
+                    {courses?.map((course: any) => (
+                      <option value={course.id}>{course.name}</option>
                     ))}
                   </Select>
                 </FormControl>

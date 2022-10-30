@@ -99,6 +99,7 @@ import {
   listCourses,
   deleteCourse,
   updateCourse,
+  createVideo,
 } from "./api/Admin";
 
 const REST = {
@@ -114,6 +115,7 @@ const REST = {
     listCourses,
     deleteCourse,
     updateCourse,
+    createVideo,
   },
   Account: {
     register,

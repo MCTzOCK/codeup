@@ -172,3 +172,27 @@ export async function updateCourse(options: {
     },
   });
 }
+
+export async function createVideo(options: {
+  token: string;
+  title: string;
+  friendlyName: string;
+  youtubeURL: string;
+  course: string;
+  transcript: string;
+  quiz: any;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/video/create",
+    body: {
+      title: options.title,
+      friendlyName: options.friendlyName,
+      youtubeURL: options.youtubeURL,
+      course: options.course,
+      transcript: options.transcript,
+      quiz: options.quiz,
+    },
+  });
+}

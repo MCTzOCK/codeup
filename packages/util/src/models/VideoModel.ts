@@ -36,11 +36,6 @@ const Video = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
-  available: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
   quiz: {
     // questions
     type: [
