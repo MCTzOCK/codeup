@@ -48,7 +48,7 @@ export default function AdminDashboard() {
     {
       title: "Inhalte",
       description: "Verwalte alle Inhalte (Kurse, Texte, Videos)",
-      link: "/admin/contents",
+      link: "/admin/contents/courses",
       icon: <FaBookOpen />,
     },
   ];
