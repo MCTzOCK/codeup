@@ -111,3 +111,31 @@ export async function updateForumProfile(options: {
     },
   });
 }
+
+export async function listCourses(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/courses/list",
+  });
+}
+
+export async function createCourse(options: {
+  token: string;
+  name: string;
+  friendlyName: string;
+  description: string;
+  splashImage: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/courses/create",
+    body: {
+      name: options.name,
+      friendlyName: options.friendlyName,
+      description: options.description,
+      splashImage: options.splashImage,
+    },
+  });
+}

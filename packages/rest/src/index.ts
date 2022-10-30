@@ -95,6 +95,8 @@ import {
   listForumProfiles,
   deleteForumProfile,
   updateForumProfile,
+  createCourse,
+  listCourses,
 } from "./api/Admin";
 
 const REST = {
@@ -106,6 +108,8 @@ const REST = {
     listForumProfiles,
     deleteForumProfile,
     updateForumProfile,
+    createCourse,
+    listCourses,
   },
   Account: {
     register,
