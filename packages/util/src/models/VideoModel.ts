@@ -37,7 +37,6 @@ const Video = new mongoose.Schema({
     immutable: true,
   },
   quiz: {
-    // questions
     type: [
       {
         question: {
