@@ -97,6 +97,7 @@ import {
   updateForumProfile,
   createCourse,
   listCourses,
+  deleteCourse,
 } from "./api/Admin";
 
 const REST = {
@@ -110,6 +111,7 @@ const REST = {
     updateForumProfile,
     createCourse,
     listCourses,
+    deleteCourse,
   },
   Account: {
     register,

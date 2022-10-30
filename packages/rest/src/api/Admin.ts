@@ -139,3 +139,17 @@ export async function createCourse(options: {
     },
   });
 }
+
+export async function deleteCourse(options: {
+  token: string;
+  friendlyName: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/course/delete",
+    body: {
+      friendlyName: options.friendlyName,
+    },
+  });
+}

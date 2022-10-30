@@ -42,6 +42,10 @@ export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
+    refresh();
+  }, []);
+
+  const refresh = () => {
     REST.Admin.listCourses(localStorage.getItem("token") as string).then(
       (res) => {
         if (res.status === 200) {
@@ -49,7 +53,7 @@ export default function Index() {
         }
       }
     );
-  }, []);
+  };
 
   return (
     <>
@@ -118,6 +122,14 @@ export default function Index() {
                           colorScheme={"red"}
                           leftIcon={<FaTrash />}
                           w={"100%"}
+                          onClick={async () => {
+                            await REST.Admin.deleteCourse({
+                              token: localStorage.getItem("token") as string,
+                              friendlyName: course.friendlyName,
+                            });
+
+                            refresh();
+                          }}
                         >
                           Löschen
                         </Button>
