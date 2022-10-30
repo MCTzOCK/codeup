@@ -15,10 +15,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Flex,
+  FormControl,
   Grid,
   GridItem,
   Heading,
@@ -27,6 +30,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
+  Select,
   Textarea,
 } from "@chakra-ui/react";
 import {
@@ -112,6 +116,7 @@ export default function Index() {
                               const friendlyName = data.get(
                                 "friendlyName"
                               ) as string;
+                              const available = data.get("available") as any;
                               const description = data.get(
                                 "description"
                               ) as string;
@@ -136,10 +141,13 @@ export default function Index() {
                                       friendlyName === ""
                                         ? course.friendlyName
                                         : friendlyName,
+                                    // @ts-ignore
+                                    available: available === "public",
                                     description:
                                       description === ""
                                         ? course.description
                                         : description,
+                                    // @ts-ignore
                                     splashImage:
                                       FR.result ===
                                       "data:application/octet-stream;base64,"
@@ -222,6 +230,16 @@ export default function Index() {
                                 defaultValue={course.friendlyName}
                               />
                             </InputGroup>
+                            <Select
+                              name={"available"}
+                              mt={"2rem"}
+                              defaultValue={
+                                course.available ? "public" : "private"
+                              }
+                            >
+                              <option value={"public"}>Öffentlich</option>
+                              <option value={"private"}>Privat</option>
+                            </Select>
                             <Textarea
                               placeholder={"Beschreibung"}
                               mt={"2rem"}
@@ -274,6 +292,26 @@ export default function Index() {
                             textAlign={"left"}
                           >
                             /course/{course.friendlyName}
+                          </Heading>
+                          <Heading
+                            size={"md"}
+                            color={"gray.400"}
+                            fontWeight={"normal"}
+                            textAlign={"left"}
+                          >
+                            {course.available ? (
+                              <>
+                                <Badge colorScheme={"green"} fontSize={"md"}>
+                                  Öffentlich
+                                </Badge>
+                              </>
+                            ) : (
+                              <>
+                                <Badge colorScheme={"red"} fontSize={"md"}>
+                                  Privat
+                                </Badge>
+                              </>
+                            )}
                           </Heading>
                           <Heading
                             size={"md"}
