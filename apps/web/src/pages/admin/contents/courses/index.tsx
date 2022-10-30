@@ -24,8 +24,19 @@ import {
   Heading,
   Icon,
   Image,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Textarea,
 } from "@chakra-ui/react";
-import { FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaPen,
+  FaPlus,
+  FaRegTimesCircle,
+  FaTimesCircle,
+  FaTrash,
+} from "react-icons/fa";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -54,6 +65,8 @@ export default function Index() {
       }
     );
   };
+
+  const [edit, setEdit] = React.useState<string>("");
 
   return (
     <>
@@ -85,62 +98,220 @@ export default function Index() {
                       direction={"column"}
                       gap={2}
                     >
-                      <Image
-                        src={course.splashImage}
-                        alt={course.name}
-                        shadow={"xl"}
-                        w={"100%"}
-                        h={"150px"}
-                      />
-                      <Heading
-                        size={"lg"}
-                        color={"white"}
-                        fontWeight={"bold"}
-                        textAlign={"left"}
-                        mt={4}
-                      >
-                        {course.name}
-                      </Heading>
-                      <Heading
-                        size={"sm"}
-                        color={"gray.400"}
-                        fontWeight={"normal"}
-                        textAlign={"left"}
-                      >
-                        /course/{course.friendlyName}
-                      </Heading>
-                      <Heading
-                        size={"md"}
-                        color={"gray.400"}
-                        fontWeight={"normal"}
-                        textAlign={"left"}
-                      >
-                        {course.description}
-                      </Heading>
-                      <ButtonGroup mt={6}>
-                        <Button
-                          colorScheme={"red"}
-                          leftIcon={<FaTrash />}
-                          w={"100%"}
-                          onClick={async () => {
-                            await REST.Admin.deleteCourse({
-                              token: localStorage.getItem("token") as string,
-                              friendlyName: course.friendlyName,
-                            });
+                      {edit === course.friendlyName ? (
+                        <>
+                          <form
+                            onSubmit={(e) => {
+                              e.preventDefault();
 
-                            refresh();
-                          }}
-                        >
-                          Löschen
-                        </Button>
-                        <Button
-                          colorScheme={"blue"}
-                          leftIcon={<FaPen />}
-                          w={"100%"}
-                        >
-                          Bearbeiten
-                        </Button>
-                      </ButtonGroup>
+                              const data = new FormData(
+                                e.target as HTMLFormElement
+                              );
+
+                              const name = data.get("name") as string;
+                              const friendlyName = data.get(
+                                "friendlyName"
+                              ) as string;
+                              const description = data.get(
+                                "description"
+                              ) as string;
+                              const splashImage = data.get(
+                                "splashImage"
+                              ) as File;
+
+                              const FR = new FileReader();
+
+                              FR.readAsDataURL(splashImage);
+
+                              FR.onload = async () => {
+                                const res = await REST.Admin.updateCourse({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  // @ts-ignore
+                                  id: course._id,
+                                  update: {
+                                    name: name === "" ? course.name : name,
+                                    friendlyName:
+                                      friendlyName === ""
+                                        ? course.friendlyName
+                                        : friendlyName,
+                                    description:
+                                      description === ""
+                                        ? course.description
+                                        : description,
+                                    splashImage:
+                                      FR.result ===
+                                      "data:application/octet-stream;base64,"
+                                        ? course.splashImage
+                                        : FR.result,
+                                  },
+                                });
+
+                                refresh();
+                                setEdit("");
+                              };
+                            }}
+                          >
+                            <Image
+                              src={course.splashImage}
+                              alt={course.name}
+                              shadow={"xl"}
+                              w={"100%"}
+                              h={"150px"}
+                              cursor={"pointer"}
+                              _hover={{
+                                filter: "brightness(0.5)",
+                              }}
+                              transition={"filter 0.25s ease"}
+                              onClick={() => {
+                                document
+                                  .getElementById(
+                                    `edit_${course.friendlyName}-splashImage`
+                                  )
+                                  ?.click();
+                              }}
+                              id={
+                                "edit_" +
+                                course.friendlyName +
+                                "-splashImage_Image"
+                              }
+                            />
+                            <input
+                              type={"file"}
+                              name={"splashImage"}
+                              id={
+                                "edit_" + course.friendlyName + "-splashImage"
+                              }
+                              style={{
+                                display: "none",
+                              }}
+                              onChange={(e) => {
+                                const file = e.target.files?.item(0);
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.readAsDataURL(file);
+                                  reader.onload = () => {
+                                    if (reader.result) {
+                                      document
+                                        .getElementById(
+                                          "edit_" +
+                                            course.friendlyName +
+                                            "-splashImage_Image"
+                                        )!
+                                        .setAttribute(
+                                          "src",
+                                          reader.result as string
+                                        );
+                                    }
+                                  };
+                                }
+                              }}
+                            />
+                            <Input
+                              placeholder={"Name"}
+                              name={"name"}
+                              defaultValue={course.name}
+                              mt={"2rem"}
+                            />
+                            <InputGroup mt={"2rem"}>
+                              <InputLeftAddon>/course/</InputLeftAddon>
+                              <Input
+                                placeholder={"URL Freundlicher Name"}
+                                name={"friendlyName"}
+                                defaultValue={course.friendlyName}
+                              />
+                            </InputGroup>
+                            <Textarea
+                              placeholder={"Beschreibung"}
+                              mt={"2rem"}
+                              name={"description"}
+                              defaultValue={course.description}
+                            />
+                            <ButtonGroup mt={"2rem"} w={"100%"}>
+                              <Button
+                                colorScheme={"red"}
+                                leftIcon={<FaTimesCircle />}
+                                w={"100%"}
+                                onClick={() => setEdit("")}
+                              >
+                                Abbrechen
+                              </Button>
+
+                              <Button
+                                colorScheme={"green"}
+                                leftIcon={<FaCheckCircle />}
+                                w={"100%"}
+                                type={"submit"}
+                              >
+                                Speichern
+                              </Button>
+                            </ButtonGroup>
+                          </form>
+                        </>
+                      ) : (
+                        <>
+                          <Image
+                            src={course.splashImage}
+                            alt={course.name}
+                            shadow={"xl"}
+                            w={"100%"}
+                            h={"150px"}
+                          />
+                          <Heading
+                            size={"lg"}
+                            color={"white"}
+                            fontWeight={"bold"}
+                            textAlign={"left"}
+                            mt={4}
+                          >
+                            {course.name}
+                          </Heading>
+                          <Heading
+                            size={"sm"}
+                            color={"gray.400"}
+                            fontWeight={"normal"}
+                            textAlign={"left"}
+                          >
+                            /course/{course.friendlyName}
+                          </Heading>
+                          <Heading
+                            size={"md"}
+                            color={"gray.400"}
+                            fontWeight={"normal"}
+                            textAlign={"left"}
+                          >
+                            {course.description}
+                          </Heading>
+                          <ButtonGroup mt={6}>
+                            <Button
+                              colorScheme={"red"}
+                              leftIcon={<FaTrash />}
+                              w={"100%"}
+                              onClick={async () => {
+                                await REST.Admin.deleteCourse({
+                                  token: localStorage.getItem(
+                                    "token"
+                                  ) as string,
+                                  friendlyName: course.friendlyName,
+                                });
+
+                                refresh();
+                              }}
+                            >
+                              Löschen
+                            </Button>
+                            <Button
+                              colorScheme={"blue"}
+                              leftIcon={<FaPen />}
+                              w={"100%"}
+                              onClick={() => setEdit(course.friendlyName)}
+                            >
+                              Bearbeiten
+                            </Button>
+                          </ButtonGroup>
+                        </>
+                      )}
                     </Flex>
                   </Box>
                 </GridItem>

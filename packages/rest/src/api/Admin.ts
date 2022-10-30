@@ -153,3 +153,19 @@ export async function deleteCourse(options: {
     },
   });
 }
+
+export async function updateCourse(options: {
+  token: string;
+  id: string;
+  update: { [key: string]: string };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/course/edit",
+    body: {
+      id: options.id,
+      update: options.update,
+    },
+  });
+}
