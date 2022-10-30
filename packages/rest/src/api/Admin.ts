@@ -116,7 +116,7 @@ export async function listCourses(token: string): Promise<IResponse> {
   return makeRequest({
     method: "GET",
     token,
-    path: "/api/admin/courses/list",
+    path: "/api/admin/course/list",
   });
 }
 
@@ -130,7 +130,7 @@ export async function createCourse(options: {
   return makeRequest({
     method: "POST",
     token: options.token,
-    path: "/api/admin/courses/create",
+    path: "/api/admin/course/create",
     body: {
       name: options.name,
       friendlyName: options.friendlyName,

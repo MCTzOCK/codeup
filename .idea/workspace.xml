@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/create.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/list.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/CourseModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/new.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/videos/new.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminContentsLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminContentsLayout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +29,8 @@
         <option value="com.haulmont.rcb.useInitial" />
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -67,7 +67,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "18.7.0",
     "javascript.nodejs.core.library.typings.version": "18.7.0",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/admin/contents",
+    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/admin/contents/videos",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -96,11 +96,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\admin\contents\videos" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\admin\contents" />
       <recent name="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles" />
       <recent name="$PROJECT_DIR$/apps/web/src/pages/api/admin/account" />
       <recent name="$PROJECT_DIR$/apps/web/src/pages" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\forum" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/web/src/pages/codeup" />

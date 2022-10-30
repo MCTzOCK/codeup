@@ -25,7 +25,17 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { FaBookOpen, FaPlus, FaUserCircle, FaVideo } from "react-icons/fa";
+import {
+  FaBookOpen,
+  FaCartPlus,
+  FaFileArchive,
+  FaFileVideo,
+  FaFolderPlus,
+  FaPlus,
+  FaSearchPlus,
+  FaUserCircle,
+  FaVideo,
+} from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 
@@ -42,6 +52,16 @@ export default function AdminContentsLayout(props: { children: ReactNode }) {
       name: "Alle Videos",
       url: "/admin/contents/videos",
       icon: <FaVideo />,
+    },
+    {
+      name: "Neuer Kurs",
+      url: "/admin/contents/courses/new",
+      icon: <FaFileArchive />,
+    },
+    {
+      name: "Neues Video",
+      url: "/admin/contents/videos/new",
+      icon: <FaFileVideo />,
     },
   ];
 
