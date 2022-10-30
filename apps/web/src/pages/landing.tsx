@@ -12,6 +12,7 @@ import * as React from "react";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Grid,
   Heading,
@@ -25,6 +26,7 @@ import Link from "next/link";
 import Typed from "react-typed";
 import { motion } from "framer-motion";
 import { FaBook, FaCode, FaProjectDiagram } from "react-icons/fa";
+import VideoPlayer from "@codeup/components/global/VideoPlayer";
 
 export default function Landing() {
   const spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
@@ -135,6 +137,7 @@ export default function Landing() {
               restDelta: 0.001,
             },
           }}
+          viewport={{ once: true }}
         >
           <Heading
             color={"white"}
@@ -147,8 +150,9 @@ export default function Landing() {
           </Heading>
         </motion.div>
         <Grid
-          templateColumns={["1fr", "1fr 1fr 1fr"]}
-          gap={6}
+          templateColumns={"1fr"}
+          maxW={[null, "40%"]}
+          gap={"6rem"}
           w={"100%"}
           p={["1rem", "2rem"]}
           mt={["1rem", "2rem"]}
@@ -172,6 +176,7 @@ export default function Landing() {
                       restDelta: 0.001,
                     },
                   }}
+                  viewport={{ once: true }}
                 >
                   <Box
                     bg={"gray.800"}
@@ -225,6 +230,40 @@ export default function Landing() {
             );
           })}
         </Grid>
+        <Divider mt="4rem" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{
+            delay: 0.5,
+            default: {
+              duration: 0.3,
+              ease: [0, 0.71, 0.2, 1.01],
+            },
+            scale: {
+              type: "spring",
+              damping: 5,
+              stiffness: 100,
+              restDelta: 0.001,
+            },
+          }}
+          viewport={{ once: true }}
+        >
+          <Heading
+            mt={"4rem"}
+            mb={"4rem"}
+            color={"white"}
+            fontSize={["2rem", "4rem"]}
+            fontFamily={"ARCADE"}
+            textAlign={"center"}
+            id="landing-title"
+          >
+            CodeUp in 100 Sekunden
+          </Heading>
+        </motion.div>
+        <Box w={"1080px"} h={"720px"}>
+          <VideoPlayer url={"https://youtu.be/p1inZ7hvz70"} />
+        </Box>
       </Flex>
     </>
   );

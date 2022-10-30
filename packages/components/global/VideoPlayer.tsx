@@ -13,17 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import Plyr, { usePlyr } from "plyr-react";
 import "plyr-react/plyr.css";
 
-export default function VideoPlayer(props: {
-  url: string;
-  onEnded: () => void;
-}) {
-  const [hasWindow, setHasWindow] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setHasWindow(true);
-    }
-  }, []);
-
+export default function VideoPlayer(props: { url: string }) {
   return (
     <>
       <Plyr
@@ -42,9 +32,6 @@ export default function VideoPlayer(props: {
             src: "",
           },
           tracks: [],
-        }}
-        onPause={() => {
-          alert("Video paused");
         }}
       />
     </>
