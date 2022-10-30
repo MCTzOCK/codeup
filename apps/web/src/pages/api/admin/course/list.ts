@@ -58,6 +58,13 @@ export default async function handleRequest(
 
     const courses = await CourseModel.find();
 
+    if (req.query.list) {
+      res.status(200).json({
+        courses: courses.map((c) => c.friendlyName),
+      });
+      return;
+    }
+
     res.status(200).json({
       courses,
     });
