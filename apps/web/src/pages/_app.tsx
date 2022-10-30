@@ -141,9 +141,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-App.getServerSideProps = (context) => {
-  console.log(1);
-  context.res.writeHead(307, { Location: "/login" }).end();
-};
-
 export default App;

@@ -9,6 +9,7 @@
     "next:lint": "next lint"
   },
   "dependencies": {
+    "@animxyz/react": "^0.6.7",
     "@chakra-ui/react": "^2.1.2",
     "@codeup/components": "*",
     "@codeup/hooks": "*",
@@ -62,6 +63,7 @@
     "react-icons": "^4.4.0",
     "react-markdown": "^8.0.3",
     "react-player": "^2.11.0",
+    "react-typed": "^1.2.0",
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
     "sass": "^1.54.0",
