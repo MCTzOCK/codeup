@@ -196,3 +196,11 @@ export async function createVideo(options: {
     },
   });
 }
+
+export async function listVideos(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/video/list",
+  });
+}
