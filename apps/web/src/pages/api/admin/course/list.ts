@@ -60,7 +60,7 @@ export default async function handleRequest(
 
     if (req.query.list) {
       res.status(200).json({
-        courses: courses.map((c) => c.friendlyName),
+        courses: courses.map((c) => c.name),
       });
       return;
     }

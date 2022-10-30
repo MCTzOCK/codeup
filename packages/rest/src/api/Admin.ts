@@ -112,11 +112,14 @@ export async function updateForumProfile(options: {
   });
 }
 
-export async function listCourses(token: string): Promise<IResponse> {
+export async function listCourses(
+  token: string,
+  names_only: boolean = false
+): Promise<IResponse> {
   return makeRequest({
     method: "GET",
     token,
-    path: "/api/admin/course/list",
+    path: `/api/admin/course/list${names_only ? "?list=true" : ""}`,
   });
 }
 
