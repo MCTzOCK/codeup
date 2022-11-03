@@ -104,8 +104,7 @@ export default function Videos() {
   const videoToRow = (video: any) => {
     return [
       () => {
-        setCurrentVideo(video);
-        // onOpen();
+        router.push(`/admin/contents/videos/${video.youtube.split("=")[1]}`);
       },
       <Image
         src={`https://i.ytimg.com/vi/${video.youtube.split("=")[1]}/hq720.jpg`}
@@ -115,7 +114,6 @@ export default function Videos() {
       <>
         <Text>{video.name}</Text>
       </>,
-
       <>
         <Text>{courses?.find((c) => c.id === video.course)?.name}</Text>
       </>,

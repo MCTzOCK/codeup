@@ -20,7 +20,7 @@ export default async function handleRequest(
   if (
     req.method !== "GET" &&
     req.method !== "POST" &&
-    !req.method !== "DELETE"
+    req.method !== "DELETE"
   ) {
     res.status(405).json({
       error: "Method not allowed",
