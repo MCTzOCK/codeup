@@ -101,6 +101,9 @@ import {
   updateCourse,
   createVideo,
   listVideos,
+  deleteVideo,
+  getVideo,
+  updateVideo,
 } from "./api/Admin";
 
 const REST = {
@@ -118,6 +121,9 @@ const REST = {
     updateCourse,
     createVideo,
     listVideos,
+    deleteVideo,
+    getVideo,
+    updateVideo,
   },
   Account: {
     register,

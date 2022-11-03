@@ -204,3 +204,40 @@ export async function listVideos(token: string): Promise<IResponse> {
     path: "/api/admin/video/list",
   });
 }
+
+export async function getVideo(options: {
+  token: string;
+  vid: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: `/api/admin/video/youtube/${options.vid}`,
+  });
+}
+
+export async function deleteVideo(options: {
+  token: string;
+  vid: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: `/api/admin/video/youtube/${options.vid}`,
+  });
+}
+
+export async function updateVideo(options: {
+  token: string;
+  vid: string;
+  update: { [key: string]: string };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: `/api/admin/video/youtube/${options.vid}`,
+    body: {
+      update: options.update,
+    },
+  });
+}
