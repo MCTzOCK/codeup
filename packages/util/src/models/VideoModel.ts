@@ -30,6 +30,7 @@ const Video = new mongoose.Schema({
   youtube: {
     type: String,
     required: true,
+    unique: true,
   },
   createdAt: {
     type: Date,

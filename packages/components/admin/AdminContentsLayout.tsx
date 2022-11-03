@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import {
   Box,
@@ -38,6 +38,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BsFillHouseDoorFill } from "react-icons/bs";
+import REST from "@codeup/rest";
 
 export default function AdminContentsLayout(props: { children: ReactNode }) {
   const router = useRouter();
