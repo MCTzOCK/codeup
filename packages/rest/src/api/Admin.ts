@@ -260,7 +260,7 @@ export async function createText(options: {
       title: options.title,
       friendlyName: options.friendlyName,
       course: options.course,
-      transcript: options.content,
+      content: options.content,
       quiz: options.quiz,
     },
   });

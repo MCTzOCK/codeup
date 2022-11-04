@@ -10,7 +10,6 @@
 
 import * as React from "react";
 import { ReactNode, useEffect } from "react";
-
 import {
   Box,
   Button,
@@ -29,8 +28,10 @@ import {
   FaBookOpen,
   FaCartPlus,
   FaFileArchive,
+  FaFilePdf,
   FaFileVideo,
   FaFolderPlus,
+  FaPenFancy,
   FaPlus,
   FaSearchPlus,
   FaUserCircle,
@@ -55,6 +56,11 @@ export default function AdminContentsLayout(props: { children: ReactNode }) {
       icon: <FaVideo />,
     },
     {
+      name: "Alle Texte",
+      url: "/admin/contents/texts",
+      icon: <FaPenFancy />,
+    },
+    {
       name: "Neuer Kurs",
       url: "/admin/contents/courses/new",
       icon: <FaFileArchive />,
@@ -63,6 +69,11 @@ export default function AdminContentsLayout(props: { children: ReactNode }) {
       name: "Neues Video",
       url: "/admin/contents/videos/new",
       icon: <FaFileVideo />,
+    },
+    {
+      name: "Neuer Text",
+      url: "/admin/contents/texts/new",
+      icon: <FaFilePdf />,
     },
   ];
 
