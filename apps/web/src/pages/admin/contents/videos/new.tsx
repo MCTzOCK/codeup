@@ -92,15 +92,6 @@ export default function New() {
                   const course = data.get("course") as string;
                   const quiz = quizQuestions;
 
-                  console.table({
-                    title,
-                    friendlyName,
-                    youtubeURL,
-                    course,
-                    transcript,
-                    quiz,
-                  });
-
                   const res = await REST.Admin.createVideo({
                     token: localStorage.getItem("token") as string,
                     title,
