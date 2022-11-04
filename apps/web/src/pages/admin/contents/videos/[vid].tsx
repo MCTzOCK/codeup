@@ -212,7 +212,7 @@ export default function VideoViewer() {
                       </InputGroup>
                     </FormControl>
                     <FormControl mt={"2rem"} isRequired>
-                      <FormLabel>Transkript</FormLabel>
+                      <FormLabel>Transkript / Beschreibung</FormLabel>
                       {navigator ? (
                         <>
                           <SimpleMdeReact

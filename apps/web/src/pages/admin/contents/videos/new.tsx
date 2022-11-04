@@ -160,15 +160,11 @@ export default function New() {
                   </Select>
                 </FormControl>
                 <FormControl mt={"2rem"} isRequired>
-                  <FormLabel>Transkript</FormLabel>
-                  {navigator ? (
-                    <>
-                      <SimpleMdeReact
-                        value={transcript}
-                        onChange={(e) => setTranscript(e)}
-                      />
-                    </>
-                  ) : null}
+                  <FormLabel>Transkript / Beschreibung</FormLabel>
+                  <SimpleMdeReact
+                    value={transcript}
+                    onChange={(e) => setTranscript(e)}
+                  />
                 </FormControl>
                 <Heading size={"md"} mt={"2rem"}>
                   Quiz
