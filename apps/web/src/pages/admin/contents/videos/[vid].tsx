@@ -37,6 +37,11 @@ import REST from "@codeup/rest";
 import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
 import { useEffect, useState } from "react";
 import { FaBookOpen, FaGlobe, FaTrash } from "react-icons/fa";
+import dynamic from "next/dynamic";
+const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
+  ssr: false,
+});
+import "easymde/dist/easymde.min.css";
 
 export default function VideoViewer() {
   const router = useRouter();
@@ -70,6 +75,7 @@ export default function VideoViewer() {
           setVideo(res.payload.video);
           setLoaded(true);
           setQuizQuestions(res.payload.video.quiz);
+          setTranscript(res.payload.video.transcript);
         } else {
           router.push("/admin/contents/videos");
         }
@@ -98,6 +104,8 @@ export default function VideoViewer() {
       }
     );
   }, []);
+
+  const [transcript, setTranscript] = useState<string>("");
 
   return (
     <>
@@ -138,7 +146,6 @@ export default function VideoViewer() {
                       const title = data.get("title") as string;
                       const friendlyName = data.get("friendlyName") as string;
                       const course = data.get("course") as string;
-                      const transcript = data.get("transcript") as string;
                       const quiz = quizQuestions;
 
                       const res = await REST.Admin.updateVideo({
@@ -205,12 +212,14 @@ export default function VideoViewer() {
                     </FormControl>
                     <FormControl mt={"2rem"} isRequired>
                       <FormLabel>Transkript</FormLabel>
-                      <Textarea
-                        name={"transcript"}
-                        placeholder={"Transkript"}
-                        required
-                        defaultValue={video?.transcript}
-                      />
+                      {navigator ? (
+                        <>
+                          <SimpleMdeReact
+                            value={transcript}
+                            onChange={(e) => setTranscript(e)}
+                          />
+                        </>
+                      ) : null}
                     </FormControl>
                     <Heading size={"md"} mt={"2rem"}>
                       Quiz
