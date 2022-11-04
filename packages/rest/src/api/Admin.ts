@@ -241,3 +241,72 @@ export async function updateVideo(options: {
     },
   });
 }
+
+/** **/
+
+export async function createText(options: {
+  token: string;
+  title: string;
+  friendlyName: string;
+  course: string;
+  content: string;
+  quiz: any;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/text/create",
+    body: {
+      title: options.title,
+      friendlyName: options.friendlyName,
+      course: options.course,
+      transcript: options.content,
+      quiz: options.quiz,
+    },
+  });
+}
+
+export async function listTexts(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/text/list",
+  });
+}
+
+export async function getText(options: {
+  token: string;
+  tid: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: `/api/admin/text/${options.tid}`,
+  });
+}
+
+export async function deleteText(options: {
+  token: string;
+  tid: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: `/api/admin/text/${options.tid}`,
+  });
+}
+
+export async function updateText(options: {
+  token: string;
+  tid: string;
+  update: { [key: string]: string };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: `/api/admin/text/${options.tid}`,
+    body: {
+      update: options.update,
+    },
+  });
+}
