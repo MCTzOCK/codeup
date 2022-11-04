@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import {
   Box,
   Button,
+  ButtonGroup,
   CircularProgress,
   Flex,
   FormControl,
@@ -36,7 +37,7 @@ import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
 import { useEffect, useState } from "react";
-import { FaBookOpen, FaGlobe, FaTrash } from "react-icons/fa";
+import { FaBookOpen, FaCheck, FaGlobe, FaTrash } from "react-icons/fa";
 import dynamic from "next/dynamic";
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -355,7 +356,7 @@ export default function VideoViewer() {
                                   ).value = "";
                                 }}
                               >
-                                Erstelen
+                                Erstellen
                               </Button>
                             </Td>
                             <Td></Td>
@@ -363,14 +364,36 @@ export default function VideoViewer() {
                         </Tbody>
                       </Table>
                     </TableContainer>
-                    <Button
-                      type={"submit"}
-                      colorScheme={"green"}
-                      mt={"2rem"}
-                      w={"100%"}
-                    >
-                      Bestätigen
-                    </Button>
+                    <ButtonGroup w={"100%"} mt={"2rem"}>
+                      <Button
+                        type={"submit"}
+                        colorScheme={"green"}
+                        flex={"100%"}
+                        leftIcon={<FaCheck />}
+                      >
+                        Bestätigen
+                      </Button>
+
+                      <Button
+                        colorScheme={"red"}
+                        flex={"100%"}
+                        leftIcon={<FaTrash />}
+                        onClick={async () => {
+                          if (
+                            confirm("Soll das Video wirklich gelöscht werden?")
+                          ) {
+                            await REST.Admin.deleteVideo({
+                              token: localStorage.getItem("token") as string,
+                              vid: router.query.vid as string,
+                            });
+
+                            router.push("/admin/contents/videos");
+                          }
+                        }}
+                      >
+                        Löschen
+                      </Button>
+                    </ButtonGroup>
                   </form>
                 </Box>
               </Box>

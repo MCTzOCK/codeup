@@ -38,6 +38,11 @@ import REST from "@codeup/rest";
 import { Promise } from "mongoose";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
+  ssr: false,
+});
+import "easymde/dist/easymde.min.css";
 
 export default function New() {
   const router = useRouter();
@@ -63,6 +68,7 @@ export default function New() {
       }
     );
   }, []);
+  const [transcript, setTranscript] = useState<string>("");
 
   return (
     <>
@@ -84,7 +90,6 @@ export default function New() {
                   const youtubeURL = ("https://www.youtube.com/watch?v=" +
                     data.get("youtubeId")) as string;
                   const course = data.get("course") as string;
-                  const transcript = data.get("transcript") as string;
                   const quiz = quizQuestions;
 
                   console.table({
@@ -165,11 +170,14 @@ export default function New() {
                 </FormControl>
                 <FormControl mt={"2rem"} isRequired>
                   <FormLabel>Transkript</FormLabel>
-                  <Textarea
-                    name={"transcript"}
-                    placeholder={"Transkript"}
-                    required
-                  />
+                  {navigator ? (
+                    <>
+                      <SimpleMdeReact
+                        value={transcript}
+                        onChange={(e) => setTranscript(e)}
+                      />
+                    </>
+                  ) : null}
                 </FormControl>
                 <Heading size={"md"} mt={"2rem"}>
                   Quiz
