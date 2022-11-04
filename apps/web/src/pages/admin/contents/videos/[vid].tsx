@@ -43,6 +43,7 @@ const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
 });
 import "easymde/dist/easymde.min.css";
+import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 
 export default function VideoViewer() {
   const router = useRouter();
@@ -213,157 +214,15 @@ export default function VideoViewer() {
                     </FormControl>
                     <FormControl mt={"2rem"} isRequired>
                       <FormLabel>Transkript / Beschreibung</FormLabel>
-                      {navigator ? (
-                        <>
-                          <SimpleMdeReact
-                            value={transcript}
-                            onChange={(e) => setTranscript(e)}
-                          />
-                        </>
-                      ) : null}
+                      <SimpleMdeReact
+                        value={transcript}
+                        onChange={(e) => setTranscript(e)}
+                      />
                     </FormControl>
-                    <Heading size={"md"} mt={"2rem"}>
-                      Quiz
-                    </Heading>
-                    <TableContainer mt={"2rem"}>
-                      <Table variant="simple">
-                        <Thead>
-                          <Tr>
-                            <Th>Frage</Th>
-                            <Th>Antworten</Th>
-                            <Th>Aktion</Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {quizQuestions.map((question, index) => (
-                            <Tr>
-                              <Td>
-                                {question.question}
-                                <IconButton
-                                  aria-label={"Löschen"}
-                                  icon={<FaTrash />}
-                                  ml={"1rem"}
-                                  colorScheme={"red"}
-                                  variant={"ghost"}
-                                  onClick={() => {
-                                    setQuizQuestions(
-                                      quizQuestions.filter(
-                                        (q) => q.question !== question.question
-                                      )
-                                    );
-                                  }}
-                                />
-                              </Td>
-                              <Td>
-                                {question.answers.map((answer, i) => (
-                                  <Box>
-                                    <Input
-                                      mt={2}
-                                      type={"text"}
-                                      defaultValue={answer.answer}
-                                      onChange={(e) => {
-                                        setQuizQuestions(
-                                          quizQuestions.map((q) => {
-                                            if (
-                                              q.question === question.question
-                                            ) {
-                                              q.answers[i].answer = e.target
-                                                .value as string;
-                                            }
-                                            return q;
-                                          })
-                                        );
-                                      }}
-                                    />
-                                  </Box>
-                                ))}
-                              </Td>
-                              <Td>
-                                {question.answers.map((answer, j) => (
-                                  <Box>
-                                    <Button
-                                      mt={2}
-                                      colorScheme={
-                                        answer.correct ? "green" : "red"
-                                      }
-                                      onClick={() => {
-                                        setQuizQuestions(
-                                          quizQuestions.map((q) => {
-                                            if (
-                                              q.question === question.question
-                                            ) {
-                                              q.answers[j].correct =
-                                                !q.answers[j].correct;
-                                            }
-                                            return q;
-                                          })
-                                        );
-                                      }}
-                                    >
-                                      {answer.correct ? "Richtig" : "Falsch"}
-                                    </Button>
-                                  </Box>
-                                ))}
-                              </Td>
-                            </Tr>
-                          ))}
-                          <Tr>
-                            <Td>
-                              <Input
-                                type={"text"}
-                                placeholder={"Frage"}
-                                id={"new-question-input"}
-                                onChange={(e) => {
-                                  setNewQuestion(e.target.value as string);
-                                }}
-                              />
-                            </Td>
-                            <Td>
-                              <Button
-                                colorScheme={"green"}
-                                onClick={() => {
-                                  setQuizQuestions([
-                                    ...quizQuestions,
-                                    {
-                                      question: newQuestion,
-                                      answers: [
-                                        {
-                                          answer: "",
-                                          correct: false,
-                                        },
-                                        {
-                                          answer: "",
-                                          correct: false,
-                                        },
-                                        {
-                                          answer: "",
-                                          correct: false,
-                                        },
-                                        {
-                                          answer: "",
-                                          correct: false,
-                                        },
-                                      ],
-                                    },
-                                  ]);
-
-                                  setNewQuestion("");
-
-                                  (
-                                    document.getElementById(
-                                      "new-question-input"
-                                    ) as HTMLInputElement
-                                  ).value = "";
-                                }}
-                              >
-                                Erstellen
-                              </Button>
-                            </Td>
-                            <Td></Td>
-                          </Tr>
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
+                    <AdminQuizMaker
+                      quizQuestions={quizQuestions}
+                      setQuizQuestions={setQuizQuestions}
+                    />
                     <ButtonGroup w={"100%"} mt={"2rem"}>
                       <Button
                         type={"submit"}
