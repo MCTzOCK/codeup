@@ -45,6 +45,7 @@
     "@types/project-name-generator": "^2.1.1",
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
+    "chakra-ui-steps": "^1.8.0",
     "easymde": "^2.18.0",
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",

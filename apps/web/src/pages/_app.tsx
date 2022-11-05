@@ -10,6 +10,7 @@ import { PostButton } from "@codeup/components/community/post";
 import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
 import { NextPageContext } from "next";
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 
 const theme = extendTheme({
   config: {
@@ -77,6 +78,9 @@ const theme = extendTheme({
     "teal.800": "#0ca678",
     "teal.900": "#099268",
     black: "#101113",
+  },
+  components: {
+    Steps,
   },
 });
 
