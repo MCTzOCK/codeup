@@ -111,6 +111,8 @@ import {
   updateText,
 } from "./api/Admin";
 
+import { getSection } from "./api/Course";
+
 const REST = {
   Admin: {
     listAccounts,
@@ -216,6 +218,9 @@ const REST = {
     deleteChatV2: deleteChatV2,
     sendMessageV2: sendMessageV2,
     getChatMessagesV2: getChatMessagesV2,
+  },
+  Course: {
+    getSection,
   },
 };
 
