@@ -11,9 +11,20 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { CircularProgress, Flex, Heading } from "@chakra-ui/react";
+import {
+  CircularProgress,
+  Flex,
+  Heading,
+  Link,
+  ListItem,
+  OrderedList,
+  UnorderedList,
+} from "@chakra-ui/react";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import REST from "@codeup/rest";
+import ReactMarkdown from "react-markdown";
+import CodeBlock from "../../../special-components/CodeBlock";
+import MDRenderer from "../../../special-components/MDRenderer";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -34,6 +45,31 @@ export default function SectionViewer() {
 
   const [notFound, setNotFound] = useState<boolean>(false);
 
+  const [text, setText] = useState<{
+    _id: string;
+    name: string;
+    course: string;
+    friendlyName: string;
+    content: string;
+    quiz: {
+      question: string;
+      answers: { answer: string; correct: boolean }[];
+    }[];
+  }>();
+
+  const [video, setVideo] = useState<{
+    _id: string;
+    name: string;
+    course: string;
+    friendlyName: string;
+    transcript: string;
+    youtube: string;
+    quiz: {
+      question: string;
+      answers: { answer: string; correct: boolean }[];
+    }[];
+  }>();
+
   useEffect(() => {
     if (courseQuery === "" || sectionQuery === "") return;
     REST.Course.getSection({
@@ -43,6 +79,11 @@ export default function SectionViewer() {
       if (res.status !== 200) {
         setNotFound(true);
       } else {
+        if (res.payload.type === "text") {
+          setText(res.payload.text);
+        } else {
+          setVideo(res.payload.video);
+        }
       }
 
       setLoading(false);
@@ -75,7 +116,16 @@ export default function SectionViewer() {
           />
         </>
       ) : null}
-      {!loading && !notFound ? <></> : null}
+      {!loading && !notFound ? (
+        <>
+          {text ? (
+            <>
+              <MDRenderer content={text.content} />
+            </>
+          ) : null}
+          {video ? <MDRenderer content={video.transcript} /> : null}
+        </>
+      ) : null}
     </>
   );
 }
