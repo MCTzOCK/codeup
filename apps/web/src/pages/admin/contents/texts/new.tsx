@@ -84,7 +84,7 @@ export default function NewComponent() {
         <AdminContentsLayout>
           <Flex flexDir="column" width="100%" p={"5rem"}>
             <Heading size="lg" mb={"2rem"} textAlign={"center"}>
-              Neues Video
+              Neuer Text
             </Heading>
             <Steps size={"lg"} activeStep={activeStep}>
               {steps.map(({ label }, index) => (
