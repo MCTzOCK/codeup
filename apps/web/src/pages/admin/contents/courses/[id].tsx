@@ -32,6 +32,7 @@ import {
   FaYoutube,
   FaYoutubeSquare,
 } from "react-icons/fa";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
 export default function Course() {
   const router = useRouter();
@@ -41,6 +42,8 @@ export default function Course() {
   const [courseName, setCourseName] = React.useState<string[]>([
     "Inhalte Laden...",
   ]);
+
+  const [contentPositions, setContentPositions] = React.useState<string[]>([]);
 
   const [contents, setContents] = React.useState<
     {
@@ -64,22 +67,26 @@ export default function Course() {
 
   React.useEffect(() => {
     if (id && id !== "") {
-      REST.Admin.listCourses(
-        localStorage.getItem("token") as string,
-        true
-      ).then((res) => {
-        if (res.status === 200) {
-          const course = res.payload.courses.filter((c: any) => c.id === id)[0];
-          setCourseName([course.name, course.url]);
-
-          reloadContents();
-        } else {
-          console.error(res);
-          alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
+      REST.Admin.listCourses(localStorage.getItem("token") as string).then(
+        (res) => {
+          if (res.status === 200) {
+            const course = res.payload.courses.filter(
+              (c: any) => c._id === id
+            )[0];
+            setCourseName([course.name, course.friendlyName]);
+            setContentPositions(course.contentPositions);
+          } else {
+            console.error(res);
+            alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
+          }
         }
-      });
+      );
     }
   }, [id]);
+
+  React.useEffect(() => {
+    reloadContents();
+  }, [contentPositions]);
 
   const reloadContents = () => {
     REST.Admin.getContents({
@@ -88,6 +95,17 @@ export default function Course() {
     }).then((res) => {
       if (res.status === 200) {
         setContents(res.payload.contents);
+
+        const sortedContents = contentPositions.map((id) => {
+          return res.payload.contents.filter((c: any) => c._id === id)[0];
+        });
+
+        const missingContents = res.payload.contents.filter(
+          (c: any) => !contentPositions.includes(c._id)
+        );
+
+        setItems([...sortedContents, ...missingContents]);
+        console.log([...sortedContents, ...missingContents]);
       } else {
         console.error(res);
         alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
@@ -97,6 +115,8 @@ export default function Course() {
 
   const toast = useToast();
 
+  const [items, setItems] = React.useState<any[]>([]);
+
   return (
     <>
       <AdminLayout>
@@ -104,129 +124,189 @@ export default function Course() {
           <Box p={"2rem"}>
             <Heading size={"lg"}>{courseName[0]}</Heading>
           </Box>
-          <Grid templateColumns={"repeat(3, 1fr)"} gap={6} p={"2rem"}>
-            {contents.map((c) => (
-              <>
-                <Box
-                  bg={"gray.900"}
-                  color={"white"}
-                  rounded={"lg"}
-                  p={6}
-                  h={"100%"}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  _hover={{
-                    borderColor: "blue.500",
-                  }}
-                  cursor={"pointer"}
-                >
-                  <Flex
-                    justifyContent={"space-between"}
-                    direction={"column"}
-                    gap={2}
+          <DragDropContext
+            onDragEnd={(result) => {
+              if (!result.destination) return;
+
+              const items0 = Array.from(items);
+
+              const [reorderedItem] = items0.splice(result.source.index, 1);
+              items0.splice(result.destination.index, 0, reorderedItem);
+
+              setItems(items0);
+
+              REST.Admin.updateCourse({
+                token: localStorage.getItem("token") as string,
+                id: id as string,
+                update: {
+                  // @ts-ignore
+                  contentPositions: items0.map((i) => i._id),
+                },
+              });
+            }}
+          >
+            <Droppable droppableId={"contents"}>
+              {(provided, snapshopt) => (
+                <>
+                  <Box
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    p={"2rem"}
                   >
-                    <Flex
-                      justifyContent={"space-between"}
-                      direction={"row"}
-                      alignItems={"center"}
-                    >
-                      <Heading size={"md"}>{c.displayName}</Heading>
-                      <Text size={"sm"} color={"gray.400"}>
-                        /course/{courseName[1]}/{c.url}
-                      </Text>
-                      <Badge colorScheme={c.type === "TEXT" ? "green" : "blue"}>
-                        {c.type === "TEXT" ? "Text" : "Video"}
-                      </Badge>
-                      <IconButton
-                        aria-label={"Löschen"}
-                        icon={<FaTrash />}
-                        variant={"ghost"}
-                        colorScheme={"red"}
-                        onClick={async () => {
-                          const res = await REST.Admin.deleteContent({
-                            token: localStorage.getItem("token") as string,
-                            cid: c._id,
-                          });
-
-                          if (res.status === 200) {
-                            reloadContents();
-                            toast({
-                              title: "Inhalt gelöscht",
-                              description:
-                                "Der Inhalt wurde erfolgreich gelöscht.",
-                              status: "success",
-                              duration: 1500,
-                              isClosable: true,
-                              position: "bottom-right",
-                            });
-                          } else {
-                            console.error(res);
-                            toast({
-                              title: "Fehler beim Löschen",
-                              description:
-                                "Der Inhalt konnte nicht gelöscht werden. Details siehe Konsole.",
-                              status: "error",
-                              duration: 1500,
-                              isClosable: true,
-                              position: "bottom-right",
-                            });
-                          }
-                        }}
-                      />
-                    </Flex>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray.400"}
-                    >{`Erstellt am: ${new Date(c.createdAt)
-                      .toLocaleString()
-                      .replace(",", " um")}`}</Text>
-                    <ButtonGroup mt={6}>
-                      <Button
-                        w={"100%"}
-                        leftIcon={<FaFile />}
-                        onClick={() => {
-                          // create blob url that shows the text content in a new window
-                          const blob = new Blob([c.textContent], {
-                            type: "text/plain",
-                          });
-
-                          const url = URL.createObjectURL(blob);
-
-                          window.open(url, "_blank");
-                        }}
+                    {items.map((content, index) => (
+                      <Draggable
+                        key={content._id}
+                        draggableId={content._id}
+                        index={index}
                       >
-                        Text Anzeigen
-                      </Button>
-                      {c.type === "VIDEO" ? (
-                        <>
-                          <Button
-                            leftIcon={<FaYoutube />}
-                            w={"100%"}
-                            onClick={() => {
-                              window.open(c.videoUrl, "_blank");
-                            }}
-                          >
-                            Video Anzeigen
-                          </Button>
-                        </>
-                      ) : null}
-                    </ButtonGroup>
-                    <ButtonGroup mt={3}>
-                      <Button
-                        w={"100%"}
-                        leftIcon={<FaEye />}
-                        onClick={() => {
-                          router.push(`/course/${courseName[1]}/${c.url}`);
-                        }}
-                      >
-                        Anzeigen
-                      </Button>
-                    </ButtonGroup>
-                  </Flex>
-                </Box>
-              </>
-            ))}
-          </Grid>
+                        {(provided, snapshot) => (
+                          <>
+                            <Box
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              bg={"gray.900"}
+                              color={"white"}
+                              rounded={"lg"}
+                              p={6}
+                              mt={6}
+                              borderWidth="1px"
+                              borderRadius="lg"
+                              _hover={{
+                                borderColor: "blue.500",
+                              }}
+                              cursor={"pointer"}
+                            >
+                              <Flex
+                                justifyContent={"space-between"}
+                                direction={"column"}
+                                gap={2}
+                              >
+                                <Flex
+                                  justifyContent={"space-between"}
+                                  direction={"row"}
+                                  alignItems={"center"}
+                                >
+                                  <Heading size={"md"}>
+                                    {content.displayName}
+                                  </Heading>
+                                  <Text size={"sm"} color={"gray.400"}>
+                                    /course/{courseName[1]}/{content.url}
+                                  </Text>
+                                  <Badge
+                                    colorScheme={
+                                      content.type === "TEXT" ? "green" : "blue"
+                                    }
+                                  >
+                                    {content.type === "TEXT" ? "Text" : "Video"}
+                                  </Badge>
+                                  <IconButton
+                                    aria-label={"Löschen"}
+                                    icon={<FaTrash />}
+                                    variant={"ghost"}
+                                    colorScheme={"red"}
+                                    onClick={async () => {
+                                      const res =
+                                        await REST.Admin.deleteContent({
+                                          token: localStorage.getItem(
+                                            "token"
+                                          ) as string,
+                                          cid: content._id,
+                                        });
+
+                                      if (res.status === 200) {
+                                        reloadContents();
+                                        toast({
+                                          title: "Inhalt gelöscht",
+                                          description:
+                                            "Der Inhalt wurde erfolgreich gelöscht.",
+                                          status: "success",
+                                          duration: 1500,
+                                          isClosable: true,
+                                          position: "bottom-right",
+                                        });
+                                      } else {
+                                        console.error(res);
+                                        toast({
+                                          title: "Fehler beim Löschen",
+                                          description:
+                                            "Der Inhalt konnte nicht gelöscht werden. Details siehe Konsole.",
+                                          status: "error",
+                                          duration: 1500,
+                                          isClosable: true,
+                                          position: "bottom-right",
+                                        });
+                                      }
+                                    }}
+                                  />
+                                </Flex>
+                                <Text
+                                  fontSize={"sm"}
+                                  color={"gray.400"}
+                                >{`Erstellt am: ${new Date(content.createdAt)
+                                  .toLocaleString()
+                                  .replace(",", " um")}`}</Text>
+                                <ButtonGroup mt={6}>
+                                  <Button
+                                    w={"100%"}
+                                    leftIcon={<FaFile />}
+                                    onClick={() => {
+                                      // create blob url that shows the text content in a new window
+                                      const blob = new Blob(
+                                        [content.textContent],
+                                        {
+                                          type: "text/plain",
+                                        }
+                                      );
+
+                                      const url = URL.createObjectURL(blob);
+
+                                      window.open(url, "_blank");
+                                    }}
+                                  >
+                                    Text Anzeigen
+                                  </Button>
+                                  {content.type === "VIDEO" ? (
+                                    <>
+                                      <Button
+                                        leftIcon={<FaYoutube />}
+                                        w={"100%"}
+                                        onClick={() => {
+                                          window.open(
+                                            content.videoUrl,
+                                            "_blank"
+                                          );
+                                        }}
+                                      >
+                                        Video Anzeigen
+                                      </Button>
+                                    </>
+                                  ) : null}
+                                </ButtonGroup>
+                                <ButtonGroup mt={3}>
+                                  <Button
+                                    w={"100%"}
+                                    leftIcon={<FaEye />}
+                                    onClick={() => {
+                                      router.push(
+                                        `/course/${courseName[1]}/${content.url}`
+                                      );
+                                    }}
+                                  >
+                                    Anzeigen
+                                  </Button>
+                                </ButtonGroup>
+                              </Flex>
+                            </Box>
+                          </>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Box>
+                </>
+              )}
+            </Droppable>
+          </DragDropContext>
         </AdminContentsLayout>
       </AdminLayout>
     </>
