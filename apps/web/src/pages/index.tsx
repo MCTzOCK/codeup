@@ -57,9 +57,18 @@ export default function Index() {
 
   return (
     <>
+      <Box
+        w={"100%"}
+        h={"100vh"}
+        backgroundImage={"url('/_static/images/codeup_splash_lp.JPG')"}
+        backgroundSize={"cover"}
+        backgroundPosition={"center"}
+        backgroundRepeat={"no-repeat"}
+      ></Box>
       <Flex
         w={"100%"}
         h={"100vh"}
+        display={"none"}
         bg={"#000"}
         alignItems="center"
         flexDirection={"column"}
