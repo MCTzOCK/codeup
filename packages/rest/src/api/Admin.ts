@@ -310,3 +310,54 @@ export async function updateText(options: {
     },
   });
 }
+
+export async function createContent(options: {
+  token: string;
+  displayName: string;
+  course: string;
+  url: string;
+  type: "VIDEO" | "TEXT";
+  textContent: string;
+  quiz: {
+    question: string;
+    answers: {
+      answer: string;
+      correct: boolean;
+    }[];
+  }[];
+  videoUrl?: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/contents",
+    body: {
+      displayName: options.displayName,
+      course: options.course,
+      url: options.url,
+      type: options.type,
+      textContent: options.textContent,
+      quiz: options.quiz,
+      videoUrl: options.videoUrl,
+    },
+  });
+}
+
+export async function getContents(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/contents",
+  });
+}
+
+export async function deleteContent(options: {
+  token: string;
+  cid: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: `/api/admin/contents`,
+  });
+}

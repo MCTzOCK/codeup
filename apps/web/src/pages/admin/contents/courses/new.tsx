@@ -71,12 +71,12 @@ export default function NewComponent() {
       <AdminLayout>
         <AdminContentsLayout>
           <Flex flexDir="column" width="100%" p={"5rem"}>
-            <Heading size="lg" mb={"2rem"} textAlign={"center"}>
+            <Heading size="lg" mb={"2rem"} textAlign={"left"}>
               Neuer Kurs
             </Heading>
             <Steps size={"lg"} activeStep={activeStep}>
               {steps.map(({ label }, index) => (
-                <Step label={label} key={label}>
+                <Step label={label} key={label} mb={"2rem"}>
                   {index === 0 ? (
                     <>
                       <FormControl isRequired>

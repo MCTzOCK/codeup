@@ -51,29 +51,14 @@ export default function AdminContentsLayout(props: { children: ReactNode }) {
       icon: <FaBookOpen />,
     },
     {
-      name: "Alle Videos",
-      url: "/admin/contents/videos",
-      icon: <FaVideo />,
-    },
-    {
-      name: "Alle Texte",
-      url: "/admin/contents/texts",
-      icon: <FaPenFancy />,
-    },
-    {
       name: "Neuer Kurs",
       url: "/admin/contents/courses/new",
-      icon: <FaFileArchive />,
+      icon: <FaPlus />,
     },
     {
-      name: "Neues Video",
-      url: "/admin/contents/videos/new",
-      icon: <FaFileVideo />,
-    },
-    {
-      name: "Neuer Text",
-      url: "/admin/contents/texts/new",
-      icon: <FaFilePdf />,
+      name: "Neuer Inhalt",
+      url: "/admin/contents/new",
+      icon: <FaPlus />,
     },
   ];
 

@@ -109,6 +109,9 @@ import {
   deleteText,
   getText,
   updateText,
+  createContent,
+  getContents,
+  deleteContent,
 } from "./api/Admin";
 
 import { getSection } from "./api/Course";
@@ -136,6 +139,9 @@ const REST = {
     deleteText,
     getText,
     updateText,
+    createContent,
+    getContents,
+    deleteContent,
   },
   Account: {
     register,

@@ -34,6 +34,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import {
+  FaBookReader,
   FaCheckCircle,
   FaPen,
   FaPlus,
@@ -45,7 +46,7 @@ import {
 export default function Index() {
   const [courses, setCourses] = React.useState<
     {
-      id: string;
+      _id: string;
       name: string;
       friendlyName: string;
       description: string;
@@ -76,16 +77,6 @@ export default function Index() {
     <>
       <AdminLayout>
         <AdminContentsLayout>
-          <Box w={"max"} mt={"2rem"} ml={"1rem"}>
-            <Button
-              leftIcon={<FaPlus />}
-              colorScheme="green"
-              onClick={() => router.push("/admin/contents/courses/new")}
-            >
-              Neu
-            </Button>
-          </Box>
-
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {courses.map((course) => (
               <>
@@ -346,6 +337,21 @@ export default function Index() {
                               onClick={() => setEdit(course.friendlyName)}
                             >
                               Bearbeiten
+                            </Button>
+                          </ButtonGroup>
+                          <ButtonGroup mt={6}>
+                            <Button
+                              colorScheme={"green"}
+                              leftIcon={<FaBookReader />}
+                              w={"100%"}
+                              onClick={() => {
+                                router.push(
+                                  // @ts-ignore
+                                  "/admin/contents/courses/" + course._id
+                                );
+                              }}
+                            >
+                              Inhalte anzeigen
                             </Button>
                           </ButtonGroup>
                         </>
