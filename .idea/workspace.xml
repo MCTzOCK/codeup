@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/ContentModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/new.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminContentsLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminContentsLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/contents/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/contents/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/[section].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/[section].ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ContentModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ContentModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CourseModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CourseModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

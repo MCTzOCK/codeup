@@ -63,6 +63,7 @@ export default async function handleRequest(
         courses: courses.map((c) => {
           return {
             name: c.name,
+            url: c.friendlyName,
             id: c._id,
           };
         }),

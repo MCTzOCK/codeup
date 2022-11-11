@@ -65,7 +65,7 @@ const Content = new mongoose.Schema({
   videoUrl: {
     type: String,
     required: false,
-  }
+  },
 });
 
 export default mongoose.models?.Content || mongoose.model("Content", Content);

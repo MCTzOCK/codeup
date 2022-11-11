@@ -343,11 +343,23 @@ export async function createContent(options: {
   });
 }
 
-export async function getContents(token: string): Promise<IResponse> {
+export async function getContents(options: {
+  token: string;
+  cid?: string;
+  search?: string;
+  course?: string;
+  type?: string;
+}): Promise<IResponse> {
+  // not the best way to remove the token from the options object
+  // so that it doesn't get added to the query string
+  // but it works for now.
+  let token = options.token;
+  // @ts-ignore
+  delete options.token;
   return makeRequest({
     method: "GET",
-    token,
-    path: "/api/admin/contents",
+    token: token,
+    path: "/api/admin/contents?" + new URLSearchParams(options).toString(),
   });
 }
 
@@ -359,5 +371,8 @@ export async function deleteContent(options: {
     method: "DELETE",
     token: options.token,
     path: `/api/admin/contents`,
+    body: {
+      id: options.cid,
+    },
   });
 }

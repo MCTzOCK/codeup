@@ -9,8 +9,7 @@
  */
 
 import CourseModel from "@codeup/util/src/models/CourseModel";
-import VideoModel from "@codeup/util/src/models/VideoModel";
-import TextContentModel from "@codeup/util/src/models/TextContentModel";
+import ContentModel from "@codeup/util/src/models/ContentModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -45,36 +44,21 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const sectionVideo = await VideoModel.findOne({
+    const content = await ContentModel.findOne({
+      course: course._id,
       friendlyName: section,
     });
 
-    if (sectionVideo) {
-      res.status(200).json({
-        video: sectionVideo,
-        type: "video",
-        success: true,
+    if (!content) {
+      res.status(404).json({
+        error: "Section not found",
       });
-
       return;
     }
 
-    const sectionText = await TextContentModel.findOne({
-      friendlyName: section,
-    });
-
-    if (sectionText) {
-      res.status(200).json({
-        text: sectionText,
-        type: "text",
-        success: true,
-      });
-
-      return;
-    }
-
-    res.status(404).json({
-      error: "Section not found",
+    res.status(200).json({
+      content: content,
+      success: true,
     });
   } catch (e) {
     res.status(500).json({

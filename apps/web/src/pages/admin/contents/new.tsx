@@ -375,11 +375,11 @@ export default function NewContents() {
                             textContent,
                             type,
                             url,
-                            videoUrl: videoURL,
+                            videoUrl: "https://youtube.com/watch?v=" + videoURL,
                           });
 
                           if (res.status === 200) {
-                            router.push("/admin/contents/");
+                            router.push("/admin/contents/courses/" + course);
                           } else {
                             alert(
                               "Fehler beim Erstellen des Inhalts. Deteils siehe Konsole."

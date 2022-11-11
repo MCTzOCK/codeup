@@ -41,7 +41,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     await mongoConnect();
 
     if (req.method === "GET") {
-      if (req.query.id) {
+      if (req.body.id) {
         const content = await ContentModel.findById(req.query.id as string);
 
         if (!content) {
@@ -57,7 +57,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      if (req.query.search) {
+      if (req.body.search) {
         const contents = await ContentModel.find({
           $text: { $search: req.query.search as string },
         });
@@ -75,7 +75,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      if (req.query.type) {
+      if (req.body.type) {
         const contents = await ContentModel.find({
           type: req.query.type as string,
         });
@@ -93,7 +93,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      if (req.query.course) {
+      if (req.body.course) {
         const contents = await ContentModel.find({
           course: req.query.course as string,
         });
