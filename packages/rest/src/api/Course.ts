@@ -28,3 +28,10 @@ export async function getCourse(options: {
     method: "GET",
   });
 }
+
+export async function listCourses(): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/list-courses",
+    method: "GET",
+  });
+}
