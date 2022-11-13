@@ -13,6 +13,7 @@ import ContentModel from "@codeup/util/src/models/ContentModel";
 import UserModel from "@codeup/util/src/models/UserModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { verify } from "jsonwebtoken";
+import CourseModel from "@codeup/util/src/models/CourseModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -147,6 +148,16 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
+      const courseModel = await CourseModel.findById(course);
+
+      if (!courseModel) {
+        res.status(404).json({
+          error: "Not Found",
+          success: false,
+        });
+        return;
+      }
+
       const content = await ContentModel.create({
         displayName,
         course,
@@ -156,6 +167,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         quiz,
         videoUrl: videoUrl ? videoUrl : undefined,
       });
+
+      courseModel.contentPositions.push(content._id);
+
+      await courseModel.save();
 
       res.status(200).json({
         content,
