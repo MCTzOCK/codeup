@@ -26,15 +26,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     await mongoConnect();
 
-    const course = await CourseModel.findOne({
+    let course = await CourseModel.findOne({
       friendlyName: courseQuery,
     });
 
     if (!course) {
-      res.status(404).json({
-        error: "Course not found",
-      });
-      return;
+      course = await CourseModel.findById(courseQuery);
+
+      if (!course) {
+        res.status(404).json({
+          error: "Course not found",
+        });
+        return;
+      }
     }
 
     if (!course.available) {
@@ -46,7 +50,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     const content = await ContentModel.findOne({
       course: course._id,
-      friendlyName: section,
+      url: section,
     });
 
     if (!content) {
