@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics-v2.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/forms.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/image.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/links.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/lists.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/other-media.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/tables.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/text.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +34,8 @@
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
