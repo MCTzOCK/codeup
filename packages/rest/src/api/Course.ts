@@ -19,3 +19,12 @@ export async function getSection(options: {
     method: "GET",
   });
 }
+
+export async function getCourse(options: {
+  course: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/" + options.course,
+    method: "GET",
+  });
+}

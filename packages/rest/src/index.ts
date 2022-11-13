@@ -114,7 +114,7 @@ import {
   deleteContent,
 } from "./api/Admin";
 
-import { getSection } from "./api/Course";
+import { getCourse, getSection } from "./api/Course";
 
 const REST = {
   Admin: {
@@ -227,6 +227,7 @@ const REST = {
   },
   Course: {
     getSection,
+    getCourse: getCourse,
   },
 };
 
