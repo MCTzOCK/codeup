@@ -23,7 +23,9 @@ export default async function handleRequest(
 
     const courses = await CourseModel.find({ available: true });
 
-    res.status(200).json(courses);
+    res.status(200).json({
+      courses,
+    });
   } catch (e) {
     res.status(500).json({ error: e });
   }
