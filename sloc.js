@@ -14,8 +14,10 @@ const disallowed = [
   ".git",
   ".idea",
   ".ico",
+  ".jpg",
+  ".png",
   ".docusaurus",
-  ".TTF",
+  ".ttf",
   ".afdesign",
   "LICENSE",
   ".lock",
@@ -30,7 +32,7 @@ const disallowed = [
 paths = paths.filter((p) => {
   let allowed = true;
   disallowed.forEach((d) => {
-    if (p.includes(d)) {
+    if (p.toLowerCase().includes(d.toLowerCase())) {
       allowed = false;
     }
   });
