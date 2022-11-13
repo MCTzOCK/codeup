@@ -48,16 +48,20 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const content = await ContentModel.findOne({
+    let content = await ContentModel.findOne({
       course: course._id,
       url: section,
     });
 
     if (!content) {
-      res.status(404).json({
-        error: "Section not found",
-      });
-      return;
+      content = await ContentModel.findById(section);
+
+      if (!content) {
+        res.status(404).json({
+          error: "Section not found",
+        });
+        return;
+      }
     }
 
     res.status(200).json({
