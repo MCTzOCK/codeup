@@ -120,6 +120,8 @@ import {
   listCourses as listCoursesU,
 } from "./api/Course";
 
+import { getCourses as getCoursesCreator } from "./api/Creator";
+
 const REST = {
   Admin: {
     listAccounts,
@@ -233,6 +235,9 @@ const REST = {
     getSection,
     getCourse,
     listCourses: listCoursesU,
+  },
+  Creator: {
+    getCourses: getCoursesCreator,
   },
 };
 

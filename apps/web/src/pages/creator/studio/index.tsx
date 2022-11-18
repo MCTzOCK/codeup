@@ -11,23 +11,68 @@
 import * as React from "react";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import {
+  Badge,
+  Box,
+  Button,
+  ButtonGroup,
   Flex,
+  Grid,
+  GridItem,
   Heading,
+  Image,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
+  Select,
+  Textarea,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import {
+  FaBookReader,
+  FaCheckCircle,
+  FaPen,
+  FaSearch,
+  FaTimesCircle,
+  FaTrash,
+} from "react-icons/fa";
+import { useEffect } from "react";
+import REST from "@codeup/rest";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
+
+  const [courses, setCourses] = React.useState<
+    {
+      __v: number;
+      _id: string;
+      available: boolean;
+      contentPositions: string[];
+      createdAt: string;
+      creator: string;
+      description: string;
+      friendlyName: string;
+      name: string;
+      splashImage: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    REST.Creator.getCourses(localStorage.getItem("token") as string).then(
+      (res) => {
+        if (res.status === 200) {
+          setCourses(res.payload.courses);
+        } else {
+          alert("Error: " + res.status);
+        }
+      }
+    );
+  }, []);
 
   return (
     <>
       <CreatorStudioLayout>
         <Flex
           w={"100%"}
-          minH={"100vh"}
           h={"fit-content"}
           direction={"column"}
           alignItems={"center"}
@@ -59,8 +104,116 @@ export default function Index() {
               onChange={(e) => setQuery(e.target.value)}
             />
           </InputGroup>
+
+          <Grid
+            templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
+            gap={6}
+            mt={"2rem"}
+            w={"100%"}
+          >
+            {courses &&
+              courses
+                .filter((c) =>
+                  c.name.toLowerCase().includes(query.toLowerCase())
+                )
+                .map((course) => (
+                  <GridItem m={4}>
+                    <Box
+                      bg={"gray.900"}
+                      color={"white"}
+                      rounded={"lg"}
+                      p={6}
+                      h={"100%"}
+                      cursor={"pointer"}
+                      _hover={{
+                        boxShadow: "2xl",
+                      }}
+                    >
+                      <Flex
+                        justifyContent={"space-between"}
+                        direction={"column"}
+                        gap={2}
+                      >
+                        <>
+                          <Image
+                            src={course.splashImage}
+                            alt={course.name}
+                            shadow={"xl"}
+                            w={"100%"}
+                            h={"150px"}
+                          />
+                          <Heading
+                            size={"lg"}
+                            color={"white"}
+                            fontWeight={"bold"}
+                            textAlign={"left"}
+                            mt={4}
+                          >
+                            {course.name}
+                          </Heading>
+                          <Heading
+                            size={"md"}
+                            color={"gray.400"}
+                            fontWeight={"normal"}
+                            textAlign={"left"}
+                          >
+                            {course.available ? (
+                              <>
+                                <Badge colorScheme={"green"} fontSize={"md"}>
+                                  Öffentlich
+                                </Badge>
+                              </>
+                            ) : (
+                              <>
+                                <Badge colorScheme={"red"} fontSize={"md"}>
+                                  Privat
+                                </Badge>
+                              </>
+                            )}
+                          </Heading>
+                          <Heading
+                            size={"md"}
+                            color={"gray.400"}
+                            fontWeight={"normal"}
+                            textAlign={"left"}
+                          >
+                            {course.description}
+                          </Heading>
+                        </>
+                      </Flex>
+                    </Box>
+                  </GridItem>
+                ))}
+          </Grid>
+          {courses &&
+            courses.length !== 0 &&
+            courses.filter((c) =>
+              c.name.toLowerCase().includes(query.toLowerCase())
+            ).length === 0 && (
+              <>
+                <Heading
+                  size={"md"}
+                  color={"gray.400"}
+                  fontWeight={"normal"}
+                  textAlign={"center"}
+                >
+                  Keine Kurse gefunden
+                </Heading>
+              </>
+            )}
+          {courses && courses.length === 0 && (
+            <>
+              <Heading
+                size={"md"}
+                color={"gray.400"}
+                fontWeight={"normal"}
+                textAlign={"center"}
+              >
+                Du hast noch keine Kurse erstellt
+              </Heading>
+            </>
+          )}
         </Flex>
-        {query}
       </CreatorStudioLayout>
     </>
   );
