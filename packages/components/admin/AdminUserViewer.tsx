@@ -59,6 +59,7 @@ import {
   FaEnvelope,
   FaPen,
   FaUserShield,
+  FaUserTag,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
@@ -83,7 +84,7 @@ export default function AdminUserViewer(props: {
     profilePicture: string;
     createdAt: string;
     sso: string;
-    admin: boolean;
+    role: string;
     __v: number;
   };
   onOpen: () => void;
@@ -135,6 +136,7 @@ export default function AdminUserViewer(props: {
                       const lastName = data.get("lastName");
                       const email = data.get("email");
                       const password = data.get("password");
+                      const role = data.get("role");
 
                       const update: { [key: string]: string } = {};
 
@@ -170,6 +172,10 @@ export default function AdminUserViewer(props: {
                         update["password"] = password as string;
                       }
 
+                      if (role && role !== "" && role !== props.user?.role) {
+                        update["role"] = role as string;
+                      }
+
                       const r = await REST.Admin.updateAccount({
                         token: localStorage.getItem("token") as string,
                         username: props.user?.username as string,
@@ -191,6 +197,11 @@ export default function AdminUserViewer(props: {
                       props.setCurrentUser(userU);
 
                       setEditMode(false);
+
+                      if (userU.username === userInfo.username) {
+                        localStorage.removeItem("token");
+                        return;
+                      }
                     }}
                   >
                     <FormControl>
@@ -256,6 +267,19 @@ export default function AdminUserViewer(props: {
                           placeholder="Passwort"
                           defaultValue={""}
                           name={"password"}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Rolle</FormLabel>
+                      <InputGroup mb={3}>
+                        <InputLeftElement pointerEvents="none">
+                          <Icon as={FaUserTag} />
+                        </InputLeftElement>
+                        <Input
+                          placeholder="Rolle"
+                          defaultValue={props.user?.role}
+                          name={"role"}
                         />
                       </InputGroup>
                     </FormControl>
@@ -377,41 +401,6 @@ export default function AdminUserViewer(props: {
                   colorScheme={"orange"}
                   onClick={() => setEditMode(true)}
                 />
-                <IconButton
-                  aria-label={"toggle admin"}
-                  icon={<FaUserShield />}
-                  colorScheme={"blue"}
-                  onClick={async () => {
-                    const update: { [key: string]: any } = {
-                      admin: !props.user?.admin,
-                    };
-
-                    const r = await REST.Admin.updateAccount({
-                      token: localStorage.getItem("token") as string,
-                      username: props.user?.username as string,
-                      update: update,
-                    });
-
-                    const userU = r.payload.user;
-
-                    if (userU.username === userInfo.username) {
-                      localStorage.removeItem("token");
-                      return;
-                    }
-
-                    const newUsers = props.users.map((user) => {
-                      if (user.username === props.user?.username) {
-                        return userU;
-                      } else {
-                        return user;
-                      }
-                    });
-
-                    props.setUsers(newUsers);
-
-                    props.setCurrentUser(userU);
-                  }}
-                />
               </ButtonGroup>
             ) : null}
           </Flex>
@@ -422,7 +411,7 @@ export default function AdminUserViewer(props: {
                 <Tr>
                   <Th>Benutzername</Th>
                   <Th>E-Mail</Th>
-                  <Th>Admin</Th>
+                  <Th>Rolle</Th>
                   <Th>2FA</Th>
                   <Th>Aktiv</Th>
                 </Tr>
@@ -431,7 +420,7 @@ export default function AdminUserViewer(props: {
                 <Tr>
                   <Td>{props.user?.username}</Td>
                   <Td>{props.user?.email}</Td>
-                  <Td>{props.user?.admin ? "Ja" : "Nein"}</Td>
+                  <Td>{props.user?.role}</Td>
                   <Td>{props.user?.twoFactorEnabled ? "Ja" : "Nein"}</Td>
                   <Td>{props.user?.active ? "Ja" : "Nein"}</Td>
                 </Tr>

@@ -83,7 +83,7 @@ export default async function handleRequest(
       "lastName",
       "twoFactorEnabled",
       "active",
-      "admin",
+      "role",
     ];
 
     for (const key in update) {
