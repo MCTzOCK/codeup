@@ -17,3 +17,23 @@ export async function getCourses(token: string): Promise<IResponse> {
     token,
   });
 }
+
+export async function createCourse(options: {
+  name: string;
+  friendlyName: string;
+  description: string;
+  splashImage: string;
+  token: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/creator/course",
+    method: "POST",
+    token: options.token,
+    body: {
+      name: options.name,
+      friendlyName: options.friendlyName,
+      description: options.description,
+      splashImage: options.splashImage,
+    },
+  });
+}

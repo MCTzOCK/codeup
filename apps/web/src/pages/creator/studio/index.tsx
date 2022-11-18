@@ -31,12 +31,14 @@ import {
   FaBookReader,
   FaCheckCircle,
   FaPen,
+  FaPlus,
   FaSearch,
   FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
+import { useRouter } from "next/router";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
@@ -67,6 +69,8 @@ export default function Index() {
       }
     );
   }, []);
+
+  const router = useRouter();
 
   return (
     <>
@@ -103,8 +107,16 @@ export default function Index() {
               placeholder="Meine Kurse durchsuchen"
               onChange={(e) => setQuery(e.target.value)}
             />
+            <Button
+              colorScheme={"blue"}
+              ml={2}
+              onClick={() => {
+                router.push("/creator/studio/create/course");
+              }}
+            >
+              Neu
+            </Button>
           </InputGroup>
-
           <Grid
             templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
             gap={6}

@@ -68,8 +68,49 @@ export default async function handleRequest(
 
       res.status(200).json({ courses });
       return;
+    } else if (req.method === "POST") {
+      const { name, friendlyName, description, splashImage } = req.body;
+
+      if (!name || !friendlyName || !description || !splashImage) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const existingCourse = await CourseModel.findOne({
+        friendlyName: friendlyName,
+      });
+
+      if (existingCourse) {
+        res.status(400).json({
+          error: "URL freundlicher Name bereits vergeben",
+        });
+        return;
+      }
+
+      const course = await CourseModel.create({
+        name: name,
+        friendlyName: friendlyName,
+        description: description,
+        splashImage: splashImage,
+        available: false,
+        creator: editorUser.username,
+      });
+
+      res.status(200).json({
+        course: course,
+      });
     }
   } catch (e) {
-    res.status(500).json({ error: "Internal Server Error" });
+    // @ts-ignore
+    if (e.message) {
+      // @ts-ignore
+      res.status(500).json({ error: e.message });
+    } else {
+      res
+        .status(500)
+        .json({ error: "Internal Server Error with no specific message" });
+    }
   }
 }
