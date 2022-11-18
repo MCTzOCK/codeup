@@ -25,7 +25,7 @@ import {
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { FaEye, FaFile, FaTrash, FaYoutube } from "react-icons/fa";
+import { FaEye, FaFile, FaHome, FaTrash, FaYoutube } from "react-icons/fa";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 
 export default function CourseViewer() {
@@ -131,9 +131,25 @@ export default function CourseViewer() {
   return (
     <>
       <CreatorStudioLayout>
-        <Box p={"2rem"}>
+        <Flex p={"2rem"} gap={6} alignItems={"center"}>
+          <IconButton
+            aria-label={"Zurück"}
+            onClick={() => router.push("/creator/studio")}
+            icon={<FaHome />}
+          />
+
           <Heading size={"lg"}>{courseName[0]}</Heading>
-        </Box>
+
+          <Button
+            colorScheme={"blue"}
+            ml={2}
+            onClick={() => {
+              router.push("/creator/studio/create/content/" + id);
+            }}
+          >
+            Neu
+          </Button>
+        </Flex>
         <DragDropContext
           onDragEnd={(result) => {
             if (!result.destination) return;
@@ -145,7 +161,7 @@ export default function CourseViewer() {
 
             setItems(items0);
 
-            REST.Admin.updateCourse({
+            REST.Creator.updateCourse({
               token: localStorage.getItem("token") as string,
               id: id as string,
               update: {
@@ -223,8 +239,16 @@ export default function CourseViewer() {
                                         variant={"ghost"}
                                         colorScheme={"red"}
                                         onClick={async () => {
+                                          if (
+                                            !confirm(
+                                              "Willst du den Inhalt wirklich löschen?"
+                                            )
+                                          ) {
+                                            return;
+                                          }
+
                                           const res =
-                                            await REST.Admin.deleteContent({
+                                            await REST.Creator.deleteContent({
                                               token: localStorage.getItem(
                                                 "token"
                                               ) as string,
