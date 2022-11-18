@@ -55,7 +55,7 @@ export async function createAccount(options: {
   firstName: string;
   lastName: string;
   active: boolean;
-  admin: boolean;
+  role: string;
   password: string;
 }): Promise<IResponse> {
   return makeRequest({
@@ -68,7 +68,7 @@ export async function createAccount(options: {
       firstName: options.firstName,
       lastName: options.lastName,
       active: options.active,
-      admin: options.admin,
+      role: options.role,
       password: options.password,
     },
   });

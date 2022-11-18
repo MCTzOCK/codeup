@@ -37,7 +37,8 @@ export default async function handleRequest(
       return;
     }
 
-    const { username, email, firstName, lastName, active, password } = req.body;
+    const { username, email, firstName, lastName, active, password, role } =
+      req.body;
 
     if (
       !username ||
@@ -45,7 +46,8 @@ export default async function handleRequest(
       !firstName ||
       !lastName ||
       !active ||
-      !password
+      !password ||
+      !role
     ) {
       res.status(400).json({
         error: "Bad request",
@@ -96,7 +98,7 @@ export default async function handleRequest(
       firstName,
       lastName,
       active,
-      admin: req.body.admin || false,
+      role,
       password: createHash("sha256").update(password).digest("hex"),
       profilePicture: svg,
     });
