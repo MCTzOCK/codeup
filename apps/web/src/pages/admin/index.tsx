@@ -19,7 +19,7 @@ import {
   Progress,
   Spinner,
 } from "@chakra-ui/react";
-import { FaComment, FaComments, FaUser } from "react-icons/fa";
+import { FaBookOpen, FaComment, FaComments, FaUser } from "react-icons/fa";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
@@ -44,6 +44,12 @@ export default function AdminDashboard() {
       description: "Verwalte alle Profile",
       link: "/admin/profiles",
       icon: <FaComments />,
+    },
+    {
+      title: "Inhalte",
+      description: "Verwalte alle Inhalte (Kurse, Texte, Videos)",
+      link: "/admin/contents/courses",
+      icon: <FaBookOpen />,
     },
   ];
 

@@ -95,7 +95,30 @@ import {
   listForumProfiles,
   deleteForumProfile,
   updateForumProfile,
+  createCourse,
+  listCourses,
+  deleteCourse,
+  updateCourse,
+  createVideo,
+  listVideos,
+  deleteVideo,
+  getVideo,
+  updateVideo,
+  createText,
+  listTexts,
+  deleteText,
+  getText,
+  updateText,
+  createContent,
+  getContents,
+  deleteContent,
 } from "./api/Admin";
+
+import {
+  getCourse,
+  getSection,
+  listCourses as listCoursesU,
+} from "./api/Course";
 
 const REST = {
   Admin: {
@@ -106,6 +129,23 @@ const REST = {
     listForumProfiles,
     deleteForumProfile,
     updateForumProfile,
+    createCourse,
+    listCourses,
+    deleteCourse,
+    updateCourse,
+    createVideo,
+    listVideos,
+    deleteVideo,
+    getVideo,
+    updateVideo,
+    createText,
+    listTexts,
+    deleteText,
+    getText,
+    updateText,
+    createContent,
+    getContents,
+    deleteContent,
   },
   Account: {
     register,
@@ -188,6 +228,11 @@ const REST = {
     deleteChatV2: deleteChatV2,
     sendMessageV2: sendMessageV2,
     getChatMessagesV2: getChatMessagesV2,
+  },
+  Course: {
+    getSection,
+    getCourse,
+    listCourses: listCoursesU,
   },
 };
 

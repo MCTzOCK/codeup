@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics-v2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/html-basics/basics-v2.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/VideoPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/VideoPlayer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,13 +18,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="SCSS File" />
-        <option value="CSS File" />
         <option value="LICENSE" />
         <option value="com.haulmont.rcb.palette" />
         <option value="com.haulmont.rcb.previews" />
         <option value="com.haulmont.rcb.index" />
         <option value="com.haulmont.rcb.useInitial" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
         <option value="tsconfig.json" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
@@ -36,9 +36,6 @@
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="0f1045c2-21ea-49cd-b9f4-3601b1d3035f" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/progress.ts" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -56,33 +53,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.7.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.7.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/ben/Desktop/Projekte/codeup/apps/web/src/pages/api/admin/forum_profiles&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "18.7.0",
+    "javascript.nodejs.core.library.typings.version": "18.7.0",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Shell Script&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Shell Script"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -93,18 +90,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles" />
-      <recent name="$PROJECT_DIR$/apps/web/src/pages/api/admin/account" />
-      <recent name="$PROJECT_DIR$/apps/web/src/pages" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\components\forum" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\admin\contents\courses" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\admin\contents\texts" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\admin\contents" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\admin" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\util\src\models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\admin\text" />
+      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\admin\video\youtube" />
       <recent name="$PROJECT_DIR$/apps/web/src/pages/codeup" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\src\pages\api\course\[course]" />
       <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\apps\web\public\_data\incode-docs" />
-      <recent name="C:\Users\bensi\Desktop\JuFo2023\codeup\packages\incode-ast-generator\src" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build">

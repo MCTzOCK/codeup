@@ -64,7 +64,7 @@ export default function NavigationBarMenu(props: {
           </PopoverBody>
         </PopoverContent>
       </Popover>
-      <Link href={"/courses"}>
+      <Link href={"/course"}>
         <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
           Kurse
         </Button>

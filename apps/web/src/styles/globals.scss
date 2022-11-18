@@ -12,7 +12,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scrollbar-width: thin;
   scroll-behavior: smooth;
 }
@@ -20,6 +20,7 @@ body {
 * {
   scrollbar-width: thin;
 }
+
 a {
   color: inherit;
   text-decoration: none;
@@ -52,6 +53,7 @@ a {
     width: 512px;
     height: 512px;
   }
+
   .hp-image-0 {
     animation: imgPolyPath 2s infinite ease;
     animation-fill-mode: forwards;
@@ -117,5 +119,42 @@ a {
   html,
   #root {
     height: 100%;
+  }
+}
+
+/* EasyMDE Path */
+
+.EasyMDEContainer {
+  width: 100%;
+  height: 100%;
+
+  .editor-toolbar {
+    .active {
+      background: transparent !important;
+    }
+
+    button:hover {
+      background: transparent !important;
+    }
+
+    .side-by-side, .fullscreen, .guide {
+      display: none;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
+
+  .CodeMirror {
+    height: 100%;
+    width: 100%;
+    background: #1A1B1E;
+    color: #fff;
+  }
+
+  .editor-preview {
+    background: #1A1B1E;
+    color: #fff;
   }
 }

@@ -83,9 +83,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "no-sso",
   },
-  admin: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String,
+    default: "user",
   },
 });
 

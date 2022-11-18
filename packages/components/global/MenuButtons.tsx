@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { useLoggedIn } from "@codeup/hooks";
 import Link from "next/link";
-import { FiAlertTriangle } from "react-icons/fi";
+import { FiAlertTriangle, FiPlus } from "react-icons/fi";
 
 export default function MenuButtons(props: {
   onClose: () => void;
@@ -82,20 +82,34 @@ export default function MenuButtons(props: {
                 <Text color={"gray"}>@{userInfo.username}</Text>
               </Center>
               <MenuDivider />
-              {userInfo.admin ? (
+              {userInfo.role === "admin" ? (
                 <>
                   <Link href={"/admin"}>
                     <MenuItem
-                      color={"red"}
+                      color={"red.300"}
                       fontWeight={"bold"}
                       icon={<FiAlertTriangle />}
                     >
                       ADMIN
                     </MenuItem>
                   </Link>
-                  <MenuDivider />
                 </>
               ) : null}
+              {["admin", "editor"].includes(userInfo.role) ? (
+                <>
+                  <Link href={"/creator/studio"}>
+                    <MenuItem
+                      color={"blue.300"}
+                      fontWeight={"bold"}
+                      icon={<FiPlus />}
+                    >
+                      CREATOR STUDIO
+                    </MenuItem>
+                  </Link>
+                </>
+              ) : null}
+
+              <MenuDivider />
               <Link href={"/dashboard"}>
                 <MenuItem>Dashboard</MenuItem>
               </Link>
@@ -103,7 +117,7 @@ export default function MenuButtons(props: {
                 <MenuItem>Einstellungen</MenuItem>
               </Link>
               <MenuItem
-                color={"red"}
+                color={"red.300"}
                 onClick={() => {
                   props.onLogoutOpen();
                 }}

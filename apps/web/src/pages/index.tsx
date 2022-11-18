@@ -4,204 +4,276 @@
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 05.06.2022
+ * Created At: 26.10.2022
  *
  */
 
+import * as React from "react";
 import {
   Box,
   Button,
-  ButtonGroup,
+  Divider,
   Flex,
+  Grid,
   Heading,
-  Link,
+  Image,
+  Link as ChakraLink,
+  Stack,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React from "react";
+import Link from "next/link";
+import Typed from "react-typed";
+import { motion } from "framer-motion";
+import { FaBook, FaCode, FaProjectDiagram } from "react-icons/fa";
+import VideoPlayer from "@codeup/components/global/VideoPlayer";
 
-export default function Home() {
-  const allowLoadingAnimation = false;
+export default function Index() {
+  const spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+
+  const sectionCards = [
+    {
+      title: "Lernen",
+      description:
+        "Mit unseren interaktiven Kursen kannst du dich in verschiedensten Bereichen der Programmierung weiterbilden oder neue Programmiersprachen erlernen. Jeder Kurs ist in Lektionen aufgeteilt und verfügt sowohl über eine Text-Version als auch über ein Video.",
+      icon: <FaBook />,
+      iconColor: "blue.200",
+    },
+    {
+      title: "Entwickeln",
+      description:
+        "Mit unserer fortschrittlichen Entwicklungsumgebung kannst du deine Projekte direkt im Browser entwickeln. Du kannst zwischen verschiedenen Programmiersprachen wählen und deine Projekte mit anderen teilen.",
+      icon: <FaCode />,
+      iconColor: "green.200",
+    },
+    {
+      title: "Planen",
+      description:
+        "Mit unserem Projekt-Management kannst du deine Projekte planen und verwalten.",
+      icon: <FaProjectDiagram />,
+      iconColor: "yellow.600",
+    },
+  ];
 
   return (
     <>
-      {allowLoadingAnimation ? (
-        <Box
-          position={"fixed"}
-          top="0"
-          left="0"
-          width={"100%"}
-          height="100vh"
-          backgroundColor={"gray.800"}
-          zIndex={5}
-          display="flex"
-          alignItems="center"
-          textAlign={"center"}
-          className="hp-loader"
-          flexDirection={"column-reverse"}
-          pb="2rem"
-        >
-          <div className="hp-image hp-image-0"></div>
-          <Heading fontFamily="ARCADE" color={"white"}>
-            Loading CodeUp ...
-          </Heading>
-        </Box>
-      ) : null}
-      <Card
-        title="Lerne Programmieren"
-        callToAction="Jetzt loslegen"
-        image="/_static/vectors/home/learn-coding.svg"
-        rtl={false}
-        key="learn-coding"
-      >
-        Unsere <b>interaktiven</b> Programmierkurse bringen dir Schritt für
-        Schritt bei, wie du eigene Webseiten mittels <b>HTML</b>
-        ,&nbsp;
-        <b>CSS</b> und <b>JavaScript</b>&nbsp;entwickeln kannst.
-        <br />
-        Alle Kurse sind für <b>Anfänger</b> konzipiert und erfordern&nbsp;
-        <b>keine Vorkenntnisse</b>. Du lernst von Grund auf, alles was du wissen
-        musst, um eine <b>erfolgreiche Online-Präsenz</b>&nbsp; aufzubauen!
-      </Card>
-      <Card
-        title="Verwirkliche deine Ideen"
-        callToAction="Starte jetzt"
-        image="/_static/vectors/home/create-projects.svg"
-        rtl={true}
-        key="create-projects"
-      >
-        Mit unserer <b>fortschrittlichen</b> Programmierumgebung kannst du jede
-        Art von <b>Webanwendung</b>&nbsp;entwickeln. Du kannst sogar&nbsp;
-        <b>mit deinen Freunden</b> an einem Projekt arbeiten und deinen Code mit
-        ihnen teilen! Unsere Programmierumgebung unterstützt viele verschiedene
-        Programmiersprachen, wie&nbsp;
-        <b>JavaScript</b>,&nbsp;
-        <b>TypeScript</b>,&nbsp;
-        <b>HTML</b>,&nbsp;
-        <b>CSS</b>,&nbsp;
-        <b>Sass/SCSS</b>, sodass du dir selbst die Sprache aussuchen kannst, die
-        dir am besten gefällt. Neben den gängigen Sprachen haben wir zusätzlich
-        eine eigene Sprache namens&nbsp;<b>InCode</b>&nbsp;entwickelt, die dir
-        das Programmieren noch einfacher macht! Du kannst sie&nbsp;
-        <Link
-          color={"blue.400"}
-          target={"_blank"}
-          href={"//incode.codeup.space"}
-        >
-          hier
-        </Link>
-        &nbsp;lernen.
-      </Card>
-      <Card
-        title="Plane deine Projekte"
-        callToAction="Auf gehts!"
-        rtl={false}
-        image="/_static/vectors/home/plan-projects.svg"
-      >
-        Mit unserem <b>intuitiven</b> Projektmanagement kannst du
-        <b>effizient</b> und <b>strukturiert</b> an deinen Projekten arbeiten.
-        Du kannst deine Projekte in <b>Teams</b> organisieren, sodass du mit
-        deinen Freunden zusammenarbeiten kannst. Du kannst auch <b>Deadlines</b>{" "}
-        für deine Projekte festlegen, sodass du immer <b>im Auge behältst</b>,
-        was du wann erledigen musst.
-      </Card>
-      <Card
-        title="Lerne von den Besten"
-        image="/_static/vectors/home/communicate.svg"
-        rtl={true}
-        callToAction="Registrieren"
-      >
-        Unser <b>modernes</b> Forum bietet dir die Möglichkeit, dich mit anderen{" "}
-        <b>Programmierern auszutauschen</b> und von ihnen&nbsp;
-        <b>zu lernen</b>. Der Austausch mit anderen Programmierern ist eine der
-        besten Möglichkeiten, um deine Fähigkeiten zu verbessern. Du kannst dich
-        mit Menschen austauschen, die bereits&nbsp;
-        <b>Erfahrung mit bestimmten Technologien</b> haben oder auf dem&nbsp;
-        <b>gleichen Lernstand</b> wie du sind.
-      </Card>
-      <Card
-        title="Finde Inspiration"
-        image="/_static/vectors/home/get-ideas.svg"
-        rtl={false}
-        callToAction="Starten"
-      >
-        Unsere <b>riesige</b> Sammlung an <b>Projektideen</b> bietet dir die
-        Möglichkeit, immer neue Ideen zu finden, die du umsetzen kannst, um{" "}
-        <b>neues Wissen zu erlange</b>. Viele Projektideen haben zusätzlich auch
-        noch&nbsp;
-        <b>ausführliche Anleitungen</b> oder <b>Beispiele</b>, sodass du direkt
-        loslegen kannst.
-      </Card>
-    </>
-  );
-}
-
-function Card(props: {
-  rtl: boolean;
-  title: string;
-  callToAction: string;
-  children: React.ReactNode;
-  image: string;
-}) {
-  return (
-    <>
+      <Box
+        w={"100%"}
+        h={"100vh"}
+        backgroundImage={"url('/_static/images/codeup_splash_lp.JPG')"}
+        backgroundSize={"cover"}
+        backgroundPosition={"center"}
+        backgroundRepeat={"no-repeat"}
+      ></Box>
       <Flex
-        direction={
-          props.rtl ? ["column-reverse", "row-reverse"] : ["column", "row"]
-        }
-        gap="2rem"
-        paddingInline={["2rem", "8rem"]}
-        mt="8rem"
+        w={"100%"}
+        h={"100vh"}
+        display={"none"}
+        bg={"#000"}
+        alignItems="center"
+        flexDirection={"column"}
       >
-        <Image
-          src={props.image}
-          width={"512"}
-          height="512"
-          style={{
-            flex: "50%",
+        <Heading
+          color={"white"}
+          fontSize={["2rem", "8em"]}
+          fontFamily={"ARCADE"}
+          textAlign={"center"}
+          id="landing-title"
+          flex="80%"
+          display="flex"
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Typed strings={["CodeUp"]} typeSpeed={80} startDelay={500} />
+        </Heading>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            delay: 1.5,
+            default: {
+              duration: 0.3,
+              ease: [0, 0.71, 0.2, 1.01],
+            },
+            scale: {
+              type: "spring",
+              damping: 5,
+              stiffness: 100,
+              restDelta: 0.001,
+            },
           }}
-        />
-        <Box flex="50%">
-          <Flex direction="column">
-            <Heading fontWeight="bold" fontSize="4rem">
-              {props.title}
-            </Heading>
-            <Text fontSize="1.5rem" mt="2rem">
-              {props.children}
-            </Text>
-            <CallToActionButton
-              text={props.callToAction}
-              url="/account/register"
-            />
-          </Flex>
+          style={{
+            flex: "20%",
+          }}
+        >
+          <Text
+            color={"white"}
+            fontSize={["1rem", "2rem"]}
+            fontFamily={"ARCADE"}
+            textAlign={"center"}
+            id="landing-subtitle"
+            onClick={() => {
+              window.location.href = "#_more";
+            }}
+          >
+            Scroll to see more
+          </Text>
+        </motion.div>
+      </Flex>
+      <Flex
+        w={"100%"}
+        minH={"100vh"}
+        h="fit-content"
+        bg={"gray.900"}
+        alignItems="center"
+        flexDirection={"column"}
+        id="_more"
+        pt="2rem"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{
+            delay: 0.5,
+            default: {
+              duration: 0.3,
+              ease: [0, 0.71, 0.2, 1.01],
+            },
+            scale: {
+              type: "spring",
+              damping: 5,
+              stiffness: 100,
+              restDelta: 0.001,
+            },
+          }}
+          viewport={{ once: true }}
+        >
+          <Heading
+            color={"white"}
+            fontSize={["2rem", "4rem"]}
+            fontFamily={"ARCADE"}
+            textAlign={"center"}
+            id="landing-title"
+          >
+            Willkommen bei CodeUp!
+          </Heading>
+        </motion.div>
+        <Grid
+          templateColumns={"1fr"}
+          maxW={[null, "40%"]}
+          gap={"6rem"}
+          w={"100%"}
+          p={["1rem", "2rem"]}
+          mt={["1rem", "2rem"]}
+        >
+          {sectionCards.map((card, index) => {
+            return (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    delay: 0.5 + index * 0.1,
+                    default: {
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    },
+                    scale: {
+                      type: "spring",
+                      damping: 5,
+                      stiffness: 100,
+                      restDelta: 0.001,
+                    },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  <Box
+                    bg={"gray.800"}
+                    w={"100%"}
+                    h={"100%"}
+                    p={"1rem"}
+                    borderRadius={"10px"}
+                    boxShadow={"0px 0px 10px 0px rgba(0,0,0,0.75)"}
+                  >
+                    <Flex gap="2rem" justifyContent="center">
+                      <Box
+                        bg={card.iconColor}
+                        p={"1rem"}
+                        w={"fit-content"}
+                        color={"white"}
+                        fontSize={"2rem"}
+                        mb={"1rem"}
+                        borderRadius={"10px"}
+                        boxShadow={"0px 0px 10px 0px rgba(0,0,0,0.75)"}
+                      >
+                        {card.icon}
+                      </Box>
+
+                      <Heading
+                        color={"white"}
+                        fontSize={["1rem", "2rem"]}
+                        fontFamily={"ARCADE"}
+                        textAlign={"center"}
+                        mt={"1rem"}
+                      >
+                        {card.title}
+                      </Heading>
+                    </Flex>
+                    <Flex
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      flexDirection={"column"}
+                    >
+                      <Text
+                        color={"white"}
+                        fontSize={["1.5rem"]}
+                        textAlign={"center"}
+                        mt={"1rem"}
+                      >
+                        {card.description}
+                      </Text>
+                    </Flex>
+                  </Box>
+                </motion.div>
+              </>
+            );
+          })}
+        </Grid>
+        <Divider mt="4rem" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{
+            delay: 0.5,
+            default: {
+              duration: 0.3,
+              ease: [0, 0.71, 0.2, 1.01],
+            },
+            scale: {
+              type: "spring",
+              damping: 5,
+              stiffness: 100,
+              restDelta: 0.001,
+            },
+          }}
+          viewport={{ once: true }}
+        >
+          <Heading
+            mt={"4rem"}
+            mb={"4rem"}
+            color={"white"}
+            fontSize={["2rem", "4rem"]}
+            fontFamily={"ARCADE"}
+            textAlign={"center"}
+            id="landing-title"
+          >
+            CodeUp in 100 Sekunden
+          </Heading>
+        </motion.div>
+        <Box w={"1080px"} h={"720px"}>
+          <VideoPlayer url={"https://www.youtube.com/watch?v=p1inZ7hvz70"} />
         </Box>
       </Flex>
     </>
-  );
-}
-
-function CallToActionButton(props: { text: string; url: string }) {
-  const router = useRouter();
-
-  return (
-    <ButtonGroup mt="2rem">
-      <a
-        href={props.url}
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <Button
-          colorScheme="messenger"
-          size="lg"
-          onClick={() => {
-            router.push(props.url);
-          }}
-        >
-          {props.text}
-        </Button>
-      </a>
-    </ButtonGroup>
   );
 }

@@ -21,8 +21,11 @@ import {
   useToast,
   Select,
   Checkbox,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
+import { FaLock, FaMailBulk, FaUser, FaUserTag } from "react-icons/fa";
 
 export default function AdminUserCreator(props: {
   onOpen: () => void;
@@ -66,7 +69,7 @@ export default function AdminUserCreator(props: {
               username: name,
               email: email,
               password: password,
-              admin: role === "admin",
+              role: role,
               active: active,
               firstName: firstName,
               lastName: lastName,
@@ -90,30 +93,57 @@ export default function AdminUserCreator(props: {
           <Stack spacing={3}>
             <FormControl id="username">
               <FormLabel>Benutzername</FormLabel>
-              <Input type="text" name={"username"} />
+              <InputGroup>
+                <InputLeftElement>
+                  <FaUser />
+                </InputLeftElement>
+                <Input type="text" name={"username"} />
+              </InputGroup>
             </FormControl>
             <FormControl id={"email"}>
               <FormLabel>E-Mail</FormLabel>
-              <Input type="email" name={"mail"} />
+              <InputGroup>
+                <InputLeftElement>
+                  <FaMailBulk />
+                </InputLeftElement>
+                <Input type="email" name={"mail"} />
+              </InputGroup>
             </FormControl>
             <FormControl id={"firstName"}>
               <FormLabel>Vorname</FormLabel>
-              <Input type="text" name={"firstName"} />
+              <InputGroup>
+                <InputLeftElement>
+                  <FaUser />
+                </InputLeftElement>
+                <Input type="text" name={"firstName"} />
+              </InputGroup>
             </FormControl>
             <FormControl id={"lastName"}>
               <FormLabel>Nachname</FormLabel>
-              <Input type="text" name={"lastName"} />
+              <InputGroup>
+                <InputLeftElement>
+                  <FaUser />
+                </InputLeftElement>
+                <Input type="text" name={"lastName"} />
+              </InputGroup>
             </FormControl>
             <FormControl id="password">
               <FormLabel>Passwort</FormLabel>
-              <Input type="password" name={"password"} />
+              <InputGroup>
+                <InputLeftElement>
+                  <FaLock />
+                </InputLeftElement>
+                <Input type="password" name={"password"} />
+              </InputGroup>
             </FormControl>
             <FormControl id="role">
               <FormLabel>Rolle</FormLabel>
-              <Select name={"role"}>
-                <option value={"user"}>Benutzer</option>
-                <option value={"admin"}>Admin</option>
-              </Select>
+              <InputGroup>
+                <InputLeftElement>
+                  <FaUserTag />
+                </InputLeftElement>
+                <Input type="text" name={"role"} defaultValue={"user"} />
+              </InputGroup>
             </FormControl>
             <FormControl id="active">
               <FormLabel>Aktiv</FormLabel>
