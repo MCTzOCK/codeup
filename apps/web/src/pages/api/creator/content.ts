@@ -137,6 +137,7 @@ export default async function handleRequest(
         textContent,
         quiz,
         videoUrl: videoUrl ? videoUrl : undefined,
+        creator: editorUser.username,
       });
 
       courseModel.contentPositions.push(content._id);
