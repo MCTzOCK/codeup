@@ -32,6 +32,7 @@ import {
 import {
   FaBookReader,
   FaCheckCircle,
+  FaEye,
   FaPen,
   FaPlus,
   FaSearch,
@@ -282,6 +283,17 @@ export default function Index() {
                               Löschen
                             </Button>
                           </ButtonGroup>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"green"}
+                            leftIcon={<FaEye />}
+                            mt={4}
+                            onClick={() => {
+                              router.push("/creator/studio/" + course._id);
+                            }}
+                          >
+                            Ansehen
+                          </Button>
                         </>
                       </Flex>
                     </Box>
