@@ -5,9 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/[section].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/[section].ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/contents/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/contents/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/edit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/edit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/course/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/delete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/forum_profiles/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/[tid].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/[tid].ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/text/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/youtube/[vid].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/video/youtube/[vid].ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/generateJWT.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/generateJWT.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +82,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "18.7.0",
     "javascript.nodejs.core.library.typings.version": "18.7.0",
-    "last_opened_file_path": "C:/Users/bensi/Desktop/JuFo2023/codeup/apps/web/src/pages/admin/contents/courses",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

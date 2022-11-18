@@ -82,7 +82,7 @@ export default function MenuButtons(props: {
                 <Text color={"gray"}>@{userInfo.username}</Text>
               </Center>
               <MenuDivider />
-              {userInfo.admin ? (
+              {userInfo.role === "admin" ? (
                 <>
                   <Link href={"/admin"}>
                     <MenuItem

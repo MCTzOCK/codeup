@@ -37,8 +37,7 @@ export default async function handleRequest(
       return;
     }
 
-    const { username, email, firstName, lastName, active, password } =
-      req.body;
+    const { username, email, firstName, lastName, active, password } = req.body;
 
     if (
       !username ||
@@ -70,7 +69,7 @@ export default async function handleRequest(
 
     const adminuser = await UserModel.findOne({ username: decoded.username });
 
-    if (!adminuser.admin) {
+    if (adminuser.role !== "admin") {
       res.status(401).json({
         error: "Unauthorized",
       });
@@ -112,7 +111,7 @@ export default async function handleRequest(
     res.status(500).json({
       error: "Internal Server Error",
       // @ts-ignore
-      message: e.message
+      message: e.message,
     });
   }
 }
