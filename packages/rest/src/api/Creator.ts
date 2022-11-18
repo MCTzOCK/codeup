@@ -37,3 +37,35 @@ export async function createCourse(options: {
     },
   });
 }
+
+export async function deleteCourse(options: {
+  id: string;
+  token: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/creator/course",
+    method: "DELETE",
+    token: options.token,
+    body: {
+      id: options.id,
+    },
+  });
+}
+
+export async function updateCourse(options: {
+  id: string;
+  token: string;
+  update: {
+    [key: string]: string | any;
+  };
+}): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/creator/course",
+    method: "PATCH",
+    token: options.token,
+    body: {
+      id: options.id,
+      update: options.update,
+    },
+  });
+}

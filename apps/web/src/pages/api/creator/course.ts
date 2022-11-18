@@ -18,7 +18,7 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (!["GET", "POST", "DELETE"].includes(req.method as string)) {
+  if (!["GET", "POST", "DELETE", "PATCH"].includes(req.method as string)) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
@@ -100,6 +100,78 @@ export default async function handleRequest(
 
       res.status(200).json({
         course: course,
+      });
+    } else if (req.method === "DELETE") {
+      const { id } = req.body;
+
+      if (!id) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const course = await CourseModel.findOne({ _id: id });
+
+      if (!course) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      if (course.creator !== editorUser.username) {
+        res.status(401).json({
+          error: "Unauthorized",
+        });
+        return;
+      }
+
+      await course.remove();
+
+      res.status(200).json({
+        message: "OK",
+      });
+    } else if (req.method === "PATCH") {
+      const { id } = req.body;
+
+      if (!id) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const course = await CourseModel.findOne({ _id: id });
+
+      if (!course) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+      }
+
+      if (course.creator !== editorUser.username) {
+        res.status(401).json({
+          error: "Unauthorized",
+        });
+        return;
+      }
+
+      const disallowed = ["_id", "createdAt", "creator"];
+
+      const { update } = req.body;
+
+      for (const key in update) {
+        if (!disallowed.includes(key)) {
+          course[key] = update[key];
+        }
+      }
+
+      await course.save();
+
+      res.status(200).json({
+        message: "OK",
+        course,
       });
     }
   } catch (e) {

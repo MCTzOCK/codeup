@@ -26,6 +26,8 @@ import {
   InputLeftElement,
   Select,
   Textarea,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import {
   FaBookReader,
@@ -39,9 +41,16 @@ import {
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
+import CourseEditor from "@codeup/components/creator/studio/CourseEditor";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
+
+  const {
+    onOpen: onCourseEditorOpen,
+    onClose: onCourseEditorClose,
+    isOpen: isCourseEditorOpen,
+  } = useDisclosure();
 
   const [courses, setCourses] = React.useState<
     {
@@ -58,19 +67,44 @@ export default function Index() {
     }[]
   >([]);
 
+  const [currentCourse, setCurrentCourse] = React.useState<{
+    __v: number;
+    _id: string;
+    available: boolean;
+    contentPositions: string[];
+    createdAt: string;
+    creator: string;
+    description: string;
+    friendlyName: string;
+    name: string;
+    splashImage: string;
+  }>();
+
   useEffect(() => {
+    reload();
+  }, []);
+
+  const reload = () => {
     REST.Creator.getCourses(localStorage.getItem("token") as string).then(
       (res) => {
         if (res.status === 200) {
           setCourses(res.payload.courses);
         } else {
-          alert("Error: " + res.status);
+          toast({
+            title: "Fehler",
+            description:
+              "Kurse konnten nicht geladen werden: " + res.payload.error,
+            status: "error",
+            duration: 1500,
+            isClosable: true,
+          });
         }
       }
     );
-  }, []);
+  };
 
   const router = useRouter();
+  const toast = useToast();
 
   return (
     <>
@@ -136,10 +170,6 @@ export default function Index() {
                       rounded={"lg"}
                       p={6}
                       h={"100%"}
-                      cursor={"pointer"}
-                      _hover={{
-                        boxShadow: "2xl",
-                      }}
                     >
                       <Flex
                         justifyContent={"space-between"}
@@ -191,6 +221,67 @@ export default function Index() {
                           >
                             {course.description}
                           </Heading>
+                          <ButtonGroup mt={4} w={"100%"}>
+                            <Button
+                              w={"100%"}
+                              colorScheme={"blue"}
+                              leftIcon={<FaPen />}
+                              onClick={() => {
+                                setCurrentCourse(course);
+                                onCourseEditorOpen();
+                              }}
+                            >
+                              Bearbeiten
+                            </Button>
+                            <Button
+                              w={"100%"}
+                              colorScheme={"red"}
+                              leftIcon={<FaTrash />}
+                              onClick={async () => {
+                                if (
+                                  confirm(
+                                    "Willst du diesen Kurs wirklich löschen?"
+                                  )
+                                ) {
+                                  const res = await REST.Creator.deleteCourse({
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    id: course._id,
+                                  });
+
+                                  if (res.status === 200) {
+                                    toast({
+                                      title: "Kurs gelöscht",
+                                      description:
+                                        "Der Kurs wurde erfolgreich gelöscht",
+                                      status: "success",
+                                      duration: 1500,
+                                      isClosable: true,
+                                    });
+
+                                    setCourses(
+                                      courses.filter(
+                                        (c) => c._id !== course._id
+                                      )
+                                    );
+                                  } else {
+                                    toast({
+                                      title: "Fehler",
+                                      description:
+                                        "Löschen fehlgeschlagen: " +
+                                        res.payload.error,
+                                      status: "error",
+                                      duration: 1500,
+                                      isClosable: true,
+                                    });
+                                  }
+                                }
+                              }}
+                            >
+                              Löschen
+                            </Button>
+                          </ButtonGroup>
                         </>
                       </Flex>
                     </Box>
@@ -227,6 +318,13 @@ export default function Index() {
           )}
         </Flex>
       </CreatorStudioLayout>
+      <CourseEditor
+        course={currentCourse ? currentCourse : null}
+        reload={reload}
+        onOpen={onCourseEditorOpen}
+        onClose={onCourseEditorClose}
+        isOpen={isCourseEditorOpen}
+      />
     </>
   );
 }

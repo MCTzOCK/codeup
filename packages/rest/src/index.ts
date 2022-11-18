@@ -123,6 +123,8 @@ import {
 import {
   getCourses as getCoursesCreator,
   createCourse as createCourseCreator,
+  deleteCourse as deleteCourseCreator,
+  updateCourse as updateCourseCreator,
 } from "./api/Creator";
 
 const REST = {
@@ -242,6 +244,8 @@ const REST = {
   Creator: {
     getCourses: getCoursesCreator,
     createCourse: createCourseCreator,
+    deleteCourse: deleteCourseCreator,
+    updateCourse: updateCourseCreator,
   },
 };
 
