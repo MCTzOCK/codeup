@@ -231,9 +231,6 @@ export default function UserManagement() {
                         switch (f.toLowerCase()) {
                           case "alle":
                             break;
-                          case "admins":
-                            x = x.filter((user: any) => user.admin);
-                            break;
                           case "aktive":
                             x = x.filter((user: any) => user.active);
                             break;
@@ -284,7 +281,7 @@ export default function UserManagement() {
 
                         return x.map(userToRow);
                       }}
-                      filterOptions={["Alle", "Admins", "Aktive", "Inaktive"]}
+                      filterOptions={["Alle", "Aktive", "Inaktive"]}
                       sortOptions={[
                         "Alphabetisch",
                         "Neuste zuerst",
