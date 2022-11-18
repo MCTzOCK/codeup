@@ -56,6 +56,7 @@ export default function ProfileBannerModifier(props: {
                 <FormLabel>Profil Banner</FormLabel>
                 <input
                   type="file"
+                  accept="image/svg+xml"
                   onChange={(e) => {
                     setFileInvalid(false);
                     // @ts-ignore

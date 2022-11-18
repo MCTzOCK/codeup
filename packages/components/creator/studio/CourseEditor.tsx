@@ -136,6 +136,7 @@ export default function CourseEditor(props: {
             />
             <input
               type={"file"}
+              accept="image/svg+xml"
               name={"splashImage"}
               id={"edit_course-splashImage"}
               style={{

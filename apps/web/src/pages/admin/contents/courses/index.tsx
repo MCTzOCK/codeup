@@ -178,6 +178,7 @@ export default function Index() {
                             />
                             <input
                               type={"file"}
+                              accept="image/svg+xml"
                               name={"splashImage"}
                               id={
                                 "edit_" + course.friendlyName + "-splashImage"

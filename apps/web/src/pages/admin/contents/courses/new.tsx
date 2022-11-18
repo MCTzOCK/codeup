@@ -131,6 +131,7 @@ export default function NewComponent() {
                         <Input
                           required
                           type={"file"}
+                          accept="image/svg+xml"
                           name={"splashImage"}
                           onChange={(e) => {
                             // @ts-ignore

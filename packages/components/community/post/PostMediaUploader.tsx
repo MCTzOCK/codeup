@@ -49,6 +49,7 @@ export default function PostMediaUploader(props: {
               <FormLabel>Bild</FormLabel>
               <input
                 type="file"
+                accept="image/svg+xml"
                 onChange={(e) => {
                   setFileInvalid(false);
                   // @ts-ignore

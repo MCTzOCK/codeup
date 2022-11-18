@@ -56,6 +56,7 @@ export default function ProfileAvatarModifier(props: {
                 <FormLabel>Avatar</FormLabel>
                 <input
                   type="file"
+                  accept="image/svg+xml"
                   onChange={(e) => {
                     setFileInvalid(false);
                     // @ts-ignore
