@@ -44,7 +44,12 @@ export default function Index() {
           >
             Willkommen im Creator Studio
           </Heading>
-          <InputGroup w={["75%", "50%"]} mt={"2rem"} maxW={["75%", "50%"]}>
+          <InputGroup
+            w={["75%", "50%"]}
+            mt={"2rem"}
+            maxW={["75%", "50%"]}
+            boxShadow={"xl"}
+          >
             <InputLeftElement pointerEvents="none">
               <FaSearch />
             </InputLeftElement>
