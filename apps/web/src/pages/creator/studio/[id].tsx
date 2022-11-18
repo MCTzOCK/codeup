@@ -79,13 +79,13 @@ export default function CourseViewer() {
   }, [id]);
 
   React.useEffect(() => {
-    // reloadContents();
+    reloadContents();
   }, [contentPositions]);
 
   const reloadContents = () => {
-    REST.Admin.getContents({
+    REST.Creator.getContents({
       token: localStorage.getItem("token") as string,
-      course: id as string,
+      courseId: id as string,
     }).then((res) => {
       if (res.status === 200) {
         setContents(res.payload.contents);
@@ -113,7 +113,13 @@ export default function CourseViewer() {
         setItems(x);
       } else {
         console.error(res);
-        alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
+        toast({
+          title: "Fehler beim Laden der Inhalte",
+          description: "Details siehe Konsole",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
       }
     });
   };

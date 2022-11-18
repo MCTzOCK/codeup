@@ -19,7 +19,7 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (["POST", "GET", "DELETE", "PATCH"].includes(req.method as string)) {
+  if (!["POST", "GET", "DELETE", "PATCH"].includes(req.method as string)) {
     res.status(405).json({
       error: "Method not allowed",
     });
