@@ -19,7 +19,7 @@ export default function generateJWT(user: any) {
       _2fa: user.twoFactorEnabled,
       username: user.username,
       sso: user.sso || false,
-      admin: user.admin || false,
+      role: user.role || "user",
     },
     process.env.JWT_SECRET as string,
     {

@@ -32,7 +32,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     const adminuser = await UserModel.findOne({ username: decoded.username });
 
-    if (!adminuser.admin) {
+    if (adminuser.role !== "admin") {
       res.status(401).json({
         error: "Unauthorized",
       });

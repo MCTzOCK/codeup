@@ -39,7 +39,7 @@ export default function AdminLayout(props: { children: ReactNode }) {
       return;
     }
 
-    if (!userInfo.admin) {
+    if (userInfo?.role !== "admin") {
       setError("Du bist nicht dazu berechtigt diese Seite zu sehen!");
     }
   }, [loggedIn, userInfo, userLoaded]);

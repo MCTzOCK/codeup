@@ -37,7 +37,7 @@ export default async function handleRequest(
       return;
     }
 
-    const { username, email, firstName, lastName, active, password } =
+    const { username, email, firstName, lastName, active, password, role } =
       req.body;
 
     if (
@@ -46,7 +46,8 @@ export default async function handleRequest(
       !firstName ||
       !lastName ||
       !active ||
-      !password
+      !password ||
+      !role
     ) {
       res.status(400).json({
         error: "Bad request",
@@ -70,7 +71,7 @@ export default async function handleRequest(
 
     const adminuser = await UserModel.findOne({ username: decoded.username });
 
-    if (!adminuser.admin) {
+    if (adminuser.role !== "admin") {
       res.status(401).json({
         error: "Unauthorized",
       });
@@ -97,7 +98,7 @@ export default async function handleRequest(
       firstName,
       lastName,
       active,
-      admin: req.body.admin || false,
+      role,
       password: createHash("sha256").update(password).digest("hex"),
       profilePicture: svg,
     });
@@ -112,7 +113,7 @@ export default async function handleRequest(
     res.status(500).json({
       error: "Internal Server Error",
       // @ts-ignore
-      message: e.message
+      message: e.message,
     });
   }
 }

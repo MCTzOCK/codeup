@@ -59,7 +59,7 @@ export default async function handleRequest(
 
     const adminuser = await UserModel.findOne({ username: decoded.username });
 
-    if (!adminuser.admin) {
+    if (adminuser.role !== "admin") {
       res.status(401).json({
         error: "Unauthorized",
       });
@@ -83,7 +83,7 @@ export default async function handleRequest(
       "lastName",
       "twoFactorEnabled",
       "active",
-      "admin",
+      "role",
     ];
 
     for (const key in update) {

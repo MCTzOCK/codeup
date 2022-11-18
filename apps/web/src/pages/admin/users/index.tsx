@@ -90,7 +90,7 @@ type User = {
   profilePicture: string;
   createdAt: string;
   sso: string;
-  admin: boolean;
+  role: string;
   __v: number;
 };
 
@@ -141,7 +141,7 @@ export default function UserManagement() {
         <Text>{user.username}</Text>
       </>,
       user.email,
-      user.admin ? "Ja" : "Nein",
+      user.role,
       user.active ? "Ja" : "Nein",
       user.twoFactor ? "Ja" : "Nein",
       new Date(user.createdAt).toLocaleString(),
@@ -212,7 +212,7 @@ export default function UserManagement() {
                         "Profilbild",
                         "Name",
                         "E-Mail",
-                        "Admin",
+                        "Rolle",
                         "Aktiv",
                         "2FA",
                         "Erstellt",
@@ -230,9 +230,6 @@ export default function UserManagement() {
 
                         switch (f.toLowerCase()) {
                           case "alle":
-                            break;
-                          case "admins":
-                            x = x.filter((user: any) => user.admin);
                             break;
                           case "aktive":
                             x = x.filter((user: any) => user.active);
@@ -284,7 +281,7 @@ export default function UserManagement() {
 
                         return x.map(userToRow);
                       }}
-                      filterOptions={["Alle", "Admins", "Aktive", "Inaktive"]}
+                      filterOptions={["Alle", "Aktive", "Inaktive"]}
                       sortOptions={[
                         "Alphabetisch",
                         "Neuste zuerst",
