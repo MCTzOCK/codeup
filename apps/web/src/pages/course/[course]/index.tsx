@@ -25,6 +25,8 @@ import {
   Link,
   Input,
   Badge,
+  Stack,
+  StackDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -38,6 +40,7 @@ export default function Index() {
     available: boolean;
     contentPositions: string[];
     createdAt: string;
+    creator: string;
     __v: number;
   }>();
 
@@ -114,68 +117,82 @@ export default function Index() {
               borderRadius="lg"
               boxShadow={"2xl"}
             />
-            <Heading as="h1" size="2xl" mt={4}>
+            <Heading as="h1" fontSize={"6xl"} mt={4} fontFamily={"Seymour One"}>
               {course.name}
             </Heading>
-            <Text mt={4}>{course.description}</Text>
+            <Heading as="h2" fontSize="2xl" mt={4}>
+              von&nbsp;
+              <chakra.span color={"green.400"}>@{course.creator}</chakra.span>
+            </Heading>
+            <Text
+              mt={4}
+              fontSize={"3xl"}
+              maxW={["100%", "35%"]}
+              textAlign={"center"}
+            >
+              {course.description}
+            </Text>
             <ButtonGroup mt={4}>
               <Button
                 colorScheme="blue"
+                size={"lg"}
+                fontSize={"xl"}
                 onClick={() => {
-                  router.push(`/course/${course.friendlyName}/register`);
+                  // COURSE PROGRESS
+                  router.push(
+                    `/course/${course.friendlyName}/${
+                      // @ts-ignore
+                      contents.find((c) => c._id === course.contentPositions[0])
+                        .url
+                    }`
+                  );
                 }}
               >
-                Kurs beitreten
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  router.push(`/course/${course.friendlyName}/login`);
-                }}
-              >
-                Kurs beitreten
+                Beginnen
               </Button>
             </ButtonGroup>
-            <Box mt={4}>
-              <Heading as="h2" size="xl">
-                Inhalte
-              </Heading>
-              <Grid
-                templateColumns={["repeat(1, 1fr)", "repeat(3, 1fr)"]}
-                gap={6}
-                mt={4}
-              >
+            <Box mt={8} maxW={["100%", "35%"]} w={"100%"}>
+              <Stack w={"100%"}>
                 {contents.map((content) => (
-                  <GridItem key={content._id}>
-                    <Box
+                  <>
+                    <Flex
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="space-between"
                       p={4}
-                      borderRadius="lg"
                       bg={"gray.900"}
                       w={"100%"}
                       cursor={"pointer"}
                       _hover={{
-                        boxShadow: "2xl",
+                        bg: "gray.700",
+                      }}
+                      onClick={() => {
+                        router.push(
+                          `/course/${course.friendlyName}/${content.url}`
+                        );
                       }}
                     >
-                      <Heading as="h3" size="lg">
+                      <Heading as="h3" fontSize={"2xl"} flex={"70%"}>
                         {content.displayName}
                       </Heading>
-                      <Text mt={4}>
+                      <Flex justifyContent={"space-between"} flex={"30%"}>
                         <Badge
-                          fontSize={"xl"}
+                          fontSize={"lg"}
                           colorScheme={
-                            content.type === "VIDEO" ? "green" : "red"
+                            content.type === "VIDEO" ? "green" : "blue"
                           }
                         >
                           {content.type === "VIDEO" ? "Video" : "Text"}
                         </Badge>
-                        <br />
-                        Quiz: {content.quiz.length} Fragen
-                      </Text>
-                    </Box>
-                  </GridItem>
+                        <Heading as="h3" fontSize={"2xl"}>
+                          {content.quiz.length} Quiz Fragen
+                        </Heading>
+                      </Flex>
+                    </Flex>
+                    <StackDivider />
+                  </>
                 ))}
-              </Grid>
+              </Stack>
             </Box>
           </Flex>
         </>

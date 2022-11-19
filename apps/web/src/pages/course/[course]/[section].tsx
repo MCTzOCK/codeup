@@ -12,6 +12,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
+  Box,
   CircularProgress,
   Flex,
   Heading,
@@ -25,6 +26,7 @@ import REST from "@codeup/rest";
 import ReactMarkdown from "react-markdown";
 import CodeBlock from "../../../special-components/CodeBlock";
 import MDRenderer from "../../../special-components/MDRenderer";
+import VideoPlayer from "@codeup/components/global/VideoPlayer";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -44,30 +46,23 @@ export default function SectionViewer() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [notFound, setNotFound] = useState<boolean>(false);
-
-  const [text, setText] = useState<{
+  const [content, setContent] = useState<{
     _id: string;
-    name: string;
+    displayName: string;
     course: string;
-    friendlyName: string;
-    content: string;
+    url: string;
+    type: "TEXT" | "VIDEO";
+    textContent: string;
     quiz: {
       question: string;
-      answers: { answer: string; correct: boolean }[];
+      answers: {
+        answer: string;
+        correct: boolean;
+      }[];
     }[];
-  }>();
-
-  const [video, setVideo] = useState<{
-    _id: string;
-    name: string;
-    course: string;
-    friendlyName: string;
-    transcript: string;
-    youtube: string;
-    quiz: {
-      question: string;
-      answers: { answer: string; correct: boolean }[];
-    }[];
+    creator: string;
+    createdAt: string;
+    __v: number;
   }>();
 
   useEffect(() => {
@@ -79,16 +74,25 @@ export default function SectionViewer() {
       if (res.status !== 200) {
         setNotFound(true);
       } else {
-        if (res.payload.type === "text") {
-          setText(res.payload.text);
-        } else {
-          setVideo(res.payload.video);
-        }
+        setContent(res.payload.content);
       }
 
       setLoading(false);
     });
   }, [courseQuery, sectionQuery]);
+
+  const [imgId, setImgId] = useState(Math.floor(Math.random() * 12) + 1);
+
+  useEffect(() => {
+    // router.reload on key ENTER press
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "r") {
+        setImgId(Math.floor(Math.random() * 12) + 1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -116,14 +120,50 @@ export default function SectionViewer() {
           />
         </>
       ) : null}
-      {!loading && !notFound ? (
+      {!loading && !notFound && content ? (
         <>
-          {text ? (
-            <>
-              <MDRenderer content={text.content} />
-            </>
-          ) : null}
-          {video ? <MDRenderer content={video.transcript} /> : null}
+          <Box
+            w={"100%"}
+            minH={"100vh"}
+            h={"fit-content"}
+            display={"flex"}
+            flexDirection={"column"}
+            alignItems={"center"}
+            bgPosition={"center"}
+            bgRepeat={"no-repeat"}
+            bgSize={"cover"}
+            bgImage={`url(/_static/images/courses/desk_backgrounds/${imgId}.jpg)`}
+          >
+            <Box
+              w={"100%"}
+              mt={8}
+              mb={8}
+              maxW={["100%", "40%"]}
+              h={"fit-content"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              p={4}
+              bg={"black"}
+              borderRadius={"md"}
+              boxShadow={"2xl"}
+            >
+              <Heading size={"lg"} textAlign={"center"} mb={6}>
+                {content.displayName}
+              </Heading>
+              {content.type === "VIDEO" && (
+                <>
+                  <VideoPlayer
+                    url={
+                      // @ts-ignore
+                      content.videoUrl
+                    }
+                  />
+                </>
+              )}
+              <MDRenderer content={content.textContent} />
+            </Box>
+          </Box>
         </>
       ) : null}
     </>

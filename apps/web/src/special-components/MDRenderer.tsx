@@ -14,6 +14,7 @@ import {
   Link,
   ListItem,
   OrderedList,
+  Text,
   UnorderedList,
 } from "@chakra-ui/react";
 import CodeBlock from "./CodeBlock";
@@ -24,12 +25,13 @@ export default function MDRenderer(props: { content: string }) {
     <>
       <ReactMarkdown
         components={{
-          h1: ({ node, ...props }) => <Heading size={"2xl"} {...props} />,
-          h2: ({ node, ...props }) => <Heading size={"xl"} {...props} />,
-          h3: ({ node, ...props }) => <Heading size={"lg"} {...props} />,
-          h4: ({ node, ...props }) => <Heading size={"md"} {...props} />,
-          h5: ({ node, ...props }) => <Heading size={"sm"} {...props} />,
-          h6: ({ node, ...props }) => <Heading size={"xs"} {...props} />,
+          p: ({ node, ...props }) => <Text fontSize={"xl"} {...props} />,
+          h1: ({ node, ...props }) => <Heading fontSize={"4xl"} {...props} />,
+          h2: ({ node, ...props }) => <Heading fontSize={"2xl"} {...props} />,
+          h3: ({ node, ...props }) => <Heading fontSize={"xl"} {...props} />,
+          h4: ({ node, ...props }) => <Heading fontSize={"lg"} {...props} />,
+          h5: ({ node, ...props }) => <Heading fontSize={"md"} {...props} />,
+          h6: ({ node, ...props }) => <Heading fontSize={"sm"} {...props} />,
           ul: ({ node, ...props }) => <UnorderedList {...props} />,
           li: ({ node, ...props }) => <ListItem {...props} />,
           ol: ({ node, ...props }) => <OrderedList {...props} />,
