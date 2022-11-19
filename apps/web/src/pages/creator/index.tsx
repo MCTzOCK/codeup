@@ -9,22 +9,36 @@
  */
 
 import * as React from "react";
-import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
+import { useEffect } from "react";
 import {
+  Avatar,
+  Box,
   Button,
   ButtonGroup,
   Flex,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Text,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
+import REST from "@codeup/rest";
 
 export default function Index() {
   const router = useRouter();
+
+  const [topCreators, setTopCreators] = React.useState<
+    {
+      _id: string;
+      count: number;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    REST.Creator.getTopCreators().then((res) => {
+      if (res.status === 200) {
+        setTopCreators(res.payload.creators);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -98,6 +112,62 @@ export default function Index() {
           </Button>
         </ButtonGroup>
       </Flex>
+      <Box w={"100%"} h={"fit-content"} p={"4rem"}>
+        <Heading
+          w={"100%"}
+          fontSize={["3xl", "6xl"]}
+          textAlign={"center"}
+          fontWeight={"bold"}
+          fontFamily={"Seymour One"}
+        >
+          Top Creator
+        </Heading>
+        <Flex
+          w={"100%"}
+          h={"100%"}
+          direction={["column", "row"]}
+          alignItems={"center"}
+          justifyContent={"center"}
+          mt={4}
+        >
+          {topCreators.map((creator) => (
+            <Box
+              key={creator._id}
+              w={"100%"}
+              h={"fit-content"}
+              p={"2rem"}
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <Avatar
+                size={"2xl"}
+                name={creator._id}
+                bgColor={"transparent"}
+                src={`/api/account/${creator._id}/picture`}
+              />
+              <Heading
+                mt={2}
+                fontSize={["xl", "2xl"]}
+                textAlign={"center"}
+                fontWeight={"bold"}
+                fontFamily={"Seymour One"}
+              >
+                @{creator._id} <br />
+                <Text
+                  fontSize={["md", "xl"]}
+                  textAlign={"center"}
+                  fontWeight={"normal"}
+                  fontFamily={"Seymour One"}
+                >
+                  {creator.count} Kurs(e)
+                </Text>
+              </Heading>
+            </Box>
+          ))}
+        </Flex>
+      </Box>
     </>
   );
 }

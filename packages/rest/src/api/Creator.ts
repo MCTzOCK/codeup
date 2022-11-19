@@ -145,3 +145,10 @@ export async function updateContent(options: {
     },
   });
 }
+
+export async function getTopCreators(): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/creator/top",
+    method: "GET",
+  });
+}

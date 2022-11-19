@@ -129,6 +129,7 @@ import {
   deleteContent as deleteContentCreator,
   getContents as getContentsCreator,
   updateContent as updateContentCreator,
+  getTopCreators,
 } from "./api/Creator";
 
 const REST = {
@@ -254,6 +255,7 @@ const REST = {
     deleteContent: deleteContentCreator,
     getContents: getContentsCreator,
     updateContent: updateContentCreator,
+    getTopCreators: getTopCreators,
   },
 };
 
