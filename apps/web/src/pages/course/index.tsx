@@ -24,8 +24,11 @@ import {
   GridItem,
   Link,
   Input,
+  InputLeftElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { FaSearch } from "react-icons/fa";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -38,6 +41,7 @@ export default function Index() {
       available: boolean;
       contentPositions: string[];
       createdAt: string;
+      creator: string;
       __v: number;
     }[]
   >([]);
@@ -52,6 +56,7 @@ export default function Index() {
       available: boolean;
       contentPositions: string[];
       createdAt: string;
+      creator: string;
       __v: number;
     }[]
   >([]);
@@ -87,63 +92,75 @@ export default function Index() {
         mt={"2rem"}
         alignItems={"center"}
       >
-        <Heading as="h1" size="2xl">
-          Kurse
-        </Heading>
-        <Text
-          pl={"1.2rem"}
-          pr={"1.2rem"}
-          maxW={["100%", "50%"]}
-          textAlign={"center"}
+        <Flex
+          w={"100%"}
+          h={"fit-content"}
+          direction={"column"}
+          alignItems={"center"}
+          mt={"4rem"}
         >
-          Hier findest du alle Kurse, die wir dir anbieten. <br />
-          Klicke auf einen Kurs, um ihn zu starten. <br />
-          Wenn du Fragen hast, kannst du dich gerne an&nbsp;
-          <Link href={"/codeup/contact"} color={"blue.500"}>
-            uns
-          </Link>
-          &nbsp;wenden. <br />
-          Aktuell bieten wir{" "}
-          <b>
-            {courses.length} Kurs
-            {courses.length !== 1 ? "e" : ""}
-          </b>{" "}
-          mit insgesamt&nbsp;
-          <b>
-            {courses
-              .map((course) => course.contentPositions.length)
-              .reduce((a, b) => a + b, 0)}
-            &nbsp;Lektion
-            {courses
-              .map((course) => course.contentPositions.length)
-              .reduce((a, b) => a + b, 0) !== 1
-              ? "en"
-              : ""}
-          </b>
-          &nbsp;an.
-        </Text>
-        <Box w={"100%"} pt={"1rem"} pl={4} pr={4}>
-          <Input
-            placeholder="Suche nach Kursen"
-            onChange={(e) => {
-              setFilteredCourses(
-                courses.filter(
-                  (course) =>
-                    course.name
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase()) ||
-                    course.friendlyName
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase()) ||
-                    course.description
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase())
-                )
-              );
-            }}
-          />
-        </Box>
-
+          <Heading
+            fontSize={["3xl", "6xl"]}
+            color={"white"}
+            textAlign={"center"}
+            fontWeight={"bold"}
+            fontFamily={"Seymour One"}
+            maxW={["75%", "50%"]}
+            textShadow={"0px 10px 100px #000000"}
+          >
+            Kurse
+          </Heading>
+          <Text>
+            Aktuell bieten wir&nbsp;
+            <b>
+              {courses.length} Kurs
+              {courses.length !== 1 ? "e" : ""}
+            </b>
+            &nbsp;mit insgesamt&nbsp;
+            <b>
+              {courses
+                .map((course) => course.contentPositions.length)
+                .reduce((a, b) => a + b, 0)}
+              &nbsp;Lektion
+              {courses
+                .map((course) => course.contentPositions.length)
+                .reduce((a, b) => a + b, 0) !== 1
+                ? "en"
+                : ""}
+            </b>
+            &nbsp;an.
+          </Text>
+          <InputGroup
+            w={["75%", "50%"]}
+            mt={"2rem"}
+            maxW={["75%", "50%"]}
+            boxShadow={"xl"}
+          >
+            <InputLeftElement pointerEvents="none">
+              <FaSearch />
+            </InputLeftElement>
+            <Input
+              type="text"
+              placeholder="Kurse durchsuchen"
+              onChange={(e) => {
+                setFilteredCourses(
+                  courses.filter(
+                    (course) =>
+                      course.name
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
+                      course.friendlyName
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
+                      course.description
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
+                  )
+                );
+              }}
+            />
+          </InputGroup>
+        </Flex>
         <Grid
           templateColumns={
             filteredCourses.length > 0
