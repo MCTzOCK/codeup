@@ -31,6 +31,7 @@ import {
   InputGroup,
   InputLeftAddon,
   Select,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
 import {
@@ -277,14 +278,34 @@ export default function Index() {
                           >
                             {course.name}
                           </Heading>
-                          <Heading
-                            size={"sm"}
-                            color={"gray.400"}
-                            fontWeight={"normal"}
-                            textAlign={"left"}
-                          >
-                            /course/{course.friendlyName}
-                          </Heading>
+                          <Flex direction={"row"} gap={4}>
+                            <Heading
+                              size={"sm"}
+                              color={"gray.400"}
+                              fontWeight={"normal"}
+                              textAlign={"left"}
+                            >
+                              /course/{course.friendlyName}
+                            </Heading>
+                            <Heading
+                              size={"sm"}
+                              color={"gray.400"}
+                              fontWeight={"normal"}
+                              textAlign={"left"}
+                              display={"flex"}
+                              flexDirection={"row"}
+                              gap={2}
+                            >
+                              by
+                              <Text color={"green.400"}>
+                                @
+                                {
+                                  // @ts-ignore
+                                  course.creator
+                                }
+                              </Text>
+                            </Heading>
+                          </Flex>
                           <Heading
                             size={"md"}
                             color={"gray.400"}
