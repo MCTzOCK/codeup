@@ -33,6 +33,11 @@ const Content = new mongoose.Schema({
     type: String,
     required: true,
   },
+  contentType: {
+    type: String,
+    required: true,
+    default: "textContent",
+  },
   textContent: {
     type: String,
     required: false,
