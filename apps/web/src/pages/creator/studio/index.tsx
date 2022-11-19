@@ -292,7 +292,7 @@ export default function Index() {
                               router.push("/creator/studio/" + course._id);
                             }}
                           >
-                            Ansehen
+                            Lektionen
                           </Button>
                         </>
                       </Flex>
