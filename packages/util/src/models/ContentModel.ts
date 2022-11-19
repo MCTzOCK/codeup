@@ -22,7 +22,6 @@ const Content = new mongoose.Schema({
   url: {
     type: String,
     required: true,
-    unique: true,
   },
   createdAt: {
     type: Date,
