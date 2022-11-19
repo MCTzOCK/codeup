@@ -120,6 +120,17 @@ import {
   listCourses as listCoursesU,
 } from "./api/Course";
 
+import {
+  getCourses as getCoursesCreator,
+  createCourse as createCourseCreator,
+  deleteCourse as deleteCourseCreator,
+  updateCourse as updateCourseCreator,
+  createContent as createContentCreator,
+  deleteContent as deleteContentCreator,
+  getContents as getContentsCreator,
+  updateContent as updateContentCreator,
+} from "./api/Creator";
+
 const REST = {
   Admin: {
     listAccounts,
@@ -233,6 +244,16 @@ const REST = {
     getSection,
     getCourse,
     listCourses: listCoursesU,
+  },
+  Creator: {
+    getCourses: getCoursesCreator,
+    createCourse: createCourseCreator,
+    deleteCourse: deleteCourseCreator,
+    updateCourse: updateCourseCreator,
+    createContent: createContentCreator,
+    deleteContent: deleteContentCreator,
+    getContents: getContentsCreator,
+    updateContent: updateContentCreator,
   },
 };
 

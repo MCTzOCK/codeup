@@ -38,6 +38,8 @@ export default async function handler(
         _id: profile.user,
       });
 
+      if (!user) continue;
+
       pfps.push({
         ...profile.toJSON(),
         username: user.username,
@@ -48,8 +50,15 @@ export default async function handler(
       profiles: pfps,
     });
   } catch (e) {
-    res.status(500).json({
-      error: e,
-    });
+    console.log(e);
+    // @ts-ignore
+    if (e.message) {
+      // @ts-ignore
+      res.status(500).json({ error: e.message });
+    } else {
+      res
+        .status(500)
+        .json({ error: "Internal Server Error with no specific message" });
+    }
   }
 }

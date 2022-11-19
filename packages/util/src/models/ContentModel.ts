@@ -66,6 +66,10 @@ const Content = new mongoose.Schema({
     type: String,
     required: false,
   },
+  creator: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.models?.Content || mongoose.model("Content", Content);

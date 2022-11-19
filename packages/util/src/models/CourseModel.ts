@@ -42,6 +42,10 @@ const Course = new mongoose.Schema({
     required: true,
     default: false,
   },
+  creator: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.models?.Course || mongoose.model("Course", Course);

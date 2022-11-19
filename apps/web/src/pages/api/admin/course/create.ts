@@ -83,6 +83,7 @@ export default async function handleRequest(
       description: description,
       splashImage: splashImage,
       available: false,
+      creator: adminuser.username,
     });
 
     res.status(200).json({

@@ -60,6 +60,11 @@ export default function NavigationBarMenu(props: {
                   Kontakt
                 </Text>
               </Link>
+              <Link href={"/creator"} onClick={props.onClose}>
+                <Text fontSize={"xl"} cursor={"pointer"}>
+                  Creator werden
+                </Text>
+              </Link>
             </Stack>
           </PopoverBody>
         </PopoverContent>
