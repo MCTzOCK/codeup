@@ -14,7 +14,13 @@ import grapesjs from "grapesjs";
 import Head from "next/head";
 import { Box, Flex } from "@chakra-ui/react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs-plugin/flexbox";
-import { FaHeading, FaImage, FaLink, FaParagraph } from "react-icons/fa";
+import {
+  FaHeading,
+  FaImage,
+  FaLink,
+  FaParagraph,
+  FaVideo,
+} from "react-icons/fa";
 
 export default function Builder() {
   useEffect(() => {
@@ -71,6 +77,15 @@ export default function Builder() {
           category: "Media",
           media: reactIconToSVG(FaImage),
           content: { type: "image" },
+        },
+      },
+      {
+        id: "video",
+        block: {
+          label: "Video",
+          category: "Media",
+          content: `<iframe width="1280" height="720" src="https://www.youtube.com/embed/p1inZ7hvz70" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          media: reactIconToSVG(FaVideo),
         },
       },
     ];
@@ -139,9 +154,8 @@ export default function Builder() {
         alignItems={"center"}
         justifyContent={"center"}
       >
-        <Box maxW={"75%"} h={"fit-content"} w={"100%"}>
+        <Box maxW={"75%"} h={"fit-content"} w={"100%"} boxShadow={"2xl"}>
           <div id={"grape_editor"}></div>
-          <div id="layers"></div>
         </Box>
       </Flex>
     </>

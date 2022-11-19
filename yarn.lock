@@ -7800,11 +7800,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0,
   resolved "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
   integrity sha512-8tLu60LgxF6XpdbK8OW3FA+IfTNBn1ZHGHKF4KQbEeSkajYw5PlYJcKluntgegDPTg8UkHjpet1T82vk6TQ68w==
 
-grapesjs-blocks-flexbox@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/grapesjs-blocks-flexbox/-/grapesjs-blocks-flexbox-0.1.1.tgz#d973abe40319bfbdfcab5351a335ac3494f52772"
-  integrity sha512-TteRG7r14+j03kagaN/75l6r04Qd3YRBKCB8x1SZC4eH8L3BW29xXef9Svk7SD2j6/DPsketC2131xgpDv5dsQ==
-
 grapesjs@^0.20.1:
   version "0.20.1"
   resolved "https://registry.npmjs.org/grapesjs/-/grapesjs-0.20.1.tgz#1196386ca7f5517302323c2a6fcc82aa8d5f244e"
