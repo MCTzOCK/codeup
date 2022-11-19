@@ -87,7 +87,8 @@ export default function CourseEditor(props: {
                         ? description
                         : props.course.description,
                       splashImage:
-                        FR.result === "data:application/octet-stream;base64,"
+                        FR.result === "data:application/octet-stream;base64," ||
+                        FR.result === "data:"
                           ? props.course.splashImage
                           : FR.result,
                     },
