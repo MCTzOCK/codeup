@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import * as rd from "react-dom";
 import { GrapesjsReact } from "grapesjs-react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import grapesjs from "grapesjs";
@@ -30,7 +29,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -47,8 +45,8 @@ import {
 } from "@chakra-ui/react";
 import { ImageResponse } from "@vercel/og";
 import CodeBlock from "../../../special-components/CodeBlock";
-import * as prism from "prismjs";
-import * as dti from "dom-to-image";
+import * as p from "prismjs";
+import * as d from "dom-to-image";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
