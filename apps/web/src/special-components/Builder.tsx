@@ -1,5 +1,5 @@
 /**
- * apps/web/src/pages/creator/studio/builder-new.tsx
+ * apps/web/src/special-components/Builder.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import * as rd from "react-dom";
 import { GrapesjsReact } from "grapesjs-react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import grapesjs from "grapesjs";
@@ -30,30 +29,18 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Select,
   InputGroup,
   InputLeftElement,
   Input,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { ImageResponse } from "@vercel/og";
-import CodeBlock from "../../../special-components/CodeBlock";
-import * as prism from "prismjs";
-import * as dti from "dom-to-image";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import html2canvas from "html2canvas";
+import { useEffect } from "react";
 
 export default function Builder() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -187,12 +174,7 @@ export default function Builder() {
         </Box>
       </CodeUpModal>
 
-      <Flex
-        w={"100%"}
-        minH={"100vh"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
+      <Flex w={"100%"} justifyContent={"center"}>
         <Box w={"75%"} h={"fit-content"}>
           <GrapesjsReact
             id={"grapesjs-react"}
@@ -325,6 +307,26 @@ export default function Builder() {
                   editor.BlockManager.add(block.id, block.block);
                 }
                 pluginInitFlexbox(editor);
+
+                const listener = () => {
+                  const html = editor.getHtml();
+                  const css = editor
+                    .getCss()
+                    .toString()
+                    .replace("max-width: 768px", "min-width: 2px");
+
+                  const merged = `<html><head><style>${css}</style></head>${html}</html>`;
+
+                  // @ts-ignore
+                  if (!window.codeup) {
+                    // @ts-ignore
+                    window.codeup = {};
+                  }
+                  // @ts-ignore
+                  window.codeup.webBuilderHTMLExport = merged;
+                };
+
+                window.addEventListener("codeup::webbuilder::export", listener);
               }
             }}
           />

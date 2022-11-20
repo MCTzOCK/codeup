@@ -161,7 +161,22 @@ export default function SectionViewer() {
                   />
                 </>
               )}
-              <MDRenderer content={content.textContent} />
+              {/* <MDRenderer content={content.textContent} /> */}
+              <iframe
+                src={
+                  "/api/course/" +
+                  courseQuery +
+                  "/" +
+                  sectionQuery +
+                  "?raw=true"
+                }
+                style={{
+                  width: "100%",
+                  minHeight: "100vh",
+                  height: "fit-content",
+                  border: "none",
+                }}
+              />
             </Box>
           </Box>
         </>

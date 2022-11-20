@@ -64,6 +64,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       }
     }
 
+    if (req.query.raw) {
+      res.status(200).end(content.textContent);
+      return;
+    }
+
     res.status(200).json({
       content: content,
       success: true,
