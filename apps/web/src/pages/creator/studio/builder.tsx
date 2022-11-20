@@ -13,8 +13,9 @@ import { useEffect } from "react";
 import grapesjs from "grapesjs";
 import Head from "next/head";
 import { Box, Flex } from "@chakra-ui/react";
-import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs-plugin/flexbox";
+import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import {
+  FaCode,
   FaHeading,
   FaImage,
   FaLink,
@@ -48,7 +49,7 @@ export default function Builder() {
                 font-family: 'Arial';
               }          
             </style>
-            <h1 class="cup-dpe-paragraph">Insert your text here</h1>`,
+            <p class="cup-dpe-paragraph">Insert your text here</p>`,
             },
           },
           {
@@ -65,7 +66,7 @@ export default function Builder() {
                 font-family: 'Arial Black';
               }          
             </style>
-            <p class="cup-dpe-heading">Insert your text here</p>
+            <p class="cup-dpe-heading heading-${randomString()}">Insert your text here</p>
           `,
             },
           },
@@ -121,6 +122,20 @@ export default function Builder() {
               category: "List",
               content: `<li style="font-size: 1.2rem; font-family: Arial">Item</li>`,
               media: reactIconToSVG(FaList),
+            },
+          },
+          {
+            id: "code",
+            block: {
+              label: "Code (Click to Add)",
+              category: "Text",
+              content: `<></>`,
+              media: reactIconToSVG(FaCode),
+              onClick: () => {
+                editor.Modal.open({
+                  title: "New Code",
+                });
+              },
             },
           },
         ];
@@ -199,4 +214,13 @@ function reactIconToSVG(icon: any) {
   return `<svg viewBox="0 0 512 512"><path d="${
     icon().props.children[0].props.d
   }" /></svg>`;
+}
+
+function randomString(length: number = 16) {
+  const chars =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let result = "";
+  for (let i = length; i > 0; --i)
+    result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
 }
