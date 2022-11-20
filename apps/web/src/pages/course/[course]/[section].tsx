@@ -144,7 +144,7 @@ export default function SectionViewer() {
               alignItems={"center"}
               justifyContent={"center"}
               p={4}
-              bg={"black"}
+              bg={"#000000"}
               borderRadius={"md"}
               boxShadow={"2xl"}
             >
