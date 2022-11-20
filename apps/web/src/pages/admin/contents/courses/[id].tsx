@@ -224,19 +224,6 @@ export default function Course() {
                                                 /course/{courseName[1]}/
                                                 {content.url}
                                               </Text>
-                                              <Badge
-                                                fontSize={"lg"}
-                                                textAlign={"center"}
-                                                colorScheme={
-                                                  content.type === "TEXT"
-                                                    ? "green"
-                                                    : "blue"
-                                                }
-                                              >
-                                                {content.type === "TEXT"
-                                                  ? "Text"
-                                                  : "Video"}
-                                              </Badge>
                                             </Flex>
                                             <Box flex={"50%"}>
                                               <Stack>
@@ -244,7 +231,6 @@ export default function Course() {
                                                   w={"100%"}
                                                   leftIcon={<FaFile />}
                                                   onClick={() => {
-                                                    // create blob url that shows the text content in a new window
                                                     const blob = new Blob(
                                                       [content.textContent],
                                                       {

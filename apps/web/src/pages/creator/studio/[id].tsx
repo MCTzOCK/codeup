@@ -234,19 +234,6 @@ export default function CourseViewer() {
                                               /course/{courseName[1]}/
                                               {content.url}
                                             </Text>
-                                            <Badge
-                                              fontSize={"lg"}
-                                              textAlign={"center"}
-                                              colorScheme={
-                                                content.type === "TEXT"
-                                                  ? "green"
-                                                  : "blue"
-                                              }
-                                            >
-                                              {content.type === "TEXT"
-                                                ? "Text"
-                                                : "Video"}
-                                            </Badge>
                                           </Flex>
                                           <Box flex={"50%"}>
                                             <Stack>

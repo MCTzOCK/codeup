@@ -40,9 +40,9 @@ import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import html2canvas from "html2canvas";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function Builder() {
+export default function Builder(props: { content?: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [editorHook, setEditorHook] = React.useState<grapesjs.Editor | null>(
@@ -58,7 +58,21 @@ export default function Builder() {
   const [monacoEditorContent, setMonacoEditorContent] =
     React.useState<string>("");
 
-  const monaco = useMonaco();
+  const [defaultTemplate, setDefaultTemplate] = useState<string>();
+
+  useEffect(() => {
+    if (!props.content) {
+      fetch(
+        "/_static/creator_builder/default/templates/default_template.html"
+      ).then((res) => {
+        res.text().then((text) => {
+          setDefaultTemplate(text);
+        });
+      });
+    } else {
+      setDefaultTemplate(props.content);
+    }
+  }, []);
 
   return (
     <>
@@ -176,160 +190,168 @@ export default function Builder() {
 
       <Flex w={"100%"} justifyContent={"center"}>
         <Box w={"75%"} h={"fit-content"}>
-          <GrapesjsReact
-            id={"grapesjs-react"}
-            showDevices={false}
-            showOffsetsSelected={false}
-            style={
-              "body { color-scheme: dark; background-color: black; color: white; padding-inline: .4rem; }"
-            }
-            deviceManager={{
-              deviceLabel: "Tablet",
-              devices: [
-                {
-                  name: "Tablet",
-                  width: "768px",
-                },
-              ],
-            }}
-            richTextEditor={true}
-            storageManager={false}
-            selectorManager={{
-              selectedLabel: "",
-            }}
-            onInit={(editor) => {
-              if (editor) {
-                setEditorHook(editor);
-                editor.Panels.getButton("views", "open-blocks")?.set(
-                  "className",
-                  "fa fa-plus-square"
-                );
-
-                editor.Panels.getButton("views", "open-blocks")?.set(
-                  "active",
-                  true
-                );
-
-                editor.Commands.run("sw-visibility");
-                editor.Commands.run("open-blocks");
-
-                const blocks: {
-                  id: string;
-                  block: grapesjs.BlockOptions;
-                }[] = [
-                  {
-                    id: "paragraph",
-                    block: {
-                      label: "Paragraph",
-                      category: "Text",
-                      media: reactIconToSVG(FaParagraph),
-                      content: `<h1 style="font-size: 1.2rem; font-family: 'Arial';">Insert your text here</h1>`,
-                    },
-                  },
-                  {
-                    id: "heading",
-                    block: {
-                      label: "Heading",
-                      category: "Text",
-                      media: reactIconToSVG(FaHeading),
-                      content: `<p style="font-size: 2rem; font-weight: 700; font-family: 'Arial Black'">Insert your text here</p>`,
-                    },
-                  },
-                  {
-                    id: "link",
-                    block: {
-                      label: "Link",
-                      category: "Text",
-                      content: `<a style="font-size: 1.2rem font-family: 'Arial';" href="#" class="cup-dpe-link">Link</a>`,
-                      media: reactIconToSVG(FaLink),
-                    },
-                  },
-                  {
-                    id: "image",
-                    block: {
-                      label: "Image",
-                      category: "Media",
-                      media: reactIconToSVG(FaImage),
-                      content: { type: "image" },
-                    },
-                  },
-                  {
-                    id: "video",
-                    block: {
-                      label: "Video",
-                      category: "Media",
-                      content: `<iframe width="1280" height="720" src="https://www.youtube.com/embed/p1inZ7hvz70" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
-                      media: reactIconToSVG(FaVideo),
-                    },
-                  },
-                  {
-                    id: "unordered-list",
-                    block: {
-                      label: "Unordered List",
-                      category: "List",
-                      content: `<ul style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`,
-                      media: reactIconToSVG(FaListUl),
-                    },
-                  },
-                  {
-                    id: "ordered-list",
-                    block: {
-                      label: "Ordered List",
-                      category: "List",
-                      content: `<ol style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>`,
-                      media: reactIconToSVG(FaListOl),
-                    },
-                  },
-                  {
-                    id: "list-item",
-                    block: {
-                      label: "List Item",
-                      category: "List",
-                      content: `<li style="font-size: 1.2rem; font-family: Arial">Item</li>`,
-                      media: reactIconToSVG(FaList),
-                    },
-                  },
-                  {
-                    id: "code",
-                    block: {
-                      label: "Code (Click to Add)",
-                      category: "Text",
-                      content: `<></>`,
-                      media: reactIconToSVG(FaCode),
-                      onClick: () => {
-                        onOpen();
-                      },
-                    },
-                  },
-                ];
-
-                for (const block of blocks) {
-                  editor.BlockManager.add(block.id, block.block);
+          {defaultTemplate && (
+            <>
+              <GrapesjsReact
+                id={"grapesjs-react"}
+                components={defaultTemplate}
+                showDevices={false}
+                showOffsetsSelected={false}
+                style={
+                  "body { color-scheme: dark; background-color: black; color: white; padding-inline: .4rem; }"
                 }
-                pluginInitFlexbox(editor);
+                deviceManager={{
+                  deviceLabel: "Tablet",
+                  devices: [
+                    {
+                      name: "Tablet",
+                      width: "768px",
+                    },
+                  ],
+                }}
+                richTextEditor={true}
+                storageManager={false}
+                selectorManager={{
+                  selectedLabel: "",
+                }}
+                onInit={(editor) => {
+                  if (editor) {
+                    setEditorHook(editor);
+                    editor.Panels.getButton("views", "open-blocks")?.set(
+                      "className",
+                      "fa fa-plus-square"
+                    );
 
-                const listener = () => {
-                  const html = editor.getHtml();
-                  const css = editor
-                    .getCss()
-                    .toString()
-                    .replace("max-width: 768px", "min-width: 2px");
+                    editor.Panels.getButton("views", "open-blocks")?.set(
+                      "active",
+                      true
+                    );
 
-                  const merged = `<html><head><style>${css}</style></head>${html}</html>`;
+                    editor.Commands.run("sw-visibility");
+                    editor.Commands.run("open-blocks");
 
-                  // @ts-ignore
-                  if (!window.codeup) {
-                    // @ts-ignore
-                    window.codeup = {};
+                    const blocks: {
+                      id: string;
+                      block: grapesjs.BlockOptions;
+                    }[] = [
+                      {
+                        id: "paragraph",
+                        block: {
+                          label: "Paragraph",
+                          category: "Text",
+                          media: reactIconToSVG(FaParagraph),
+                          content: `<h1 style="font-size: 1.2rem; font-family: 'Arial';">Insert your text here</h1>`,
+                        },
+                      },
+                      {
+                        id: "heading",
+                        block: {
+                          label: "Heading",
+                          category: "Text",
+                          media: reactIconToSVG(FaHeading),
+                          content: `<p style="font-size: 2rem; font-weight: 700; font-family: 'Arial Black'">Insert your text here</p>`,
+                        },
+                      },
+                      {
+                        id: "link",
+                        block: {
+                          label: "Link",
+                          category: "Text",
+                          content: `<a style="font-size: 1.2rem font-family: 'Arial';" href="#" class="cup-dpe-link">Link</a>`,
+                          media: reactIconToSVG(FaLink),
+                        },
+                      },
+                      {
+                        id: "image",
+                        block: {
+                          label: "Image",
+                          category: "Media",
+                          media: reactIconToSVG(FaImage),
+                          content: { type: "image" },
+                        },
+                      },
+                      {
+                        id: "video",
+                        block: {
+                          label: "Video",
+                          category: "Media",
+                          content: `<iframe width="1280" height="720" src="https://www.youtube.com/embed/p1inZ7hvz70" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+                          media: reactIconToSVG(FaVideo),
+                        },
+                      },
+                      {
+                        id: "unordered-list",
+                        block: {
+                          label: "Unordered List",
+                          category: "List",
+                          content: `<ul style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`,
+                          media: reactIconToSVG(FaListUl),
+                        },
+                      },
+                      {
+                        id: "ordered-list",
+                        block: {
+                          label: "Ordered List",
+                          category: "List",
+                          content: `<ol style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>`,
+                          media: reactIconToSVG(FaListOl),
+                        },
+                      },
+                      {
+                        id: "list-item",
+                        block: {
+                          label: "List Item",
+                          category: "List",
+                          content: `<li style="font-size: 1.2rem; font-family: Arial">Item</li>`,
+                          media: reactIconToSVG(FaList),
+                        },
+                      },
+                      {
+                        id: "code",
+                        block: {
+                          label: "Code (Click to Add)",
+                          category: "Text",
+                          content: `<></>`,
+                          media: reactIconToSVG(FaCode),
+                          onClick: () => {
+                            onOpen();
+                          },
+                        },
+                      },
+                    ];
+
+                    for (const block of blocks) {
+                      editor.BlockManager.add(block.id, block.block);
+                    }
+                    pluginInitFlexbox(editor);
+
+                    const listener = () => {
+                      const html = editor.getHtml();
+                      const css = editor
+                        .getCss()
+                        .toString()
+                        .replace("max-width: 768px", "min-width: 2px");
+
+                      const merged = `<html><head><style>${css}</style></head>${html}</html>`;
+
+                      // @ts-ignore
+                      if (!window.codeup) {
+                        // @ts-ignore
+                        window.codeup = {};
+                      }
+                      // @ts-ignore
+                      window.codeup.webBuilderHTMLExport = merged;
+                    };
+
+                    window.addEventListener(
+                      "codeup::webbuilder::export",
+                      listener
+                    );
                   }
-                  // @ts-ignore
-                  window.codeup.webBuilderHTMLExport = merged;
-                };
-
-                window.addEventListener("codeup::webbuilder::export", listener);
-              }
-            }}
-          />
+                }}
+              />
+            </>
+          )}
         </Box>
       </Flex>
     </>

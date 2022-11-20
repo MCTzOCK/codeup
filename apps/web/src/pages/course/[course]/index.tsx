@@ -176,14 +176,6 @@ export default function Index() {
                         {content.displayName}
                       </Heading>
                       <Flex justifyContent={"space-between"} flex={"30%"}>
-                        <Badge
-                          fontSize={"lg"}
-                          colorScheme={
-                            content.type === "VIDEO" ? "green" : "blue"
-                          }
-                        >
-                          {content.type === "VIDEO" ? "Video" : "Text"}
-                        </Badge>
                         <Heading as="h3" fontSize={"2xl"}>
                           {content.quiz.length} Quiz Fragen
                         </Heading>
