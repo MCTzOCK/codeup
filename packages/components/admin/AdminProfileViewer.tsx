@@ -131,7 +131,10 @@ export default function AdminProfileViewer(props: {
                   displayName !== props.profile.displayName
                     ? displayName
                     : props.profile.displayName,
-                bio: bio !== "" && bio !== props.profile.bio ? bio : null,
+                bio:
+                  bio !== "" && bio !== props.profile.bio
+                    ? bio
+                    : props.profile.bio,
                 website:
                   website !== "" && website !== props.profile.website
                     ? website
@@ -140,7 +143,9 @@ export default function AdminProfileViewer(props: {
                   location !== "" && location !== props.profile.location
                     ? location
                     : props.profile.location,
+                // @ts-ignore
                 verified:
+                  // @ts-ignore
                   verified !== "" && verified !== props.profile.verified
                     ? verified
                     : props.profile.verified,
@@ -271,10 +276,13 @@ export default function AdminProfileViewer(props: {
                   <FormControl id="verified" mt={4}>
                     <FormLabel>Verifiziert</FormLabel>
                     <Select name={"verified"}>
-                      <option value={true} selected={props.profile.verified}>
+                      <option value={"true"} selected={props.profile.verified}>
                         Ja
                       </option>
-                      <option value={false} selected={!props.profile.verified}>
+                      <option
+                        value={"false"}
+                        selected={!props.profile.verified}
+                      >
                         Nein
                       </option>
                     </Select>
