@@ -79,6 +79,7 @@ export default (
     "data-gjs-draggable": `.${clsRow}`,
     "data-gjs-resizable": resizerRight,
     "data-gjs-custom-name": labelCell,
+    "data-gjs-droppable": "*",
     // X Flex
     "data-gjs-unstylable": ["width"],
     "data-gjs-stylable-require": ["flex-basis"],
