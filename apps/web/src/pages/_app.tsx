@@ -118,6 +118,7 @@ function App({ Component, pageProps }: AppProps) {
       />
       <ChakraProvider theme={theme}>
         <Box minH="100vh" minW="100%">
+          <div id={"__codeup_other_component_render_space_do_not_use"}></div>
           <NavigationBar />
           <Box minH={"96vh"}>
             {router.pathname.startsWith("/community") ? (

@@ -9,10 +9,13 @@
  */
 
 import * as React from "react";
+import * as rd from "react-dom";
 import { GrapesjsReact } from "grapesjs-react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import grapesjs from "grapesjs";
 import {
+  FaArrowsAlt,
+  FaCamera,
   FaCode,
   FaHeading,
   FaImage,
@@ -23,11 +26,167 @@ import {
   FaParagraph,
   FaVideo,
 } from "react-icons/fa";
-import { Box, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Select,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  ButtonGroup,
+} from "@chakra-ui/react";
+import { ImageResponse } from "@vercel/og";
+import CodeBlock from "../../../special-components/CodeBlock";
+import * as prism from "prismjs";
+import * as dti from "dom-to-image";
+import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
+import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
+import { editor } from "monaco-editor";
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import html2canvas from "html2canvas";
 
 export default function Builder() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [editorHook, setEditorHook] = React.useState<grapesjs.Editor | null>(
+    null
+  );
+
+  const [monacoHook, setMonacoHook] = React.useState<Monaco | null>(null);
+  const [monacoEditorHook, setMonacoEditorHook] =
+    React.useState<IStandaloneCodeEditor | null>(null);
+  const [monacoEditorLanguage, setMonacoEditorLanguage] = React.useState<
+    string | null
+  >(null);
+  const [monacoEditorContent, setMonacoEditorContent] =
+    React.useState<string>("");
+
+  const monaco = useMonaco();
+
   return (
     <>
+      <CodeUpModal
+        onOpen={onOpen}
+        onClose={onClose}
+        isOpen={isOpen}
+        title={"Code Block Erstellen"}
+        customSize={["6xl"]}
+      >
+        <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
+          {!monacoEditorLanguage && (
+            <InputGroup w={"100%"} overflow={"auto"} mb={"2rem"}>
+              <InputLeftElement>
+                <FaCode />
+              </InputLeftElement>
+              <Input
+                placeholder={"Programmiersprache eingeben..."}
+                w={"100%"}
+                id={"codeup-code-block-language"}
+              />
+              <Button
+                ml={2}
+                colorScheme={"green"}
+                boxShadow={"2xl"}
+                onClick={() => {
+                  // remove monaco editor if exists
+                  if (monacoEditorHook) {
+                    monacoEditorHook.dispose();
+                  }
+
+                  // set language
+                  setMonacoEditorLanguage(
+                    (
+                      document.getElementById(
+                        "codeup-code-block-language"
+                      ) as HTMLInputElement
+                    )?.value || ""
+                  );
+                }}
+              >
+                Erstellen
+              </Button>
+            </InputGroup>
+          )}
+          {monacoEditorLanguage && (
+            <>
+              <Box id={"codeup_code_image_creator_monaco"}>
+                <Editor
+                  defaultLanguage={monacoEditorLanguage}
+                  defaultValue={monacoEditorContent}
+                  onMount={(editor, monaco) => {
+                    if (editor && monaco) {
+                      setMonacoHook(monaco);
+                      setMonacoEditorHook(editor);
+                    }
+                  }}
+                  onChange={(value, ev) => {
+                    setMonacoEditorContent(value || "");
+                  }}
+                  theme={"vs-dark"}
+                  height={"40vh"}
+                  options={{
+                    fontSize: 20,
+                    minimap: {
+                      enabled: false,
+                    },
+                    scrollbar: {
+                      scrollByPage: true,
+                    },
+                  }}
+                />
+              </Box>
+            </>
+          )}
+          {monacoEditorLanguage && (
+            <ButtonGroup w={"100%"} mt={"2rem"}>
+              <Button
+                leftIcon={<FaArrowsAlt />}
+                w={"100%"}
+                colorScheme={"red"}
+                onClick={() => {
+                  setMonacoEditorLanguage(null);
+                }}
+              >
+                Sprache wechseln
+              </Button>
+              <Button
+                colorScheme={"green"}
+                w={"100%"}
+                leftIcon={<FaCamera />}
+                onClick={async () => {
+                  const i = await html2canvas(
+                    document.getElementsByClassName(
+                      "monaco-editor"
+                    )[0] as HTMLElement
+                  );
+
+                  const img = new Image();
+                  img.src = i.toDataURL();
+
+                  editorHook?.AssetManager.add(img.src, img);
+
+                  editorHook?.addComponents(`<img src="${img.src}" />`);
+
+                  onClose();
+                }}
+              >
+                Screenshots erstellen
+              </Button>
+            </ButtonGroup>
+          )}
+        </Box>
+      </CodeUpModal>
+
       <Flex
         w={"100%"}
         minH={"100vh"}
@@ -58,6 +217,7 @@ export default function Builder() {
             }}
             onInit={(editor) => {
               if (editor) {
+                setEditorHook(editor);
                 editor.Panels.getButton("views", "open-blocks")?.set(
                   "className",
                   "fa fa-plus-square"
@@ -155,24 +315,7 @@ export default function Builder() {
                       content: `<></>`,
                       media: reactIconToSVG(FaCode),
                       onClick: () => {
-                        const functionName = randomString(32);
-
-                        // @ts-ignore
-                        window[functionName] = () => {
-                          const code = (
-                            document.getElementById(
-                              functionName
-                            ) as HTMLTextAreaElement
-                          ).value;
-                        };
-
-                        editor.Modal.open({
-                          title: "Code",
-                          content: `
-                            <textarea id="${functionName}" style="width: 100%; height: 50vh;"></textarea>
-                            <button onClick="window.${functionName}()">Run</button>
-                        `,
-                        });
+                        onOpen();
                       },
                     },
                   },
