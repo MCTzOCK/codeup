@@ -27,6 +27,7 @@ import ReactMarkdown from "react-markdown";
 import CodeBlock from "../../../special-components/CodeBlock";
 import MDRenderer from "../../../special-components/MDRenderer";
 import VideoPlayer from "@codeup/components/global/VideoPlayer";
+import { Quiz } from "@codeup/components/course";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -177,6 +178,7 @@ export default function SectionViewer() {
                   border: "none",
                 }}
               />
+              <Quiz title={content.displayName} questions={content.quiz} />
             </Box>
           </Box>
         </>
