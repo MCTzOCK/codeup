@@ -75,6 +75,22 @@ export default async function handleRequest(
           contents,
         });
       } else {
+        if (req.query.contentId) {
+          const content = await ContentModel.findById(req.query.contentId);
+
+          if (content) {
+            res.status(200).json({
+              content,
+            });
+            return;
+          }
+
+          res.status(404).json({
+            error: "Content not found",
+          });
+          return;
+        }
+
         const contents = await ContentModel.find({
           creator: editorUser.username,
         });

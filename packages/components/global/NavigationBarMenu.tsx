@@ -62,7 +62,7 @@ export default function NavigationBarMenu(props: {
               </Link>
               <Link href={"/creator"} onClick={props.onClose}>
                 <Text fontSize={"xl"} cursor={"pointer"}>
-                  Creator werden
+                  Creator
                 </Text>
               </Link>
             </Stack>

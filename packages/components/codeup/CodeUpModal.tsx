@@ -30,13 +30,14 @@ export default function CodeUpModal(props: {
   children: React.ReactNode;
   title?: string;
   blackBackground?: boolean;
+  customSize?: string | string[];
 }) {
   return (
     <>
       <Modal
         isOpen={props.isOpen}
         onClose={props.onClose}
-        size={["full", "2xl"]}
+        size={props.customSize ? props.customSize : ["full", "2xl"]}
         isCentered
         scrollBehavior={"inside"}
       >

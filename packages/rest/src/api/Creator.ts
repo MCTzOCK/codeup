@@ -104,13 +104,24 @@ export async function createContent(options: {
 export async function getContents(options: {
   token: string;
   courseId?: string;
+  contentId?: string;
 }): Promise<IResponse> {
+  const urlSearchParams = new URLSearchParams();
+
+  if (options.courseId) {
+    urlSearchParams.append("courseId", options.courseId);
+  }
+
+  if (options.contentId) {
+    urlSearchParams.append("contentId", options.contentId);
+  }
+
   return makeRequest({
     method: "GET",
     token: options.token,
     path:
       "/api/creator/content" +
-      (options.courseId ? `?course=${options.courseId}` : ""),
+      (urlSearchParams.toString() ? "?" + urlSearchParams.toString() : ""),
   });
 }
 
@@ -143,5 +154,12 @@ export async function updateContent(options: {
       id: options.cid,
       update: options.update,
     },
+  });
+}
+
+export async function getTopCreators(): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/creator/top",
+    method: "GET",
   });
 }

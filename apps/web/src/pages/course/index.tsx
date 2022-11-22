@@ -110,7 +110,7 @@ export default function Index() {
           >
             Kurse
           </Heading>
-          <Text>
+          <Text fontSize={["xl", "2xl"]}>
             Aktuell bieten wir&nbsp;
             <b>
               {courses.length} Kurs
@@ -142,6 +142,7 @@ export default function Index() {
             <Input
               type="text"
               placeholder="Kurse durchsuchen"
+              fontSize={"xl"}
               onChange={(e) => {
                 setFilteredCourses(
                   courses.filter(
@@ -164,17 +165,18 @@ export default function Index() {
         <Grid
           templateColumns={
             filteredCourses.length > 0
-              ? ["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]
-              : ["repeat(1, 1fr)"]
+              ? ["repeat(1, 1fr)", "repeat(3, 1fr)"]
+              : "repeat(1, 1fr)"
           }
           gap={6}
           w={"100%"}
           justifyContent="center"
           alignItems={"center"}
+          h={"fit-content"}
         >
           {filteredCourses.map((c) => (
             <>
-              <GridItem m={4}>
+              <GridItem m={8}>
                 <Box
                   bg={"gray.900"}
                   color={"white"}
@@ -202,7 +204,7 @@ export default function Index() {
                       h={"150px"}
                     />
                     <Heading
-                      size={"lg"}
+                      size={"xl"}
                       color={"white"}
                       fontWeight={"bold"}
                       textAlign={"left"}
@@ -210,48 +212,42 @@ export default function Index() {
                     >
                       {c.name}
                     </Heading>
+                    <Text fontSize={"xl"} color={"gray.400"} textAlign={"left"}>
+                      von&nbsp;
+                      <chakra.span color={"green.400"}>
+                        @{c.creator}
+                      </chakra.span>
+                    </Text>
                     <Heading
-                      size={"md"}
+                      size={"lg"}
                       color={"gray.400"}
                       fontWeight={"normal"}
                       textAlign={"left"}
                     >
                       {c.description}
                     </Heading>
+                    <Text fontSize={"xl"} color={"gray.400"} textAlign={"left"}>
+                      {c.contentPositions.length} Lektion
+                      {c.contentPositions.length !== 1 ? "en" : ""}
+                    </Text>
                   </Flex>
                 </Box>
               </GridItem>
             </>
           ))}
-          {filteredCourses.length === 0 ? (
-            <>
-              <GridItem m={4}>
-                <Box
-                  bg={"gray.900"}
-                  color={"white"}
-                  rounded={"lg"}
-                  p={6}
-                  h={"100%"}
-                >
-                  <Flex
-                    justifyContent={"space-between"}
-                    direction={"column"}
-                    gap={2}
-                  >
-                    <Heading
-                      size={"lg"}
-                      color={"white"}
-                      fontWeight={"bold"}
-                      textAlign={"left"}
-                    >
-                      Keine Kurse gefunden
-                    </Heading>
-                  </Flex>
-                </Box>
-              </GridItem>
-            </>
-          ) : null}
         </Grid>
+        {filteredCourses.length === 0 ? (
+          <>
+            <Heading
+              size={"md"}
+              color={"gray.400"}
+              fontWeight={"normal"}
+              textAlign={"center"}
+            >
+              Keine Kurse gefunden
+            </Heading>
+          </>
+        ) : null}
       </Flex>
     </>
   );

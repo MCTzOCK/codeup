@@ -36,6 +36,7 @@ import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import Builder from "../../../../../special-components/Builder";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -47,7 +48,6 @@ export default function NewContents() {
   const [displayName, setDisplayName] = React.useState("");
   const [course, setCourse] = React.useState("");
   const [url, setURL] = React.useState("");
-  const [type, setType] = React.useState<"VIDEO" | "TEXT" | "">("");
   const [textContent, setTextContent] = React.useState("");
   const [quizQuestions, setQuizQuestions] = React.useState<
     {
@@ -58,7 +58,6 @@ export default function NewContents() {
       }[];
     }[]
   >([]);
-  const [videoURL, setVideoURL] = React.useState("");
 
   const [steps, setSteps] = useState([
     { label: "Name" },
@@ -70,20 +69,11 @@ export default function NewContents() {
     initialStep: 0,
   });
 
-  useEffect(() => {
-    if (type === "VIDEO" && !steps.find((s) => s.label === "Video URL")) {
-      setSteps([
-        ...steps,
-        {
-          label: "Video URL",
-        },
-      ]);
-    }
-  }, [type]);
-
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const toast = useToast();
+
+  const [custom_event_id, setCustomEventId] = React.useState<string>("");
 
   useEffect(() => {
     if (router.query.course) {
@@ -96,6 +86,7 @@ export default function NewContents() {
               )
             ) {
               setCourse(router.query.course as string);
+              setCustomEventId(randomString());
               setLoaded(true);
             } else {
               setError(true);
@@ -115,244 +106,155 @@ export default function NewContents() {
         <>
           {loaded && !error ? (
             <>
-              {type === "" ? (
-                <>
-                  <Grid templateColumns="repeat(2, 1fr)" gap={6} p={12}>
-                    {[
-                      {
-                        title: "Text",
-                        description: "Text basierter Inhalt",
-                        value: "TEXT",
-                        icon: <FaBookOpen />,
-                      },
-                      {
-                        title: "Video",
-                        description:
-                          "Video basierter Inhalt mit optionalem Text",
-                        value: "VIDEO",
-                        icon: <FaYoutube />,
-                      },
-                    ].map((item, index) => {
-                      return (
+              <Flex flexDir="column" width="100%" p={"5rem"}>
+                <Heading size="lg" mb={"2rem"} textAlign={"left"}>
+                  Neuer Inhalt
+                </Heading>
+                <Steps size={"lg"} activeStep={activeStep}>
+                  {steps.map(({ label }, index) => (
+                    <Step label={label} key={label} mb={"2rem"}>
+                      {index === 0 ? (
                         <>
-                          <GridItem key={index}>
-                            <Box
-                              onClick={() => {
-                                setType(item.value as "VIDEO" | "TEXT");
-                              }}
-                              cursor="pointer"
-                              p={4}
-                              borderWidth="1px"
-                              borderRadius="lg"
-                              _hover={{
-                                borderColor: "blue.500",
-                              }}
-                            >
-                              <Box
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                w="100%"
-                                h="100px"
-                                borderRadius="lg"
-                                bg="blue.500"
-                                color="white"
-                                fontSize="4xl"
-                              >
-                                {item.icon}
-                              </Box>
-                              <Box mt={4}>
-                                <Box fontSize="2xl">{item.title}</Box>
-                                <Box color="gray.400">{item.description}</Box>
-                              </Box>
-                            </Box>
-                          </GridItem>
-                        </>
-                      );
-                    })}
-                  </Grid>
-                </>
-              ) : (
-                <>
-                  <Flex flexDir="column" width="100%" p={"5rem"}>
-                    <Heading size="lg" mb={"2rem"} textAlign={"left"}>
-                      {type === "VIDEO" ? "Neues Video" : "Neuer Text"}
-                    </Heading>
-                    <Steps size={"lg"} activeStep={activeStep}>
-                      {steps.map(({ label }, index) => (
-                        <Step label={label} key={label} mb={"2rem"}>
-                          {index === 0 ? (
-                            <>
-                              <FormControl isRequired>
-                                <FormLabel>Titel</FormLabel>
-                                <InputGroup>
-                                  <InputLeftAddon>
-                                    <FaBookOpen />
-                                  </InputLeftAddon>
-                                  <Input
-                                    type={"text"}
-                                    name={"title"}
-                                    id={"new_content_title"}
-                                    placeholder={"Titel"}
-                                    required
-                                    onChange={(e) =>
-                                      setDisplayName(e.target.value)
-                                    }
-                                  />
-                                </InputGroup>
-                              </FormControl>
-                              <FormControl mt={"2rem"} isRequired>
-                                <FormLabel>URL Freundlicher Name</FormLabel>
-                                <InputGroup>
-                                  <InputLeftAddon>
-                                    <FaGlobe />
-                                  </InputLeftAddon>
-                                  <Input
-                                    type={"text"}
-                                    name={"friendlyName"}
-                                    id={"new_content_friendlyName"}
-                                    placeholder={"URL Freundlicher Name"}
-                                    required
-                                    onChange={(e) => setURL(e.target.value)}
-                                  />
-                                </InputGroup>
-                              </FormControl>
-                            </>
-                          ) : index === 1 ? (
-                            <>
-                              <FormControl mt={"2rem"} isRequired>
-                                <FormLabel>Beschreibung</FormLabel>
-                                <SimpleMdeReact
-                                  value={textContent}
-                                  onChange={(e) => setTextContent(e)}
-                                />
-                              </FormControl>
-                            </>
-                          ) : index === 2 ? (
-                            <>
-                              <AdminQuizMaker
-                                quizQuestions={quizQuestions}
-                                setQuizQuestions={setQuizQuestions}
+                          <FormControl isRequired>
+                            <FormLabel>Titel</FormLabel>
+                            <InputGroup>
+                              <InputLeftAddon>
+                                <FaBookOpen />
+                              </InputLeftAddon>
+                              <Input
+                                type={"text"}
+                                name={"title"}
+                                id={"new_content_title"}
+                                placeholder={"Titel"}
+                                required
+                                onChange={(e) => setDisplayName(e.target.value)}
                               />
-                            </>
-                          ) : index === 3 && type === "VIDEO" ? (
-                            <>
-                              <FormControl mt={"2rem"} isRequired>
-                                <FormLabel>YouTube URL</FormLabel>
-                                <InputGroup>
-                                  <InputLeftAddon>
-                                    youtube.com/watch?v=
-                                  </InputLeftAddon>
-                                  <Input
-                                    type={"text"}
-                                    name={"youtubeId"}
-                                    placeholder={"Video-ID"}
-                                    required
-                                    onChange={(e) =>
-                                      setVideoURL(e.target.value)
-                                    }
-                                  />
-                                </InputGroup>
-                              </FormControl>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Step>
-                      ))}
-                    </Steps>
-                    {activeStep === steps.length ? (
-                      <Flex px={4} py={4} width="100%" flexDirection="column">
-                        <Heading fontSize="xl" textAlign="center">
-                          Woohoo! All steps completed!
-                        </Heading>
-                        <Button mx="auto" mt={6} size="sm" onClick={reset}>
-                          Zurücksetzen
-                        </Button>
-                      </Flex>
-                    ) : (
-                      <Flex width="100%" justify="flex-end" mt={"2rem"}>
-                        <Button
-                          mr={4}
-                          onClick={() => {
-                            if (activeStep === 0) {
-                              setType("");
-                            } else {
-                              prevStep();
-                            }
-                          }}
-                          size="lg"
-                          variant="ghost"
-                        >
-                          {activeStep > 0 ? "Vorheriger" : "Typ Ändern"}
-                        </Button>
-                        <Button
-                          size="lg"
-                          onClick={async () => {
-                            if (activeStep !== steps.length - 1) {
-                              switch (activeStep) {
-                                case 0:
-                                  if (displayName === "" || url === "") {
-                                    return;
-                                  }
-                                  nextStep();
-                                  break;
-                                case 1:
-                                  if (textContent === "") return;
-                                  nextStep();
-                                  break;
-                                case 2:
-                                  if (quizQuestions.length === 0) return;
-                                  nextStep();
-                                  break;
-                                case 3:
-                                  if (type === "VIDEO" && videoURL === "")
-                                    return;
-                                  nextStep();
-                                  break;
-                                default:
-                                  break;
-                              }
-                            } else {
-                              const res = await REST.Creator.createContent({
-                                token: localStorage.getItem("token") as string,
-                                course: course,
-                                displayName,
-                                quiz: quizQuestions,
-                                textContent,
-                                type: type === "VIDEO" ? "VIDEO" : "TEXT",
-                                url,
-                                videoUrl: videoURL
-                                  ? "https://youtube.com/watch?v=" + videoURL
-                                  : "",
-                              });
-
-                              if (res.status === 200) {
-                                router.push("/creator/studio/" + course);
-                              } else {
-                                console.log(res.payload);
-                                toast({
-                                  title: "Fehler",
-                                  description:
-                                    "Fehler beim Erstellen: " +
-                                    res.payload.error,
-                                  status: "error",
-                                  duration: 1500,
-                                  isClosable: true,
-                                });
-                              }
-                            }
-                          }}
-                        >
-                          {activeStep === steps.length - 1
-                            ? "Fertigstellen"
-                            : "Nächster"}
-                        </Button>
-                      </Flex>
-                    )}
+                            </InputGroup>
+                          </FormControl>
+                          <FormControl mt={"2rem"} isRequired>
+                            <FormLabel>URL Freundlicher Name</FormLabel>
+                            <InputGroup>
+                              <InputLeftAddon>
+                                <FaGlobe />
+                              </InputLeftAddon>
+                              <Input
+                                type={"text"}
+                                name={"friendlyName"}
+                                id={"new_content_friendlyName"}
+                                placeholder={"URL Freundlicher Name"}
+                                required
+                                onChange={(e) => setURL(e.target.value)}
+                              />
+                            </InputGroup>
+                          </FormControl>
+                        </>
+                      ) : index === 1 ? (
+                        <>
+                          <Builder custom_event_id={custom_event_id} />
+                        </>
+                      ) : index === 2 ? (
+                        <>
+                          <AdminQuizMaker
+                            quizQuestions={quizQuestions}
+                            setQuizQuestions={setQuizQuestions}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </Step>
+                  ))}
+                </Steps>
+                {activeStep === steps.length ? (
+                  <Flex px={4} py={4} width="100%" flexDirection="column">
+                    <Heading fontSize="xl" textAlign="center">
+                      Woohoo! All steps completed!
+                    </Heading>
+                    <Button mx="auto" mt={6} size="sm" onClick={reset}>
+                      Zurücksetzen
+                    </Button>
                   </Flex>
-                </>
-              )}
+                ) : (
+                  <Flex width="100%" justify="flex-end" mt={"2rem"}>
+                    <Button
+                      mr={4}
+                      onClick={() => {
+                        if (activeStep === 0) return;
+                        prevStep();
+                      }}
+                      size="lg"
+                      variant="ghost"
+                    >
+                      Vorheriger
+                    </Button>
+                    <Button
+                      size="lg"
+                      onClick={async () => {
+                        if (activeStep !== steps.length - 1) {
+                          switch (activeStep) {
+                            case 0:
+                              if (displayName === "" || url === "") {
+                                return;
+                              }
+                              nextStep();
+                              break;
+                            case 1:
+                              window.dispatchEvent(
+                                new CustomEvent("codeup::webbuilder::export")
+                              );
+
+                              const mergedCode =
+                                // @ts-ignore
+                                window.codeup.webBuilderHTMLExport;
+
+                              setTextContent(mergedCode);
+
+                              // @ts-ignore
+                              delete window.codeup.webBuilderHTMLExport;
+
+                              nextStep();
+                              break;
+                            case 2:
+                              if (quizQuestions.length === 0) return;
+                              nextStep();
+                              break;
+                            default:
+                              break;
+                          }
+                        } else {
+                          const res = await REST.Creator.createContent({
+                            token: localStorage.getItem("token") as string,
+                            course: course,
+                            displayName,
+                            quiz: quizQuestions,
+                            textContent,
+                            type: "TEXT",
+                            url,
+                          });
+
+                          if (res.status === 200) {
+                            router.push("/creator/studio/" + course);
+                          } else {
+                            console.log(res.payload);
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Fehler beim Erstellen: " + res.payload.error,
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                            });
+                          }
+                        }
+                      }}
+                    >
+                      {activeStep === steps.length - 1
+                        ? "Fertigstellen"
+                        : "Nächster"}
+                    </Button>
+                  </Flex>
+                )}
+              </Flex>
             </>
           ) : (
             <>
@@ -385,4 +287,14 @@ export default function NewContents() {
       </CreatorStudioLayout>
     </>
   );
+}
+
+function randomString(length: number = 32) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++)
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  return result;
 }

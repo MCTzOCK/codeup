@@ -22,7 +22,6 @@ const Content = new mongoose.Schema({
   url: {
     type: String,
     required: true,
-    unique: true,
   },
   createdAt: {
     type: Date,
@@ -33,6 +32,11 @@ const Content = new mongoose.Schema({
   type: {
     type: String,
     required: true,
+  },
+  contentType: {
+    type: String,
+    required: true,
+    default: "textContent",
   },
   textContent: {
     type: String,

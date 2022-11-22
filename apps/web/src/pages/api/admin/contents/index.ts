@@ -165,6 +165,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         type,
         textContent,
         quiz,
+        creator: adminuser.username,
         videoUrl: videoUrl ? videoUrl : undefined,
       });
 
@@ -206,9 +207,17 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       });
     }
   } catch (e) {
-    res.status(500).json({
-      error: "Internal Server Error",
-      success: false,
-    });
+    // @ts-ignore
+    if (e.message) {
+      res.status(500).json({
+        error: "Internal Server Error:" + e.message,
+        success: false,
+      });
+    } else {
+      res.status(500).json({
+        error: "Internal Server Error: Unknown Error",
+        success: false,
+      });
+    }
   }
 }

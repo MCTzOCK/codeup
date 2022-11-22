@@ -44,7 +44,7 @@ export default function Quiz(props: {
   title: string;
   questions: {
     question: string | React.ReactNode;
-    difficulty: "easy" | "medium" | "hard";
+    difficulty?: "easy" | "medium" | "hard";
     answers: {
       answer: string | React.ReactNode;
       correct: boolean;
@@ -246,6 +246,7 @@ export default function Quiz(props: {
                 <Badge
                   ml="1rem"
                   variant="outline"
+                  display={"none"}
                   colorScheme={
                     props.questions[currentQuestion].difficulty === "easy"
                       ? "green"

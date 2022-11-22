@@ -18,15 +18,25 @@ import {
   ButtonGroup,
   Flex,
   Heading,
+  HStack,
   IconButton,
+  Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { FaEye, FaFile, FaHome, FaTrash, FaYoutube } from "react-icons/fa";
+import {
+  FaEye,
+  FaFile,
+  FaHome,
+  FaPen,
+  FaTrash,
+  FaYoutube,
+} from "react-icons/fa";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
+import course from "../../api/course/[course]";
 
 export default function CourseViewer() {
   const router = useRouter();
@@ -36,6 +46,8 @@ export default function CourseViewer() {
   const [courseName, setCourseName] = React.useState<string[]>([
     "Inhalte Laden...",
   ]);
+
+  const [_rawCourseObject, _setRawCourseObject] = React.useState<any>(null);
 
   const [contentPositions, setContentPositions] = React.useState<string[]>([]);
 
@@ -69,6 +81,7 @@ export default function CourseViewer() {
             )[0];
             setCourseName([course.name, course.friendlyName]);
             setContentPositions(course.contentPositions);
+            _setRawCourseObject(course);
           } else {
             console.error(res);
             alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
@@ -150,211 +163,255 @@ export default function CourseViewer() {
             Neu
           </Button>
         </Flex>
-        <DragDropContext
-          onDragEnd={(result) => {
-            if (!result.destination) return;
+        <Flex alignItems={"center"} p={6} w={"100%"} justifyContent={"center"}>
+          <Box maxW={["100%", "50%"]} w={"100%"} id={"_tmp.up"}>
+            <DragDropContext
+              onDragEnd={(result) => {
+                if (!result.destination) return;
 
-            const items0 = Array.from(items);
+                const items0 = Array.from(items);
 
-            const [reorderedItem] = items0.splice(result.source.index, 1);
-            items0.splice(result.destination.index, 0, reorderedItem);
+                const [reorderedItem] = items0.splice(result.source.index, 1);
+                items0.splice(result.destination.index, 0, reorderedItem);
 
-            setItems(items0);
+                setItems(items0);
 
-            REST.Creator.updateCourse({
-              token: localStorage.getItem("token") as string,
-              id: id as string,
-              update: {
-                // @ts-ignore
-                contentPositions: items0.map((i) => i._id),
-              },
-            });
-          }}
-        >
-          <Droppable droppableId={"contents"}>
-            {(provided, snapshopt) => (
-              <>
-                <Box
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  p={"2rem"}
-                >
-                  {items.map((content, index) => (
-                    <>
-                      {content !== undefined ? (
+                REST.Creator.updateCourse({
+                  token: localStorage.getItem("token") as string,
+                  id: id as string,
+                  update: {
+                    // @ts-ignore
+                    contentPositions: items0.map((i) => i._id),
+                  },
+                });
+              }}
+            >
+              <Droppable droppableId={"contents"}>
+                {(provided, snapshopt) => (
+                  <>
+                    <Box
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      p={"2rem"}
+                    >
+                      {items.map((content, index) => (
                         <>
-                          <Draggable
-                            key={content._id}
-                            draggableId={content._id}
-                            index={index}
-                          >
-                            {(provided, snapshot) => (
-                              <>
-                                <Box
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  bg={"gray.900"}
-                                  color={"white"}
-                                  rounded={"lg"}
-                                  p={6}
-                                  mt={6}
-                                  borderWidth="1px"
-                                  borderRadius="lg"
-                                  _hover={{
-                                    borderColor: "blue.500",
-                                  }}
-                                  cursor={"pointer"}
-                                >
-                                  <Flex
-                                    justifyContent={"space-between"}
-                                    direction={"column"}
-                                    gap={2}
-                                  >
-                                    <Flex
-                                      justifyContent={"space-between"}
-                                      direction={"row"}
-                                      alignItems={"center"}
+                          {content !== undefined ? (
+                            <>
+                              <Draggable
+                                key={content._id}
+                                draggableId={content._id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <>
+                                    <Box
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      bg={"gray.900"}
+                                      color={"white"}
+                                      rounded={"lg"}
+                                      p={6}
+                                      mt={6}
+                                      borderWidth="1px"
+                                      borderRadius="lg"
+                                      _hover={{
+                                        borderColor: "blue.500",
+                                      }}
+                                      cursor={"pointer"}
                                     >
-                                      <Heading size={"md"}>
-                                        {content.displayName}
-                                      </Heading>
-                                      <Text size={"sm"} color={"gray.400"}>
-                                        /course/{courseName[1]}/{content.url}
-                                      </Text>
-                                      <Badge
-                                        colorScheme={
-                                          content.type === "TEXT"
-                                            ? "green"
-                                            : "blue"
-                                        }
+                                      <Flex
+                                        justifyContent={"space-between"}
+                                        direction={"column"}
+                                        gap={2}
                                       >
-                                        {content.type === "TEXT"
-                                          ? "Text"
-                                          : "Video"}
-                                      </Badge>
-                                      <IconButton
-                                        aria-label={"Löschen"}
-                                        icon={<FaTrash />}
-                                        variant={"ghost"}
-                                        colorScheme={"red"}
-                                        onClick={async () => {
-                                          if (
-                                            !confirm(
-                                              "Willst du den Inhalt wirklich löschen?"
-                                            )
-                                          ) {
-                                            return;
-                                          }
-
-                                          const res =
-                                            await REST.Creator.deleteContent({
-                                              token: localStorage.getItem(
-                                                "token"
-                                              ) as string,
-                                              cid: content._id,
-                                            });
-
-                                          if (res.status === 200) {
-                                            reloadContents();
-                                            toast({
-                                              title: "Inhalt gelöscht",
-                                              description:
-                                                "Der Inhalt wurde erfolgreich gelöscht.",
-                                              status: "success",
-                                              duration: 1500,
-                                              isClosable: true,
-                                              position: "bottom-right",
-                                            });
-                                          } else {
-                                            console.error(res);
-                                            toast({
-                                              title: "Fehler beim Löschen",
-                                              description:
-                                                "Der Inhalt konnte nicht gelöscht werden. Details siehe Konsole.",
-                                              status: "error",
-                                              duration: 1500,
-                                              isClosable: true,
-                                              position: "bottom-right",
-                                            });
-                                          }
-                                        }}
-                                      />
-                                    </Flex>
-                                    <Text
-                                      fontSize={"sm"}
-                                      color={"gray.400"}
-                                    >{`Erstellt am: ${new Date(
-                                      content.createdAt
-                                    )
-                                      .toLocaleString()
-                                      .replace(",", " um")}`}</Text>
-                                    <ButtonGroup mt={6}>
-                                      <Button
-                                        w={"100%"}
-                                        leftIcon={<FaFile />}
-                                        onClick={() => {
-                                          // create blob url that shows the text content in a new window
-                                          const blob = new Blob(
-                                            [content.textContent],
-                                            {
-                                              type: "text/plain",
-                                            }
-                                          );
-
-                                          const url = URL.createObjectURL(blob);
-
-                                          window.open(url, "_blank");
-                                        }}
-                                      >
-                                        Text Anzeigen
-                                      </Button>
-                                      {content.type === "VIDEO" ? (
-                                        <>
-                                          <Button
-                                            leftIcon={<FaYoutube />}
-                                            w={"100%"}
-                                            onClick={() => {
-                                              window.open(
-                                                content.videoUrl,
-                                                "_blank"
-                                              );
-                                            }}
+                                        <Flex
+                                          direction={"row"}
+                                          w={"100%"}
+                                          gap={8}
+                                        >
+                                          <Flex
+                                            direction={"column"}
+                                            flex="50%"
+                                            gap={4}
                                           >
-                                            Video Anzeigen
-                                          </Button>
-                                        </>
-                                      ) : null}
-                                    </ButtonGroup>
-                                    <ButtonGroup mt={3}>
-                                      <Button
-                                        w={"100%"}
-                                        leftIcon={<FaEye />}
-                                        onClick={() => {
-                                          router.push(
-                                            `/course/${courseName[1]}/${content.url}`
-                                          );
-                                        }}
-                                      >
-                                        Anzeigen
-                                      </Button>
-                                    </ButtonGroup>
-                                  </Flex>
-                                </Box>
-                              </>
-                            )}
-                          </Draggable>
+                                            <Heading size={"md"}>
+                                              {content.displayName}
+                                            </Heading>
+                                            <Text
+                                              size={"sm"}
+                                              color={"gray.400"}
+                                            >
+                                              /course/{courseName[1]}/
+                                              {content.url}
+                                            </Text>
+                                          </Flex>
+                                          <Box flex={"50%"}>
+                                            <Stack>
+                                              <Button
+                                                w={"100%"}
+                                                colorScheme={"blue"}
+                                                leftIcon={<FaEye />}
+                                                onClick={() => {
+                                                  if (
+                                                    !_rawCourseObject.available
+                                                  ) {
+                                                    if (
+                                                      confirm(
+                                                        "Kurs veröffentlichen, um Benutzeransicht zu sehen?"
+                                                      )
+                                                    ) {
+                                                      REST.Creator.updateCourse(
+                                                        {
+                                                          token:
+                                                            localStorage.getItem(
+                                                              "token"
+                                                            ) as string,
+                                                          update: {
+                                                            available: true,
+                                                          },
+                                                          id: _rawCourseObject._id,
+                                                        }
+                                                      ).then((res) => {
+                                                        if (
+                                                          res.status === 200
+                                                        ) {
+                                                          router.push(
+                                                            `/course/${courseName[1]}/${content.url}`
+                                                          );
+                                                        } else {
+                                                          toast({
+                                                            title:
+                                                              "Fehler beim Veröffentlichen",
+                                                            description:
+                                                              "Veröffentlichen fehlgeschlagen: " +
+                                                              res.payload.error,
+                                                            status: "error",
+                                                            duration: 1500,
+                                                            isClosable: true,
+                                                          });
+                                                        }
+                                                      });
+                                                    } else {
+                                                      return;
+                                                    }
+                                                  }
+
+                                                  router.push(
+                                                    `/course/${courseName[1]}/${content.url}`
+                                                  );
+                                                }}
+                                              >
+                                                Benutzeransicht
+                                              </Button>
+                                              <HStack>
+                                                <Button
+                                                  w={"100%"}
+                                                  leftIcon={<FaPen />}
+                                                  colorScheme={"blue"}
+                                                  onClick={() => {
+                                                    router.push(
+                                                      `/creator/studio/edit/${content._id}/info`
+                                                    );
+                                                  }}
+                                                >
+                                                  Bearbeiten
+                                                </Button>
+                                                <Button
+                                                  w={"100%"}
+                                                  leftIcon={<FaPen />}
+                                                  colorScheme={"blue"}
+                                                  onClick={() => {
+                                                    router.push(
+                                                      `/creator/studio/edit/${content._id}`
+                                                    );
+                                                  }}
+                                                >
+                                                  Inhalt Bearbeiten
+                                                </Button>
+                                              </HStack>
+                                              <Button
+                                                w={"100%"}
+                                                leftIcon={<FaTrash />}
+                                                colorScheme={"red"}
+                                                onClick={async () => {
+                                                  if (
+                                                    !confirm(
+                                                      "Willst du den Inhalt wirklich löschen?"
+                                                    )
+                                                  ) {
+                                                    return;
+                                                  }
+
+                                                  const res =
+                                                    await REST.Creator.deleteContent(
+                                                      {
+                                                        token:
+                                                          localStorage.getItem(
+                                                            "token"
+                                                          ) as string,
+                                                        cid: content._id,
+                                                      }
+                                                    );
+
+                                                  if (res.status === 200) {
+                                                    reloadContents();
+                                                    toast({
+                                                      title: "Inhalt gelöscht",
+                                                      description:
+                                                        "Der Inhalt wurde erfolgreich gelöscht.",
+                                                      status: "success",
+                                                      duration: 1500,
+                                                      isClosable: true,
+                                                      position: "bottom-right",
+                                                    });
+                                                  } else {
+                                                    console.error(res);
+                                                    toast({
+                                                      title:
+                                                        "Fehler beim Löschen",
+                                                      description:
+                                                        "Der Inhalt konnte nicht gelöscht werden. Details siehe Konsole.",
+                                                      status: "error",
+                                                      duration: 1500,
+                                                      isClosable: true,
+                                                      position: "bottom-right",
+                                                    });
+                                                  }
+                                                }}
+                                              >
+                                                Löschen
+                                              </Button>
+                                            </Stack>
+                                          </Box>
+                                        </Flex>
+                                        <Text
+                                          fontSize={"sm"}
+                                          color={"gray.400"}
+                                        >{`Erstellt am: ${new Date(
+                                          content.createdAt
+                                        )
+                                          .toLocaleString()
+                                          .replace(",", " um")}`}</Text>
+                                      </Flex>
+                                    </Box>
+                                  </>
+                                )}
+                              </Draggable>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </>
-                      ) : (
-                        <></>
-                      )}
-                    </>
-                  ))}
-                </Box>
-              </>
-            )}
-          </Droppable>
-        </DragDropContext>
+                      ))}
+                    </Box>
+                  </>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </Box>
+        </Flex>
       </CreatorStudioLayout>
     </>
   );
