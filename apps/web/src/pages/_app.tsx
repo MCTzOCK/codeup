@@ -11,6 +11,8 @@ import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
 import { NextPageContext } from "next";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
+import { Head } from "next/document";
+import Script from "next/script";
 
 const theme = extendTheme({
   config: {
