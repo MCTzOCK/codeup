@@ -210,6 +210,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     // @ts-ignore
     if (e.message) {
       res.status(500).json({
+        // @ts-ignore
         error: "Internal Server Error:" + e.message,
         success: false,
       });
