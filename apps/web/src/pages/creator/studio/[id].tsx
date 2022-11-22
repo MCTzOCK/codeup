@@ -26,8 +26,16 @@ import {
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { FaEye, FaFile, FaHome, FaTrash, FaYoutube } from "react-icons/fa";
+import {
+  FaEye,
+  FaFile,
+  FaHome,
+  FaPen,
+  FaTrash,
+  FaYoutube,
+} from "react-icons/fa";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
+import course from "../../api/course/[course]";
 
 export default function CourseViewer() {
   const router = useRouter();
@@ -37,6 +45,8 @@ export default function CourseViewer() {
   const [courseName, setCourseName] = React.useState<string[]>([
     "Inhalte Laden...",
   ]);
+
+  const [_rawCourseObject, _setRawCourseObject] = React.useState<any>(null);
 
   const [contentPositions, setContentPositions] = React.useState<string[]>([]);
 
@@ -70,6 +80,7 @@ export default function CourseViewer() {
             )[0];
             setCourseName([course.name, course.friendlyName]);
             setContentPositions(course.contentPositions);
+            _setRawCourseObject(course);
           } else {
             console.error(res);
             alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
@@ -239,42 +250,11 @@ export default function CourseViewer() {
                                             <Stack>
                                               <Button
                                                 w={"100%"}
-                                                leftIcon={<FaFile />}
-                                                onClick={() => {
-                                                  // create blob url that shows the text content in a new window
-                                                  const blob = new Blob(
-                                                    [content.textContent],
-                                                    {
-                                                      type: "text/plain",
-                                                    }
-                                                  );
-
-                                                  const url =
-                                                    URL.createObjectURL(blob);
-
-                                                  window.open(url, "_blank");
-                                                }}
-                                              >
-                                                Text Anzeigen
-                                              </Button>
-                                              {content.type === "VIDEO" ? (
-                                                <>
-                                                  <Button
-                                                    leftIcon={<FaYoutube />}
-                                                    w={"100%"}
-                                                    onClick={() => {
-                                                      window.open(
-                                                        content.videoUrl,
-                                                        "_blank"
-                                                      );
-                                                    }}
-                                                  >
-                                                    Video Anzeigen
-                                                  </Button>
-                                                </>
-                                              ) : null}
-                                              <Button
-                                                w={"100%"}
+                                                disabled={
+                                                  _rawCourseObject
+                                                    ? !_rawCourseObject.available
+                                                    : true
+                                                }
                                                 colorScheme={"blue"}
                                                 leftIcon={<FaEye />}
                                                 onClick={() => {
@@ -284,6 +264,18 @@ export default function CourseViewer() {
                                                 }}
                                               >
                                                 Benutzeransicht
+                                              </Button>
+                                              <Button
+                                                w={"100%"}
+                                                leftIcon={<FaPen />}
+                                                colorScheme={"blue"}
+                                                onClick={() => {
+                                                  router.push(
+                                                    `/creator/studio/edit/${_rawCourseObject._id}/${content._id}`
+                                                  );
+                                                }}
+                                              >
+                                                Bearbeiten
                                               </Button>
                                               <Button
                                                 w={"100%"}
