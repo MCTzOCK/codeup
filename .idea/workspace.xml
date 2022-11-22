@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/edit/[contentId].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/creator/content.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/creator/content.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/create/content/[course].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/create/content/[course].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/special-components/Builder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/special-components/Builder.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Creator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Creator.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

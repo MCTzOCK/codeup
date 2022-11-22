@@ -250,14 +250,53 @@ export default function CourseViewer() {
                                             <Stack>
                                               <Button
                                                 w={"100%"}
-                                                disabled={
-                                                  _rawCourseObject
-                                                    ? !_rawCourseObject.available
-                                                    : true
-                                                }
                                                 colorScheme={"blue"}
                                                 leftIcon={<FaEye />}
                                                 onClick={() => {
+                                                  if (
+                                                    !_rawCourseObject.available
+                                                  ) {
+                                                    if (
+                                                      confirm(
+                                                        "Kurs veröffentlichen, um Benutzeransicht zu sehen?"
+                                                      )
+                                                    ) {
+                                                      REST.Creator.updateCourse(
+                                                        {
+                                                          token:
+                                                            localStorage.getItem(
+                                                              "token"
+                                                            ) as string,
+                                                          update: {
+                                                            available: true,
+                                                          },
+                                                          id: _rawCourseObject._id,
+                                                        }
+                                                      ).then((res) => {
+                                                        if (
+                                                          res.status === 200
+                                                        ) {
+                                                          router.push(
+                                                            `/course/${courseName[1]}/${content.url}`
+                                                          );
+                                                        } else {
+                                                          toast({
+                                                            title:
+                                                              "Fehler beim Veröffentlichen",
+                                                            description:
+                                                              "Veröffentlichen fehlgeschlagen: " +
+                                                              res.payload.error,
+                                                            status: "error",
+                                                            duration: 1500,
+                                                            isClosable: true,
+                                                          });
+                                                        }
+                                                      });
+                                                    } else {
+                                                      return;
+                                                    }
+                                                  }
+
                                                   router.push(
                                                     `/course/${courseName[1]}/${content.url}`
                                                   );
