@@ -10519,6 +10519,13 @@ next@^12.3.0:
     "@next/swc-win32-ia32-msvc" "12.3.0"
     "@next/swc-win32-x64-msvc" "12.3.0"
 
+nextjs-google-analytics@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/nextjs-google-analytics/-/nextjs-google-analytics-2.2.1.tgz#ebad0414aec2dca9879281cd446b02340347c6f8"
+  integrity sha512-b5a7V+iWdrrcB2kQxcW9KYHYwtJJoY50a4E+b68TUba3YqTmwufs0u2HfPNxd1MauPmkxTBSx2IyaSUdgxLJ7Q==
+  optionalDependencies:
+    fsevents "^2.3.2"
+
 no-case@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/no-case/-/no-case-3.0.4.tgz#d361fd5c9800f558551a8369fc0dcd4662b6124d"
