@@ -73,6 +73,8 @@ export default function NewContents() {
   const [error, setError] = useState(false);
   const toast = useToast();
 
+  const [custom_event_id, setCustomEventId] = React.useState<string>("");
+
   useEffect(() => {
     if (router.query.course) {
       REST.Creator.getCourses(localStorage.getItem("token") as string).then(
@@ -84,6 +86,7 @@ export default function NewContents() {
               )
             ) {
               setCourse(router.query.course as string);
+              setCustomEventId(randomString());
               setLoaded(true);
             } else {
               setError(true);
@@ -147,7 +150,7 @@ export default function NewContents() {
                         </>
                       ) : index === 1 ? (
                         <>
-                          <Builder />
+                          <Builder custom_event_id={custom_event_id} />
                         </>
                       ) : index === 2 ? (
                         <>
@@ -284,4 +287,14 @@ export default function NewContents() {
       </CreatorStudioLayout>
     </>
   );
+}
+
+function randomString(length: number = 32) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++)
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  return result;
 }

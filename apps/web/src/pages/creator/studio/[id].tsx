@@ -271,7 +271,7 @@ export default function CourseViewer() {
                                                 colorScheme={"blue"}
                                                 onClick={() => {
                                                   router.push(
-                                                    `/creator/studio/edit/${_rawCourseObject._id}/${content._id}`
+                                                    `/creator/studio/edit/${content._id}`
                                                   );
                                                 }}
                                               >

@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { GrapesjsReact } from "grapesjs-react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import grapesjs from "grapesjs";
@@ -28,21 +29,23 @@ import {
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
-  useDisclosure,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
-  ButtonGroup,
+  useDisclosure,
 } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
-import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
+import Editor, { Monaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import html2canvas from "html2canvas";
-import { useEffect, useState } from "react";
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
-export default function Builder(props: { content?: string }) {
+export default function Builder(props: {
+  content?: string;
+  custom_event_id: string;
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [editorHook, setEditorHook] = React.useState<grapesjs.Editor | null>(
@@ -344,7 +347,7 @@ export default function Builder(props: { content?: string }) {
                     };
 
                     window.addEventListener(
-                      "codeup::webbuilder::export",
+                      "codeup::webbuilder::export_" + props.custom_event_id,
                       listener
                     );
                   }
