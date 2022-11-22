@@ -200,7 +200,10 @@ export default function NewContents() {
                               break;
                             case 1:
                               window.dispatchEvent(
-                                new CustomEvent("codeup::webbuilder::export")
+                                new CustomEvent(
+                                  "codeup::webbuilder::export_" +
+                                    custom_event_id
+                                )
                               );
 
                               const mergedCode =
