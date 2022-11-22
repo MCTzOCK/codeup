@@ -3,4 +3,4 @@
 Readme coming soon.
 
 
-"caprover-force_update=1"
+"caprover-force_update=2"
