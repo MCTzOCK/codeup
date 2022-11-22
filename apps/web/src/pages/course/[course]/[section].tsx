@@ -176,6 +176,17 @@ export default function SectionViewer() {
                   minHeight: "100vh",
                   height: "fit-content",
                   border: "none",
+                  maxWidth: "100%",
+                }}
+                onLoad={(e) => {
+                  const iframe = e.target as HTMLIFrameElement;
+
+                  if (iframe && iframe.contentDocument) {
+                    iframe.contentDocument.body.style.maxWidth = "100%";
+                    iframe.contentDocument.body.style.overflowX = "hidden";
+                    iframe.contentDocument.body.style.margin = "0";
+                    iframe.contentDocument.body.style.padding = "0";
+                  }
                 }}
               />
               <Quiz title={content.displayName} questions={content.quiz} />
