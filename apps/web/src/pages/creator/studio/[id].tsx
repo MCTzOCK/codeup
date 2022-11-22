@@ -18,6 +18,7 @@ import {
   ButtonGroup,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Stack,
   Text,
@@ -304,18 +305,32 @@ export default function CourseViewer() {
                                               >
                                                 Benutzeransicht
                                               </Button>
-                                              <Button
-                                                w={"100%"}
-                                                leftIcon={<FaPen />}
-                                                colorScheme={"blue"}
-                                                onClick={() => {
-                                                  router.push(
-                                                    `/creator/studio/edit/${content._id}`
-                                                  );
-                                                }}
-                                              >
-                                                Bearbeiten
-                                              </Button>
+                                              <HStack>
+                                                <Button
+                                                  w={"100%"}
+                                                  leftIcon={<FaPen />}
+                                                  colorScheme={"blue"}
+                                                  onClick={() => {
+                                                    router.push(
+                                                      `/creator/studio/edit/${content._id}/info`
+                                                    );
+                                                  }}
+                                                >
+                                                  Bearbeiten
+                                                </Button>
+                                                <Button
+                                                  w={"100%"}
+                                                  leftIcon={<FaPen />}
+                                                  colorScheme={"blue"}
+                                                  onClick={() => {
+                                                    router.push(
+                                                      `/creator/studio/edit/${content._id}`
+                                                    );
+                                                  }}
+                                                >
+                                                  Inhalt Bearbeiten
+                                                </Button>
+                                              </HStack>
                                               <Button
                                                 w={"100%"}
                                                 leftIcon={<FaTrash />}

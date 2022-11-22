@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/edit/[contentId]/info.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

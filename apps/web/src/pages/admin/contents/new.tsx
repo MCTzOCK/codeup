@@ -198,7 +198,7 @@ export default function NewContents() {
                       </>
                     ) : index === 2 ? (
                       <>
-                        <Builder />
+                        <Builder custom_event_id={"admin_event_id"} />
                       </>
                     ) : index === 3 ? (
                       <>
@@ -253,7 +253,9 @@ export default function NewContents() {
                             break;
                           case 2:
                             window.dispatchEvent(
-                              new CustomEvent("codeup::webbuilder::export")
+                              new CustomEvent(
+                                "codeup::webbuilder::export_admin_event_id"
+                              )
                             );
 
                             const mergedCode =
