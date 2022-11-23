@@ -55,6 +55,8 @@ export default function UserAuthRegister() {
     "error" | "info" | "success" | "warning"
   >("error");
 
+  const [loading, setLoading] = React.useState(false);
+
   return (
     <>
       {alertVisible ? (
@@ -97,6 +99,7 @@ export default function UserAuthRegister() {
               return;
             }
 
+            setLoading(true);
             const body = {
               email: email,
               password: password,
@@ -121,6 +124,8 @@ export default function UserAuthRegister() {
               setAlertMessage(res.payload.error);
             }
             setAlertVisible(true);
+
+            setLoading(false);
           }}
         >
           <Flex direction={"column"} gap={"2rem"}>
@@ -245,7 +250,7 @@ export default function UserAuthRegister() {
               <InputGroup>
                 <Input
                   id={"passwordConfirm"}
-                  placeholder={"Confirm Password"}
+                  placeholder={"Passwort bestätigen"}
                   type={passwordConfirmVisible ? "text" : "password"}
                   onChange={(e) => {
                     if (e.target.value === password) {
@@ -273,7 +278,7 @@ export default function UserAuthRegister() {
                 Die Passwörter stimmen nicht überein.
               </FormErrorMessage>
             </FormControl>
-            <Button variant={"solid"} type={"submit"}>
+            <Button variant={"solid"} type={"submit"} isLoading={loading}>
               Registrieren
             </Button>
           </Flex>
