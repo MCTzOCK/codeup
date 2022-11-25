@@ -46,6 +46,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/prismjs": "^1.26.0",
     "@types/project-name-generator": "^2.1.1",
+    "@types/ua-parser-js": "^0.7.36",
     "@vercel/og": "^0.0.20",
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
@@ -78,6 +79,7 @@
     "react-xarrows": "^2.0.2",
     "remotion": "^3.0.25",
     "sass": "^1.54.0",
+    "ua-parser-js": "^1.0.32",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
