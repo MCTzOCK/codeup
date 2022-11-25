@@ -131,7 +131,7 @@ import {
   updateContent as updateContentCreator,
   getTopCreators,
 } from "./api/Creator";
-import { postAnalytics } from "./api/Analytics";
+import { getSummary, getViews, postAnalytics } from "./api/Analytics";
 
 const REST = {
   Admin: {
@@ -260,6 +260,8 @@ const REST = {
   },
   Analytics: {
     postAnalytics,
+    getSummary,
+    getViews,
   },
 };
 

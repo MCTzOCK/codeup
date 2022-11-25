@@ -19,3 +19,27 @@ export async function postAnalytics(options: {
     token: options.token,
   });
 }
+
+export async function getSummary(token: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/admin/analytics/summary",
+    token,
+  });
+}
+
+export async function getViews(options: {
+  token: string;
+  periodStart?: string;
+  periodEnd?: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path:
+      "/api/admin/analytics/views" +
+      (options.periodStart && options.periodEnd
+        ? `?periodStart=${options.periodStart}&periodEnd=${options.periodEnd}`
+        : ""),
+    token: options.token,
+  });
+}
