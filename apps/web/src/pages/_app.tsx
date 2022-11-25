@@ -2,7 +2,7 @@ import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
@@ -11,6 +11,8 @@ import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import REST from "@codeup/rest";
+import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
 
 const theme = extendTheme({
   config: {
@@ -86,6 +88,9 @@ const theme = extendTheme({
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  useAnalytics();
+
   return (
     <>
       <DefaultSeo

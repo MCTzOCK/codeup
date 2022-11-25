@@ -19,7 +19,13 @@ import {
   Progress,
   Spinner,
 } from "@chakra-ui/react";
-import { FaBookOpen, FaComment, FaComments, FaUser } from "react-icons/fa";
+import {
+  FaBookOpen,
+  FaChartBar,
+  FaComment,
+  FaComments,
+  FaUser,
+} from "react-icons/fa";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
@@ -51,6 +57,12 @@ export default function AdminDashboard() {
       link: "/admin/contents/courses",
       icon: <FaBookOpen />,
     },
+    {
+      title: "Analytics",
+      description: "Sieh dir die Aufrufstatistiken an",
+      link: "/admin/analytics",
+      icon: <FaChartBar />,
+    },
   ];
 
   return (
@@ -58,7 +70,7 @@ export default function AdminDashboard() {
       <AdminLayout>
         <>
           <Flex w={"100%"} h={"100vh"} direction={"column"}>
-            <Heading textAlign={"center"} size={"lg"} mt={4}>
+            <Heading textAlign={"center"} size={"2xl"} mt={4}>
               Administrationsbereich
             </Heading>
             <Grid templateColumns={"repeat(3, 1fr)"} gap={6} mt={4} p={"2rem"}>
