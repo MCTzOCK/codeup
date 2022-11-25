@@ -13,7 +13,10 @@ import { useState } from "react";
 import REST from "@codeup/rest";
 import {
   Box,
+  Button,
   Flex,
+  FormControl,
+  FormLabel,
   Grid,
   GridItem,
   Heading,
@@ -37,6 +40,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
+import { useRouter } from "next/router";
 
 export default function Index() {
   ChartJS.register(
@@ -72,6 +76,7 @@ export default function Index() {
   }>();
 
   const toast = useToast();
+  const router = useRouter();
 
   const [periodOffset, setPeriodOffset] = useState(7);
 
@@ -398,6 +403,63 @@ export default function Index() {
               }}
             />
           </Box>
+        </Flex>
+        <Flex
+          w={"100%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+          gap={"4rem"}
+          mb={"8rem"}
+          mt={"8rem"}
+        >
+          <Heading size={"lg"} textAlign={"left"}>
+            Daten löschen
+          </Heading>
+
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+
+              const deleteDataPeriodInput = (
+                (e.target as HTMLFormElement).elements.namedItem(
+                  "delete-data-period"
+                ) as HTMLInputElement
+              ).value as unknown as number;
+
+              REST.Analytics.deleteAnalytics({
+                token: localStorage.getItem("token") as string,
+                periodStart: new Date(
+                  new Date().getTime() -
+                    deleteDataPeriodInput * 24 * 60 * 60 * 1000
+                )
+                  .toISOString()
+                  .split("T")[0],
+                periodEnd: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+                  .toISOString()
+                  .split("T")[0],
+              }).then((res) => {
+                router.reload();
+              });
+            }}
+          >
+            <FormControl id={"delete-period"}>
+              <FormLabel>Zeitraum</FormLabel>
+              <Select name={"delete-data-period"} defaultValue={7}>
+                <option value={0}>Heute</option>
+                <option value={7}>Eine Woche</option>
+                <option value={14}>2 Wochen</option>
+                <option value={30}>Ein Monat</option>
+                <option value={90}>3 Monate</option>
+                <option value={180}>6 Monate</option>
+                <option value={365}>Ein Jahr</option>
+                <option value={420000}>Alles</option>
+              </Select>
+            </FormControl>
+            <Button mt={"1rem"} colorScheme={"red"} type={"submit"}>
+              Analytics löschen
+            </Button>
+          </form>
         </Flex>
       </AdminLayout>
     </>

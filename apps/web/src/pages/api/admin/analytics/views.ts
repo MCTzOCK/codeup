@@ -76,8 +76,6 @@ export default async function handleRequest(
       };
     }
 
-    console.log(new Date(period.start));
-
     const analytics = await AnalyticsModel.find({
       createdAt: {
         $gte: new Date(period.start),

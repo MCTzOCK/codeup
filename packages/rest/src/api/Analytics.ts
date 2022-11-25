@@ -43,3 +43,17 @@ export async function getViews(options: {
     token: options.token,
   });
 }
+
+export async function deleteAnalytics(options: {
+  token: string;
+  periodStart: string;
+  periodEnd: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path:
+      "/api/admin/analytics/delete" +
+      `?periodStart=${options.periodStart}&periodEnd=${options.periodEnd}`,
+    token: options.token,
+  });
+}
