@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 import REST from "@codeup/rest";
 import {
   Box,
@@ -24,19 +25,18 @@ import {
 } from "@chakra-ui/react";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   Title,
+  Tooltip,
 } from "chart.js";
-import { Pie, Line, Bar } from "react-chartjs-2";
-import { useState } from "react";
+import { Bar, Pie } from "react-chartjs-2";
 
 export default function Index() {
   ChartJS.register(
