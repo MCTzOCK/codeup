@@ -167,7 +167,7 @@ export default function Index() {
   return (
     <>
       <AdminLayout>
-        <Heading size={"2xl"} textAlign={"center"}>
+        <Heading size={"2xl"} textAlign={"center"} mt={"4rem"}>
           Analytics
         </Heading>
         <Grid
