@@ -46,6 +46,11 @@ export default async function handleRequest(
     if (decoded) {
       loggedIn = true;
       userId = (decoded as any)["id"] as any;
+
+      if ((decoded as any)["role"] === "admin") {
+        res.status(403).json({ error: "Analytics are disabled for Admins." });
+        return;
+      }
     } else {
       loggedIn = false;
       userId = null;
