@@ -291,7 +291,7 @@ export default function Index() {
             <Box>
               <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
                 <Heading size={"lg"} textAlign={"left"}>
-                  Paths
+                  Paths (%)
                 </Heading>
                 <Pie
                   data={{

@@ -113,7 +113,7 @@ export default async function handleRequest(
         }
       }
 
-      if (a.authenticated) {
+      if (a.loggedIn) {
         data.authenticatedViewPercentage++;
       } else {
         data.anonymousViewPercentage++;
