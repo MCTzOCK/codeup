@@ -191,7 +191,7 @@ export default function SectionViewer() {
                   }
                   style={{
                     width: "100%",
-                    minHeight: "100vh",
+                    minHeight: "50vh",
                     height: "fit-content",
                     border: "none",
                     maxWidth: "100%",
