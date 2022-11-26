@@ -63,6 +63,12 @@ export default function AdminDashboard() {
       link: "/admin/analytics",
       icon: <FaChartBar />,
     },
+    {
+      title: "Kontakt Anfragen",
+      description: "Sieh dir alle Kontakt Anfragen an",
+      link: "/admin/contacts",
+      icon: <FaComment />,
+    },
   ];
 
   return (
