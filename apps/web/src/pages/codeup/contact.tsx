@@ -122,6 +122,7 @@ export default function Contact() {
                   <option value="sonstiges">Sonstiges</option>
                   <option value="fehler">Fehler melden</option>
                   <option value="feature">Funktion beantragen</option>
+                  <option value="creator">Creator Bewerbung</option>
                 </Select>
               </FormControl>
               <FormControl id="title" isRequired>

@@ -28,7 +28,8 @@ export default async function handleRequest(
     !req.headers["x-jwt"] ||
     !req.body ||
     !req.body.message ||
-    !req.body.title
+    !req.body.title ||
+    !req.body.category
   ) {
     res.status(400).json({
       error: "Bad Request",
@@ -66,6 +67,7 @@ export default async function handleRequest(
       username: user.username,
       message: req.body.message,
       title: req.body.title,
+      category: req.body.category,
     });
 
     res.status(200).json({
