@@ -376,3 +376,32 @@ export async function deleteContent(options: {
     },
   });
 }
+
+export async function getContactMessages(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/contact/messages",
+  });
+}
+
+export async function getContactMessageCount(
+  token: string
+): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/contact/messages?count=true",
+  });
+}
+
+export async function deleteContactMessage(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/contact/messages?id=" + options.id,
+  });
+}

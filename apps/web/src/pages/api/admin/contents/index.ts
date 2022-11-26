@@ -202,14 +202,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      if (course.creator !== editorUser.username) {
-        res.status(401).json({
-          error: "Unauthorized",
-          success: false,
-        });
-        return;
-      }
-
       course.contentPositions = course.contentPositions.filter(
         (c: string) => c !== req.body.id
       );

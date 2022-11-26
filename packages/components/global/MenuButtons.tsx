@@ -11,6 +11,8 @@
 import * as React from "react";
 import {
   Avatar,
+  AvatarBadge,
+  Badge,
   Button,
   Center,
   chakra,
@@ -25,6 +27,8 @@ import {
 import { useLoggedIn } from "@codeup/hooks";
 import Link from "next/link";
 import { FiAlertTriangle, FiPlus } from "react-icons/fi";
+import { useEffect } from "react";
+import REST from "@codeup/rest";
 
 export default function MenuButtons(props: {
   onClose: () => void;
@@ -32,6 +36,20 @@ export default function MenuButtons(props: {
   onLogoutOpen: () => void;
 }) {
   const { loggedIn, userInfo } = useLoggedIn();
+
+  const [contactCount, setContactCount] = React.useState(0);
+
+  useEffect(() => {
+    if (userInfo.role === "admin") {
+      REST.Admin.getContactMessageCount(localStorage.getItem("token")).then(
+        (res) => {
+          if (res.status === 200) {
+            setContactCount(res.payload.count);
+          }
+        }
+      );
+    }
+  }, [userInfo]);
 
   return (
     <>
@@ -62,7 +80,15 @@ export default function MenuButtons(props: {
               <Avatar
                 src={"/api/account/" + userInfo.username + "/picture"}
                 size={"md"}
-              />
+              >
+                {userInfo.role === "admin" && contactCount > 0 ? (
+                  <>
+                    <AvatarBadge boxSize={"1.5em"} bg={"red.500"}>
+                      {contactCount < 9 ? contactCount : "9+"}
+                    </AvatarBadge>
+                  </>
+                ) : null}
+              </Avatar>
             </MenuButton>
             <MenuList bg={"black"} zIndex={10}>
               <br />
@@ -90,7 +116,10 @@ export default function MenuButtons(props: {
                       fontWeight={"bold"}
                       icon={<FiAlertTriangle />}
                     >
-                      ADMIN
+                      ADMIN{" "}
+                      <Badge color={"red"}>
+                        {contactCount < 9 ? contactCount : "9+"}
+                      </Badge>
                     </MenuItem>
                   </Link>
                 </>
