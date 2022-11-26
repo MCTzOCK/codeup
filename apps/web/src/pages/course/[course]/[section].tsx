@@ -19,6 +19,7 @@ import {
   Link,
   ListItem,
   OrderedList,
+  Text,
   UnorderedList,
 } from "@chakra-ui/react";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
@@ -163,33 +164,37 @@ export default function SectionViewer() {
                 </>
               )}
               {/* <MDRenderer content={content.textContent} /> */}
-              <iframe
-                src={
-                  "/api/course/" +
-                  courseQuery +
-                  "/" +
-                  sectionQuery +
-                  "?raw=true"
-                }
-                style={{
-                  width: "100%",
-                  minHeight: "100vh",
-                  height: "fit-content",
-                  border: "none",
-                  maxWidth: "100%",
-                }}
-                onLoad={(e) => {
-                  const iframe = e.target as HTMLIFrameElement;
-
-                  if (iframe && iframe.contentDocument) {
-                    iframe.contentDocument.body.style.maxWidth = "100%";
-                    iframe.contentDocument.body.style.overflowX = "hidden";
-                    iframe.contentDocument.body.style.margin = "0";
-                    iframe.contentDocument.body.style.padding = "0";
+              {content.textContent && (
+                <iframe
+                  src={
+                    "/api/course/" +
+                    courseQuery +
+                    "/" +
+                    sectionQuery +
+                    "?raw=true"
                   }
-                }}
-              />
-              <Quiz title={content.displayName} questions={content.quiz} />
+                  style={{
+                    width: "100%",
+                    minHeight: "100vh",
+                    height: "fit-content",
+                    border: "none",
+                    maxWidth: "100%",
+                  }}
+                  onLoad={(e) => {
+                    const iframe = e.target as HTMLIFrameElement;
+
+                    if (iframe && iframe.contentDocument) {
+                      iframe.contentDocument.body.style.maxWidth = "100%";
+                      iframe.contentDocument.body.style.overflowX = "hidden";
+                      iframe.contentDocument.body.style.margin = "0";
+                      iframe.contentDocument.body.style.padding = "0";
+                    }
+                  }}
+                />
+              )}
+              {content.quiz && content.quiz.length > 0 && (
+                <Quiz title={content.displayName} questions={content.quiz} />
+              )}
             </Box>
           </Box>
         </>
