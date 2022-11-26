@@ -134,6 +134,9 @@ import {
   getContents as getContentsCreator,
   updateContent as updateContentCreator,
   getTopCreators,
+  getCertificate,
+  createCertificate,
+  updateCertificate,
 } from "./api/Creator";
 import {
   deleteAnalytics,
@@ -270,6 +273,9 @@ const REST = {
     getContents: getContentsCreator,
     updateContent: updateContentCreator,
     getTopCreators: getTopCreators,
+    getCertificate: getCertificate,
+    createCertificate: createCertificate,
+    updateCertificate: updateCertificate,
   },
   Analytics: {
     postAnalytics,
