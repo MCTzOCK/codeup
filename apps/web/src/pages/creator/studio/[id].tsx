@@ -37,6 +37,7 @@ import {
 } from "react-icons/fa";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import course from "../../api/course/[course]";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
 
 export default function CourseViewer() {
   const router = useRouter();
@@ -163,6 +164,13 @@ export default function CourseViewer() {
             Neu
           </Button>
         </Flex>
+        {contents.length === 0 ? (
+          <ErrorComponent
+            description={
+              "Keine Inhalte vorhanden. Erstelle Inhalte, damit sie hier angezeigt werden."
+            }
+          />
+        ) : null}
         <Flex alignItems={"center"} p={6} w={"100%"} justifyContent={"center"}>
           <Box maxW={["100%", "50%"]} w={"100%"} id={"_tmp.up"}>
             <DragDropContext
