@@ -103,6 +103,7 @@ export default function CertificateEditor() {
       text_parts?: {
         type: "TEXT" | "INPUT";
         value: string;
+        id: number;
       }[];
       code_compare?: {
         code_a: {
@@ -467,6 +468,180 @@ export default function CertificateEditor() {
                                                 </Box>
                                               </>
                                             ) : null}
+                                            {step.step_type === "TEXT" && (
+                                              <>
+                                                <Box
+                                                  display={
+                                                    hidePlusButton
+                                                      ? "none"
+                                                      : "inherit"
+                                                  }
+                                                >
+                                                  <Grid
+                                                    templateColumns={
+                                                      "repeat(3, 1fr)"
+                                                    }
+                                                    gap={6}
+                                                    mt={4}
+                                                  >
+                                                    {step.text_parts?.map(
+                                                      (t) => (
+                                                        <>
+                                                          <FormControl mt={1}>
+                                                            <FormLabel>
+                                                              {t.type ===
+                                                              "INPUT"
+                                                                ? "Eingabefeld"
+                                                                : "Text"}
+                                                            </FormLabel>
+                                                            <Input
+                                                              defaultValue={
+                                                                t.value
+                                                              }
+                                                              onChange={(e) => {
+                                                                // use indexes instead of id
+                                                                setSteps(
+                                                                  steps.map(
+                                                                    (s) =>
+                                                                      s.step_title ===
+                                                                      step.step_title
+                                                                        ? {
+                                                                            ...s,
+                                                                            text_parts:
+                                                                              s.text_parts?.map(
+                                                                                (
+                                                                                  t2
+                                                                                ) =>
+                                                                                  t2.id ===
+                                                                                  t.id
+                                                                                    ? {
+                                                                                        ...t2,
+                                                                                        value:
+                                                                                          e
+                                                                                            .target
+                                                                                            .value,
+                                                                                      }
+                                                                                    : t2
+                                                                              ),
+                                                                          }
+                                                                        : s
+                                                                  )
+                                                                );
+                                                              }}
+                                                            />
+                                                          </FormControl>
+                                                          <FormControl mt={1}>
+                                                            <FormLabel>
+                                                              Eingabefeld
+                                                            </FormLabel>
+                                                            <Switch
+                                                              isChecked={
+                                                                t.type ===
+                                                                "INPUT"
+                                                              }
+                                                              onChange={() => {
+                                                                setSteps(
+                                                                  steps.map(
+                                                                    (s) =>
+                                                                      s.step_title ===
+                                                                      step.step_title
+                                                                        ? {
+                                                                            ...s,
+                                                                            text_parts:
+                                                                              s.text_parts?.map(
+                                                                                (
+                                                                                  t2
+                                                                                ) =>
+                                                                                  t2.value ===
+                                                                                  t.value
+                                                                                    ? {
+                                                                                        ...t2,
+                                                                                        type:
+                                                                                          t2.type ===
+                                                                                          "INPUT"
+                                                                                            ? "TEXT"
+                                                                                            : "INPUT",
+                                                                                      }
+                                                                                    : t2
+                                                                              ),
+                                                                          }
+                                                                        : s
+                                                                  )
+                                                                );
+                                                              }}
+                                                            />
+                                                          </FormControl>
+                                                          <FormControl mt={1}>
+                                                            <FormLabel>
+                                                              Aktion
+                                                            </FormLabel>
+                                                            <Button
+                                                              colorScheme="red"
+                                                              onClick={() => {
+                                                                setSteps(
+                                                                  steps.map(
+                                                                    (s) =>
+                                                                      s.step_title ===
+                                                                      step.step_title
+                                                                        ? {
+                                                                            ...s,
+                                                                            text_parts:
+                                                                              s.text_parts?.filter(
+                                                                                (
+                                                                                  t2
+                                                                                ) =>
+                                                                                  t2.value !==
+                                                                                  t.value
+                                                                              ),
+                                                                          }
+                                                                        : s
+                                                                  )
+                                                                );
+                                                              }}
+                                                            >
+                                                              Löschen
+                                                            </Button>
+                                                          </FormControl>
+                                                        </>
+                                                      )
+                                                    )}
+                                                    <Button
+                                                      colorScheme="green"
+                                                      onClick={() => {
+                                                        setSteps(
+                                                          steps.map((s) =>
+                                                            s.step_title ===
+                                                            step.step_title
+                                                              ? {
+                                                                  ...s,
+                                                                  text_parts:
+                                                                    s.text_parts?.concat(
+                                                                      {
+                                                                        type: "TEXT",
+                                                                        value:
+                                                                          "Text " +
+                                                                          randomInt(
+                                                                            1000,
+                                                                            9999
+                                                                          ),
+                                                                        id: randomInt(
+                                                                          1000,
+                                                                          9999
+                                                                        ),
+                                                                      }
+                                                                    ),
+                                                                }
+                                                              : s
+                                                          )
+                                                        );
+                                                      }}
+                                                    >
+                                                      Hinzufügen
+                                                    </Button>
+                                                  </Grid>
+                                                </Box>
+                                              </>
+                                            )}
                                           </Box>
                                         </>
                                       )}
@@ -547,9 +722,14 @@ export default function CertificateEditor() {
                               case "TEXT":
                                 step = new Builders.TextBuilder()
                                   .setTitle(title)
-                                  .addText("Text")
-                                  .addInput("Eingabe")
+                                  .addText("Text " + randomInt(1000, 9999))
+                                  .addInput("Eingabe " + randomInt(1000, 9999))
                                   .build();
+
+                                step.text_parts = step.text_parts?.map((t) => ({
+                                  ...t,
+                                  id: randomInt(1000, 9999),
+                                }));
                                 break;
                               case "CODE_COMPARE":
                                 step = new Builders.CodeCompareBuilder()
@@ -616,4 +796,8 @@ export default function CertificateEditor() {
       )}
     </CreatorStudioLayout>
   );
+}
+
+function randomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

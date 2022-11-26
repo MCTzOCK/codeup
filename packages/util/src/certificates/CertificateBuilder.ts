@@ -74,7 +74,7 @@ export class TextBuilder {
   constructor() {
     this.step.step_type = "TEXT";
     this.step.step_title = "";
-    this.step.textParts = [];
+    this.step.text_parts = [];
   }
 
   setTitle(title: string): TextBuilder {
@@ -83,7 +83,7 @@ export class TextBuilder {
   }
 
   addText(text: string): TextBuilder {
-    this.step.textParts.push({
+    this.step.text_parts.push({
       type: "TEXT",
       value: text,
     });
@@ -91,7 +91,7 @@ export class TextBuilder {
   }
 
   addInput(correct: string): TextBuilder {
-    this.step.textParts.push({
+    this.step.text_parts.push({
       type: "INPUT",
       value: correct,
     });
