@@ -109,7 +109,7 @@ export async function getContents(options: {
   const urlSearchParams = new URLSearchParams();
 
   if (options.courseId) {
-    urlSearchParams.append("courseId", options.courseId);
+    urlSearchParams.append("course", options.courseId);
   }
 
   if (options.contentId) {
