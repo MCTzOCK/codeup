@@ -143,7 +143,7 @@ export default function Index() {
                     `/course/${course.friendlyName}/${
                       // @ts-ignore
                       contents.find((c) => c._id === course.contentPositions[0])
-                        .url
+                        ._id
                     }`
                   );
                 }}
@@ -168,7 +168,7 @@ export default function Index() {
                       }}
                       onClick={() => {
                         router.push(
-                          `/course/${course.friendlyName}/${content.url}`
+                          `/course/${course.friendlyName}/${content._id}`
                         );
                       }}
                     >

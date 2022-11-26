@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
   Box,
+  Button,
+  ButtonGroup,
   CircularProgress,
   Flex,
   Heading,
@@ -67,6 +69,8 @@ export default function SectionViewer() {
     __v: number;
   }>();
 
+  const [contentPositions, setContentPositions] = useState<string[]>([]);
+
   useEffect(() => {
     if (courseQuery === "" || sectionQuery === "") return;
     REST.Course.getSection({
@@ -77,9 +81,17 @@ export default function SectionViewer() {
         setNotFound(true);
       } else {
         setContent(res.payload.content);
+        REST.Course.getCourse({
+          course: courseQuery,
+        }).then((res0) => {
+          if (res0.status === 200) {
+            setContentPositions(res0.payload.course.contentPositions);
+          } else {
+            setNotFound(true);
+          }
+          setLoading(false);
+        });
       }
-
-      setLoading(false);
     });
   }, [courseQuery, sectionQuery]);
 
@@ -199,6 +211,45 @@ export default function SectionViewer() {
               {content.quiz && content.quiz.length > 0 && (
                 <Quiz title={content.displayName} questions={content.quiz} />
               )}
+              <ButtonGroup w={"100%"} mt={"2rem"}>
+                <Button
+                  w={"100%"}
+                  colorScheme={"blue"}
+                  onClick={() => {
+                    router.push(
+                      "/course/" +
+                        courseQuery +
+                        "/" +
+                        contentPositions[
+                          contentPositions.indexOf(sectionQuery) - 1
+                        ]
+                    );
+                  }}
+                  disabled={contentPositions.indexOf(content._id) === 0}
+                >
+                  Zurück
+                </Button>
+                <Button
+                  w={"100%"}
+                  colorScheme={"green"}
+                  onClick={() => {
+                    router.push(
+                      "/course/" +
+                        courseQuery +
+                        "/" +
+                        contentPositions[
+                          contentPositions.indexOf(sectionQuery) + 1
+                        ]
+                    );
+                  }}
+                  disabled={
+                    contentPositions.indexOf(content._id) ===
+                    contentPositions.length - 1
+                  }
+                >
+                  Weiter
+                </Button>
+              </ButtonGroup>
             </Box>
           </Box>
         </>
