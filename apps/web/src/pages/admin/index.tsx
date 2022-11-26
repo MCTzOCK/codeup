@@ -8,9 +8,10 @@
  *
  */
 import { useLoggedIn } from "@codeup/hooks";
-import { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
+  Badge,
   CircularProgress,
   Flex,
   Grid,
@@ -29,6 +30,7 @@ import {
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
+import REST from "@codeup/rest";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -38,6 +40,7 @@ export default function AdminDashboard() {
     description: string;
     link: string;
     icon: ReactNode;
+    withBadge?: boolean;
   }[] = [
     {
       title: "Benutzer",
@@ -64,12 +67,25 @@ export default function AdminDashboard() {
       icon: <FaChartBar />,
     },
     {
-      title: "Kontakt Anfragen",
-      description: "Sieh dir alle Kontakt Anfragen an",
+      title: "Nachrichten",
+      description: "Sieh dir alle Nachrichten an",
       link: "/admin/contacts",
       icon: <FaComment />,
+      withBadge: true,
     },
   ];
+
+  const [contactCount, setContactCount] = React.useState(0);
+
+  React.useEffect(() => {
+    REST.Admin.getContactMessageCount(
+      localStorage.getItem("token") as string
+    ).then((res) => {
+      if (res.status === 200) {
+        setContactCount(res.payload.count);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -106,6 +122,11 @@ export default function AdminDashboard() {
                   <Flex direction={"column"} alignItems={"left"}>
                     <Heading size={"xl"} textAlign={"left"}>
                       {section.title}
+                      {section.withBadge && (
+                        <Badge color={"red"} ml={2} fontSize={"2xl"}>
+                          {contactCount < 9 ? contactCount : "9+"}
+                        </Badge>
+                      )}
                     </Heading>
                     <Heading size={"sm"} mt={4} textAlign={"left"}>
                       {section.description}
