@@ -694,6 +694,7 @@ export default function CertificateEditor() {
                 <PopoverTrigger>
                   <Box
                     mt={8}
+                    mb={8}
                     bgColor={"green.200"}
                     w={"100%"}
                     minH={"10vh"}
