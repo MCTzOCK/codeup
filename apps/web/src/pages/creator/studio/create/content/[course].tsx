@@ -267,8 +267,6 @@ export default function NewContents() {
                               nextStep();
                               break;
                             case 2:
-                              if (quizQuestions.length === 0) return;
-
                               let anyAnswerEmpty = false;
 
                               for (const q of quizQuestions) {
