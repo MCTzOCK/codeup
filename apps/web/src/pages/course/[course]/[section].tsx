@@ -153,16 +153,19 @@ export default function SectionViewer() {
               <Heading size={"lg"} textAlign={"center"} mb={6}>
                 {content.displayName}
               </Heading>
-              {content.type === "VIDEO" && (
-                <>
-                  <VideoPlayer
-                    url={
-                      // @ts-ignore
-                      content.videoUrl
-                    }
-                  />
-                </>
-              )}
+              {
+                // @ts-ignore
+                content.videoUrl !== "" && (
+                  <>
+                    <VideoPlayer
+                      url={
+                        // @ts-ignore
+                        content.videoUrl
+                      }
+                    />
+                  </>
+                )
+              }
               {/* <MDRenderer content={content.textContent} /> */}
               {content.textContent && (
                 <iframe

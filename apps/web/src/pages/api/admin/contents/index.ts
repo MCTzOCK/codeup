@@ -124,7 +124,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       const { displayName, course, url, type, textContent, quiz, videoUrl } =
         req.body;
 
-      if (!displayName || !course || !url || !type || !textContent) {
+      if (!displayName || !course || !url || !type) {
         res.status(400).json({
           error: "Bad Request",
           success: false,
@@ -132,15 +132,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      if (!["VIDEO", "TEXT"].includes(type)) {
-        res.status(400).json({
-          error: "Bad Request",
-          success: false,
-        });
-        return;
-      }
-
-      if (type === "VIDEO" && !videoUrl) {
+      if (!textContent && !videoUrl) {
         res.status(400).json({
           error: "Bad Request",
           success: false,
@@ -163,7 +155,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         course,
         url,
         type,
-        textContent,
+        textContent: textContent || "",
         quiz,
         creator: adminuser.username,
         videoUrl: videoUrl ? videoUrl : undefined,

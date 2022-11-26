@@ -8,23 +8,17 @@
  *
  */
 
-import AdminContentsLayout from "@codeup/components/admin/AdminContentsLayout";
-import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { FaBookOpen, FaGlobe, FaYoutube } from "react-icons/fa";
+import { FaBookOpen, FaGlobe } from "react-icons/fa";
 import {
-  Box,
   Button,
   CircularProgress,
   Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
   Heading,
-  Image,
   Input,
   InputGroup,
   InputLeftAddon,
@@ -38,10 +32,6 @@ import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudio
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Builder from "../../../../../special-components/Builder";
 
-const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
-  ssr: false,
-});
-
 export default function NewContents() {
   const router = useRouter();
 
@@ -49,6 +39,7 @@ export default function NewContents() {
   const [course, setCourse] = React.useState("");
   const [url, setURL] = React.useState("");
   const [textContent, setTextContent] = React.useState("");
+  const [videoURL, setVideoURL] = React.useState("");
   const [quizQuestions, setQuizQuestions] = React.useState<
     {
       question: string;
@@ -63,6 +54,7 @@ export default function NewContents() {
     { label: "Name" },
     { label: "Inhalt" },
     { label: "Quiz" },
+    { label: "Video" },
   ]);
 
   const { nextStep, prevStep, reset, activeStep } = useSteps({
@@ -159,6 +151,30 @@ export default function NewContents() {
                             setQuizQuestions={setQuizQuestions}
                           />
                         </>
+                      ) : index === 3 ? (
+                        <>
+                          <FormControl isRequired>
+                            <FormLabel>Video URL</FormLabel>
+                            <InputGroup>
+                              <InputLeftAddon>
+                                youtube.com/watch?v=
+                              </InputLeftAddon>
+                              <Input
+                                type={"text"}
+                                name={"video"}
+                                id={"new_content_video"}
+                                placeholder={"Video URL"}
+                                required
+                                onChange={(e) => {
+                                  setVideoURL(
+                                    "https://youtube.com/watch?v=" +
+                                      e.target.value
+                                  );
+                                }}
+                              />
+                            </InputGroup>
+                          </FormControl>
+                        </>
                       ) : (
                         <></>
                       )}
@@ -176,6 +192,38 @@ export default function NewContents() {
                   </Flex>
                 ) : (
                   <Flex width="100%" justify="flex-end" mt={"2rem"}>
+                    {activeStep === 1 || activeStep === 3 ? (
+                      <>
+                        <Button
+                          mr={4}
+                          size="lg"
+                          onClick={() => {
+                            if (activeStep === 1) {
+                              setTextContent("__codeup.__no_text_content");
+                              nextStep();
+                            } else if (activeStep === 3) {
+                              if (
+                                textContent === "__codeup.__no_text_content"
+                              ) {
+                                alert(
+                                  "Du musst mindestens eine der folgenden Sachen ausfüllen: Text, Video"
+                                );
+                                return;
+                              } else {
+                                (
+                                  document.querySelector(
+                                    ".new_content_submit"
+                                  ) as HTMLButtonElement
+                                ).click();
+                              }
+                            }
+                          }}
+                          colorScheme={"red"}
+                        >
+                          Überspringen
+                        </Button>
+                      </>
+                    ) : null}
                     <Button
                       mr={4}
                       onClick={() => {
@@ -189,6 +237,7 @@ export default function NewContents() {
                     </Button>
                     <Button
                       size="lg"
+                      id={"new_content_submit"}
                       onClick={async () => {
                         if (activeStep !== steps.length - 1) {
                           switch (activeStep) {
@@ -219,6 +268,19 @@ export default function NewContents() {
                               break;
                             case 2:
                               if (quizQuestions.length === 0) return;
+
+                              let anyAnswerEmpty = false;
+
+                              for (const q of quizQuestions) {
+                                for (const a of q.answers) {
+                                  if (a.answer === "") {
+                                    anyAnswerEmpty = true;
+                                  }
+                                }
+                              }
+
+                              if (anyAnswerEmpty) return;
+
                               nextStep();
                               break;
                             default:
@@ -230,8 +292,12 @@ export default function NewContents() {
                             course: course,
                             displayName,
                             quiz: quizQuestions,
-                            textContent,
+                            textContent:
+                              textContent !== "__codeup.__no_text_content"
+                                ? textContent
+                                : "",
                             type: "TEXT",
+                            videoUrl: videoURL || "",
                             url,
                           });
 
