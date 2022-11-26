@@ -16,7 +16,7 @@ import { verify } from "jsonwebtoken";
 import CourseModel from "@codeup/util/src/models/CourseModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  if (!["GET", "DELETE"].includes(req.method)) {
+  if (!["GET", "DELETE"].includes(req.method as string)) {
     res.status(405).json({
       error: "Method not allowed",
     });
