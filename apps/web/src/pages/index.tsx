@@ -65,61 +65,7 @@ export default function Index() {
         backgroundPosition={"center"}
         backgroundRepeat={"no-repeat"}
       ></Box>
-      <Flex
-        w={"100%"}
-        h={"100vh"}
-        display={"none"}
-        bg={"#000"}
-        alignItems="center"
-        flexDirection={"column"}
-      >
-        <Heading
-          color={"white"}
-          fontSize={["2rem", "8em"]}
-          fontFamily={"ARCADE"}
-          textAlign={"center"}
-          id="landing-title"
-          flex="80%"
-          display="flex"
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <Typed strings={["CodeUp"]} typeSpeed={80} startDelay={500} />
-        </Heading>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            delay: 1.5,
-            default: {
-              duration: 0.3,
-              ease: [0, 0.71, 0.2, 1.01],
-            },
-            scale: {
-              type: "spring",
-              damping: 5,
-              stiffness: 100,
-              restDelta: 0.001,
-            },
-          }}
-          style={{
-            flex: "20%",
-          }}
-        >
-          <Text
-            color={"white"}
-            fontSize={["1rem", "2rem"]}
-            fontFamily={"ARCADE"}
-            textAlign={"center"}
-            id="landing-subtitle"
-            onClick={() => {
-              window.location.href = "#_more";
-            }}
-          >
-            Scroll to see more
-          </Text>
-        </motion.div>
-      </Flex>
+
       <Flex
         w={"100%"}
         minH={"100vh"}
