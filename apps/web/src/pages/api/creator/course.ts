@@ -9,6 +9,7 @@
  */
 
 import UserModel from "@codeup/util/src/models/UserModel";
+import ContentModel from "@codeup/util/src/models/ContentModel";
 import CourseModel from "@codeup/util/src/models/CourseModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -125,6 +126,12 @@ export default async function handleRequest(
           error: "Unauthorized",
         });
         return;
+      }
+
+      const contents = await ContentModel.find({ course: course._id });
+
+      for (const content of contents) {
+        content.remove();
       }
 
       await course.remove();
