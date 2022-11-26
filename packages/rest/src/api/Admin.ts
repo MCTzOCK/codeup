@@ -405,3 +405,19 @@ export async function deleteContactMessage(options: {
     path: "/api/admin/contact/messages?id=" + options.id,
   });
 }
+
+export async function contactUser(options: {
+  token: string;
+  username: string;
+  message: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/contact/user",
+    body: {
+      username: options.username,
+      message: options.message,
+    },
+  });
+}

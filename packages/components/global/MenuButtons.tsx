@@ -41,15 +41,23 @@ export default function MenuButtons(props: {
 
   useEffect(() => {
     if (userInfo.role === "admin") {
-      REST.Admin.getContactMessageCount(localStorage.getItem("token")).then(
-        (res) => {
-          if (res.status === 200) {
-            setContactCount(res.payload.count);
-          }
-        }
-      );
+      reload();
+      const i = setInterval(reload, 20000);
+      return () => clearInterval(i);
     }
   }, [userInfo]);
+
+  const reload = () => {
+    if (userInfo.role === "admin") {
+      REST.Admin.getContactMessageCount(
+        localStorage.getItem("token") as string
+      ).then((res) => {
+        if (res.status === 200) {
+          setContactCount(res.payload.count);
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -116,7 +124,7 @@ export default function MenuButtons(props: {
                       fontWeight={"bold"}
                       icon={<FiAlertTriangle />}
                     >
-                      ADMIN{" "}
+                      ADMIN&nbsp;
                       <Badge color={"red"}>
                         {contactCount < 9 ? contactCount : "9+"}
                       </Badge>

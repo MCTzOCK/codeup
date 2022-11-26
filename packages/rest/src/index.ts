@@ -115,6 +115,7 @@ import {
   getContactMessages,
   getContactMessageCount,
   deleteContactMessage,
+  contactUser,
 } from "./api/Admin";
 
 import {
@@ -170,6 +171,7 @@ const REST = {
     getContactMessages,
     getContactMessageCount,
     deleteContactMessage,
+    contactUser,
   },
   Account: {
     register,
