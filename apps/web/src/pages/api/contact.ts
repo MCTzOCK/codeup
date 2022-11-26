@@ -11,7 +11,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { verify } from "jsonwebtoken";
 import mongoConnect from "@codeup/util/src/mongo";
 import UserModel from "@codeup/util/src/models/UserModel";
-import sendMail from "@codeup/util/src/sendMail";
+import ContactModel from "@codeup/util/src/models/ContactModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -28,10 +28,7 @@ export default async function handleRequest(
     !req.headers["x-jwt"] ||
     !req.body ||
     !req.body.message ||
-    // HIGH -> process.env.CONTACT_HIGH
-    // MEDIUM -> process.env.CONTACT_MEDIUM
-    // LOW -> process.env.CONTACT_LOW
-    !req.body.priority
+    !req.body.title
   ) {
     res.status(400).json({
       error: "Bad Request",
@@ -65,26 +62,15 @@ export default async function handleRequest(
       return;
     }
 
-    const email = user.email;
-
-    req.body.priority = req.body.priority.toUpperCase();
-
-    const email_recipient =
-      req.body.priority === "HIGH"
-        ? process.env.CONTACT_HIGH
-        : req.body.priority === "MEDIUM"
-        ? process.env.CONTACT_MEDIUM
-        : process.env.CONTACT_LOW;
-
-    sendMail(
-      email_recipient as string,
-      "[CODEUP] Neue Nachricht von " + user.username,
-      `Neue Kontaktanfrage von ${user.username} (${email}):<br /><br />${req.body.message}`,
-      "Ben"
-    );
+    const contact = await ContactModel.create({
+      username: user.username,
+      message: req.body.message,
+      title: req.body.title,
+    });
 
     res.status(200).json({
       success: true,
+      message_id: contact._id,
     });
   } catch (e) {
     res.status(500).json({

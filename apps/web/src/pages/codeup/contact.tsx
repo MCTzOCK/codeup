@@ -40,8 +40,11 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { FaBaby } from "react-icons/fa";
 import makeRequest from "@codeup/rest/src/makeRequest";
+import REST from "@codeup/rest";
 
 export default function Contact() {
+  const [disableButton, setDisableButton] = React.useState(false);
+
   const { userInfo, loggedIn, loaded: uiLoaded } = useLoggedIn();
   const router = useRouter();
 
@@ -49,123 +52,92 @@ export default function Contact() {
 
   return (
     <>
-      <Flex align="center" justify="center" id="contact">
-        <Box
-          borderRadius="lg"
-          m={{ base: 5, md: 16, lg: 10 }}
-          p={{ base: 5, lg: 16 }}
+      <Flex align="center" justify="center" w={"100%"} minH={[0, "100vh"]}>
+        <VStack
+          spacing={8}
+          w="100%"
+          maxW="800px"
+          p={8}
+          bgColor={["transparent", "gray.900"]}
+          rounded="lg"
+          shadow={["none", "xl"]}
         >
-          <Box>
-            <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
-              <Heading
-                fontSize={{
-                  base: "4xl",
-                  md: "5xl",
-                }}
-              >
-                Team kontaktieren
-              </Heading>
+          <Heading as="h1" size="2xl" textAlign={["center", "initial"]}>
+            Team Kontaktieren
+          </Heading>
 
-              <Stack
-                spacing={{ base: 4, md: 8, lg: 20 }}
-                direction={{ base: "column", md: "row" }}
-              >
-                <Box
-                  bg={useColorModeValue("white", "gray.700")}
-                  borderRadius="lg"
-                  p={8}
-                  color={useColorModeValue("gray.700", "whiteAlpha.900")}
-                  shadow="base"
-                  style={{ scale: "1.25" }}
-                  mt={"4rem"}
-                >
-                  <form
-                    onSubmit={async (e) => {
-                      e.preventDefault();
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
 
-                      // @ts-ignore
-                      const message = e.target.message.value;
-                      // @ts-ignore
-                      const priority = e.target.priority.value;
+              if (!loggedIn) {
+                window.dispatchEvent(new CustomEvent("codeup::open_login"));
+                return;
+              }
 
-                      const r = await makeRequest({
-                        token: localStorage.getItem("token") as string,
-                        method: "POST",
-                        path: "/api/contact",
-                        body: {
-                          message,
-                          priority,
-                        },
-                      });
+              const data = new FormData(e.target as HTMLFormElement);
 
-                      if (r.status === 200) {
-                        toast({
-                          title: "Nachricht gesendet",
-                          description:
-                            "Wir werden uns schnellstmöglich bei dir melden",
-                          status: "success",
-                          duration: 5000,
-                          isClosable: true,
-                          position: "top",
-                        });
-                      } else {
-                        toast({
-                          title: "Fehler",
-                          description: "Es ist ein Fehler aufgetreten",
-                          status: "error",
-                          duration: 5000,
-                          isClosable: true,
-                          position: "top",
-                        });
-                      }
-                    }}
-                  >
-                    <VStack spacing={5}>
-                      <FormControl isRequired>
-                        <FormLabel>Nachricht</FormLabel>
+              const category = data.get("category") as string;
+              const title = data.get("title") as string;
+              const message = data.get("message") as string;
 
-                        <Textarea
-                          name="message"
-                          placeholder="Deine Nachricht"
-                        />
-                      </FormControl>
+              const r = await makeRequest({
+                token: localStorage.getItem("token") as string,
+                method: "POST",
+                path: "/api/contact",
+                body: {
+                  message,
+                  category,
+                  title,
+                },
+              });
 
-                      <FormControl isRequired>
-                        <FormLabel>Priorität</FormLabel>
-
-                        <Select name="priority">
-                          <option value="low">Niedrig</option>
-                          <option value="medium">Mittel</option>
-                          <option value="high">Hoch</option>
-                        </Select>
-                      </FormControl>
-
-                      <Button
-                        id={"contact-form-submit"}
-                        type={loggedIn ? "submit" : "button"}
-                        colorScheme={"green"}
-                        w={"100%"}
-                        onClick={
-                          !loggedIn
-                            ? () => {
-                                window.dispatchEvent(
-                                  new CustomEvent("codeup::open_login")
-                                );
-                              }
-                            : () => {}
-                        }
-                      >
-                        {loggedIn
-                          ? "Nachricht senden"
-                          : "Anmelden um zu senden"}
-                      </Button>
-                    </VStack>
-                  </form>
-                </Box>
-              </Stack>
-            </VStack>
-          </Box>
-        </Box>
+              if (r.status === 200) {
+                toast({
+                  title: "Nachricht gesendet",
+                  description: "Wir werden uns schnellstmöglich bei dir melden",
+                  status: "success",
+                  duration: 5000,
+                  isClosable: true,
+                  position: "top",
+                });
+                setDisableButton(true);
+              } else {
+                toast({
+                  title: "Fehler",
+                  description:
+                    "Es ist ein Fehler aufgetreten, versuche es später eneut oder wende dich per E-Mail unter hello@ben-siebert.de an uns",
+                  status: "error",
+                  duration: 5000,
+                  isClosable: true,
+                  position: "top",
+                });
+              }
+            }}
+          >
+            <Stack spacing={4}>
+              <FormControl id="category" isRequired>
+                <FormLabel>Kategorie</FormLabel>
+                <Select name={"category"}>
+                  <option value="sonstiges">Sonstiges</option>
+                  <option value="fehler">Fehler melden</option>
+                  <option value="feature">Funktion beantragen</option>
+                </Select>
+              </FormControl>
+              <FormControl id="title" isRequired>
+                <FormLabel>Titel</FormLabel>
+                <Input name={"title"} placeholder={"Titel"} />
+              </FormControl>
+              <FormControl id="message" isRequired>
+                <FormLabel>Nachricht</FormLabel>
+                <Textarea name={"message"} placeholder={"Nachricht ..."} />
+              </FormControl>
+              <Button type="submit" colorScheme="blue" disabled={disableButton}>
+                {loggedIn ? "Absenden" : "Anmelden zum Senden"}
+              </Button>
+            </Stack>
+          </form>
+        </VStack>
       </Flex>
     </>
   );
