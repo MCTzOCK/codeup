@@ -40,6 +40,7 @@ export default function Info() {
     course: string;
     url: string;
     textContent: string;
+    videoUrl: string;
     quiz: {
       question: string;
       answers: {
@@ -126,6 +127,19 @@ export default function Info() {
                     />
                   </InputGroup>
                 </FormControl>
+                <FormControl id="url">
+                  <FormLabel>Video-URL</FormLabel>
+                  <InputGroup>
+                    <InputLeftElement>
+                      <FaPen />
+                    </InputLeftElement>
+                    <Input
+                      name={"video-url"}
+                      defaultValue={content.videoUrl}
+                      placeholder={"Video-URL"}
+                    />
+                  </InputGroup>
+                </FormControl>
                 <AdminQuizMaker
                   quizQuestions={quiz}
                   setQuizQuestions={setQuiz}
@@ -159,6 +173,9 @@ export default function Info() {
                   const url = document.querySelector(
                     "input[name=url]"
                   ) as HTMLInputElement;
+                  const videoUrl = document.querySelector(
+                    "input[name=video-url]"
+                  ) as HTMLInputElement;
 
                   const res = await REST.Creator.updateContent({
                     token: localStorage.getItem("token") as string,
@@ -167,6 +184,7 @@ export default function Info() {
                       displayName: displayName.value || content.displayName,
                       url: url.value || content.url,
                       quiz: quiz || content.quiz,
+                      videoUrl: videoUrl.value || content.videoUrl,
                     },
                   });
 

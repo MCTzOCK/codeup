@@ -86,6 +86,35 @@ export default function ContentEditor() {
                 fontSize={"2xl"}
                 size={"lg"}
                 colorScheme={"red"}
+                onClick={async () => {
+                  const res = await REST.Creator.updateContent({
+                    token: localStorage.getItem("token") as string,
+                    cid: content._id,
+                    update: {
+                      textContent: "__codeup.__no_text_content",
+                    },
+                  });
+                  if (res.status === 200) {
+                    router.back();
+                  } else {
+                    toast({
+                      title: "Fehler",
+                      description:
+                        "Fehler beim Speichern: " + res.payload.error,
+                      status: "error",
+                      duration: 1500,
+                      isClosable: true,
+                      position: "bottom-left",
+                    });
+                  }
+                }}
+              >
+                Inhalt Löschen
+              </Button>
+              <Button
+                fontSize={"2xl"}
+                size={"lg"}
+                colorScheme={"red"}
                 onClick={() => {
                   router.back();
                 }}

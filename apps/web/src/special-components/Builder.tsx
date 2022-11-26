@@ -64,7 +64,11 @@ export default function Builder(props: {
   const [defaultTemplate, setDefaultTemplate] = useState<string>();
 
   useEffect(() => {
-    if (!props.content) {
+    if (
+      !props.content ||
+      props.content === "" ||
+      props.content === "__codeup.__no_text_content"
+    ) {
       fetch(
         "/_static/creator_builder/default/templates/default_template.html"
       ).then((res) => {

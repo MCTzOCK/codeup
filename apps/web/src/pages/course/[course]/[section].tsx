@@ -167,7 +167,8 @@ export default function SectionViewer() {
                 )
               }
               {/* <MDRenderer content={content.textContent} /> */}
-              {content.textContent && (
+              {content.textContent &&
+              content.textContent !== "__codeup.__no_text_content" ? (
                 <iframe
                   src={
                     "/api/course/" +
@@ -194,7 +195,7 @@ export default function SectionViewer() {
                     }
                   }}
                 />
-              )}
+              ) : null}
               {content.quiz && content.quiz.length > 0 && (
                 <Quiz title={content.displayName} questions={content.quiz} />
               )}
