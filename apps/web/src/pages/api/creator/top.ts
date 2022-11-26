@@ -21,6 +21,11 @@ export default async function handleRequest(
 
     const creators = await CourseModel.aggregate([
       {
+        $match: {
+          available: true,
+        },
+      },
+      {
         $group: {
           _id: "$creator",
           count: { $sum: 1 },
