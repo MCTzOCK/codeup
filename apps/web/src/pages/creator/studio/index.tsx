@@ -31,6 +31,7 @@ import {
 } from "@chakra-ui/react";
 import {
   FaBookReader,
+  FaCertificate,
   FaCheckCircle,
   FaEye,
   FaPen,
@@ -283,17 +284,30 @@ export default function Index() {
                               Löschen
                             </Button>
                           </ButtonGroup>
-                          <Button
-                            w={"100%"}
-                            colorScheme={"green"}
-                            leftIcon={<FaEye />}
-                            mt={4}
-                            onClick={() => {
-                              router.push("/creator/studio/" + course._id);
-                            }}
-                          >
-                            Lektionen
-                          </Button>
+                          <ButtonGroup mt={4} w={"100%"}>
+                            <Button
+                              w={"100%"}
+                              colorScheme={"green"}
+                              leftIcon={<FaEye />}
+                              onClick={() => {
+                                router.push("/creator/studio/" + course._id);
+                              }}
+                            >
+                              Lektionen
+                            </Button>
+                            <Button
+                              w={"100%"}
+                              colorScheme={"green"}
+                              leftIcon={<FaCertificate />}
+                              onClick={() => {
+                                router.push(
+                                  "/creator/studio/certificate/" + course._id
+                                );
+                              }}
+                            >
+                              Zertifikat
+                            </Button>
+                          </ButtonGroup>
                         </>
                       </Flex>
                     </Box>
