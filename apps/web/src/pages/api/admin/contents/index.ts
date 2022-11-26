@@ -192,6 +192,30 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
+      const course = await CourseModel.findById(content.course);
+
+      if (!course) {
+        res.status(404).json({
+          error: "Not Found",
+          success: false,
+        });
+        return;
+      }
+
+      if (course.creator !== editorUser.username) {
+        res.status(401).json({
+          error: "Unauthorized",
+          success: false,
+        });
+        return;
+      }
+
+      course.contentPositions = course.contentPositions.filter(
+        (c: string) => c !== req.body.id
+      );
+
+      await course.save();
+
       await content.remove();
 
       res.status(200).json({
