@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@animxyz/react": "^0.6.7",
-    "@chakra-ui/react": "^2.1.2",
+    "@chakra-ui/react": "^2.4.1",
     "@codeup/components": "*",
     "@codeup/hooks": "*",
     "@codeup/incode-ast-generator": "*",

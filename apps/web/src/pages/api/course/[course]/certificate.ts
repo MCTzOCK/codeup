@@ -157,23 +157,31 @@ export default async function handleRequest(
         username: user.username,
       });
 
-      if (alreadyObtained) {
-        await alreadyObtained.remove();
-      }
-
       if (percentage >= certificate.minPercentage) {
-        const obtainedCertificate = await ObtainedCertificateModel.create({
-          username: user.username,
-          course: courseObject._id,
-          name: user.firstName + " " + user.lastName,
-          date: new Date(),
-          percentage: percentage,
-        });
+        let cert_id = "";
+
+        if (alreadyObtained) {
+          alreadyObtained.date = new Date();
+          alreadyObtained.percentage = percentage;
+          await alreadyObtained.save();
+
+          cert_id = alreadyObtained._id;
+        } else {
+          const obtainedCertificate = await ObtainedCertificateModel.create({
+            username: user.username,
+            course: courseObject._id,
+            name: user.firstName + " " + user.lastName,
+            date: new Date(),
+            percentage: percentage,
+          });
+
+          cert_id = obtainedCertificate._id;
+        }
 
         res.status(200).json({
           success: true,
           obtainedCertificate: true,
-          obtainedCertificateId: obtainedCertificate._id,
+          obtainedCertificateId: cert_id,
         });
       } else {
         res.status(200).json({

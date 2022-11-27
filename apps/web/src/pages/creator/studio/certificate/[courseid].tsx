@@ -171,7 +171,7 @@ export default function CertificateEditor() {
           setCertificate(res.payload.certificate);
           setMinPercentage(res.payload.certificate.minPercentage);
           setSteps(res.payload.certificate.steps);
-        } else if (res.status === 404) {
+        } else if (res.status !== 200) {
           REST.Creator.createCertificate({
             courseId: courseid as string,
             token: localStorage.getItem("token") as string,

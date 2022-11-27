@@ -53,7 +53,7 @@ export default function Index() {
           const r1 = await REST.Certificates.getCertificate({
             token: localStorage.getItem("token") as string,
             onlyLookup: true,
-            course: course.id,
+            course: course._id,
           });
 
           if (r1.status === 200) {
