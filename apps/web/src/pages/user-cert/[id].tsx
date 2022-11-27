@@ -24,11 +24,16 @@ import {
   Divider,
   HStack,
   chakra,
+  IconButton,
 } from "@chakra-ui/react";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import { FaImage } from "react-icons/fa";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { Canvg, RenderingContext2D } from "canvg";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -98,6 +103,7 @@ export default function CertViewer() {
                   mt={"4rem"}
                   mb={"4rem"}
                   p={"2rem"}
+                  id={"certificate"}
                 >
                   <CardBody>
                     <Image
