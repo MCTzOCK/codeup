@@ -26,12 +26,22 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function Index() {
   const [certificates, setCertificates] = React.useState<string[]>([]);
   const [courses, setCourses] = React.useState<any[]>([]);
 
   const toast = useToast();
+
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
+  useEffect(() => {
+    if (loaded && !loggedIn) {
+      router.push("/");
+      window.dispatchEvent(new CustomEvent("codeup::open_login"));
+    }
+  }, [userInfo, loggedIn, loaded]);
 
   React.useEffect(() => {
     REST.Course.listCourses().then(async (res) => {
@@ -40,7 +50,11 @@ export default function Index() {
         const certs = [];
 
         for (const course of res.payload.courses) {
-          const r1 = await REST.Certificates.getCertificate(course._id, true);
+          const r1 = await REST.Certificates.getCertificate({
+            token: localStorage.getItem("token") as string,
+            onlyLookup: true,
+            course: course.id,
+          });
 
           if (r1.status === 200) {
             courses.push(course);
@@ -48,6 +62,7 @@ export default function Index() {
           }
         }
 
+        // @ts-ignore
         setCertificates(certs);
         setCourses(courses);
       } else {
