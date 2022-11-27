@@ -16,17 +16,14 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
 
 export default function Error() {
   const router = useRouter();
 
   return (
     <>
-      <Alert status="error">
-        <AlertIcon />
-        <AlertTitle>Fehler!</AlertTitle>
-        <AlertDescription>{router.query.error}</AlertDescription>
-      </Alert>
+      <ErrorComponent description={router.query.error as string} />
     </>
   );
 }

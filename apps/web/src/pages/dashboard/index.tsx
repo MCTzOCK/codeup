@@ -48,6 +48,15 @@ export default function Dashboard() {
           description: null,
         });
       }
+
+      if (x.length === 0) {
+        x.push({
+          title: "Keine Projekte erstellt: Neues Projekt",
+          href: "/ide",
+          description: null,
+        });
+      }
+
       setProjectEntries(x as any);
     });
     REST.ToDo.getMyLists(localStorage.getItem("token") as string).then(
@@ -59,7 +68,16 @@ export default function Dashboard() {
             href: "/todo",
           });
         }
-        setTodoEntries(x);
+
+        if (x.length === 0) {
+          x.push({
+            title: "Keine Listen erstellt: Neue Liste",
+            href: "/todo",
+            description: null,
+          });
+        }
+
+        setTodoEntries(x as any);
       }
     );
   }, []);

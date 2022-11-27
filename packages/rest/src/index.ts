@@ -134,6 +134,9 @@ import {
   getContents as getContentsCreator,
   updateContent as updateContentCreator,
   getTopCreators,
+  getCertificate,
+  createCertificate,
+  updateCertificate,
 } from "./api/Creator";
 import {
   deleteAnalytics,
@@ -141,6 +144,11 @@ import {
   getViews,
   postAnalytics,
 } from "./api/Analytics";
+import {
+  getCertificate as getCertificateC,
+  submitCertificate,
+  getObtainedCertificate,
+} from "./api/Certificates";
 
 const REST = {
   Admin: {
@@ -270,12 +278,20 @@ const REST = {
     getContents: getContentsCreator,
     updateContent: updateContentCreator,
     getTopCreators: getTopCreators,
+    getCertificate: getCertificate,
+    createCertificate: createCertificate,
+    updateCertificate: updateCertificate,
   },
   Analytics: {
     postAnalytics,
     getSummary,
     getViews,
     deleteAnalytics,
+  },
+  Certificates: {
+    getCertificate: getCertificateC,
+    submitCertificate,
+    getObtainedCertificate,
   },
 };
 

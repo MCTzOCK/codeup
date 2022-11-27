@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@animxyz/react": "^0.6.7",
+    "@chakra-ui/card": "^2.1.1",
     "@chakra-ui/react": "^2.1.2",
     "@codeup/components": "*",
     "@codeup/hooks": "*",
@@ -50,6 +51,7 @@
     "@vercel/og": "^0.0.20",
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
+    "canvg": "^4.0.1",
     "chakra-ui-steps": "^1.8.0",
     "chart.js": "^4.0.1",
     "dom-to-image": "^2.6.0",
@@ -61,6 +63,7 @@
     "grapesjs-react": "^4.0.1",
     "html2canvas": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
+    "jspdf": "^2.5.1",
     "mime-types": "^2.1.35",
     "monaco-editor": "^0.33.0",
     "mongoose": "^6.3.5",

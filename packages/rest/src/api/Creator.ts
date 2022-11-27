@@ -163,3 +163,47 @@ export async function getTopCreators(): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function getCertificate(options: {
+  token: string;
+  courseId: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    path: `/api/creator/certificate?courseId=${options.courseId}`,
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function createCertificate(options: {
+  token: string;
+  courseId: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    path: `/api/creator/certificate`,
+    method: "POST",
+    token: options.token,
+    body: {
+      create: true,
+      courseId: options.courseId,
+    },
+  });
+}
+
+export async function updateCertificate(options: {
+  token: string;
+  courseId: string;
+  update: {
+    [key: string]: string | any;
+  };
+}): Promise<IResponse> {
+  return makeRequest({
+    path: `/api/creator/certificate`,
+    method: "POST",
+    token: options.token,
+    body: {
+      update: options.update,
+      courseId: options.courseId,
+    },
+  });
+}
