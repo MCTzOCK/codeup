@@ -144,6 +144,7 @@ import {
   getViews,
   postAnalytics,
 } from "./api/Analytics";
+import { getCertificate as getCertificateC } from "./api/Certificates";
 
 const REST = {
   Admin: {
@@ -282,6 +283,9 @@ const REST = {
     getSummary,
     getViews,
     deleteAnalytics,
+  },
+  Certificates: {
+    getCertificate: getCertificateC,
   },
 };
 
