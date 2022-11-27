@@ -15,10 +15,6 @@ import {
   Flex,
   Heading,
   Spinner,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
   Avatar,
   Image,
   Stack,
@@ -29,6 +25,7 @@ import {
   HStack,
   chakra,
 } from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
@@ -100,6 +97,7 @@ export default function CertViewer() {
                   boxShadow={"2xl"}
                   mt={"4rem"}
                   mb={"4rem"}
+                  p={"2rem"}
                 >
                   <CardBody>
                     <Image
