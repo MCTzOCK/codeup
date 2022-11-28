@@ -123,7 +123,7 @@ export default async function handleRequest(
       for (const step of certificate.steps) {
         const index = certificate.steps.indexOf(step);
 
-        const answer = answers.find((a) => a.step === index);
+        const answer = answers.find((a: any) => a.step === index);
 
         if (!answer) {
           res.status(400).json({
