@@ -41,11 +41,20 @@ import {
   InputGroup,
   Grid,
   Switch,
+  Image,
+  InputLeftElement,
+  ButtonGroup,
+  useDisclosure,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaArrowsAlt, FaCamera, FaCode, FaPlus, FaTrash } from "react-icons/fa";
 import * as Builders from "@codeup/util/src/certificates/CertificateBuilder";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import Editor, { Monaco } from "@monaco-editor/react";
+import html2canvas from "html2canvas";
+import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
+import { editor } from "monaco-editor";
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 export default function CertificateEditor() {
   const router = useRouter();
@@ -194,6 +203,16 @@ export default function CertificateEditor() {
       });
     }
   }, [courseid]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [monacoHook, setMonacoHook] = React.useState<Monaco | null>(null);
+  const [monacoEditorHook, setMonacoEditorHook] =
+    React.useState<IStandaloneCodeEditor | null>(null);
+  const [monacoEditorLanguage, setMonacoEditorLanguage] = React.useState<
+    string | null
+  >(null);
+  const [monacoEditorContent, setMonacoEditorContent] =
+    React.useState<string>("");
 
   return (
     <CreatorStudioLayout>
@@ -676,6 +695,200 @@ export default function CertificateEditor() {
                                             </Box>
                                           </>
                                         )}
+                                        {step.step_type === "CODE_COMPARE" && (
+                                          <></>
+                                        )}
+                                        {step.step_type === "CODE_CHECK" && (
+                                          <>
+                                            <Flex
+                                              direction={"row"}
+                                              w={"100%"}
+                                              h={"fit-content"}
+                                              paddingInline={10}
+                                              paddingBlock={5}
+                                              gap={40}
+                                            >
+                                              <Box flex={"100%"}>
+                                                <Stack>
+                                                  <Image
+                                                    src={
+                                                      step.code_check?.code_a
+                                                        .screenshot
+                                                    }
+                                                    alt="Code A"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
+                                                    onClick={() => {
+                                                      // @ts-ignore
+                                                      window._temp_screenShot_callback =
+                                                        (data: string) => {
+                                                          // @ts-ignore
+                                                          delete window._temp_screenShot_callback;
+                                                          console.log(2);
+                                                          setSteps(
+                                                            // @ts-ignore
+                                                            steps.map((s) =>
+                                                              s.step_title ===
+                                                              step.step_title
+                                                                ? {
+                                                                    ...s,
+                                                                    code_check:
+                                                                      {
+                                                                        ...s.code_check,
+                                                                        code_a:
+                                                                          {
+                                                                            // @ts-ignore
+                                                                            ...s
+                                                                              .code_check
+                                                                              .code_a,
+                                                                            screenshot:
+                                                                              data,
+                                                                          },
+                                                                      },
+                                                                  }
+                                                                : s
+                                                            )
+                                                          );
+                                                        };
+                                                      onOpen();
+                                                      setMonacoEditorContent(
+                                                        ""
+                                                      );
+                                                    }}
+                                                  />
+                                                  <Button
+                                                    colorScheme={
+                                                      step.code_check?.code_a
+                                                        .correct
+                                                        ? "green"
+                                                        : "red"
+                                                    }
+                                                    onClick={() => {
+                                                      setSteps(
+                                                        steps.map((s) =>
+                                                          s.step_title ===
+                                                          step.step_title
+                                                            ? {
+                                                                ...s,
+                                                                code_check: {
+                                                                  ...s.code_check,
+                                                                  code_a: {
+                                                                    ...s
+                                                                      .code_check
+                                                                      .code_a,
+                                                                    correct:
+                                                                      !s
+                                                                        .code_check
+                                                                        .code_a
+                                                                        .correct,
+                                                                  },
+                                                                },
+                                                              }
+                                                            : s
+                                                        )
+                                                      );
+                                                    }}
+                                                  >
+                                                    {step.code_check?.code_a
+                                                      .correct
+                                                      ? "Richtig"
+                                                      : "Falsch"}
+                                                  </Button>
+                                                </Stack>
+                                              </Box>
+                                              <Box flex={"100%"}>
+                                                <Stack>
+                                                  <Image
+                                                    src={
+                                                      step.code_check?.code_b
+                                                        .screenshot
+                                                    }
+                                                    alt="Code B"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
+                                                    onClick={() => {
+                                                      // @ts-ignore
+                                                      window._temp_screenShot_callback =
+                                                        (data: string) => {
+                                                          console.log(1);
+                                                          // @ts-ignore
+                                                          delete window._temp_screenShot_callback;
+                                                          setSteps(
+                                                            // @ts-ignore
+                                                            steps.map((s) =>
+                                                              s.step_title ===
+                                                              step.step_title
+                                                                ? {
+                                                                    ...s,
+                                                                    code_check:
+                                                                      {
+                                                                        ...s.code_check,
+                                                                        code_b:
+                                                                          {
+                                                                            // @ts-ignore
+                                                                            ...s
+                                                                              .code_check
+                                                                              .code_b,
+                                                                            screenshot:
+                                                                              data,
+                                                                          },
+                                                                      },
+                                                                  }
+                                                                : s
+                                                            )
+                                                          );
+                                                        };
+                                                      onOpen();
+                                                      setMonacoEditorContent(
+                                                        ""
+                                                      );
+                                                    }}
+                                                  />
+                                                  <Button
+                                                    colorScheme={
+                                                      step.code_check?.code_b
+                                                        .correct
+                                                        ? "green"
+                                                        : "red"
+                                                    }
+                                                    onClick={() => {
+                                                      setSteps(
+                                                        steps.map((s) =>
+                                                          s.step_title ===
+                                                          step.step_title
+                                                            ? {
+                                                                ...s,
+                                                                code_check: {
+                                                                  ...s.code_check,
+                                                                  code_b: {
+                                                                    ...s
+                                                                      .code_check
+                                                                      .code_b,
+                                                                    correct:
+                                                                      !s
+                                                                        .code_check
+                                                                        .code_b
+                                                                        .correct,
+                                                                  },
+                                                                },
+                                                              }
+                                                            : s
+                                                        )
+                                                      );
+                                                    }}
+                                                  >
+                                                    {step.code_check?.code_b
+                                                      .correct
+                                                      ? "Richtig"
+                                                      : "Falsch"}
+                                                  </Button>
+                                                </Stack>
+                                              </Box>
+                                            </Flex>
+                                          </>
+                                        )}
                                       </Box>
                                     </>
                                   )}
@@ -689,6 +902,116 @@ export default function CertificateEditor() {
                   </DragDropContext>
                 </>
               )}
+
+              <CodeUpModal
+                onOpen={onOpen}
+                onClose={onClose}
+                isOpen={isOpen}
+                title={"Code Block Erstellen"}
+                customSize={["6xl"]}
+              >
+                <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
+                  {!monacoEditorLanguage && (
+                    <InputGroup w={"100%"} overflow={"auto"} mb={"2rem"}>
+                      <InputLeftElement>
+                        <FaCode />
+                      </InputLeftElement>
+                      <Input
+                        placeholder={"Programmiersprache eingeben..."}
+                        w={"100%"}
+                        id={"codeup-code-block-language"}
+                      />
+                      <Button
+                        ml={2}
+                        colorScheme={"green"}
+                        boxShadow={"2xl"}
+                        onClick={() => {
+                          // remove monaco editor if exists
+                          if (monacoEditorHook) {
+                            monacoEditorHook.dispose();
+                          }
+
+                          // set language
+                          setMonacoEditorLanguage(
+                            (
+                              document.getElementById(
+                                "codeup-code-block-language"
+                              ) as HTMLInputElement
+                            )?.value || ""
+                          );
+                        }}
+                      >
+                        Erstellen
+                      </Button>
+                    </InputGroup>
+                  )}
+                  {monacoEditorLanguage && (
+                    <>
+                      <Box id={"codeup_code_image_creator_monaco"}>
+                        <Editor
+                          defaultLanguage={monacoEditorLanguage}
+                          defaultValue={monacoEditorContent}
+                          onMount={(editor, monaco) => {
+                            if (editor && monaco) {
+                              setMonacoHook(monaco);
+                              setMonacoEditorHook(editor);
+                            }
+                          }}
+                          onChange={(value, ev) => {
+                            setMonacoEditorContent(value || "");
+                          }}
+                          theme={"vs-dark"}
+                          height={"40vh"}
+                          options={{
+                            fontSize: 20,
+                            minimap: {
+                              enabled: false,
+                            },
+                            scrollbar: {
+                              scrollByPage: true,
+                            },
+                          }}
+                        />
+                      </Box>
+                    </>
+                  )}
+                  {monacoEditorLanguage && (
+                    <ButtonGroup w={"100%"} mt={"2rem"}>
+                      <Button
+                        leftIcon={<FaArrowsAlt />}
+                        w={"100%"}
+                        colorScheme={"red"}
+                        onClick={() => {
+                          setMonacoEditorLanguage(null);
+                        }}
+                      >
+                        Sprache wechseln
+                      </Button>
+                      <Button
+                        colorScheme={"green"}
+                        w={"100%"}
+                        leftIcon={<FaCamera />}
+                        onClick={async () => {
+                          const i = await html2canvas(
+                            document.getElementsByClassName(
+                              "monaco-editor"
+                            )[0] as HTMLElement
+                          );
+
+                          // @ts-ignore
+                          window._temp_screenShot_callback(
+                            i.toDataURL("image/png")
+                          );
+
+                          onClose();
+                        }}
+                      >
+                        Screenshots erstellen
+                      </Button>
+                    </ButtonGroup>
+                  )}
+                </Box>
+              </CodeUpModal>
 
               <Popover>
                 <PopoverTrigger>
