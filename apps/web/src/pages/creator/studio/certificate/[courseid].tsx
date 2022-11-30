@@ -766,18 +766,22 @@ export default function CertificateEditor() {
                                                     }
                                                     onClick={() => {
                                                       setSteps(
+                                                        // @ts-ignore
                                                         steps.map((s) =>
                                                           s.step_title ===
                                                           step.step_title
                                                             ? {
                                                                 ...s,
                                                                 code_check: {
+                                                                  // @ts-ignore
                                                                   ...s.code_check,
                                                                   code_a: {
+                                                                    // @ts-ignore
                                                                     ...s
                                                                       .code_check
                                                                       .code_a,
                                                                     correct:
+                                                                      // @ts-ignore
                                                                       !s
                                                                         .code_check
                                                                         .code_a
@@ -855,6 +859,7 @@ export default function CertificateEditor() {
                                                     }
                                                     onClick={() => {
                                                       setSteps(
+                                                        // @ts-ignore
                                                         steps.map((s) =>
                                                           s.step_title ===
                                                           step.step_title
@@ -863,10 +868,12 @@ export default function CertificateEditor() {
                                                                 code_check: {
                                                                   ...s.code_check,
                                                                   code_b: {
+                                                                    // @ts-ignore
                                                                     ...s
                                                                       .code_check
                                                                       .code_b,
                                                                     correct:
+                                                                      // @ts-ignore
                                                                       !s
                                                                         .code_check
                                                                         .code_b
