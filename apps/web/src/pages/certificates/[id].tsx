@@ -24,6 +24,7 @@ import {
   useDisclosure,
   Stack,
   Input,
+  Image,
 } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
@@ -220,6 +221,79 @@ export default function CertViewer() {
                       </Button>
                     </ButtonGroup>
                   </form>
+                </>
+              )}
+
+              {steps[currentStep].step_type === "CODE_CHECK" && (
+                <>
+                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                    {steps[currentStep].step_title}
+                  </Heading>
+                  <Flex
+                    direction={"column"}
+                    w={"100%"}
+                    h={"fit-content"}
+                    paddingInline={10}
+                    paddingBlock={5}
+                    gap={40}
+                  >
+                    <Box flex={"100%"}>
+                      <Stack>
+                        <Heading>Code A</Heading>
+                        <Image
+                          src={steps[currentStep].code_check?.code_a.screenshot}
+                          alt="Code A"
+                        />
+                      </Stack>
+                    </Box>
+                    <Box flex={"100%"}>
+                      <Stack>
+                        <Heading>Code B</Heading>
+                        <Image
+                          src={steps[currentStep].code_check?.code_b.screenshot}
+                          alt="Code B"
+                        />
+                      </Stack>
+                    </Box>
+                    <Box flex={"100%"}>
+                      <form>
+                        <ButtonGroup w={"100%"} mt={8}>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"blue"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: 0,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Code A
+                          </Button>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"red"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: 1,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Code B
+                          </Button>
+                        </ButtonGroup>
+                      </form>
+                    </Box>
+                  </Flex>
                 </>
               )}
             </>
