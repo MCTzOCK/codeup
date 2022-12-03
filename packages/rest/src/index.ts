@@ -118,6 +118,9 @@ import {
   contactUser,
   getAllObtainedCertificates,
   deleteObtainedCertificate,
+  getProjectIdeas as getProjectIdeasAdmin,
+  deleteProjectIdea,
+  createProjectIdea,
 } from "./api/Admin";
 
 import {
@@ -152,6 +155,7 @@ import {
   getObtainedCertificate,
   getObtainedCertificates,
 } from "./api/Certificates";
+import { getProjectIdeas } from "./api/ProjectIdeas";
 
 const REST = {
   Admin: {
@@ -185,6 +189,9 @@ const REST = {
     contactUser,
     getAllObtainedCertificates,
     deleteObtainedCertificate,
+    deleteProjectIdea,
+    createProjectIdea,
+    getProjectIdeasAdmin,
   },
   Account: {
     register,
@@ -298,6 +305,9 @@ const REST = {
     submitCertificate,
     getObtainedCertificate,
     getObtainedCertificates,
+  },
+  Ideas: {
+    getProjectIdeas,
   },
 };
 

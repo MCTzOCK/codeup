@@ -442,3 +442,42 @@ export async function deleteObtainedCertificate(options: {
     path: "/api/admin/certificates/delete?id=" + options.id,
   });
 }
+
+export async function getProjectIdeas(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/project-ideas",
+  });
+}
+
+export async function deleteProjectIdea(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/project-ideas?id=" + options.id,
+  });
+}
+
+export async function createProjectIdea(options: {
+  token: string;
+  title: string;
+  description: string;
+  exampleDeployedURL?: string;
+  exampleSourceURL?: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/project-ideas",
+    body: {
+      title: options.title,
+      description: options.description,
+      exampleDeployedURL: options.exampleDeployedURL,
+      exampleSourceURL: options.exampleSourceURL,
+    },
+  });
+}

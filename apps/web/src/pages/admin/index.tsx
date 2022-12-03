@@ -26,6 +26,7 @@ import {
   FaChartBar,
   FaComment,
   FaComments,
+  FaProjectDiagram,
   FaUser,
 } from "react-icons/fa";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
@@ -79,6 +80,12 @@ export default function AdminDashboard() {
       description: "Sieh dir alle Zertifikate der Benutzer an",
       link: "/admin/certificates",
       icon: <FaCertificate />,
+    },
+    {
+      title: "Projekt Ideen",
+      description: "Sieh dir alle Projekt Ideen an",
+      link: "/admin/project-ideas",
+      icon: <FaProjectDiagram />,
     },
   ];
 

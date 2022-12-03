@@ -718,7 +718,10 @@ export default function CertificateEditor() {
                                                     input.accept = "image/*";
                                                     input.onchange = (e) => {
                                                       const base64EncodedImage =
-                                                        e.target.files[0];
+                                                        (
+                                                          (e.target as any)
+                                                            .files as any
+                                                        )[0];
                                                       const reader =
                                                         new FileReader();
                                                       reader.readAsDataURL(
