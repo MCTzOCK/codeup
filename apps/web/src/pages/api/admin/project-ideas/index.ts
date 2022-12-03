@@ -15,13 +15,6 @@ import mongoConnect from "@codeup/util/src/mongo";
 import { verify } from "jsonwebtoken";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  if (!["POST", "GET", "DELETE"].includes(req.method)) {
-    res.status(405).json({
-      error: "Method not allowed",
-    });
-    return;
-  }
-
   try {
     const jwt = req.headers["x-jwt"];
     if (!verify(jwt as string, process.env.JWT_SECRET as string)) {
