@@ -43,3 +43,13 @@ export async function getObtainedCertificate(id: string): Promise<IResponse> {
     path: `/api/cert?id=${id}`,
   });
 }
+
+export async function getObtainedCertificates(
+  token: string
+): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    path: `/api/certificates/my`,
+    token: token,
+  });
+}

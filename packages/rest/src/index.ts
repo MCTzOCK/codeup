@@ -150,6 +150,7 @@ import {
   getCertificate as getCertificateC,
   submitCertificate,
   getObtainedCertificate,
+  getObtainedCertificates,
 } from "./api/Certificates";
 
 const REST = {
@@ -296,6 +297,7 @@ const REST = {
     getCertificate: getCertificateC,
     submitCertificate,
     getObtainedCertificate,
+    getObtainedCertificates,
   },
 };
 
