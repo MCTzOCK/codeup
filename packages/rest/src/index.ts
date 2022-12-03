@@ -155,6 +155,7 @@ import {
   getObtainedCertificate,
   getObtainedCertificates,
 } from "./api/Certificates";
+import { getProjectIdeas } from "./api/ProjectIdeas";
 
 const REST = {
   Admin: {
@@ -304,6 +305,9 @@ const REST = {
     submitCertificate,
     getObtainedCertificate,
     getObtainedCertificates,
+  },
+  Ideas: {
+    getProjectIdeas,
   },
 };
 
