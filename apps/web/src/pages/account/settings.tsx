@@ -40,17 +40,14 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function Settings() {
   const router = useRouter();
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   useEffect(() => {
-    redirect({
-      allowAnonymous: false,
-      redirectTo: "/account/settings",
-      redirectToLogin: true,
-      forceAnonymous: false,
-    });
-  }, []);
-
-  const { loggedIn, userInfo } = useLoggedIn();
+    if (loaded && !loggedIn) {
+      window.dispatchEvent(new CustomEvent("codeup::open_login"));
+      router.push("/#login");
+    }
+  }, [loaded, userInfo, loggedIn]);
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -164,7 +161,7 @@ function Account(props: {
     email: string;
     firstName: string;
     lastName: string;
-    _2fa: boolean;
+    twoFactorEnabled: boolean;
     sso: string;
   };
 }) {
@@ -368,7 +365,8 @@ function Account(props: {
 
             const res = await REST.Account.update({
               keyName: "2fa",
-              keyValue: !props.userInfo._2fa === true ? "true" : "false",
+              keyValue:
+                !props.userInfo.twoFactorEnabled === true ? "true" : "false",
               token: localStorage.getItem("token") as string,
             });
 
@@ -391,10 +389,12 @@ function Account(props: {
                 type="submit"
                 disabled={props.userInfo.sso !== "no-sso" || _2faButtonDisabled}
                 isLoading={_2faButtonDisabled}
-                colorScheme={props.userInfo._2fa ? "red" : "green"}
+                colorScheme={props.userInfo.twoFactorEnabled ? "red" : "green"}
                 mt={"1.2rem"}
               >
-                {props.userInfo._2fa ? "Deaktivieren" : "Aktivieren"}
+                {props.userInfo.twoFactorEnabled
+                  ? "Deaktivieren"
+                  : "Aktivieren"}
               </Button>
             </FormControl>
           </Flex>
