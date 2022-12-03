@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/project-ideas/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/project-ideas/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/project-ideas/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectIdeaModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/certificate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/course/[course]/certificate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/certificate/[courseid].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/creator/studio/certificate/[courseid].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/extra/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/project-ideas/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/project-ideas/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/admin/project-ideas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/project-ideas/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

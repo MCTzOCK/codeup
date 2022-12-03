@@ -22,13 +22,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  if (!req.body.username || !req.body.message) {
-    res.status(400).json({
-      error: "Bad Request",
-    });
-    return;
-  }
-
   try {
     const jwt = req.headers["x-jwt"];
     if (!verify(jwt as string, process.env.JWT_SECRET as string)) {
