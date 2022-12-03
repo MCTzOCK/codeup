@@ -214,7 +214,7 @@ export default async function handleRequest(
 
         const element = await page.$("#certificate");
 
-        const screenshot = await element.screenshot({
+        const screenshot = await (element as any).screenshot({
           encoding: "base64",
         });
 
