@@ -119,6 +119,15 @@ export default async function handleRequest(
           return;
         }
 
+        const exisiting = await CertificateModel.findOne({
+          course: courseId,
+        });
+
+        if (exisiting) {
+          res.status(200).json({ certificate: exisiting });
+          return;
+        }
+
         const cert = await CertificateModel.create({
           course: courseId,
           minPercentage: 75,
