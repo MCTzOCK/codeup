@@ -105,11 +105,28 @@ export default function AdminDashboard() {
     <>
       <AdminLayout>
         <>
-          <Flex w={"100%"} h={"100vh"} direction={"column"}>
+          <Flex
+            w={"100%"}
+            minH={"100vh"}
+            h={"fit-content"}
+            direction={"column"}
+          >
             <Heading textAlign={"center"} size={"2xl"} mt={4}>
               Administrationsbereich
             </Heading>
-            <Grid templateColumns={"repeat(3, 1fr)"} gap={6} mt={4} p={"2rem"}>
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={6}
+              mt={4}
+              p={"2rem"}
+            >
               {sections.map((section) => (
                 <Flex
                   key={section.title}
