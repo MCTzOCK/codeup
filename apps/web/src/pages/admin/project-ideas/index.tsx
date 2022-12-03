@@ -218,6 +218,7 @@ export default function Editor() {
                 rounded={"xl"}
                 boxShadow={"xl"}
                 p={5}
+                id={"_card_" + idea._id}
               >
                 <CardBody>
                   <Stack mt={2} spacing="3">
@@ -233,9 +234,150 @@ export default function Editor() {
                 </CardBody>
                 <CardFooter mt={4}>
                   <ButtonGroup spacing="2">
-                    <Button variant="solid" colorScheme="blue">
-                      Bearbeiten
-                    </Button>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button variant="solid" colorScheme="blue">
+                          Bearbeiten
+                        </Button>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent bgColor={"black"}>
+                          <PopoverArrow bgColor={"black"} />
+                          <PopoverCloseButton />
+                          <PopoverBody>
+                            <form
+                              onSubmit={async (e) => {
+                                e.preventDefault();
+
+                                const data = new FormData(
+                                  e.target as HTMLFormElement
+                                );
+
+                                const title = data.get("title") as string;
+                                const description = data.get(
+                                  "description"
+                                ) as string;
+                                const exampleDeployedURL = data.get(
+                                  "exampleDeployedURL"
+                                ) as string;
+                                const exampleSourceURL = data.get(
+                                  "exampleSourceURL"
+                                ) as string;
+
+                                const res0 = await REST.Admin.deleteProjectIdea(
+                                  {
+                                    token: localStorage.getItem(
+                                      "token"
+                                    ) as string,
+                                    id: idea._id,
+                                  }
+                                );
+
+                                if (res0.status === 200) {
+                                  const res1 =
+                                    await REST.Admin.createProjectIdea({
+                                      token: localStorage.getItem(
+                                        "token"
+                                      ) as string,
+                                      title,
+                                      description,
+                                      exampleDeployedURL,
+                                      exampleSourceURL,
+                                    });
+
+                                  if (res1.status === 200) {
+                                    toast({
+                                      title: "Erfolgreich",
+                                      description:
+                                        "Die Projekt Idee wurde erfolgreich gespeichert!",
+                                      status: "success",
+                                      duration: 1500,
+                                      isClosable: true,
+                                      position: "bottom-right",
+                                    });
+                                    reload();
+                                    // close popover
+                                    document
+                                      .getElementById("_card_" + idea._id)!
+                                      .querySelector("button")!
+                                      .click();
+                                  } else {
+                                    toast({
+                                      title: "Fehler",
+                                      description:
+                                        "Ein Fehler ist aufgetreten: " +
+                                        res1.payload.error,
+                                      status: "error",
+                                      duration: 1500,
+                                      isClosable: true,
+                                      position: "bottom-right",
+                                    });
+                                  }
+                                } else {
+                                  toast({
+                                    title: "Fehler",
+                                    description:
+                                      "Ein Fehler ist aufgetreten: " +
+                                      res0.payload.error,
+                                    status: "error",
+                                    duration: 1500,
+                                    isClosable: true,
+                                    position: "bottom-right",
+                                  });
+                                }
+                              }}
+                            >
+                              <FormControl isRequired>
+                                <FormLabel>Titel</FormLabel>
+                                <Input
+                                  placeholder={"Titel"}
+                                  name={"title"}
+                                  defaultValue={idea.title}
+                                />
+                              </FormControl>
+                              <FormControl isRequired mt={4}>
+                                <FormLabel>Beschreibung</FormLabel>
+                                <Textarea
+                                  defaultValue={idea.description}
+                                  placeholder={"Beschreibung"}
+                                  name={"description"}
+                                />
+                              </FormControl>
+                              <FormControl mt={4}>
+                                <FormLabel>Beispiel/Vorschau</FormLabel>
+                                <Input
+                                  placeholder={"https://codeup.space"}
+                                  name={"exampleDeployedURL"}
+                                  type={"url"}
+                                  defaultValue={idea.exampleDeployedURL}
+                                />
+                              </FormControl>
+                              <FormControl mt={4}>
+                                <FormLabel>Beispiel/Code</FormLabel>
+                                <Input
+                                  placeholder={
+                                    "https://github.com/MCTzOCK/codeup"
+                                  }
+                                  name={"exampleSourceURL"}
+                                  type={"url"}
+                                  defaultValue={idea.exampleSourceURL}
+                                />
+                              </FormControl>
+                              <ButtonGroup mt={4} w={"100%"}>
+                                <Button
+                                  w={"100%"}
+                                  leftIcon={<FaPlus />}
+                                  type={"submit"}
+                                  colorScheme={"green"}
+                                >
+                                  Abschließen
+                                </Button>
+                              </ButtonGroup>
+                            </form>
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
                     <Button
                       variant="ghost"
                       colorScheme="red"
