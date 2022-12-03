@@ -239,41 +239,16 @@ export default function CertViewer() {
                   >
                     <Box flex={"100%"}>
                       <Stack>
-                        <Heading>Code A</Heading>
+                        <Heading>Ist der folgende Code richtig?</Heading>
                         <Image
-                          src={steps[currentStep].code_check?.code_a.screenshot}
-                          alt="Code A"
-                        />
-                      </Stack>
-                    </Box>
-                    <Box flex={"100%"}>
-                      <Stack>
-                        <Heading>Code B</Heading>
-                        <Image
-                          src={steps[currentStep].code_check?.code_b.screenshot}
-                          alt="Code B"
+                          src={steps[currentStep].code_check?.screenshot}
+                          alt="Code Screenshot"
                         />
                       </Stack>
                     </Box>
                     <Box flex={"100%"}>
                       <form>
-                        <ButtonGroup w={"100%"} mt={8}>
-                          <Button
-                            w={"100%"}
-                            colorScheme={"blue"}
-                            onClick={() => {
-                              setAnswers([
-                                ...answers,
-                                {
-                                  step: currentStep,
-                                  answer: 0,
-                                },
-                              ]);
-                              setCurrentStep(currentStep + 1);
-                            }}
-                          >
-                            Code A
-                          </Button>
+                        <ButtonGroup w={"100%"}>
                           <Button
                             w={"100%"}
                             colorScheme={"red"}
@@ -282,13 +257,29 @@ export default function CertViewer() {
                                 ...answers,
                                 {
                                   step: currentStep,
-                                  answer: 1,
+                                  answer: false,
                                 },
                               ]);
                               setCurrentStep(currentStep + 1);
                             }}
                           >
-                            Code B
+                            Falsch
+                          </Button>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"green"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: true,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Richtig
                           </Button>
                         </ButtonGroup>
                       </form>

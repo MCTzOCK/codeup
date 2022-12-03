@@ -130,7 +130,7 @@ export default function CertViewer() {
                               _rawResponse?.obtainedCertificate?.username +
                               "/picture"
                             }
-                            name={_rawResponse?.obtainedCertificate?.name}
+                            background={"transparent"}
                           />
                           <Heading
                             mt={2}

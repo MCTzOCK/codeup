@@ -100,8 +100,7 @@ export default async function handleRequest(
             }
           }
         } else if (step.step_type === "CODE_CHECK") {
-          delete step.code_check.code_a.correct;
-          delete step.code_check.code_b.correct;
+          delete step.code_check.correct;
         }
       }
 
@@ -153,9 +152,7 @@ export default async function handleRequest(
           }
         } else if (step.step_type === "CODE_CHECK") {
           total++;
-          if (step.code_check.code_a.correct && answer.answer === 0) {
-            correct++;
-          } else if (step.code_check.code_b.correct && answer.answer === 1) {
+          if (step.code_check.correct && answer.answer === true) {
             correct++;
           }
         }

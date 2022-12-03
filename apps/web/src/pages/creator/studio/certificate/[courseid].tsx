@@ -126,14 +126,8 @@ export default function CertificateEditor() {
         output: string;
       };
       code_check?: {
-        code_a: {
-          correct: boolean;
-          screenshot: string;
-        };
-        code_b: {
-          correct: boolean;
-          screenshot: string;
-        };
+        screenshot: string;
+        correct: boolean;
       };
     }[]
   >([]);
@@ -709,61 +703,53 @@ export default function CertificateEditor() {
                                               gap={40}
                                             >
                                               <Box flex={"100%"}>
-                                                <Stack>
-                                                  <Image
-                                                    src={
-                                                      step.code_check?.code_a
-                                                        .screenshot
-                                                    }
-                                                    alt="Code A"
-                                                    _hover={{
-                                                      opacity: 0.5,
-                                                    }}
-                                                    onClick={() => {
-                                                      // @ts-ignore
-                                                      window._temp_screenShot_callback =
-                                                        (data: string) => {
+                                                <Image
+                                                  src={
+                                                    step.code_check?.screenshot
+                                                  }
+                                                  alt="Code"
+                                                  _hover={{
+                                                    opacity: 0.5,
+                                                  }}
+                                                  onClick={() => {
+                                                    // @ts-ignore
+                                                    window._temp_screenShot_callback =
+                                                      (data: string) => {
+                                                        // @ts-ignore
+                                                        delete window._temp_screenShot_callback;
+                                                        console.log(2);
+                                                        setSteps(
                                                           // @ts-ignore
-                                                          delete window._temp_screenShot_callback;
-                                                          console.log(2);
-                                                          setSteps(
-                                                            // @ts-ignore
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    code_check:
-                                                                      {
-                                                                        ...s.code_check,
-                                                                        code_a:
-                                                                          {
-                                                                            // @ts-ignore
-                                                                            ...s
-                                                                              .code_check
-                                                                              .code_a,
-                                                                            screenshot:
-                                                                              data,
-                                                                          },
-                                                                      },
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        };
-                                                      onOpen();
-                                                      setMonacoEditorContent(
-                                                        ""
-                                                      );
-                                                    }}
-                                                  />
+                                                          steps.map((s) =>
+                                                            s.step_title ===
+                                                            step.step_title
+                                                              ? {
+                                                                  ...s,
+                                                                  code_check: {
+                                                                    correct:
+                                                                      s
+                                                                        .code_check
+                                                                        ?.correct,
+                                                                    screenshot:
+                                                                      data,
+                                                                  },
+                                                                }
+                                                              : s
+                                                          )
+                                                        );
+                                                      };
+                                                    onOpen();
+                                                    setMonacoEditorContent("");
+                                                  }}
+                                                />
+                                                <ButtonGroup mt={2} w={"100%"}>
                                                   <Button
                                                     colorScheme={
-                                                      step.code_check?.code_a
-                                                        .correct
+                                                      step.code_check?.correct
                                                         ? "green"
                                                         : "red"
                                                     }
+                                                    w={"100%"}
                                                     onClick={() => {
                                                       setSteps(
                                                         // @ts-ignore
@@ -773,20 +759,13 @@ export default function CertificateEditor() {
                                                             ? {
                                                                 ...s,
                                                                 code_check: {
-                                                                  // @ts-ignore
-                                                                  ...s.code_check,
-                                                                  code_a: {
-                                                                    // @ts-ignore
-                                                                    ...s
+                                                                  screenshot:
+                                                                    s.code_check
+                                                                      ?.screenshot,
+                                                                  correct:
+                                                                    !s
                                                                       .code_check
-                                                                      .code_a,
-                                                                    correct:
-                                                                      // @ts-ignore
-                                                                      !s
-                                                                        .code_check
-                                                                        .code_a
-                                                                        .correct,
-                                                                  },
+                                                                      ?.correct,
                                                                 },
                                                               }
                                                             : s
@@ -794,104 +773,11 @@ export default function CertificateEditor() {
                                                       );
                                                     }}
                                                   >
-                                                    {step.code_check?.code_a
-                                                      .correct
+                                                    {step.code_check?.correct
                                                       ? "Richtig"
                                                       : "Falsch"}
                                                   </Button>
-                                                </Stack>
-                                              </Box>
-                                              <Box flex={"100%"}>
-                                                <Stack>
-                                                  <Image
-                                                    src={
-                                                      step.code_check?.code_b
-                                                        .screenshot
-                                                    }
-                                                    alt="Code B"
-                                                    _hover={{
-                                                      opacity: 0.5,
-                                                    }}
-                                                    onClick={() => {
-                                                      // @ts-ignore
-                                                      window._temp_screenShot_callback =
-                                                        (data: string) => {
-                                                          console.log(1);
-                                                          // @ts-ignore
-                                                          delete window._temp_screenShot_callback;
-                                                          setSteps(
-                                                            // @ts-ignore
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    code_check:
-                                                                      {
-                                                                        ...s.code_check,
-                                                                        code_b:
-                                                                          {
-                                                                            // @ts-ignore
-                                                                            ...s
-                                                                              .code_check
-                                                                              .code_b,
-                                                                            screenshot:
-                                                                              data,
-                                                                          },
-                                                                      },
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        };
-                                                      onOpen();
-                                                      setMonacoEditorContent(
-                                                        ""
-                                                      );
-                                                    }}
-                                                  />
-                                                  <Button
-                                                    colorScheme={
-                                                      step.code_check?.code_b
-                                                        .correct
-                                                        ? "green"
-                                                        : "red"
-                                                    }
-                                                    onClick={() => {
-                                                      setSteps(
-                                                        // @ts-ignore
-                                                        steps.map((s) =>
-                                                          s.step_title ===
-                                                          step.step_title
-                                                            ? {
-                                                                ...s,
-                                                                code_check: {
-                                                                  ...s.code_check,
-                                                                  code_b: {
-                                                                    // @ts-ignore
-                                                                    ...s
-                                                                      .code_check
-                                                                      .code_b,
-                                                                    correct:
-                                                                      // @ts-ignore
-                                                                      !s
-                                                                        .code_check
-                                                                        .code_b
-                                                                        .correct,
-                                                                  },
-                                                                },
-                                                              }
-                                                            : s
-                                                        )
-                                                      );
-                                                    }}
-                                                  >
-                                                    {step.code_check?.code_b
-                                                      .correct
-                                                      ? "Richtig"
-                                                      : "Falsch"}
-                                                  </Button>
-                                                </Stack>
+                                                </ButtonGroup>
                                               </Box>
                                             </Flex>
                                           </>
