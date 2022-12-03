@@ -9,44 +9,48 @@
  */
 
 import * as React from "react";
+import { useEffect } from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
-import { useEffect } from "react";
 import REST from "@codeup/rest";
 import {
-  Heading,
-  useToast,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  IconButton,
-  Portal,
-  Flex,
   Button,
-  FormControl,
-  Input,
-  FormLabel,
-  Textarea,
   ButtonGroup,
+  Flex,
+  FormControl,
+  FormLabel,
   Grid,
+  Heading,
+  Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Stack,
   Text,
-  Divider,
-  Link,
+  Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
-import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/card";
+import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 
 export default function Editor() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   const [projectIdeas, setProjectIdeas] = React.useState<
+    {
+      _id: string;
+      title: string;
+      description: string;
+      exampleDeployedURL?: string;
+      exampleSourceURL?: string;
+    }[]
+  >([]);
+
+  const [filteredProjectIdeas, setFilteredProjectIdeas] = React.useState<
     {
       _id: string;
       title: string;
@@ -64,6 +68,7 @@ export default function Editor() {
     ).then((res) => {
       if (res.status === 200) {
         setProjectIdeas(res.payload.ideas);
+        setFilteredProjectIdeas(res.payload.ideas);
       } else {
         toast({
           title: "Fehler",
@@ -83,6 +88,16 @@ export default function Editor() {
     }
   }, [userInfo, loggedIn, loaded]);
 
+  const [query, setQuery] = React.useState<string>("");
+
+  useEffect(() => {
+    setFilteredProjectIdeas(
+      projectIdeas.filter((idea) =>
+        idea.title.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  }, [query]);
+
   return (
     <>
       <AdminLayout>
@@ -96,6 +111,16 @@ export default function Editor() {
           <Heading size={"2xl"} textAlign={"center"} mt={"2rem"}>
             Projektideen
           </Heading>
+          <Input
+            placeholder={"Suche nach Projektideen"}
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            w={"50%"}
+            mt={"2rem"}
+          />
+
           <Popover>
             <PopoverTrigger>
               <Button leftIcon={<FaPlus />} colorScheme={"green"} mt={"2rem"}>
@@ -199,17 +224,21 @@ export default function Editor() {
           </Popover>
         </Flex>
         <Grid
-          templateColumns={[
-            "repeat(1, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-            "repeat(4, 1fr)",
-            "repeat(5, 1fr)",
-          ]}
+          templateColumns={
+            filteredProjectIdeas.length > 0
+              ? [
+                  "repeat(1, 1fr)",
+                  "repeat(2, 1fr)",
+                  "repeat(3, 1fr)",
+                  "repeat(4, 1fr)",
+                  "repeat(5, 1fr)",
+                ]
+              : "repeat(1, 1fr)"
+          }
           gap={6}
           p={10}
         >
-          {projectIdeas.map((idea) => (
+          {filteredProjectIdeas.map((idea) => (
             <>
               <Card
                 maxW="sm"
@@ -296,7 +325,6 @@ export default function Editor() {
                                       position: "bottom-right",
                                     });
                                     reload();
-                                    // close popover
                                     document
                                       .getElementById("_card_" + idea._id)!
                                       .querySelector("button")!
@@ -419,6 +447,18 @@ export default function Editor() {
               </Card>
             </>
           ))}
+          {filteredProjectIdeas.length === 0 ? (
+            <>
+              <Text
+                textAlign={"center"}
+                fontSize={"2xl"}
+                color={"gray.500"}
+                mt={4}
+              >
+                Keine Projekt Ideen gefunden!
+              </Text>
+            </>
+          ) : null}
         </Grid>
       </AdminLayout>
     </>
