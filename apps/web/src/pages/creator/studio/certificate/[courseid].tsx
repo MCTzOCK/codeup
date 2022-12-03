@@ -690,7 +690,200 @@ export default function CertificateEditor() {
                                           </>
                                         )}
                                         {step.step_type === "CODE_COMPARE" && (
-                                          <></>
+                                          <>
+                                            <Flex
+                                              direction={"row"}
+                                              w={"100%"}
+                                              h={"fit-content"}
+                                              paddingInline={10}
+                                              paddingBlock={5}
+                                              gap={40}
+                                            >
+                                              <Box flex={"100%"}>
+                                                <Image
+                                                  src={
+                                                    step.code_compare?.output
+                                                  }
+                                                  alt="Output"
+                                                  _hover={{
+                                                    opacity: 0.5,
+                                                  }}
+                                                  onClick={() => {
+                                                    // upload an image
+                                                    const input =
+                                                      document.createElement(
+                                                        "input"
+                                                      );
+                                                    input.type = "file";
+                                                    input.accept = "image/*";
+                                                    input.onchange = (e) => {
+                                                      const base64EncodedImage =
+                                                        e.target.files[0];
+                                                      const reader =
+                                                        new FileReader();
+                                                      reader.readAsDataURL(
+                                                        base64EncodedImage
+                                                      );
+                                                      reader.onloadend = () => {
+                                                        setSteps(
+                                                          // @ts-ignore
+                                                          steps.map((s) =>
+                                                            s.step_title ===
+                                                            step.step_title
+                                                              ? {
+                                                                  ...s,
+                                                                  code_compare:
+                                                                    {
+                                                                      ...s.code_compare,
+                                                                      output:
+                                                                        reader.result,
+                                                                    },
+                                                                }
+                                                              : s
+                                                          )
+                                                        );
+                                                      };
+                                                    };
+                                                    input.click();
+                                                  }}
+                                                />
+                                                <Image
+                                                  src={
+                                                    step.code_compare?.code_a
+                                                      .screenshot
+                                                  }
+                                                  alt="Code A"
+                                                  _hover={{
+                                                    opacity: 0.5,
+                                                  }}
+                                                  onClick={() => {
+                                                    // @ts-ignore
+                                                    window._temp_screenShot_callback =
+                                                      (data: string) => {
+                                                        // @ts-ignore
+                                                        delete window._temp_screenShot_callback;
+                                                        console.log(2);
+                                                        setSteps(
+                                                          // @ts-ignore
+                                                          steps.map((s) =>
+                                                            s.step_title ===
+                                                            step.step_title
+                                                              ? {
+                                                                  ...s,
+                                                                  code_compare:
+                                                                    {
+                                                                      ...s.code_compare,
+                                                                      code_a: {
+                                                                        ...s
+                                                                          .code_compare
+                                                                          ?.code_a,
+                                                                        screenshot:
+                                                                          data,
+                                                                      },
+                                                                    },
+                                                                }
+                                                              : s
+                                                          )
+                                                        );
+                                                      };
+                                                    onOpen();
+                                                    setMonacoEditorContent("");
+                                                  }}
+                                                />
+                                                <Image
+                                                  src={
+                                                    step.code_compare?.code_b
+                                                      .screenshot
+                                                  }
+                                                  alt="Code B"
+                                                  _hover={{
+                                                    opacity: 0.5,
+                                                  }}
+                                                  onClick={() => {
+                                                    // @ts-ignore
+                                                    window._temp_screenShot_callback =
+                                                      (data: string) => {
+                                                        // @ts-ignore
+                                                        delete window._temp_screenShot_callback;
+                                                        console.log(2);
+                                                        setSteps(
+                                                          // @ts-ignore
+                                                          steps.map((s) =>
+                                                            s.step_title ===
+                                                            step.step_title
+                                                              ? {
+                                                                  ...s,
+                                                                  code_compare:
+                                                                    {
+                                                                      ...s.code_compare,
+                                                                      code_b: {
+                                                                        ...s
+                                                                          .code_compare
+                                                                          ?.code_b,
+                                                                        screenshot:
+                                                                          data,
+                                                                      },
+                                                                    },
+                                                                }
+                                                              : s
+                                                          )
+                                                        );
+                                                      };
+                                                    onOpen();
+                                                    setMonacoEditorContent("");
+                                                  }}
+                                                />
+                                                <ButtonGroup mt={2} w={"100%"}>
+                                                  <Button
+                                                    colorScheme={"blue"}
+                                                    w={"100%"}
+                                                    onClick={() => {
+                                                      setSteps(
+                                                        // @ts-ignore
+                                                        steps.map((s) =>
+                                                          s.step_title ===
+                                                          step.step_title
+                                                            ? {
+                                                                ...s,
+                                                                code_compare: {
+                                                                  ...s.code_compare,
+                                                                  code_a: {
+                                                                    ...s
+                                                                      .code_compare
+                                                                      ?.code_a,
+                                                                    correct:
+                                                                      !s
+                                                                        .code_compare
+                                                                        ?.code_a
+                                                                        .correct,
+                                                                  },
+                                                                  code_b: {
+                                                                    ...s
+                                                                      .code_compare
+                                                                      ?.code_b,
+                                                                    correct:
+                                                                      !s
+                                                                        .code_compare
+                                                                        ?.code_b
+                                                                        .correct,
+                                                                  },
+                                                                },
+                                                              }
+                                                            : s
+                                                        )
+                                                      );
+                                                    }}
+                                                  >
+                                                    Richtig:&nbsp;
+                                                    {step.code_compare?.code_a
+                                                      .correct
+                                                      ? "A"
+                                                      : "B"}
+                                                  </Button>
+                                                </ButtonGroup>
+                                              </Box>
+                                            </Flex>
+                                          </>
                                         )}
                                         {step.step_type === "CODE_CHECK" && (
                                           <>
