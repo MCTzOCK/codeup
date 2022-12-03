@@ -53,7 +53,9 @@ export default function Certificates() {
 
   const certToRow = (cert: any) => {
     return [
-      () => {},
+      () => {
+        router.push("/user-cert/" + cert._id);
+      },
       <Avatar size={"md"} src={"/api/account/" + cert.username + "/picture"} />,
       cert.username,
       cert.name,
