@@ -30,7 +30,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
-import { FaImage } from "react-icons/fa";
+import { FaCloudDownloadAlt, FaDownload, FaImage } from "react-icons/fa";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { Canvg, RenderingContext2D } from "canvg";
@@ -220,6 +220,24 @@ export default function CertViewer() {
                       <img src={"/codeup.svg"} width={64} height={64} />
                       <Heading size={"lg"}>CodeUp</Heading>
                     </Flex>
+                    <IconButton
+                      aria-label={"Download"}
+                      icon={<FaCloudDownloadAlt />}
+                      onClick={() => {
+                        window.open(
+                          "/api/cert?id=" + id + "&export=true",
+                          "_blank"
+                        );
+                      }}
+                      position={"absolute"}
+                      top={"1rem"}
+                      right={"1rem"}
+                      display={
+                        navigator.userAgent.includes("puppeteer")
+                          ? "none"
+                          : "flex"
+                      }
+                    />
                   </CardBody>
                 </Card>
               </Flex>
