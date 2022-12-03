@@ -15,6 +15,7 @@ import Certificate from "@codeup/util/src/models/Certificate";
 import UserModel from "@codeup/util/src/models/UserModel";
 import ObtainedCertificateModel from "@codeup/util/src/models/ObtainedCertificateModel";
 import { verify } from "jsonwebtoken";
+import puppeteer from "puppeteer";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -99,6 +100,11 @@ export default async function handleRequest(
               delete a.value;
             }
           }
+        } else if (step.step_type === "CODE_CHECK") {
+          delete step.code_check.correct;
+        } else if (step.step_type === "CODE_COMPARE") {
+          delete step.code_compare.code_a.correct;
+          delete step.code_compare.code_b.correct;
         }
       }
 
@@ -148,6 +154,18 @@ export default async function handleRequest(
               }
             }
           }
+        } else if (step.step_type === "CODE_CHECK") {
+          total++;
+          if (step.code_check.correct && answer.answer === true) {
+            correct++;
+          }
+        } else if (step.step_type === "CODE_COMPARE") {
+          total++;
+          if (step.code_compare.code_a.correct && answer.answer === 0) {
+            correct++;
+          } else if (step.code_compare.code_b.correct && answer.answer === 1) {
+            correct++;
+          }
         }
       }
 
@@ -183,6 +201,30 @@ export default async function handleRequest(
           obtainedCertificate: true,
           obtainedCertificateId: cert_id,
         });
+
+        const browser = await puppeteer.launch({
+          headless: true,
+          args: ['--user-agent="puppeteer"'],
+        });
+        const page = await browser.newPage();
+
+        await page.goto(req.headers.origin + "/user-cert/" + cert_id);
+
+        await page.waitForSelector("#certificate");
+
+        const element = await page.$("#certificate");
+
+        const screenshot = await element.screenshot({
+          encoding: "base64",
+        });
+
+        await browser.close();
+
+        const x = await ObtainedCertificateModel.findById(cert_id);
+
+        x.screenshot = "data:image/png;base64," + screenshot;
+
+        await x.save();
       } else {
         res.status(200).json({
           success: true,

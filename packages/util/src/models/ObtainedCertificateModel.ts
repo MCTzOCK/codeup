@@ -31,6 +31,10 @@ const ObtainedCertificate = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  screenshot: {
+    type: String,
+    required: false,
+  },
 });
 
 export default mongoose.models?.ObtainedCertificate ||

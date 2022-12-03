@@ -24,6 +24,7 @@ import {
   useDisclosure,
   Stack,
   Input,
+  Image,
 } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
@@ -220,6 +221,151 @@ export default function CertViewer() {
                       </Button>
                     </ButtonGroup>
                   </form>
+                </>
+              )}
+
+              {steps[currentStep].step_type === "CODE_CHECK" && (
+                <>
+                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                    {steps[currentStep].step_title}
+                  </Heading>
+                  <Flex
+                    direction={"column"}
+                    w={"100%"}
+                    h={"fit-content"}
+                    paddingInline={10}
+                    paddingBlock={5}
+                    gap={40}
+                  >
+                    <Box flex={"100%"}>
+                      <Stack>
+                        <Heading>Ist der folgende Code richtig?</Heading>
+                        <Image
+                          src={steps[currentStep].code_check?.screenshot}
+                          alt="Code Screenshot"
+                        />
+                      </Stack>
+                    </Box>
+                    <Box flex={"100%"}>
+                      <form>
+                        <ButtonGroup w={"100%"}>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"red"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: false,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Falsch
+                          </Button>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"green"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: true,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Richtig
+                          </Button>
+                        </ButtonGroup>
+                      </form>
+                    </Box>
+                  </Flex>
+                </>
+              )}
+              {steps[currentStep].step_type === "CODE_COMPARE" && (
+                <>
+                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                    {steps[currentStep].step_title}
+                  </Heading>
+                  <Flex
+                    direction={"column"}
+                    w={"100%"}
+                    h={"fit-content"}
+                    paddingInline={10}
+                    paddingBlock={5}
+                    gap={40}
+                  >
+                    <Box flex={"100%"}>
+                      <Stack>
+                        <Heading>
+                          Welcher der Codes bringt die gewünschte Ausgabe?
+                        </Heading>
+                        <Image
+                          src={steps[currentStep].code_compare?.output}
+                          alt="Output Image"
+                        />
+                      </Stack>
+                      <Stack>
+                        <Heading>Code 1</Heading>
+                        <Image
+                          src={
+                            steps[currentStep].code_compare?.code_a.screenshot
+                          }
+                          alt="Code 1 Screenshot"
+                        />
+                        <Heading>Code 2</Heading>
+                        <Image
+                          src={
+                            steps[currentStep].code_compare?.code_b.screenshot
+                          }
+                          alt="Code 2 Screenshot"
+                        />
+                      </Stack>
+                    </Box>
+                    <Box flex={"100%"}>
+                      <form>
+                        <ButtonGroup w={"100%"}>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"red"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: 0,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Code 1
+                          </Button>
+                          <Button
+                            w={"100%"}
+                            colorScheme={"green"}
+                            onClick={() => {
+                              setAnswers([
+                                ...answers,
+                                {
+                                  step: currentStep,
+                                  answer: 1,
+                                },
+                              ]);
+                              setCurrentStep(currentStep + 1);
+                            }}
+                          >
+                            Code 2
+                          </Button>
+                        </ButtonGroup>
+                      </form>
+                    </Box>
+                  </Flex>
                 </>
               )}
             </>

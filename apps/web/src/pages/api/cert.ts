@@ -53,10 +53,29 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    res.status(200).json({
-      obtainedCertificate,
-      course,
-    });
+    if (req.query.export) {
+      if (!obtainedCertificate.screenshot) {
+        res.redirect(
+          "/error?error=Das Zertifikat ist noch nicht für den Export bereit!"
+        );
+      } else {
+        const decoded = obtainedCertificate.screenshot
+          .toString()
+          .replace("data:image/png;base64,", "");
+        const imageResp = new Buffer(decoded, "base64");
+        res.writeHead(200, {
+          "Content-Type": "image/png",
+          "Content-Length": imageResp.length,
+        });
+
+        res.end(imageResp);
+      }
+    } else {
+      res.status(200).json({
+        obtainedCertificate,
+        course,
+      });
+    }
   } catch (e) {
     // @ts-ignore
     if (e.message) {
