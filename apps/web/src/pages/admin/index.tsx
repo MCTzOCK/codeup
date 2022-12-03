@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import {
   FaBookOpen,
+  FaCertificate,
   FaChartBar,
   FaComment,
   FaComments,
@@ -72,6 +73,12 @@ export default function AdminDashboard() {
       link: "/admin/contacts",
       icon: <FaComment />,
       withBadge: true,
+    },
+    {
+      title: "Zertifikate",
+      description: "Sieh dir alle Zertifikate der Benutzer an",
+      link: "/admin/certificates",
+      icon: <FaCertificate />,
     },
   ];
 
