@@ -421,3 +421,24 @@ export async function contactUser(options: {
     },
   });
 }
+
+export async function getAllObtainedCertificates(
+  token: string
+): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/certificates/list",
+  });
+}
+
+export async function deleteObtainedCertificate(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/certificates/delete?id=" + options.id,
+  });
+}
