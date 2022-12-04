@@ -38,7 +38,7 @@ import {
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaProjectDiagram } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
@@ -276,11 +276,15 @@ export default function NavigationBar() {
               />
               <ExpandedMenuOption
                 name={"Todo"}
-                description={
-                  "Plane Projekte oder anderes mit einfachen Todo Listen."
-                }
+                description={"Plane Projekte mit einfachen Todo Listen."}
                 icon={<BsCheck2Square />}
                 url={"/todo"}
+              />
+              <ExpandedMenuOption
+                name={"Projekt Planung"}
+                description={"Plane Projekte mit komplexen Flussdiagrammen."}
+                icon={<FaProjectDiagram />}
+                url={"/planning"}
               />
             </SimpleGrid>
           </DrawerBody>
