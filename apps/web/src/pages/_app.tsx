@@ -1,5 +1,6 @@
 import "../styles/globals.scss";
 import "../styles/tiptap.css";
+import "reactflow/dist/style.css";
 import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React, { useEffect } from "react";

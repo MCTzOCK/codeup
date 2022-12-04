@@ -83,6 +83,7 @@
     "react-simplemde-editor": "^5.2.0",
     "react-typed": "^1.2.0",
     "react-xarrows": "^2.0.2",
+    "reactflow": "^11.3.2",
     "remotion": "^3.0.25",
     "sass": "^1.54.0",
     "ua-parser-js": "^1.0.32",

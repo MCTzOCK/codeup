@@ -28,6 +28,11 @@ import {
   getList,
   getMyLists,
   toggleItemFinish,
+  createV2Project,
+  getV2Project,
+  getV2Projects,
+  deleteV2Project,
+  updateV2Project,
 } from "./api/ToDo";
 import {
   addContributor,
@@ -213,6 +218,11 @@ const REST = {
     createTask,
     deleteTask,
     toggleItemFinish,
+    createV2Project,
+    getV2Project,
+    getV2Projects,
+    deleteV2Project,
+    updateV2Project,
   },
   IDE: {
     getProjectPermissions,
