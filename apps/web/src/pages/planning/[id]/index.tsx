@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
@@ -35,6 +35,7 @@ import {
   Select,
   Stack,
 } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
 
 export default function Index() {
   const [nodes, setNodes] = React.useState<Node[]>([
@@ -96,6 +97,17 @@ export default function Index() {
   const [currentEdge, setCurrentEdge] = React.useState<Edge | null>(null);
   const [currentNode, setCurrentNode] = React.useState<Node | null>(null);
 
+  const [lastEdgeId, setLastEdgeId] = React.useState<string>("");
+  const [lastNodeId, setLastNodeId] = React.useState<string>("");
+
+  useEffect(() => {
+    setLastEdgeId("__rendered_" + currentEdge?.id ?? "");
+  }, [currentEdge]);
+
+  useEffect(() => {
+    setLastNodeId("__rendered_" + currentNode?.id ?? "");
+  }, [currentNode]);
+
   return (
     <>
       <Flex
@@ -121,6 +133,7 @@ export default function Index() {
             snapGrid={[10, 10]}
             onEdgeClick={(e, edge) => {
               setCurrentEdge(edge);
+
               setCurrentNode(null);
             }}
             onNodeClick={(e, node) => {
@@ -142,109 +155,133 @@ export default function Index() {
                 ? "Knoten"
                 : "Inspektor"}
             </Heading>
+            <ButtonGroup w={"100%"}>
+              <Button
+                w={"100%"}
+                colorScheme={"green"}
+                leftIcon={<FaPlus />}
+                onClick={() => {
+                  setNodes((nodes) => [
+                    ...nodes,
+                    {
+                      id: `${nodes.length + 1}`,
+                      data: { label: "Knoten" },
+                      position: { x: 0, y: 0 },
+                      style: {
+                        background: "#4422FF",
+                        color: "white",
+                      },
+                    },
+                  ]);
+                }}
+              >
+                Neuer Knoten
+              </Button>
+            </ButtonGroup>
 
-            {currentEdge !== null && (
-              <Stack gap={5}>
-                <Divider />
-                <Flex w={"100%"} justifyContent={"space-between"}>
-                  <Heading size={"lg"}>ID</Heading>
-                  <Heading size={"lg"} fontWeight={"none"}>
-                    {currentEdge.id}
-                  </Heading>
-                </Flex>
-                <Flex w={"100%"} justifyContent={"space-between"}>
-                  <Heading size={"lg"} flex={"50%"}>
-                    Animiert
-                  </Heading>
-                  <Select
-                    flex={"50%"}
-                    onChange={(e) => {
-                      setEdges(
-                        edges.map((edge) => {
-                          if (edge.id === currentEdge?.id) {
-                            edge.animated = e.target.value === "true";
-                          }
-                          return edge;
-                        })
-                      );
-                    }}
-                    fontSize={"xl"}
-                  >
-                    <option value={"true"} selected={currentEdge.animated}>
-                      Ja
-                    </option>
-                    <option value={"false"} selected={!currentEdge.animated}>
-                      Nein
-                    </option>
-                  </Select>
-                </Flex>
-                <Flex w={"100%"} justifyContent={"space-between"}>
-                  <Heading size={"lg"} flex={"50%"}>
-                    Text
-                  </Heading>
-                  <Input
-                    flex={"50%"}
-                    defaultValue={currentEdge.label as string}
-                    onChange={(e) => {
-                      setEdges(
-                        edges.map((edge) => {
-                          if (edge.id === currentEdge?.id) {
-                            edge.label = e.target.value;
-                          }
-                          return edge;
-                        })
-                      );
-                    }}
-                  />
-                </Flex>
-                <Flex w={"100%"} justifyContent={"space-between"}>
-                  <Heading size={"lg"} flex={"50%"}>
-                    Typ
-                  </Heading>
-                  <Select
-                    flex={"50%"}
-                    onChange={(e) => {
-                      setEdges(
-                        edges.map((edge) => {
-                          if (edge.id === currentEdge?.id) {
-                            edge.type = e.target.value as string;
-                          }
-                          return edge;
-                        })
-                      );
-                    }}
-                    fontSize={"xl"}
-                  >
-                    <option
-                      value={"default"}
-                      selected={currentEdge.type === "default"}
+            {currentEdge !== null &&
+              lastEdgeId === "__rendered_" + currentEdge.id && (
+                <Stack gap={5}>
+                  <Divider />
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"}>ID</Heading>
+                    <Heading size={"lg"} fontWeight={"none"}>
+                      {currentEdge.id}
+                    </Heading>
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Animiert
+                    </Heading>
+                    <Select
+                      flex={"50%"}
+                      onChange={(e) => {
+                        setEdges(
+                          edges.map((edge) => {
+                            if (edge.id === currentEdge?.id) {
+                              edge.animated = e.target.value === "true";
+                            }
+                            return edge;
+                          })
+                        );
+                      }}
+                      fontSize={"xl"}
                     >
-                      Standard
-                    </option>
-                    <option
-                      value={"smoothstep"}
-                      selected={currentEdge.type === "smoothstep"}
+                      <option value={"true"} selected={currentEdge.animated}>
+                        Ja
+                      </option>
+                      <option value={"false"} selected={!currentEdge.animated}>
+                        Nein
+                      </option>
+                    </Select>
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Text
+                    </Heading>
+                    <Input
+                      flex={"50%"}
+                      defaultValue={currentEdge.label as string}
+                      onChange={(e) => {
+                        setEdges(
+                          edges.map((edge) => {
+                            if (edge.id === currentEdge?.id) {
+                              edge.label = e.target.value;
+                            }
+                            return edge;
+                          })
+                        );
+                      }}
+                    />
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Typ
+                    </Heading>
+                    <Select
+                      flex={"50%"}
+                      onChange={(e) => {
+                        setEdges(
+                          edges.map((edge) => {
+                            if (edge.id === currentEdge?.id) {
+                              edge.type = e.target.value as string;
+                            }
+                            return edge;
+                          })
+                        );
+                      }}
+                      fontSize={"xl"}
                     >
-                      Schritt
-                    </option>
-                  </Select>
-                </Flex>
-                <ButtonGroup w={"100%"}>
-                  <Button
-                    w={"100%"}
-                    colorScheme={"red"}
-                    onClick={() => {
-                      setCurrentEdge(null);
-                      setEdges(
-                        edges.filter((edge) => edge.id !== currentEdge?.id)
-                      );
-                    }}
-                  >
-                    Löschen
-                  </Button>
-                </ButtonGroup>
-              </Stack>
-            )}
+                      <option
+                        value={"default"}
+                        selected={currentEdge.type === "default"}
+                      >
+                        Standard
+                      </option>
+                      <option
+                        value={"smoothstep"}
+                        selected={currentEdge.type === "smoothstep"}
+                      >
+                        Schritt
+                      </option>
+                    </Select>
+                  </Flex>
+                  <ButtonGroup w={"100%"}>
+                    <Button
+                      w={"100%"}
+                      colorScheme={"red"}
+                      onClick={() => {
+                        setCurrentEdge(null);
+                        setEdges(
+                          edges.filter((edge) => edge.id !== currentEdge?.id)
+                        );
+                      }}
+                    >
+                      Löschen
+                    </Button>
+                  </ButtonGroup>
+                </Stack>
+              )}
           </Stack>
         </Box>
       </Flex>
