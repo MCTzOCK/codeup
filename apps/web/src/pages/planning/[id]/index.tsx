@@ -23,6 +23,7 @@ import ReactFlow, {
   MiniMap,
   Node,
   NodeChange,
+  ReactFlowInstance,
 } from "reactflow";
 import {
   Box,
@@ -38,49 +39,8 @@ import {
 import { FaPlus } from "react-icons/fa";
 
 export default function Index() {
-  const [nodes, setNodes] = React.useState<Node[]>([
-    {
-      id: "1",
-      data: { label: "Hello" },
-      position: { x: 0, y: 0 },
-      type: "input",
-      style: {
-        background: "#FF2244",
-        color: "white",
-      },
-      deletable: false,
-    },
-    {
-      id: "2",
-      data: { label: "World" },
-      position: { x: 100, y: 100 },
-      style: {
-        background: "#4422FF",
-        color: "white",
-      },
-      deletable: false,
-    },
-    {
-      id: "3",
-      data: { label: "2nd World" },
-      position: { x: 100, y: 200 },
-      style: {
-        background: "#4422FF",
-        color: "white",
-      },
-      deletable: false,
-    },
-  ]);
-  const [edges, setEdges] = React.useState<Edge[]>([
-    {
-      id: "1-2",
-      source: "1",
-      target: "2",
-      type: "smoothstep",
-      animated: true,
-      deletable: false,
-    },
-  ]);
+  const [nodes, setNodes] = React.useState<Node[]>([]);
+  const [edges, setEdges] = React.useState<Edge[]>([]);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
@@ -103,6 +63,10 @@ export default function Index() {
   const [lastEdgeId, setLastEdgeId] = React.useState<string>("");
   const [lastNodeId, setLastNodeId] = React.useState<string>("");
 
+  const [rfInstance, setRfInstance] = React.useState<ReactFlowInstance | null>(
+    null
+  );
+
   useEffect(() => {
     setLastEdgeId("__rendered_" + currentEdge?.id ?? "");
   }, [currentEdge]);
@@ -110,6 +74,44 @@ export default function Index() {
   useEffect(() => {
     setLastNodeId("__rendered_" + currentNode?.id ?? "");
   }, [currentNode]);
+
+  useEffect(() => {
+    if (rfInstance) {
+      const saved = rfInstance.toObject();
+      console.log(saved);
+    }
+  }, [edges, nodes]);
+
+  useEffect(() => {
+    const savedNodes: Node[] = [
+      {
+        data: {
+          label: "Saved Node",
+        },
+        deletable: false,
+        dragging: false,
+        height: 40,
+        id: "1",
+        position: {
+          x: 296,
+          y: 113,
+        },
+        positionAbsolute: {
+          x: 296,
+          y: 113,
+        },
+        selectable: false,
+        style: { background: "#4422FF", color: "white" },
+        width: 150,
+      },
+    ];
+    const savedEdges: Edge[] = [];
+
+    setTimeout(() => {
+      setNodes(savedNodes);
+      setEdges(savedEdges);
+    }, 2000);
+  }, []);
 
   return (
     <>
@@ -134,6 +136,7 @@ export default function Index() {
             fitViewOptions={{ padding: 0.2 }}
             snapToGrid={true}
             snapGrid={[10, 10]}
+            onInit={setRfInstance}
             onEdgeClick={(e, edge) => {
               setCurrentEdge(edge);
 

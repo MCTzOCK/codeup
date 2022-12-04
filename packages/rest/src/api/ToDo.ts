@@ -101,3 +101,65 @@ export async function toggleItemFinish(options: {
     },
   });
 }
+
+export async function getV2Projects(token: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/projects",
+    token: token,
+    method: "GET",
+  });
+}
+
+export async function getV2Project(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/projects/create?id=" + options.id,
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function deleteV2Project(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/projects/delete?id=" + options.id,
+    method: "DELETE",
+    token: options.token,
+  });
+}
+
+export async function createV2Project(options: {
+  token: string;
+  name: string;
+  saved?: any;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/projects",
+    method: "POST",
+    token: options.token,
+    body: {
+      name: options.name,
+      saved: options.saved,
+    },
+  });
+}
+
+export async function updateV2Project(options: {
+  token: string;
+  name: string;
+  saved: any;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/projects/update",
+    method: "PUT",
+    token: options.token,
+    body: {
+      name: options.name,
+      saved: options.saved,
+    },
+  });
+}
