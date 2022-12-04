@@ -58,6 +58,7 @@ export default function Index() {
         background: "#4422FF",
         color: "white",
       },
+      deletable: false,
     },
     {
       id: "3",
@@ -67,6 +68,7 @@ export default function Index() {
         background: "#4422FF",
         color: "white",
       },
+      deletable: false,
     },
   ]);
   const [edges, setEdges] = React.useState<Edge[]>([
@@ -76,6 +78,7 @@ export default function Index() {
       target: "2",
       type: "smoothstep",
       animated: true,
+      deletable: false,
     },
   ]);
 
@@ -161,16 +164,24 @@ export default function Index() {
                 colorScheme={"green"}
                 leftIcon={<FaPlus />}
                 onClick={() => {
+                  const randomNumber = (min: number, max: number) => {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                  };
+
                   setNodes((nodes) => [
                     ...nodes,
                     {
                       id: `${nodes.length + 1}`,
-                      data: { label: "Knoten" },
-                      position: { x: 0, y: 0 },
+                      data: { label: "Neuer Knoten" },
+                      position: {
+                        x: randomNumber(0, 400),
+                        y: randomNumber(0, 400),
+                      },
                       style: {
                         background: "#4422FF",
                         color: "white",
                       },
+                      deletable: false,
                     },
                   ]);
                 }}
@@ -274,6 +285,115 @@ export default function Index() {
                         setCurrentEdge(null);
                         setEdges(
                           edges.filter((edge) => edge.id !== currentEdge?.id)
+                        );
+                      }}
+                    >
+                      Löschen
+                    </Button>
+                  </ButtonGroup>
+                </Stack>
+              )}
+            {currentNode !== null &&
+              lastNodeId === "__rendered_" + currentNode.id && (
+                <Stack gap={5}>
+                  <Divider />
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"}>ID</Heading>
+                    <Heading size={"lg"} fontWeight={"none"}>
+                      {currentNode.id}
+                    </Heading>
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Text
+                    </Heading>
+                    <Input
+                      fontSize={"xl"}
+                      flex={"50%"}
+                      defaultValue={currentNode.data.label as string}
+                      onChange={(e) => {
+                        setNodes(
+                          nodes.map((node) => {
+                            if (node.id === currentNode?.id) {
+                              node.data.label = e.target.value;
+                            }
+                            return node;
+                          })
+                        );
+                      }}
+                    />
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Typ
+                    </Heading>
+                    <Select
+                      flex={"50%"}
+                      onChange={(e) => {
+                        setNodes(
+                          nodes.map((node) => {
+                            if (node.id === currentNode?.id) {
+                              node.type = e.target.value as string;
+                            }
+                            return node;
+                          })
+                        );
+                      }}
+                      fontSize={"xl"}
+                    >
+                      <option
+                        value={"default"}
+                        selected={currentNode.type === "default"}
+                      >
+                        Standard
+                      </option>
+                      <option
+                        value={"input"}
+                        selected={currentNode.type === "input"}
+                      >
+                        Eingang
+                      </option>
+                      <option
+                        value={"output"}
+                        selected={currentNode.type === "output"}
+                      >
+                        Ausgang
+                      </option>
+                    </Select>
+                  </Flex>
+                  <Flex w={"100%"} justifyContent={"space-between"}>
+                    <Heading size={"lg"} flex={"50%"}>
+                      Farbe
+                    </Heading>
+                    <Input
+                      flex={"50%"}
+                      type={"color"}
+                      defaultValue={
+                        // @ts-ignore
+                        currentNode.style.background as string
+                      }
+                      onChange={(e) => {
+                        setNodes(
+                          nodes.map((node) => {
+                            if (node.id === currentNode?.id) {
+                              // @ts-ignore
+                              node.style.background = e.target.value;
+                            }
+                            return node;
+                          })
+                        );
+                      }}
+                    />
+                  </Flex>
+
+                  <ButtonGroup w={"100%"}>
+                    <Button
+                      w={"100%"}
+                      colorScheme={"red"}
+                      onClick={() => {
+                        setCurrentNode(null);
+                        setNodes(
+                          nodes.filter((node) => node.id !== currentNode?.id)
                         );
                       }}
                     >
