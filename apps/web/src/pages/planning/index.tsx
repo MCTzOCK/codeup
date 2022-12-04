@@ -163,7 +163,6 @@ export default function Index() {
                 borderStyle={"solid"}
                 borderColor={"gray.600"}
                 maxW={300}
-                cursor={"pointer"}
                 position={"relative"}
                 transition={"all 120ms ease"}
                 mt={"1.2rem"}
