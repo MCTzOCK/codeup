@@ -35,10 +35,25 @@ import {
   Input,
   Select,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
+import REST from "@codeup/rest";
+import { useRouter } from "next/router";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function Index() {
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loggedIn && loaded) {
+      router.push("/");
+      window.dispatchEvent(new CustomEvent("codeup::open_login"));
+    }
+  }, [userInfo, loggedIn, loaded]);
+
   const [nodes, setNodes] = React.useState<Node[]>([]);
   const [edges, setEdges] = React.useState<Edge[]>([]);
 
@@ -67,6 +82,8 @@ export default function Index() {
     null
   );
 
+  const toast = useToast();
+
   useEffect(() => {
     setLastEdgeId("__rendered_" + currentEdge?.id ?? "");
   }, [currentEdge]);
@@ -78,40 +95,61 @@ export default function Index() {
   useEffect(() => {
     if (rfInstance) {
       const saved = rfInstance.toObject();
-      console.log(saved);
+
+      REST.ToDo.updateV2Project({
+        token: localStorage.getItem("token") as string,
+        id: router.query.id as string,
+        saved: JSON.stringify(saved),
+      });
     }
   }, [edges, nodes]);
 
   useEffect(() => {
-    const savedNodes: Node[] = [
-      {
-        data: {
-          label: "Saved Node",
-        },
-        deletable: false,
-        dragging: false,
-        height: 40,
-        id: "1",
-        position: {
-          x: 296,
-          y: 113,
-        },
-        positionAbsolute: {
-          x: 296,
-          y: 113,
-        },
-        selectable: false,
-        style: { background: "#4422FF", color: "white" },
-        width: 150,
-      },
-    ];
+    const savedNodes: Node[] = [];
     const savedEdges: Edge[] = [];
 
-    setTimeout(() => {
-      setNodes(savedNodes);
-      setEdges(savedEdges);
-    }, 2000);
-  }, []);
+    REST.ToDo.getV2Project({
+      token: localStorage.getItem("token") as string,
+      id: router.query.id as string,
+    }).then((res) => {
+      if (res.status === 200) {
+        let p = res.payload.projects[0];
+        if (!p.saved || p.saved === "") {
+          savedNodes.push({
+            id: `1`,
+            data: { label: "Hauptknoten" },
+            position: {
+              x: 100,
+              y: 100,
+            },
+            style: {
+              background: "#4422FF",
+              color: "white",
+            },
+            deletable: false,
+          });
+        } else {
+          const saved = JSON.parse(p.saved);
+          savedNodes.push(...saved.nodes);
+          savedEdges.push(...saved.edges);
+        }
+
+        setNodes(savedNodes);
+        setEdges(savedEdges);
+      } else {
+        toast({
+          title: "Fehler",
+          description:
+            "Beim Laden des Projekts ist ein Fehler aufgetreten: " +
+            res.payload.message,
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+          position: "bottom-right",
+        });
+      }
+    });
+  }, [router.query.id]);
 
   return (
     <>

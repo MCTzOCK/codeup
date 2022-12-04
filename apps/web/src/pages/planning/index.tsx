@@ -171,7 +171,7 @@ export default function Index() {
                   shadow: "2xl",
                 }}
                 onClick={() => {
-                  router.push(`/planning/${p.name}`);
+                  router.push(`/planning/${p._id}`);
                 }}
               >
                 <Heading size={"md"} textAlign={"center"}>

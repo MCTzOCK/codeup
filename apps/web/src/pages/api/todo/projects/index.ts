@@ -59,7 +59,7 @@ export default async function handleRequest(
           if (req.query.id) {
             const project = await ToDoProjectModel.findById(req.query.id);
 
-            if (project.owner !== user._id) {
+            if (project.owner.toString() !== user._id.toString()) {
               res.status(400).json({
                 error: "Invalid token",
               });
@@ -79,19 +79,23 @@ export default async function handleRequest(
             projects: ret,
           });
         } else if (req.method === "POST") {
-          if (!req.body.name) {
+          if (!req.query.id) {
             res.status(400).json({
-              error: "Missing name",
+              error: "Missing id",
             });
             return;
           }
 
-          const project = await ToDoProjectModel.findOne({
-            owner: user._id,
-            name: req.body.name,
-          });
+          const project = await ToDoProjectModel.findById(req.query.id);
 
           if (project) {
+            if (project.owner.toString() !== user._id.toString()) {
+              res.status(400).json({
+                error: "Invalid token",
+              });
+              return;
+            }
+
             if (!req.body.saved) {
               res.status(400).json({
                 error: "Bad Request",
@@ -127,7 +131,7 @@ export default async function handleRequest(
 
           const project = await ToDoProjectModel.findById(req.query.id);
 
-          if (project.owner !== user._id) {
+          if (project.owner.toString() !== user._id.toString()) {
             res.status(400).json({
               error: "Invalid token",
             });

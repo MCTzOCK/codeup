@@ -115,7 +115,7 @@ export async function getV2Project(options: {
   id: string;
 }): Promise<IResponse> {
   return await makeRequest({
-    path: "/api/todo/projects/create?id=" + options.id,
+    path: "/api/todo/projects?id=" + options.id,
     method: "GET",
     token: options.token,
   });
@@ -126,7 +126,7 @@ export async function deleteV2Project(options: {
   id: string;
 }): Promise<IResponse> {
   return await makeRequest({
-    path: "/api/todo/projects/delete?id=" + options.id,
+    path: "/api/todo/projects?id=" + options.id,
     method: "DELETE",
     token: options.token,
   });
@@ -134,15 +134,14 @@ export async function deleteV2Project(options: {
 
 export async function createV2Project(options: {
   token: string;
-  name: string;
+  id: string;
   saved?: any;
 }): Promise<IResponse> {
   return await makeRequest({
-    path: "/api/todo/projects",
+    path: "/api/todo/projects?id=" + options.id,
     method: "POST",
     token: options.token,
     body: {
-      name: options.name,
       saved: options.saved,
     },
   });
@@ -150,15 +149,14 @@ export async function createV2Project(options: {
 
 export async function updateV2Project(options: {
   token: string;
-  name: string;
+  id: string;
   saved: any;
 }): Promise<IResponse> {
   return await makeRequest({
-    path: "/api/todo/projects/update",
-    method: "PUT",
+    path: "/api/todo/projects?id=" + options.id,
+    method: "POST",
     token: options.token,
     body: {
-      name: options.name,
       saved: options.saved,
     },
   });
