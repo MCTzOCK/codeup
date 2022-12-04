@@ -134,16 +134,12 @@ export async function deleteV2Project(options: {
 
 export async function createV2Project(options: {
   token: string;
-  id: string;
-  saved?: any;
+  name: string;
 }): Promise<IResponse> {
   return await makeRequest({
-    path: "/api/todo/projects?id=" + options.id,
+    path: "/api/todo/projects?name=" + options.name,
     method: "POST",
     token: options.token,
-    body: {
-      saved: options.saved,
-    },
   });
 }
 

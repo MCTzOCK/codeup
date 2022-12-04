@@ -80,9 +80,24 @@ export default async function handleRequest(
           });
         } else if (req.method === "POST") {
           if (!req.query.id) {
-            res.status(400).json({
-              error: "Missing id",
+            if (!req.query.name) {
+              res.status(400).json({
+                error: "Missing id",
+              });
+
+              return;
+            }
+
+            const newProject = await ToDoProjectModel.create({
+              owner: user._id,
+              name: req.query.name,
+              saved: "",
             });
+
+            res.status(200).json({
+              project: newProject,
+            });
+
             return;
           }
 
@@ -111,14 +126,8 @@ export default async function handleRequest(
               project: project,
             });
           } else {
-            const newProject = await ToDoProjectModel.create({
-              owner: user._id,
-              name: req.body.name,
-              saved: req.body.saved || "",
-            });
-
-            res.status(200).json({
-              project: newProject,
+            res.status(400).json({
+              error: "Invalid token",
             });
           }
         } else if (req.method === "DELETE") {
