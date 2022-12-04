@@ -16,6 +16,7 @@ import REST from "@codeup/rest";
 import {
   Box,
   Button,
+  ButtonGroup,
   FormControl,
   FormLabel,
   Heading,
@@ -167,16 +168,55 @@ export default function Index() {
                 transition={"all 120ms ease"}
                 mt={"1.2rem"}
                 zIndex={1}
-                _hover={{
-                  shadow: "2xl",
-                }}
-                onClick={() => {
-                  router.push(`/planning/${p._id}`);
-                }}
               >
                 <Heading size={"md"} textAlign={"center"}>
                   {p.name}
                 </Heading>
+                <ButtonGroup w={"100%"} mt={"1.2rem"}>
+                  <Button
+                    w={"100%"}
+                    colorScheme={"blue"}
+                    onClick={() => {
+                      router.push("/planning/" + p._id);
+                    }}
+                  >
+                    Öffnen
+                  </Button>
+                  <Button
+                    w={"100%"}
+                    colorScheme={"red"}
+                    variant={"ghost"}
+                    onClick={() => {
+                      REST.ToDo.deleteV2Project({
+                        token: localStorage.getItem("token") as string,
+                        id: p._id,
+                      }).then((res) => {
+                        if (res.status === 200) {
+                          toast({
+                            position: "bottom-right",
+                            status: "success",
+                            title: "Erfolgreich",
+                            description: "Das Projekt wurde gelöscht",
+                            isClosable: true,
+                            duration: 1500,
+                          });
+                          reload();
+                        } else {
+                          toast({
+                            position: "bottom-right",
+                            status: "error",
+                            title: "Fehler",
+                            description: res.payload.error,
+                            isClosable: true,
+                            duration: 1500,
+                          });
+                        }
+                      });
+                    }}
+                  >
+                    Löschen
+                  </Button>
+                </ButtonGroup>
               </Box>
             </>
           );
