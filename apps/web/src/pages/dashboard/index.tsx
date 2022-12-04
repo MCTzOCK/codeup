@@ -34,6 +34,10 @@ export default function Dashboard() {
     { title: string; description?: string; href: string }[]
   >([]);
 
+  const [projectPlanningEntries, setProjectPlanningEntries] = useState<
+    { title: string; description?: string; href: string }[]
+  >([]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -119,6 +123,29 @@ export default function Dashboard() {
 
         setCertificates(x as any);
       });
+
+      REST.ToDo.getV2Projects(localStorage.getItem("token") as string).then(
+        (res) => {
+          let x = [];
+          for (const project of res.payload.projects) {
+            x.push({
+              title: project.name,
+              href: "/planning/" + project._id,
+              description: null,
+            });
+          }
+
+          if (x.length === 0) {
+            x.push({
+              title: "Keine Projekte erstellt: Neues Projekt",
+              href: "/planning",
+              description: null,
+            });
+          }
+
+          setProjectPlanningEntries(x as any);
+        }
+      );
     }
   }, [loaded, loggedIn]);
 
@@ -133,6 +160,7 @@ export default function Dashboard() {
           <Section title={"IDE Projekte"} entries={projectEntries} />
           <Section title={"ToDo Listen"} entries={todoEntries} />
           <Section title={"Zertifikate"} entries={certificates} />
+          <Section title={"Projektplanung"} entries={projectPlanningEntries} />
         </Box>
       </Flex>
     </>
