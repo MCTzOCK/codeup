@@ -8,9 +8,136 @@
  *
  */
 
-import { Flex, Heading, Link, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, SimpleGrid, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 export default function About() {
+  const [appInfo, setAppInfo] = useState<{
+    git: {
+      commits: number;
+      commit: string;
+      branch: string;
+    };
+    app: {
+      totalLines: number;
+    };
+    packages: {
+      count: number;
+      packages: {
+        name: string;
+        version: string;
+      }[];
+    };
+  } | null>(null);
+
+  const [local, setLocal] = useState<boolean>(false);
+
+  const [showingPackages, setShowingPackages] = useState<number>(12);
+
+  useEffect(() => {
+    if (
+      window &&
+      window.location &&
+      window.location.toString().match(/:([0-9]{4})/) &&
+      !window.location.toString().match(/disableLocal/)
+    ) {
+      setLocal(true);
+    } else {
+      const disableLocal = window.location.toString().match(/disableLocal/);
+      const fetchData = window.location.toString().match(/forceFetch/);
+
+      if (disableLocal && !fetchData) {
+        // garbage data
+
+        setAppInfo({
+          git: {
+            commits: 42,
+            commit: "edoCneb",
+            branch: "features/42",
+          },
+          app: {
+            totalLines: 42000,
+          },
+          packages: {
+            count: 100,
+            packages: [
+              {
+                name: "@chakra-ui/react",
+                version: "1.6.10",
+              },
+              {
+                name: "react",
+                version: "17.0.2",
+              },
+              {
+                name: "react-dom",
+                version: "17.0.2",
+              },
+              {
+                name: "next",
+                version: "11.0.1",
+              },
+              {
+                name: "chakra-ui",
+                version: "1.6.7",
+              },
+              {
+                name: "typescript",
+                version: "4.3.5",
+              },
+              {
+                name: "react-icons",
+                version: "4.2.0",
+              },
+              {
+                name: "react-markdown",
+                version: "6.0.2",
+              },
+              {
+                name: "react-syntax-highlighter",
+                version: "15.4.5",
+              },
+              {
+                name: "react-typist",
+                version: "2.0.5",
+              },
+              {
+                name: "react-use",
+                version: "17.2.4",
+              },
+              {
+                name: "react-use-gesture",
+                version: "9.1.3",
+              },
+              {
+                name: "react-use-measure",
+                version: "3.0.1",
+              },
+              {
+                name: "react-useportal",
+                version: "1.0.0",
+              },
+              {
+                name: "react-useportal-hook",
+                version: "1.0.0",
+              },
+              {
+                name: "react-useportal-hook",
+                version: "1.0.0",
+              },
+            ],
+          },
+        });
+      } else {
+        fetch("/_internal/api/app/stats").then((res) => {
+          res.json().then((data) => {
+            setAppInfo(data);
+          });
+        });
+      }
+    }
+  }, []);
+
   return (
     <>
       <Flex
@@ -41,6 +168,36 @@ export default function About() {
           </Link>
           &nbsp;finden.
         </Heading>
+
+        <Heading size={"lg"} fontFamily={"monospace"} color={"gray.200"}>
+          Statistiken
+        </Heading>
+
+        {local && (
+          <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+            Du siehst diese Seite lokal. Daher sind keine Statistiken verfügbar.
+          </Heading>
+        )}
+
+        {appInfo && (
+          <SimpleGrid columns={2} spacing={10}>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Commits: {appInfo.git.commits}
+            </Heading>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Branch: {appInfo.git.branch}
+            </Heading>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Commit: {appInfo.git.commit}
+            </Heading>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Zeilen: {appInfo.app.totalLines}
+            </Heading>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Verwendete Pakete: {appInfo.packages.count}
+            </Heading>
+          </SimpleGrid>
+        )}
       </Flex>
       <Flex
         mt="4rem"
@@ -71,18 +228,6 @@ export default function About() {
           <TechListItem
             name={"Chakra UI"}
             icon={"https://avatars.githubusercontent.com/u/54212428?s=280&v=4"}
-          />
-          <TechListItem
-            name={"MDX"}
-            icon={"https://avatars.githubusercontent.com/u/37453691?s=280&v=4"}
-          />
-          <TechListItem
-            name={"Remotion"}
-            icon={"https://www.remotion.dev/img/logo-small.png"}
-          />
-          <TechListItem
-            name={"TipTap"}
-            icon={"/_static/vectors/tech/tiptap.svg"}
           />
           <TechListItem name={"JWT"} icon={"https://jwt.io/img/pic_logo.svg"} />
           <TechListItem
@@ -118,14 +263,6 @@ export default function About() {
             icon={
               "data:image/png;base64,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"
             }
-          />
-          <TechListItem
-            name={"Prism"}
-            icon={"https://prismjs.com/assets/logo.svg"}
-          />
-          <TechListItem
-            name={"Jest"}
-            icon={"https://nx.dev/documentation/shared/jest-logo.png"}
           />
           <TechListItem
             name={"react-icons"}
@@ -198,7 +335,62 @@ export default function About() {
               "https://github.githubassets.com/images/modules/site/copilot/copilot.webp"
             }
           />
+          <TechListItem
+            name={"GrapesJS"}
+            icon={"https://grapesjs.com/img/grapesjs-logo-cl.png"}
+          />
         </SimpleGrid>
+
+        <Heading
+          size={"xl"}
+          fontFamily={"monospace"}
+          color={"gray.200"}
+          mt={"4rem"}
+        >
+          Alle Pakete
+        </Heading>
+
+        {appInfo && (
+          <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+            Insgesamt verwenden wir {appInfo.packages.count} Pakete
+          </Heading>
+        )}
+
+        {local && (
+          <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+            Du siehst diese Seite lokal. Daher werden die Pakete nicht
+            angezeigt.
+          </Heading>
+        )}
+
+        <SimpleGrid columns={[1, 1, 2, 3]} spacing={10} mt={10}>
+          {appInfo ? (
+            <>
+              {appInfo.packages.packages
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .slice(0, showingPackages)
+                .map((p) => {
+                  return (
+                    <>
+                      <PackageListItem name={p.name} version={p.version} />
+                    </>
+                  );
+                })}
+            </>
+          ) : null}
+        </SimpleGrid>
+        {appInfo && appInfo.packages.packages.length > showingPackages ? (
+          <>
+            <Link
+              color={"blue.400"}
+              onClick={() => {
+                setShowingPackages(showingPackages + 12);
+              }}
+            >
+              Weitere Pakete anzeigen...
+            </Link>
+          </>
+        ) : null}
       </Flex>
     </>
   );
@@ -220,5 +412,34 @@ function TechListItem(props: { name: string; icon: string }) {
         {props.name}
       </Heading>
     </Flex>
+  );
+}
+
+function PackageListItem(props: { name: string; version: string }) {
+  return (
+    <>
+      <Box
+        p={5}
+        shadow={"md"}
+        borderWidth={"1px"}
+        rounded={"md"}
+        bg={"gray.700"}
+        color={"gray.200"}
+      >
+        <Heading size={"md"} fontFamily={"monospace"}>
+          {props.name}
+        </Heading>
+        <Text mt={2} fontSize={"sm"}>
+          Version: {props.version}
+        </Text>
+        <Link
+          href={"https://www.npmjs.com/package/" + props.name}
+          isExternal
+          color={"blue.400"}
+        >
+          npmjs.com
+        </Link>
+      </Box>
+    </>
   );
 }

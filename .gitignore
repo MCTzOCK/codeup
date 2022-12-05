@@ -12,6 +12,7 @@ coverage
 .next/
 out/
 build
+server-build
 
 # misc
 .DS_Store
@@ -32,3 +33,6 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# codeup
+.codeup_app_stats.json

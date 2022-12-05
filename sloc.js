@@ -3,6 +3,14 @@
  * @copyright (c) 2018-2022 Ben Siebert. All rights reserved.
  */
 
+const old_console_log = console.log;
+
+if (process.argv.includes("--codeup-stats-only-lines-raw")) {
+  console.log = (...args) => {};
+  console.warn = (...args) => {};
+  console.error = (...args) => {};
+}
+
 const fs = require("fs");
 const path = require("path");
 const byteSize = require("byte-size");
@@ -26,6 +34,7 @@ const disallowed = [
   "node_modules",
   ".next",
   "dist",
+  ".codeup_app_stats.json",
 ];
 
 // filter disallowed files
@@ -77,6 +86,10 @@ if (process.argv.includes("--list-all")) {
   filesWithLines.slice(10, filesWithLines.length).forEach((f, i) => {
     console.log(i + 11 + ". " + f.path + ": " + f.lines);
   });
+}
+
+if (process.argv.includes("--codeup-stats-only-lines-raw")) {
+  old_console_log(lines);
 }
 
 function getAllPaths(dirPath, arrayOfFiles) {
