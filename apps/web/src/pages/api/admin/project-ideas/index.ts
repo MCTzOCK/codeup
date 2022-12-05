@@ -61,7 +61,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         message: "Idea deleted",
       });
     } else if (req.method == "POST") {
-      if (!req.body || !req.body.title || !req.body.description) {
+      if (
+        !req.body ||
+        !req.body.title ||
+        !req.body.description ||
+        !req.body.level
+      ) {
         res.status(400).json({
           error: "Bad Request",
         });
@@ -73,6 +78,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         description: req.body.description,
         exampleDeployedURL: req.body.exampleDeployedURL || "",
         exampleSourceURL: req.body.exampleSourceURL || "",
+        level: req.body.level,
       });
 
       res.status(200).json({

@@ -14,6 +14,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import {
+  Badge,
   Button,
   ButtonGroup,
   Flex,
@@ -46,6 +47,7 @@ export default function Viewer() {
       description: string;
       exampleDeployedURL?: string;
       exampleSourceURL?: string;
+      level: string;
     }[]
   >([]);
 
@@ -56,6 +58,7 @@ export default function Viewer() {
       description: string;
       exampleDeployedURL?: string;
       exampleSourceURL?: string;
+      level: string;
     }[]
   >([]);
 
@@ -145,6 +148,23 @@ export default function Viewer() {
               <CardBody>
                 <Stack mt={2} spacing="3">
                   <Heading size="md">{idea.title}</Heading>
+                  <Badge
+                    w={"100%"}
+                    fontSize={"lg"}
+                    colorScheme={
+                      idea.level === "easy"
+                        ? "green"
+                        : idea.level === "medium"
+                        ? "yellow"
+                        : "red"
+                    }
+                  >
+                    {idea.level === "easy"
+                      ? "Einfach"
+                      : idea.level === "medium"
+                      ? "Mittel"
+                      : "Schwer"}
+                  </Badge>
                   <Text>{idea.description}</Text>
                 </Stack>
               </CardBody>

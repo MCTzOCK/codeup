@@ -468,6 +468,7 @@ export async function createProjectIdea(options: {
   description: string;
   exampleDeployedURL?: string;
   exampleSourceURL?: string;
+  level: string;
 }): Promise<IResponse> {
   return makeRequest({
     method: "POST",
@@ -478,6 +479,7 @@ export async function createProjectIdea(options: {
       description: options.description,
       exampleDeployedURL: options.exampleDeployedURL,
       exampleSourceURL: options.exampleSourceURL,
+      level: options.level,
     },
   });
 }
