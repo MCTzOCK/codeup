@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "next build && tsc --project tsconfig.server.json",
+    "build": "node scripts/collect-info.js && next build && tsc --project tsconfig.server.json",
     "next:start": "cross-env NODE_ENV=production node server-build/index.js",
     "next:lint": "next lint"
   },

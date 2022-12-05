@@ -33,3 +33,6 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# codeup
+.codeup_app_stats.json
