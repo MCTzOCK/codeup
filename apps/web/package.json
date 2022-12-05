@@ -3,9 +3,9 @@
   "version": "0.1.2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "next:start": "next start",
+    "dev": "nodemon",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "next:start": "cross-env NODE_ENV=production node dist/index.js",
     "next:lint": "next lint"
   },
   "dependencies": {
@@ -54,6 +54,7 @@
     "canvg": "^4.0.1",
     "chakra-ui-steps": "^1.8.0",
     "chart.js": "^4.0.1",
+    "cross-env": "^7.0.3",
     "dom-to-image": "^2.6.0",
     "easymde": "^2.18.0",
     "file-loader": "^6.2.0",
@@ -99,9 +100,11 @@
     "eslint-config-custom": "*",
     "eslint-config-next": "12.1.6",
     "next-transpile-modules": "9.0.0",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "sloc": "^0.2.1",
     "sort-json": "^2.0.1",
+    "ts-node": "^10.9.1",
     "tsconfig": "*",
     "typescript": "4.7.3"
   }
