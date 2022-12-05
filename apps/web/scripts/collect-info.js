@@ -47,22 +47,30 @@ const getGitInfo = () => {
 };
 
 const getPackageInfo = () => {
-  const npmPackages = execSync("yarn list --depth=0", {
+  const npmPackages = execSync("npm list --depth=0 --json", {
     cwd: root,
   }).toString();
 
-  const packages = npmPackages.split("\n");
+  const getPackage = (pkg) => {
+    let packages = [];
+    for (let i in pkg.dependencies) {
+      packages.push({
+        name: i,
+        version: pkg.dependencies[i].version,
+      });
+      if (pkg.dependencies[i].dependencies) {
+        packages = packages.concat(getPackage(pkg.dependencies[i]));
+      }
+    }
+    return packages;
+  };
+
+  const packages = getPackage(JSON.parse(npmPackages));
 
   for (const p of packages) {
-    const name = p.split("@")[0].replace("├─ ", "").replace("└─ ", "");
-    const version = p.split("@")[1];
-    if (name.toLowerCase().startsWith("done in")) {
-      return;
-    }
-
     INFO.packages.packages.push({
-      name,
-      version,
+      name: p.name,
+      version: p.version,
     });
 
     INFO.packages.count++;
