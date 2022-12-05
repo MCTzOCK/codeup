@@ -27,6 +27,10 @@ const ProjectIdea = new mongoose.Schema({
     type: String,
     required: false,
   },
+  level: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.models?.ProjectIdea ||

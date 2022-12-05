@@ -14,6 +14,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import {
+  Badge,
   Button,
   ButtonGroup,
   Flex,
@@ -29,6 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
+  Select,
   Stack,
   Text,
   Textarea,
@@ -47,6 +49,7 @@ export default function Editor() {
       description: string;
       exampleDeployedURL?: string;
       exampleSourceURL?: string;
+      level: string;
     }[]
   >([]);
 
@@ -57,6 +60,7 @@ export default function Editor() {
       description: string;
       exampleDeployedURL?: string;
       exampleSourceURL?: string;
+      level: string;
     }[]
   >([]);
 
@@ -146,6 +150,7 @@ export default function Editor() {
                       const exampleSourceURL = data.get(
                         "exampleSourceURL"
                       ) as string;
+                      const level = data.get("level") as string;
 
                       REST.Admin.createProjectIdea({
                         token: localStorage.getItem("token") as string,
@@ -153,6 +158,7 @@ export default function Editor() {
                         description,
                         exampleDeployedURL,
                         exampleSourceURL,
+                        level,
                       }).then((res) => {
                         if (res.status === 200) {
                           toast({
@@ -190,6 +196,14 @@ export default function Editor() {
                         placeholder={"Beschreibung"}
                         name={"description"}
                       />
+                    </FormControl>
+                    <FormControl isRequired mt={4}>
+                      <FormLabel>Level</FormLabel>
+                      <Select name={"level"}>
+                        <option value={"easy"}>Einfach</option>
+                        <option value={"medium"}>Mittel</option>
+                        <option value={"hard"}>Schwer</option>
+                      </Select>
                     </FormControl>
                     <FormControl mt={4}>
                       <FormLabel>Beispiel/Vorschau</FormLabel>
@@ -252,6 +266,23 @@ export default function Editor() {
                 <CardBody>
                   <Stack mt={2} spacing="3">
                     <Heading size="md">{idea.title}</Heading>
+                    <Badge
+                      w={"100%"}
+                      fontSize={"lg"}
+                      colorScheme={
+                        idea.level === "easy"
+                          ? "green"
+                          : idea.level === "medium"
+                          ? "yellow"
+                          : "red"
+                      }
+                    >
+                      {idea.level === "easy"
+                        ? "Einfach"
+                        : idea.level === "medium"
+                        ? "Mittel"
+                        : "Schwer"}
+                    </Badge>
                     <Text>{idea.description}</Text>
                     <Text color={"blue.400"}>
                       {idea.exampleDeployedURL || ""}
@@ -292,6 +323,7 @@ export default function Editor() {
                                 const exampleSourceURL = data.get(
                                   "exampleSourceURL"
                                 ) as string;
+                                const level = data.get("level") as string;
 
                                 const res0 = await REST.Admin.deleteProjectIdea(
                                   {
@@ -312,6 +344,7 @@ export default function Editor() {
                                       description,
                                       exampleDeployedURL,
                                       exampleSourceURL,
+                                      level,
                                     });
 
                                   if (res1.status === 200) {
@@ -370,6 +403,29 @@ export default function Editor() {
                                   placeholder={"Beschreibung"}
                                   name={"description"}
                                 />
+                              </FormControl>
+                              <FormControl isRequired mt={4}>
+                                <FormLabel>Level</FormLabel>
+                                <Select name={"level"}>
+                                  <option
+                                    value={"easy"}
+                                    selected={idea.level === "easy"}
+                                  >
+                                    Einfach
+                                  </option>
+                                  <option
+                                    value={"medium"}
+                                    selected={idea.level === "medium"}
+                                  >
+                                    Mittel
+                                  </option>
+                                  <option
+                                    value={"hard"}
+                                    selected={idea.level === "hard"}
+                                  >
+                                    Schwer
+                                  </option>
+                                </Select>
                               </FormControl>
                               <FormControl mt={4}>
                                 <FormLabel>Beispiel/Vorschau</FormLabel>
