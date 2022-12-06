@@ -321,3 +321,33 @@ export async function toggleProjectPin(options: {
     method: "POST",
   });
 }
+
+export async function publishProject(options: {
+  token: string;
+  projectId: string;
+  customName: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/publish",
+    token: options.token,
+    method: "POST",
+    body: {
+      customName: options.customName,
+      publishState: "public",
+    },
+  });
+}
+
+export async function unpublishProject(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/publish",
+    token: options.token,
+    method: "POST",
+    body: {
+      publishState: "private",
+    },
+  });
+}

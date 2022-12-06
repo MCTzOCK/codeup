@@ -47,6 +47,7 @@ import {
   getProjects,
   hasTemplate,
   overwriteContributorPermissions,
+  publishProject,
   publishTemplate,
   rateTemplate,
   removeContributor,
@@ -54,6 +55,7 @@ import {
   renameProject,
   saveFile,
   toggleProjectPin,
+  unpublishProject,
   updateTemplate,
   useTemplate,
 } from "./api/IDE";
@@ -246,6 +248,8 @@ const REST = {
     hasTemplate,
     getAllTemplates,
     toggleProjectPin,
+    publishProject,
+    unpublishProject,
   },
   Community: {
     search,
