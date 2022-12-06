@@ -65,7 +65,13 @@ const getPackageInfo = () => {
     return packages;
   };
 
-  const packages = getPackage(JSON.parse(npmPackages));
+  let packages = getPackage(JSON.parse(npmPackages));
+
+  // remove duplicates
+  packages = packages.filter(
+    (v, i, a) => a.findIndex((t) => t.name === v.name) === i
+  );
+
 
   for (const p of packages) {
     INFO.packages.packages.push({
