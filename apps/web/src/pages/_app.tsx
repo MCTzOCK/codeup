@@ -92,6 +92,10 @@ function App({ Component, pageProps }: AppProps) {
 
   useAnalytics();
 
+  React.useEffect(() => {
+    console.log(router.pathname);
+  }, [router.pathname]);
+
   return (
     <>
       <DefaultSeo
@@ -135,13 +139,6 @@ function App({ Component, pageProps }: AppProps) {
               <ForumNavigationBar />
             ) : null}
 
-            {/*
-               Will probably be removed in the future
-                {router.pathname.startsWith("/course") ||
-                router.pathname.startsWith("/courses") ? (
-                  <CourseNavigationBar />
-                ) : null}
-               */}
             <Component {...pageProps} />
 
             {router.pathname.startsWith("/community") ? <PostButton /> : null}
