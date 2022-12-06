@@ -19,8 +19,9 @@ export default async function handleRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const id = req.query.id as string;
 
-  if (!req.body || !req.headers["x-jwt"] || !req.body.id) {
+  if (!req.body || !req.headers["x-jwt"]) {
     res.status(400).json({
       error: "Missing required fields",
     });
@@ -43,7 +44,7 @@ export default async function handleRequest(
           return;
         }
 
-        const IDEProject = await IDEProjectModel.findById(req.body.id);
+        const IDEProject = await IDEProjectModel.findById(id);
 
         if (!IDEProject) {
           res.status(400).json({
@@ -52,37 +53,51 @@ export default async function handleRequest(
           return;
         }
 
-        if (!IDEProject.owner.equals(user._id) && !IDEProject.contributors.find(
-          (c) => c.user.toString() === user._id.toString();
-        )){
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !IDEProject.contributors.find(
+            (c: any) => c.user.toString() === user._id.toString()
+          )
+        ) {
           res.status(403).json({
             error: "You do not have permissions to delete this project",
           });
           return;
         }
 
-        if(req.method === "POST") {
-          if(!req.body || !req.body.publishState){
+        if (req.method === "POST") {
+          if (!req.body || !req.body.publishState) {
             res.status(400).json({
-              error: "Missing required fields",
+              error: "Missing required fields2",
             });
             return;
           }
 
           const publishState = req.body.publishState;
 
-          if(publishState === "public" && !req.body.customName) {
+          if (publishState === "public" && !req.body.customName) {
             res.status(400).json({
-              error: "Missing required fields",
+              error: "Missing required fields1",
             });
             return;
           }
 
-          if(publishState === "public") {
+          if (publishState === "public") {
             const customName = req.body.customName;
 
+            const existingProject = await IDEProjectModel.findOne({
+              publishedCustomName: customName,
+            });
+
+            if (existingProject) {
+              res.status(700).json({
+                error: "This custom name is already taken",
+              });
+              return;
+            }
+
             IDEProject.published = true;
-            IDEProject.customName = customName;
+            IDEProject.publishedCustomName = customName;
 
             await IDEProject.save();
 
@@ -90,7 +105,6 @@ export default async function handleRequest(
               message: "Project published",
             });
             return;
-
           } else {
             IDEProject.published = false;
             IDEProject.publishedCustomName = "";
@@ -98,7 +112,7 @@ export default async function handleRequest(
 
             res.status(200).json({
               message: "Project unpublished",
-              project: IDEProject
+              project: IDEProject,
             });
 
             return;
@@ -109,7 +123,6 @@ export default async function handleRequest(
           });
           return;
         }
-
       } catch (e: any) {
         res.status(500).json({
           error: e.message,

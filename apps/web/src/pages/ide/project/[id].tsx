@@ -74,7 +74,7 @@ import {
   KeyboardShortcuts,
   PreviewModal,
 } from "@codeup/components/ide";
-import { useKeyPress } from "@codeup/hooks";
+import { useKeyPress, useLoggedIn } from "@codeup/hooks";
 import {
   SiCss3,
   SiHtml5,
@@ -84,6 +84,7 @@ import {
   SiTypescript,
 } from "react-icons/si";
 import FileManager from "@codeup/components/ide/FileManager";
+import PublishManager from "@codeup/components/ide/PublishManager";
 
 export default function Index() {
   const router = useRouter();
@@ -167,6 +168,12 @@ export default function Index() {
     onClose: onContributorClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isPublishOpen,
+    onOpen: onPublishOpen,
+    onClose: onPublishClose,
+  } = useDisclosure();
+
   const [errorAlert, setErrorAlert] = useState<{
     show: boolean;
     error: string;
@@ -187,16 +194,18 @@ export default function Index() {
       path: string;
       content: string;
     }[];
+    published: boolean;
+    publishedCustomName: string;
   } | null>(null);
 
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
+
   useEffect(() => {
-    redirect({
-      forceAnonymous: false,
-      allowAnonymous: false,
-      redirectTo: router.pathname,
-      redirectToLogin: true,
-    });
-  }, [router]);
+    if (!loggedIn && loaded) {
+      router.push("/");
+      window.dispatchEvent(new CustomEvent("codeup::open_login"));
+    }
+  }, [router, userInfo, loggedIn, loaded]);
 
   useEffect(() => {
     if (router.query.id) {
@@ -552,6 +561,8 @@ export default function Index() {
           owner: project?.owner,
           name: project?.name,
           files: f,
+          published: project?.published,
+          publishedCustomName: project?.publishedCustomName,
         });
       }
 
@@ -640,6 +651,9 @@ export default function Index() {
                     p={"2rem"}
                     icon={<FaCloudUploadAlt />}
                     rounded={"none"}
+                    onClick={() => {
+                      onPublishOpen();
+                    }}
                   />
                 </Tooltip>
                 {currentFile &&
@@ -863,6 +877,12 @@ export default function Index() {
             isOpen={isKSOpen}
             onOpen={onKSOpen}
             onClose={onKSClose}
+          />
+          <PublishManager
+            projectId={project?._id}
+            isOpen={isPublishOpen}
+            onClose={onPublishClose}
+            onOpen={onPublishOpen}
           />
         </>
       )}
