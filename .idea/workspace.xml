@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/[id]/publish.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/scripts/collect-info.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/scripts/collect-info.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/codeup/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/codeup/about.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/ide/projects/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +28,8 @@
         <option value="CSS File" />
         <option value="React Component" />
         <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
