@@ -214,7 +214,7 @@ export default function PublishManager(props: {
 
                     REST.IDE.publishProject({
                       token: localStorage.getItem("token") as string,
-                      projectId: project?._id,
+                      projectId: (project as any)._id as string,
                       customName,
                     }).then((res) => {
                       if (res.status === 200) {
