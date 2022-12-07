@@ -51,6 +51,8 @@ export default async function handleRequest(
         const IDEProject = await IDEProjectModel.create({
           owner: user._id,
           name: req.body.name,
+          published: false,
+          publishedCustomName: "",
         });
 
         res.status(200).json({

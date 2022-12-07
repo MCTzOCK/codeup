@@ -129,10 +129,34 @@ export default async function handleRequest(
           return;
         }
 
-        res.setHeader(
-          "Content-Type",
-          mimeLookup(file.path.toLowerCase()) as string
-        );
+        const mimeTypes: { [key: string]: string } = {
+          js: "application/javascript",
+          css: "text/css",
+          html: "text/html",
+          json: "application/json",
+          png: "image/png",
+          jpg: "image/jpeg",
+          jpeg: "image/jpeg",
+          gif: "image/gif",
+          svg: "image/svg+xml",
+        };
+        const replaceTypes: { [key: string]: string } = {
+          "text/x-scss": "text/css",
+          "text/x-sass": "text/css",
+          "text/x-typescript": "application/javascript",
+        };
+
+        let mimeType = mimeLookup(file.path);
+
+        if (!mimeType || !Object.values(mimeTypes).includes(mimeType)) {
+          if (mimeType && Object.keys(replaceTypes).includes(mimeType)) {
+            mimeType = replaceTypes[mimeType];
+          } else {
+            mimeType = "text/plain";
+          }
+        }
+
+        res.setHeader("Content-Type", mimeType);
 
         res.status(200).write(ret);
 

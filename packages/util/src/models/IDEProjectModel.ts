@@ -71,6 +71,14 @@ const IDEProject = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
+  published: {
+    type: Boolean,
+    default: false,
+  },
+  publishedCustomName: {
+    type: String,
+    default: "",
+  },
 });
 
 export default mongoose.models?.IDEProject ||
