@@ -10,7 +10,7 @@
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
+import { default as redirect } from "@codeup/util/dist/userworkflow/redirect";
 import { useCourseProgress } from "./useCourseProgress";
 
 export default function useCourseRedirect(course: string) {

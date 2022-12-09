@@ -22,7 +22,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
-import { useLoggedIn } from "@codeup/hooks/hooks/useLoggedIn";
+import { useLoggedIn } from "@codeup/hooks";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 
 export default function PostView() {
