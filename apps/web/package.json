@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "yarn build:collect-info && yarn build:next && yarn build:server && yarn bundle:server",
+    "build": "yarn build:collect-info && yarn build:next",
     "build:collect-info": "node scripts/collect-info.js",
     "build:server": "tsc --project tsconfig.server.json",
     "bundle:server": "rollup server-build/index.js -o server-build/bundle.mjs -c rollup.config.mjs",
