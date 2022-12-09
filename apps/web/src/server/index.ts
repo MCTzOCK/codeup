@@ -40,13 +40,15 @@ app
       if (pathname === "/_internal/api/app/stats") {
         if (process.env.NODE_ENV === "production") {
           if (
-            fs.existsSync(path.join(__dirname, "..", ".codeup_app_stats.json"))
+            fs.existsSync(
+              path.join(__dirname, "..", "..", ".codeup_app_stats.json")
+            )
           ) {
             res.setHeader("Content-Type", "application/json");
             res.end(
               fs
                 .readFileSync(
-                  path.join(__dirname, "..", ".codeup_app_stats.json")
+                  path.join(__dirname, "..", "..", ".codeup_app_stats.json")
                 )
                 .toString()
             );
