@@ -1,0 +1,40 @@
+/**
+ * src/util/userworkflow/redirect.ts
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 06.06.2022
+ *
+ */
+import { decode } from "jsonwebtoken";
+export default function redirect(options) {
+    if (localStorage.getItem("token") !== null) {
+        const token = localStorage.getItem("token");
+        try {
+            const decoded = decode(token);
+            if (decoded === null) {
+                throw new Error("Token could not be decoded");
+            }
+            if (options.forceAnonymous) {
+                window.location.href = options.redirectTo;
+            }
+        }
+        catch (e) {
+            localStorage.removeItem("token");
+            document.cookie = "jwt=;path=/";
+            if (!options.allowAnonymous) {
+                if (options.redirectToLogin) {
+                    window.location.href = `/#login`;
+                }
+            }
+        }
+    }
+    else {
+        if (!options.allowAnonymous) {
+            if (options.redirectToLogin) {
+                window.location.href = `/#login`;
+            }
+        }
+    }
+}

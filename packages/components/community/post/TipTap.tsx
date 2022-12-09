@@ -8,6 +8,7 @@
  *
  */
 
+import * as React from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "./StarterKit";
 import {

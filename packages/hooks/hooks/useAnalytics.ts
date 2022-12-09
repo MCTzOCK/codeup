@@ -1,5 +1,5 @@
 /**
- * packages/hooks/hooks/useAnalytics.ts
+ * @codeup/hooks/hooks/useAnalytics.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -8,7 +8,7 @@
  *
  */
 import { useEffect, useState } from "react";
-import REST from "@codeup/rest";
+import REST from "@codeup/rest/dist";
 import { useRouter } from "next/router";
 
 export default function useAnalytics() {

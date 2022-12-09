@@ -8,7 +8,7 @@
  *
  */
 import { useEffect, useState } from "react";
-import REST from "@codeup/rest";
+import REST from "@codeup/rest/dist";
 import { useLoggedIn } from "./useLoggedIn";
 
 export default function useHasProfile(): {

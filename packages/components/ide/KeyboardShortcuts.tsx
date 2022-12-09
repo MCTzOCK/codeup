@@ -28,6 +28,7 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import * as React from "react";
 
 export default function KeyboardShortcuts(props: {
   isOpen: boolean;

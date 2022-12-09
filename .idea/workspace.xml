@@ -5,8 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/ide/PublishManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/PublishManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/captain-definition-codeup" beforeDir="false" afterPath="$PROJECT_DIR$/captain-definition-codeup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminProfileViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminProfileViewer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminUserViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminUserViewer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/CommunityNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/PostCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/post/TipTap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/community/profile/ProfileMenuButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/CourseNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/ModuleCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/ModuleCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/creator/studio/CreatorStudioLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/creator/studio/CreatorStudioLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/forum/ChatViewV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/forum/ChatViewV2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/forum/DeferredPostCardV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/forum/DeferredPostCardV2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/forum/ForumNavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/forum/ForumNavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBarMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/ContributorManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/FileManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/KeyboardShortcuts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/KeyboardShortcuts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/OpenProjectMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/OpenProjectMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePicker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/ide/TemplatePublisher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/ide/TemplatePublisher.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useAnalytics.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useAnalytics.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useHasProfile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useKeyPress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useKeyPress.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-ast-generator/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-ast-generator/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/CommandExecutor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/commands/CreateCommand.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/src/types/DOM.Elements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/src/types/DOM.Elements.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/incode-compiler/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/incode-compiler/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,33 +101,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.7.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.7.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2023_CodeUp/packages/util/src/models&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "18.7.0",
+    "javascript.nodejs.core.library.typings.version": "18.7.0",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/packages/util",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\bensi\\Desktop\\JuFo2023\\codeup\\node_modules\\prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Shell Script&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Shell Script"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -95,23 +138,23 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util\src\models" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\admin\certificates" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\admin\analytics" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\special-components" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio\create\content" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks\src" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio\create\content" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio\create" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images\creator" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
-    <configuration name="build (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/packages/incode-ast-generator/package.json" />
+  <component name="RunManager" selected="npm.build (2)">
+    <configuration name="build (2)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/util/package.json" />
       <command value="run" />
       <scripts>
         <script value="build" />
@@ -130,6 +173,26 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="build:server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/web/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="bundle:server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/web/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="bundle:server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="stats" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -142,9 +205,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build (2)" />
+        <item itemvalue="npm.bundle:server" />
+        <item itemvalue="npm.build:server" />
         <item itemvalue="npm.stats" />
         <item itemvalue="npm.build" />
-        <item itemvalue="npm.build (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -208,6 +273,88 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseProgressModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/AnalyticsModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseProgressModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumPostModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDETemplateModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/UserModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityProfileModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/VideoModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/UserModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ProjectIdeaModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContactModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContactModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumChatModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityProfileModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ToDoProjectModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumPostModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ProjectIdeaModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumChatModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContentModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContactModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumPostModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ObtainedCertificateModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumProfileModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ProjectIdeaModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ObtainedCertificateModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContentModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TodoListModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumProfileModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/Certificate.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/VideoModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TodoListModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/types/CourseProgress.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/types/CourseProgress.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/types/CourseProgress.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/userworkflow/redirect.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/certificates/CertificateBuilder.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/grapejs/plugin-flexbox.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/certificates/CertificateBuilder.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/certificates/CertificateBuilder.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/CourseDB.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/Course.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/grapejs/plugin-flexbox.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/grapejs/plugin-flexbox.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/CourseDB.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/Course.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/Course.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/courses/CourseDB.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/Certificate.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumChatModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityProfileModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/VideoModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseProgressModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityPostModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TodoListModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ToDoProjectModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TextContentModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TextContentModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityPostModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CommunityPostModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ContentModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ToDoProjectModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/AnalyticsModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/CourseModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/AnalyticsModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDETemplateModel.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/IDETemplateModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/TextContentModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/UserModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ObtainedCertificateModel.d.ts" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/ForumProfileModel.js" />
+        <option value="$PROJECT_DIR$/packages/util/src/models/Certificate.d.ts" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

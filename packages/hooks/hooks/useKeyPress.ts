@@ -6,7 +6,7 @@
 // DISCLAIMER END
 
 /**
- * packages/hooks/hooks/useKeyPress.ts
+ * @codeup/hooks/hooks/useKeyPress.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.

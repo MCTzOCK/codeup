@@ -1,14 +1,10 @@
 {
+  "extends": "tsconfig/base.json",
+  "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true,
-    "outDir": "dist",
+    "isolatedModules": false,
+    "lib": ["DOM"],
     "rootDir": "src",
-    "declaration": true,
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "outDir": "dist"
+  }
 }

@@ -8,7 +8,7 @@
  *
  */
 
-import REST from "@codeup/rest";
+import REST from "@codeup/rest/dist";
 import { useEffect, useState } from "react";
 
 export function useLoggedIn(): {

@@ -8,7 +8,7 @@
  *
  */
 
-export const DOM = {
+export const DOM: { [key: string]: string } = {
   knopf: "button",
   textfeld: "input",
   absatz: "p",

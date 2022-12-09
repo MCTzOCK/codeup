@@ -68,7 +68,7 @@ export default class CommandExecutor {
       } else {
         throw new Error(`Command ${sourceTree.command} not found`);
       }
-    } catch (e) {
+    } catch (e: any) {
       ret += "/* COMPILING ERROR */\n";
       ret += "/* --------------- */\n";
       ret += `/* ${e.message} */\n`;

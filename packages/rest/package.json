@@ -4,5 +4,8 @@
   "main": "src/index.ts",
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
-  "private": false
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  }
 }

@@ -5,6 +5,9 @@
   "author": "Ben Siebert",
   "license": "GPL-3.0-only",
   "private": false,
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@chakra-ui/react": "^2.1.2",
     "@codeup/rest": "*",

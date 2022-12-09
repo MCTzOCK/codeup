@@ -1,5 +1,5 @@
 /**
- * packages/hooks/index.ts
+ * @codeup/hooks/index.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.

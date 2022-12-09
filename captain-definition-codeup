@@ -8,6 +8,6 @@
     "COPY ./ /usr/src/app/",
     "RUN yarn && turbo run build --filter=web",
     "EXPOSE 3000",
-    "CMD [ \"yarn\", \"--cwd\", \"./apps/web\", \"next:start\" ]"
+    "CMD [ \"yarn\", \"--cwd\", \"./apps/web\", \"ts-start-prod\" ]"
   ]
 }
