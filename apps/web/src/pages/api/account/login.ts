@@ -47,9 +47,10 @@ export default async function handleRequest(
 
     if (req.body.email) {
       user = await UserModel.findOne({ email: req.body.email });
-      if (!user) {
-        user = await UserModel.findOne({ username: req.body.email });
-      }
+    }
+
+    if (req.body.username) {
+      user = await UserModel.findOne({ username: req.body.username });
     }
 
     if (!user) {

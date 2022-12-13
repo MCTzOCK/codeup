@@ -131,3 +131,10 @@ export async function verify(token: string): Promise<IResponse> {
     token: token,
   });
 }
+
+export async function createTestAccount(): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/try",
+    method: "POST",
+  });
+}
