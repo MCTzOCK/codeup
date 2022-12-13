@@ -10,6 +10,7 @@
 import {
   checkResetToken,
   checkUsername,
+  createTestAccount,
   deleteAccount,
   login,
   loginWithUsername,
@@ -211,6 +212,7 @@ const REST = {
     resetConfirm,
     update,
     verify,
+    createTestAccount,
   },
   ToDo: {
     getMyLists,
