@@ -283,6 +283,42 @@ export default function PublishManager(props: {
                       </Button>
                     </FormControl>
                     <FormControl>
+                      <FormLabel>Teilen</FormLabel>
+                      <Button
+                        colorScheme={"blue"}
+                        onClick={() => {
+                          if (window.isSecureContext) {
+                            navigator.clipboard.writeText(
+                              `https://codeup.space/project/${project?.publishedCustomName}`
+                            );
+
+                            toast({
+                              title: "Erfolg",
+                              description:
+                                "Die URL wurde in die Zwischenablage kopiert.",
+                              status: "success",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+                          } else {
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Dieser Browser unterstützt das Teilen nicht.",
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+                          }
+                        }}
+                      >
+                        URL kopieren
+                      </Button>
+                    </FormControl>
+
+                    <FormControl>
                       <FormLabel>Verstecken</FormLabel>
                       <Button
                         colorScheme={"red"}
