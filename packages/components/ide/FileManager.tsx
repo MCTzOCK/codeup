@@ -590,6 +590,7 @@ function FileEntry(props: {
   setSettingsOpen: (b: boolean) => void;
 }) {
   const [hoverRef, isHovering] = useHover();
+  const toast = useToast();
 
   return (
     <>
@@ -669,6 +670,18 @@ function FileEntry(props: {
                           colorScheme="red"
                           mt=".4rem"
                           onClick={async () => {
+                            if (props.project.files.length === 1) {
+                              toast({
+                                title: "Fehler",
+                                description:
+                                  "Du kannst die letzte Datei nicht löschen.",
+                                status: "error",
+                                duration: 1500,
+                                isClosable: true,
+                              });
+                              return;
+                            }
+
                             if (
                               props.currentFile?.path ===
                               props.structure.fullPath

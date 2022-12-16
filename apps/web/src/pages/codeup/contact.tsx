@@ -11,41 +11,29 @@
 import * as React from "react";
 
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Box,
   Button,
   Flex,
   FormControl,
   FormLabel,
   Heading,
-  IconButton,
   Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Select,
   Stack,
+  Text,
   Textarea,
-  Tooltip,
-  useClipboard,
-  useColorModeValue,
-  VStack,
+  useToast,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
-import { useToast } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { FaBaby } from "react-icons/fa";
 import makeRequest from "@codeup/rest/src/makeRequest";
-import REST from "@codeup/rest";
+import DividerWithText from "@codeup/components/dist/global/DividerWithText";
+import { useRouter } from "next/router";
 
 export default function Contact() {
   const [disableButton, setDisableButton] = React.useState(false);
 
-  const { userInfo, loggedIn, loaded: uiLoaded } = useLoggedIn();
+  const { loggedIn } = useLoggedIn();
+
   const router = useRouter();
 
   const toast = useToast();
@@ -53,7 +41,7 @@ export default function Contact() {
   return (
     <>
       <Flex align="center" justify="center" w={"100%"} minH={[0, "100vh"]}>
-        <VStack
+        <Stack
           spacing={8}
           w="100%"
           maxW="800px"
@@ -122,7 +110,12 @@ export default function Contact() {
                   <option value="sonstiges">Sonstiges</option>
                   <option value="fehler">Fehler melden</option>
                   <option value="feature">Funktion beantragen</option>
-                  <option value="creator">Creator Bewerbung</option>
+                  <option
+                    value="creator"
+                    selected={router.query.creator !== undefined}
+                  >
+                    Creator Bewerbung
+                  </option>
                 </Select>
               </FormControl>
               <FormControl id="title" isRequired>
@@ -138,7 +131,14 @@ export default function Contact() {
               </Button>
             </Stack>
           </form>
-        </VStack>
+          <DividerWithText text={"ODER"} />
+          <Text textAlign={"center"}>
+            Schreibe uns eine E-Mail an&nbsp;
+            <Link color={"blue.400"} href="mailto:hello@ben-siebert.de">
+              hello@ben-siebert.de
+            </Link>
+          </Text>
+        </Stack>
       </Flex>
     </>
   );

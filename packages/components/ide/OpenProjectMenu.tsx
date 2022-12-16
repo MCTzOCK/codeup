@@ -388,7 +388,10 @@ export default function OpenProjectMenu() {
                                         version: "1.0",
                                         href: location.href,
                                         exportedAt: new Date().toLocaleString(),
-                                        userInfo: userInfo,
+                                        userInfo: {
+                                          username: userInfo.username,
+                                          id: userInfo.id,
+                                        },
                                       };
 
                                       exportObject.name = fullProject.name;
@@ -903,7 +906,10 @@ export default function OpenProjectMenu() {
                                               href: location.href,
                                               exportedAt:
                                                 new Date().toLocaleString(),
-                                              userInfo: userInfo,
+                                              userInfo: {
+                                                username: userInfo.username,
+                                                id: userInfo.id,
+                                              },
                                             };
 
                                             exportObject.name =
