@@ -47,6 +47,7 @@ export default async function handleRequest(
     async (err: VerifyErrors | null, decoded: JwtPayload | string | any) => {
       await mongoConnect();
 
+      let mimeType;
       try {
         const user = await UserModel.findById((decoded as any).id);
 
@@ -139,6 +140,7 @@ export default async function handleRequest(
           jpeg: "image/jpeg",
           gif: "image/gif",
           svg: "image/svg+xml",
+          ic: "text/html",
         };
         const replaceTypes: { [key: string]: string } = {
           "text/x-scss": "text/css",
@@ -146,7 +148,13 @@ export default async function handleRequest(
           "text/x-typescript": "application/javascript",
         };
 
-        let mimeType = mimeLookup(file.path);
+        let mimeType = "";
+
+        if (mimeTypes[file.path.split(".").pop() as string]) {
+          mimeType = mimeTypes[file.path.split(".").pop() as string];
+        } else {
+          mimeType = mimeLookup(file.path) as string;
+        }
 
         if (!mimeType || !Object.values(mimeTypes).includes(mimeType)) {
           if (mimeType && Object.keys(replaceTypes).includes(mimeType)) {
