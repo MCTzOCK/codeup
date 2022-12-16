@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/account/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/account/login.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/old-landing-v2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/landing.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +28,8 @@
         <option value="CSS File" />
         <option value="React Component" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -101,11 +104,11 @@
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\special-components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks\src" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio\create\content" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build (2)">

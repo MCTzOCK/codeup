@@ -155,11 +155,21 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
               <PinInput
                 size="lg"
                 onComplete={async (code) => {
-                  const res = await REST.Account.login({
-                    email,
-                    password,
-                    code,
-                  });
+                  let res: IResponse | null;
+
+                  if (email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+                    res = await REST.Account.login({
+                      email,
+                      password,
+                      code,
+                    });
+                  } else {
+                    res = await REST.Account.loginWithUsername({
+                      username: email,
+                      password,
+                      code,
+                    });
+                  }
 
                   if (res.status !== 200) {
                     setAlertType("error");
