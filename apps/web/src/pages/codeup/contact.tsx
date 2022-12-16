@@ -27,11 +27,14 @@ import {
 import { useLoggedIn } from "@codeup/hooks";
 import makeRequest from "@codeup/rest/src/makeRequest";
 import DividerWithText from "@codeup/components/dist/global/DividerWithText";
+import { useRouter } from "next/router";
 
 export default function Contact() {
   const [disableButton, setDisableButton] = React.useState(false);
 
   const { loggedIn } = useLoggedIn();
+
+  const router = useRouter();
 
   const toast = useToast();
 
@@ -107,7 +110,12 @@ export default function Contact() {
                   <option value="sonstiges">Sonstiges</option>
                   <option value="fehler">Fehler melden</option>
                   <option value="feature">Funktion beantragen</option>
-                  <option value="creator">Creator Bewerbung</option>
+                  <option
+                    value="creator"
+                    selected={router.query.creator !== undefined}
+                  >
+                    Creator Bewerbung
+                  </option>
                 </Select>
               </FormControl>
               <FormControl id="title" isRequired>

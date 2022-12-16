@@ -90,7 +90,7 @@ export default function Index() {
             fontFamily={"Seymour One"}
             textTransform={"uppercase"}
             onClick={() => {
-              router.push("/codeup/contact");
+              router.push("/codeup/contact?creator=true");
             }}
           >
             Bewerben
