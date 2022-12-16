@@ -58,7 +58,15 @@ export default async function handleRequest(
           return;
         }
 
-        if (!IDEProject.owner.equals(user._id)) {
+        if (
+          !IDEProject.owner.equals(user._id) &&
+          !(
+            IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+            IDEProject.contributors
+              .find((c: any) => c.user.equals(user._id))
+              .permissions.includes("DELETE")
+          )
+        ) {
           res.status(403).json({
             error: "You do not have permissions to delete this project",
           });
