@@ -53,9 +53,12 @@ export default function TemplatePicker() {
     }[]
   >([]);
 
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     REST.IDE.getAllTemplates().then((res) => {
       setTemplates(res.payload.templates);
+      setLoaded(true);
     });
   }, []);
 
@@ -74,7 +77,7 @@ export default function TemplatePicker() {
         <TemplateImporter templateId={importTemplate} />
       ) : (
         <>
-          {templates.length === 0 ? (
+          {!loaded ? (
             <>
               <Flex
                 w={"100%"}
@@ -85,7 +88,16 @@ export default function TemplatePicker() {
                 <Spinner size={"xl"} />
               </Flex>
             </>
-          ) : (
+          ) : null}
+
+          {loaded && templates.length === 0 ? (
+            <>
+              <Text textAlign={"center"} mt={"1.2rem"}>
+                Es wurden noch keine Vorlagen veröffentlicht!
+              </Text>
+            </>
+          ) : null}
+          {templates.length !== 0 ? (
             <>
               <Input
                 type={"text"}
@@ -262,7 +274,7 @@ export default function TemplatePicker() {
                 })}
               </SimpleGrid>
             </>
-          )}
+          ) : null}
         </>
       )}
     </>
