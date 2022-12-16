@@ -26,42 +26,48 @@ export default async function handleRequest(
     return;
   }
 
-  const token = req.headers["x-jwt"] as string;
+  try {
+    const token = req.headers["x-jwt"] as string;
 
-  if (jwt.verify(token, process.env.JWT_SECRET as string)) {
-    const decoded = jwt.decode(token) as any;
+    if (jwt.verify(token, process.env.JWT_SECRET as string)) {
+      const decoded = jwt.decode(token) as any;
 
-    await mongoConnect();
+      await mongoConnect();
 
-    const user = await UserModel.findOne({
-      _id: decoded.id,
-    });
-
-    if (!user) {
-      res.status(404).json({
-        error: "User not found",
+      const user = await UserModel.findOne({
+        _id: decoded.id,
       });
-      return;
+
+      if (!user) {
+        res.status(404).json({
+          error: "User not found",
+        });
+        return;
+      }
+
+      const certs = await ObtainedCertificateModel.find({
+        username: user.username,
+      });
+
+      const c = certs.map((c) => c.toObject());
+
+      for (const cert of c) {
+        const course = await CourseModel.findOne({ _id: cert.course });
+        cert.course = course.name;
+        delete cert.screenshot;
+      }
+
+      res.status(200).json({
+        certs: c,
+      });
+    } else {
+      res.status(401).json({
+        error: "Invalid token",
+      });
     }
-
-    const certs = await ObtainedCertificateModel.find({
-      username: user.username,
-    });
-
-    const c = certs.map((c) => c.toObject());
-
-    for (const cert of c) {
-      const course = await CourseModel.findOne({ _id: cert.course });
-      cert.course = course.name;
-      delete cert.screenshot;
-    }
-
-    res.status(200).json({
-      certs: c,
-    });
-  } else {
-    res.status(401).json({
-      error: "Invalid token",
+  } catch (e) {
+    res.status(500).json({
+      error: e,
     });
   }
 }

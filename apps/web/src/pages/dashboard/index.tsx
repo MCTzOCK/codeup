@@ -99,6 +99,16 @@ export default function Dashboard() {
       REST.Certificates.getObtainedCertificates(
         localStorage.getItem("token") as string
       ).then((res) => {
+        if (res.status !== 200) {
+          setCertificates([
+            {
+              title: "Keine Zertifikate erhalten",
+              href: "/certificates",
+              description: "",
+            },
+          ]);
+          return;
+        }
         let x = [];
         for (const cert of res.payload.certs) {
           x.push({
