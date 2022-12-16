@@ -216,8 +216,21 @@ export default function Index() {
             CodeUp in 100 Sekunden
           </Heading>
         </motion.div>
-        <Box w={"1080px"} h={"720px"}>
-          <VideoPlayer url={"https://www.youtube.com/watch?v=p1inZ7hvz70"} />
+        <Box
+          w={"100%"}
+          mt={8}
+          mb={8}
+          maxW={["100%", "40%"]}
+          h={"fit-content"}
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          p={4}
+          bg={"#000000"}
+          borderRadius={"md"}
+          boxShadow={"2xl"}
+        >
+          <VideoPlayer url={"https://www.youtube.com/watch?v=iElczHdHUVs"} />
         </Box>
       </Flex>
     </>
