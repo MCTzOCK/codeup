@@ -31,6 +31,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function Token() {
   const router = useRouter();
@@ -80,6 +81,9 @@ export default function Token() {
 
   return (
     <>
+      <Head>
+        <title>Passwort zutücksetzen - CodeUp</title>
+      </Head>
       {alertVisible ? (
         <Alert status={alertType} variant={"top-accent"}>
           <AlertIcon />

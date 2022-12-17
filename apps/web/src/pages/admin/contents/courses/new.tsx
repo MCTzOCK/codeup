@@ -34,6 +34,7 @@ import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
+import Head from "next/head";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -68,6 +69,9 @@ export default function NewComponent() {
 
   return (
     <>
+      <Head>
+        <title>Neuer Kurs - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <AdminContentsLayout>
           <Flex flexDir="column" width="100%" p={"5rem"}>

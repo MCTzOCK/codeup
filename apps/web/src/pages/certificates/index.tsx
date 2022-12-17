@@ -28,6 +28,7 @@ import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useLoggedIn } from "@codeup/hooks";
+import Head from "next/head";
 
 export default function Index() {
   const [certificates, setCertificates] = React.useState<string[]>([]);
@@ -82,6 +83,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Zertifikatübersicht - CodeUp</title>
+      </Head>
       <Flex
         direction="column"
         w={"100%"}

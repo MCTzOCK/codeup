@@ -38,6 +38,7 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Viewer() {
   const [projectIdeas, setProjectIdeas] = React.useState<
@@ -99,6 +100,9 @@ export default function Viewer() {
 
   return (
     <>
+      <Head>
+        <title>Projektideen - CodeUp</title>
+      </Head>
       <Flex
         w={"100%"}
         mt={"2rem"}

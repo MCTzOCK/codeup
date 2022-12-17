@@ -58,6 +58,7 @@ import {
 } from "react-icons/fa";
 import { useHasProfile, useLoggedIn } from "@codeup/hooks";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 //
 // we need to disable SSR until I finally know
@@ -211,6 +212,9 @@ export default function ProfileView() {
 
   return (
     <>
+      <Head>
+        <title>(Veraltet) Community Profil - CodeUp</title>
+      </Head>
       {SSR ? null : (
         <>
           {notFound ? (

@@ -34,6 +34,7 @@ import {
   FaYoutubeSquare,
 } from "react-icons/fa";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import Head from "next/head";
 
 export default function Course() {
   const router = useRouter();
@@ -131,6 +132,9 @@ export default function Course() {
 
   return (
     <>
+      <Head>
+        <title>Kursbetrachter - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <AdminContentsLayout>
           <Box p={"2rem"}>

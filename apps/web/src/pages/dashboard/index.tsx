@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import redirect from "@codeup/util/src/userworkflow/redirect";
+import Head from "next/head";
 
 export default function Dashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -161,6 +162,9 @@ export default function Dashboard() {
 
   return (
     <>
+      <Head>
+        <title>Dashboard - CodeUp</title>
+      </Head>
       <Flex direction={"column"} mt={"2rem"}>
         <Heading size={"lg"} textAlign={"center"}>
           Dashboard

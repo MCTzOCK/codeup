@@ -41,6 +41,7 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Index() {
   ChartJS.register(
@@ -171,6 +172,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Analytics - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <Heading size={"2xl"} textAlign={"center"} mt={"4rem"}>
           Analytics

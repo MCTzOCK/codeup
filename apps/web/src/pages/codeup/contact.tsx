@@ -28,6 +28,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import makeRequest from "@codeup/rest/src/makeRequest";
 import DividerWithText from "@codeup/components/dist/global/DividerWithText";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Contact() {
   const [disableButton, setDisableButton] = React.useState(false);
@@ -40,6 +41,9 @@ export default function Contact() {
 
   return (
     <>
+      <Head>
+        <title>Kontakt - CodeUp</title>
+      </Head>
       <Flex align="center" justify="center" w={"100%"} minH={[0, "100vh"]}>
         <Stack
           spacing={8}

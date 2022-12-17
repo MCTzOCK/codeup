@@ -38,6 +38,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import { Card, CardBody, CardFooter } from "@chakra-ui/card";
+import Head from "next/head";
 
 export default function Editor() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -104,6 +105,9 @@ export default function Editor() {
 
   return (
     <>
+      <Head>
+        <title>Projektideen - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <Flex
           w={"100%"}

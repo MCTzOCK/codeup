@@ -33,6 +33,7 @@ import "easymde/dist/easymde.min.css";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import Builder from "../../../special-components/Builder";
+import Head from "next/head";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -81,6 +82,9 @@ export default function NewContents() {
 
   return (
     <>
+      <Head>
+        <title>Neuer Inhalt - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <AdminContentsLayout>
           <>

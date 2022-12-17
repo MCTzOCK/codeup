@@ -67,6 +67,7 @@ import {
 import { useLoggedIn } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
+import Head from "next/head";
 
 export default function Profile() {
   const router = useRouter();
@@ -135,6 +136,9 @@ export default function Profile() {
   useEffect(reloadPosts, [profile]);
   return (
     <>
+      <Head>
+        <title>@{router.query.username || "user"} - CodeUp</title>
+      </Head>
       {!profile ? (
         <Flex
           alignItems={"center"}

@@ -17,12 +17,16 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import Head from "next/head";
 
 export default function Error() {
   const router = useRouter();
 
   return (
     <>
+      <Head>
+        <title>Fehler - CodeUp</title>
+      </Head>
       <ErrorComponent description={router.query.error as string} />
     </>
   );

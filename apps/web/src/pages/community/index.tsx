@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { PostCard } from "@codeup/components/community/post";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function CommunityHome() {
   useEffect(() => {
@@ -33,6 +34,9 @@ export default function CommunityHome() {
 
   return (
     <>
+      <Head>
+        <title>(Veraltet) Community - CodeUp</title>
+      </Head>
       {hasProfile.tried && hasProfile.hasProfile ? (
         <>
           <CommunityFeed />

@@ -44,6 +44,7 @@ import { useEffect } from "react";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import CourseEditor from "@codeup/components/creator/studio/CourseEditor";
+import Head from "next/head";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
@@ -110,6 +111,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Creator Studio - CodeUp</title>
+      </Head>
       <CreatorStudioLayout>
         <Flex
           w={"100%"}

@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function Index() {
   const router = useRouter();
@@ -42,6 +43,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Creator - CodeUp</title>
+      </Head>
       <Flex
         w={"100%"}
         minH={"100vh"}

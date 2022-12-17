@@ -26,6 +26,8 @@ import { motion } from "framer-motion";
 import Typed from "react-typed";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { Title } from "chart.js";
 
 export default function Index() {
   const { loggedIn } = useLoggedIn();
@@ -33,6 +35,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>CodeUp - Einfach Programmieren lernen</title>
+      </Head>
       <Flex
         flexDirection="column"
         height="100vh"

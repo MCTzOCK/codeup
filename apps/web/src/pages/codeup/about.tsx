@@ -10,6 +10,8 @@
 
 import { Box, Flex, Heading, Link, SimpleGrid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import Head from "next/head";
+import * as React from "react";
 
 export default function About() {
   const [appInfo, setAppInfo] = useState<{
@@ -140,6 +142,9 @@ export default function About() {
 
   return (
     <>
+      <Head>
+        <title>Über CodeUp</title>
+      </Head>
       <Flex
         mt="4rem"
         w={"100%"}
