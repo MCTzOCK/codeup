@@ -283,18 +283,14 @@ export default function UserAuthRegister() {
             </Button>
           </Flex>
           <Text textAlign={"center"} mt={"1rem"}>
-            Wenn auf &apos;Registrieren&apos; klickst, stimmt du den&nbsp;
-            <Link href={"/legal/tos"}>
-              <ChakraLink href={"/legal/tos"} color={"blue.400"}>
-                AGB
-              </ChakraLink>
-            </Link>
-            &nbsp;und der&nbsp;
-            <Link href={"/legal/privacy"}>
-              <ChakraLink href={"/legal/privacy"} color={"blue.400"}>
-                Datenschutzerklärung
-              </ChakraLink>
-            </Link>
+            Wenn auf &apos;Registrieren&apos; klickst, stimmt du der&nbsp;
+            <ChakraLink
+              href={"/legal/privacy"}
+              color={"blue.400"}
+              target={"_blank"}
+            >
+              Datenschutzerklärung
+            </ChakraLink>
             &nbsp;zu
           </Text>
         </form>
