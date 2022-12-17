@@ -71,6 +71,8 @@ import { FiMoreHorizontal, FiRotateCw } from "react-icons/fi";
 import AdminUserViewer from "@codeup/components/admin/AdminUserViewer";
 import AdminUserCreator from "@codeup/components/admin/AdminUserCreator";
 import DataTable from "@codeup/components/extra/DataTable";
+import Head from "next/head";
+import * as React from "react";
 
 type User = {
   id: string;
@@ -150,6 +152,9 @@ export default function UserManagement() {
 
   return (
     <>
+      <Head>
+        <title>Benutzer - Admin - CodeUp</title>
+      </Head>
       {loaded && error !== "" ? (
         <>
           <ErrorComponent description={error} />

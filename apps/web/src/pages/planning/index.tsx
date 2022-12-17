@@ -32,6 +32,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import Head from "next/head";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -73,6 +74,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Projektplanung - CodeUp</title>
+      </Head>
       <Heading size="2xl" textAlign={"center"} mt={"2rem"}>
         Projekte
       </Heading>

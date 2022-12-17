@@ -85,6 +85,7 @@ import {
 } from "react-icons/si";
 import FileManager from "@codeup/components/ide/FileManager";
 import PublishManager from "@codeup/components/ide/PublishManager";
+import Head from "next/head";
 
 export default function Index() {
   const router = useRouter();
@@ -590,6 +591,16 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>
+          {currentFile
+            ? currentFile.path.split("/")[
+                currentFile.path.split("/").length - 1
+              ]
+            : "Neue Datei"}
+          &nbsp;-&nbsp;Editor - CodeUp
+        </title>
+      </Head>
       {errorAlert.show ? (
         <Alert status="error" variant={"top-accent"}>
           <AlertIcon />

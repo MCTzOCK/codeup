@@ -43,6 +43,7 @@ import {
   FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -76,6 +77,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Kurse - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <AdminContentsLayout>
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>

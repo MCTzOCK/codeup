@@ -24,6 +24,7 @@ import {
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import { useLoggedIn } from "@codeup/hooks";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
+import Head from "next/head";
 
 export default function PostView() {
   const router = useRouter();
@@ -57,6 +58,9 @@ export default function PostView() {
 
   return (
     <>
+      <Head>
+        <title>Forum Beitrag - CodeUp</title>
+      </Head>
       {!post ? (
         <Flex
           alignItems={"center"}

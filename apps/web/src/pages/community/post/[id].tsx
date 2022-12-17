@@ -15,6 +15,7 @@ import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import { useHasProfile } from "@codeup/hooks";
 import { PostCard } from "@codeup/components/community/post";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function PostView() {
   const router = useRouter();
@@ -59,6 +60,9 @@ export default function PostView() {
 
   return (
     <>
+      <Head>
+        <title>(Veraltet) Community Beitrag - CodeUp</title>
+      </Head>
       <Flex
         justifyContent={"center"}
         alignItems={"center"}

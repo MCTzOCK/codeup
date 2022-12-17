@@ -16,12 +16,16 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Error() {
   const router = useRouter();
 
   return (
     <>
+      <Head>
+        <title>Login Fehlgeschlagen - CodeUp</title>
+      </Head>
       <Alert status="error">
         <AlertIcon />
         <AlertTitle>Fehler beim Anmelden!</AlertTitle>

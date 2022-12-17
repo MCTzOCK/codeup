@@ -55,6 +55,7 @@ import html2canvas from "html2canvas";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import Head from "next/head";
 
 export default function CertificateEditor() {
   const router = useRouter();
@@ -209,563 +210,668 @@ export default function CertificateEditor() {
     React.useState<string>("");
 
   return (
-    <CreatorStudioLayout>
-      <Heading size={"xl"} textAlign={"center"} mt={8}>
-        Zertifikat Editor
-      </Heading>
+    <>
+      <Head>
+        <title>Zerifikat Editor - Creator Studio - CodeUp</title>
+      </Head>
+      <CreatorStudioLayout>
+        <Heading size={"xl"} textAlign={"center"} mt={8}>
+          Zertifikat Editor
+        </Heading>
 
-      <Stack w={"100%"} alignItems={"center"} justifyContent={"center"}>
-        <Box w={"70%"}>
-          <Flex
-            w={"100%"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            direction={"column"}
-          >
-            <FormControl maxW={"25%"} mt={8}>
-              <FormLabel>Mindestpunktzahl (in %)</FormLabel>
-              <Box pt={6} pb={2}>
-                <Slider
-                  aria-label="slider-ex-6"
-                  value={minPercentage}
-                  onChange={(val) => setMinPercentage(val)}
-                >
-                  <SliderMark value={25} {...labelStyles}>
-                    25%
-                  </SliderMark>
-                  <SliderMark value={50} {...labelStyles}>
-                    50%
-                  </SliderMark>
-                  <SliderMark value={75} {...labelStyles}>
-                    75%
-                  </SliderMark>
-                  <SliderMark
+        <Stack w={"100%"} alignItems={"center"} justifyContent={"center"}>
+          <Box w={"70%"}>
+            <Flex
+              w={"100%"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              direction={"column"}
+            >
+              <FormControl maxW={"25%"} mt={8}>
+                <FormLabel>Mindestpunktzahl (in %)</FormLabel>
+                <Box pt={6} pb={2}>
+                  <Slider
+                    aria-label="slider-ex-6"
                     value={minPercentage}
-                    textAlign="center"
-                    bg="blue.500"
-                    color="white"
-                    mt="-10"
-                    ml="-5"
-                    w="12"
+                    onChange={(val) => setMinPercentage(val)}
                   >
-                    {minPercentage}%
-                  </SliderMark>
-                  <SliderTrack>
-                    <SliderFilledTrack />
-                  </SliderTrack>
-                  <SliderThumb />
-                </Slider>
-              </Box>
-            </FormControl>
-
-            <Box w={"75%"}>
-              <Heading size={"lg"} textAlign={"center"} mt={8}>
-                Schritte
-              </Heading>
-
-              {steps.length === 0 ? (
-                <Box
-                  mt={8}
-                  bgColor={"gray.900"}
-                  w={"100%"}
-                  minH={"10vh"}
-                  rounded={"xl"}
-                >
-                  <Flex
-                    w={"100%"}
-                    h={"10vh"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    direction={"column"}
-                  >
-                    <Heading
-                      size={"md"}
-                      textAlign={"center"}
-                      color={"gray.200"}
+                    <SliderMark value={25} {...labelStyles}>
+                      25%
+                    </SliderMark>
+                    <SliderMark value={50} {...labelStyles}>
+                      50%
+                    </SliderMark>
+                    <SliderMark value={75} {...labelStyles}>
+                      75%
+                    </SliderMark>
+                    <SliderMark
+                      value={minPercentage}
+                      textAlign="center"
+                      bg="blue.500"
+                      color="white"
+                      mt="-10"
+                      ml="-5"
+                      w="12"
                     >
-                      Es wurden noch keine Schritte hinzugefügt.
-                    </Heading>
-                  </Flex>
+                      {minPercentage}%
+                    </SliderMark>
+                    <SliderTrack>
+                      <SliderFilledTrack />
+                    </SliderTrack>
+                    <SliderThumb />
+                  </Slider>
                 </Box>
-              ) : (
-                <>
-                  <DragDropContext
-                    onDragStart={() => setHidePlusButton(true)}
-                    onDragEnd={(result) => {
-                      setHidePlusButton(false);
+              </FormControl>
 
-                      if (!result.destination) return;
+              <Box w={"75%"}>
+                <Heading size={"lg"} textAlign={"center"} mt={8}>
+                  Schritte
+                </Heading>
 
-                      const items = Array.from(steps);
-
-                      const [reorderedItem] = items.splice(
-                        result.source.index,
-                        1
-                      );
-
-                      items.splice(result.destination.index, 0, reorderedItem);
-
-                      setSteps(items);
-                    }}
+                {steps.length === 0 ? (
+                  <Box
+                    mt={8}
+                    bgColor={"gray.900"}
+                    w={"100%"}
+                    minH={"10vh"}
+                    rounded={"xl"}
                   >
-                    <Droppable droppableId={"steps"}>
-                      {(provided, snapshot) => (
-                        <>
-                          <Box
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                            p={"2rem"}
-                          >
-                            {steps.map((step, index) => (
-                              <>
-                                <Draggable
-                                  key={step.step_title}
-                                  draggableId={step.step_title}
-                                  index={index}
-                                >
-                                  {(provided, snapshot) => (
-                                    <>
-                                      <Box
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        mt={8}
-                                        bgColor={"gray.900"}
-                                        w={"100%"}
-                                        minH={"10vh"}
-                                        rounded={"xl"}
-                                        p={"1.2rem"}
-                                      >
-                                        <Badge
-                                          color={
-                                            step.step_type === "MULTIPLE_CHOICE"
-                                              ? "green.400"
+                    <Flex
+                      w={"100%"}
+                      h={"10vh"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      direction={"column"}
+                    >
+                      <Heading
+                        size={"md"}
+                        textAlign={"center"}
+                        color={"gray.200"}
+                      >
+                        Es wurden noch keine Schritte hinzugefügt.
+                      </Heading>
+                    </Flex>
+                  </Box>
+                ) : (
+                  <>
+                    <DragDropContext
+                      onDragStart={() => setHidePlusButton(true)}
+                      onDragEnd={(result) => {
+                        setHidePlusButton(false);
+
+                        if (!result.destination) return;
+
+                        const items = Array.from(steps);
+
+                        const [reorderedItem] = items.splice(
+                          result.source.index,
+                          1
+                        );
+
+                        items.splice(
+                          result.destination.index,
+                          0,
+                          reorderedItem
+                        );
+
+                        setSteps(items);
+                      }}
+                    >
+                      <Droppable droppableId={"steps"}>
+                        {(provided, snapshot) => (
+                          <>
+                            <Box
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              p={"2rem"}
+                            >
+                              {steps.map((step, index) => (
+                                <>
+                                  <Draggable
+                                    key={step.step_title}
+                                    draggableId={step.step_title}
+                                    index={index}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <>
+                                        <Box
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          mt={8}
+                                          bgColor={"gray.900"}
+                                          w={"100%"}
+                                          minH={"10vh"}
+                                          rounded={"xl"}
+                                          p={"1.2rem"}
+                                        >
+                                          <Badge
+                                            color={
+                                              step.step_type ===
+                                              "MULTIPLE_CHOICE"
+                                                ? "green.400"
+                                                : step.step_type === "TEXT"
+                                                ? "blue.400"
+                                                : step.step_type ===
+                                                  "CODE_COMPARE"
+                                                ? "purple.400"
+                                                : "yellow.400"
+                                            }
+                                            ml={2}
+                                            mt={2}
+                                          >
+                                            {step.step_type ===
+                                            "MULTIPLE_CHOICE"
+                                              ? "Multiple Choice"
                                               : step.step_type === "TEXT"
-                                              ? "blue.400"
+                                              ? "Text"
                                               : step.step_type ===
                                                 "CODE_COMPARE"
-                                              ? "purple.400"
-                                              : "yellow.400"
-                                          }
-                                          ml={2}
-                                          mt={2}
-                                        >
-                                          {step.step_type === "MULTIPLE_CHOICE"
-                                            ? "Multiple Choice"
-                                            : step.step_type === "TEXT"
-                                            ? "Text"
-                                            : step.step_type === "CODE_COMPARE"
-                                            ? "Code Vergleich"
-                                            : "Code Check"}
-                                        </Badge>
-                                        <Flex
-                                          w={"100%"}
-                                          alignItems={"center"}
-                                          justifyContent={"space-between"}
-                                          direction={"row"}
-                                        >
-                                          <Heading
-                                            size={"md"}
-                                            textAlign={"center"}
-                                            color={"gray.200"}
-                                            ml={2}
+                                              ? "Code Vergleich"
+                                              : "Code Check"}
+                                          </Badge>
+                                          <Flex
+                                            w={"100%"}
+                                            alignItems={"center"}
+                                            justifyContent={"space-between"}
+                                            direction={"row"}
                                           >
-                                            {step.step_title}
-                                          </Heading>
-                                          <IconButton
-                                            aria-label="Delete Step"
-                                            icon={<FaTrash />}
-                                            colorScheme="red"
-                                            onClick={() => {
-                                              setSteps(
-                                                steps.filter(
-                                                  (s) =>
-                                                    s.step_title !==
-                                                    step.step_title
-                                                )
-                                              );
-                                            }}
-                                          />
-                                        </Flex>
-                                        {step.step_type ===
-                                        "MULTIPLE_CHOICE" ? (
-                                          <>
-                                            <Box
-                                              display={
-                                                hidePlusButton
-                                                  ? "none"
-                                                  : "inherit"
-                                              }
+                                            <Heading
+                                              size={"md"}
+                                              textAlign={"center"}
+                                              color={"gray.200"}
+                                              ml={2}
                                             >
-                                              <FormControl>
-                                                <FormLabel>Frage</FormLabel>
-                                                <Input
-                                                  defaultValue={
-                                                    step.multiple_choice
-                                                      ?.question || ""
-                                                  }
-                                                  onChange={(e) => {
-                                                    // @ts-ignore
-                                                    setSteps(
+                                              {step.step_title}
+                                            </Heading>
+                                            <IconButton
+                                              aria-label="Delete Step"
+                                              icon={<FaTrash />}
+                                              colorScheme="red"
+                                              onClick={() => {
+                                                setSteps(
+                                                  steps.filter(
+                                                    (s) =>
+                                                      s.step_title !==
+                                                      step.step_title
+                                                  )
+                                                );
+                                              }}
+                                            />
+                                          </Flex>
+                                          {step.step_type ===
+                                          "MULTIPLE_CHOICE" ? (
+                                            <>
+                                              <Box
+                                                display={
+                                                  hidePlusButton
+                                                    ? "none"
+                                                    : "inherit"
+                                                }
+                                              >
+                                                <FormControl>
+                                                  <FormLabel>Frage</FormLabel>
+                                                  <Input
+                                                    defaultValue={
+                                                      step.multiple_choice
+                                                        ?.question || ""
+                                                    }
+                                                    onChange={(e) => {
                                                       // @ts-ignore
-                                                      steps.map((s) =>
-                                                        s.step_title ===
-                                                        step.step_title
-                                                          ? {
-                                                              ...s,
-                                                              multiple_choice: {
-                                                                ...s.multiple_choice,
-                                                                question:
-                                                                  e.target
-                                                                    .value,
-                                                              },
-                                                            }
-                                                          : s
-                                                      )
-                                                    );
-                                                  }}
-                                                />
-                                              </FormControl>
-                                              <Grid
-                                                templateColumns={
-                                                  "repeat(2, 1fr)"
-                                                }
-                                                gap={6}
-                                                mt={4}
-                                              >
-                                                {(
-                                                  step.multiple_choice
-                                                    ?.answers || []
-                                                ).map((answer, index) => (
-                                                  <>
-                                                    <FormControl>
-                                                      <FormLabel>
-                                                        Antwort {index + 1}
-                                                      </FormLabel>
-                                                      <Input
-                                                        defaultValue={
-                                                          answer.answer
-                                                        }
-                                                        onChange={(e) => {
-                                                          setSteps(
-                                                            // @ts-ignore
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    multiple_choice:
-                                                                      {
-                                                                        ...s.multiple_choice,
-                                                                        answers:
-                                                                          s.multiple_choice?.answers.map(
-                                                                            (
-                                                                              a,
-                                                                              i
-                                                                            ) =>
-                                                                              i ===
-                                                                              index
-                                                                                ? {
-                                                                                    ...a,
-                                                                                    answer:
-                                                                                      e
-                                                                                        .target
-                                                                                        .value,
-                                                                                  }
-                                                                                : a
-                                                                          ),
-                                                                      },
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        }}
-                                                      />
-                                                    </FormControl>
-                                                    <FormControl>
-                                                      <FormLabel>
-                                                        Ist die Antwort richtig?
-                                                      </FormLabel>
-                                                      <Switch
-                                                        isChecked={
-                                                          answer.correct
-                                                        }
-                                                        onChange={() => {
-                                                          setSteps(
-                                                            // @ts-ignore
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    multiple_choice:
-                                                                      {
-                                                                        ...s.multiple_choice,
-                                                                        answers:
-                                                                          s.multiple_choice?.answers.map(
-                                                                            (
-                                                                              a,
-                                                                              i
-                                                                            ) =>
-                                                                              i ===
-                                                                              index
-                                                                                ? {
-                                                                                    ...a,
-                                                                                    correct:
-                                                                                      !a.correct,
-                                                                                  }
-                                                                                : a
-                                                                          ),
-                                                                      },
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        }}
-                                                      />
-                                                    </FormControl>
-                                                  </>
-                                                ))}
-                                              </Grid>
-                                            </Box>
-                                          </>
-                                        ) : null}
-                                        {step.step_type === "TEXT" && (
-                                          <>
-                                            <Box
-                                              display={
-                                                hidePlusButton
-                                                  ? "none"
-                                                  : "inherit"
-                                              }
-                                            >
-                                              <Grid
-                                                templateColumns={
-                                                  "repeat(3, 1fr)"
-                                                }
-                                                gap={6}
-                                                mt={4}
-                                              >
-                                                {step.text_parts?.map((t) => (
-                                                  <>
-                                                    <FormControl mt={1}>
-                                                      <FormLabel>
-                                                        {t.type === "INPUT"
-                                                          ? "Eingabefeld"
-                                                          : "Text"}
-                                                      </FormLabel>
-                                                      <Input
-                                                        defaultValue={t.value}
-                                                        onChange={(e) => {
-                                                          // use indexes instead of id
-                                                          setSteps(
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    text_parts:
-                                                                      s.text_parts?.map(
-                                                                        (t2) =>
-                                                                          t2.id ===
-                                                                          t.id
-                                                                            ? {
-                                                                                ...t2,
-                                                                                value:
-                                                                                  e
-                                                                                    .target
-                                                                                    .value,
-                                                                              }
-                                                                            : t2
-                                                                      ),
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        }}
-                                                      />
-                                                    </FormControl>
-                                                    <FormControl mt={1}>
-                                                      <FormLabel>
-                                                        Eingabefeld
-                                                      </FormLabel>
-                                                      <Switch
-                                                        isChecked={
-                                                          t.type === "INPUT"
-                                                        }
-                                                        onChange={() => {
-                                                          setSteps(
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    text_parts:
-                                                                      s.text_parts?.map(
-                                                                        (t2) =>
-                                                                          t2.value ===
-                                                                          t.value
-                                                                            ? {
-                                                                                ...t2,
-                                                                                type:
-                                                                                  t2.type ===
-                                                                                  "INPUT"
-                                                                                    ? "TEXT"
-                                                                                    : "INPUT",
-                                                                              }
-                                                                            : t2
-                                                                      ),
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        }}
-                                                      />
-                                                    </FormControl>
-                                                    <FormControl mt={1}>
-                                                      <FormLabel>
-                                                        Aktion
-                                                      </FormLabel>
-                                                      <Button
-                                                        colorScheme="red"
-                                                        onClick={() => {
-                                                          setSteps(
-                                                            steps.map((s) =>
-                                                              s.step_title ===
-                                                              step.step_title
-                                                                ? {
-                                                                    ...s,
-                                                                    text_parts:
-                                                                      s.text_parts?.filter(
-                                                                        (t2) =>
-                                                                          t2.value !==
-                                                                          t.value
-                                                                      ),
-                                                                  }
-                                                                : s
-                                                            )
-                                                          );
-                                                        }}
-                                                      >
-                                                        Löschen
-                                                      </Button>
-                                                    </FormControl>
-                                                  </>
-                                                ))}
-                                                <Button
-                                                  colorScheme="green"
-                                                  onClick={() => {
-                                                    setSteps(
-                                                      steps.map((s) =>
-                                                        s.step_title ===
-                                                        step.step_title
-                                                          ? {
-                                                              ...s,
-                                                              text_parts:
-                                                                s.text_parts?.concat(
+                                                      setSteps(
+                                                        // @ts-ignore
+                                                        steps.map((s) =>
+                                                          s.step_title ===
+                                                          step.step_title
+                                                            ? {
+                                                                ...s,
+                                                                multiple_choice:
                                                                   {
-                                                                    type: "TEXT",
-                                                                    value:
-                                                                      "Text " +
-                                                                      randomInt(
+                                                                    ...s.multiple_choice,
+                                                                    question:
+                                                                      e.target
+                                                                        .value,
+                                                                  },
+                                                              }
+                                                            : s
+                                                        )
+                                                      );
+                                                    }}
+                                                  />
+                                                </FormControl>
+                                                <Grid
+                                                  templateColumns={
+                                                    "repeat(2, 1fr)"
+                                                  }
+                                                  gap={6}
+                                                  mt={4}
+                                                >
+                                                  {(
+                                                    step.multiple_choice
+                                                      ?.answers || []
+                                                  ).map((answer, index) => (
+                                                    <>
+                                                      <FormControl>
+                                                        <FormLabel>
+                                                          Antwort {index + 1}
+                                                        </FormLabel>
+                                                        <Input
+                                                          defaultValue={
+                                                            answer.answer
+                                                          }
+                                                          onChange={(e) => {
+                                                            setSteps(
+                                                              // @ts-ignore
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      multiple_choice:
+                                                                        {
+                                                                          ...s.multiple_choice,
+                                                                          answers:
+                                                                            s.multiple_choice?.answers.map(
+                                                                              (
+                                                                                a,
+                                                                                i
+                                                                              ) =>
+                                                                                i ===
+                                                                                index
+                                                                                  ? {
+                                                                                      ...a,
+                                                                                      answer:
+                                                                                        e
+                                                                                          .target
+                                                                                          .value,
+                                                                                    }
+                                                                                  : a
+                                                                            ),
+                                                                        },
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          }}
+                                                        />
+                                                      </FormControl>
+                                                      <FormControl>
+                                                        <FormLabel>
+                                                          Ist die Antwort
+                                                          richtig?
+                                                        </FormLabel>
+                                                        <Switch
+                                                          isChecked={
+                                                            answer.correct
+                                                          }
+                                                          onChange={() => {
+                                                            setSteps(
+                                                              // @ts-ignore
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      multiple_choice:
+                                                                        {
+                                                                          ...s.multiple_choice,
+                                                                          answers:
+                                                                            s.multiple_choice?.answers.map(
+                                                                              (
+                                                                                a,
+                                                                                i
+                                                                              ) =>
+                                                                                i ===
+                                                                                index
+                                                                                  ? {
+                                                                                      ...a,
+                                                                                      correct:
+                                                                                        !a.correct,
+                                                                                    }
+                                                                                  : a
+                                                                            ),
+                                                                        },
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          }}
+                                                        />
+                                                      </FormControl>
+                                                    </>
+                                                  ))}
+                                                </Grid>
+                                              </Box>
+                                            </>
+                                          ) : null}
+                                          {step.step_type === "TEXT" && (
+                                            <>
+                                              <Box
+                                                display={
+                                                  hidePlusButton
+                                                    ? "none"
+                                                    : "inherit"
+                                                }
+                                              >
+                                                <Grid
+                                                  templateColumns={
+                                                    "repeat(3, 1fr)"
+                                                  }
+                                                  gap={6}
+                                                  mt={4}
+                                                >
+                                                  {step.text_parts?.map((t) => (
+                                                    <>
+                                                      <FormControl mt={1}>
+                                                        <FormLabel>
+                                                          {t.type === "INPUT"
+                                                            ? "Eingabefeld"
+                                                            : "Text"}
+                                                        </FormLabel>
+                                                        <Input
+                                                          defaultValue={t.value}
+                                                          onChange={(e) => {
+                                                            // use indexes instead of id
+                                                            setSteps(
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      text_parts:
+                                                                        s.text_parts?.map(
+                                                                          (
+                                                                            t2
+                                                                          ) =>
+                                                                            t2.id ===
+                                                                            t.id
+                                                                              ? {
+                                                                                  ...t2,
+                                                                                  value:
+                                                                                    e
+                                                                                      .target
+                                                                                      .value,
+                                                                                }
+                                                                              : t2
+                                                                        ),
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          }}
+                                                        />
+                                                      </FormControl>
+                                                      <FormControl mt={1}>
+                                                        <FormLabel>
+                                                          Eingabefeld
+                                                        </FormLabel>
+                                                        <Switch
+                                                          isChecked={
+                                                            t.type === "INPUT"
+                                                          }
+                                                          onChange={() => {
+                                                            setSteps(
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      text_parts:
+                                                                        s.text_parts?.map(
+                                                                          (
+                                                                            t2
+                                                                          ) =>
+                                                                            t2.value ===
+                                                                            t.value
+                                                                              ? {
+                                                                                  ...t2,
+                                                                                  type:
+                                                                                    t2.type ===
+                                                                                    "INPUT"
+                                                                                      ? "TEXT"
+                                                                                      : "INPUT",
+                                                                                }
+                                                                              : t2
+                                                                        ),
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          }}
+                                                        />
+                                                      </FormControl>
+                                                      <FormControl mt={1}>
+                                                        <FormLabel>
+                                                          Aktion
+                                                        </FormLabel>
+                                                        <Button
+                                                          colorScheme="red"
+                                                          onClick={() => {
+                                                            setSteps(
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      text_parts:
+                                                                        s.text_parts?.filter(
+                                                                          (
+                                                                            t2
+                                                                          ) =>
+                                                                            t2.value !==
+                                                                            t.value
+                                                                        ),
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          }}
+                                                        >
+                                                          Löschen
+                                                        </Button>
+                                                      </FormControl>
+                                                    </>
+                                                  ))}
+                                                  <Button
+                                                    colorScheme="green"
+                                                    onClick={() => {
+                                                      setSteps(
+                                                        steps.map((s) =>
+                                                          s.step_title ===
+                                                          step.step_title
+                                                            ? {
+                                                                ...s,
+                                                                text_parts:
+                                                                  s.text_parts?.concat(
+                                                                    {
+                                                                      type: "TEXT",
+                                                                      value:
+                                                                        "Text " +
+                                                                        randomInt(
+                                                                          1000,
+                                                                          9999
+                                                                        ),
+                                                                      id: randomInt(
                                                                         1000,
                                                                         9999
                                                                       ),
-                                                                    id: randomInt(
-                                                                      1000,
-                                                                      9999
-                                                                    ),
-                                                                  }
-                                                                ),
-                                                            }
-                                                          : s
-                                                      )
-                                                    );
-                                                  }}
-                                                >
-                                                  Hinzufügen
-                                                </Button>
-                                              </Grid>
-                                            </Box>
-                                          </>
-                                        )}
-                                        {step.step_type === "CODE_COMPARE" && (
-                                          <>
-                                            <Flex
-                                              direction={"row"}
-                                              w={"100%"}
-                                              h={"fit-content"}
-                                              paddingInline={10}
-                                              paddingBlock={5}
-                                              gap={40}
-                                            >
-                                              <Box flex={"100%"}>
-                                                <Image
-                                                  src={
-                                                    step.code_compare?.output
-                                                  }
-                                                  alt="Output"
-                                                  _hover={{
-                                                    opacity: 0.5,
-                                                  }}
-                                                  onClick={() => {
-                                                    // upload an image
-                                                    const input =
-                                                      document.createElement(
-                                                        "input"
+                                                                    }
+                                                                  ),
+                                                              }
+                                                            : s
+                                                        )
                                                       );
-                                                    input.type = "file";
-                                                    input.accept = "image/*";
-                                                    input.onchange = (e) => {
-                                                      const base64EncodedImage =
-                                                        (
-                                                          (e.target as any)
-                                                            .files as any
-                                                        )[0];
-                                                      const reader =
-                                                        new FileReader();
-                                                      reader.readAsDataURL(
-                                                        base64EncodedImage
-                                                      );
-                                                      reader.onloadend = () => {
-                                                        setSteps(
-                                                          // @ts-ignore
-                                                          steps.map((s) =>
-                                                            s.step_title ===
-                                                            step.step_title
-                                                              ? {
-                                                                  ...s,
-                                                                  code_compare:
-                                                                    {
-                                                                      ...s.code_compare,
-                                                                      output:
-                                                                        reader.result,
-                                                                    },
-                                                                }
-                                                              : s
-                                                          )
+                                                    }}
+                                                  >
+                                                    Hinzufügen
+                                                  </Button>
+                                                </Grid>
+                                              </Box>
+                                            </>
+                                          )}
+                                          {step.step_type ===
+                                            "CODE_COMPARE" && (
+                                            <>
+                                              <Flex
+                                                direction={"row"}
+                                                w={"100%"}
+                                                h={"fit-content"}
+                                                paddingInline={10}
+                                                paddingBlock={5}
+                                                gap={40}
+                                              >
+                                                <Box flex={"100%"}>
+                                                  <Image
+                                                    src={
+                                                      step.code_compare?.output
+                                                    }
+                                                    alt="Output"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
+                                                    onClick={() => {
+                                                      // upload an image
+                                                      const input =
+                                                        document.createElement(
+                                                          "input"
                                                         );
+                                                      input.type = "file";
+                                                      input.accept = "image/*";
+                                                      input.onchange = (e) => {
+                                                        const base64EncodedImage =
+                                                          (
+                                                            (e.target as any)
+                                                              .files as any
+                                                          )[0];
+                                                        const reader =
+                                                          new FileReader();
+                                                        reader.readAsDataURL(
+                                                          base64EncodedImage
+                                                        );
+                                                        reader.onloadend =
+                                                          () => {
+                                                            setSteps(
+                                                              // @ts-ignore
+                                                              steps.map((s) =>
+                                                                s.step_title ===
+                                                                step.step_title
+                                                                  ? {
+                                                                      ...s,
+                                                                      code_compare:
+                                                                        {
+                                                                          ...s.code_compare,
+                                                                          output:
+                                                                            reader.result,
+                                                                        },
+                                                                    }
+                                                                  : s
+                                                              )
+                                                            );
+                                                          };
                                                       };
-                                                    };
-                                                    input.click();
-                                                  }}
-                                                />
-                                                <Image
-                                                  src={
-                                                    step.code_compare?.code_a
-                                                      .screenshot
-                                                  }
-                                                  alt="Code A"
-                                                  _hover={{
-                                                    opacity: 0.5,
-                                                  }}
-                                                  onClick={() => {
-                                                    // @ts-ignore
-                                                    window._temp_screenShot_callback =
-                                                      (data: string) => {
-                                                        // @ts-ignore
-                                                        delete window._temp_screenShot_callback;
-                                                        console.log(2);
+                                                      input.click();
+                                                    }}
+                                                  />
+                                                  <Image
+                                                    src={
+                                                      step.code_compare?.code_a
+                                                        .screenshot
+                                                    }
+                                                    alt="Code A"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
+                                                    onClick={() => {
+                                                      // @ts-ignore
+                                                      window._temp_screenShot_callback =
+                                                        (data: string) => {
+                                                          // @ts-ignore
+                                                          delete window._temp_screenShot_callback;
+                                                          console.log(2);
+                                                          setSteps(
+                                                            // @ts-ignore
+                                                            steps.map((s) =>
+                                                              s.step_title ===
+                                                              step.step_title
+                                                                ? {
+                                                                    ...s,
+                                                                    code_compare:
+                                                                      {
+                                                                        ...s.code_compare,
+                                                                        code_a:
+                                                                          {
+                                                                            ...s
+                                                                              .code_compare
+                                                                              ?.code_a,
+                                                                            screenshot:
+                                                                              data,
+                                                                          },
+                                                                      },
+                                                                  }
+                                                                : s
+                                                            )
+                                                          );
+                                                        };
+                                                      onOpen();
+                                                      setMonacoEditorContent(
+                                                        ""
+                                                      );
+                                                    }}
+                                                  />
+                                                  <Image
+                                                    src={
+                                                      step.code_compare?.code_b
+                                                        .screenshot
+                                                    }
+                                                    alt="Code B"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
+                                                    onClick={() => {
+                                                      // @ts-ignore
+                                                      window._temp_screenShot_callback =
+                                                        (data: string) => {
+                                                          // @ts-ignore
+                                                          delete window._temp_screenShot_callback;
+                                                          console.log(2);
+                                                          setSteps(
+                                                            // @ts-ignore
+                                                            steps.map((s) =>
+                                                              s.step_title ===
+                                                              step.step_title
+                                                                ? {
+                                                                    ...s,
+                                                                    code_compare:
+                                                                      {
+                                                                        ...s.code_compare,
+                                                                        code_b:
+                                                                          {
+                                                                            ...s
+                                                                              .code_compare
+                                                                              ?.code_b,
+                                                                            screenshot:
+                                                                              data,
+                                                                          },
+                                                                      },
+                                                                  }
+                                                                : s
+                                                            )
+                                                          );
+                                                        };
+                                                      onOpen();
+                                                      setMonacoEditorContent(
+                                                        ""
+                                                      );
+                                                    }}
+                                                  />
+                                                  <ButtonGroup
+                                                    mt={2}
+                                                    w={"100%"}
+                                                  >
+                                                    <Button
+                                                      colorScheme={"blue"}
+                                                      w={"100%"}
+                                                      onClick={() => {
                                                         setSteps(
                                                           // @ts-ignore
                                                           steps.map((s) =>
@@ -780,140 +886,106 @@ export default function CertificateEditor() {
                                                                         ...s
                                                                           .code_compare
                                                                           ?.code_a,
-                                                                        screenshot:
-                                                                          data,
+                                                                        correct:
+                                                                          !s
+                                                                            .code_compare
+                                                                            ?.code_a
+                                                                            .correct,
                                                                       },
-                                                                    },
-                                                                }
-                                                              : s
-                                                          )
-                                                        );
-                                                      };
-                                                    onOpen();
-                                                    setMonacoEditorContent("");
-                                                  }}
-                                                />
-                                                <Image
-                                                  src={
-                                                    step.code_compare?.code_b
-                                                      .screenshot
-                                                  }
-                                                  alt="Code B"
-                                                  _hover={{
-                                                    opacity: 0.5,
-                                                  }}
-                                                  onClick={() => {
-                                                    // @ts-ignore
-                                                    window._temp_screenShot_callback =
-                                                      (data: string) => {
-                                                        // @ts-ignore
-                                                        delete window._temp_screenShot_callback;
-                                                        console.log(2);
-                                                        setSteps(
-                                                          // @ts-ignore
-                                                          steps.map((s) =>
-                                                            s.step_title ===
-                                                            step.step_title
-                                                              ? {
-                                                                  ...s,
-                                                                  code_compare:
-                                                                    {
-                                                                      ...s.code_compare,
                                                                       code_b: {
                                                                         ...s
                                                                           .code_compare
                                                                           ?.code_b,
-                                                                        screenshot:
-                                                                          data,
+                                                                        correct:
+                                                                          !s
+                                                                            .code_compare
+                                                                            ?.code_b
+                                                                            .correct,
                                                                       },
                                                                     },
                                                                 }
                                                               : s
                                                           )
                                                         );
-                                                      };
-                                                    onOpen();
-                                                    setMonacoEditorContent("");
-                                                  }}
-                                                />
-                                                <ButtonGroup mt={2} w={"100%"}>
-                                                  <Button
-                                                    colorScheme={"blue"}
-                                                    w={"100%"}
+                                                      }}
+                                                    >
+                                                      Richtig:&nbsp;
+                                                      {step.code_compare?.code_a
+                                                        .correct
+                                                        ? "A"
+                                                        : "B"}
+                                                    </Button>
+                                                  </ButtonGroup>
+                                                </Box>
+                                              </Flex>
+                                            </>
+                                          )}
+                                          {step.step_type === "CODE_CHECK" && (
+                                            <>
+                                              <Flex
+                                                direction={"row"}
+                                                w={"100%"}
+                                                h={"fit-content"}
+                                                paddingInline={10}
+                                                paddingBlock={5}
+                                                gap={40}
+                                              >
+                                                <Box flex={"100%"}>
+                                                  <Image
+                                                    src={
+                                                      step.code_check
+                                                        ?.screenshot
+                                                    }
+                                                    alt="Code"
+                                                    _hover={{
+                                                      opacity: 0.5,
+                                                    }}
                                                     onClick={() => {
-                                                      setSteps(
-                                                        // @ts-ignore
-                                                        steps.map((s) =>
-                                                          s.step_title ===
-                                                          step.step_title
-                                                            ? {
-                                                                ...s,
-                                                                code_compare: {
-                                                                  ...s.code_compare,
-                                                                  code_a: {
-                                                                    ...s
-                                                                      .code_compare
-                                                                      ?.code_a,
-                                                                    correct:
-                                                                      !s
-                                                                        .code_compare
-                                                                        ?.code_a
-                                                                        .correct,
-                                                                  },
-                                                                  code_b: {
-                                                                    ...s
-                                                                      .code_compare
-                                                                      ?.code_b,
-                                                                    correct:
-                                                                      !s
-                                                                        .code_compare
-                                                                        ?.code_b
-                                                                        .correct,
-                                                                  },
-                                                                },
-                                                              }
-                                                            : s
-                                                        )
+                                                      // @ts-ignore
+                                                      window._temp_screenShot_callback =
+                                                        (data: string) => {
+                                                          // @ts-ignore
+                                                          delete window._temp_screenShot_callback;
+                                                          console.log(2);
+                                                          setSteps(
+                                                            // @ts-ignore
+                                                            steps.map((s) =>
+                                                              s.step_title ===
+                                                              step.step_title
+                                                                ? {
+                                                                    ...s,
+                                                                    code_check:
+                                                                      {
+                                                                        correct:
+                                                                          s
+                                                                            .code_check
+                                                                            ?.correct,
+                                                                        screenshot:
+                                                                          data,
+                                                                      },
+                                                                  }
+                                                                : s
+                                                            )
+                                                          );
+                                                        };
+                                                      onOpen();
+                                                      setMonacoEditorContent(
+                                                        ""
                                                       );
                                                     }}
+                                                  />
+                                                  <ButtonGroup
+                                                    mt={2}
+                                                    w={"100%"}
                                                   >
-                                                    Richtig:&nbsp;
-                                                    {step.code_compare?.code_a
-                                                      .correct
-                                                      ? "A"
-                                                      : "B"}
-                                                  </Button>
-                                                </ButtonGroup>
-                                              </Box>
-                                            </Flex>
-                                          </>
-                                        )}
-                                        {step.step_type === "CODE_CHECK" && (
-                                          <>
-                                            <Flex
-                                              direction={"row"}
-                                              w={"100%"}
-                                              h={"fit-content"}
-                                              paddingInline={10}
-                                              paddingBlock={5}
-                                              gap={40}
-                                            >
-                                              <Box flex={"100%"}>
-                                                <Image
-                                                  src={
-                                                    step.code_check?.screenshot
-                                                  }
-                                                  alt="Code"
-                                                  _hover={{
-                                                    opacity: 0.5,
-                                                  }}
-                                                  onClick={() => {
-                                                    // @ts-ignore
-                                                    window._temp_screenShot_callback =
-                                                      (data: string) => {
-                                                        // @ts-ignore
-                                                        delete window._temp_screenShot_callback;
-                                                        console.log(2);
+                                                    <Button
+                                                      colorScheme={
+                                                        step.code_check?.correct
+                                                          ? "green"
+                                                          : "red"
+                                                      }
+                                                      w={"100%"}
+                                                      onClick={() => {
                                                         setSteps(
                                                           // @ts-ignore
                                                           steps.map((s) =>
@@ -922,318 +994,289 @@ export default function CertificateEditor() {
                                                               ? {
                                                                   ...s,
                                                                   code_check: {
-                                                                    correct:
+                                                                    screenshot:
                                                                       s
                                                                         .code_check
+                                                                        ?.screenshot,
+                                                                    correct:
+                                                                      !s
+                                                                        .code_check
                                                                         ?.correct,
-                                                                    screenshot:
-                                                                      data,
                                                                   },
                                                                 }
                                                               : s
                                                           )
                                                         );
-                                                      };
-                                                    onOpen();
-                                                    setMonacoEditorContent("");
-                                                  }}
-                                                />
-                                                <ButtonGroup mt={2} w={"100%"}>
-                                                  <Button
-                                                    colorScheme={
-                                                      step.code_check?.correct
-                                                        ? "green"
-                                                        : "red"
-                                                    }
-                                                    w={"100%"}
-                                                    onClick={() => {
-                                                      setSteps(
-                                                        // @ts-ignore
-                                                        steps.map((s) =>
-                                                          s.step_title ===
-                                                          step.step_title
-                                                            ? {
-                                                                ...s,
-                                                                code_check: {
-                                                                  screenshot:
-                                                                    s.code_check
-                                                                      ?.screenshot,
-                                                                  correct:
-                                                                    !s
-                                                                      .code_check
-                                                                      ?.correct,
-                                                                },
-                                                              }
-                                                            : s
-                                                        )
-                                                      );
-                                                    }}
-                                                  >
-                                                    {step.code_check?.correct
-                                                      ? "Richtig"
-                                                      : "Falsch"}
-                                                  </Button>
-                                                </ButtonGroup>
-                                              </Box>
-                                            </Flex>
-                                          </>
-                                        )}
-                                      </Box>
-                                    </>
-                                  )}
-                                </Draggable>
-                              </>
-                            ))}
-                          </Box>
-                        </>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </>
-              )}
+                                                      }}
+                                                    >
+                                                      {step.code_check?.correct
+                                                        ? "Richtig"
+                                                        : "Falsch"}
+                                                    </Button>
+                                                  </ButtonGroup>
+                                                </Box>
+                                              </Flex>
+                                            </>
+                                          )}
+                                        </Box>
+                                      </>
+                                    )}
+                                  </Draggable>
+                                </>
+                              ))}
+                            </Box>
+                          </>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  </>
+                )}
 
-              <CodeUpModal
-                onOpen={onOpen}
-                onClose={onClose}
-                isOpen={isOpen}
-                title={"Code Block Erstellen"}
-                customSize={["6xl"]}
-              >
-                <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
-                  {!monacoEditorLanguage && (
-                    <InputGroup w={"100%"} overflow={"auto"} mb={"2rem"}>
-                      <InputLeftElement>
-                        <FaCode />
-                      </InputLeftElement>
-                      <Input
-                        placeholder={"Programmiersprache eingeben..."}
-                        w={"100%"}
-                        id={"codeup-code-block-language"}
-                      />
-                      <Button
-                        ml={2}
-                        colorScheme={"green"}
-                        boxShadow={"2xl"}
-                        onClick={() => {
-                          // remove monaco editor if exists
-                          if (monacoEditorHook) {
-                            monacoEditorHook.dispose();
-                          }
-
-                          // set language
-                          setMonacoEditorLanguage(
-                            (
-                              document.getElementById(
-                                "codeup-code-block-language"
-                              ) as HTMLInputElement
-                            )?.value || ""
-                          );
-                        }}
-                      >
-                        Erstellen
-                      </Button>
-                    </InputGroup>
-                  )}
-                  {monacoEditorLanguage && (
-                    <>
-                      <Box id={"codeup_code_image_creator_monaco"}>
-                        <Editor
-                          defaultLanguage={monacoEditorLanguage}
-                          defaultValue={monacoEditorContent}
-                          onMount={(editor, monaco) => {
-                            if (editor && monaco) {
-                              setMonacoHook(monaco);
-                              setMonacoEditorHook(editor);
-                            }
-                          }}
-                          onChange={(value, ev) => {
-                            setMonacoEditorContent(value || "");
-                          }}
-                          theme={"vs-dark"}
-                          height={"40vh"}
-                          options={{
-                            fontSize: 20,
-                            minimap: {
-                              enabled: false,
-                            },
-                            scrollbar: {
-                              scrollByPage: true,
-                            },
-                          }}
+                <CodeUpModal
+                  onOpen={onOpen}
+                  onClose={onClose}
+                  isOpen={isOpen}
+                  title={"Code Block Erstellen"}
+                  customSize={["6xl"]}
+                >
+                  <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
+                    {!monacoEditorLanguage && (
+                      <InputGroup w={"100%"} overflow={"auto"} mb={"2rem"}>
+                        <InputLeftElement>
+                          <FaCode />
+                        </InputLeftElement>
+                        <Input
+                          placeholder={"Programmiersprache eingeben..."}
+                          w={"100%"}
+                          id={"codeup-code-block-language"}
                         />
-                      </Box>
-                    </>
-                  )}
-                  {monacoEditorLanguage && (
-                    <ButtonGroup w={"100%"} mt={"2rem"}>
-                      <Button
-                        leftIcon={<FaArrowsAlt />}
-                        w={"100%"}
-                        colorScheme={"red"}
-                        onClick={() => {
-                          setMonacoEditorLanguage(null);
-                        }}
-                      >
-                        Sprache wechseln
-                      </Button>
-                      <Button
-                        colorScheme={"green"}
-                        w={"100%"}
-                        leftIcon={<FaCamera />}
-                        onClick={async () => {
-                          const i = await html2canvas(
-                            document.getElementsByClassName(
-                              "monaco-editor"
-                            )[0] as HTMLElement
-                          );
+                        <Button
+                          ml={2}
+                          colorScheme={"green"}
+                          boxShadow={"2xl"}
+                          onClick={() => {
+                            // remove monaco editor if exists
+                            if (monacoEditorHook) {
+                              monacoEditorHook.dispose();
+                            }
 
-                          // @ts-ignore
-                          window._temp_screenShot_callback(
-                            i.toDataURL("image/png")
-                          );
-
-                          onClose();
-                        }}
-                      >
-                        Screenshots erstellen
-                      </Button>
-                    </ButtonGroup>
-                  )}
-                </Box>
-              </CodeUpModal>
-
-              <Popover>
-                <PopoverTrigger>
-                  <Box
-                    mt={8}
-                    mb={8}
-                    bgColor={"green.200"}
-                    w={"100%"}
-                    minH={"10vh"}
-                    rounded={"xl"}
-                    _hover={{
-                      cursor: "pointer",
-                      shadow: "2xl",
-                      bgColor: "green.100",
-                    }}
-                    display={hidePlusButton ? "none" : "inherit"}
-                  >
-                    <Flex
-                      w={"100%"}
-                      h={"10vh"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      direction={"column"}
-                    >
-                      <FaPlus size={64} />
-                    </Flex>
-                  </Box>
-                </PopoverTrigger>
-                <PopoverContent bgColor={"black"}>
-                  <PopoverArrow bgColor={"black"} />
-                  <PopoverCloseButton />
-                  <PopoverHeader>Neuer Schritt</PopoverHeader>
-                  <PopoverBody>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-
-                        const form = e.target as HTMLFormElement;
-
-                        const data = new FormData(form);
-
-                        const title = data.get("step_title") as string;
-                        const type = data.get("new_step_step_type") as
-                          | "MULTIPLE_CHOICE"
-                          | "TEXT"
-                          | "CODE_COMPARE"
-                          | "CODE_CHECK";
-
-                        // IF title EXISTS return
-                        if (steps.find((step) => step.step_title === title))
-                          return;
-
-                        let step = {};
-
-                        switch (type) {
-                          case "MULTIPLE_CHOICE":
-                            step = new Builders.MultipleChoiceBuilder()
-                              .setTitle(title)
-                              .setQuestion("Frage")
-                              .addAnswer("Antwort 1", true)
-                              .addAnswer("Antwort 2", false)
-                              .addAnswer("Antwort 3", false)
-                              .addAnswer("Antwort 4", false)
-                              .build();
-                            break;
-                          case "TEXT":
-                            step = new Builders.TextBuilder()
-                              .setTitle(title)
-                              .addText("Text " + randomInt(1000, 9999))
-                              .addInput("Eingabe " + randomInt(1000, 9999))
-                              .build();
+                            // set language
+                            setMonacoEditorLanguage(
+                              (
+                                document.getElementById(
+                                  "codeup-code-block-language"
+                                ) as HTMLInputElement
+                              )?.value || ""
+                            );
+                          }}
+                        >
+                          Erstellen
+                        </Button>
+                      </InputGroup>
+                    )}
+                    {monacoEditorLanguage && (
+                      <>
+                        <Box id={"codeup_code_image_creator_monaco"}>
+                          <Editor
+                            defaultLanguage={monacoEditorLanguage}
+                            defaultValue={monacoEditorContent}
+                            onMount={(editor, monaco) => {
+                              if (editor && monaco) {
+                                setMonacoHook(monaco);
+                                setMonacoEditorHook(editor);
+                              }
+                            }}
+                            onChange={(value, ev) => {
+                              setMonacoEditorContent(value || "");
+                            }}
+                            theme={"vs-dark"}
+                            height={"40vh"}
+                            options={{
+                              fontSize: 20,
+                              minimap: {
+                                enabled: false,
+                              },
+                              scrollbar: {
+                                scrollByPage: true,
+                              },
+                            }}
+                          />
+                        </Box>
+                      </>
+                    )}
+                    {monacoEditorLanguage && (
+                      <ButtonGroup w={"100%"} mt={"2rem"}>
+                        <Button
+                          leftIcon={<FaArrowsAlt />}
+                          w={"100%"}
+                          colorScheme={"red"}
+                          onClick={() => {
+                            setMonacoEditorLanguage(null);
+                          }}
+                        >
+                          Sprache wechseln
+                        </Button>
+                        <Button
+                          colorScheme={"green"}
+                          w={"100%"}
+                          leftIcon={<FaCamera />}
+                          onClick={async () => {
+                            const i = await html2canvas(
+                              document.getElementsByClassName(
+                                "monaco-editor"
+                              )[0] as HTMLElement
+                            );
 
                             // @ts-ignore
-                            step.text_parts = step.text_parts?.map((t) => ({
-                              ...t,
-                              id: randomInt(1000, 9999),
-                            }));
-                            break;
-                          case "CODE_COMPARE":
-                            step = new Builders.CodeCompareBuilder()
-                              .setTitle(title)
-                              .setCodeA("Code A", true)
-                              .setCodeB("Code B", false)
-                              .setOutput("Ausgabe")
-                              .build();
-                            break;
-                          case "CODE_CHECK":
-                            step = new Builders.CodeCheckBuilder()
-                              .setTitle(title)
-                              .setCodeA("Code A", true)
-                              .setCodeB("Code B", false)
-                              .build();
-                            break;
-                          default:
-                            console.log(type);
-                            break;
-                        }
+                            window._temp_screenShot_callback(
+                              i.toDataURL("image/png")
+                            );
 
-                        // @ts-ignore
-                        setSteps((prev) => [...prev, step]);
-
-                        console.log(step);
-                      }}
-                    >
-                      <Stack spacing={4}>
-                        <FormControl isRequired>
-                          <FormLabel>Titel</FormLabel>
-                          <Input name={"step_title"} placeholder={"Titel"} />
-                        </FormControl>
-                        <FormControl isRequired>
-                          <FormLabel>Typ</FormLabel>
-                          <Select name={"new_step_step_type"}>
-                            <option value="MULTIPLE_CHOICE">
-                              Multiple Choice
-                            </option>
-                            <option value="TEXT">Text</option>
-                            <option value="CODE_COMPARE">Code Vergleich</option>
-                            <option value="CODE_CHECK">Code Check</option>
-                          </Select>
-                        </FormControl>
-                        <Button colorScheme={"green"} type={"submit"}>
-                          Hinzufügen
+                            onClose();
+                          }}
+                        >
+                          Screenshots erstellen
                         </Button>
-                      </Stack>
-                    </form>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            </Box>
-          </Flex>
-        </Box>
-      </Stack>
-    </CreatorStudioLayout>
+                      </ButtonGroup>
+                    )}
+                  </Box>
+                </CodeUpModal>
+
+                <Popover>
+                  <PopoverTrigger>
+                    <Box
+                      mt={8}
+                      mb={8}
+                      bgColor={"green.200"}
+                      w={"100%"}
+                      minH={"10vh"}
+                      rounded={"xl"}
+                      _hover={{
+                        cursor: "pointer",
+                        shadow: "2xl",
+                        bgColor: "green.100",
+                      }}
+                      display={hidePlusButton ? "none" : "inherit"}
+                    >
+                      <Flex
+                        w={"100%"}
+                        h={"10vh"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        direction={"column"}
+                      >
+                        <FaPlus size={64} />
+                      </Flex>
+                    </Box>
+                  </PopoverTrigger>
+                  <PopoverContent bgColor={"black"}>
+                    <PopoverArrow bgColor={"black"} />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Neuer Schritt</PopoverHeader>
+                    <PopoverBody>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+
+                          const form = e.target as HTMLFormElement;
+
+                          const data = new FormData(form);
+
+                          const title = data.get("step_title") as string;
+                          const type = data.get("new_step_step_type") as
+                            | "MULTIPLE_CHOICE"
+                            | "TEXT"
+                            | "CODE_COMPARE"
+                            | "CODE_CHECK";
+
+                          // IF title EXISTS return
+                          if (steps.find((step) => step.step_title === title))
+                            return;
+
+                          let step = {};
+
+                          switch (type) {
+                            case "MULTIPLE_CHOICE":
+                              step = new Builders.MultipleChoiceBuilder()
+                                .setTitle(title)
+                                .setQuestion("Frage")
+                                .addAnswer("Antwort 1", true)
+                                .addAnswer("Antwort 2", false)
+                                .addAnswer("Antwort 3", false)
+                                .addAnswer("Antwort 4", false)
+                                .build();
+                              break;
+                            case "TEXT":
+                              step = new Builders.TextBuilder()
+                                .setTitle(title)
+                                .addText("Text " + randomInt(1000, 9999))
+                                .addInput("Eingabe " + randomInt(1000, 9999))
+                                .build();
+
+                              // @ts-ignore
+                              step.text_parts = step.text_parts?.map((t) => ({
+                                ...t,
+                                id: randomInt(1000, 9999),
+                              }));
+                              break;
+                            case "CODE_COMPARE":
+                              step = new Builders.CodeCompareBuilder()
+                                .setTitle(title)
+                                .setCodeA("Code A", true)
+                                .setCodeB("Code B", false)
+                                .setOutput("Ausgabe")
+                                .build();
+                              break;
+                            case "CODE_CHECK":
+                              step = new Builders.CodeCheckBuilder()
+                                .setTitle(title)
+                                .setCodeA("Code A", true)
+                                .setCodeB("Code B", false)
+                                .build();
+                              break;
+                            default:
+                              console.log(type);
+                              break;
+                          }
+
+                          // @ts-ignore
+                          setSteps((prev) => [...prev, step]);
+
+                          console.log(step);
+                        }}
+                      >
+                        <Stack spacing={4}>
+                          <FormControl isRequired>
+                            <FormLabel>Titel</FormLabel>
+                            <Input name={"step_title"} placeholder={"Titel"} />
+                          </FormControl>
+                          <FormControl isRequired>
+                            <FormLabel>Typ</FormLabel>
+                            <Select name={"new_step_step_type"}>
+                              <option value="MULTIPLE_CHOICE">
+                                Multiple Choice
+                              </option>
+                              <option value="TEXT">Text</option>
+                              <option value="CODE_COMPARE">
+                                Code Vergleich
+                              </option>
+                              <option value="CODE_CHECK">Code Check</option>
+                            </Select>
+                          </FormControl>
+                          <Button colorScheme={"green"} type={"submit"}>
+                            Hinzufügen
+                          </Button>
+                        </Stack>
+                      </form>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              </Box>
+            </Flex>
+          </Box>
+        </Stack>
+      </CreatorStudioLayout>
+    </>
   );
 }
 

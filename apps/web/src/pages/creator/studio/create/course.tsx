@@ -36,6 +36,7 @@ import "easymde/dist/easymde.min.css";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
+import Head from "next/head";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -72,6 +73,9 @@ export default function NewComponent() {
 
   return (
     <>
+      <Head>
+        <title>Neuer Kurs - Creator Studio - CodeUp</title>
+      </Head>
       <CreatorStudioLayout>
         <Flex flexDir="column" width="100%" p={"5rem"}>
           <Heading size="lg" mb={"2rem"} textAlign={"left"}>

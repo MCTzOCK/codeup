@@ -43,6 +43,7 @@ import ChatCardV2 from "@codeup/components/forum/ChatCardV2";
 import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
+import Head from "next/head";
 
 export default function MessageView() {
   const [chats, setChats] = useState<
@@ -99,6 +100,9 @@ export default function MessageView() {
 
   return (
     <>
+      <Head>
+        <title>Direktnachrichten - CodeUp</title>
+      </Head>
       <Flex direction={"row"} w={"100%"} h={"100vh"}>
         <Box flex={["100%", "25%"]} shadow={"xl"}>
           <Flex

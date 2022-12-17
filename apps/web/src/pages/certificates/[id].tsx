@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
+import Head from "next/head";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -83,6 +84,9 @@ export default function CertViewer() {
 
   return (
     <>
+      <Head>
+        <title>Zertifikat beantragen - CodeUp</title>
+      </Head>
       <Flex
         w={"100%"}
         h={"100vh"}

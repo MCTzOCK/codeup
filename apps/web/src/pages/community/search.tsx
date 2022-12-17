@@ -26,6 +26,7 @@ import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { PostCard } from "@codeup/components/community/post";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function Search() {
   const [term, setTerm] = useState("");
@@ -59,6 +60,9 @@ export default function Search() {
 
   return (
     <>
+      <Head>
+        <title>(Veraltet) Community Suche - CodeUp</title>
+      </Head>
       <Flex
         alignItems={"center"}
         justifyContent={"center"}

@@ -12,6 +12,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
+import Head from "next/head";
 
 export default function Callback() {
   const router = useRouter();
@@ -32,13 +33,18 @@ export default function Callback() {
   }, []);
 
   return (
-    <Flex
-      alignItems={"center"}
-      justifyContent={"center"}
-      w={"100%"}
-      h={"100vh"}
-    >
-      <Spinner size={"xl"} />
-    </Flex>
+    <>
+      <Head>
+        <title>Laden...</title>
+      </Head>
+      <Flex
+        alignItems={"center"}
+        justifyContent={"center"}
+        w={"100%"}
+        h={"100vh"}
+      >
+        <Spinner size={"xl"} />
+      </Flex>
+    </>
   );
 }

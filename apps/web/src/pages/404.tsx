@@ -13,10 +13,14 @@ import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import Head from "next/head";
 
 export default function NotFound() {
   return (
     <>
+      <Head>
+        <title>Seite nicht gefunden - CodeUp</title>
+      </Head>
       <ErrorComponent
         description={"Die angeforderte Seite konnte nicht gefunden werden."}
         title={"Seite nicht gefunden"}

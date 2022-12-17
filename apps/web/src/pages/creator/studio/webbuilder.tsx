@@ -52,6 +52,7 @@ import Editor, { Monaco, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import html2canvas from "html2canvas";
+import Head from "next/head";
 
 export default function Webbuilder() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -73,6 +74,9 @@ export default function Webbuilder() {
 
   return (
     <>
+      <Head>
+        <title>(Experimental) WebBuilder - CodeUp</title>
+      </Head>
       <CodeUpModal
         onOpen={onOpen}
         onClose={onClose}

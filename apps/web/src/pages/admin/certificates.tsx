@@ -24,6 +24,8 @@ import REST from "@codeup/rest";
 import { useEffect, useState } from "react";
 import DataTable from "@codeup/components/extra/DataTable";
 import AdminProfileViewer from "@codeup/components/admin/AdminProfileViewer";
+import Head from "next/head";
+import * as React from "react";
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -83,6 +85,9 @@ export default function Certificates() {
 
   return (
     <>
+      <Head>
+        <title>Zertifikate - Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <Flex w={"100%"} minH={"100vh"} h="fit-content" direction={"column"}>
           <Flex

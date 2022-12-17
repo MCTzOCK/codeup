@@ -29,6 +29,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -84,6 +85,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Kursübersicht - CodeUp</title>
+      </Head>
       <Flex
         direction="column"
         w={"100%"}

@@ -41,6 +41,7 @@ import { FaPlus } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
+import Head from "next/head";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -153,6 +154,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Projektplanung - CodeUp</title>
+      </Head>
       <Flex
         maxH={"100vh"}
         h={"100vh"}

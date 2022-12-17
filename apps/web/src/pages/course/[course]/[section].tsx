@@ -31,6 +31,7 @@ import CodeBlock from "../../../special-components/CodeBlock";
 import MDRenderer from "../../../special-components/MDRenderer";
 import VideoPlayer from "@codeup/components/global/VideoPlayer";
 import { Quiz } from "@codeup/components/course";
+import Head from "next/head";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -110,6 +111,9 @@ export default function SectionViewer() {
 
   return (
     <>
+      <Head>
+        <title>{content ? content.displayName : "Inhalt"} - CodeUp</title>
+      </Head>
       {loading ? (
         <>
           <Flex

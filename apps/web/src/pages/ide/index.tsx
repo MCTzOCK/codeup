@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { FaPlus, FaRegFolderOpen } from "react-icons/fa";
 import CreateProjectMenu from "@codeup/components/ide/CreateProjectMenu";
 import OpenProjectMenu from "@codeup/components/ide/OpenProjectMenu";
+import Head from "next/head";
 
 export default function Index() {
   useEffect(() => {
@@ -63,6 +64,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Editor - CodeUp</title>
+      </Head>
       <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
         <Flex
           direction={"column"}

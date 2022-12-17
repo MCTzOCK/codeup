@@ -50,6 +50,7 @@ import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import REST from "@codeup/rest";
 import ListViewer from "@codeup/components/todo/ListViewer";
+import Head from "next/head";
 
 export default function Index() {
   const router = useRouter();
@@ -114,6 +115,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>ToDo - CodeUp</title>
+      </Head>
       <Heading size={"xl"} textAlign={"center"} mt={"2rem"}>
         ToDo
       </Heading>

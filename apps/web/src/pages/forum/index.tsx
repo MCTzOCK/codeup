@@ -27,6 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
+import Head from "next/head";
 
 export default function Index() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -92,6 +93,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>Forum - CodeUp</title>
+      </Head>
       {!hasProfile ? (
         <>
           <Flex w={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>

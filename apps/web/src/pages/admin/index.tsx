@@ -33,6 +33,7 @@ import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateL
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -103,6 +104,9 @@ export default function AdminDashboard() {
 
   return (
     <>
+      <Head>
+        <title>Admin - CodeUp</title>
+      </Head>
       <AdminLayout>
         <>
           <Flex

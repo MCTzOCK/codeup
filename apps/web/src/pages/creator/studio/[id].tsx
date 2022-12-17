@@ -38,6 +38,7 @@ import {
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import course from "../../api/course/[course]";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import Head from "next/head";
 
 export default function CourseViewer() {
   const router = useRouter();
@@ -144,6 +145,9 @@ export default function CourseViewer() {
 
   return (
     <>
+      <Head>
+        <title>Kurs Editor - Creator Studio - CodeUp</title>
+      </Head>
       <CreatorStudioLayout>
         <Flex p={"2rem"} gap={6} alignItems={"center"}>
           <IconButton

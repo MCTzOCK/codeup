@@ -29,6 +29,7 @@ import {
   StackDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -99,6 +100,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>{course ? course.name : "Kursübersicht"} - CodeUp</title>
+      </Head>
       {course ? (
         <>
           <Flex

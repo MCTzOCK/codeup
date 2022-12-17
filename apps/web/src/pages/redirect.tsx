@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Redirect() {
   const router = useRouter();
@@ -24,5 +25,11 @@ export default function Redirect() {
     }
   }, [url]);
 
-  return <></>;
+  return (
+    <>
+      <Head>
+        <title>Weiterleiten...</title>
+      </Head>
+    </>
+  );
 }

@@ -12,6 +12,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
 import { useEffect } from "react";
+import Head from "next/head";
 
 export default function MessageView() {
   const router = useRouter();
@@ -24,6 +25,9 @@ export default function MessageView() {
 
   return (
     <>
+      <Head>
+        <title>Direktnachrichten - CodeUp</title>
+      </Head>
       {id ? (
         <ChatViewV2 chatId={id as string} setActiveChat={() => {}} />
       ) : null}

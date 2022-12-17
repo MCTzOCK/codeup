@@ -31,6 +31,7 @@ import { Step, Steps, useSteps } from "chakra-ui-steps";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Builder from "../../../../../special-components/Builder";
+import Head from "next/head";
 
 export default function NewContents() {
   const router = useRouter();
@@ -91,6 +92,9 @@ export default function NewContents() {
 
   return (
     <>
+      <Head>
+        <title>Creator Studio - CodeUp</title>
+      </Head>
       <CreatorStudioLayout>
         <Heading mt={6} textAlign={"center"}>
           Neuen Inhalt erstellen

@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import HTMLCourseSections from "@codeup/components/course/HTMLCourseSections";
+import Head from "next/head";
 
 export default function Index() {
   interface x {
@@ -52,6 +53,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>(Old) Kurse - CodeUp</title>
+      </Head>
       <Flex
         direction="column"
         w={"100%"}

@@ -37,6 +37,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Settings() {
   const router = useRouter();
@@ -85,6 +86,9 @@ export default function Settings() {
 
   return (
     <>
+      <Head>
+        <title>Einstellungen - CodeUp</title>
+      </Head>
       <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
         <Flex
           direction={"column"}

@@ -99,7 +99,9 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo
-        description={"SEO description"}
+        description={
+          "CodeUp ist eine Platform, um die Grundlagen der Programmierung mit interaktiven Videokursen zu erlernen."
+        }
         additionalMetaTags={[
           {
             name: "keywords",
@@ -108,16 +110,19 @@ function App({ Component, pageProps }: AppProps) {
         ]}
         openGraph={{
           type: "website",
-          locale: "en_US",
+          locale: "de_DE",
           url: "https://codeup.space/",
           site_name: "CodeUp",
+          title: "CodeUp - Programmieren lernen",
+          description:
+            "CodeUp ist eine Platform, um die Grundlagen der Programmierung mit interaktiven Videokursen zu erlernen.",
           images: [
             {
-              url: "https://ben-siebert.de/assets/brand/cartoon.jpg",
-              width: 512,
-              height: 512,
-              alt: "SEO Image",
+              url: "https://static.content.ben-siebert.de/api/public/dl/tIMG2cZT?inline=true",
+              alt: "Splash Image of CodeUp",
               type: "image/jpg",
+              width: 1200,
+              height: 630,
             },
           ],
         }}

@@ -34,6 +34,7 @@ import { FaCloudDownloadAlt, FaDownload, FaImage } from "react-icons/fa";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { Canvg, RenderingContext2D } from "canvg";
+import Head from "next/head";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -61,6 +62,9 @@ export default function CertViewer() {
 
   return (
     <>
+      <Head>
+        <title>Zertifikat - CodeUp</title>
+      </Head>
       {loading ? (
         <>
           <Flex

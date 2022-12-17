@@ -26,6 +26,7 @@ import {
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import { useHasProfile } from "@codeup/hooks";
 import REST from "@codeup/rest";
+import Head from "next/head";
 
 export default function Create() {
   const hasProfile = useHasProfile();
@@ -50,6 +51,9 @@ export default function Create() {
 
   return (
     <>
+      <Head>
+        <title>(Veraltet) Community Profil Erstellen - CodeUp</title>
+      </Head>
       <Flex justifyContent={"center"} minW={"100%"} minH={"99vh"}>
         <Box
           mt={"2rem"}

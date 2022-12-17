@@ -12,10 +12,14 @@ import * as React from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import Head from "next/head";
 
 export default function NotFound() {
   return (
     <>
+      <Head>
+        <title>Interner Server Fehler - CodeUp</title>
+      </Head>
       <ErrorComponent
         description={
           "Die Seite kann aufgrund eines Fehlers nicht angezeigt werden."
