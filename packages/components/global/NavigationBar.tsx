@@ -187,19 +187,19 @@ export default function NavigationBar() {
                           onLogoutOpen={onLogoutOpen}
                         />
                       </Flex>
+                      <Flex
+                        mt={"2rem"}
+                        w={"100%"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
+                        <MenuButtons
+                          onClose={onClose}
+                          onUserAuthOpen={onUserAuthOpen}
+                          onLogoutOpen={onLogoutOpen}
+                        />
+                      </Flex>
                     </DrawerBody>
-
-                    <DrawerFooter
-                      gap={"2rem"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                    >
-                      <MenuButtons
-                        onClose={onClose}
-                        onUserAuthOpen={onUserAuthOpen}
-                        onLogoutOpen={onLogoutOpen}
-                      />
-                    </DrawerFooter>
                   </DrawerContent>
                 </Drawer>
               </>

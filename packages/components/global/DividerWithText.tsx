@@ -11,12 +11,15 @@
 import { Divider, Flex, Text } from "@chakra-ui/react";
 import * as React from "react";
 
-export default function DividerWithText(props: { text?: string }) {
+export default function DividerWithText(props: {
+  text?: string;
+  color?: string;
+}) {
   return (
     <>
       <Flex align="center">
         <Divider />
-        <Text padding="2">
+        <Text padding="2" color={props.color ? props.color : "white"}>
           {props.text ? props.text.toUpperCase() : "ODER"}
         </Text>
         <Divider />

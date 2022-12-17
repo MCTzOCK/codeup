@@ -11,6 +11,7 @@
 import * as React from "react";
 import {
   Button,
+  Divider,
   Flex,
   Popover,
   PopoverArrow,
@@ -18,12 +19,14 @@ import {
   PopoverContent,
   PopoverTrigger,
   Stack,
+  StackDivider,
   Text,
 } from "@chakra-ui/react";
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
 import { FaCaretDown } from "react-icons/fa";
+import DividerWithText from "./DividerWithText";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -51,18 +54,64 @@ export default function NavigationBarMenu(props: {
           <PopoverBody>
             <Stack textAlign={"center"}>
               <Link href={"/codeup/about"} onClick={props.onClose}>
-                <Text fontSize={"xl"} cursor={"pointer"}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
                   Über Uns
                 </Text>
               </Link>
               <Link href={"/codeup/contact"} onClick={props.onClose}>
-                <Text fontSize={"xl"} cursor={"pointer"}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
                   Kontakt
                 </Text>
               </Link>
               <Link href={"/creator"} onClick={props.onClose}>
-                <Text fontSize={"xl"} cursor={"pointer"}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
                   Creator
+                </Text>
+              </Link>
+              <DividerWithText text={"Rechtliches"} color={"gray.400"} />
+              <Link href={"/legal/imprint"} onClick={props.onClose}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
+                  Impressum
+                </Text>
+              </Link>
+              <Link href={"/legal/privacy"} onClick={props.onClose}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
+                  Datenschutzerklärung
                 </Text>
               </Link>
             </Stack>

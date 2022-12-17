@@ -114,7 +114,7 @@ export default function Index() {
           >
             Kurse
           </Heading>
-          <Text fontSize={["xl", "2xl"]}>
+          <Text fontSize={["xl", "2xl"]} textAlign={["center", "initial"]}>
             Aktuell bieten wir&nbsp;
             <b>
               {courses.length} Kurs
