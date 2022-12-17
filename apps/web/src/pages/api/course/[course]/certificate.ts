@@ -227,6 +227,7 @@ export default async function handleRequest(
 
           await x.save();
         } catch (e) {
+          console.log(e);
           console.log("COULD NOT GENERATE CERTIFICATE SCREENSHOT");
         }
       } else {
