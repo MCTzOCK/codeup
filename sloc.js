@@ -35,6 +35,8 @@ const disallowed = [
   ".next",
   "dist",
   ".codeup_app_stats.json",
+  "privacy.tsx",
+  "imprint.tsx",
 ];
 
 // filter disallowed files
