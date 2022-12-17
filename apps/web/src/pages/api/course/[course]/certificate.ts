@@ -202,29 +202,33 @@ export default async function handleRequest(
           obtainedCertificateId: cert_id,
         });
 
-        const browser = await puppeteer.launch({
-          headless: true,
-          args: ['--user-agent="puppeteer"'],
-        });
-        const page = await browser.newPage();
+        try {
+          const browser = await puppeteer.launch({
+            headless: true,
+            args: ['--user-agent="puppeteer"'],
+          });
+          const page = await browser.newPage();
 
-        await page.goto(req.headers.origin + "/user-cert/" + cert_id);
+          await page.goto(req.headers.origin + "/user-cert/" + cert_id);
 
-        await page.waitForSelector("#certificate");
+          await page.waitForSelector("#certificate");
 
-        const element = await page.$("#certificate");
+          const element = await page.$("#certificate");
 
-        const screenshot = await (element as any).screenshot({
-          encoding: "base64",
-        });
+          const screenshot = await (element as any).screenshot({
+            encoding: "base64",
+          });
 
-        await browser.close();
+          await browser.close();
 
-        const x = await ObtainedCertificateModel.findById(cert_id);
+          const x = await ObtainedCertificateModel.findById(cert_id);
 
-        x.screenshot = "data:image/png;base64," + screenshot;
+          x.screenshot = "data:image/png;base64," + screenshot;
 
-        await x.save();
+          await x.save();
+        } catch (e) {
+          console.log("COULD NOT GENERATE CERTIFICATE SCREENSHOT");
+        }
       } else {
         res.status(200).json({
           success: true,
@@ -238,6 +242,7 @@ export default async function handleRequest(
       });
     }
   } catch (e) {
+    console.log(e);
     // @ts-ignore
     if (e.message) {
       // @ts-ignore
