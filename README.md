@@ -25,7 +25,7 @@ at [https://codeup.space](https://codeup.space)
 
 - Sicheres Account System
 - Video Kurse
-    - Quize
+    - Quizze
     - Creator Dashboard für Anpassung
     - Zertifikate
         - Mit anderen teilen
@@ -44,7 +44,7 @@ at [https://codeup.space](https://codeup.space)
     - Syntax Highlighting mit "Monaco Editor"
     - Hochladen von Dateien
 - InCode Dokumentation
-    - vollstäntige Dokumentation der InCode Programmiersprache
+    - vollständige Dokumentation der InCode Programmiersprache
 - Projektideen
     - Riesige Liste von Projektideen
     - Mehrere Schwierigkeitsstufen
@@ -103,14 +103,14 @@ Wenn du CodeUp im Entwickler-Modus (mit Hot-Module-Reloading) starten möchtest,
     turbo run dev --filter=web
 ```
 
-Wenn du CodeUp im produktiv Modus starten willst, musst du zunächst
+Wenn du CodeUp im Produktivmodus starten willst, musst du zunächst
 das "Production Next.JS Build" von CodeUp erzeugen:
 
 ```bash
     turbo run build --filter=web
 ```
 
-Anschliepend kannst du CodeUp mit folgendem Befehl starten:
+Anschließend kannst du CodeUp mit folgendem Befehl starten:
 
 ```bash
     yarn --cwd apps/web next:start
