@@ -17,8 +17,7 @@ festigen. Das Forum bietet Benutzern die Möglichkeit, sich untereinander auszut
 
 ## Demo
 
-The Production Deployment of CodeUp can be found
-at [https://codeup.space](https://codeup.space)
+Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](https://codeup.space) eingesehen werden.
 
 
 ## Funktionen
