@@ -224,24 +224,6 @@ export default function CertViewer() {
                       <img src={"/codeup.svg"} width={64} height={64} />
                       <Heading size={"lg"}>CodeUp</Heading>
                     </Flex>
-                    <IconButton
-                      aria-label={"Download"}
-                      icon={<FaCloudDownloadAlt />}
-                      onClick={() => {
-                        window.open(
-                          "/api/cert?id=" + id + "&export=true",
-                          "_blank"
-                        );
-                      }}
-                      position={"absolute"}
-                      top={"1rem"}
-                      right={"1rem"}
-                      display={
-                        navigator.userAgent.includes("puppeteer")
-                          ? "none"
-                          : "flex"
-                      }
-                    />
                   </CardBody>
                 </Card>
               </Flex>
