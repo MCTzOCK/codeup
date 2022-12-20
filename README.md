@@ -163,7 +163,7 @@ Die gesamte Lizenz kann unter [https://choosealicense.com/licenses/gpl-3.0/](htt
 - Copilot
 - GrapesJS
 
-Eine volle liste der verwendeten Technologien kann unter (https://codeup.space/codeup/about)[https://codeup.space/codeup/about] eingesehen werden
+Eine volle liste der verwendeten Technologien kann unter [https://codeup.space/codeup/about](https://codeup.space/codeup/about) eingesehen werden
 
 ## Support
 
