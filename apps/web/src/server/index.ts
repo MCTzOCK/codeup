@@ -215,7 +215,7 @@ app
               form.parse(req, async (err, fields, files) => {
                 if (err) {
                   await app.render404(req, res, parsedUrl);
-                  console.log(2);
+                  console.log(err);
                   return;
                 }
 

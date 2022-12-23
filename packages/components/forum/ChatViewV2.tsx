@@ -18,11 +18,16 @@ import {
   Flex,
   IconButton,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { FiSend } from "react-icons/fi";
+import { FiMessageSquare, FiSend } from "react-icons/fi";
 import { useLoggedIn } from "@codeup/hooks";
+import { FaImage, FaPlus } from "react-icons/fa";
 
 export default function ChatViewV2(props: {
   chatId: string;
@@ -161,7 +166,13 @@ export default function ChatViewV2(props: {
                             : "gray.500",
                       }}
                     >
-                      {m.content}
+                      {m.content.startsWith("image: ") ? (
+                        <>
+                          <img src={m.content.replace("image: ", "")} />
+                        </>
+                      ) : (
+                        m.content
+                      )}
                     </Box>
                     <Flex
                       w={"100%"}
@@ -222,6 +233,59 @@ export default function ChatViewV2(props: {
               alignItems={"center"}
               gap={"1rem"}
             >
+              <Menu>
+                <MenuButton as={IconButton} icon={<FaPlus />} />
+                <MenuList>
+                  <MenuItem
+                    icon={<FaImage />}
+                    onClick={async () => {
+                      const form = document.createElement("form");
+                      form.method = "POST";
+                      form.action = "/media/upload";
+                      const a = document.createElement("input");
+                      a.type = "file";
+                      a.accept = "image/*";
+                      a.name = "file";
+
+                      form.appendChild(a);
+
+                      a.click();
+
+                      a.onchange = async () => {
+                        const formData = new FormData(form);
+                        const r = await fetch("/media/upload", {
+                          method: "POST",
+                          body: formData,
+                        });
+
+                        if (r.status === 200) {
+                          const json = await r.json();
+
+                          const url = await json.data.url;
+
+                          await REST.Forum.sendMessageV2({
+                            token: localStorage.getItem("token") as string,
+                            id: props.chatId,
+                            content: "image: " + url,
+                          });
+                        } else {
+                          toast({
+                            title: "Fehler",
+                            description:
+                              "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
+                            status: "error",
+                            duration: 1500,
+                            isClosable: true,
+                            position: "top",
+                          });
+                        }
+                      };
+                    }}
+                  >
+                    Bild
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Input type={"text"} placeholder={"Nachricht"} name={"message"} />
               <Button
                 leftIcon={<FiSend />}
