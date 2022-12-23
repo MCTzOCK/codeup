@@ -91,89 +91,96 @@ export default function ChatViewV2(props: {
           w={"100%"}
           id={"chat_msgs"}
         >
-          {messages.reverse().map((m) => {
-            return (
-              <Flex
-                w={"100%"}
-                alignItems={"center"}
-                justifyContent={
-                  userInfo.username === m.username ? "flex-end" : "flex-start"
-                }
-                mt={"2rem"}
-                mb={"2rem"}
-                p={"2rem"}
-              >
-                <Box maxW={["100%", "50%"]}>
-                  <Flex
-                    w={"100%"}
-                    alignItems={"center"}
-                    justifyContent={
-                      userInfo.username === m.username
-                        ? "flex-end"
-                        : "flex-start"
-                    }
-                    paddingBlock={4}
-                    gap={"1rem"}
-                  >
-                    <Avatar
-                      src={"/api/account/" + m.username + "/picture"}
-                      size={"sm"}
-                    />
-                    {m.username}
-                  </Flex>
-                  <Box
-                    bg={
-                      userInfo.username === m.username
-                        ? "green.100"
-                        : "gray.500"
-                    }
-                    p={4}
-                    fontSize={"xl"}
-                    rounded={"xl"}
-                    shadow={"xl"}
-                    // arrow to the top
-                    position={"relative"}
-                    _after={{
-                      content: '""',
-                      position: "absolute",
-                      top: "-1rem",
-                      left:
+          {messages
+            .sort((a, b) => {
+              return new Date(a.createdAt).getTime() <
+                new Date(b.createdAt).getTime()
+                ? 1
+                : -1;
+            })
+            .map((m) => {
+              return (
+                <Flex
+                  w={"100%"}
+                  alignItems={"center"}
+                  justifyContent={
+                    userInfo.username === m.username ? "flex-end" : "flex-start"
+                  }
+                  mt={"2rem"}
+                  mb={"2rem"}
+                  p={"2rem"}
+                >
+                  <Box maxW={["100%", "50%"]}>
+                    <Flex
+                      w={"100%"}
+                      alignItems={"center"}
+                      justifyContent={
                         userInfo.username === m.username
-                          ? "calc(100% - 3rem)"
-                          : "3rem",
-
-                      transform: "translateX(-50%)",
-                      width: 0,
-                      height: 0,
-                      borderLeft: "1rem solid transparent",
-                      borderRight: "1rem solid transparent",
-                      borderBottom: "1rem solid",
-                      borderBottomColor:
+                          ? "flex-end"
+                          : "flex-start"
+                      }
+                      paddingBlock={4}
+                      gap={"1rem"}
+                    >
+                      <Avatar
+                        src={"/api/account/" + m.username + "/picture"}
+                        size={"sm"}
+                      />
+                      {m.username}
+                    </Flex>
+                    <Box
+                      bg={
                         userInfo.username === m.username
                           ? "green.100"
-                          : "gray.500",
-                    }}
-                  >
-                    {m.content}
+                          : "gray.500"
+                      }
+                      p={4}
+                      fontSize={"xl"}
+                      rounded={"xl"}
+                      shadow={"xl"}
+                      // arrow to the top
+                      position={"relative"}
+                      _after={{
+                        content: '""',
+                        position: "absolute",
+                        top: "-1rem",
+                        left:
+                          userInfo.username === m.username
+                            ? "calc(100% - 3rem)"
+                            : "3rem",
+
+                        transform: "translateX(-50%)",
+                        width: 0,
+                        height: 0,
+                        borderLeft: "1rem solid transparent",
+                        borderRight: "1rem solid transparent",
+                        borderBottom: "1rem solid",
+                        borderBottomColor:
+                          userInfo.username === m.username
+                            ? "green.100"
+                            : "gray.500",
+                      }}
+                    >
+                      {m.content}
+                    </Box>
+                    <Flex
+                      w={"100%"}
+                      alignItems={"center"}
+                      justifyContent={
+                        userInfo.username === m.username
+                          ? "flex-end"
+                          : "flex-start"
+                      }
+                      paddingBlock={4}
+                      gap={"1rem"}
+                      color={"gray"}
+                    >
+                      {new Date(m.createdAt).toLocaleString()}
+                    </Flex>
                   </Box>
-                  <Flex
-                    w={"100%"}
-                    alignItems={"center"}
-                    justifyContent={
-                      userInfo.username === m.username
-                        ? "flex-end"
-                        : "flex-start"
-                    }
-                    paddingBlock={4}
-                    gap={"1rem"}
-                    color={"gray"}
-                  >
-                    {new Date(m.createdAt).toLocaleString()}
-                  </Flex>
-                </Box>
-              </Flex>
-            );
-          })}
+                </Flex>
+              );
+            })}
         </Box>
         <Box position={"absolute"} bottom={"2rem"} left={"5%"} w={"90%"}>
           <form
@@ -195,12 +202,6 @@ export default function ChatViewV2(props: {
                   form.message.value = "";
 
                   setMessages(r.payload.messages);
-
-                  const chat_msgs = document.getElementById(
-                    "chat_msgs"
-                  ) as HTMLDivElement;
-
-                  chat_msgs.scrollTop = chat_msgs.scrollHeight;
                 } else {
                   toast({
                     title: "Fehler",
