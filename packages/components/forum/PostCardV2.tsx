@@ -42,6 +42,7 @@ import {
 import REST from "@codeup/rest";
 import { useEffect, useId } from "react";
 import { useRouter } from "next/router";
+import { FiDownload, FiFile } from "react-icons/fi";
 
 export default function PostCardV2(props: {
   post: {
@@ -130,7 +131,46 @@ export default function PostCardV2(props: {
           Antwort
         </Badge>
       ) : null}
-      <Text mt={2}>{props.post.content}</Text>
+      <Text mt={2}>
+        {props.post.content.startsWith("image: ") ? (
+          <>
+            <img src={props.post.content.replace("image: ", "")} />
+          </>
+        ) : props.post.content.startsWith("video: ") ? (
+          <>
+            <video src={props.post.content.replace("video: ", "")} controls />
+          </>
+        ) : props.post.content.startsWith("file: ") ? (
+          <>
+            <Flex
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              w={"100%"}
+              p={4}
+              rounded={"xl"}
+              bg={"gray.800"}
+              shadow={"xl"}
+              gap={4}
+            >
+              <Flex alignItems={"center"} gap={"1rem"}>
+                <FiFile />
+                <Text>{props.post.content.split(" ")[2]}</Text>
+              </Flex>
+              <IconButton
+                as={"a"}
+                href={props.post.content.split(" ")[1]}
+                target={"_blank"}
+                rel={"noreferrer"}
+                colorScheme={"blue"}
+                icon={<FiDownload />}
+                aria-label={"Download"}
+              />
+            </Flex>
+          </>
+        ) : (
+          props.post.content
+        )}
+      </Text>
       <ButtonGroup isAttached w={"100%"} mt={4}>
         <Button
           disabled={!isFullScreen}

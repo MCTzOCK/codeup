@@ -18,11 +18,16 @@ import {
   Flex,
   IconButton,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { FiSend } from "react-icons/fi";
+import { FiDownload, FiFile, FiMessageSquare, FiSend } from "react-icons/fi";
 import { useLoggedIn } from "@codeup/hooks";
+import { FaFile, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 
 export default function ChatViewV2(props: {
   chatId: string;
@@ -74,6 +79,55 @@ export default function ChatViewV2(props: {
 
   const { userInfo, loggedIn, loaded: loadedUserInfo } = useLoggedIn();
 
+  function upload(options: {
+    prefix: string;
+    mimeType: string;
+    fileNameAsSuffix: boolean;
+  }) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/media/upload";
+    const a = document.createElement("input");
+    a.type = "file";
+    a.accept = options.mimeType;
+    a.name = "file";
+
+    form.appendChild(a);
+
+    a.click();
+
+    a.onchange = async () => {
+      const formData = new FormData(form);
+      const r = await fetch("/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (r.status === 200) {
+        const json = await r.json();
+
+        const url = await json.data.url;
+
+        await REST.Forum.sendMessageV2({
+          token: localStorage.getItem("token") as string,
+          id: props.chatId,
+          content: `${options.prefix}: ${url} ${
+            options.fileNameAsSuffix ? a.files?.[0].name : ""
+          }`,
+        });
+      } else {
+        toast({
+          title: "Fehler",
+          description: "Beim Hochladen ist ein Fehler aufgetreten.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    };
+  }
+
   return (
     <>
       <Flex
@@ -91,89 +145,113 @@ export default function ChatViewV2(props: {
           w={"100%"}
           id={"chat_msgs"}
         >
-          {messages.reverse().map((m) => {
-            return (
-              <Flex
-                w={"100%"}
-                alignItems={"center"}
-                justifyContent={
-                  userInfo.username === m.username ? "flex-end" : "flex-start"
-                }
-                mt={"2rem"}
-                mb={"2rem"}
-                p={"2rem"}
-              >
-                <Box maxW={["100%", "50%"]}>
-                  <Flex
-                    w={"100%"}
-                    alignItems={"center"}
-                    justifyContent={
-                      userInfo.username === m.username
-                        ? "flex-end"
-                        : "flex-start"
-                    }
-                    paddingBlock={4}
-                    gap={"1rem"}
-                  >
-                    <Avatar
-                      src={"/api/account/" + m.username + "/picture"}
-                      size={"sm"}
-                    />
-                    {m.username}
-                  </Flex>
-                  <Box
-                    bg={
-                      userInfo.username === m.username
-                        ? "green.100"
-                        : "gray.500"
-                    }
-                    p={4}
-                    fontSize={"xl"}
-                    rounded={"xl"}
-                    shadow={"xl"}
-                    // arrow to the top
-                    position={"relative"}
-                    _after={{
-                      content: '""',
-                      position: "absolute",
-                      top: "-1rem",
-                      left:
+          {messages
+            .sort((a, b) => {
+              return new Date(a.createdAt).getTime() <
+                new Date(b.createdAt).getTime()
+                ? 1
+                : -1;
+            })
+            .map((m) => {
+              return (
+                <Flex
+                  w={"100%"}
+                  alignItems={"center"}
+                  justifyContent={
+                    userInfo.username === m.username ? "flex-end" : "flex-start"
+                  }
+                  pr={"2rem"}
+                  mt={8}
+                  mb={8}
+                >
+                  <Box maxW={["100%", "50%"]}>
+                    <Flex
+                      w={"100%"}
+                      alignItems={"center"}
+                      justifyContent={
                         userInfo.username === m.username
-                          ? "calc(100% - 3rem)"
-                          : "3rem",
-
-                      transform: "translateX(-50%)",
-                      width: 0,
-                      height: 0,
-                      borderLeft: "1rem solid transparent",
-                      borderRight: "1rem solid transparent",
-                      borderBottom: "1rem solid",
-                      borderBottomColor:
+                          ? "flex-end"
+                          : "flex-start"
+                      }
+                      paddingBlock={4}
+                      gap={"1rem"}
+                    >
+                      <Flex
+                        w={"100%"}
+                        alignItems={"center"}
+                        justifyContent={
+                          userInfo.username === m.username
+                            ? "flex-end"
+                            : "flex-start"
+                        }
+                        paddingBlock={4}
+                        gap={"1rem"}
+                        color={"gray"}
+                      >
+                        {new Date(m.createdAt).toLocaleString()}
+                      </Flex>
+                      <Avatar
+                        src={"/api/account/" + m.username + "/picture"}
+                        size={"md"}
+                      />
+                    </Flex>
+                    <Box
+                      bg={
                         userInfo.username === m.username
                           ? "green.100"
-                          : "gray.500",
-                    }}
-                  >
-                    {m.content}
+                          : "gray.500"
+                      }
+                      p={4}
+                      fontSize={"xl"}
+                      rounded={"xl"}
+                      shadow={"xl"}
+                    >
+                      {m.content.startsWith("image: ") ? (
+                        <>
+                          <img src={m.content.replace("image: ", "")} />
+                        </>
+                      ) : m.content.startsWith("video: ") ? (
+                        <>
+                          <video
+                            src={m.content.replace("video: ", "")}
+                            controls
+                          />
+                        </>
+                      ) : m.content.startsWith("file: ") ? (
+                        <>
+                          <Flex
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
+                            w={"100%"}
+                            p={4}
+                            rounded={"xl"}
+                            bg={"gray.800"}
+                            shadow={"xl"}
+                            gap={4}
+                          >
+                            <Flex alignItems={"center"} gap={"1rem"}>
+                              <FiFile />
+                              <Text>{m.content.split(" ")[2]}</Text>
+                            </Flex>
+                            <IconButton
+                              as={"a"}
+                              href={m.content.split(" ")[1]}
+                              target={"_blank"}
+                              rel={"noreferrer"}
+                              colorScheme={"blue"}
+                              icon={<FiDownload />}
+                              aria-label={"Download"}
+                            />
+                          </Flex>
+                        </>
+                      ) : (
+                        m.content
+                      )}
+                    </Box>
                   </Box>
-                  <Flex
-                    w={"100%"}
-                    alignItems={"center"}
-                    justifyContent={
-                      userInfo.username === m.username
-                        ? "flex-end"
-                        : "flex-start"
-                    }
-                    paddingBlock={4}
-                    gap={"1rem"}
-                    color={"gray"}
-                  >
-                    {new Date(m.createdAt).toLocaleString()}
-                  </Flex>
-                </Box>
-              </Flex>
-            );
-          })}
+                </Flex>
+              );
+            })}
         </Box>
         <Box position={"absolute"} bottom={"2rem"} left={"5%"} w={"90%"}>
           <form
@@ -195,12 +273,6 @@ export default function ChatViewV2(props: {
                   form.message.value = "";
 
                   setMessages(r.payload.messages);
-
-                  const chat_msgs = document.getElementById(
-                    "chat_msgs"
-                  ) as HTMLDivElement;
-
-                  chat_msgs.scrollTop = chat_msgs.scrollHeight;
                 } else {
                   toast({
                     title: "Fehler",
@@ -221,6 +293,47 @@ export default function ChatViewV2(props: {
               alignItems={"center"}
               gap={"1rem"}
             >
+              <Menu>
+                <MenuButton as={IconButton} icon={<FaPlus />} />
+                <MenuList>
+                  <MenuItem
+                    icon={<FaImage />}
+                    onClick={async () => {
+                      upload({
+                        fileNameAsSuffix: false,
+                        mimeType: "image/*",
+                        prefix: "image",
+                      });
+                    }}
+                  >
+                    Bild
+                  </MenuItem>
+                  <MenuItem
+                    icon={<FaVideo />}
+                    onClick={async () => {
+                      upload({
+                        fileNameAsSuffix: false,
+                        mimeType: "video/*",
+                        prefix: "video",
+                      });
+                    }}
+                  >
+                    Video
+                  </MenuItem>
+                  <MenuItem
+                    icon={<FaFile />}
+                    onClick={async () => {
+                      upload({
+                        fileNameAsSuffix: true,
+                        mimeType: "*",
+                        prefix: "file",
+                      });
+                    }}
+                  >
+                    Datei
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Input type={"text"} placeholder={"Nachricht"} name={"message"} />
               <Button
                 leftIcon={<FiSend />}
