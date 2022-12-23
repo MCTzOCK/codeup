@@ -9,31 +9,23 @@
  */
 
 import * as React from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import {
+  Avatar,
+  chakra,
   CircularProgress,
+  Divider,
   Flex,
   Heading,
-  Spinner,
-  Avatar,
+  HStack,
   Image,
   Stack,
   Text,
-  Center,
-  StackDivider,
-  Divider,
-  HStack,
-  chakra,
-  IconButton,
 } from "@chakra-ui/react";
-import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
-import { useEffect } from "react";
+import { Card, CardBody } from "@chakra-ui/card";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
-import { FaCloudDownloadAlt, FaDownload, FaImage } from "react-icons/fa";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { Canvg, RenderingContext2D } from "canvg";
 import Head from "next/head";
 
 export default function CertViewer() {
