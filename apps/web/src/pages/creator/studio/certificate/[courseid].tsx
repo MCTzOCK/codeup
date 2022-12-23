@@ -142,7 +142,7 @@ export default function CertificateEditor() {
   const [hidePlusButton, setHidePlusButton] = React.useState(false);
 
   React.useEffect(() => {
-    if (courseid) {
+    if (courseid && course) {
       REST.Creator.updateCertificate({
         token: localStorage.getItem("token") as string,
         courseId: courseid as string,
@@ -154,7 +154,7 @@ export default function CertificateEditor() {
   }, [minPercentage]);
 
   React.useEffect(() => {
-    if (courseid) {
+    if (courseid && steps.length > 0 && course) {
       REST.Creator.updateCertificate({
         token: localStorage.getItem("token") as string,
         courseId: courseid as string,
