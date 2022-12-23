@@ -82,10 +82,12 @@ const IDEProject = new mongoose.Schema({
   discovery: {
     type: Boolean,
     default: false,
+    required: true,
   },
   discoveryDescription: {
     type: String,
     default: "",
+    required: true,
   },
 });
 
