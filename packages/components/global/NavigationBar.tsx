@@ -24,7 +24,6 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   Flex,
@@ -40,7 +39,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 import { FaComment, FaProjectDiagram } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { BiCodeAlt } from "react-icons/bi";
+import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
 import { HiLightBulb } from "react-icons/hi";
 import { BsCheck2Square } from "react-icons/bs";
@@ -255,6 +254,14 @@ export default function NavigationBar() {
                 description={"Verwirkliche deine Projekteideen"}
                 icon={<BiCodeAlt />}
                 url={"/ide"}
+              />
+              <ExpandedMenuOption
+                name={"Projekte"}
+                description={
+                  "Sieh dir Projekte an, die von der Community veröffentlicht wurden."
+                }
+                icon={<BiCodeBlock />}
+                url={"/discovery"}
               />
               <ExpandedMenuOption
                 name={"InCode"}
