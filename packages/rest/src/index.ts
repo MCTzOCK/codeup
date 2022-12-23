@@ -40,7 +40,9 @@ import {
   createProject,
   deleteFile,
   deleteProject,
+  disableDiscovery,
   duplicateProject,
+  enableDiscovery,
   getAllTemplates,
   getContributors,
   getProject,
@@ -252,6 +254,8 @@ const REST = {
     toggleProjectPin,
     publishProject,
     unpublishProject,
+    enableDiscovery,
+    disableDiscovery,
   },
   Community: {
     search,
