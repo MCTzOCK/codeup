@@ -40,7 +40,9 @@ import {
   createProject,
   deleteFile,
   deleteProject,
+  disableDiscovery,
   duplicateProject,
+  enableDiscovery,
   getAllTemplates,
   getContributors,
   getProject,
@@ -164,6 +166,7 @@ import {
   getObtainedCertificates,
 } from "./api/Certificates";
 import { getProjectIdeas } from "./api/ProjectIdeas";
+import { getDiscoveryProjects } from "./api/Discovery";
 
 const REST = {
   Admin: {
@@ -252,6 +255,8 @@ const REST = {
     toggleProjectPin,
     publishProject,
     unpublishProject,
+    enableDiscovery,
+    disableDiscovery,
   },
   Community: {
     search,
@@ -271,6 +276,9 @@ const REST = {
   },
   Util: {
     makeRequest: makeRequest,
+  },
+  Discovery: {
+    getDiscoveryProjects,
   },
   Forum: {
     createProfileV2: createProfileV2,

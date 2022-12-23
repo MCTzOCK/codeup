@@ -351,3 +351,33 @@ export async function unpublishProject(options: {
     },
   });
 }
+
+export async function enableDiscovery(options: {
+  token: string;
+  projectId: string;
+  description: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/discovery",
+    token: options.token,
+    method: "POST",
+    body: {
+      enableDiscovery: true,
+      discoveryDescription: options.description,
+    },
+  });
+}
+
+export async function disableDiscovery(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/ide/projects/" + options.projectId + "/discovery",
+    token: options.token,
+    method: "POST",
+    body: {
+      disableDiscovery: true,
+    },
+  });
+}

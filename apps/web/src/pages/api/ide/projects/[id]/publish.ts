@@ -108,6 +108,10 @@ export default async function handleRequest(
           } else {
             IDEProject.published = false;
             IDEProject.publishedCustomName = "";
+
+            IDEProject.discovery = false;
+            IDEProject.discoveryDescription = "";
+
             await IDEProject.save();
 
             res.status(200).json({

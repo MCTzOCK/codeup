@@ -20,6 +20,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   IconButton,
   Input,
   InputGroup,
@@ -44,6 +45,7 @@ import {
   Stack,
   Tag,
   Text,
+  Textarea,
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
@@ -70,6 +72,8 @@ export default function PublishManager(props: {
     }[];
     published: boolean;
     publishedCustomName: string;
+    discovery: boolean;
+    discoveryDescription: string;
   } | null>(null);
 
   const toast = useToast();
@@ -361,6 +365,130 @@ export default function PublishManager(props: {
                     </FormControl>
                   </SimpleGrid>
                 </form>
+                <Divider my={4} />
+                <Heading size={"md"}>Entdeckungszentrale</Heading>
+                <Text>
+                  Du kannst dein Projekt in der Entdeckungszentrale
+                  veröffentlichen, damit andere es finden können.
+                </Text>
+                <SimpleGrid columns={[1, 2]} spacing={4} mt={4}>
+                  {!project?.discovery ? (
+                    <>
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+
+                          const data = new FormData(
+                            e.target as HTMLFormElement
+                          );
+
+                          const description = data.get("description") as string;
+
+                          if (description.length < 50) {
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Die Beschreibung ist zu kurz. Sie muss mindestens 50 Zeichen lang sein.",
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+                            return;
+                          }
+
+                          const r = await REST.IDE.enableDiscovery({
+                            token: localStorage.getItem("token") as string,
+                            projectId: (project as any)._id as string,
+                            description,
+                          });
+
+                          if (r.status === 200) {
+                            toast({
+                              title: "Erfolg",
+                              description:
+                                "Das Projekt wurde in der Entdeckungszentrale veröffentlicht.",
+                              status: "success",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+
+                            setProject({
+                              ...project,
+                              discovery: true,
+                              discoveryDescription: description,
+                            });
+                          } else {
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Das Projekt konnte nicht in der Entdeckungszentrale veröffentlicht werden.",
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+                          }
+                        }}
+                      >
+                        <Box>
+                          <FormControl isRequired mb={2}>
+                            <Textarea
+                              name={"description"}
+                              placeholder={"Beschreibung"}
+                            />
+                          </FormControl>
+                          <Button colorScheme={"green"} type={"submit"}>
+                            Veröffentlichen
+                          </Button>
+                        </Box>
+                      </form>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        colorScheme={"red"}
+                        onClick={async () => {
+                          const r = await REST.IDE.disableDiscovery({
+                            token: localStorage.getItem("token") as string,
+                            projectId: (project as any)._id as string,
+                          });
+
+                          if (r.status === 200) {
+                            toast({
+                              title: "Erfolg",
+                              description:
+                                "Das Projekt wurde aus der Entdeckungszentrale entfernt.",
+                              status: "success",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+
+                            setProject({
+                              ...project,
+                              discovery: false,
+                              discoveryDescription: "",
+                            });
+                          } else {
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Das Projekt konnte nicht aus der Entdeckungszentrale entfernt werden.",
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                              position: "bottom-left",
+                            });
+                          }
+                        }}
+                      >
+                        Verstecken
+                      </Button>
+                    </>
+                  )}
+                </SimpleGrid>
               </>
             )}
           </ModalBody>
