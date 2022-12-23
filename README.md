@@ -17,8 +17,7 @@ festigen. Das Forum bietet Benutzern die Möglichkeit, sich untereinander auszut
 
 ## Demo
 
-The Production Deployment of CodeUp can be found
-at [https://codeup.space](https://codeup.space)
+Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](https://codeup.space) eingesehen werden.
 
 
 ## Funktionen
@@ -169,6 +168,6 @@ Eine volle liste der verwendeten Technologien kann unter [https://codeup.space/c
 
 Für jegliche Art von Support kann das Kontaktforumlar unter [https://codeup.sapce/codeup/contact](https://codeup.sapce/codeup/contact)
 verwendet werden. Für dringliche Anfragen kannst du mich per E-Mail unter [hello@ben-siebert.de](mailto:hello@ben-siebert.de) erreichen.
-Alternativ bin ich auf Discord (MCTzOCK#0047) erreichbar.
+Alternativ bin ich auf Discord (`MCTzOCK#0047`) erreichbar.
 
 
