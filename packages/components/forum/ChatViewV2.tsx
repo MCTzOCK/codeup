@@ -25,9 +25,9 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { FiMessageSquare, FiSend } from "react-icons/fi";
+import { FiDownload, FiFile, FiMessageSquare, FiSend } from "react-icons/fi";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaImage, FaPlus } from "react-icons/fa";
+import { FaFile, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 
 export default function ChatViewV2(props: {
   chatId: string;
@@ -78,6 +78,55 @@ export default function ChatViewV2(props: {
   useEffect(reloadMessages, []);
 
   const { userInfo, loggedIn, loaded: loadedUserInfo } = useLoggedIn();
+
+  function upload(options: {
+    prefix: string;
+    mimeType: string;
+    fileNameAsSuffix: boolean;
+  }) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/media/upload";
+    const a = document.createElement("input");
+    a.type = "file";
+    a.accept = options.mimeType;
+    a.name = "file";
+
+    form.appendChild(a);
+
+    a.click();
+
+    a.onchange = async () => {
+      const formData = new FormData(form);
+      const r = await fetch("/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (r.status === 200) {
+        const json = await r.json();
+
+        const url = await json.data.url;
+
+        await REST.Forum.sendMessageV2({
+          token: localStorage.getItem("token") as string,
+          id: props.chatId,
+          content: `${options.prefix}: ${url} ${
+            options.fileNameAsSuffix ? a.files?.[0].name : ""
+          }`,
+        });
+      } else {
+        toast({
+          title: "Fehler",
+          description: "Beim Hochladen ist ein Fehler aufgetreten.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    };
+  }
 
   return (
     <>
@@ -170,6 +219,40 @@ export default function ChatViewV2(props: {
                         <>
                           <img src={m.content.replace("image: ", "")} />
                         </>
+                      ) : m.content.startsWith("video: ") ? (
+                        <>
+                          <video
+                            src={m.content.replace("video: ", "")}
+                            controls
+                          />
+                        </>
+                      ) : m.content.startsWith("file: ") ? (
+                        <>
+                          <Flex
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
+                            w={"100%"}
+                            p={4}
+                            rounded={"xl"}
+                            bg={"gray.800"}
+                            shadow={"xl"}
+                            gap={4}
+                          >
+                            <Flex alignItems={"center"} gap={"1rem"}>
+                              <FiFile />
+                              <Text>{m.content.split(" ")[2]}</Text>
+                            </Flex>
+                            <IconButton
+                              as={"a"}
+                              href={m.content.split(" ")[1]}
+                              target={"_blank"}
+                              rel={"noreferrer"}
+                              colorScheme={"blue"}
+                              icon={<FiDownload />}
+                              aria-label={"Download"}
+                            />
+                          </Flex>
+                        </>
                       ) : (
                         m.content
                       )}
@@ -239,50 +322,38 @@ export default function ChatViewV2(props: {
                   <MenuItem
                     icon={<FaImage />}
                     onClick={async () => {
-                      const form = document.createElement("form");
-                      form.method = "POST";
-                      form.action = "/media/upload";
-                      const a = document.createElement("input");
-                      a.type = "file";
-                      a.accept = "image/*";
-                      a.name = "file";
-
-                      form.appendChild(a);
-
-                      a.click();
-
-                      a.onchange = async () => {
-                        const formData = new FormData(form);
-                        const r = await fetch("/media/upload", {
-                          method: "POST",
-                          body: formData,
-                        });
-
-                        if (r.status === 200) {
-                          const json = await r.json();
-
-                          const url = await json.data.url;
-
-                          await REST.Forum.sendMessageV2({
-                            token: localStorage.getItem("token") as string,
-                            id: props.chatId,
-                            content: "image: " + url,
-                          });
-                        } else {
-                          toast({
-                            title: "Fehler",
-                            description:
-                              "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
-                            status: "error",
-                            duration: 1500,
-                            isClosable: true,
-                            position: "top",
-                          });
-                        }
-                      };
+                      upload({
+                        fileNameAsSuffix: false,
+                        mimeType: "image/*",
+                        prefix: "image",
+                      });
                     }}
                   >
                     Bild
+                  </MenuItem>
+                  <MenuItem
+                    icon={<FaVideo />}
+                    onClick={async () => {
+                      upload({
+                        fileNameAsSuffix: false,
+                        mimeType: "video/*",
+                        prefix: "video",
+                      });
+                    }}
+                  >
+                    Video
+                  </MenuItem>
+                  <MenuItem
+                    icon={<FaFile />}
+                    onClick={async () => {
+                      upload({
+                        fileNameAsSuffix: true,
+                        mimeType: "*",
+                        prefix: "file",
+                      });
+                    }}
+                  >
+                    Datei
                   </MenuItem>
                 </MenuList>
               </Menu>
