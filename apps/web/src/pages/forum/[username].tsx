@@ -51,6 +51,7 @@ import {
   PopoverBody,
   PopoverFooter,
   PopoverTrigger,
+  Stack,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -63,6 +64,10 @@ import {
   FaMapMarkerAlt,
   FaPen,
   FaTrashAlt,
+  FaPlus,
+  FaImage,
+  FaVideo,
+  FaFile,
 } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
@@ -134,6 +139,68 @@ export default function Profile() {
   };
 
   useEffect(reloadPosts, [profile]);
+
+  function upload(options: {
+    prefix: string;
+    mimeType: string;
+    fileNameAsSuffix: boolean;
+  }) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/media/upload";
+    const a = document.createElement("input");
+    a.type = "file";
+    a.accept = options.mimeType;
+    a.name = "file";
+
+    form.appendChild(a);
+
+    a.click();
+
+    a.onchange = async () => {
+      const formData = new FormData(form);
+      const r = await fetch("/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (r.status === 200) {
+        const json = await r.json();
+
+        const url = await json.data.url;
+
+        const r0 = await REST.Forum.createPostV2({
+          token: localStorage.getItem("token") as string,
+          content: `${options.prefix}: ${url} ${
+            options.fileNameAsSuffix ? a.files?.[0].name : ""
+          }`,
+        });
+
+        if (r0.status === 200) {
+          reloadPosts();
+        } else {
+          toast({
+            title: "Fehler",
+            description: "Beim Hochladen ist ein Fehler aufgetreten.",
+            status: "error",
+            duration: 1500,
+            isClosable: true,
+            position: "top",
+          });
+        }
+      } else {
+        toast({
+          title: "Fehler",
+          description: "Beim Hochladen ist ein Fehler aufgetreten.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    };
+  }
+
   return (
     <>
       <Head>
@@ -471,55 +538,100 @@ export default function Profile() {
                   {profile.username === userInfo.username ? (
                     <>
                       <Box flex={"100%"} textAlign={"right"}>
-                        <Popover>
-                          <PopoverTrigger>
-                            <Button colorScheme={"green"}>Neu</Button>
-                          </PopoverTrigger>
-                          <PopoverContent bg={"black"} textAlign={"left"}>
-                            <PopoverArrow bg={"black"} />
-                            <PopoverHeader>Neuer Beitrag</PopoverHeader>
-                            <PopoverBody>
-                              <Textarea
-                                id={"new-post_text"}
-                                placeholder={"Inhalt"}
-                              />
-                            </PopoverBody>
-                            <PopoverFooter>
-                              <Button
-                                colorScheme={"green"}
-                                onClick={async () => {
-                                  const content = document.getElementById(
-                                    "new-post_text"
-                                  ) as HTMLInputElement;
+                        <Stack>
+                          <Popover>
+                            <PopoverTrigger>
+                              <Button colorScheme={"green"}>Beitrag</Button>
+                            </PopoverTrigger>
+                            <PopoverContent bg={"black"} textAlign={"left"}>
+                              <PopoverArrow bg={"black"} />
+                              <PopoverHeader>Neuer Beitrag</PopoverHeader>
+                              <PopoverBody>
+                                <Textarea
+                                  id={"new-post_text"}
+                                  placeholder={"Inhalt"}
+                                />
+                              </PopoverBody>
+                              <PopoverFooter>
+                                <Button
+                                  colorScheme={"green"}
+                                  onClick={async () => {
+                                    const content = document.getElementById(
+                                      "new-post_text"
+                                    ) as HTMLInputElement;
 
-                                  const r = await REST.Forum.createPostV2({
-                                    token: localStorage.getItem(
-                                      "token"
-                                    ) as string,
-                                    content: content.value,
-                                  });
-
-                                  if (r.status === 200) {
-                                    reloadPosts();
-                                    content.value = "";
-                                  } else {
-                                    toast({
-                                      title: "Fehler",
-                                      description:
-                                        "Der Beitrag konnte nicht veröffentlicht werden",
-                                      status: "error",
-                                      duration: 5000,
-                                      isClosable: true,
-                                      position: "top",
+                                    const r = await REST.Forum.createPostV2({
+                                      token: localStorage.getItem(
+                                        "token"
+                                      ) as string,
+                                      content: content.value,
                                     });
-                                  }
+
+                                    if (r.status === 200) {
+                                      reloadPosts();
+                                      content.value = "";
+                                    } else {
+                                      toast({
+                                        title: "Fehler",
+                                        description:
+                                          "Der Beitrag konnte nicht veröffentlicht werden",
+                                        status: "error",
+                                        duration: 5000,
+                                        isClosable: true,
+                                        position: "top",
+                                      });
+                                    }
+                                  }}
+                                >
+                                  Veröffentlichen
+                                </Button>
+                              </PopoverFooter>
+                            </PopoverContent>
+                          </Popover>
+                          <Menu>
+                            <MenuButton as={Button} colorScheme={"blue"}>
+                              Medium
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem
+                                icon={<FaImage />}
+                                onClick={async () => {
+                                  upload({
+                                    fileNameAsSuffix: false,
+                                    mimeType: "image/*",
+                                    prefix: "image",
+                                  });
                                 }}
                               >
-                                Veröffentlichen
-                              </Button>
-                            </PopoverFooter>
-                          </PopoverContent>
-                        </Popover>
+                                Bild
+                              </MenuItem>
+                              <MenuItem
+                                icon={<FaVideo />}
+                                onClick={async () => {
+                                  upload({
+                                    fileNameAsSuffix: false,
+                                    mimeType: "video/*",
+                                    prefix: "video",
+                                  });
+                                }}
+                              >
+                                Video
+                              </MenuItem>
+                              <MenuItem
+                                icon={<FaFile />}
+                                onClick={async () => {
+                                  upload({
+                                    fileNameAsSuffix: true,
+                                    mimeType: "*",
+                                    prefix: "file",
+                                  });
+                                }}
+                              >
+                                Datei
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Stack>
                       </Box>
                     </>
                   ) : null}
