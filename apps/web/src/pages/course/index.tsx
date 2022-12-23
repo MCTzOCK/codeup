@@ -167,11 +167,7 @@ export default function Index() {
           </InputGroup>
         </Flex>
         <Grid
-          templateColumns={
-            filteredCourses.length > 0
-              ? ["repeat(1, 1fr)", "repeat(3, 1fr)"]
-              : "repeat(1, 1fr)"
-          }
+          templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
           gap={6}
           w={"100%"}
           justifyContent="center"
@@ -180,7 +176,7 @@ export default function Index() {
         >
           {filteredCourses.map((c) => (
             <>
-              <GridItem m={8}>
+              <GridItem m={8} h={"100%"} p={4}>
                 <Box
                   bg={"gray.900"}
                   color={"white"}
