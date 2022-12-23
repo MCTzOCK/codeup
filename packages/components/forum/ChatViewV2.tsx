@@ -160,9 +160,9 @@ export default function ChatViewV2(props: {
                   justifyContent={
                     userInfo.username === m.username ? "flex-end" : "flex-start"
                   }
-                  mt={"2rem"}
-                  mb={"2rem"}
-                  p={"2rem"}
+                  pr={"2rem"}
+                  mt={8}
+                  mb={8}
                 >
                   <Box maxW={["100%", "50%"]}>
                     <Flex
@@ -176,11 +176,24 @@ export default function ChatViewV2(props: {
                       paddingBlock={4}
                       gap={"1rem"}
                     >
+                      <Flex
+                        w={"100%"}
+                        alignItems={"center"}
+                        justifyContent={
+                          userInfo.username === m.username
+                            ? "flex-end"
+                            : "flex-start"
+                        }
+                        paddingBlock={4}
+                        gap={"1rem"}
+                        color={"gray"}
+                      >
+                        {new Date(m.createdAt).toLocaleString()}
+                      </Flex>
                       <Avatar
                         src={"/api/account/" + m.username + "/picture"}
-                        size={"sm"}
+                        size={"md"}
                       />
-                      {m.username}
                     </Flex>
                     <Box
                       bg={
@@ -192,28 +205,6 @@ export default function ChatViewV2(props: {
                       fontSize={"xl"}
                       rounded={"xl"}
                       shadow={"xl"}
-                      // arrow to the top
-                      position={"relative"}
-                      _after={{
-                        content: '""',
-                        position: "absolute",
-                        top: "-1rem",
-                        left:
-                          userInfo.username === m.username
-                            ? "calc(100% - 3rem)"
-                            : "3rem",
-
-                        transform: "translateX(-50%)",
-                        width: 0,
-                        height: 0,
-                        borderLeft: "1rem solid transparent",
-                        borderRight: "1rem solid transparent",
-                        borderBottom: "1rem solid",
-                        borderBottomColor:
-                          userInfo.username === m.username
-                            ? "green.100"
-                            : "gray.500",
-                      }}
                     >
                       {m.content.startsWith("image: ") ? (
                         <>
@@ -257,20 +248,6 @@ export default function ChatViewV2(props: {
                         m.content
                       )}
                     </Box>
-                    <Flex
-                      w={"100%"}
-                      alignItems={"center"}
-                      justifyContent={
-                        userInfo.username === m.username
-                          ? "flex-end"
-                          : "flex-start"
-                      }
-                      paddingBlock={4}
-                      gap={"1rem"}
-                      color={"gray"}
-                    >
-                      {new Date(m.createdAt).toLocaleString()}
-                    </Flex>
                   </Box>
                 </Flex>
               );
