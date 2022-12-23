@@ -79,6 +79,14 @@ const IDEProject = new mongoose.Schema({
     type: String,
     default: "",
   },
+  discovery: {
+    type: Boolean,
+    default: false,
+  },
+  discoveryDescription: {
+    type: String,
+    default: "",
+  },
 });
 
 export default mongoose.models?.IDEProject ||
