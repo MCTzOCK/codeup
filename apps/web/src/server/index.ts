@@ -19,6 +19,8 @@ import * as ts from "typescript";
 import * as sass from "sass";
 import { compile } from "@codeup/incode-compiler/dist";
 import { lookup as mimeLookup } from "mime-types";
+import formidable from "formidable";
+import { randomBytes } from "crypto";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const app = next.default({
@@ -28,7 +30,24 @@ const handle = app.getRequestHandler();
 
 app
   .prepare()
-  .then(() => {
+  .then(async () => {
+    if (mongoose.connection.readyState === 0) {
+      try {
+        await mongoose.connect(process.env.MONGO_URI as string);
+      } catch (e) {
+        console.error("Could not connect to MongoDB");
+        console.error(e);
+        process.exit(1);
+      }
+    }
+
+    const mediaBucket = new mongoose.mongo.GridFSBucket(
+      mongoose.connection.db,
+      {
+        bucketName: "media",
+      }
+    );
+
     createServer(async (req, res) => {
       const parsedUrl = parse(req.url!, true);
 
@@ -82,10 +101,6 @@ app
         let path = pathname.split("/").slice(3).join("/");
 
         try {
-          if (mongoose.connection.readyState === 0) {
-            await mongoose.connect(process.env.MONGO_URI as string);
-          }
-
           const project = await IDEProjectModel.findOne({
             publishedCustomName: customName,
           });
@@ -190,6 +205,99 @@ app
           return;
         }
       }
+
+      if (pathname?.startsWith("/media")) {
+        if (pathname?.includes("/upload")) {
+          if (req.method === "POST") {
+            const form = new formidable.IncomingForm();
+
+            await new Promise((resolve, reject) => {
+              form.parse(req, async (err, fields, files) => {
+                if (err) {
+                  await app.render404(req, res, parsedUrl);
+                  console.log(2);
+                  return;
+                }
+
+                const file = files.file as formidable.File;
+
+                if (!file) {
+                  await app.render404(req, res, parsedUrl);
+                  console.log(1);
+                  return;
+                }
+
+                const content = fs.readFileSync(file.filepath);
+                const mimeType = file.mimetype;
+                const fileName = file.originalFilename;
+
+                const uploadStream = mediaBucket.openUploadStream(
+                  randomBytes(128).toString("hex") +
+                    "." +
+                    (fileName as string).split(".").pop(),
+                  {
+                    contentType: mimeType as string,
+                    metadata: {
+                      contentType: mimeType as string,
+                      fileName: fileName as string,
+                    },
+                  }
+                );
+
+                uploadStream.write(content);
+
+                uploadStream.end();
+
+                await new Promise((resolve0) => {
+                  uploadStream.on("finish", () => {
+                    resolve0(true);
+                  });
+                });
+
+                res.end(
+                  JSON.stringify({
+                    status: "success",
+                    message: "File uploaded successfully.",
+                    data: {
+                      url: `/media/${uploadStream.filename}`,
+                    },
+                  })
+                );
+
+                resolve(true);
+              });
+            });
+            return;
+          } else {
+            await app.render404(req, res, parsedUrl);
+            return;
+          }
+        } else {
+          // URL Structure : /media/:filename
+
+          const filename = pathname.split("/")[pathname.split("/").length - 1];
+
+          const file = await mediaBucket.openDownloadStreamByName(filename);
+
+          if (!file) {
+            await app.render404(req, res, parsedUrl);
+            return;
+          }
+
+          await new Promise((resolve) => {
+            file.on("data", (chunk) => {
+              res.write(chunk);
+            });
+            file.on("end", () => {
+              res.end();
+              resolve(true);
+            });
+          });
+
+          return;
+        }
+      }
+
       await handle(req, res, parsedUrl);
     }).listen(port, "0.0.0.0", 10, () => {
       console.log(`> Ready on http://localhost:${port}`);
