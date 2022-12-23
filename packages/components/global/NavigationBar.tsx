@@ -272,7 +272,7 @@ export default function NavigationBar() {
                 name={"Projektideen"}
                 description={"Finde Inspirationen für Projekte."}
                 icon={<HiLightBulb />}
-                url={"/project-ideas"}
+                url={"/ideas"}
               />
               <ExpandedMenuOption
                 name={"Todo"}
