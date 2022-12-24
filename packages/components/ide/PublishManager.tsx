@@ -418,7 +418,7 @@ export default function PublishManager(props: {
                               ...project,
                               discovery: true,
                               discoveryDescription: description,
-                            });
+                            } as any);
                           } else {
                             toast({
                               title: "Fehler",

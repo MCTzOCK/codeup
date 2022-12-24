@@ -25,12 +25,14 @@ import {
 import { Card, CardBody, CardHeader, CardFooter } from "@chakra-ui/card";
 
 export default function Discovery() {
-  const [projects, setProjects] = React.useState<{
-    name: string;
-    description: string;
-    author: string;
-    customName: string;
-  }>([]);
+  const [projects, setProjects] = React.useState<
+    {
+      name: string;
+      description: string;
+      author: string;
+      customName: string;
+    }[]
+  >([]);
 
   const [error, setError] = React.useState(false);
 
