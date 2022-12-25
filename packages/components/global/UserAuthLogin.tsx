@@ -148,7 +148,7 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
                 2 Faktor Authentifizierung
               </Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Überprüfe dein E-Mail Postfach für einen 2FA Code
+                Bitte gib den Code aus deiner Authentifizierungs-App ein.
               </Text>
             </Flex>
             <HStack alignItems={"center"} justifyContent={"center"}>
@@ -181,6 +181,8 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
                   }
                 }}
               >
+                <PinInputField />
+                <PinInputField />
                 <PinInputField />
                 <PinInputField />
                 <PinInputField />

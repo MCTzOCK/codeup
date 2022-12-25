@@ -18,6 +18,7 @@ import {
   reset,
   resetConfirm,
   update,
+  update2FA,
   verify,
 } from "./api/Account";
 import makeRequest from "./makeRequest";
@@ -214,6 +215,7 @@ const REST = {
     reset,
     resetConfirm,
     update,
+    update2FA,
     verify,
     createTestAccount,
   },

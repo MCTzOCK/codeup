@@ -87,6 +87,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  twoFactorSecret: {
+    type: String,
+    default: "",
+  },
 });
 
 export default mongoose.models?.User || mongoose.model("User", UserSchema);

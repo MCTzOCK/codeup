@@ -138,3 +138,20 @@ export async function createTestAccount(): Promise<IResponse> {
     method: "POST",
   });
 }
+
+export async function update2FA(options: {
+  token: string;
+  code?: string;
+  enabled: boolean;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/update-2fa",
+    method: "POST",
+    token: options.token,
+    body: {
+      code: options.code,
+      enable: options.enabled ? true : undefined,
+      disable: options.enabled ? undefined : true,
+    },
+  });
+}
