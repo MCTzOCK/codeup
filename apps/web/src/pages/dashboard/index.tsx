@@ -219,26 +219,6 @@ export default function Dashboard() {
       </Flex>
     </>
   );
-
-  return (
-    <>
-      <Head>
-        <title>Dashboard - CodeUp</title>
-      </Head>
-      <Flex direction={"column"} mt={"2rem"}>
-        <Heading size={"lg"} textAlign={"center"}>
-          Dashboard
-        </Heading>
-
-        <Box padding={[".4rem", "2rem"]}>
-          <Section title={"IDE Projekte"} entries={projectEntries} />
-          <Section title={"ToDo Listen"} entries={todoEntries} />
-          <Section title={"Zertifikate"} entries={certificates} />
-          <Section title={"Projektplanung"} entries={projectPlanningEntries} />
-        </Box>
-      </Flex>
-    </>
-  );
 }
 
 function DCard(props: {
