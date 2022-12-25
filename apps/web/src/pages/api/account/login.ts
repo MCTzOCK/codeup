@@ -14,6 +14,7 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
 import generateJWT from "@codeup/util/src/generateJWT";
 import { default as sm } from "@codeup/util/src/sendMail";
+import { authenticator } from "otplib";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -87,36 +88,24 @@ export default async function handleRequest(
       return;
     } else {
       if (req.body.code) {
-        if (req.body.code === user.twoFactorCode) {
-          user.twoFactorCode = null;
-          await user.save();
-
-          await sendMail(user.email, user.firstName);
-
-          res.status(200).json({
-            success: true,
-            token: generateJWT(user),
-          });
-          return;
-        } else {
+        if (!authenticator.check(req.body.code, user.twoFactorSecret)) {
           res.status(400).json({
             error: "Wrong code",
           });
           return;
         }
-      } else {
-        user.twoFactorCode = (
-          Math.floor(Math.random() * 9000) + 1000
-        ).toString();
+
+        user.twoFactorCode = null;
         await user.save();
 
-        await sm(
-          user.email,
-          "Two Factor Code",
-          `Dein 2FA Code lautet: ${user.twoFactorCode}\n\nWenn du nicht versucht hast dich anzumelden, kontaktiere umgehend den Support unter ben@codeup.space!`,
-          user.firstName
-        );
+        await sendMail(user.email, user.firstName);
 
+        res.status(200).json({
+          success: true,
+          token: generateJWT(user),
+        });
+        return;
+      } else {
         res.status(200).json({
           error: null,
           _2fa: true,
@@ -141,7 +130,7 @@ const sendMail = async (email: string, firstName: string) => {
     email,
     "Logged In",
     `Du hast dich erfolgreich angemeldet.
-Wenn du das nicht warst, kontaktiere umgehend den Support unter ben@codeup.space`,
+Wenn du das nicht warst, kontaktiere umgehend den Support unter hello@ben-siebert.de`,
     firstName
   );
 };

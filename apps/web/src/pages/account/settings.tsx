@@ -16,6 +16,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -27,6 +28,7 @@ import {
   Spinner,
   Text,
   useColorModeValue,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useLoggedIn } from "@codeup/hooks";
@@ -38,6 +40,8 @@ import { useEffect } from "react";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import Head from "next/head";
+import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
+import * as qr from "qrcode";
 
 export default function Settings() {
   const router = useRouter();
@@ -197,8 +201,35 @@ function Account(props: {
 
   const router = useRouter();
 
+  const [twoFactorURL, setTwoFactorURL] = React.useState<string | null>(null);
+
+  const {
+    onOpen: on2FASuccessOpen,
+    isOpen: is2FASuccessOpen,
+    onClose: on2FASuccessClose,
+  } = useDisclosure();
+
   return (
     <>
+      <CodeUpModal
+        onOpen={on2FASuccessOpen}
+        onClose={on2FASuccessClose}
+        isOpen={is2FASuccessOpen}
+        title={"2-Faktor-Authentifizierung"}
+      >
+        <Text mb={"2rem"} fontSize={"lg"}>
+          Scanne den folgenden QR-Code mit deiner Authentifizierungs-App, um die
+          2-Faktor-Authentifizierung zu aktivieren. Wenn du noch keine
+          Authentifizierungs-App hast, empfehlen wir dir{" "}
+          <Link href={"https://authy.com/"} isExternal color={"blue.400"}>
+            Authy
+          </Link>
+        </Text>
+        <Flex alignItems={"center"} w={"100%"} justifyContent={"center"}>
+          <img src={twoFactorURL as string} />
+        </Flex>
+      </CodeUpModal>
+
       <Heading textAlign={"center"} mb={"1.2rem"} mt={"1.2rem"}>
         Konto verwalten
       </Heading>
@@ -367,16 +398,53 @@ function Account(props: {
             e.preventDefault();
             set_2faButtonDisabled(true);
 
-            const res = await REST.Account.update({
-              keyName: "2fa",
-              keyValue:
-                !props.userInfo.twoFactorEnabled === true ? "true" : "false",
-              token: localStorage.getItem("token") as string,
-            });
+            if (!props.userInfo.twoFactorEnabled) {
+              const res = await REST.Account.update2FA({
+                token: localStorage.getItem("token") as string,
+                enabled: true,
+              });
 
-            if (res.payload.success) {
-              localStorage.setItem("token", res.payload.newToken);
-              set_2faButtonDisabled(false);
+              if (res.status === 200) {
+                setTwoFactorURL(
+                  (await qr.toCanvas(res.payload.url)).toDataURL()
+                );
+
+                on2FASuccessOpen();
+
+                localStorage.setItem("token", res.payload.newToken);
+                set_2faButtonDisabled(false);
+              } else {
+                set_2faButtonDisabled(false);
+                toast({
+                  title: "Fehler",
+                  description: res.payload.error,
+                  status: "error",
+                  duration: 1500,
+                  isClosable: true,
+                  position: "bottom-right",
+                });
+              }
+            } else {
+              const res = await REST.Account.update2FA({
+                token: localStorage.getItem("token") as string,
+                enabled: false,
+                code: prompt("2FA Code") as string,
+              });
+
+              if (res.status === 200) {
+                localStorage.setItem("token", res.payload.newToken);
+                set_2faButtonDisabled(false);
+              } else {
+                set_2faButtonDisabled(false);
+                toast({
+                  title: "Fehler",
+                  description: res.payload.error,
+                  status: "error",
+                  duration: 1500,
+                  isClosable: true,
+                  position: "bottom-right",
+                });
+              }
             }
           }}
         >
