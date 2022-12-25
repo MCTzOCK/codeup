@@ -9,13 +9,28 @@
  */
 
 import * as React from "react";
-import { Box, Flex, Heading, Spinner, Text, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Spinner,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useHover, useLoggedIn } from "@codeup/hooks";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import redirect from "@codeup/util/src/userworkflow/redirect";
 import Head from "next/head";
+import {
+  FaCertificate,
+  FaCheck,
+  FaCode,
+  FaProjectDiagram,
+} from "react-icons/fa";
+import byteSize from "byte-size";
 
 export default function Dashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -60,15 +75,16 @@ export default function Dashboard() {
           x.push({
             title: project.name,
             href: "/ide/project/" + project.id + "#editor-wrapper-flex",
-            description: null,
+            description:
+              "Geändert: " + new Date(project.updated_at).toLocaleString(),
           });
         }
 
         if (x.length === 0) {
           x.push({
-            title: "Keine Projekte erstellt: Neues Projekt",
+            title: "Keine Projekte vorhanden",
             href: "/ide",
-            description: null,
+            description: "Klicke, um ein neues Projekt zu erstellen",
           });
         }
 
@@ -82,14 +98,18 @@ export default function Dashboard() {
             x.push({
               title: list.name,
               href: "/todo",
+              description:
+                list.tasks.length > 0
+                  ? "Noch " + list.tasks.length + " Aufgaben"
+                  : "Alle Aufgaben erledigt",
             });
           }
 
           if (x.length === 0) {
             x.push({
-              title: "Keine Listen erstellt: Neue Liste",
+              title: "Keine Listen vorhanden",
               href: "/todo",
-              description: null,
+              description: "Klicke, um eine neue Liste zu erstellen",
             });
           }
 
@@ -105,7 +125,7 @@ export default function Dashboard() {
             {
               title: "Keine Zertifikate erhalten",
               href: "/certificates",
-              description: "",
+              description: "Klicke, um Zertifikate zu erhalten",
             },
           ]);
           return;
@@ -128,7 +148,7 @@ export default function Dashboard() {
           x.push({
             title: "Keine Zertifikate erhalten",
             href: "/certificates",
-            description: null,
+            description: "Klicke, um Zertifikate zu erhalten",
           });
         }
 
@@ -142,15 +162,16 @@ export default function Dashboard() {
             x.push({
               title: project.name,
               href: "/planning/" + project._id,
-              description: null,
+              description:
+                "Gespeicherte Daten: " + byteSize(project.saved).toString(),
             });
           }
 
           if (x.length === 0) {
             x.push({
-              title: "Keine Projekte erstellt: Neues Projekt",
+              title: "Keine Projekte vorhanden",
               href: "/planning",
-              description: null,
+              description: "Klicke, um ein neues Projekt zu erstellen",
             });
           }
 
@@ -159,6 +180,45 @@ export default function Dashboard() {
       );
     }
   }, [loaded, loggedIn]);
+
+  return (
+    <>
+      <Head>
+        <title>Dashboard - CodeUp</title>
+      </Head>
+      <Flex direction={"column"} mt={"2rem"}>
+        <Heading size={"2xl"} textAlign={"center"} boxShadow={"2xl"} p={"2rem"}>
+          Willkommen, {`${userInfo.firstName} ${userInfo.lastName}`}!
+        </Heading>
+        <Box padding={[".4rem", "2rem"]}>
+          <DSection
+            title={"Projekte"}
+            entries={projectEntries}
+            icon={<FaCode />}
+            router={router}
+          />
+          <DSection
+            title={"Projektplanung"}
+            entries={projectPlanningEntries}
+            icon={<FaProjectDiagram />}
+            router={router}
+          />
+          <DSection
+            title={"Todo-Listen"}
+            entries={todoEntries}
+            icon={<FaCheck />}
+            router={router}
+          />
+          <DSection
+            title={"Zertifikate"}
+            entries={certificates}
+            icon={<FaCertificate />}
+            router={router}
+          />
+        </Box>
+      </Flex>
+    </>
+  );
 
   return (
     <>
@@ -181,78 +241,80 @@ export default function Dashboard() {
   );
 }
 
-function Section(props: {
+function DCard(props: {
+  router: NextRouter;
+  entry: {
+    href: string;
+    title: string;
+    description: string;
+  };
+  icon: any;
+}) {
+  return (
+    <>
+      <>
+        <Box
+          p={"1rem"}
+          borderRadius={"lg"}
+          borderWidth={"1px"}
+          _hover={{
+            borderColor: "blue.300",
+          }}
+          cursor={"pointer"}
+          backgroundColor={"gray.900"}
+          onClick={() => props.router.push(props.entry.href)}
+        >
+          <Flex direction={"row"} gap={8}>
+            <Flex alignItems={"center"} justifyContent={"center"}>
+              <Heading size={"2xl"} color={"blue.300"}>
+                {props.icon}
+              </Heading>
+            </Flex>
+            <Box>
+              <Heading size={"md"}>{props.entry.title}</Heading>
+              <Text>{props.entry.description}</Text>
+            </Box>
+          </Flex>
+        </Box>
+      </>
+    </>
+  );
+}
+
+function DSection(props: {
   title: string;
   entries: {
     title: string;
     description?: string;
     href: string;
   }[];
+  icon: any;
+  router: NextRouter;
 }) {
   return (
     <>
-      <Flex direction={"column"} mt={["2rem", "1.2rem"]}>
-        <Heading size={"lg"} textAlign={["center", "left"]}>
-          {props.title}
-        </Heading>
-        <Flex
-          direction={"row"}
-          overflow={"auto"}
-          mt={"1.2rem"}
-          maxW={"100%"}
-          style={{
-            scrollbarWidth: "thin",
-          }}
-        >
-          {props.entries.length === 0 ? <Spinner size={"xl"} /> : null}
-          {props.entries.map((e) => {
-            return (
-              <SectionCard
-                title={e.title}
-                description={e.description}
-                href={e.href}
-              />
-            );
-          })}
-        </Flex>
-      </Flex>
-    </>
-  );
-}
-
-function SectionCard(props: {
-  title: string;
-  description?: string;
-  href: string;
-}) {
-  const [hoverRef, isHovering] = useHover();
-  const router = useRouter();
-
-  return (
-    <Tooltip label={"Ansehen"} hasArrow>
-      <Box
-        bgColor={"gray.900"}
-        rounded={"lg"}
-        padding={"2rem"}
-        flex={"5%"}
-        // @ts-ignore
-        ref={hoverRef}
-        shadow={isHovering ? "lg" : "none"}
-        margin={".6rem"}
-        cursor={"pointer"}
-        onClick={async () => {
-          await router.push(props.href);
-        }}
+      <Heading size={"xl"} mt={"2rem"}>
+        {props.title}
+      </Heading>
+      <Grid
+        templateColumns={["1fr", "1fr 1fr"]}
+        gap={["1rem", "2rem"]}
+        mt={"2rem"}
       >
-        <Heading size={"md"}>{props.title}</Heading>
-        {props.description && (
+        {props.entries.map((entry, i) => (
           <>
-            <Text fontSize={"lg"} color={"gray.400"} mt={".4rem"} noOfLines={2}>
-              {props.description}
-            </Text>
+            <DCard
+              router={props.router}
+              entry={{
+                title: entry.title as string,
+                description: entry.description as string,
+                href: entry.href as string,
+              }}
+              icon={props.icon}
+            />
           </>
-        )}
-      </Box>
-    </Tooltip>
+        ))}
+      </Grid>
+    </>
   );
 }
