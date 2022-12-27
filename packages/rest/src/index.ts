@@ -132,6 +132,10 @@ import {
   getProjectIdeas as getProjectIdeasAdmin,
   deleteProjectIdea,
   createProjectIdea,
+  getBlogs,
+  createBlog,
+  updateBlog,
+  deleteBlog,
 } from "./api/Admin";
 
 import {
@@ -168,6 +172,7 @@ import {
 } from "./api/Certificates";
 import { getProjectIdeas } from "./api/ProjectIdeas";
 import { getDiscoveryProjects } from "./api/Discovery";
+import { getBlog, getBlogs as getBlogsB } from "./api/Blog";
 
 const REST = {
   Admin: {
@@ -204,6 +209,14 @@ const REST = {
     deleteProjectIdea,
     createProjectIdea,
     getProjectIdeasAdmin,
+    getBlogs,
+    createBlog,
+    updateBlog,
+    deleteBlog,
+  },
+  Blog: {
+    getBlog,
+    getBlogsB,
   },
   Account: {
     register,

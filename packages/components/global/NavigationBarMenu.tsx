@@ -77,6 +77,18 @@ export default function NavigationBarMenu(props: {
                   Kontakt
                 </Text>
               </Link>
+              <Link href={"/blog"} onClick={props.onClose}>
+                <Text
+                  fontSize={"xl"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "gray.700",
+                  }}
+                  rounded={"lg"}
+                >
+                  Blog
+                </Text>
+              </Link>
               <Link href={"/creator"} onClick={props.onClose}>
                 <Text
                   fontSize={"xl"}

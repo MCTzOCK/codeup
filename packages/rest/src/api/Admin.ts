@@ -483,3 +483,58 @@ export async function createProjectIdea(options: {
     },
   });
 }
+
+export async function getBlogs(options: { token: string }): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: "/api/admin/blog",
+  });
+}
+
+export async function createBlog(options: {
+  token: string;
+  title: string;
+  content: string;
+  tags: string[];
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/blog",
+    body: {
+      title: options.title,
+      content: options.content,
+      tags: options.tags,
+    },
+  });
+}
+
+export async function deleteBlog(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/blog?id=" + options.id,
+  });
+}
+
+export async function updateBlog(options: {
+  token: string;
+  id: string;
+  update: {
+    [key: string]: any;
+  };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "PUT",
+    token: options.token,
+    path: "/api/admin/blog",
+    body: {
+      id: options.id,
+      update: options.update,
+    },
+  });
+}

@@ -1,5 +1,4 @@
 const path = require("path");
-
 const withTM = require("next-transpile-modules")([
   "@codeup/components",
   "@codeup/util",
