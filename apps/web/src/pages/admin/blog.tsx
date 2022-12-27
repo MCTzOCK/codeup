@@ -360,16 +360,16 @@ export default function Blog() {
                   >
                     <Flex alignItems={"center"}>
                       <Heading size={"lg"}>{blog.title}</Heading>
-                      <Text ml={4}>
-                        von
-                        <chakra.span color={"blue.300"} ml={2}>
-                          @{blog.authorUsername}
-                        </chakra.span>
-                      </Text>
                       <Text ml={"auto"}>
                         {new Date(blog.published_at).toLocaleString()}
                       </Text>
                     </Flex>
+                    <Text>
+                      von
+                      <chakra.span color={"blue.300"} ml={2}>
+                        @{blog.authorUsername}
+                      </chakra.span>
+                    </Text>
                     <HStack mt={4} mb={4} overflow={"scroll"} w={"fit-content"}>
                       {blog.tags.map((tag) => {
                         return (

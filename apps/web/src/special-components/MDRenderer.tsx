@@ -18,8 +18,8 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import CodeBlock from "./CodeBlock";
+import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
-
 export default function MDRenderer(props: { content: string }) {
   return (
     <>
