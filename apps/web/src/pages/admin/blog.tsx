@@ -49,12 +49,6 @@ export default function Blog() {
       tags: string[];
       published_at: string;
       authorUsername: string;
-      comments: {
-        author: string;
-        authorUsername: string;
-        content: string;
-        published_at: string;
-      }[];
     }[]
   >([]);
 

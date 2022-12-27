@@ -30,31 +30,6 @@ const Blog = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  comments: {
-    type: [
-      {
-        author: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "User",
-        },
-        authorUsername: {
-          type: String,
-          required: true,
-        },
-        content: {
-          type: String,
-          required: true,
-        },
-        published_at: {
-          type: Date,
-          required: true,
-        },
-      },
-    ],
-    required: true,
-    default: [],
-  },
 });
 
 export default mongoose.models?.Blog || mongoose.model("Blog", Blog);
