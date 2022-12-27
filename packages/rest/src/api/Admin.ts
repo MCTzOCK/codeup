@@ -483,3 +483,11 @@ export async function createProjectIdea(options: {
     },
   });
 }
+
+export async function getBlogs(options: { token: string }): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: "/api/admin/blog",
+  });
+}
