@@ -62,8 +62,11 @@ export default function Blog() {
     }[]
   >([]);
 
+  const [filteredBlogs, setFilteredBlogs] = React.useState<typeof blogs>([]);
+
   const toast = useToast();
   const [error, setError] = React.useState(false);
+  const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
     reload();
@@ -75,11 +78,29 @@ export default function Blog() {
     }).then((res) => {
       if (res.status === 200) {
         setBlogs(res.payload.blogs);
+        setFilteredBlogs(
+          res.payload.blogs.filter(
+            (b: any) => b.title.includes(query) || b.content.includes(query)
+          )
+        );
       } else {
         setError(true);
       }
     });
   };
+
+  React.useEffect(() => {
+    let q = query;
+    q = q.trim();
+    setFilteredBlogs(
+      blogs.filter(
+        (b: any) =>
+          b.title.toLowerCase().includes(q.toLowerCase()) ||
+          b.content.toLowerCase().includes(q.toLowerCase()) ||
+          b.tags.join(" ").toLowerCase().includes(q.toLowerCase())
+      )
+    );
+  }, [query]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -277,6 +298,15 @@ export default function Blog() {
             <Heading size={"2xl"} textAlign={"center"} mt={"2rem"} mb={"2rem"}>
               Blog
             </Heading>
+            <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
+              <Input
+                w={["75%", "25%"]}
+                placeholder={"Suche"}
+                onChange={(e) => {
+                  setQuery(e.currentTarget.value);
+                }}
+              />
+            </Flex>
             <Grid
               templateColumns={[
                 "repeat(1, 1fr)",
@@ -317,11 +347,12 @@ export default function Blog() {
                   alignItems={"center"}
                   justifyContent={"center"}
                   display={"flex"}
+                  h={"100%"}
                 >
                   <FaPlus />
                 </Heading>
               </GridItem>
-              {blogs.map((blog) => (
+              {filteredBlogs.map((blog) => (
                 <>
                   <GridItem
                     key={blog._id}
