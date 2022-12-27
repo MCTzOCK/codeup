@@ -203,7 +203,7 @@ export default function Blog() {
                     onClick={() => {
                       REST.Admin.deleteBlog({
                         token: localStorage.getItem("token") as string,
-                        id: currentBlog?._id,
+                        id: currentBlog?._id as string,
                       }).then((res) => {
                         if (res.status === 200) {
                           toast({
