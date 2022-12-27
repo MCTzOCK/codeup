@@ -319,8 +319,8 @@ export default function NavigationBar() {
                 setFilteredMoreOptions(
                   moreOptions.filter((option) => {
                     return (
-                      option.name.includes(searchTerm) ||
-                      option.text.includes(searchTerm)
+                      option.name.toLowerCase().includes(searchTerm) ||
+                      option.text.toLowerCase().includes(searchTerm)
                     );
                   })
                 );
