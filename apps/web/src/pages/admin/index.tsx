@@ -34,6 +34,7 @@ import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import Head from "next/head";
+import { SiWritedotas } from "react-icons/si";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -87,6 +88,12 @@ export default function AdminDashboard() {
       description: "Sieh dir alle Projekt Ideen an",
       link: "/admin/project-ideas",
       icon: <FaProjectDiagram />,
+    },
+    {
+      title: "Blog",
+      description: "Verwalte den Blog",
+      link: "/admin/blog",
+      icon: <SiWritedotas />,
     },
   ];
 
