@@ -55,6 +55,7 @@ export default async function handleRequest(
       res.status(200).json({
         blogs,
       });
+      return;
     } else if (req.method === "POST") {
       const { title, content, tags } = req.body;
 
@@ -69,13 +70,73 @@ export default async function handleRequest(
         title,
         content,
         tags,
-        authorUsername: adminUser.username,
+        authorUsername: adminuser.username,
         published_at: new Date(),
         comments: [],
       });
 
       res.status(200).json({
         blog,
+      });
+      return;
+    } else if (req.method === "DELETE") {
+      const { id } = req.query;
+
+      if (!id) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const blog = await BlogModel.findById(id);
+
+      if (!blog) {
+        res.status(404).json({
+          error: "Not Found",
+        });
+        return;
+      }
+
+      await blog.remove();
+
+      res.status(200).json({
+        success: true,
+      });
+      return;
+    } else if (req.method === "PUT") {
+      const { id, update } = req.body;
+
+      if (!id || !update) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const blog = await BlogModel.findById(id);
+      if (!blog) {
+        res.status(404).json({
+          error: "Not Found",
+        });
+        return;
+      }
+
+      let failedKeys = [];
+
+      for (const key in update) {
+        if (["tags", "title", "content"].includes(key.toLowerCase())) {
+          blog[key] = update[key];
+        } else {
+          failedKeys.push(key);
+        }
+      }
+
+      await blog.save();
+
+      res.status(200).json({
+        success: true,
+        failedKeys,
       });
     }
   } catch (e) {

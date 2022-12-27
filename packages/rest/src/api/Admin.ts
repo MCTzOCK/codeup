@@ -509,3 +509,32 @@ export async function createBlog(options: {
     },
   });
 }
+
+export async function deleteBlog(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/blog?id=" + options.id,
+  });
+}
+
+export async function updateBlog(options: {
+  token: string;
+  id: string;
+  update: {
+    [key: string]: any;
+  };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "PUT",
+    token: options.token,
+    path: "/api/admin/blog",
+    body: {
+      id: options.id,
+      update: options.update,
+    },
+  });
+}

@@ -134,6 +134,8 @@ import {
   createProjectIdea,
   getBlogs,
   createBlog,
+  updateBlog,
+  deleteBlog,
 } from "./api/Admin";
 
 import {
@@ -208,6 +210,8 @@ const REST = {
     getProjectIdeasAdmin,
     getBlogs,
     createBlog,
+    updateBlog,
+    deleteBlog,
   },
   Account: {
     register,
