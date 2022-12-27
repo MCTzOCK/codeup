@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -29,6 +29,9 @@ import {
   Flex,
   Heading,
   IconButton,
+  Input,
+  InputGroup,
+  InputLeftAddon,
   Link as ChakraLink,
   SimpleGrid,
   Text,
@@ -37,7 +40,7 @@ import {
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
-import { FaComment, FaProjectDiagram } from "react-icons/fa";
+import { FaComment, FaProjectDiagram, FaSearch } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
@@ -47,6 +50,7 @@ import InCodeIcon from "../icons/InCodeIcon";
 import UserAuthAction from "./UserAuthAction";
 import NavigationBarMenu from "./NavigationBarMenu";
 import MenuButtons from "./MenuButtons";
+import CodeUpModal from "../codeup/CodeUpModal";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();
@@ -90,13 +94,12 @@ export default function NavigationBar() {
       <>
         <Box
           padding={".8rem"}
-          maxW={400}
-          rounded={"xl"}
+          w={"100%"}
           _hover={{
-            backgroundColor: "whiteAlpha.200",
+            backgroundColor: "whiteAlpha.100",
           }}
           _active={{
-            backgroundColor: "whiteAlpha.300",
+            backgroundColor: "whiteAlpha.200",
           }}
           cursor={"pointer"}
           transition={"200ms"}
@@ -122,6 +125,73 @@ export default function NavigationBar() {
       </>
     );
   };
+
+  const moreOptions: {
+    name: string;
+    text: string;
+    icon: any;
+    href: string;
+  }[] = [
+    {
+      name: "Forum",
+      icon: <FaComment />,
+      text: "Unterhalte dich mit anderen Entwicklern",
+      href: "/forum",
+    },
+    {
+      name: "IDE",
+      icon: <BiCodeAlt />,
+      href: "/ide",
+      text: "Verwirkliche deine Projektideen",
+    },
+    {
+      name: "Projekte",
+      icon: <BiCodeBlock />,
+      text: "Sieh dir Projekte an, die von anderen Entwicklern veröffentlicht wurden.",
+      href: "/discovery",
+    },
+    {
+      name: "InCode",
+      icon: <InCodeIcon />,
+      text: "Dokumentation der InCode Programmiersprache",
+      href: "/redirect?url=https://incode.codeup.space/docs",
+    },
+    {
+      name: "Zertifikate",
+      icon: <TbCertificate />,
+      text: "Erhalte Zertifikate für absolvierte Kurse",
+      href: "/certificates",
+    },
+    {
+      name: "Projektideen",
+      icon: <HiLightBulb />,
+      text: "Finde Inspirationen für neue Projekte",
+      href: "/ideas",
+    },
+    {
+      name: "Todo",
+      icon: <BsCheck2Square />,
+      text: "Plane Projekte mit einfachen To-Do Listen",
+      href: "/todo",
+    },
+    {
+      name: "Projektplanung",
+      icon: <FaProjectDiagram />,
+      text: "Plane Projekte mit komplexen Flussdiagrammen",
+      href: "/planning",
+    },
+  ].sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else if (a.name > b.name) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  const [filteredMoreOptions, setFilteredMoreOptions] =
+    useState<typeof moreOptions>(moreOptions);
 
   return (
     <>
@@ -222,82 +292,53 @@ export default function NavigationBar() {
         </Flex>
       </Box>
       <Divider />
-      <Drawer
-        isOpen={isMoreMenuOpen}
-        placement={"top"}
-        size={["full", "xl"]}
+      <CodeUpModal
+        onOpen={onMoreMenuOpen}
         onClose={onMoreMenuClose}
+        isOpen={isMoreMenuOpen}
+        title={"Mehr Angebote"}
       >
-        <DrawerOverlay />
-        <DrawerContent bgColor={"black"}>
-          <DrawerCloseButton />
-          <DrawerHeader>Mehr Angebote</DrawerHeader>
+        <Flex direction={"column"} w={"100%"}>
+          <InputGroup
+            mb={8}
+            position={"sticky"}
+            top={0}
+            right={0}
+            left={0}
+            backgroundColor={"gray.800"}
+            shadow={"2xl"}
+          >
+            <InputLeftAddon>
+              <FaSearch />
+            </InputLeftAddon>
+            <Input
+              placeholder={"Suchbegriff eingeben"}
+              onChange={(event) => {
+                const searchTerm = event.target.value.toLowerCase() as string;
 
-          <DrawerBody>
-            <SimpleGrid
-              minChildWidth={300}
-              maxH={"100vh"}
-              overflow={"auto"}
-              mb={[0, "2rem"]}
-              gap={".4rem"}
-            >
+                setFilteredMoreOptions(
+                  moreOptions.filter((option) => {
+                    return (
+                      option.name.toLowerCase().includes(searchTerm) ||
+                      option.text.toLowerCase().includes(searchTerm)
+                    );
+                  })
+                );
+              }}
+            />
+          </InputGroup>
+          {filteredMoreOptions.map((item) => (
+            <>
               <ExpandedMenuOption
-                name={"Forum"}
-                description={
-                  "Chatte mit erfahrenen Programmierern und Einsteigern."
-                }
-                icon={<FaComment />}
-                url={"/forum"}
+                name={item.name}
+                icon={item.icon}
+                url={item.href}
+                description={item.text}
               />
-              <ExpandedMenuOption
-                name={"IDE (Editor)"}
-                description={"Verwirkliche deine Projekteideen"}
-                icon={<BiCodeAlt />}
-                url={"/ide"}
-              />
-              <ExpandedMenuOption
-                name={"Projekte"}
-                description={
-                  "Sieh dir Projekte an, die von der Community veröffentlicht wurden."
-                }
-                icon={<BiCodeBlock />}
-                url={"/discovery"}
-              />
-              <ExpandedMenuOption
-                name={"InCode"}
-                description={"Dokumentation unserer Programmiersprache InCode"}
-                icon={<InCodeIcon />}
-                url={"/redirect?url=https://incode.codeup.space"}
-              />
-              <ExpandedMenuOption
-                name={"Zertifikate"}
-                description={"Erhalte Zertifikate für absolvierte Kurse."}
-                icon={<TbCertificate />}
-                url={"/certificates"}
-              />
-              <ExpandedMenuOption
-                name={"Projektideen"}
-                description={"Finde Inspirationen für Projekte."}
-                icon={<HiLightBulb />}
-                url={"/ideas"}
-              />
-              <ExpandedMenuOption
-                name={"Todo"}
-                description={"Plane Projekte mit einfachen Todo Listen."}
-                icon={<BsCheck2Square />}
-                url={"/todo"}
-              />
-              <ExpandedMenuOption
-                name={"Projekt Planung"}
-                description={"Plane Projekte mit komplexen Flussdiagrammen."}
-                icon={<FaProjectDiagram />}
-                url={"/planning"}
-              />
-            </SimpleGrid>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-
+            </>
+          ))}
+        </Flex>
+      </CodeUpModal>
       <AlertDialog
         isOpen={isLogoutOpen}
         onClose={onLogoutClose}
