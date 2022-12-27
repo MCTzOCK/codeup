@@ -38,11 +38,7 @@ import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
-import dynamic from "next/dynamic";
-import "@uiw/react-md-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
 import Editor from "@monaco-editor/react";
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 export default function Blog() {
   const [blogs, setBlogs] = React.useState<
