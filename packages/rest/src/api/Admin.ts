@@ -491,3 +491,21 @@ export async function getBlogs(options: { token: string }): Promise<IResponse> {
     path: "/api/admin/blog",
   });
 }
+
+export async function createBlog(options: {
+  token: string;
+  title: string;
+  content: string;
+  tags: string[];
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/blog",
+    body: {
+      title: options.title,
+      content: options.content,
+      tags: options.tags,
+    },
+  });
+}

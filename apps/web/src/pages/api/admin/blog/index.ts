@@ -55,6 +55,28 @@ export default async function handleRequest(
       res.status(200).json({
         blogs,
       });
+    } else if (req.method === "POST") {
+      const { title, content, tags } = req.body;
+
+      if (!title || !content || !tags) {
+        res.status(400).json({
+          error: "Bad Request",
+        });
+        return;
+      }
+
+      const blog = await BlogModel.create({
+        title,
+        content,
+        tags,
+        authorUsername: adminUser.username,
+        published_at: new Date(),
+        comments: [],
+      });
+
+      res.status(200).json({
+        blog,
+      });
     }
   } catch (e) {
     res.status(500).json({
