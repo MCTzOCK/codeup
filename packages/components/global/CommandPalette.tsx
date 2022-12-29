@@ -46,6 +46,8 @@ export default function CommandPalette() {
 
   const router = useRouter();
 
+  const [currentSelection, setCurrentSelection] = React.useState(0);
+
   React.useEffect(() => {
     const listener = (e: KeyboardEvent) => {
       // CTRL + K or CMD + K or CTRL + SHIFT + P or CMD + SHIFT + P
@@ -59,7 +61,7 @@ export default function CommandPalette() {
         inputRef.current.focus();
       } else if (e.key === "Escape" && open) {
         e.preventDefault();
-        setOpen(false);
+        hide();
       }
     };
 
@@ -75,6 +77,8 @@ export default function CommandPalette() {
       return;
     }
 
+    setCurrentSelection(0);
+
     if (value.startsWith("@")) {
       setResults([
         {
@@ -82,7 +86,7 @@ export default function CommandPalette() {
           icon: <FaUser />,
           onClick: () => {
             router.push("/forum/" + value.substring(1));
-            setOpen(false);
+            hide();
           },
         },
         {
@@ -97,7 +101,7 @@ export default function CommandPalette() {
             router.push(
               "/forum/messages/?chat=" + directMessage.payload.chat._id
             );
-            setOpen(false);
+            hide();
           },
         },
       ]);
@@ -114,7 +118,7 @@ export default function CommandPalette() {
                 icon: <FaUsers />,
                 onClick: () => {
                   router.push("/forum");
-                  setOpen(false);
+                  hide();
                 },
               },
             ]);
@@ -127,7 +131,7 @@ export default function CommandPalette() {
                   icon: <FiMessageSquare />,
                   onClick: () => {
                     router.push("/forum/messages");
-                    setOpen(false);
+                    hide();
                   },
                 },
               ]);
@@ -138,7 +142,7 @@ export default function CommandPalette() {
                   icon: <FaUser />,
                   onClick: () => {
                     router.push("/forum/" + userInfo?.username);
-                    setOpen(false);
+                    hide();
                   },
                 },
               ]);
@@ -153,7 +157,7 @@ export default function CommandPalette() {
                   icon: <FaUser />,
                   onClick: () => {
                     router.push("/forum/" + x);
-                    setOpen(false);
+                    hide();
                   },
                 },
                 {
@@ -169,7 +173,7 @@ export default function CommandPalette() {
                     router.push(
                       "/forum/messages/?chat=" + directMessage.payload.chat._id
                     );
-                    setOpen(false);
+                    hide();
                   },
                 },
               ]);
@@ -185,7 +189,7 @@ export default function CommandPalette() {
               icon: <FaGlobe />,
               onClick: () => {
                 router.push("/" + fullPage);
-                setOpen(false);
+                hide();
               },
             },
           ]);
@@ -193,6 +197,12 @@ export default function CommandPalette() {
       }
     }
   }, [value]);
+
+  const hide = () => {
+    setOpen(false);
+    setValue("");
+    inputRef.current.value = "";
+  };
 
   return (
     <>
@@ -230,6 +240,26 @@ export default function CommandPalette() {
               onChange={() => {
                 setValue(inputRef.current.value);
               }}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  if (currentSelection + 1 === results.length) {
+                    setCurrentSelection(0);
+                  } else {
+                    setCurrentSelection((c) => c + 1);
+                  }
+                } else if (e.key === "ArrowUp") {
+                  e.preventDefault();
+                  if (currentSelection - 1 < 0) {
+                    setCurrentSelection(results.length - 1);
+                  } else {
+                    setCurrentSelection((c) => c - 1);
+                  }
+                } else if (e.key === "Enter") {
+                  e.preventDefault();
+                  results[currentSelection].onClick();
+                }
+              }}
             />
             <InputRightElement>
               <Heading
@@ -266,6 +296,9 @@ export default function CommandPalette() {
                     height={"auto"}
                     cursor={"pointer"}
                     mt={4}
+                    backgroundColor={
+                      currentSelection === i ? "gray.700" : "transparent"
+                    }
                     onClick={() => {
                       r.onClick();
                     }}
