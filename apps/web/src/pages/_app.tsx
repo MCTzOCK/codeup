@@ -10,6 +10,7 @@ import { CommunityNavigationBar } from "@codeup/components/community";
 import { PostButton } from "@codeup/components/community/post";
 import { Footer, NavigationBar } from "@codeup/components/global";
 import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
+import CommandPalette from "@codeup/components/global/CommandPalette";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import REST from "@codeup/rest";
@@ -133,6 +134,7 @@ function App({ Component, pageProps }: AppProps) {
       />
       <GoogleAnalytics trackPageViews />
       <ChakraProvider theme={theme}>
+        <CommandPalette />
         <Box minH="100vh" minW="100%">
           <div id={"__codeup_other_component_render_space_do_not_use"}></div>
           <NavigationBar />
