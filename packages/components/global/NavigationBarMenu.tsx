@@ -13,6 +13,10 @@ import {
   Button,
   Divider,
   Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -25,7 +29,7 @@ import {
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaSearch } from "react-icons/fa";
 import DividerWithText from "./DividerWithText";
 
 export default function NavigationBarMenu(props: {
@@ -38,11 +42,19 @@ export default function NavigationBarMenu(props: {
 
   return (
     <>
-      <Link href={"/"}>
+      <Link href={"/course"}>
         <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
-          Home
+          Kurse
         </Button>
       </Link>
+      <Button
+        variant={"ghost"}
+        size={"lg"}
+        rightIcon={<AiFillCaretDown />}
+        onClick={props.onMoreMenuOpen}
+      >
+        Tools
+      </Button>
       <Popover>
         <PopoverTrigger>
           <Button variant={"ghost"} size={"lg"} rightIcon={<FaCaretDown />}>
@@ -130,18 +142,15 @@ export default function NavigationBarMenu(props: {
           </PopoverBody>
         </PopoverContent>
       </Popover>
-      <Link href={"/course"}>
-        <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
-          Kurse
-        </Button>
-      </Link>
       <Button
         variant={"ghost"}
         size={"lg"}
-        rightIcon={<AiFillCaretDown />}
-        onClick={props.onMoreMenuOpen}
+        onClick={() => {
+          window.dispatchEvent(new CustomEvent("codeup::open_search"));
+        }}
+        rightIcon={<FaSearch />}
       >
-        Mehr
+        Suche
       </Button>
     </>
   );

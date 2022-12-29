@@ -296,7 +296,7 @@ export default function NavigationBar() {
         onOpen={onMoreMenuOpen}
         onClose={onMoreMenuClose}
         isOpen={isMoreMenuOpen}
-        title={"Mehr Angebote"}
+        title={"Werkzeuge"}
       >
         <Flex direction={"column"} w={"100%"}>
           <InputGroup

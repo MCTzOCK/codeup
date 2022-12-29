@@ -28,6 +28,7 @@ import {
   FaGlobe,
   FaPlus,
   FaSearch,
+  FaTachometerAlt,
   FaUser,
   FaUsers,
 } from "react-icons/fa";
@@ -59,6 +60,11 @@ export default function CommandPalette() {
   const [currentSelection, setCurrentSelection] = React.useState(0);
 
   React.useEffect(() => {
+    window.addEventListener("codeup::open_search", (e) => {
+      e.preventDefault();
+      setOpen(true);
+    });
+
     const listener = (e: KeyboardEvent) => {
       // CTRL + K or CMD + K or CTRL + SHIFT + P or CMD + SHIFT + P
       if (
@@ -347,6 +353,32 @@ export default function CommandPalette() {
               });
             }
           }
+          break;
+        case "projekte":
+          setResults([
+            {
+              title: "Zu den Projekten springen",
+              subtitle: "!projekte",
+              icon: <FaFolder />,
+              onClick: () => {
+                router.push("/discovery");
+                hide();
+              },
+            },
+          ]);
+          break;
+        case "dashboard":
+          setResults([
+            {
+              title: "Zum Dashboard springen",
+              subtitle: "!dashboard",
+              icon: <FaTachometerAlt />,
+              onClick: () => {
+                router.push("/dashboard");
+                hide();
+              },
+            },
+          ]);
           break;
         default:
           const fullPage = page + (sub_page ? "/" + sub_page : "");
