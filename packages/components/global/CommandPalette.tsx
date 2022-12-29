@@ -23,9 +23,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import {
+  FaBookOpen,
   FaCode,
   FaFolder,
   FaGlobe,
+  FaLightbulb,
   FaPlus,
   FaSearch,
   FaTachometerAlt,
@@ -375,6 +377,45 @@ export default function CommandPalette() {
               icon: <FaTachometerAlt />,
               onClick: () => {
                 router.push("/dashboard");
+                hide();
+              },
+            },
+          ]);
+          break;
+        case "ideen":
+          setResults([
+            {
+              title: "Zu den Ideen springen",
+              subtitle: "!ideen",
+              icon: <FaLightbulb />,
+              onClick: () => {
+                router.push("/ideas");
+                hide();
+              },
+            },
+          ]);
+          break;
+        case "impressum":
+          setResults([
+            {
+              title: "Zum Impressum springen",
+              subtitle: "!impressum",
+              icon: <FaBookOpen />,
+              onClick: () => {
+                router.push("/legal/imprint");
+                hide();
+              },
+            },
+          ]);
+          break;
+        case "datenschutz":
+          setResults([
+            {
+              title: "Zur Datenschutzerklärung springen",
+              subtitle: "!datenschutz",
+              icon: <FaBookOpen />,
+              onClick: () => {
+                router.push("/legal/privacy");
                 hide();
               },
             },
