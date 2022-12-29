@@ -202,6 +202,10 @@ export default async function handleRequest(
           obtainedCertificateId: cert_id,
         });
       } else {
+        if (alreadyObtained) {
+          await alreadyObtained.remove();
+        }
+
         res.status(200).json({
           success: true,
           obtainedCertificate: false,
