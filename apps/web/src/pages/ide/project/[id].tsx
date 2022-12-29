@@ -68,7 +68,7 @@ import {
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { FiEdit, FiFilePlus, FiTrash2 } from "react-icons/fi";
 import REST from "@codeup/rest";
-import { BiRename } from "react-icons/bi";
+import { BiGitRepoForked, BiRename } from "react-icons/bi";
 import {
   ContributorManager,
   KeyboardShortcuts,
@@ -638,6 +638,74 @@ export default function Index() {
                     onClick={onFileMenuOpen}
                   />
                 </Tooltip>
+                {!permissions.includes("WRITE") &&
+                !permissions.includes("OWNER") ? (
+                  <Tooltip label={"Fork"} placement={"right"} hasArrow>
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      p={"2rem"}
+                      icon={<BiGitRepoForked />}
+                      rounded={"none"}
+                      onClick={async () => {
+                        const projectTemplateRequest =
+                          await REST.IDE.getProject({
+                            token: localStorage.getItem("token") as string,
+                            projectId: project?._id as string,
+                          });
+
+                        if (projectTemplateRequest.status === 200) {
+                          const newProjectRequest =
+                            await REST.IDE.createProject({
+                              token: localStorage.getItem("token") as string,
+                              name:
+                                "Fork von " +
+                                projectTemplateRequest.payload.project.name,
+                            });
+
+                          if (newProjectRequest.status === 200) {
+                            for (const file of projectTemplateRequest.payload
+                              .project.files) {
+                              await REST.IDE.saveFile({
+                                token: localStorage.getItem("token") as string,
+                                projectId:
+                                  newProjectRequest.payload.project._id,
+                                path: file.path,
+                                content: file.content,
+                              });
+
+                              router.push(
+                                "/ide/project/" +
+                                  newProjectRequest.payload.project._id
+                              );
+                            }
+                          } else {
+                            toast({
+                              status: "error",
+                              variant: "solid",
+                              position: "top",
+                              title: "Fehler",
+                              description: projectTemplateRequest.payload.error,
+                              isClosable: true,
+                              duration: 4000,
+                            });
+                          }
+                        } else {
+                          toast({
+                            status: "error",
+                            variant: "solid",
+                            position: "top",
+                            title: "Fehler",
+                            description: projectTemplateRequest.payload.error,
+                            isClosable: true,
+                            duration: 4000,
+                          });
+                        }
+                      }}
+                    />
+                  </Tooltip>
+                ) : null}
                 {permissions.includes("MANAGE-CONTRIBUTORS") ||
                 permissions.includes("OWNER") ? (
                   <Tooltip label={"Mitwirkende"} placement={"right"} hasArrow>
@@ -654,19 +722,26 @@ export default function Index() {
                     />
                   </Tooltip>
                 ) : null}
-                <Tooltip label={"Veröffentlichen"} placement={"right"} hasArrow>
-                  <IconButton
-                    aria-label={""}
-                    variant="ghost"
-                    size={"lg"}
-                    p={"2rem"}
-                    icon={<FaCloudUploadAlt />}
-                    rounded={"none"}
-                    onClick={() => {
-                      onPublishOpen();
-                    }}
-                  />
-                </Tooltip>
+                {permissions.includes("PUBLISH") ||
+                permissions.includes("OWNER") ? (
+                  <Tooltip
+                    label={"Veröffentlichen"}
+                    placement={"right"}
+                    hasArrow
+                  >
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      p={"2rem"}
+                      icon={<FaCloudUploadAlt />}
+                      rounded={"none"}
+                      onClick={() => {
+                        onPublishOpen();
+                      }}
+                    />
+                  </Tooltip>
+                ) : null}
                 {currentFile &&
                 !settingsOpen &&
                 (currentFile.path.toLowerCase().endsWith(".html") ||

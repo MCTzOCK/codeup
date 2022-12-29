@@ -21,16 +21,24 @@ import {
   Flex,
   Image,
   Box,
+  ButtonGroup,
+  useToast,
 } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader, CardFooter } from "@chakra-ui/card";
+import { useLoggedIn } from "@codeup/hooks";
+import { FaCode, FaEye } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export default function Discovery() {
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
+
   const [projects, setProjects] = React.useState<
     {
       name: string;
       description: string;
       author: string;
       customName: string;
+      id: string;
     }[]
   >([]);
 
@@ -46,6 +54,8 @@ export default function Discovery() {
     });
   }, []);
 
+  const router = useRouter();
+
   return (
     <>
       {error ? (
@@ -57,6 +67,17 @@ export default function Discovery() {
         </>
       ) : (
         <>
+          <Heading
+            fontSize={["3xl", "6xl"]}
+            color={"white"}
+            textAlign={"center"}
+            fontWeight={"bold"}
+            fontFamily={"Seymour One"}
+            textShadow={"0px 10px 100px #000000"}
+            m={8}
+          >
+            Discovery
+          </Heading>
           <Grid
             templateColumns={[
               "repeat(1, 1fr)",
@@ -78,12 +99,6 @@ export default function Discovery() {
                       p={6}
                       h={"100%"}
                       cursor={"pointer"}
-                      _hover={{
-                        shadow: "2xl",
-                      }}
-                      onClick={() => {
-                        window.open("/project/" + project.customName, "_blank");
-                      }}
                     >
                       <Flex
                         justifyContent={"space-between"}
@@ -117,6 +132,36 @@ export default function Discovery() {
                         >
                           {project.description}
                         </Heading>
+                        <ButtonGroup w={"100%"} mt={"1rem"}>
+                          <Button
+                            colorScheme={"green"}
+                            w={"100%"}
+                            leftIcon={<FaEye />}
+                            onClick={() => {
+                              window.open(
+                                "/project/" + project.customName,
+                                "_blank"
+                              );
+                            }}
+                          >
+                            Ansehen
+                          </Button>
+                          <Button
+                            leftIcon={<FaCode />}
+                            colorScheme={"blue"}
+                            w={"100%"}
+                            onClick={async () => {
+                              router.push(
+                                "/ide/project/" +
+                                  project.id +
+                                  "#editor-wrapper-flex"
+                              );
+                            }}
+                            disabled={!loggedIn}
+                          >
+                            Code
+                          </Button>
+                        </ButtonGroup>
                       </Flex>
                     </Box>
                   </GridItem>

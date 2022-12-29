@@ -28,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         description: project.discoveryDescription,
         author: user.username,
         customName: project.publishedCustomName,
+        id: project._id,
       });
     }
     res.status(200).json({ projects: p });
