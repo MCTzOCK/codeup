@@ -20,8 +20,17 @@ import {
   ListItem,
   Text,
   UnorderedList,
+  useToast,
 } from "@chakra-ui/react";
-import { FaGlobe, FaSearch, FaUser, FaUsers } from "react-icons/fa";
+import {
+  FaCode,
+  FaFolder,
+  FaGlobe,
+  FaPlus,
+  FaSearch,
+  FaUser,
+  FaUsers,
+} from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import REST from "@codeup/rest/dist";
 import { useRouter } from "next/router";
@@ -45,6 +54,7 @@ export default function CommandPalette() {
   >([]);
 
   const router = useRouter();
+  const toast = useToast();
 
   const [currentSelection, setCurrentSelection] = React.useState(0);
 
@@ -54,12 +64,13 @@ export default function CommandPalette() {
       if (
         (e.ctrlKey || e.metaKey) &&
         (e.key === "k" || e.key === "p") &&
-        !open
+        !open &&
+        inputRef.current
       ) {
         e.preventDefault();
         setOpen(true);
         inputRef.current.focus();
-      } else if (e.key === "Escape" && open) {
+      } else if (e.key === "Escape" && open && inputRef.current) {
         e.preventDefault();
         hide();
       }
@@ -116,8 +127,27 @@ export default function CommandPalette() {
               {
                 title: "Zum Forum springen",
                 icon: <FaUsers />,
+                subtitle: "!forum",
                 onClick: () => {
                   router.push("/forum");
+                  hide();
+                },
+              },
+              {
+                title: "Zu deinem Profil springen",
+                subtitle: "!forum/profil",
+                icon: <FaUser />,
+                onClick: () => {
+                  router.push("/forum/" + userInfo?.username);
+                  hide();
+                },
+              },
+              {
+                title: "Zu den Nachrichten springen",
+                icon: <FiMessageSquare />,
+                subtitle: "!forum/nachrichten",
+                onClick: () => {
+                  router.push("/forum/messages");
                   hide();
                 },
               },
@@ -180,6 +210,144 @@ export default function CommandPalette() {
             }
           }
           break;
+        case "editor":
+          if (!sub_page) {
+            setResults([
+              {
+                title: "Zum Editor springen",
+                subtitle: "!editor",
+                icon: <FaCode />,
+                onClick: () => {
+                  router.push("/ide");
+                  hide();
+                },
+              },
+              {
+                title: "Zu deinen Projekten springen",
+                subtitle: "!editor/projekte",
+                icon: <FaFolder />,
+                onClick: () => {
+                  router.push("/ide?component=open");
+                  hide();
+                },
+              },
+              {
+                title: "Neues Projekt erstellen",
+                subtitle: "!editor/neu",
+                icon: <FaPlus />,
+                onClick: () => {
+                  router.push("/ide?component=create");
+                  hide();
+                },
+              },
+            ]);
+          } else {
+            let x = sub_page.toLowerCase().trim();
+            if (x === "projekte") {
+              setResults([
+                {
+                  title: "Zu deinen Projekten springen",
+                  subtitle: "!editor/projekte",
+                  icon: <FaFolder />,
+                  onClick: () => {
+                    router.push("/ide?component=open");
+                    hide();
+                  },
+                },
+              ]);
+            } else if (x.split(" ")[0] === "neu") {
+              if (x.split(" ").length > 1) {
+                const name = x.split(" ").slice(1).join(" ");
+
+                setResults([
+                  {
+                    title: "Neues Projekt mit Namen '" + name + "' erstellen",
+                    subtitle: "!editor/neu " + name,
+                    icon: <FaPlus />,
+                    onClick: () => {
+                      REST.IDE.createProject({
+                        token: localStorage.getItem("token") as string,
+                        name: name,
+                      }).then((res) => {
+                        if (res.status !== 200) {
+                          toast({
+                            title: "Fehler",
+                            description: res.payload.error,
+                            status: "error",
+                            duration: 1500,
+                            isClosable: true,
+                            position: "bottom-right",
+                          });
+                        } else {
+                          router.push(
+                            "/ide/project/" +
+                              res.payload.project._id +
+                              "#editor-wrapper-flex"
+                          );
+                          hide();
+                        }
+                      });
+                    },
+                  },
+                ]);
+              } else {
+                setResults([
+                  {
+                    title: "Neues Projekt erstellen",
+                    subtitle: "!editor/neu",
+                    icon: <FaPlus />,
+                    onClick: () => {
+                      router.push("/ide?component=create");
+                      hide();
+                    },
+                  },
+                ]);
+              }
+            } else {
+              REST.IDE.getProjects({
+                token: localStorage.getItem("token") as string,
+                minimal: true,
+                type: "ALL",
+                withStats: false,
+              }).then((res) => {
+                if (res.status === 200) {
+                  let projects = res.payload.projects.filter((project: any) =>
+                    project.name.toLowerCase().includes(x)
+                  );
+
+                  setResults(
+                    projects.map((project: any) => {
+                      return {
+                        title: project.name,
+                        icon: <FaFolder />,
+                        onClick: () => {
+                          router.push(
+                            "/ide/project/" +
+                              project.id +
+                              "#editor-wrapper-flex"
+                          );
+                          hide();
+                        },
+                      };
+                    })
+                  );
+                } else {
+                  setResults([
+                    {
+                      title: "Zum Editor springen",
+                      subtitle: "!editor",
+                      icon: <FaCode />,
+                      onClick: () => {
+                        router.push("/ide");
+                        hide();
+                      },
+                    },
+                  ]);
+                }
+              });
+            }
+          }
+          break;
         default:
           const fullPage = page + (sub_page ? "/" + sub_page : "");
 
@@ -195,13 +363,26 @@ export default function CommandPalette() {
           ]);
           break;
       }
+    } else {
+      setResults([
+        {
+          title: "Zu Seite /" + value + " springen",
+          icon: <FaGlobe />,
+          onClick: () => {
+            router.push("/" + value);
+            hide();
+          },
+        },
+      ]);
     }
   }, [value]);
 
   const hide = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
     setOpen(false);
     setValue("");
-    inputRef.current.value = "";
   };
 
   return (
@@ -335,7 +516,9 @@ export default function CommandPalette() {
                           ml={"0.5rem"}
                         >
                           <Text fontSize={"xl"}>{r.title}</Text>
-                          <Text fontSize={"lg"}>{r.subtitle}</Text>
+                          <Text fontSize={"md"} color={"gray.200"}>
+                            {r.subtitle}
+                          </Text>
                         </Box>
                       </Box>
                     </Box>
@@ -365,6 +548,22 @@ export default function CommandPalette() {
                           <ListItem>
                             <code>@ben.sbrt</code> - Optionen für Benutzer
                             anzeigen
+                          </ListItem>
+                          <ListItem>
+                            <code>!forum</code> - Forum öffnen + Optionen
+                            anzeigen
+                          </ListItem>
+                          <ListItem>
+                            <code>!editor</code> - Editor öffnen + Optionen
+                            anzeigen
+                          </ListItem>
+                          <ListItem>
+                            <code>!editor/neu &lt;name&gt;</code> - Erstellt ein
+                            neues Projekt mit dem Namen &lt;name&gt;
+                          </ListItem>
+                          <ListItem>
+                            <code>!editor/&lt;name&gt;</code> - Öffnet das
+                            Projekt mit dem Namen &lt;name&gt;
                           </ListItem>
                         </UnorderedList>
                       </>
