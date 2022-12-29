@@ -149,6 +149,7 @@ export default function NavigationBarMenu(props: {
           window.dispatchEvent(new CustomEvent("codeup::open_search"));
         }}
         rightIcon={<FaSearch />}
+        display={["none", "initial"]}
       >
         Suche
       </Button>

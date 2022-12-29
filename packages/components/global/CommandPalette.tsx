@@ -608,6 +608,19 @@ export default function CommandPalette() {
                       </>
                     )}
                   </Box>
+
+                  <Text
+                    mt={8}
+                    fontSize={"lg"}
+                    fontFamily={"monospace"}
+                    color={"blue.300"}
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    Schließen
+                  </Text>
                 </Flex>
               </>
             )}
