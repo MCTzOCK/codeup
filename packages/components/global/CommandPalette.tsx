@@ -21,7 +21,7 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import { FaSearch, FaUser } from "react-icons/fa";
+import { FaGlobe, FaSearch, FaUser, FaUsers } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import REST from "@codeup/rest/dist";
 import { useRouter } from "next/router";
@@ -101,6 +101,96 @@ export default function CommandPalette() {
           },
         },
       ]);
+    } else if (value.startsWith("!")) {
+      let page = value.substring(1).split("/")[0];
+      let sub_page = value.substring(1).split("/")[1];
+
+      switch (page.toLowerCase()) {
+        case "forum":
+          if (!sub_page) {
+            setResults([
+              {
+                title: "Zum Forum springen",
+                icon: <FaUsers />,
+                onClick: () => {
+                  router.push("/forum");
+                  setOpen(false);
+                },
+              },
+            ]);
+          } else {
+            let x = sub_page.toLowerCase().trim();
+            if (x === "nachrichten") {
+              setResults([
+                {
+                  title: "Zu den Nachrichten springen",
+                  icon: <FiMessageSquare />,
+                  onClick: () => {
+                    router.push("/forum/messages");
+                    setOpen(false);
+                  },
+                },
+              ]);
+            } else if (x === "mein-profil" || x === "profil") {
+              setResults([
+                {
+                  title: "Zu deinem Profil springen",
+                  icon: <FaUser />,
+                  onClick: () => {
+                    router.push("/forum/" + userInfo?.username);
+                    setOpen(false);
+                  },
+                },
+              ]);
+            } else {
+              if (x.startsWith("@")) {
+                x = x.substring(1);
+              }
+
+              setResults([
+                {
+                  title: "Zu Benutzer @" + x + " springen",
+                  icon: <FaUser />,
+                  onClick: () => {
+                    router.push("/forum/" + x);
+                    setOpen(false);
+                  },
+                },
+                {
+                  title:
+                    "Direktnachricht an @" + value.substring(1) + " senden",
+                  icon: <FiMessageSquare />,
+                  onClick: async () => {
+                    const directMessage = await REST.Forum.createChatV2({
+                      token: localStorage.getItem("token") as string,
+                      user: value.substring(1),
+                    });
+
+                    router.push(
+                      "/forum/messages/?chat=" + directMessage.payload.chat._id
+                    );
+                    setOpen(false);
+                  },
+                },
+              ]);
+            }
+          }
+          break;
+        default:
+          const fullPage = page + (sub_page ? "/" + sub_page : "");
+
+          setResults([
+            {
+              title: "Zu Seite /" + fullPage + " springen",
+              icon: <FaGlobe />,
+              onClick: () => {
+                router.push("/" + fullPage);
+                setOpen(false);
+              },
+            },
+          ]);
+          break;
+      }
     }
   }, [value]);
 
