@@ -137,6 +137,22 @@ export default function MySnippetViewer() {
                   }}
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel>Sprache</FormLabel>
+                <Input
+                  type={"text"}
+                  placeholder={"Sprache des Snippets"}
+                  value={currentSnippet?.language}
+                  onChange={(e) => {
+                    if (currentSnippet) {
+                      setCurrentSnippet({
+                        ...currentSnippet,
+                        language: e.target.value as string,
+                      });
+                    }
+                  }}
+                />
+              </FormControl>
               <FormControl data-color-mode={"dark"}>
                 <FormLabel>Code</FormLabel>
                 <Editor
