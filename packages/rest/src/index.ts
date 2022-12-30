@@ -97,6 +97,7 @@ import {
   deleteChat as deleteChatV2,
   getChatMessages as getChatMessagesV2,
   sendMessage as sendMessageV2,
+  getEmbeds,
 } from "./api/Forum";
 import {
   listAccounts,
@@ -320,6 +321,7 @@ const REST = {
     deleteChatV2: deleteChatV2,
     sendMessageV2: sendMessageV2,
     getChatMessagesV2: getChatMessagesV2,
+    getEmbeds,
   },
   Course: {
     getSection,

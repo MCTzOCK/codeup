@@ -12,6 +12,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { decode, verify } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import ForumPostModel from "@codeup/util/src/models/ForumPostModel";
+import ogs from "open-graph-scraper";
 
 export default async function handler(
   req: NextApiRequest,
@@ -77,6 +78,7 @@ export default async function handler(
         username: user.username,
         content: req.body.content,
         parent: parent._id,
+        embeds: await getEmbeds(req.body.content),
       });
 
       await post.save();
@@ -92,6 +94,7 @@ export default async function handler(
       user: user._id,
       username: user.username,
       content: req.body.content,
+      embeds: await getEmbeds(req.body.content),
     });
 
     await post.save();
@@ -104,4 +107,58 @@ export default async function handler(
       error: e,
     });
   }
+}
+
+async function getEmbeds(content: string): any[] {
+  const embeds: {
+    type: "file" | "image" | "video" | "audio" | "link";
+    url?: string;
+    title?: string;
+    description?: string;
+    image?: string;
+    site_name?: string;
+  }[] = [];
+
+  const links = content.match(/(https?:\/\/[^\s]+)/g);
+
+  for (const link of links) {
+    const headRes = await fetch(link, {
+      method: "HEAD",
+    });
+
+    const contentType = ((headRes.headers.get("Content-Type") as string) || "")
+      .toLowerCase()
+      .split(";")[0];
+
+    if (contentType === "text/html") {
+      const o = await ogs({ url: link });
+      if (!o.error) {
+        embeds.push({
+          title: (o.result as any).ogTitle as string,
+          description: (o.result as any).ogDescription as string,
+          image: (o.result as any).ogImage.url as string,
+          url: (o.result as any).ogUrl as string,
+          site_name: (o.result as any).ogSiteName as string,
+          type: "link",
+        });
+      }
+    } else if (contentType.startsWith("image/")) {
+      embeds.push({
+        url: link,
+        type: "image",
+      });
+    } else if (contentType.startsWith("video/")) {
+      embeds.push({
+        url: link,
+        type: "video",
+      });
+    } else {
+      embeds.push({
+        url: link,
+        type: "file",
+      });
+    }
+  }
+
+  return embeds;
 }

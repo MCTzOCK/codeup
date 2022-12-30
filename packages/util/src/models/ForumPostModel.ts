@@ -40,6 +40,10 @@ const ForumPost = new mongoose.Schema({
     ref: "ForumPost",
     default: null,
   },
+  embeds: {
+    type: Array,
+    default: [],
+  },
 });
 
 export default mongoose.models?.ForumPost ||

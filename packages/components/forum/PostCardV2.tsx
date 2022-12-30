@@ -27,6 +27,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Stack,
   Text,
   Textarea,
   useToast,
@@ -131,46 +132,85 @@ export default function PostCardV2(props: {
           Antwort
         </Badge>
       ) : null}
-      <Text mt={2}>
-        {props.post.content.startsWith("image: ") ? (
-          <>
-            <img src={props.post.content.replace("image: ", "")} />
-          </>
-        ) : props.post.content.startsWith("video: ") ? (
-          <>
-            <video src={props.post.content.replace("video: ", "")} controls />
-          </>
-        ) : props.post.content.startsWith("file: ") ? (
-          <>
-            <Flex
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              w={"100%"}
-              p={4}
-              rounded={"xl"}
-              bg={"gray.800"}
-              shadow={"xl"}
-              gap={4}
-            >
-              <Flex alignItems={"center"} gap={"1rem"}>
-                <FiFile />
-                <Text>{props.post.content.split(" ")[2]}</Text>
-              </Flex>
-              <IconButton
-                as={"a"}
-                href={props.post.content.split(" ")[1]}
-                target={"_blank"}
-                rel={"noreferrer"}
-                colorScheme={"blue"}
-                icon={<FiDownload />}
-                aria-label={"Download"}
-              />
-            </Flex>
-          </>
-        ) : (
-          props.post.content
-        )}
-      </Text>
+
+      <Text mt={2}>{props.post.content}</Text>
+
+      {
+        // @ts-ignore
+        props.post.embeds.map((e) => {
+          if (e.type === "link") {
+            return (
+              <>
+                <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                  <Stack>
+                    {e.site_name && <Text>{e.site_name}</Text>}
+                    {e.title && (
+                      <Heading
+                        size={"md"}
+                        color={"blue.300"}
+                        cursor={"pointer"}
+                        as={"a"}
+                        href={e.url}
+                        target={"_blank"}
+                      >
+                        {e.title}
+                      </Heading>
+                    )}
+                    {e.description && <Text mt={2}>{e.description}</Text>}
+                    {e.image && <img src={e.image} alt={e.image || ""} />}
+                  </Stack>
+                </Box>
+              </>
+            );
+          } else if (e.type === "image") {
+            return (
+              <>
+                <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                  <img src={e.url} alt={e.url || ""} />
+                </Box>
+              </>
+            );
+          } else if (e.type === "video") {
+            return (
+              <>
+                <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                  <video src={e.url} controls />
+                </Box>
+              </>
+            );
+          } else if (e.type === "file") {
+            return (
+              <>
+                <Flex
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  w={"100%"}
+                  p={4}
+                  rounded={"xl"}
+                  bg={"gray.800"}
+                  shadow={"xl"}
+                  gap={4}
+                >
+                  <Flex alignItems={"center"} gap={"1rem"}>
+                    <FiFile />
+                    <Text>{e.url.split("/").pop()}</Text>
+                  </Flex>
+                  <IconButton
+                    as={"a"}
+                    href={e.url}
+                    target={"_blank"}
+                    rel={"noreferrer"}
+                    colorScheme={"blue"}
+                    icon={<FiDownload />}
+                    aria-label={"Download"}
+                  />
+                </Flex>
+              </>
+            );
+          }
+        })
+      }
+
       <ButtonGroup isAttached w={"100%"} mt={4}>
         <Button
           disabled={!isFullScreen}
