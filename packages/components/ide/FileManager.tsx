@@ -289,79 +289,79 @@ export default function FileManager(props: {
                           </PopoverContent>
                         </Popover>
                       </ButtonGroup>
+                      <Tooltip label={"Datei hochladen"} hasArrow>
+                        <IconButton
+                          aria-label="Datei hochladen"
+                          size="lg"
+                          fontSize={"2xl"}
+                          icon={<FiUpload />}
+                          variant="ghost"
+                          onClick={() => {
+                            const f = document.createElement("input");
+                            f.type = "file";
+                            f.style.display = "none";
+
+                            f.onchange = async () => {
+                              if (f.files && f.files.length > 0) {
+                                const file = f.files.item(0);
+                                if (file) {
+                                  if (file.type.startsWith("text/")) {
+                                    const content = await file.text();
+
+                                    await REST.IDE.saveFile({
+                                      token: localStorage.getItem(
+                                        "token"
+                                      ) as string,
+                                      path: "/" + file.name,
+                                      content: content,
+                                      projectId: props.project?._id as string,
+                                    });
+
+                                    const x = await REST.IDE.getProject({
+                                      token: localStorage.getItem(
+                                        "token"
+                                      ) as string,
+                                      projectId: props.project?._id as string,
+                                    });
+
+                                    props.setProject(x.payload.project);
+                                  } else {
+                                    const FR = new FileReader();
+
+                                    FR.readAsDataURL(file);
+
+                                    FR.onload = async () => {
+                                      await REST.IDE.saveFile({
+                                        token: localStorage.getItem(
+                                          "token"
+                                        ) as string,
+                                        path: "/" + file.name,
+                                        content: FR.result as string,
+                                        projectId: props.project?._id as string,
+                                      });
+
+                                      const x = await REST.IDE.getProject({
+                                        token: localStorage.getItem(
+                                          "token"
+                                        ) as string,
+                                        projectId: props.project?._id as string,
+                                      });
+                                      props.setProject(x.payload.project);
+                                    };
+                                    return;
+                                  }
+                                }
+                              }
+                            };
+
+                            document.body.appendChild(f);
+                            f.click();
+                            document.body.removeChild(f);
+                          }}
+                        />
+                      </Tooltip>
                     </>
                   ) : null}
-                  <Tooltip label={"Datei hochladen"} hasArrow>
-                    <IconButton
-                      aria-label="Datei hochladen"
-                      size="lg"
-                      fontSize={"2xl"}
-                      icon={<FiUpload />}
-                      variant="ghost"
-                      onClick={() => {
-                        const f = document.createElement("input");
-                        f.type = "file";
-                        f.style.display = "none";
-
-                        f.onchange = async () => {
-                          if (f.files && f.files.length > 0) {
-                            const file = f.files.item(0);
-                            if (file) {
-                              if (file.type.startsWith("text/")) {
-                                const content = await file.text();
-
-                                await REST.IDE.saveFile({
-                                  token: localStorage.getItem(
-                                    "token"
-                                  ) as string,
-                                  path: "/" + file.name,
-                                  content: content,
-                                  projectId: props.project?._id as string,
-                                });
-
-                                const x = await REST.IDE.getProject({
-                                  token: localStorage.getItem(
-                                    "token"
-                                  ) as string,
-                                  projectId: props.project?._id as string,
-                                });
-
-                                props.setProject(x.payload.project);
-                              } else {
-                                const FR = new FileReader();
-
-                                FR.readAsDataURL(file);
-
-                                FR.onload = async () => {
-                                  await REST.IDE.saveFile({
-                                    token: localStorage.getItem(
-                                      "token"
-                                    ) as string,
-                                    path: "/" + file.name,
-                                    content: FR.result as string,
-                                    projectId: props.project?._id as string,
-                                  });
-
-                                  const x = await REST.IDE.getProject({
-                                    token: localStorage.getItem(
-                                      "token"
-                                    ) as string,
-                                    projectId: props.project?._id as string,
-                                  });
-                                  props.setProject(x.payload.project);
-                                };
-                                return;
-                              }
-                            }
-                          }
-                        };
-
-                        document.body.appendChild(f);
-                        f.click();
-                        document.body.removeChild(f);
-                      }}
-                    />
-                  </Tooltip>
                 </Flex>
               </Flex>
               <Flex direction="column" maxH="90vh" overflow="auto">
@@ -381,8 +381,7 @@ export default function FileManager(props: {
                             </Box>
                             <Box flex="2%"></Box>
                             <Box flex="83%">
-                              /home/@{userInfo.username}/code/
-                              {props.project?.name}
+                              /@{userInfo.username}/{props.project?.name}
                             </Box>
                           </Flex>
                         </Box>

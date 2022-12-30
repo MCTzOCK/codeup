@@ -44,6 +44,7 @@ import Link from "next/link";
 import {
   FaCodeBranch,
   FaComment,
+  FaFileCode,
   FaProjectDiagram,
   FaSearch,
 } from "react-icons/fa";
@@ -188,7 +189,7 @@ export default function NavigationBar() {
     },
     {
       name: "Code Snippets",
-      icon: <FaCodeBranch />,
+      icon: <FaFileCode />,
       text: "Speicher Code Snippets für spätere Verwendung",
       href: "/snippets/my",
     },

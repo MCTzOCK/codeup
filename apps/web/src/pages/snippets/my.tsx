@@ -336,7 +336,6 @@ export default function MySnippetViewer() {
                   bg={"gray.900"}
                   p={"1rem"}
                   borderRadius={"0.5rem"}
-                  cursor={"pointer"}
                 >
                   <Flex alignItems={"center"}>
                     <Heading size={"lg"}>{snippet.title}</Heading>
