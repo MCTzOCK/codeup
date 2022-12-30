@@ -173,6 +173,12 @@ import {
 import { getProjectIdeas } from "./api/ProjectIdeas";
 import { getDiscoveryProjects } from "./api/Discovery";
 import { getBlog, getBlogs as getBlogsB } from "./api/Blog";
+import {
+  createSnippet,
+  deleteSnippet,
+  getSnippet,
+  getSnippets,
+} from "./api/Snippets";
 
 const REST = {
   Admin: {
@@ -347,6 +353,12 @@ const REST = {
   },
   Ideas: {
     getProjectIdeas,
+  },
+  Snippets: {
+    getSnippets,
+    getSnippet,
+    createSnippet,
+    deleteSnippet,
   },
 };
 
