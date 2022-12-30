@@ -32,6 +32,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
+  InputLeftElement,
   Link as ChakraLink,
   SimpleGrid,
   Text,
@@ -40,7 +41,13 @@ import {
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
-import { FaComment, FaProjectDiagram, FaSearch } from "react-icons/fa";
+import {
+  FaCodeBranch,
+  FaComment,
+  FaFileCode,
+  FaProjectDiagram,
+  FaSearch,
+} from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
@@ -180,6 +187,12 @@ export default function NavigationBar() {
       text: "Plane Projekte mit komplexen Flussdiagrammen",
       href: "/planning",
     },
+    {
+      name: "Code Snippets",
+      icon: <FaFileCode />,
+      text: "Speicher Code Snippets für spätere Verwendung",
+      href: "/snippets/my",
+    },
   ].sort((a, b) => {
     if (a.name < b.name) {
       return -1;
@@ -299,7 +312,7 @@ export default function NavigationBar() {
         title={"Werkzeuge"}
       >
         <Flex direction={"column"} w={"100%"}>
-          <InputGroup
+          <Box
             mb={8}
             position={"sticky"}
             top={0}
@@ -308,25 +321,27 @@ export default function NavigationBar() {
             backgroundColor={"gray.800"}
             shadow={"2xl"}
           >
-            <InputLeftAddon>
-              <FaSearch />
-            </InputLeftAddon>
-            <Input
-              placeholder={"Suchbegriff eingeben"}
-              onChange={(event) => {
-                const searchTerm = event.target.value.toLowerCase() as string;
+            <InputGroup>
+              <InputLeftElement>
+                <FaSearch />
+              </InputLeftElement>
+              <Input
+                placeholder={"Suchbegriff eingeben"}
+                onChange={(event) => {
+                  const searchTerm = event.target.value.toLowerCase() as string;
 
-                setFilteredMoreOptions(
-                  moreOptions.filter((option) => {
-                    return (
-                      option.name.toLowerCase().includes(searchTerm) ||
-                      option.text.toLowerCase().includes(searchTerm)
-                    );
-                  })
-                );
-              }}
-            />
-          </InputGroup>
+                  setFilteredMoreOptions(
+                    moreOptions.filter((option) => {
+                      return (
+                        option.name.toLowerCase().includes(searchTerm) ||
+                        option.text.toLowerCase().includes(searchTerm)
+                      );
+                    })
+                  );
+                }}
+              />
+            </InputGroup>
+          </Box>
           {filteredMoreOptions.map((item) => (
             <>
               <ExpandedMenuOption

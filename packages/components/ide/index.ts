@@ -11,3 +11,4 @@
 export { default as ContributorManager } from "./ContributorManager";
 export { default as PreviewModal } from "./PreviewModal";
 export { default as KeyboardShortcuts } from "./KeyboardShortcuts";
+export { default as SnippetViewer } from "./SnippetViewer";

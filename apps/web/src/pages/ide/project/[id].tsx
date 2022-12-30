@@ -58,9 +58,11 @@ import {
 } from "@chakra-ui/react";
 import {
   FaCloudUploadAlt,
+  FaCodeBranch,
   FaCogs,
   FaEye,
   FaFile,
+  FaFileCode,
   FaHome,
   FaKeyboard,
   FaUserFriends,
@@ -73,6 +75,7 @@ import {
   ContributorManager,
   KeyboardShortcuts,
   PreviewModal,
+  SnippetViewer,
 } from "@codeup/components/ide";
 import { useKeyPress, useLoggedIn } from "@codeup/hooks";
 import {
@@ -530,6 +533,12 @@ export default function Index() {
     onClose: onKSClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isCSOpen,
+    onOpen: onCSOpen,
+    onClose: onCSClose,
+  } = useDisclosure();
+
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
   const save = async () => {
@@ -702,6 +711,22 @@ export default function Index() {
                             duration: 4000,
                           });
                         }
+                      }}
+                    />
+                  </Tooltip>
+                ) : null}
+                {permissions.includes("WRITE") ||
+                permissions.includes("OWNER") ? (
+                  <Tooltip label={"Code Snippets"} placement={"right"} hasArrow>
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      p={"2rem"}
+                      icon={<FaFileCode />}
+                      rounded={"none"}
+                      onClick={async () => {
+                        onCSOpen();
                       }}
                     />
                   </Tooltip>
@@ -970,6 +995,7 @@ export default function Index() {
             onClose={onPublishClose}
             onOpen={onPublishOpen}
           />
+          <SnippetViewer isOpen={isCSOpen} onClose={onCSClose} />
         </>
       )}
     </>
