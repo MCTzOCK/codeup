@@ -109,7 +109,7 @@ export default async function handler(
   }
 }
 
-async function getEmbeds(content: string): any[] {
+async function getEmbeds(content: string): Promise<any[]> {
   const embeds: {
     type: "file" | "image" | "video" | "audio" | "link";
     url?: string;
@@ -119,44 +119,65 @@ async function getEmbeds(content: string): any[] {
     site_name?: string;
   }[] = [];
 
-  const links = content.match(/(https?:\/\/[^\s]+)/g);
+  const links = content.match(/(https?:\/\/[^\s]+)/g) || [];
 
   for (const link of links) {
-    const headRes = await fetch(link, {
-      method: "HEAD",
-    });
+    if (link.includes("https://codeup.space/project/")) {
+      const name = link.split("https://codeup.space/project/")[1].split("/")[0];
 
-    const contentType = ((headRes.headers.get("Content-Type") as string) || "")
-      .toLowerCase()
-      .split(";")[0];
-
-    if (contentType === "text/html") {
-      const o = await ogs({ url: link });
-      if (!o.error) {
-        embeds.push({
-          title: (o.result as any).ogTitle as string,
-          description: (o.result as any).ogDescription as string,
-          image: (o.result as any).ogImage.url as string,
-          url: (o.result as any).ogUrl as string,
-          site_name: (o.result as any).ogSiteName as string,
-          type: "link",
-        });
-      }
-    } else if (contentType.startsWith("image/")) {
       embeds.push({
+        type: "link",
         url: link,
-        type: "image",
-      });
-    } else if (contentType.startsWith("video/")) {
-      embeds.push({
-        url: link,
-        type: "video",
+        title: "CodeUp Projekt " + name,
+        description:
+          "Dies ist ein Link, der zu einem Projekt führt, welches auf CodeUp veröffentlicht wurde.",
+        image:
+          "https://camo.githubusercontent.com/457388f99649600f589dcb47b8dce5996d51153bc7e2b095d111a0ba08e7567a/68747470733a2f2f7374617469632e636f6e74656e742e62656e2d736965626572742e64652f6170692f7075626c69632f646c2f74494d4732635a543f696e6c696e653d74727565",
+        site_name: name,
       });
     } else {
-      embeds.push({
-        url: link,
-        type: "file",
-      });
+      try {
+        const headRes = await fetch(link, {
+          method: "HEAD",
+        });
+
+        const contentType = (
+          (headRes.headers.get("Content-Type") as string) || ""
+        )
+          .toLowerCase()
+          .split(";")[0];
+
+        if (contentType === "text/html") {
+          const o = await ogs({ url: link });
+          if (!o.error) {
+            embeds.push({
+              title: (o.result as any).ogTitle as string,
+              description: (o.result as any).ogDescription as string,
+              image: (o.result as any).ogImage.url as string,
+              url: (o.result as any).ogUrl as string,
+              site_name: (o.result as any).ogSiteName as string,
+              type: "link",
+            });
+          }
+        } else if (contentType.startsWith("image/")) {
+          embeds.push({
+            url: link,
+            type: "image",
+          });
+        } else if (contentType.startsWith("video/")) {
+          embeds.push({
+            url: link,
+            type: "video",
+          });
+        } else {
+          embeds.push({
+            url: link,
+            type: "file",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
