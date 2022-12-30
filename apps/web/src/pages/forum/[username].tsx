@@ -171,9 +171,7 @@ export default function Profile() {
 
         const r0 = await REST.Forum.createPostV2({
           token: localStorage.getItem("token") as string,
-          content: `${options.prefix}: ${url} ${
-            options.fileNameAsSuffix ? a.files?.[0].name : ""
-          }`,
+          content: location.origin + url,
         });
 
         if (r0.status === 200) {
