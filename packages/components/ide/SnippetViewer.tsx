@@ -58,7 +58,7 @@ export default function SnippetViewer(props: {
         }
       }
     );
-  });
+  }, []);
 
   const [filteredSnippets, setFilteredSnippets] = React.useState<
     typeof snippets
