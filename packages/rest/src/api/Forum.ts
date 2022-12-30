@@ -191,3 +191,13 @@ export async function sendMessage(options: {
     },
   });
 }
+
+export async function getEmbeds(links: string[]): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/forum/embeds",
+    method: "POST",
+    body: {
+      links: links,
+    },
+  });
+}

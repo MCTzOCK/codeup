@@ -284,6 +284,14 @@ app
             return;
           }
 
+          const arr = await mediaBucket.find({ filename }).toArray();
+
+          const gfsFile = arr[0] as typeof arr[0] & {
+            metadata: { contentType: string };
+          };
+
+          res.setHeader("Content-Type", gfsFile.metadata.contentType);
+
           await new Promise((resolve) => {
             file.on("data", (chunk) => {
               res.write(chunk);
