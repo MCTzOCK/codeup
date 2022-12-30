@@ -58,3 +58,22 @@ export async function deleteSnippet(options: {
     token: options.token,
   });
 }
+
+export async function updateSnippet(options: {
+  token: string;
+  id: string;
+  title: string;
+  code: string;
+  language: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    method: "PUT",
+    path: "/api/snippets?id=" + options.id,
+    token: options.token,
+    body: {
+      title: options.title,
+      code: options.code,
+      language: options.language,
+    },
+  });
+}

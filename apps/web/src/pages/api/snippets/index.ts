@@ -121,6 +121,48 @@ export default async function handleRequest(
           });
           return;
         }
+      } else if (req.method === "PUT") {
+        if (req.query.id) {
+          const snippet = await CodeSnippet.findById(req.query.id);
+
+          if (!snippet) {
+            res.status(404).json({
+              error: "Snippet not found",
+            });
+            return;
+          }
+
+          if (snippet.username !== user.username) {
+            res.status(403).json({
+              error: "You are not allowed to access this snippet",
+            });
+            return;
+          }
+
+          const code = req.body.code;
+          const language = req.body.language;
+          const title = req.body.title;
+
+          if (!code || !language || !title) {
+            res.status(400).json({
+              error: "Missing parameters",
+            });
+            return;
+          }
+
+          snippet.code = code;
+          snippet.language = language;
+          snippet.title = title;
+
+          await snippet.save();
+
+          res.status(200).json({ snippet });
+        } else {
+          res.status(400).json({
+            error: "Missing parameters",
+          });
+          return;
+        }
       }
     }
   );

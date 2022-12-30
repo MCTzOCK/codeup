@@ -178,6 +178,7 @@ import {
   deleteSnippet,
   getSnippet,
   getSnippets,
+  updateSnippet,
 } from "./api/Snippets";
 
 const REST = {
@@ -359,6 +360,7 @@ const REST = {
     getSnippet,
     createSnippet,
     deleteSnippet,
+    updateSnippet,
   },
 };
 
