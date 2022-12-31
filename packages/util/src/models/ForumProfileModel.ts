@@ -45,6 +45,10 @@ const ForumProfile = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
+  badges: {
+    type: [String],
+    default: [],
+  },
 });
 
 export default mongoose.models?.ForumProfile ||
