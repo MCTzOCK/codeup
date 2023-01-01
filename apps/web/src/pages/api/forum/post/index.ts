@@ -13,6 +13,7 @@ import { decode, verify } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import ForumPostModel from "@codeup/util/src/models/ForumPostModel";
 import ogs from "open-graph-scraper";
+import updateForumBadges from "@codeup/util/src/updateForumBadges";
 
 export default async function handler(
   req: NextApiRequest,
@@ -86,7 +87,7 @@ export default async function handler(
       res.status(200).json({
         post,
       });
-
+      await updateForumBadges(user.username);
       return;
     }
 
@@ -102,6 +103,8 @@ export default async function handler(
     res.status(200).json({
       post,
     });
+
+    await updateForumBadges(user.username);
   } catch (e) {
     res.status(500).json({
       error: e,

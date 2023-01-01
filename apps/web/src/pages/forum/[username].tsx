@@ -52,6 +52,8 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Stack,
+  HStack,
+  Image,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
@@ -339,6 +341,31 @@ export default function Profile() {
                   <Text color={"gray"}>@{profile.username}</Text>
                 </Box>
               </Flex>
+              <Box mt={4}>
+                {!editMode ? (
+                  <>
+                    <HStack>
+                      {
+                        // @ts-ignore
+                        profile.badges.map((b: string) => (
+                          <>
+                            <Tooltip label={"Der Benuter ist ein " + b}>
+                              <Image
+                                src={
+                                  "/_static/vectors/forum/badges/" + b + ".svg"
+                                }
+                                alt={b}
+                                w={8}
+                                h={8}
+                              />
+                            </Tooltip>
+                          </>
+                        ))
+                      }
+                    </HStack>
+                  </>
+                ) : null}
+              </Box>
               <Box mt={4}>
                 <UnorderedList>
                   {editMode ? (
