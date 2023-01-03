@@ -97,13 +97,6 @@ export default function Certificates() {
             alignItems={"center"}
             p={"2rem"}
           >
-            <Button
-              onClick={() => router.push("/admin")}
-              colorScheme={"red"}
-              leftIcon={<FaHome />}
-            >
-              Zurück
-            </Button>
             <Heading textAlign={"center"} size={"lg"} mt={4} flex={"100%"}>
               Zertifikatverwaltung
             </Heading>

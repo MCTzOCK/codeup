@@ -177,13 +177,6 @@ export default function UserManagement() {
                   alignItems={"center"}
                   p={"2rem"}
                 >
-                  <Button
-                    onClick={() => router.push("/admin")}
-                    colorScheme={"red"}
-                    leftIcon={<FaHome />}
-                  >
-                    Zurück
-                  </Button>
                   <Heading
                     textAlign={"center"}
                     size={"lg"}
