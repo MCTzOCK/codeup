@@ -160,8 +160,8 @@ export default function NavigationBar() {
     {
       name: "InCode",
       icon: <InCodeIcon />,
-      text: "Dokumentation der InCode Programmiersprache",
-      href: "/redirect?url=https://incode.codeup.space/docs",
+      text: "Originale Dokumentation der InCode Programmiersprache",
+      href: "/redirect?url=https://incode.codeup.space/docs/intro",
     },
     {
       name: "Zertifikate",
