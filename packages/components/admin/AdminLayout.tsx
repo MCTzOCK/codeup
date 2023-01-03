@@ -129,7 +129,7 @@ export default function AdminLayout(props: { children: ReactNode }) {
         setCollapsed(false);
       }
     }
-  }, [localStorage]);
+  }, []);
 
   return (
     <>
