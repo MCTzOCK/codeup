@@ -12,18 +12,31 @@ import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button,
   CircularProgress,
   Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   Grid,
   GridItem,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
 import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
@@ -31,6 +44,8 @@ import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const router = useRouter();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [reactSocket, setReactSocket] = React.useState<Socket>();
   let socket: Socket | null = null;
@@ -80,10 +95,89 @@ export default function Editor() {
     }
   };
 
+  const whatEverRef = React.useRef();
+
+  const [editProjectPropID, setEditProjectPropID] = React.useState<
+    string | null
+  >(null);
+
   return (
     <>
       {loggedIn ? (
         <>
+          <AlertDialog
+            isOpen={isOpen}
+            onClose={onClose}
+            isCentered
+            // @ts-ignore
+            leastDestructiveRef={whatEverRef}
+          >
+            <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
+              <AlertDialogContent bg={"black"}>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Projekt umbebenennen
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  <FormControl isRequired>
+                    <FormLabel>Name</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement>
+                        <FaPen />
+                      </InputLeftElement>
+                      <Input id={"edit-project-name"} placeholder={"Name"} />
+                    </InputGroup>
+                    <FormHelperText>
+                      Der Name sollte das Projekt bestmöglich beschreiben, damit
+                      du es später wieder findest.
+                    </FormHelperText>
+                  </FormControl>
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button
+                    onClick={onClose}
+                    // @ts-ignore
+                    ref={whatEverRef}
+                  >
+                    Abbrechen
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    variant={"outline"}
+                    onClick={() => {
+                      if (editProjectPropID) {
+                        reactSocket?.on(
+                          "editor:projects:rename",
+                          (data: any) => {
+                            if (data.success) {
+                              reactSocket?.emit("editor:projects:list");
+                            } else {
+                              alert(data.error);
+                            }
+                          }
+                        );
+
+                        reactSocket?.emit("editor:projects:rename", {
+                          id: editProjectPropID,
+                          name: (
+                            document.getElementById(
+                              "edit-project-name"
+                            ) as HTMLInputElement
+                          )?.value,
+                        });
+                        onClose();
+                      }
+                    }}
+                    ml={3}
+                  >
+                    Bestätigen
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+
           <Heading textAlign={"center"} size={"2xl"} mt={8}>
             Projekte
           </Heading>
@@ -216,25 +310,8 @@ export default function Editor() {
                       colorScheme={"green"}
                       w={"100%"}
                       onClick={() => {
-                        const newName = prompt("Namen eingeben");
-
-                        if (newName) {
-                          reactSocket?.on(
-                            "editor:projects:rename",
-                            (data: any) => {
-                              if (data.success) {
-                                reactSocket?.emit("editor:projects:list");
-                              } else {
-                                alert(data.error);
-                              }
-                            }
-                          );
-
-                          reactSocket?.emit("editor:projects:rename", {
-                            id: project._id,
-                            name: newName,
-                          });
-                        }
+                        setEditProjectPropID(project._id);
+                        onOpen();
                       }}
                     >
                       Umbenennen
