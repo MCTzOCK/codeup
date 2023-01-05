@@ -120,7 +120,8 @@ export default function Editor() {
 
                   reactSocket?.on("editor:projects:create", (data: any) => {
                     if (data.success) {
-                      setProjects([...projects, data.project]);
+                      reactSocket?.emit("editor:projects:list");
+                      // setProjects([...projects, data.project]);
                     } else {
                       alert(data.error);
                     }
@@ -140,106 +141,107 @@ export default function Editor() {
                 <FaPlus />
               </Heading>
             </GridItem>
-            {projects.map((project) => (
-              <GridItem
-                key={project.id}
-                bg={"gray.900"}
-                p={"1rem"}
-                borderRadius={"0.5rem"}
-              >
-                <Stack spacing={4}>
-                  <Heading fontSize={"2xl"}>{project.name}</Heading>
-                  <Text fontSize={"xl"}>
-                    {new Date(project.updated_at).toLocaleString()}
-                  </Text>
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      leftIcon={<FaTrash />}
+            {projects
+              .sort((a, b) => {
+                return (
+                  new Date(b.updated_at).getTime() -
+                  new Date(a.updated_at).getTime()
+                );
+              })
+              .map((project) => (
+                <GridItem
+                  key={project.id}
+                  bg={"gray.900"}
+                  p={"1rem"}
+                  borderRadius={"0.5rem"}
+                >
+                  <Stack spacing={4}>
+                    <Heading fontSize={"2xl"}>{project.name}</Heading>
+                    <Text fontSize={"xl"}>
+                      {new Date(project.updated_at).toLocaleString()}
+                    </Text>
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        leftIcon={<FaTrash />}
+                        textAlign={"left"}
+                        colorScheme={"red"}
+                        w={"100%"}
+                      >
+                        Löschen
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            reactSocket?.on(
+                              "editor:projects:delete",
+                              (data: any) => {
+                                if (data.success) {
+                                  setProjects(
+                                    projects.filter(
+                                      (p) => p._id !== project._id
+                                    )
+                                  );
+                                } else {
+                                  alert(data.error);
+                                }
+                              }
+                            );
+
+                            reactSocket?.emit("editor:projects:delete", {
+                              id: project._id,
+                            });
+                          }}
+                        >
+                          Unwiederruflich löschen
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                    <Button
+                      leftIcon={<FaEye />}
                       textAlign={"left"}
-                      colorScheme={"red"}
+                      justifyContent={"left"}
+                      colorScheme={"blue"}
                       w={"100%"}
+                      onClick={() => {
+                        router.push(`/editor/${project._id}`);
+                      }}
                     >
-                      Löschen
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem
-                        onClick={() => {
+                      Öffnen
+                    </Button>
+                    <Button
+                      leftIcon={<FaPen />}
+                      textAlign={"left"}
+                      justifyContent={"left"}
+                      colorScheme={"green"}
+                      w={"100%"}
+                      onClick={() => {
+                        const newName = prompt("Namen eingeben");
+
+                        if (newName) {
                           reactSocket?.on(
-                            "editor:projects:delete",
+                            "editor:projects:rename",
                             (data: any) => {
                               if (data.success) {
-                                setProjects(
-                                  projects.filter((p) => p._id !== project._id)
-                                );
+                                reactSocket?.emit("editor:projects:list");
                               } else {
                                 alert(data.error);
                               }
                             }
                           );
 
-                          reactSocket?.emit("editor:projects:delete", {
+                          reactSocket?.emit("editor:projects:rename", {
                             id: project._id,
+                            name: newName,
                           });
-                        }}
-                      >
-                        Unwiederruflich löschen
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                  <Button
-                    leftIcon={<FaEye />}
-                    textAlign={"left"}
-                    justifyContent={"left"}
-                    colorScheme={"blue"}
-                    w={"100%"}
-                    onClick={() => {
-                      router.push(`/editor/${project._id}`);
-                    }}
-                  >
-                    Öffnen
-                  </Button>
-                  <Button
-                    leftIcon={<FaPen />}
-                    textAlign={"left"}
-                    justifyContent={"left"}
-                    colorScheme={"green"}
-                    w={"100%"}
-                    onClick={() => {
-                      const newName = prompt("Namen eingeben");
-
-                      if (newName) {
-                        reactSocket?.on(
-                          "editor:projects:rename",
-                          (data: any) => {
-                            if (data.success) {
-                              setProjects(
-                                projects.map((p) => {
-                                  if (p._id === project._id) {
-                                    p.name = newName;
-                                  }
-
-                                  return p;
-                                })
-                              );
-                            } else {
-                              alert(data.error);
-                            }
-                          }
-                        );
-
-                        reactSocket?.emit("editor:projects:rename", {
-                          id: project._id,
-                          name: newName,
-                        });
-                      }
-                    }}
-                  >
-                    Umbenennen
-                  </Button>
-                </Stack>
-              </GridItem>
-            ))}
+                        }
+                      }}
+                    >
+                      Umbenennen
+                    </Button>
+                  </Stack>
+                </GridItem>
+              ))}
           </Grid>
         </>
       ) : (
