@@ -21,6 +21,7 @@ import { compile } from "@codeup/incode-compiler/dist";
 import { lookup as mimeLookup } from "mime-types";
 import formidable from "formidable";
 import { randomBytes } from "crypto";
+import { createSocketServer } from "./socket";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const app = next.default({
@@ -48,7 +49,7 @@ app
       }
     );
 
-    createServer(async (req, res) => {
+    const httpServer = createServer(async (req, res) => {
       const parsedUrl = parse(req.url!, true);
 
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -307,7 +308,11 @@ app
       }
 
       await handle(req, res, parsedUrl);
-    }).listen(port, "0.0.0.0", 10, () => {
+    });
+
+    createSocketServer(httpServer);
+
+    httpServer.listen(port, "0.0.0.0", 10, () => {
       console.log(`> Ready on http://localhost:${port}`);
     });
   })

@@ -1,0 +1,213 @@
+/**
+ * apps/web/src/pages/editor/index.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2023 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 05.01.2023
+ *
+ */
+
+import * as React from "react";
+import { useLoggedIn } from "@codeup/hooks";
+import { useRouter } from "next/router";
+import {
+  Button,
+  CircularProgress,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { io, Socket } from "socket.io-client";
+import { FaPlus, FaTrash } from "react-icons/fa";
+
+export default function Editor() {
+  const { loggedIn, userInfo, loaded } = useLoggedIn();
+  const router = useRouter();
+
+  const [reactSocket, setReactSocket] = React.useState<Socket>();
+  let socket: Socket | null = null;
+
+  const [projects, setProjects] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (loaded) {
+      if (!loggedIn) {
+        router.push("/#login");
+        window.dispatchEvent(new CustomEvent("codeup::open_login"));
+      } else {
+        socket = io();
+        setReactSocket(socket);
+        registerSocket();
+      }
+    }
+  }, [loggedIn, userInfo, loaded, router]);
+
+  const registerSocket = () => {
+    if (socket) {
+      socket.on("authenticate", (data: any) => {
+        console.debug(data);
+        if (data.authenticated) {
+          console.debug("Authenticated");
+
+          if (socket) {
+            socket.on("editor:projects:list", (data: any) => {
+              console.debug(data);
+              if (data.success) {
+                setProjects(data.projects);
+              }
+            });
+
+            socket.emit("editor:projects:list");
+          }
+        } else {
+          router.push("/#login");
+          window.dispatchEvent(new CustomEvent("codeup::open_login"));
+        }
+      });
+
+      socket.emit("authenticate", localStorage.getItem("token") as string);
+
+      // @ts-ignore
+      window.__backup_socket = socket;
+    }
+  };
+
+  return (
+    <>
+      {loggedIn ? (
+        <>
+          <Heading textAlign={"center"} size={"2xl"} mt={8}>
+            Projekte
+          </Heading>
+          <Grid
+            templateColumns={[
+              "repeat(1, 1fr)",
+              "repeat(2, 1fr)",
+              "repeat(3, 1fr)",
+              "repeat(4, 1fr)",
+              "repeat(5, 1fr)",
+            ]}
+            gap={6}
+            p={4}
+            mt={"2rem"}
+          >
+            <GridItem
+              key={"new"}
+              bg={"gray.900"}
+              p={"1rem"}
+              borderRadius={"0.5rem"}
+              _hover={{
+                cursor: "pointer",
+                borderColor: "blue.300",
+                borderWidth: "1px",
+                borderStyle: "solid",
+              }}
+              onClick={() => {
+                const name = prompt("Enter Name");
+
+                if (name) {
+                  reactSocket?.emit("editor:projects:create", {
+                    name: name,
+                  });
+
+                  reactSocket?.on("editor:projects:create", (data: any) => {
+                    if (data.success) {
+                      setProjects([...projects, data.project]);
+                    } else {
+                      alert(data.error);
+                    }
+                  });
+                }
+              }}
+            >
+              <Heading
+                fontSize={"8xl"}
+                textAlign={"center"}
+                color={"blue.300"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                display={"flex"}
+                h={"100%"}
+              >
+                <FaPlus />
+              </Heading>
+            </GridItem>
+            {projects.map((project) => (
+              <GridItem
+                key={project.id}
+                bg={"gray.900"}
+                p={"1rem"}
+                borderRadius={"0.5rem"}
+              >
+                <Stack spacing={4}>
+                  <Heading fontSize={"2xl"}>{project.name}</Heading>
+                  <Text fontSize={"xl"}>
+                    {new Date(project.updated_at).toLocaleString()}
+                  </Text>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      leftIcon={<FaTrash />}
+                      textAlign={"left"}
+                      colorScheme={"red"}
+                      w={"100%"}
+                    >
+                      Löschen
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem
+                        onClick={() => {
+                          reactSocket?.on(
+                            "editor:projects:delete",
+                            (data: any) => {
+                              if (data.success) {
+                                setProjects(
+                                  projects.filter((p) => p._id !== project._id)
+                                );
+                              } else {
+                                alert(data.error);
+                              }
+                            }
+                          );
+
+                          reactSocket?.emit("editor:projects:delete", {
+                            id: project._id,
+                          });
+                        }}
+                      >
+                        Unwiederruflich löschen
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Stack>
+              </GridItem>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Flex
+            w={"100%"}
+            h={"100vh"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            direction={"column"}
+          >
+            <CircularProgress size={"80px"} isIndeterminate color="green.300" />
+            <Heading size={"lg"} mt={4}>
+              Anmelden ...
+            </Heading>
+          </Flex>
+        </>
+      )}
+    </>
+  );
+}
