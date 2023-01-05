@@ -39,7 +39,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
-import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import { FaEye, FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -100,6 +100,8 @@ export default function Editor() {
   const [editProjectPropID, setEditProjectPropID] = React.useState<
     string | null
   >(null);
+
+  const [query, setQuery] = React.useState<string>("");
 
   return (
     <>
@@ -181,6 +183,24 @@ export default function Editor() {
           <Heading textAlign={"center"} size={"2xl"} mt={8}>
             Projekte
           </Heading>
+
+          <Flex justifyContent={"center"} mt={8}>
+            <FormControl w={["75%", "25%"]}>
+              <InputGroup>
+                <InputLeftElement>
+                  <FaSearch />
+                </InputLeftElement>
+                <Input
+                  placeholder={"Suche"}
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                  }}
+                />
+              </InputGroup>
+            </FormControl>
+          </Flex>
+
           <Grid
             templateColumns={[
               "repeat(1, 1fr)",
@@ -236,6 +256,12 @@ export default function Editor() {
               </Heading>
             </GridItem>
             {projects
+              .filter((project) => {
+                return project.name
+                  .toLowerCase()
+                  .trim()
+                  .includes(query.toLowerCase().trim());
+              })
               .sort((a, b) => {
                 return (
                   new Date(b.updated_at).getTime() -
