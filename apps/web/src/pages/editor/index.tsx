@@ -26,7 +26,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -111,7 +111,7 @@ export default function Editor() {
                 borderStyle: "solid",
               }}
               onClick={() => {
-                const name = prompt("Enter Name");
+                const name = prompt("Namen eingeben");
 
                 if (name) {
                   reactSocket?.emit("editor:projects:create", {
@@ -187,6 +187,56 @@ export default function Editor() {
                       </MenuItem>
                     </MenuList>
                   </Menu>
+                  <Button
+                    leftIcon={<FaEye />}
+                    textAlign={"left"}
+                    justifyContent={"left"}
+                    colorScheme={"blue"}
+                    w={"100%"}
+                    onClick={() => {
+                      router.push(`/editor/${project._id}`);
+                    }}
+                  >
+                    Öffnen
+                  </Button>
+                  <Button
+                    leftIcon={<FaPen />}
+                    textAlign={"left"}
+                    justifyContent={"left"}
+                    colorScheme={"green"}
+                    w={"100%"}
+                    onClick={() => {
+                      const newName = prompt("Namen eingeben");
+
+                      if (newName) {
+                        reactSocket?.on(
+                          "editor:projects:rename",
+                          (data: any) => {
+                            if (data.success) {
+                              setProjects(
+                                projects.map((p) => {
+                                  if (p._id === project._id) {
+                                    p.name = newName;
+                                  }
+
+                                  return p;
+                                })
+                              );
+                            } else {
+                              alert(data.error);
+                            }
+                          }
+                        );
+
+                        reactSocket?.emit("editor:projects:rename", {
+                          id: project._id,
+                          name: newName,
+                        });
+                      }
+                    }}
+                  >
+                    Umbenennen
+                  </Button>
                 </Stack>
               </GridItem>
             ))}

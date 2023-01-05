@@ -14,6 +14,7 @@ import EditorProjectListChannel from "./channels/EditorProjectList";
 import SocketRegistry from "./SocketRegistry";
 import EditorProjectCreateChannel from "./channels/EditorProjectCreate";
 import EditorProjectDeleteChannel from "./channels/EditorProjectDelete";
+import EditorProjectRenameChannel from "./channels/EditorProjectRename";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -41,11 +42,17 @@ export function createSocketServer(httpServer: HTTPServer) {
       "editor:projects:delete"
     );
 
+    const editorProjectRenameChannel = new EditorProjectRenameChannel(
+      socket,
+      "editor:projects:rename"
+    );
+
     authenticateChannel.register();
 
     editorProjectListChannel.register();
     editorProjectCreateChannel.register();
     editorProjectDeleteChannel.register();
+    editorProjectRenameChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];
