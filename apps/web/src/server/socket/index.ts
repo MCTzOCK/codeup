@@ -15,6 +15,10 @@ import SocketRegistry from "./SocketRegistry";
 import EditorProjectCreateChannel from "./channels/EditorProjectCreate";
 import EditorProjectDeleteChannel from "./channels/EditorProjectDelete";
 import EditorProjectRenameChannel from "./channels/EditorProjectRename";
+import EditorProjectContributorChannel from "./channels/EditorProjectContributorChannel";
+import EditorProjectContributorAddChannel from "./channels/EditorProjectContributorAddChannel";
+import EditorProjectContributorDeleteChannel from "./channels/EditorProjectContributorDeleteChannel";
+import EditorProjectContributorPermissionChannel from "./channels/EditorProjectContributorPermissionChannel";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -47,12 +51,39 @@ export function createSocketServer(httpServer: HTTPServer) {
       "editor:projects:rename"
     );
 
+    const editorProjectContributorChannel = new EditorProjectContributorChannel(
+      socket,
+      "editor:projects:contributors"
+    );
+
+    const editorProjectContributorAddChannel =
+      new EditorProjectContributorAddChannel(
+        socket,
+        "editor:projects:contributors:add"
+      );
+
+    const editorProjectContributorDeleteChannel =
+      new EditorProjectContributorDeleteChannel(
+        socket,
+        "editor:projects:contributors:delete"
+      );
+
+    const editorProjectContributorPermissionChannel =
+      new EditorProjectContributorPermissionChannel(
+        socket,
+        "editor:projects:contributors:permission"
+      );
+
     authenticateChannel.register();
 
     editorProjectListChannel.register();
     editorProjectCreateChannel.register();
     editorProjectDeleteChannel.register();
     editorProjectRenameChannel.register();
+    editorProjectContributorChannel.register();
+    editorProjectContributorAddChannel.register();
+    editorProjectContributorDeleteChannel.register();
+    editorProjectContributorPermissionChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];

@@ -19,6 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
+  ButtonGroup,
   CircularProgress,
   Flex,
   FormControl,
@@ -39,13 +40,26 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
-import { FaEye, FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import {
+  FaEye,
+  FaPen,
+  FaPlus,
+  FaSearch,
+  FaTrash,
+  FaUsers,
+} from "react-icons/fa";
+import CollaboratorManager from "@codeup/components/editor/CollaboratorManager";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCollabOpen,
+    onOpen: onCollabOpen,
+    onClose: onCollabClose,
+  } = useDisclosure();
 
   const [reactSocket, setReactSocket] = React.useState<Socket>();
   let socket: Socket | null = null;
@@ -329,19 +343,34 @@ export default function Editor() {
                     >
                       Öffnen
                     </Button>
-                    <Button
-                      leftIcon={<FaPen />}
-                      textAlign={"left"}
-                      justifyContent={"left"}
-                      colorScheme={"green"}
-                      w={"100%"}
-                      onClick={() => {
-                        setEditProjectPropID(project._id);
-                        onOpen();
-                      }}
-                    >
-                      Umbenennen
-                    </Button>
+                    <ButtonGroup w={"100%"}>
+                      <Button
+                        leftIcon={<FaPen />}
+                        textAlign={"left"}
+                        justifyContent={"left"}
+                        colorScheme={"green"}
+                        w={"100%"}
+                        onClick={() => {
+                          setEditProjectPropID(project._id);
+                          onOpen();
+                        }}
+                      >
+                        Umbenennen
+                      </Button>
+                      <Button
+                        leftIcon={<FaUsers />}
+                        textAlign={"left"}
+                        justifyContent={"left"}
+                        colorScheme={"yellow"}
+                        w={"100%"}
+                        onClick={() => {
+                          setEditProjectPropID(project._id);
+                          onCollabOpen();
+                        }}
+                      >
+                        Mitwirkende
+                      </Button>
+                    </ButtonGroup>
                   </Stack>
                 </GridItem>
               ))}
@@ -363,6 +392,14 @@ export default function Editor() {
           </Flex>
         </>
       )}
+
+      <CollaboratorManager
+        isOpen={isCollabOpen}
+        onClose={onCollabClose}
+        onOpen={onCollabOpen}
+        projectId={editProjectPropID || ""}
+        socket={reactSocket as Socket}
+      />
     </>
   );
 }
