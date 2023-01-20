@@ -9,72 +9,61 @@
  */
 
 import * as React from "react";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
-  Flex,
-  Spinner,
-  Box,
-  Heading,
   Avatar,
-  Text,
-  chakra,
-  UnorderedList,
-  ListItem,
-  Link,
-  IconButton,
-  Tooltip,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
+  Box,
   Button,
-  AlertDialog,
-  useDisclosure,
+  ButtonGroup,
+  chakra,
+  Divider,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Image,
   Input,
   InputGroup,
   InputLeftAddon,
-  Textarea,
-  ButtonGroup,
-  useToast,
-  Divider,
-  Badge,
+  Link,
+  ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Popover,
   PopoverArrow,
-  PopoverContent,
-  PopoverHeader,
   PopoverBody,
+  PopoverContent,
   PopoverFooter,
+  PopoverHeader,
   PopoverTrigger,
+  Spinner,
   Stack,
-  HStack,
-  Image,
+  Text,
+  Textarea,
+  Tooltip,
+  UnorderedList,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import {
   FaBirthdayCake,
   FaCheckCircle,
-  FaClock,
   FaEnvelope,
-  FaGlobe,
-  FaMapMarker,
-  FaMapMarkerAlt,
-  FaPen,
-  FaTrashAlt,
-  FaPlus,
-  FaImage,
-  FaVideo,
   FaFile,
+  FaGlobe,
+  FaImage,
+  FaMapMarkerAlt,
+  FaVideo,
 } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import Head from "next/head";
+import PopupManager from "../../global/PopupManager";
 
 export default function Profile() {
   const router = useRouter();
@@ -294,7 +283,26 @@ export default function Profile() {
                         >
                           Bearbeiten
                         </MenuItem>
-                        <MenuItem onClick={onDeleteProfileOpen}>
+                        <MenuItem
+                          onClick={async () => {
+                            if (
+                              await PopupManager.confirmAsync({
+                                title: "Profil löschen",
+                                question:
+                                  "Bist du dir sicher, dass du dein Profil löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+                              })
+                            )
+                              if (profile) {
+                                await REST.Forum.deleteProfileV2({
+                                  username: profile.username,
+                                  token: localStorage.getItem("token") || "",
+                                });
+                              }
+
+                            onDeleteProfileClose();
+                            router.push("/forum");
+                          }}
+                        >
                           Löschen
                         </MenuItem>
                       </MenuList>
@@ -688,53 +696,6 @@ export default function Profile() {
           </Flex>
         </>
       ) : null}
-      <AlertDialog
-        isOpen={isDeleteProfileOpen}
-        onClose={onDeleteProfileClose}
-        isCentered
-        // @ts-ignore
-        leastDestructiveRef={whatEverRef}
-      >
-        <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
-          <AlertDialogContent bg={"black"}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Profil löschen
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Willst du dein Profil wirklich unwiederruflich löschen?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                onClick={onDeleteProfileClose}
-                // @ts-ignore
-                ref={whatEverRef}
-              >
-                Abbrechen
-              </Button>
-              <Button
-                colorScheme="red"
-                variant={"outline"}
-                onClick={async () => {
-                  if (profile) {
-                    await REST.Forum.deleteProfileV2({
-                      username: profile.username,
-                      token: localStorage.getItem("token") || "",
-                    });
-                  }
-
-                  onDeleteProfileClose();
-                  router.push("/forum");
-                }}
-                ml={3}
-              >
-                Löschen
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </>
   );
 }

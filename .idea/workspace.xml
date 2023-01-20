@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorAddChannel.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorChannel.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorDeleteChannel.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorPermissionChannel.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/editor/CollaboratorManager.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/ConfirmPopupComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/PromptPopupComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/theme.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/forum/[username].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/forum/[username].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +33,8 @@
         <option value="CSS File" />
         <option value="React Component" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -73,7 +73,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.7.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.7.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2023_CodeUp/apps/web/src/server/socket/channels&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/bp-create&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,

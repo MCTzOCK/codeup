@@ -11,14 +11,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
-  Button,
   Divider,
   Drawer,
   DrawerBody,
@@ -31,10 +24,8 @@ import {
   IconButton,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputLeftElement,
   Link as ChakraLink,
-  SimpleGrid,
   Text,
   useDisclosure,
   useMediaQuery,
@@ -42,7 +33,6 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 import {
-  FaCodeBranch,
   FaComment,
   FaFileCode,
   FaProjectDiagram,
@@ -58,9 +48,22 @@ import UserAuthAction from "./UserAuthAction";
 import NavigationBarMenu from "./NavigationBarMenu";
 import MenuButtons from "./MenuButtons";
 import CodeUpModal from "../codeup/CodeUpModal";
+import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();
+
+  const logout = async () => {
+    if (
+      await PopupManager.confirmAsync({
+        title: "Abmelden",
+        question: "Willst du dich wirklich abmelden?",
+      })
+    ) {
+      localStorage.removeItem("token");
+      router.push("/");
+    }
+  };
 
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -239,7 +242,7 @@ export default function NavigationBar() {
                 onClose={onClose}
                 onOpen={onOpen}
                 onMoreMenuOpen={onMoreMenuOpen}
-                onLogoutOpen={onLogoutOpen}
+                onLogoutOpen={logout}
               />
             ) : (
               <>
@@ -266,7 +269,7 @@ export default function NavigationBar() {
                           onClose={onClose}
                           onOpen={onOpen}
                           onMoreMenuOpen={onMoreMenuOpen}
-                          onLogoutOpen={onLogoutOpen}
+                          onLogoutOpen={logout}
                         />
                       </Flex>
                       <Flex
@@ -278,7 +281,7 @@ export default function NavigationBar() {
                         <MenuButtons
                           onClose={onClose}
                           onUserAuthOpen={onUserAuthOpen}
-                          onLogoutOpen={onLogoutOpen}
+                          onLogoutOpen={logout}
                         />
                       </Flex>
                     </DrawerBody>
@@ -298,7 +301,7 @@ export default function NavigationBar() {
               <MenuButtons
                 onClose={onClose}
                 onUserAuthOpen={onUserAuthOpen}
-                onLogoutOpen={onLogoutOpen}
+                onLogoutOpen={logout}
               />
             </Flex>
           ) : null}
@@ -354,46 +357,6 @@ export default function NavigationBar() {
           ))}
         </Flex>
       </CodeUpModal>
-      <AlertDialog
-        isOpen={isLogoutOpen}
-        onClose={onLogoutClose}
-        isCentered
-        // @ts-ignore
-        leastDestructiveRef={whatEverRef}
-      >
-        <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
-          <AlertDialogContent bg={"black"}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Abmelden
-            </AlertDialogHeader>
-
-            <AlertDialogBody>Willst du dich wirklich abmelden?</AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                onClick={onLogoutClose}
-                // @ts-ignore
-                ref={whatEverRef}
-              >
-                Abbrechen
-              </Button>
-              <Button
-                colorScheme="red"
-                variant={"outline"}
-                onClick={() => {
-                  onClose();
-                  onLogoutClose();
-                  localStorage.removeItem("token");
-                  router.push("/");
-                }}
-                ml={3}
-              >
-                Abmelden
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </>
   );
 }

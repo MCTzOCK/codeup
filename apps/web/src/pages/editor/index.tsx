@@ -12,19 +12,11 @@ import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   ButtonGroup,
   CircularProgress,
   Flex,
   FormControl,
-  FormHelperText,
-  FormLabel,
   Grid,
   GridItem,
   Heading,
@@ -49,6 +41,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import CollaboratorManager from "@codeup/components/editor/CollaboratorManager";
+import PopupManager from "../../global/PopupManager";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -121,79 +114,6 @@ export default function Editor() {
     <>
       {loggedIn ? (
         <>
-          <AlertDialog
-            isOpen={isOpen}
-            onClose={onClose}
-            isCentered
-            // @ts-ignore
-            leastDestructiveRef={whatEverRef}
-          >
-            <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
-              <AlertDialogContent bg={"black"}>
-                <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                  Projekt umbebenennen
-                </AlertDialogHeader>
-
-                <AlertDialogBody>
-                  <FormControl isRequired>
-                    <FormLabel>Name</FormLabel>
-                    <InputGroup>
-                      <InputLeftElement>
-                        <FaPen />
-                      </InputLeftElement>
-                      <Input id={"edit-project-name"} placeholder={"Name"} />
-                    </InputGroup>
-                    <FormHelperText>
-                      Der Name sollte das Projekt bestmöglich beschreiben, damit
-                      du es später wieder findest.
-                    </FormHelperText>
-                  </FormControl>
-                </AlertDialogBody>
-
-                <AlertDialogFooter>
-                  <Button
-                    onClick={onClose}
-                    // @ts-ignore
-                    ref={whatEverRef}
-                  >
-                    Abbrechen
-                  </Button>
-                  <Button
-                    colorScheme="red"
-                    variant={"outline"}
-                    onClick={() => {
-                      if (editProjectPropID) {
-                        reactSocket?.on(
-                          "editor:projects:rename",
-                          (data: any) => {
-                            if (data.success) {
-                              reactSocket?.emit("editor:projects:list");
-                            } else {
-                              alert(data.error);
-                            }
-                          }
-                        );
-
-                        reactSocket?.emit("editor:projects:rename", {
-                          id: editProjectPropID,
-                          name: (
-                            document.getElementById(
-                              "edit-project-name"
-                            ) as HTMLInputElement
-                          )?.value,
-                        });
-                        onClose();
-                      }
-                    }}
-                    ml={3}
-                  >
-                    Bestätigen
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialogOverlay>
-          </AlertDialog>
-
           <Heading textAlign={"center"} size={"2xl"} mt={8}>
             Projekte
           </Heading>
@@ -238,8 +158,12 @@ export default function Editor() {
                 borderWidth: "1px",
                 borderStyle: "solid",
               }}
-              onClick={() => {
-                const name = prompt("Namen eingeben");
+              onClick={async () => {
+                const name = await PopupManager.promptAsync({
+                  title: "Neues Projekt",
+                  helperText:
+                    "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                });
 
                 if (name) {
                   reactSocket?.emit("editor:projects:create", {
@@ -350,9 +274,30 @@ export default function Editor() {
                         justifyContent={"left"}
                         colorScheme={"green"}
                         w={"100%"}
-                        onClick={() => {
-                          setEditProjectPropID(project._id);
-                          onOpen();
+                        onClick={async () => {
+                          const newName = await PopupManager.promptAsync({
+                            title: "Projekt umbenennen",
+                            helperText:
+                              "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                          });
+
+                          if (newName) {
+                            reactSocket?.on(
+                              "editor:projects:rename",
+                              (data: any) => {
+                                if (data.success) {
+                                  reactSocket?.emit("editor:projects:list");
+                                } else {
+                                  alert(data.error);
+                                }
+                              }
+                            );
+
+                            reactSocket?.emit("editor:projects:rename", {
+                              id: project._id,
+                              name: newName,
+                            });
+                          }
                         }}
                       >
                         Umbenennen
