@@ -12,6 +12,7 @@ import ReactDOM from "react-dom";
 import PromptPopupComponent from "./PopupManager/PromptPopupComponent";
 import theme from "./theme";
 import ConfirmPopupComponent from "./PopupManager/ConfirmPopupComponent";
+import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
 
 export default class PopupManager {
   public static prompt(options: {
@@ -61,6 +62,30 @@ export default class PopupManager {
             }}
             approve={options.approve}
             deny={options.deny}
+          />
+        </ChakraProvider>
+      </>,
+      document.querySelector("#__codeup_manual_mount_point") as HTMLElement
+    );
+  }
+
+  public static alert(options: {
+    title?: string | undefined;
+    description: string;
+  }): void {
+    ReactDOM.render(
+      <>
+        <ChakraProvider theme={theme}>
+          <AlertPopupComponent
+            title={options.title}
+            description={options.description}
+            onClose={() => {
+              ReactDOM.unmountComponentAtNode(
+                document.querySelector(
+                  "#__codeup_manual_mount_point"
+                ) as HTMLElement
+              );
+            }}
           />
         </ChakraProvider>
       </>,

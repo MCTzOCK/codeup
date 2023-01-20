@@ -33,6 +33,7 @@ import {
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
 import {
+  FaClock,
   FaEye,
   FaPen,
   FaPlus,
@@ -173,9 +174,10 @@ export default function Editor() {
                   reactSocket?.on("editor:projects:create", (data: any) => {
                     if (data.success) {
                       reactSocket?.emit("editor:projects:list");
-                      // setProjects([...projects, data.project]);
                     } else {
-                      alert(data.error);
+                      PopupManager.alert({
+                        description: data.error as string,
+                      });
                     }
                   });
                 }
@@ -215,46 +217,52 @@ export default function Editor() {
                 >
                   <Stack spacing={4}>
                     <Heading fontSize={"2xl"}>{project.name}</Heading>
-                    <Text fontSize={"xl"}>
+                    <Text
+                      fontSize={"xl"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      gap={3}
+                    >
+                      <FaClock />
                       {new Date(project.updated_at).toLocaleString()}
                     </Text>
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        leftIcon={<FaTrash />}
-                        textAlign={"left"}
-                        colorScheme={"red"}
-                        w={"100%"}
-                      >
-                        Löschen
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem
-                          onClick={() => {
-                            reactSocket?.on(
-                              "editor:projects:delete",
-                              (data: any) => {
-                                if (data.success) {
-                                  setProjects(
-                                    projects.filter(
-                                      (p) => p._id !== project._id
-                                    )
-                                  );
-                                } else {
-                                  alert(data.error);
-                                }
-                              }
-                            );
 
-                            reactSocket?.emit("editor:projects:delete", {
-                              id: project._id,
-                            });
-                          }}
-                        >
-                          Unwiederruflich löschen
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
+                    <Button
+                      leftIcon={<FaTrash />}
+                      textAlign={"left"}
+                      colorScheme={"red"}
+                      w={"100%"}
+                      onClick={async () => {
+                        if (
+                          await PopupManager.confirmAsync({
+                            title: "Projekt löschen",
+                            question:
+                              "Willst du das Projekt wirklich unwiederuflich löschen? Dies kann nicht rückgängig gemacht werden.",
+                          })
+                        ) {
+                          reactSocket?.on(
+                            "editor:projects:delete",
+                            (data: any) => {
+                              if (data.success) {
+                                setProjects(
+                                  projects.filter((p) => p._id !== project._id)
+                                );
+                              } else {
+                                PopupManager.alert({
+                                  description: data.error as string,
+                                });
+                              }
+                            }
+                          );
+
+                          reactSocket?.emit("editor:projects:delete", {
+                            id: project._id,
+                          });
+                        }
+                      }}
+                    >
+                      Löschen
+                    </Button>
                     <Button
                       leftIcon={<FaEye />}
                       textAlign={"left"}
@@ -288,7 +296,9 @@ export default function Editor() {
                                 if (data.success) {
                                   reactSocket?.emit("editor:projects:list");
                                 } else {
-                                  alert(data.error);
+                                  PopupManager.alert({
+                                    description: data.error as string,
+                                  });
                                 }
                               }
                             );
