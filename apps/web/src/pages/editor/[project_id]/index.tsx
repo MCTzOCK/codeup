@@ -241,6 +241,47 @@ export default function ProjectViewer() {
                     )}
                     <Text>{page.type}-Seite</Text>
                   </HStack>
+                  <ButtonGroup w={"100%"}>
+                    <Button
+                      w={"100%"}
+                      colorScheme={"red"}
+                      onClick={async () => {
+                        if (
+                          await PopupManager.confirmAsync({
+                            title: "Seite löschen",
+                            question:
+                              "Möchtest du diese Seite wirklich löschen?",
+                          })
+                        ) {
+                          if (reactSocket) {
+                            reactSocket.on(
+                              "editor:projects:pages:delete",
+                              (data: any) => {
+                                if (data.success) {
+                                  setPages(
+                                    pages.filter((p) => p._id !== page._id)
+                                  );
+                                } else {
+                                  PopupManager.alert({
+                                    title: "Fehler",
+                                    description: data.error as string,
+                                  });
+                                }
+                              }
+                            );
+
+                            reactSocket.emit("editor:projects:pages:delete", {
+                              projectId: router.query.project_id,
+                              pageId: page._id,
+                            });
+                          }
+                        }
+                      }}
+                      leftIcon={<FaTrash />}
+                    >
+                      Löschen
+                    </Button>
+                  </ButtonGroup>
                 </Stack>
               </GridItem>
             ))}
