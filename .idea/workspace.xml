@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/SelectPopupComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

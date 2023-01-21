@@ -51,11 +51,27 @@ export default class EditorProjectPageCreateChannel extends Channel {
           return;
         }
 
+        const existingPage = await EditorProjectPageModel.findOne({
+          project: project._id,
+          url,
+        });
+
+        if (existingPage) {
+          this.emit({
+            error: "Page already exists",
+            success: false,
+          });
+          return;
+        }
+
         const page = await EditorProjectPageModel.create({
           project: id,
           type,
           url,
-          mainContent: "",
+          mainContent:
+            type.toLowerCase() === "html"
+              ? "<h1>HTML Seite</h1>"
+              : 'Gib "Hallo Welt" in der Dialogbox aus',
           resources: [],
         });
 

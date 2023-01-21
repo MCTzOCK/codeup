@@ -26,7 +26,7 @@ export default function EditorProjectLayout(props: {
             <Box flex={"10%"}>
               <EditorPagesSidebar />
             </Box>
-            <Box flex={"80%"} bgColor={"gray.900"}>
+            <Box flex={"80%"} bgColor={"gray.800"}>
               {props.children}
             </Box>
           </Flex>

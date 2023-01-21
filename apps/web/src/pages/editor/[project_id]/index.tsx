@@ -13,6 +13,34 @@ import { io, Socket } from "socket.io-client";
 import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  FormControl,
+  Grid,
+  GridItem,
+  Heading,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import {
+  FaClock,
+  FaCode,
+  FaEye,
+  FaHtml5,
+  FaPen,
+  FaPlus,
+  FaSearch,
+  FaTrash,
+  FaUsers,
+} from "react-icons/fa";
+import PopupManager from "../../../global/PopupManager";
+import InCodeIcon from "@codeup/components/dist/icons/InCodeIcon";
 
 export default function ProjectViewer() {
   const router = useRouter();
@@ -22,7 +50,15 @@ export default function ProjectViewer() {
   const [reactSocket, setReactSocket] = React.useState<Socket>();
   let socket: Socket | null = null;
 
-  const [pages, setPages] = React.useState<any[]>([]);
+  const [pages, setPages] = React.useState<
+    {
+      _id: string;
+      url: string;
+      type: string;
+    }[]
+  >([]);
+
+  const [query, setQuery] = React.useState<string>("");
 
   React.useEffect(() => {
     if (loaded) {
@@ -30,9 +66,11 @@ export default function ProjectViewer() {
         router.push("/#login");
         window.dispatchEvent(new CustomEvent("codeup::open_login"));
       } else {
-        socket = io();
-        setReactSocket(socket);
-        registerSocket();
+        if (router.query.project_id) {
+          socket = io();
+          setReactSocket(socket);
+          registerSocket();
+        }
       }
     }
   }, [loggedIn, userInfo, loaded, router]);
@@ -45,6 +83,11 @@ export default function ProjectViewer() {
             socket.on("editor:projects:pages", (data: any) => {
               if (data.success) {
                 setPages(data.pages);
+              } else {
+                PopupManager.alert({
+                  title: "Fehler",
+                  description: data.error,
+                });
               }
             });
 
@@ -67,7 +110,142 @@ export default function ProjectViewer() {
 
   return (
     <>
-      <EditorProjectLayout>123</EditorProjectLayout>
+      <EditorProjectLayout>
+        <Heading textAlign={"center"} size={"2xl"} mt={8}>
+          Seiten
+        </Heading>
+
+        <Flex justifyContent={"center"} mt={8}>
+          <FormControl w={["75%", "45%"]}>
+            <InputGroup>
+              <InputLeftElement>
+                <FaSearch />
+              </InputLeftElement>
+              <Input
+                placeholder={"Suche"}
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+            </InputGroup>
+          </FormControl>
+        </Flex>
+
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
+            "repeat(5, 1fr)",
+          ]}
+          gap={6}
+          p={4}
+          mt={"2rem"}
+        >
+          <GridItem
+            key={"new"}
+            bg={"gray.900"}
+            p={"1rem"}
+            borderRadius={"0.5rem"}
+            _hover={{
+              cursor: "pointer",
+              borderColor: "blue.300",
+              borderWidth: "1px",
+              borderStyle: "solid",
+            }}
+            onClick={async () => {
+              const url = await PopupManager.promptAsync({
+                title: "Neue Seite",
+                helperText: "Gib die URL der neuen Seite ein. (z.B. /about)",
+              });
+
+              if (url) {
+                const type = await PopupManager.selectAsync({
+                  title: "Seitentyp",
+                  helperText: "Wähle den Seitentyp aus.",
+                  choices: ["HTML", "InCode"],
+                });
+
+                if (type) {
+                  if (reactSocket) {
+                    reactSocket.emit("editor:projects:pages:create", {
+                      id: router.query.project_id,
+                      url: url,
+                      type: type,
+                    });
+
+                    reactSocket.on(
+                      "editor:projects:pages:create",
+                      (data: any) => {
+                        if (data.success) {
+                          setPages([
+                            ...pages,
+                            {
+                              _id: data.page._id,
+                              url: data.page.url,
+                              type: data.page.type,
+                            },
+                          ]);
+                        } else {
+                          PopupManager.alert({
+                            title: "Fehler",
+                            description: data.error as string,
+                          });
+                        }
+                      }
+                    );
+                  }
+                }
+              }
+            }}
+          >
+            <Heading
+              fontSize={"8xl"}
+              textAlign={"center"}
+              color={"blue.300"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              display={"flex"}
+              h={"100%"}
+            >
+              <FaPlus />
+            </Heading>
+          </GridItem>
+          {pages
+            .filter((page) => {
+              return page.url
+                .toLowerCase()
+                .trim()
+                .includes(query.toLowerCase().trim());
+            })
+            .map((page) => (
+              <GridItem
+                key={page._id}
+                bg={"gray.900"}
+                p={"1rem"}
+                borderRadius={"0.5rem"}
+              >
+                <Stack spacing={4}>
+                  <Heading fontSize={"2xl"}>{page.url}</Heading>
+                  <HStack gap={".4rem"} fontSize={"lg"}>
+                    {page.type.toLowerCase() === "html" ? (
+                      <>
+                        <FaHtml5 />
+                      </>
+                    ) : (
+                      <>
+                        <FaCode />
+                      </>
+                    )}
+                    <Text>{page.type}-Seite</Text>
+                  </HStack>
+                </Stack>
+              </GridItem>
+            ))}
+        </Grid>
+      </EditorProjectLayout>
     </>
   );
 }

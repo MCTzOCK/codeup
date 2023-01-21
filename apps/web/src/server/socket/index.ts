@@ -20,6 +20,7 @@ import EditorProjectContributorAddChannel from "./channels/EditorProjectContribu
 import EditorProjectContributorDeleteChannel from "./channels/EditorProjectContributorDeleteChannel";
 import EditorProjectContributorPermissionChannel from "./channels/EditorProjectContributorPermissionChannel";
 import EditorProjectPagesChannel from "./channels/EditorProjectPages";
+import EditorProjectPageCreateChannel from "./channels/EditorProjectPageCreate";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -79,6 +80,10 @@ export function createSocketServer(httpServer: HTTPServer) {
       socket,
       "editor:projects:pages"
     );
+    const editorProjectPageCreateChannel = new EditorProjectPageCreateChannel(
+      socket,
+      "editor:projects:pages:create"
+    );
 
     authenticateChannel.register();
 
@@ -91,6 +96,7 @@ export function createSocketServer(httpServer: HTTPServer) {
     editorProjectContributorDeleteChannel.register();
     editorProjectContributorPermissionChannel.register();
     editorProjectPagesChannel.register();
+    editorProjectPageCreateChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];

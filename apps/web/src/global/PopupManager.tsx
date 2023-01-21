@@ -13,6 +13,7 @@ import PromptPopupComponent from "./PopupManager/PromptPopupComponent";
 import theme from "./theme";
 import ConfirmPopupComponent from "./PopupManager/ConfirmPopupComponent";
 import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
+import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
 
 export default class PopupManager {
   public static prompt(options: {
@@ -93,6 +94,34 @@ export default class PopupManager {
     );
   }
 
+  public static select(options: {
+    title: string;
+    helperText: string;
+    choices: string[];
+    callback: (input: string) => void;
+  }) {
+    ReactDOM.render(
+      <>
+        <ChakraProvider theme={theme}>
+          <SelectPopupComponent
+            title={options.title}
+            helperText={options.helperText}
+            callback={options.callback}
+            choices={options.choices}
+            onClose={() => {
+              ReactDOM.unmountComponentAtNode(
+                document.querySelector(
+                  "#__codeup_manual_mount_point"
+                ) as HTMLElement
+              );
+            }}
+          />
+        </ChakraProvider>
+      </>,
+      document.querySelector("#__codeup_manual_mount_point") as HTMLElement
+    );
+  }
+
   public static promptAsync(options: {
     title: string;
     helperText: string;
@@ -121,6 +150,23 @@ export default class PopupManager {
         },
         deny: () => {
           resolve(false);
+        },
+      });
+    });
+  }
+
+  public static selectAsync(options: {
+    title: string;
+    helperText: string;
+    choices: string[];
+  }): Promise<string> {
+    return new Promise((resolve) => {
+      this.select({
+        title: options.title,
+        helperText: options.helperText,
+        choices: options.choices,
+        callback: (input: string) => {
+          resolve(input);
         },
       });
     });

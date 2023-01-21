@@ -7,10 +7,10 @@
  * Created At: 20.01.2023
  *
  */
+import Channel from "./Channel";
 import { Socket } from "socket.io";
 import SocketRegistry from "../SocketRegistry";
-import EditorProjectModel from "@codeup/util/src/models/EditorProjectPageModel";
-import Channel from "./Channel";
+import EditorProjectModel from "@codeup/util/src/models/EditorProjectModel";
 import EditorProjectPageModel from "@codeup/util/src/models/EditorProjectPageModel";
 
 export default class EditorProjectPagesChannel extends Channel {

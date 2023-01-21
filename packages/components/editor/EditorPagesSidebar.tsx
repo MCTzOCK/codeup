@@ -9,23 +9,21 @@
  */
 
 import * as React from "react";
+import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import { Button, Flex } from "@chakra-ui/react";
 import {
   FaChartArea,
   FaCogs,
   FaDatabase,
-  FaFile,
   FaFileExport,
   FaHome,
-  FaHtml5,
   FaRegFile,
   FaRegImages,
   FaRocket,
   FaServer,
   FaUsers,
 } from "react-icons/fa";
-import { ReactNode } from "react";
 
 export default function EditorPagesSidebar() {
   const router = useRouter();
