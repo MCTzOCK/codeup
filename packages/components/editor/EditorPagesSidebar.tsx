@@ -48,62 +48,74 @@ export default function EditorPagesSidebar() {
     title: string;
     link: string;
     icon: ReactNode;
+    available: boolean;
   }[] = [
     {
       title: "Seiten",
       link: "/editor/" + projectId,
       icon: <FaRegFile />,
+      available: true,
     },
     {
       title: "Serverless",
       link: "/editor/" + projectId + "/serverless",
       icon: <FaServer />,
+      available: false,
     },
     {
       title: "Mitwirkende",
       link: "/editor/" + projectId + "/contributors",
       icon: <FaUsers />,
+      available: true,
     },
     {
       title: "Deployment",
       link: "/editor/" + projectId + "/deploy",
       icon: <FaRocket />,
+      available: false,
     },
     {
-      title: "Statische Daten",
+      title: "Statische Dateien",
       link: "/editor/" + projectId + "/staticassets",
       icon: <FaRegImages />,
+      available: false,
     },
     {
       title: "Datenbanken",
       link: "/editor/" + projectId + "/databases",
       icon: <FaDatabase />,
+      available: false,
     },
     {
       title: "Export",
       link: "/editor/" + projectId + "/export",
       icon: <FaFileExport />,
+      available: false,
     },
 
     {
       title: "Analytics",
       link: "/editor/" + projectId + "/analytics",
       icon: <FaChartArea />,
+      available: false,
     },
     {
       title: "Vorschau",
       link: "/editor/" + projectId + "/preview",
       icon: <FaExternalLinkSquareAlt />,
+      available: false,
     },
     {
       title: "Einstellungen",
       link: "/editor/" + projectId + "/settings",
       icon: <FaCogs />,
+      available: false,
     },
     {
       title: "Home",
       link: "/editor",
       icon: <FaHome />,
+      available: true,
     },
   ];
 
@@ -147,6 +159,7 @@ export default function EditorPagesSidebar() {
                   onClick={() => {
                     router.push(page.link);
                   }}
+                  disabled={!page.available}
                 >
                   {page.title}
                 </Button>

@@ -15,7 +15,6 @@ import { useLoggedIn } from "@codeup/hooks";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
 import {
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
   Grid,
@@ -29,18 +28,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {
-  FaClock,
   FaCode,
-  FaEye,
+  FaEdit,
   FaHtml5,
-  FaPen,
   FaPlus,
   FaSearch,
   FaTrash,
-  FaUsers,
 } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
-import InCodeIcon from "@codeup/components/dist/icons/InCodeIcon";
 
 export default function ProjectViewer() {
   const router = useRouter();
@@ -323,9 +318,20 @@ export default function ProjectViewer() {
                         }
                       }
                     }}
-                    leftIcon={<FaPen />}
                   >
-                    Ändern
+                    URL Ändern
+                  </Button>
+                  <Button
+                    w={"100%"}
+                    colorScheme={"blue"}
+                    onClick={() => {
+                      router.push(
+                        `/editor/projects/${router.query.project_id}/pages/${page._id}`
+                      );
+                    }}
+                    leftIcon={<FaEdit />}
+                  >
+                    Bearbeiten
                   </Button>
                 </Stack>
               </GridItem>
