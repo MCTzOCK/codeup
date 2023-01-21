@@ -11,16 +11,24 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
-import { Button, Flex } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import {
   FaChartArea,
   FaCogs,
   FaDatabase,
+  FaExternalLinkSquareAlt,
   FaFileExport,
   FaHome,
   FaRegFile,
   FaRegImages,
   FaRocket,
+  FaSearch,
   FaServer,
   FaUsers,
 } from "react-icons/fa";
@@ -83,6 +91,11 @@ export default function EditorPagesSidebar() {
       icon: <FaChartArea />,
     },
     {
+      title: "Vorschau",
+      link: "/editor/" + projectId + "/preview",
+      icon: <FaExternalLinkSquareAlt />,
+    },
+    {
       title: "Einstellungen",
       link: "/editor/" + projectId + "/settings",
       icon: <FaCogs />,
@@ -94,6 +107,8 @@ export default function EditorPagesSidebar() {
     },
   ];
 
+  const [query, setQuery] = React.useState<string>("");
+
   return (
     <>
       <Flex
@@ -103,28 +118,41 @@ export default function EditorPagesSidebar() {
         bgColor={"black"}
         direction={"column"}
         pt={"2rem"}
+        alignItems={"center"}
       >
-        {subPages.map((page, i) => {
-          return (
-            <>
-              <Button
-                rounded={"none"}
-                colorScheme={"gray"}
-                variant={"ghost"}
-                w={"100%"}
-                justifyContent={"flex-start"}
-                size={"lg"}
-                leftIcon={page.icon as any}
-                fontSize={"2xl"}
-                onClick={() => {
-                  router.push(page.link);
-                }}
-              >
-                {page.title}
-              </Button>
-            </>
-          );
-        })}
+        <InputGroup w={"90%"} mb={4}>
+          <InputLeftElement>
+            <FaSearch />
+          </InputLeftElement>
+          <Input
+            placeholder={"Seite suchen..."}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </InputGroup>
+        {subPages
+          .filter((p) => p.title.toLowerCase().includes(query.toLowerCase()))
+          .map((page, i) => {
+            return (
+              <>
+                <Button
+                  rounded={"none"}
+                  colorScheme={"gray"}
+                  variant={"ghost"}
+                  w={"100%"}
+                  justifyContent={"flex-start"}
+                  size={"lg"}
+                  leftIcon={page.icon as any}
+                  fontSize={"2xl"}
+                  onClick={() => {
+                    router.push(page.link);
+                  }}
+                >
+                  {page.title}
+                </Button>
+              </>
+            );
+          })}
       </Flex>
     </>
   );
