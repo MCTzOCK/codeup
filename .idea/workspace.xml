@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/AlertPopupComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +72,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "18.7.0",
     "javascript.nodejs.core.library.typings.version": "18.7.0",
-    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/apps/web/src/global/PopupManager",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/apps/web/src/server/socket/channels",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -97,8 +101,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\global\PopupManager" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\server\socket\channels" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\global\PopupManager" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\legal" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util\src\models" />
