@@ -136,7 +136,7 @@ import {
   getBlogs,
   createBlog,
   updateBlog,
-  deleteBlog,
+  deleteBlog, getUserJWT
 } from "./api/Admin";
 
 import {
@@ -221,6 +221,7 @@ const REST = {
     createBlog,
     updateBlog,
     deleteBlog,
+    getUserJWT
   },
   Blog: {
     getBlog,
