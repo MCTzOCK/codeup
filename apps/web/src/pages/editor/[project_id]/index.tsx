@@ -326,7 +326,7 @@ export default function ProjectViewer() {
                     colorScheme={"blue"}
                     onClick={() => {
                       router.push(
-                        `/editor/projects/${router.query.project_id}/pages/${page._id}`
+                        `/editor/${router.query.project_id}/pages/${page._id}`
                       );
                     }}
                     leftIcon={<FaEdit />}

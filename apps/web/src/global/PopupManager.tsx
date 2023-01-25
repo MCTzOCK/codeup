@@ -14,6 +14,7 @@ import theme from "./theme";
 import ConfirmPopupComponent from "./PopupManager/ConfirmPopupComponent";
 import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
 import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
+import * as React from "react";
 
 export default class PopupManager {
   public static prompt(options: {
