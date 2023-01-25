@@ -153,45 +153,43 @@ export default function ProjectViewer() {
             onClick={async () => {
               const url = await PopupManager.promptAsync({
                 title: "Neue Seite",
-                helperText: "Gib die URL der neuen Seite ein. (z.B. /about)",
+                helperText: "Gib die URL der neuen Seite ein. (z.B. about). Leerlassen um die Startseite zu erstellen.",
               });
 
-              if (url) {
-                const type = await PopupManager.selectAsync({
-                  title: "Seitentyp",
-                  helperText: "Wähle den Seitentyp aus.",
-                  choices: ["HTML", "InCode"],
-                });
+              const type = await PopupManager.selectAsync({
+                title: "Seitentyp",
+                helperText: "Wähle den Seitentyp aus.",
+                choices: ["HTML", "InCode"],
+              });
 
-                if (type) {
-                  if (reactSocket) {
-                    reactSocket.emit("editor:projects:pages:create", {
-                      id: router.query.project_id,
-                      url: url,
-                      type: type,
-                    });
+              if (type) {
+                if (reactSocket) {
+                  reactSocket.emit("editor:projects:pages:create", {
+                    id: router.query.project_id,
+                    url: "/" + url,
+                    type: type,
+                  });
 
-                    reactSocket.on(
-                      "editor:projects:pages:create",
-                      (data: any) => {
-                        if (data.success) {
-                          setPages([
-                            ...pages,
-                            {
-                              _id: data.page._id,
-                              url: data.page.url,
-                              type: data.page.type,
-                            },
-                          ]);
-                        } else {
-                          PopupManager.alert({
-                            title: "Fehler",
-                            description: data.error as string,
-                          });
-                        }
+                  reactSocket.on(
+                    "editor:projects:pages:create",
+                    (data: any) => {
+                      if (data.success) {
+                        setPages([
+                          ...pages,
+                          {
+                            _id: data.page._id,
+                            url: data.page.url,
+                            type: data.page.type,
+                          },
+                        ]);
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description: data.error as string,
+                        });
                       }
-                    );
-                  }
+                    }
+                  );
                 }
               }
             }}
@@ -223,7 +221,9 @@ export default function ProjectViewer() {
                 borderRadius={"0.5rem"}
               >
                 <Stack spacing={4}>
-                  <Heading fontSize={"2xl"}>{page.url}</Heading>
+                  <Heading fontSize={"2xl"}>{
+                    page.url === "/" ? "Hauptseite (/)" : page.url
+                  }</Heading>
                   <HStack gap={".4rem"} fontSize={"lg"}>
                     {page.type.toLowerCase() === "html" ? (
                       <>

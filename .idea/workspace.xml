@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/generate-jwt-temp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/admin/account/jwt.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/admin/AdminUserViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AdminUserViewer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Admin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +225,7 @@
       <workItem from="1665079118280" duration="20345000" />
       <workItem from="1665223902684" duration="50000" />
       <workItem from="1665224005997" duration="19819000" />
-      <workItem from="1674629293473" duration="1814000" />
+      <workItem from="1674629293473" duration="2476000" />
     </task>
     <servers />
   </component>
