@@ -26,7 +26,7 @@ export default function EditorPageSidebar(props: {
   return (
     <>
       <Box p={"2rem"} w={"100%"} h={"100%"}>
-        <Box backgroundColor={"black"} h={"100%"} rounded={"xl"}>
+        <Box backgroundColor={"black"} h={"100%"} boxShadow={"2xl"}>
           <Flex direction={"column"} h={"100%"}>
             <Tooltip label={"Code"} placement={"right"} hasArrow>
               <IconButton
@@ -37,8 +37,6 @@ export default function EditorPageSidebar(props: {
                 p={"2rem"}
                 icon={<FaCode />}
                 rounded={"none"}
-                roundedTopLeft={"xl"}
-                roundedTopRight={"xl"}
                 onClick={() => {}}
               />
             </Tooltip>

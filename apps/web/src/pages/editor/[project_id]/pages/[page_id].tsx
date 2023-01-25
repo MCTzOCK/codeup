@@ -124,10 +124,15 @@ export default function PageEditor() {
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
             <EditorPageSidebar
               page={page}
-              projectId={router.query.project_id}
+              projectId={router.query.project_id as string}
             />
           </Box>
-          <Box flex={["70%", "80%", "90%"]} minH={"90vh"} p={"2rem"}>
+          <Box
+            flex={["70%", "80%", "90%"]}
+            minH={"90vh"}
+            m={"2rem"}
+            boxShadow={"2xl"}
+          >
             <Editor
               defaultLanguage={
                 page.type.toLowerCase() === "html" ? "html" : "plain"
@@ -154,7 +159,7 @@ export default function PageEditor() {
                 wrappingIndent: "indent",
                 fontSize: 22,
               }}
-            ></Editor>
+            />
           </Box>
         </Flex>
       </>
