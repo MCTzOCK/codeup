@@ -23,6 +23,8 @@ import EditorProjectPagesChannel from "./channels/EditorProjectPages";
 import EditorProjectPageCreateChannel from "./channels/EditorProjectPageCreate";
 import EditorProjectPageDeleteChannel from "./channels/EditorProjectPageDelete";
 import EditorProjectPageRenameChannel from "./channels/EditorProjectPageRename";
+import EditorProjectPageContentChannel from "./channels/EditorProjectPageContent";
+import EditorProjectPageContentChangeChannel from "./channels/EditorProjectPageContentChange";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -94,6 +96,15 @@ export function createSocketServer(httpServer: HTTPServer) {
       socket,
       "editor:projects:pages:rename"
     );
+    const editorProjectPageContentChannel = new EditorProjectPageContentChannel(
+      socket,
+      "editor:projects:page:content"
+    );
+    const editorProjectPageContentChangeChannel =
+      new EditorProjectPageContentChangeChannel(
+        socket,
+        "editor:projects:page:content:set"
+      );
 
     authenticateChannel.register();
 
@@ -109,6 +120,8 @@ export function createSocketServer(httpServer: HTTPServer) {
     editorProjectPageCreateChannel.register();
     editorProjectPageDeleteChannel.register();
     editorProjectPageRenameChannel.register();
+    editorProjectPageContentChannel.register();
+    editorProjectPageContentChangeChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];

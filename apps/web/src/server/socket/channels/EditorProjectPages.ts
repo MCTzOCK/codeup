@@ -35,8 +35,18 @@ export default class EditorProjectPagesChannel extends Channel {
               project: project._id,
             });
 
+            let pagesArr = [];
+
+            for (const page of pages) {
+              pagesArr.push({
+                _id: page._id,
+                url: page.url,
+                type: page.type,
+              });
+            }
+
             this.emit({
-              pages,
+              pages: pagesArr,
               success: true,
             });
           } else {

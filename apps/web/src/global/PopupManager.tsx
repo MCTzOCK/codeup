@@ -74,6 +74,7 @@ export default class PopupManager {
   public static alert(options: {
     title?: string | undefined;
     description: string;
+    callback?: () => void;
   }): void {
     ReactDOM.render(
       <>
@@ -87,6 +88,7 @@ export default class PopupManager {
                   "#__codeup_manual_mount_point"
                 ) as HTMLElement
               );
+              if (options.callback) options.callback();
             }}
           />
         </ChakraProvider>
@@ -168,6 +170,21 @@ export default class PopupManager {
         choices: options.choices,
         callback: (input: string) => {
           resolve(input);
+        },
+      });
+    });
+  }
+
+  public static alertAsync(options: {
+    title?: string;
+    description: string;
+  }): Promise<void> {
+    return new Promise((resolve) => {
+      this.alert({
+        title: options.title,
+        description: options.description,
+        callback: () => {
+          resolve();
         },
       });
     });
