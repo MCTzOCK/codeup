@@ -122,7 +122,10 @@ export default function PageEditor() {
       <>
         <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
-            <EditorPageSidebar page={page} />
+            <EditorPageSidebar
+              page={page}
+              projectId={router.query.project_id}
+            />
           </Box>
           <Box flex={["70%", "80%", "90%"]} minH={"90vh"} p={"2rem"}>
             <Editor

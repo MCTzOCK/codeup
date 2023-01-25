@@ -10,6 +10,7 @@
 import * as React from "react";
 import { Box, Flex, IconButton, Tooltip } from "@chakra-ui/react";
 import { FaCode, FaFile, FaHome } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export default function EditorPageSidebar(props: {
   page: {
@@ -18,7 +19,10 @@ export default function EditorPageSidebar(props: {
     type: string;
     resources: any[];
   };
+  projectId: string;
 }) {
+  const router = useRouter();
+
   return (
     <>
       <Box p={"2rem"} w={"100%"} h={"100%"}>
@@ -47,7 +51,9 @@ export default function EditorPageSidebar(props: {
                 p={"2rem"}
                 icon={<FaHome />}
                 rounded={"none"}
-                onClick={() => {}}
+                onClick={() => {
+                  router.push("/editor/" + props.projectId);
+                }}
               />
             </Tooltip>
           </Flex>
