@@ -15,7 +15,7 @@ import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../../global/PopupManager";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
 import EditorPageSidebar from "@codeup/components/editor/EditorPageSidebar";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { editor } from "monaco-editor";
@@ -155,39 +155,68 @@ export default function PageEditor() {
             m={"2rem"}
             boxShadow={"2xl"}
           >
-            <Editor
-              defaultLanguage={
-                page.type.toLowerCase() === "html" ? "html" : "plain"
-              }
-              defaultValue={
-                currentResource === "codeup.main_resource"
-                  ? page.mainContent
-                  : (
-                      page.resources.find(
-                        (r) => r.name === currentResource
-                      ) as any
-                    ).content
-              }
-              onMount={(e) => {
-                editorRef.current = e;
-              }}
-              onChange={(value, ev) => {
-                if (reactSocket) {
-                  reactSocket.emit("editor:projects:page:content:set", {
-                    projectId: router.query.project_id,
-                    pageId: router.query.page_id,
-                    content: value,
-                    resource: currentResource,
-                  });
+            <Flex direction={"column"} minH={"90vh"} w={"100%"}>
+              <Heading
+                bgColor={"black"}
+                fontFamily={"monospace"}
+                size={"xl"}
+                p={2}
+              >
+                {currentResource === "codeup.main_resource"
+                  ? "Hauptwebseite"
+                  : currentResource}
+              </Heading>
+
+              <Editor
+                className={
+                  currentResource === "codeup.main_resource"
+                    ? page.type.toLowerCase() === "html"
+                      ? "html"
+                      : "plain"
+                    : page.resources
+                        .find((r) => r.name === currentResource)
+                        ?.type.toLowerCase()
                 }
-              }}
-              theme={monacoTheme}
-              options={{
-                insertSpaces: false,
-                wrappingIndent: "indent",
-                fontSize: 22,
-              }}
-            />
+                defaultLanguage={
+                  currentResource === "codeup.main_resource"
+                    ? page.type.toLowerCase() === "html"
+                      ? "html"
+                      : "plain"
+                    : page.resources
+                        .find((r) => r.name === currentResource)
+                        ?.type.toLowerCase()
+                }
+                defaultValue={
+                  currentResource === "codeup.main_resource"
+                    ? page.mainContent
+                    : (
+                        page.resources.find(
+                          (r) => r.name === currentResource
+                        ) as any
+                      ).content
+                }
+                onMount={(e) => {
+                  editorRef.current = e;
+                }}
+                onChange={(value, ev) => {
+                  if (reactSocket) {
+                    reactSocket.emit("editor:projects:page:content:set", {
+                      projectId: router.query.project_id,
+                      pageId: router.query.page_id,
+                      content: value,
+                      resource: currentResource,
+                    });
+                  }
+                }}
+                theme={monacoTheme}
+                options={{
+                  insertSpaces: false,
+                  wrappingIndent: "indent",
+                  fontSize: 22,
+                }}
+                height={"90vh"}
+              />
+            </Flex>
           </Box>
         </Flex>
       </>
