@@ -22,7 +22,7 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
     this.socket.on(this.channelName, async (data) => {
       try {
         if (SocketRegistry.loggedIn[this.socket.id]) {
-          const { projectId, pageId, content, resource } = data;
+          const { projectId, pageId, content, resource, resourceType } = data;
 
           const project = await EditorProjectModel.findOne({
             _id: projectId,
@@ -71,9 +71,44 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
 
           if (resource === "codeup.main_resource") {
             page.mainContent = content;
-          }
+          } else {
+            const resourceObject = page.resources.find(
+              (r) => r.name === resource
+            );
 
-          // TODO: RESOURCE HANDLING
+            if (!resourceObject) {
+              if (resourceType) {
+                page.resources.push({
+                  name: resource,
+                  type: resourceType,
+                  content: content,
+                });
+              } else {
+                this.emit({
+                  error: "Resource not found",
+                  success: false,
+                });
+                return;
+              }
+            } else {
+              page.resources = page.resources
+                .map((r) => {
+                  if (r.name !== resource) {
+                    return r;
+                  } else {
+                    if (content === "codeup.delete_resource") {
+                      return undefined;
+                    }
+                    return {
+                      content: content,
+                      name: r.name,
+                      type: r.type,
+                    };
+                  }
+                })
+                .filter((r) => r !== null && r !== undefined);
+            }
+          }
 
           await page.save();
 

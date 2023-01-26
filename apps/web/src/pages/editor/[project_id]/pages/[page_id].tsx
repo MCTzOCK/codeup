@@ -34,7 +34,11 @@ export default function PageEditor() {
     url: string;
     type: string;
     mainContent: string;
-    resources: any[];
+    resources: {
+      name: string;
+      type: string;
+      content: string;
+    }[];
   }>();
 
   React.useEffect(() => {
@@ -125,6 +129,7 @@ export default function PageEditor() {
             <EditorPageSidebar
               page={page}
               projectId={router.query.project_id as string}
+              socket={reactSocket as Socket}
             />
           </Box>
           <Box
