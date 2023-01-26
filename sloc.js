@@ -34,6 +34,7 @@ const disallowed = [
   "node_modules",
   ".next",
   "dist",
+  "build",
   ".codeup_app_stats.json",
   "privacy.tsx",
   "imprint.tsx",
