@@ -43,6 +43,8 @@ export default function EditorPageSidebar(props: {
   };
   socket: Socket;
   projectId: string;
+  setPage: (newPage: any) => void;
+  setCurrentResource: (xx: string) => void;
 }) {
   const router = useRouter();
 
@@ -72,7 +74,9 @@ export default function EditorPageSidebar(props: {
                 p={"2rem"}
                 icon={<FaCode />}
                 rounded={"none"}
-                onClick={() => {}}
+                onClick={() => {
+                  props.setCurrentResource("codeup.main_resource");
+                }}
               />
             </Tooltip>
             <Tooltip label={"Resourcen"} placement={"right"} hasArrow>
@@ -117,11 +121,13 @@ export default function EditorPageSidebar(props: {
         </Box>
       </Box>
       <PageResourceManager
-        resources={props.page.resources}
         socket={props.socket}
         onOpen={onRMOpen}
         onClose={onRMClose}
         isOpen={isRMOpen}
+        page={props.page}
+        setPage={props.setPage}
+        setCurrentResource={props.setCurrentResource}
       />
       <SnippetViewer isOpen={isSVOpen} onClose={onSVClose} />
     </>

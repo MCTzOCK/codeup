@@ -31,6 +31,7 @@ import {
   FaCode,
   FaEdit,
   FaHtml5,
+  FaLink,
   FaPlus,
   FaSearch,
   FaTrash,
@@ -153,7 +154,8 @@ export default function ProjectViewer() {
             onClick={async () => {
               const url = await PopupManager.promptAsync({
                 title: "Neue Seite",
-                helperText: "Gib die URL der neuen Seite ein. (z.B. about). Leerlassen um die Startseite zu erstellen.",
+                helperText:
+                  "Gib die URL der neuen Seite ein. (z.B. about). Leerlassen um die Startseite zu erstellen.",
               });
 
               const type = await PopupManager.selectAsync({
@@ -221,9 +223,9 @@ export default function ProjectViewer() {
                 borderRadius={"0.5rem"}
               >
                 <Stack spacing={4}>
-                  <Heading fontSize={"2xl"}>{
-                    page.url === "/" ? "Hauptseite (/)" : page.url
-                  }</Heading>
+                  <Heading fontSize={"2xl"}>
+                    {page.url === "/" ? "Hauptseite (/)" : page.url}
+                  </Heading>
                   <HStack gap={".4rem"} fontSize={"lg"}>
                     {page.type.toLowerCase() === "html" ? (
                       <>
@@ -277,6 +279,7 @@ export default function ProjectViewer() {
                   <Button
                     w={"100%"}
                     colorScheme={"green"}
+                    leftIcon={<FaLink />}
                     onClick={async () => {
                       const newUrl = await PopupManager.promptAsync({
                         title: "Seite bearbeiten",

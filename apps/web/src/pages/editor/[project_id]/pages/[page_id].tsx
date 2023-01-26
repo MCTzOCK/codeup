@@ -28,6 +28,9 @@ export default function PageEditor() {
 
   const [reactSocket, setReactSocket] = React.useState<Socket>();
   let socket: Socket | null = null;
+  const [currentResource, setCurrentResource] = React.useState<string>(
+    "codeup.main_resource"
+  );
 
   const [page, setPage] = React.useState<{
     _id: string;
@@ -121,6 +124,18 @@ export default function PageEditor() {
     }
   }, [monaco]);
 
+  React.useEffect(() => {
+    if (editorRef && editorRef.current && page) {
+      if (currentResource !== "codeup.main_resource") {
+        editorRef.current.setValue(
+          page.resources.find((x) => x.name == currentResource)?.content || ""
+        );
+      } else {
+        editorRef.current.setValue(page.mainContent);
+      }
+    }
+  }, [currentResource]);
+
   if (page) {
     return (
       <>
@@ -130,6 +145,8 @@ export default function PageEditor() {
               page={page}
               projectId={router.query.project_id as string}
               socket={reactSocket as Socket}
+              setPage={setPage}
+              setCurrentResource={setCurrentResource}
             />
           </Box>
           <Box
@@ -142,11 +159,17 @@ export default function PageEditor() {
               defaultLanguage={
                 page.type.toLowerCase() === "html" ? "html" : "plain"
               }
-              defaultValue={page.mainContent}
+              defaultValue={
+                currentResource === "codeup.main_resource"
+                  ? page.mainContent
+                  : (
+                      page.resources.find(
+                        (r) => r.name === currentResource
+                      ) as any
+                    ).content
+              }
               onMount={(e) => {
                 editorRef.current = e;
-
-                e.onDidChangeCursorPosition((e) => {});
               }}
               onChange={(value, ev) => {
                 if (reactSocket) {
@@ -154,7 +177,7 @@ export default function PageEditor() {
                     projectId: router.query.project_id,
                     pageId: router.query.page_id,
                     content: value,
-                    resource: "codeup.main_resource",
+                    resource: currentResource,
                   });
                 }
               }}
