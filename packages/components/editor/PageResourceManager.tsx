@@ -99,6 +99,18 @@ export default function PageResourceManager(props: {
                         projectId: router.query.project_id as string,
                         pageId: router.query.page_id as string,
                       });
+
+                      props.setPage({
+                        ...props.page,
+                        resources: [
+                          ...props.page.resources,
+                          {
+                            name,
+                            type,
+                            content: "Code einfügen",
+                          },
+                        ],
+                      });
                     }
                   }}
                 >
@@ -165,7 +177,28 @@ export default function PageResourceManager(props: {
                         >
                           Bearbeiten
                         </Button>
-                        <Button colorScheme={"green"} leftIcon={<FaLink />}>
+                        <Button
+                          colorScheme={"green"}
+                          leftIcon={<FaLink />}
+                          onClick={() => {
+                            const url =
+                              window.location.protocol +
+                              "//" +
+                              window.location.host +
+                              "/editor-static/" +
+                              "/page-res/" +
+                              router.query.page_id +
+                              "/" +
+                              r.name;
+
+                            navigator.clipboard.writeText(url);
+                            PopupManager.alert({
+                              title: "URL Kopiert",
+                              description: "URL: " + url,
+                              callback: () => {},
+                            });
+                          }}
+                        >
                           Statische URL kopieren
                         </Button>
                       </Stack>

@@ -14,8 +14,10 @@ import * as next from "next";
 import fs from "fs";
 import path from "path";
 import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
+import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
 import mongoose from "mongoose";
 import * as ts from "typescript";
+import { ScriptTarget } from "typescript";
 import * as sass from "sass";
 import { compile } from "@codeup/incode-compiler/dist";
 import { lookup as mimeLookup } from "mime-types";
@@ -224,7 +226,6 @@ app
 
                 if (!file) {
                   await app.render404(req, res, parsedUrl);
-                  console.log(1);
                   return;
                 }
 
@@ -304,6 +305,85 @@ app
           });
 
           return;
+        }
+      }
+
+      if (pathname?.startsWith("/editor-static")) {
+        // Option 1: /editor-static/page-res/<page_id>/<res_name>
+        // Option 2: /editor-static/<project_id>/<res_id>
+
+        const args = pathname
+          ?.split("/")
+          .splice(2, pathname?.split("/").length);
+
+        console.log(args);
+
+        if (args.length === 3) {
+          const pageId = args[1];
+          const resName = args[2];
+
+          const page = await EditorProjectPageModel.findById(pageId);
+
+          if (!page) {
+            console.log(1);
+            await app.render404(req, res);
+            return;
+          }
+
+          const resource = page.resources.find((r: any) => r.name === resName);
+          if (!resource) {
+            console.log(2);
+            await app.render404(req, res);
+            return;
+          }
+
+          let content = resource.content;
+
+          switch (resource.type.toLowerCase()) {
+            case "css":
+              res.setHeader("Content-Type", "text/css");
+              break;
+            case "scss":
+              content = sass.compileString(content, {
+                syntax: "scss",
+              }).css;
+              res.setHeader("Content-Type", "text/css");
+              break;
+            case "sass":
+              content = sass.compileString(content, {
+                syntax: "indented",
+              }).css;
+              res.setHeader("Content-Type", "text/css");
+              break;
+            case "javascript":
+              res.setHeader("Content-Type", "text/javascript");
+              break;
+            case "typescript":
+              content = ts.transpileModule(content, {
+                compilerOptions: {
+                  module: ts.ModuleKind.ESNext,
+                },
+              }).outputText;
+              res.setHeader("Content-Type", "text/javascript");
+              break;
+            case "json":
+              res.setHeader("Content-Type", "application/json");
+              break;
+            default:
+              res.setHeader("Content-Type", "text/plain");
+              break;
+          }
+
+          res.write(content.toString());
+          res.end();
+        } else {
+        }
+
+        // Option 2
+        if (pathname?.split("/").length === 3) {
+        }
+        // Option 1
+        else {
         }
       }
 

@@ -73,7 +73,7 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
             page.mainContent = content;
           } else {
             const resourceObject = page.resources.find(
-              (r) => r.name === resource
+              (r: any) => r.name === resource
             );
 
             if (!resourceObject) {
@@ -92,7 +92,7 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
               }
             } else {
               page.resources = page.resources
-                .map((r) => {
+                .map((r: any) => {
                   if (r.name !== resource) {
                     return r;
                   } else {
@@ -106,7 +106,7 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
                     };
                   }
                 })
-                .filter((r) => r !== null && r !== undefined);
+                .filter((r: any) => r !== null && r !== undefined);
             }
           }
 

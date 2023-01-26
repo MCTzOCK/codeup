@@ -72,7 +72,6 @@ const getPackageInfo = () => {
     (v, i, a) => a.findIndex((t) => t.name === v.name) === i
   );
 
-
   for (const p of packages) {
     INFO.packages.packages.push({
       name: p.name,
