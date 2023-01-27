@@ -400,7 +400,7 @@ app
           res.statusCode = 200;
           res.write(
             `<html><head><title>${
-              page.name
+              page.url
             }</title></head><body><script defer>${compile(
               page.mainContent
             )}</script></body></html>`

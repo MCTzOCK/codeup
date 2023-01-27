@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/components/editor/EditorPreviewModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPageSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPageSidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +227,7 @@
       <workItem from="1674629293473" duration="5114000" />
       <workItem from="1674643148234" duration="233000" />
       <workItem from="1674643739393" duration="2108000" />
-      <workItem from="1674650393939" duration="13863000" />
+      <workItem from="1674650393939" duration="14193000" />
     </task>
     <servers />
   </component>
