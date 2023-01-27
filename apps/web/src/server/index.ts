@@ -17,7 +17,6 @@ import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
 import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
 import mongoose from "mongoose";
 import * as ts from "typescript";
-import { ScriptTarget } from "typescript";
 import * as sass from "sass";
 import { compile } from "@codeup/incode-compiler/dist";
 import { lookup as mimeLookup } from "mime-types";

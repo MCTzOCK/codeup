@@ -51,18 +51,6 @@ const EditorProject = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
-  pinned: {
-    type: [mongoose.Schema.Types.ObjectId],
-    default: [],
-  },
-  published: {
-    type: Boolean,
-    default: false,
-  },
-  publishedCustomName: {
-    type: String,
-    default: "",
-  },
   discovery: {
     type: Boolean,
     default: false,

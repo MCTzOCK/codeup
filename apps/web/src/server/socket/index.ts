@@ -25,6 +25,8 @@ import EditorProjectPageDeleteChannel from "./channels/EditorProjectPageDelete";
 import EditorProjectPageRenameChannel from "./channels/EditorProjectPageRename";
 import EditorProjectPageContentChannel from "./channels/EditorProjectPageContent";
 import EditorProjectPageContentChangeChannel from "./channels/EditorProjectPageContentChange";
+import EditorProjectInfoChannel from "./channels/EditorProjectInfo";
+import EditorProjectChangeSettingChannel from "./channels/EditorProjectChangeSetting";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -55,6 +57,10 @@ export function createSocketServer(httpServer: HTTPServer) {
     const editorProjectRenameChannel = new EditorProjectRenameChannel(
       socket,
       "editor:projects:rename"
+    );
+    const editorProjectInfoChannel = new EditorProjectInfoChannel(
+      socket,
+      "editor:projects:info"
     );
 
     const editorProjectContributorChannel = new EditorProjectContributorChannel(
@@ -106,12 +112,16 @@ export function createSocketServer(httpServer: HTTPServer) {
         "editor:projects:page:content:set"
       );
 
+    const editorProjectChangeSettingChannel =
+      new EditorProjectChangeSettingChannel(socket, "editor:projects:settings");
+
     authenticateChannel.register();
 
     editorProjectListChannel.register();
     editorProjectCreateChannel.register();
     editorProjectDeleteChannel.register();
     editorProjectRenameChannel.register();
+    editorProjectInfoChannel.register();
     editorProjectContributorChannel.register();
     editorProjectContributorAddChannel.register();
     editorProjectContributorDeleteChannel.register();
@@ -122,6 +132,7 @@ export function createSocketServer(httpServer: HTTPServer) {
     editorProjectPageRenameChannel.register();
     editorProjectPageContentChannel.register();
     editorProjectPageContentChangeChannel.register();
+    editorProjectChangeSettingChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];

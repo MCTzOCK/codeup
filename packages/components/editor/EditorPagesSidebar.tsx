@@ -70,9 +70,9 @@ export default function EditorPagesSidebar() {
     },
     {
       title: "Deployment",
-      link: "/editor/" + projectId + "/deploy",
+      link: "/editor/" + projectId + "/deployment",
       icon: <FaRocket />,
-      available: false,
+      available: true,
     },
     {
       title: "Statische Dateien",
