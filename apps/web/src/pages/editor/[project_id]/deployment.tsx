@@ -29,6 +29,7 @@ import PopupManager from "../../../global/PopupManager";
 import { useLoggedIn } from "@codeup/hooks";
 import { useId } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { v4 } from "uuid";
 
 export default function Contributors() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Contributors() {
   const [reactSocket, setReactSocket] = React.useState<Socket | null>(null);
   let socket: Socket | null = null;
   const [project, setProject] = React.useState<any>({});
+  const [customDomain, setCustomDomain] = React.useState<string>("");
 
   React.useEffect(() => {
     if (loaded) {
@@ -65,7 +67,9 @@ export default function Contributors() {
       socket.on("editor:projects:info", (data: any) => {
         if (data.success) {
           setProject(data.project);
-          console.log(data);
+          if (!data.project.customDomain.startsWith("disabled:")) {
+            setCustomDomain(data.project.customDomain.split(".")[0]);
+          }
         } else {
           PopupManager.alert({
             title: "Fehler",
@@ -114,7 +118,7 @@ export default function Contributors() {
                         placeholder={
                           "Sub-Domain Name (ohne https://, Beispiel: mein-projekt)"
                         }
-                        defaultValue={project.customDomain?.split(".")[0]}
+                        defaultValue={customDomain}
                       />
                       <InputRightAddon>.codeup.space</InputRightAddon>
                     </InputGroup>
@@ -132,7 +136,7 @@ export default function Contributors() {
                           ? window.location.hostname.split(":")[0]
                           : window.location.hostname);
 
-                      if (newDomain === "") d = "";
+                      if (newDomain === "") d = "disabled:" + v4();
 
                       if (reactSocket) {
                         reactSocket.on(
@@ -175,12 +179,12 @@ export default function Contributors() {
                   >
                     Speichern
                   </Button>
-                  {project.customDomain && project.customDomain !== "" ? (
+                  {customDomain !== "" ? (
                     <Button
                       leftIcon={<FaExternalLinkAlt />}
                       colorScheme={"blue"}
                       onClick={() => {
-                        window.open(`http://${project.customDomain}`, "_blank");
+                        window.open(`http://${customDomain}`, "_blank");
                       }}
                     >
                       Deploment Öffnen
