@@ -24,6 +24,9 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  Text,
+  chakra,
+  Badge,
 } from "@chakra-ui/react";
 import { FaLink, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -53,6 +56,13 @@ export default function PageResourceManager(props: {
             <ModalHeader>Resourcen verwalten</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <Text mb={4}>
+                <chakra.span color={"yellow.400"} fontWeight={"bold"}>
+                  Information
+                </chakra.span>
+                :&nbsp;Jede Resource ist mit der eindeutigen URL öffentlich
+                erreichbar. Speichere keine sensiblen Daten in einer Resource.
+              </Text>
               <Grid templateColumns={"repeat(2, 1fr)"} gap={6}>
                 <GridItem
                   key={"new"}
@@ -135,6 +145,7 @@ export default function PageResourceManager(props: {
                       borderRadius={"0.5rem"}
                     >
                       <Heading size={"lg"}>{r.name}</Heading>
+                      <Badge>{r.type}</Badge>
                       <Stack mt={"2rem"}>
                         <Button
                           colorScheme={"red"}

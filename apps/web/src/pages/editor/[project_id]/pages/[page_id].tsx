@@ -106,6 +106,7 @@ export default function PageEditor() {
 
   const monaco = useMonaco();
   const [monacoTheme, setMonacoTheme] = useState("vs-dark");
+  const [monacoLanguage, setMonacoLanguage] = useState("html");
 
   const editorRef = useRef<IStandaloneCodeEditor>();
 
@@ -133,6 +134,16 @@ export default function PageEditor() {
       } else {
         editorRef.current.setValue(page.mainContent);
       }
+
+      setMonacoLanguage(
+        currentResource === "codeup.main_resource"
+          ? page.type.toLowerCase() === "html"
+            ? "html"
+            : "plain"
+          : (page.resources
+              .find((r) => r.name === currentResource)
+              ?.type.toLowerCase() as string)
+      );
     }
   }, [currentResource]);
 
@@ -168,24 +179,7 @@ export default function PageEditor() {
               </Heading>
 
               <Editor
-                className={
-                  currentResource === "codeup.main_resource"
-                    ? page.type.toLowerCase() === "html"
-                      ? "html"
-                      : "plain"
-                    : page.resources
-                        .find((r) => r.name === currentResource)
-                        ?.type.toLowerCase()
-                }
-                defaultLanguage={
-                  currentResource === "codeup.main_resource"
-                    ? page.type.toLowerCase() === "html"
-                      ? "html"
-                      : "plain"
-                    : page.resources
-                        .find((r) => r.name === currentResource)
-                        ?.type.toLowerCase()
-                }
+                defaultLanguage={monacoLanguage}
                 defaultValue={
                   currentResource === "codeup.main_resource"
                     ? page.mainContent
