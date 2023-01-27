@@ -79,7 +79,7 @@ app
         });
 
         if (!page) {
-          await app.render404(req, res);
+          await handle(req, res);
           return;
         }
 

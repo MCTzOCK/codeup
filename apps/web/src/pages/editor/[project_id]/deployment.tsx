@@ -125,12 +125,14 @@ export default function Contributors() {
                         document.getElementById(inputId) as HTMLInputElement
                       ).value;
 
-                      const d =
+                      let d =
                         newDomain +
                         "." +
                         (window.location.hostname.includes(":")
                           ? window.location.hostname.split(":")[0]
                           : window.location.hostname);
+
+                      if (newDomain === "") d = "";
 
                       if (reactSocket) {
                         reactSocket.on(
