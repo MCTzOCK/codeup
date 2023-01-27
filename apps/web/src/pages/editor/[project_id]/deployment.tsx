@@ -28,6 +28,7 @@ import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../global/PopupManager";
 import { useLoggedIn } from "@codeup/hooks";
 import { useId } from "react";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function Contributors() {
   const router = useRouter();
@@ -172,6 +173,17 @@ export default function Contributors() {
                   >
                     Speichern
                   </Button>
+                  {project.customDomain && project.customDomain !== "" ? (
+                    <Button
+                      leftIcon={<FaExternalLinkAlt />}
+                      colorScheme={"blue"}
+                      onClick={() => {
+                        window.open(`http://${project.customDomain}`, "_blank");
+                      }}
+                    >
+                      Deploment Öffnen
+                    </Button>
+                  ) : null}
                 </Stack>
               </Box>
             </Flex>
