@@ -71,6 +71,11 @@ const EditorProject = new mongoose.Schema({
     type: String,
     default: "",
   },
+  customDomain: {
+    type: String,
+    default: "",
+    unique: true,
+  },
 });
 
 export default mongoose.models?.EditorProject ||
