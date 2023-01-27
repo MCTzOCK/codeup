@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import {
   FaCode,
+  FaEye,
   FaFile,
   FaFileAlt,
   FaFileCode,
@@ -28,7 +29,8 @@ import {
 import { useRouter } from "next/router";
 import { Socket } from "socket.io-client";
 import PageResourceManager from "./PageResourceManager";
-import { SnippetViewer } from "../ide";
+import { PreviewModal, SnippetViewer } from "../ide";
+import EditorPreviewModal from "./EditorPreviewModal";
 
 export default function EditorPageSidebar(props: {
   page: {
@@ -58,6 +60,12 @@ export default function EditorPageSidebar(props: {
     onOpen: onSVOpen,
     isOpen: isSVOpen,
     onClose: onSVClose,
+  } = useDisclosure();
+
+  const {
+    onOpen: onPROpen,
+    isOpen: isPROpen,
+    onClose: onPRClose,
   } = useDisclosure();
 
   return (
@@ -103,6 +111,19 @@ export default function EditorPageSidebar(props: {
                 onClick={onSVOpen}
               />
             </Tooltip>
+
+            <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
+              <IconButton
+                aria-label={""}
+                variant="ghost"
+                size={"lg"}
+                fontSize={"2xl"}
+                p={"2rem"}
+                icon={<FaEye />}
+                rounded={"none"}
+                onClick={onPROpen}
+              />
+            </Tooltip>
             <Tooltip label={"Übersicht"} placement={"right"} hasArrow>
               <IconButton
                 aria-label={""}
@@ -130,6 +151,12 @@ export default function EditorPageSidebar(props: {
         setCurrentResource={props.setCurrentResource}
       />
       <SnippetViewer isOpen={isSVOpen} onClose={onSVClose} />
+      <EditorPreviewModal
+        url={"/editor-preview/" + router.query.page_id}
+        isOpen={isPROpen}
+        onOpen={onPROpen}
+        onClose={onPRClose}
+      />
     </>
   );
 }

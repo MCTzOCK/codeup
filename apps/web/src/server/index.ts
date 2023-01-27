@@ -316,8 +316,6 @@ app
           ?.split("/")
           .splice(2, pathname?.split("/").length);
 
-        console.log(args);
-
         if (args.length === 3) {
           const pageId = args[1];
           const resName = args[2];
@@ -325,14 +323,12 @@ app
           const page = await EditorProjectPageModel.findById(pageId);
 
           if (!page) {
-            console.log(1);
             await app.render404(req, res);
             return;
           }
 
           const resource = page.resources.find((r: any) => r.name === resName);
           if (!resource) {
-            console.log(2);
             await app.render404(req, res);
             return;
           }
@@ -378,12 +374,38 @@ app
           res.end();
         } else {
         }
+      }
 
-        // Option 2
-        if (pathname?.split("/").length === 3) {
+      if (pathname?.startsWith("/editor-preview")) {
+        // /editor-preview/<page_id>
+
+        const args = pathname
+          ?.split("/")
+          .splice(2, pathname?.split("/").length);
+
+        const pageId = args[0];
+
+        const page = await EditorProjectPageModel.findById(pageId);
+
+        if (!page) {
+          await app.render404(req, res);
+          return;
         }
-        // Option 1
-        else {
+
+        if (page.type.toLowerCase() === "html") {
+          res.statusCode = 200;
+          res.write(page.mainContent);
+          res.end();
+        } else if (page.type.toLowerCase() === "incode") {
+          res.statusCode = 200;
+          res.write(
+            `<html><head><title>${
+              page.name
+            }</title></head><body><script defer>${compile(
+              page.mainContent
+            )}</script></body></html>`
+          );
+          res.end();
         }
       }
 

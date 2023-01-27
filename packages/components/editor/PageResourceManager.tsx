@@ -196,8 +196,7 @@ export default function PageResourceManager(props: {
                               window.location.protocol +
                               "//" +
                               window.location.host +
-                              "/editor-static/" +
-                              "/page-res/" +
+                              "/editor-static/page-res/" +
                               router.query.page_id +
                               "/" +
                               r.name;
