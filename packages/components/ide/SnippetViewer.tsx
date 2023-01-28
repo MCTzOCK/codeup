@@ -100,7 +100,7 @@ export default function SnippetViewer(props: {
                 />
               </InputGroup>
             </Flex>
-            <Grid templateColumns={"repeat(1, 1fr)"}>
+            <Grid templateColumns={"repeat(1, 1fr)"} gap={6}>
               {snippets
                 .filter((s) => {
                   return (

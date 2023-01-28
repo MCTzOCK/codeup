@@ -12,6 +12,7 @@ import { Socket } from "socket.io";
 import Channel from "./Channel";
 import SocketRegistry from "../SocketRegistry";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
+import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
 
 export default class EditorProjectDeleteChannel extends Channel {
   constructor(socket: Socket, channelName: string) {
@@ -31,6 +32,14 @@ export default class EditorProjectDeleteChannel extends Channel {
           if (
             project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
           ) {
+            const pages = await EditorProjectPageModel.find({
+              project: project._id,
+            });
+
+            for (const page of pages) {
+              await page.remove();
+            }
+
             await project.remove();
             this.emit({
               success: true,
