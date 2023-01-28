@@ -79,7 +79,7 @@ export default function EditorPagesSidebar() {
       title: "Statische Dateien",
       link: "/editor/" + projectId + "/staticassets",
       icon: <FaRegImages />,
-      available: false,
+      available: true,
     },
     {
       title: "Datenbanken",

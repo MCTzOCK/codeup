@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/staticassets.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectStaticAssetDeleteChannel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectStaticAssetUploadChannel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectStaticAssetsChannel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +31,8 @@
         <option value="CSS File" />
         <option value="React Component" />
         <option value="JavaScript File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -230,7 +234,7 @@
       <workItem from="1674643148234" duration="233000" />
       <workItem from="1674643739393" duration="2108000" />
       <workItem from="1674650393939" duration="22075000" />
-      <workItem from="1674895609344" duration="485000" />
+      <workItem from="1674895609344" duration="10684000" />
     </task>
     <servers />
   </component>
