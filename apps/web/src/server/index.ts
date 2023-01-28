@@ -416,8 +416,38 @@ app
             res.write(content.toString());
             res.end();
           } else {
-            // STATIC ASSETS
-            // TODO: STATIC ASSET HANDLING
+            const projectId = args[0];
+            const resName = args[1];
+
+            const bucket = new mongoose.mongo.GridFSBucket(
+              mongoose.connection.db,
+              {
+                bucketName: "editorStaticAssets",
+              }
+            );
+
+            const file = await bucket.find({
+              filename: `${projectId}/${resName}`,
+            });
+
+            const fileEntry = await file.next();
+
+            if (file) {
+              const stream = bucket.openDownloadStream(fileEntry!._id);
+
+              await new Promise((resolve) => {
+                stream.on("data", async (chunk) => {
+                  res.write(chunk);
+                });
+                stream.on("end", () => {
+                  res.end();
+                  resolve(true);
+                });
+              });
+            } else {
+              await app.render404(req, res);
+              return;
+            }
           }
         }
 
