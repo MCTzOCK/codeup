@@ -24,6 +24,7 @@ import {
   FaDatabase,
   FaExternalLinkSquareAlt,
   FaFileExport,
+  FaGit,
   FaHome,
   FaRegFile,
   FaRegImages,
@@ -100,9 +101,9 @@ export default function EditorPagesSidebar() {
       available: false,
     },
     {
-      title: "Vorschau",
-      link: "/editor/" + projectId + "/preview",
-      icon: <FaExternalLinkSquareAlt />,
+      title: "Versionsverwaltung",
+      link: "/editor/" + projectId + "/scm",
+      icon: <FaGit />,
       available: false,
     },
     {

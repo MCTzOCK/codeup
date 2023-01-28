@@ -147,6 +147,15 @@ export default function PageEditor() {
     }
   }, [currentResource]);
 
+  React.useEffect(() => {
+    if (editorRef && editorRef.current) {
+      monaco?.editor.setModelLanguage(
+        editorRef.current.getModel() as editor.ITextModel,
+        monacoLanguage
+      );
+    }
+  }, [monacoLanguage]);
+
   if (page) {
     return (
       <>
@@ -199,6 +208,23 @@ export default function PageEditor() {
                       pageId: router.query.page_id,
                       content: value,
                       resource: currentResource,
+                    });
+                    setPage({
+                      ...page,
+                      mainContent:
+                        currentResource === "codeup.main_resource"
+                          ? (value as string)
+                          : (page.mainContent as string),
+                      resources: page.resources.map((r) => {
+                        if (r.name === currentResource) {
+                          return {
+                            ...r,
+                            content: value as string,
+                          };
+                        } else {
+                          return r;
+                        }
+                      }),
                     });
                   }
                 }}
