@@ -210,11 +210,27 @@ export default function Contributors() {
                             colorScheme={"green"}
                             icon={<FaLink />}
                             onClick={() => {
-                              navigator.clipboard.writeText(
-                                window.location.origin +
+                              PopupManager.alert({
+                                title: "Kopiert",
+                                description:
+                                  "Link: " +
+                                  window.location.origin +
                                   "/editor-static/" +
-                                  asset.filename
-                              );
+                                  asset.filename,
+                              });
+
+                              navigator.clipboard
+                                .writeText(
+                                  window.location.origin +
+                                    "/editor-static/" +
+                                    asset.filename
+                                )
+                                .catch((e) => {
+                                  PopupManager.alert({
+                                    title: "Fehler",
+                                    description: e.toString(),
+                                  });
+                                });
                             }}
                           />
                           <IconButton
