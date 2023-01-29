@@ -84,6 +84,8 @@ app
             return;
           }
 
+          res.setHeader("Content-Type", "text/html");
+
           if (page.type.toLowerCase() === "html") {
             res.statusCode = 200;
             res.write(page.mainContent);
