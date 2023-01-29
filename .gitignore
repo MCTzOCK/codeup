@@ -37,3 +37,5 @@ yarn-error.log*
 
 # codeup
 .codeup_app_stats.json
+*.temp.js
+*.temp.ts

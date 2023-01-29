@@ -64,6 +64,7 @@ import {
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
+import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -307,25 +308,59 @@ export default function AdminUserViewer(props: {
                   aria-label={"delete"}
                   icon={<FaTrash />}
                   onClick={async () => {
-                    const r = await REST.Admin.deleteAccount({
-                      token: localStorage.getItem("token") as string,
-                      username: props.user?.username as string,
-                    });
 
-                    if (r.payload.success) {
-                      const newUsers = props.users.filter(
-                        (user) => user.username !== props.user?.username
-                      );
+                    if(await PopupManager.confirmAsync({
+                      title: "Benutzer löschen",
+                      question: "Willst du den Benutzer wirklich unwiederruflich löschen?"
+                    })) {
+                      const r = await REST.Admin.deleteAccount({
+                        token: localStorage.getItem("token") as string,
+                        username: props.user?.username as string,
+                      });
 
-                      props.setUsers(newUsers);
-                      props.setCurrentUser(null);
+                      if (r.payload.success) {
+                        const newUsers = props.users.filter(
+                          (user) => user.username !== props.user?.username
+                        );
 
-                      props.onClose();
+                        props.setUsers(newUsers);
+                        props.setCurrentUser(null);
+
+                        props.onClose();
+                      }else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description: r.payload.error
+                        })
+                      }
                     }
                   }}
                 />
                 {props.user?.active ? (
                   <>
+                    <IconButton
+                      aria-label={"login as user"}
+                      icon={<FaLock />}
+                      colorScheme={"blue"}
+                      onClick={async () => {
+                        const jwtRes = await REST.Admin.getUserJWT({
+                          token: localStorage.getItem("token") as string,
+                          username: props.user?.username as string
+                        });
+
+                        if(jwtRes.status === 200) {
+
+                          localStorage.setItem("token", jwtRes.payload.jwt);
+                          window.location.href = "/";
+
+                        } else {
+                          PopupManager.alert({
+                            title: "Fehler",
+                            description: jwtRes.payload.error
+                          });
+                        }
+                      }}
+                      />
                     <IconButton
                       aria-label={"deactivate"}
                       icon={<FaWindowClose />}
