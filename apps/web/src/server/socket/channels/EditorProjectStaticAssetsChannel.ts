@@ -43,7 +43,7 @@ export default class EditorProjectStaticAssetsChannel extends Channel {
                 .collection("editorStaticAssets.files")
                 .find({
                   metadata: {
-                    projectId: "63d4de4a4c9cb243f2b827fb",
+                    projectId: id,
                   },
                 })
                 .toArray();
