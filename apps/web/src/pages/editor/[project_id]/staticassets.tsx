@@ -120,7 +120,7 @@ export default function Contributors() {
     <>
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Statische Daten
+          Statische Dateien
         </Heading>
         {reactSocket ? (
           <>
