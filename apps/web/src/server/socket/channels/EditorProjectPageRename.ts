@@ -24,6 +24,13 @@ export default class EditorProjectPageRenameChannel extends Channel {
       if (SocketRegistry.loggedIn[this.socket.id]) {
         const { projectId, pageId, newUrl } = data;
 
+        if(newUrl.startsWith("/api")) {
+          this.emit({
+            error: "URL cannot start with api",
+          });
+          return;
+        }
+
         const project = await EditorProjectModel.findOne({
           _id: projectId,
         });

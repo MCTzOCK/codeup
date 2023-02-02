@@ -281,12 +281,15 @@ export default function ProjectViewer() {
                     colorScheme={"green"}
                     leftIcon={<FaLink />}
                     onClick={async () => {
-                      const newUrl = await PopupManager.promptAsync({
+                      let newUrl = await PopupManager.promptAsync({
                         title: "Seite bearbeiten",
                         helperText: "Gib die neue URL der Seite ein.",
                       });
 
                       if (newUrl) {
+
+                        newUrl = ["/", newUrl].join("");
+
                         if (reactSocket) {
                           reactSocket.on(
                             "editor:projects:pages:rename",

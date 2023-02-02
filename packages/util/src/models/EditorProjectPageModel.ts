@@ -34,8 +34,8 @@ const EditorProjectPage = new mongoose.Schema({
   },
   url: {
     type: String,
-    required: true,
     default: "",
+    required: true,
   },
 });
 
