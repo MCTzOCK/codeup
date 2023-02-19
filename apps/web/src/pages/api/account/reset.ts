@@ -59,7 +59,7 @@ export default async function handleRequest(
   await sendMail(
     user.email,
     "Passwort Zurücksetzen",
-    `Klicke den folgenden Link um dein Passwort zurückzusetzen: http://${req.headers.host}/account/reset?token=${token}`,
+    `Klicke den folgenden Link um dein Passwort zurückzusetzen: http://${req.headers.host}/account/reset/${token}`,
     user.firstName
   );
 
