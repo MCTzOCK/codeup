@@ -54,7 +54,7 @@ export default class EditorProjectFunctionCreateChannel extends Channel {
 
         const existingFunction = await EditorProjectFunctionModel.findOne({
           project: project._id,
-          url,
+          path: url,
         });
 
         if (existingFunction) {

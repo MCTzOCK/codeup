@@ -26,16 +26,18 @@ import { createSocketServer } from "./socket";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
 import Docker from "dockerode";
+import jwt from "jsonwebtoken";
+import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
 
-const port = parseInt(process.env.PORT || "3000", 10);
 const app = next.default({
-  dev: process.env.NODE_ENV === "development",
+  dev: process.env.NODE_ENV === "development"
 });
 const handle = app.getRequestHandler();
 
 app
   .prepare()
   .then(async () => {
+    const port = parseInt(process.env.PORT || "3000", 10);
     if (mongoose.connection.readyState === 0) {
       try {
         await mongoose.connect(process.env.MONGO_URI as string);
@@ -49,7 +51,7 @@ app
     const mediaBucket = new mongoose.mongo.GridFSBucket(
       mongoose.connection.db,
       {
-        bucketName: "media",
+        bucketName: "media"
       }
     );
 
@@ -70,18 +72,131 @@ app
 
         if (customDomain!.split(".").length > 2) {
           const project = await EditorProjectModel.findOne({
-            customDomain,
+            customDomain
           });
 
           if (!project) {
             await handle(req, res);
             return;
           }
-          if(pathname!.startsWith("/api")) {
-            
+          if (pathname!.startsWith("/api")) {
+
             // check if pathname is /api/@codeup/internal/info
 
-            if(pathname!.startsWith("/api/@codeup/internal/info")) {
+            if (pathname!.startsWith("/api/@codeup")) {
+
+              const pathParts = pathname!.split("/").slice(3);
+              if (pathParts.length === 2) {
+                if (pathParts[0] === "database") {
+                  if (pathParts[1] === "set") {
+                    const key = req.headers["x-codeup-database-key"] as string;
+                    const token = req.headers["x-sf-access"] as string;
+                    const value = JSON.parse(await new Promise((resolve, reject) => {
+                      let body = "";
+                      req.on("data", (chunk) => {
+                        body += chunk;
+                      });
+                      req.on("end", () => {
+                        resolve(body);
+                      });
+                      req.on("error", (e) => {
+                        reject(e);
+                      });
+                    })).value as string;
+
+
+                    if (!key || !token || !value) {
+                      res.statusCode = 400;
+                      res.write(
+                        JSON.stringify({
+                          key: JSON.stringify(key),
+                          token: JSON.stringify(token),
+                          value: JSON.stringify(value)
+                        })
+                      )
+                      res.end();
+                      return;
+                    }
+
+                    try {
+                      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { project: string, function: string };
+
+                      if (decoded.project !== project._id.toString()) {
+                        res.statusCode = 403;
+                        res.end();
+                        return;
+                      }
+
+                      const existingKVStore = await EditorProjectKVStorageModel.findOne({
+                        project: project._id,
+                      });
+
+                      console.log("[SFDB] Set", key, "to", value, "for", project._id.toString());
+
+                      if(existingKVStore) {
+                        existingKVStore.storage = {
+                          ...existingKVStore.storage,
+                          [key]: value
+                        }
+                        await existingKVStore.save();
+                      } else {
+                        await EditorProjectKVStorageModel.create({
+                          project: project._id,
+                          storage: {
+                            [key]: value
+                          }
+                        });
+                      }
+
+                      res.statusCode = 200;
+                      res.end();
+
+                    } catch (e) {
+                      res.statusCode = 403;
+                      res.end();
+                      return;
+                    }
+
+                  } else if (pathParts[1] === "get") {
+                    const key = req.headers["x-codeup-database-key"] as string;
+                    const token = req.headers["x-sf-access"] as string;
+
+                    if (!key || !token) {
+                      res.statusCode = 400;
+                      res.end();
+                      return;
+                    }
+
+                    try {
+                      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { project: string, function: string };
+
+                      if (decoded.project !== project._id.toString()) {
+                        res.statusCode = 403;
+                        res.end();
+                        return;
+                      }
+
+                      const existingKVStore = await EditorProjectKVStorageModel.findOne({
+                        project: project._id,
+                      });
+
+                      if(existingKVStore) {
+                        res.statusCode = 200;
+                        res.end(existingKVStore.storage[key]);
+                      } else {
+                        res.statusCode = 404;
+                        res.end();
+                      }
+
+                    } catch (e) {
+                      res.statusCode = 403;
+                      res.end();
+                      return;
+                    }
+                  }
+                }
+              }
+
               return;
             } else {
               const serverlessFunction = await EditorProjectFunctionModel.findOne({
@@ -89,7 +204,7 @@ app
                 path: pathname!
               });
 
-              if(!serverlessFunction) {
+              if (!serverlessFunction) {
                 res.statusCode = 404;
                 res.end("Not Found");
                 return;
@@ -98,22 +213,21 @@ app
               const code = serverlessFunction.code;
 
 
-              let port = 0;
-
-              while(port === 0) {
-                const randomPort = Math.floor(Math.random() * 65535) + 1;
-                const containers = await docker.listContainers();
-                if(containers.filter(c => c.Ports.find(p => p.PublicPort === randomPort)).length === 0) {
-                  port = randomPort;
-                }
-              }
+              let port = Math.floor(Math.random() * 32000) + 1;;
 
               docker.createContainer({
                 Image: "mctzock/codeup-serverless-runtime",
                 Env: [
                   "SERVERLESS_METHOD=GET",
                   "SERVERLESS_ENDPOINT=/",
-                  "SERVERLESS_CODE=" + code
+                  "SERVERLESS_CODE=" + code,
+                  "SERVERLESS_TOKEN=" + jwt.sign({
+                    project: project._id,
+                    function: serverlessFunction._id
+                  }, process.env.JWT_SECRET as string, {
+                    expiresIn: 600
+                  }),
+                  "SERVERLESS_ENDPOINT_URL=http://" + customDomain
                 ],
                 HostConfig: {
                   PortBindings: {
@@ -132,7 +246,7 @@ app
                 AttachStderr: true,
                 ExposedPorts: {
                   "3000/tcp": {}
-                }
+                },
               }).then(async c => {
                 await c.start();
 
@@ -142,38 +256,58 @@ app
                   }, 1000);
                 });
 
-                const res0 = await fetch(`http://localhost:${port}`);
+                const query = Object.keys(parsedUrl.query).map((key) => {
+                  return key + "=" + parsedUrl.query[key];
+                });
+
+                try {
+                  const res0 = await fetch(`http://localhost:${port}?${
+                    query.length > 0 ? query.join("&") : ""
+                  }`);
 
 
-                for(const [key, value] of res0.headers.entries()) {
-                  res.setHeader(key, value);
+                  for (const [key, value] of res0.headers.entries()) {
+                    res.setHeader(key, value);
+                  }
+
+
+                  res.writeHead(res0.status, {
+                    ...res.getHeaders()
+                  });
+
+                  res.end(await res0.text());
+
+                  await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      resolve(true);
+                    }, 1000);
+                  });
+
+                  try {
+                    await c.kill();
+                  } catch(e) {}
+                  await c.remove();
+                } catch (e) {
+
+                  res.statusCode = 500;
+                  res.end("[SF] Serverless function failed to execute properly. Error details: " + (e as any).toString())
+
+
+                  try {
+                    await c.kill();
+                  } catch(e) {}
+                  await c.remove();
                 }
 
-
-                res.writeHead(res0.status, {
-                  ...res.getHeaders()
-                });
-
-                res.end(await res0.text());
-
-                await new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    resolve(true);
-                  }, 1000);
-                });
-
-                await c.remove();
-              })
+              });
 
               return;
             }
-
-            return;
           }
 
           const page = await EditorProjectPageModel.findOne({
             project: project._id,
-            url: pathname,
+            url: pathname
           });
 
           if (!page) {
@@ -220,7 +354,7 @@ app
                 res.end(
                   JSON.stringify({
                     status: "failed",
-                    message: "This endpoint is currently not available.",
+                    message: "This endpoint is currently not available."
                   })
                 );
               }
@@ -230,7 +364,7 @@ app
                 JSON.stringify({
                   status: "failed",
                   message:
-                    "This endpoint is only available in production mode.",
+                    "This endpoint is only available in production mode."
                 })
               );
             }
@@ -246,7 +380,7 @@ app
 
             try {
               const project = await IDEProjectModel.findOne({
-                publishedCustomName: customName,
+                publishedCustomName: customName
               });
 
               if (!project) {
@@ -267,7 +401,7 @@ app
               if (!file) {
                 // redirect to index.html
                 res.writeHead(302, {
-                  Location: `/project/${customName}/index.html`,
+                  Location: `/project/${customName}/index.html`
                 });
 
                 res.end();
@@ -280,8 +414,8 @@ app
               if (file.path.toLowerCase().endsWith(".ts")) {
                 ret = ts.transpileModule(ret, {
                   compilerOptions: {
-                    module: ts.ModuleKind.ESNext,
-                  },
+                    module: ts.ModuleKind.ESNext
+                  }
                 }).outputText;
               }
 
@@ -292,7 +426,7 @@ app
                 ret = sass.compileString(file.content, {
                   syntax: file.path.toLowerCase().endsWith(".scss")
                     ? "scss"
-                    : "indented",
+                    : "indented"
                 }).css;
               }
 
@@ -314,12 +448,12 @@ app
                 jpeg: "image/jpeg",
                 gif: "image/gif",
                 svg: "image/svg+xml",
-                ic: "text/html",
+                ic: "text/html"
               };
               const replaceTypes: { [key: string]: string } = {
                 "text/x-scss": "text/css",
                 "text/x-sass": "text/css",
-                "text/x-typescript": "application/javascript",
+                "text/x-typescript": "application/javascript"
               };
 
               let mimeType = "";
@@ -376,14 +510,14 @@ app
 
                     const uploadStream = mediaBucket.openUploadStream(
                       randomBytes(128).toString("hex") +
-                        "." +
-                        (fileName as string).split(".").pop(),
+                      "." +
+                      (fileName as string).split(".").pop(),
                       {
                         contentType: mimeType as string,
                         metadata: {
                           contentType: mimeType as string,
-                          fileName: fileName as string,
-                        },
+                          fileName: fileName as string
+                        }
                       }
                     );
 
@@ -402,8 +536,8 @@ app
                         status: "success",
                         message: "File uploaded successfully.",
                         data: {
-                          url: `/media/${uploadStream.filename}`,
-                        },
+                          url: `/media/${uploadStream.filename}`
+                        }
                       })
                     );
 
@@ -485,13 +619,13 @@ app
                   break;
                 case "scss":
                   content = sass.compileString(content, {
-                    syntax: "scss",
+                    syntax: "scss"
                   }).css;
                   res.setHeader("Content-Type", "text/css");
                   break;
                 case "sass":
                   content = sass.compileString(content, {
-                    syntax: "indented",
+                    syntax: "indented"
                   }).css;
                   res.setHeader("Content-Type", "text/css");
                   break;
@@ -501,8 +635,8 @@ app
                 case "typescript":
                   content = ts.transpileModule(content, {
                     compilerOptions: {
-                      module: ts.ModuleKind.ESNext,
-                    },
+                      module: ts.ModuleKind.ESNext
+                    }
                   }).outputText;
                   res.setHeader("Content-Type", "text/javascript");
                   break;
@@ -523,12 +657,12 @@ app
               const bucket = new mongoose.mongo.GridFSBucket(
                 mongoose.connection.db,
                 {
-                  bucketName: "editorStaticAssets",
+                  bucketName: "editorStaticAssets"
                 }
               );
 
               const file = await bucket.find({
-                filename: `${projectId}/${resName}`,
+                filename: `${projectId}/${resName}`
               });
 
               const fileEntry = await file.next();
