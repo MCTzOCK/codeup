@@ -312,7 +312,7 @@ export default function ProjectfunctionsViewer() {
                     colorScheme={"blue"}
                     onClick={() => {
                       router.push(
-                        `/editor/${router.query.project_id}/pages/${func._id}`
+                        `/editor/${router.query.project_id}/serverless/${func._id}`
                       );
                     }}
                     leftIcon={<FaEdit />}

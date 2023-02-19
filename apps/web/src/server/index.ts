@@ -86,7 +86,7 @@ app
             } else {
               const serverlessFunction = await EditorProjectFunctionModel.findOne({
                 project: project._id,
-                path: pathname!.replace("/api", "")
+                path: pathname!
               });
 
               if(!serverlessFunction) {

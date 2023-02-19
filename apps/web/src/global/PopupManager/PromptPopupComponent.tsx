@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useId, useRef } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -23,10 +24,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
-import { useId, useRef } from "react";
 
 export default function PromptPopupComponent(props: {
   title: string;
@@ -35,7 +35,7 @@ export default function PromptPopupComponent(props: {
   onClose: () => void;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({
-    defaultIsOpen: true,
+    defaultIsOpen: true
   });
 
   const whatEverRef = useRef();

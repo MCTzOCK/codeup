@@ -34,6 +34,9 @@ import EditorProjectFunctionsChannel from "./channels/EditorProjectFunctions";
 import EditorProjectFunctionCreateChannel from "./channels/EditorProjectFunctionCreate";
 import EditorProjectFunctionDeleteChannel from "./channels/EditorProjectFunctionDelete";
 import EditorProjectFunctionRenameChannel from "./channels/EditorProjectFunctionRename";
+import EditorProjectFunctionContentChannel from "./channels/EditorProjectFunctionContent";
+import EditorProjectFunctionContent from "./channels/EditorProjectFunctionContent";
+import EditorProjectFunctionContentChangeChannel from "./channels/EditorProjectFunctionContentChange";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -186,6 +189,16 @@ export function createSocketServer(httpServer: HTTPServer) {
       "editor:projects:functions:rename"
     );
 
+    const editorProjectFunctionContentChannel = new EditorProjectFunctionContentChannel(
+      socket,
+    "editor:projects:functions:content"
+    );
+
+    const editorProjectFunctionContentChangeChannel = new EditorProjectFunctionContentChangeChannel(
+      socket,
+      "editor:projects:functions:content:set"
+    );
+
     // serverless functions end
 
     authenticateChannel.register();
@@ -213,6 +226,8 @@ export function createSocketServer(httpServer: HTTPServer) {
     editorProjectFunctionCreateChannel.register();
     editorProjectFunctionDeleteChannel.register();
     editorProjectFunctionRenameChannel.register();
+    editorProjectFunctionContentChannel.register();
+    editorProjectFunctionContentChangeChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];
