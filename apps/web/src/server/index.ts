@@ -298,7 +298,6 @@ app
                   } catch(e) {}
                   await c.remove();
                 }
-
               });
 
               return;
