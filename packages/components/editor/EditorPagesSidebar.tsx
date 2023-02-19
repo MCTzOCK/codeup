@@ -61,7 +61,7 @@ export default function EditorPagesSidebar() {
       title: "Serverless",
       link: "/editor/" + projectId + "/serverless",
       icon: <FaServer />,
-      available: false,
+      available: true,
     },
     {
       title: "Mitwirkende",

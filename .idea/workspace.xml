@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/[page_id].tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionCreate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionDelete.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionRename.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectFunctionModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/jwt.temp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageRename.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageRename.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectPageModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPagesSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,9 +75,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "16.14.2",
-    "javascript.nodejs.core.library.typings.version": "16.18.11",
-    "last_opened_file_path": "/Users/ben/Desktop/codeup/apps/web/src/server/socket/channels",
+    "javascript.nodejs.core.library.configured.version": "18.7.0",
+    "javascript.nodejs.core.library.typings.version": "18.7.0",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/apps/web/src/server/socket/channels",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -99,18 +106,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apps/web/src/server/socket/channels" />
-      <recent name="$PROJECT_DIR$/packages/components/editor" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\server\socket\channels" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\global\PopupManager" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\legal" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\editor\[project_id]\pages" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\editor\[project_id]" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util\src\models" />
+      <recent name="$PROJECT_DIR$/apps/web/src/server/socket/channels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\editor\[project_id]\serverless" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\hooks\src" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\creator\studio" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build (2)">

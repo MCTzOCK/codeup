@@ -30,6 +30,10 @@ import EditorProjectChangeSettingChannel from "./channels/EditorProjectChangeSet
 import EditorProjectStaticAssetUploadChannel from "./channels/EditorProjectStaticAssetUploadChannel";
 import EditorProjectStaticAssetsChannel from "./channels/EditorProjectStaticAssetsChannel";
 import EditorProjectStaticAssetDeleteChannel from "./channels/EditorProjectStaticAssetDeleteChannel";
+import EditorProjectFunctionsChannel from "./channels/EditorProjectFunctions";
+import EditorProjectFunctionCreateChannel from "./channels/EditorProjectFunctionCreate";
+import EditorProjectFunctionDeleteChannel from "./channels/EditorProjectFunctionDelete";
+import EditorProjectFunctionRenameChannel from "./channels/EditorProjectFunctionRename";
 
 export function createSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
@@ -161,6 +165,29 @@ export function createSocketServer(httpServer: HTTPServer) {
 
     // static assets end
 
+    // serverless functions
+    const editorProjectFunctionsChannel = new EditorProjectFunctionsChannel(
+      socket,
+      "editor:projects:functions"
+    );
+
+    const editorProjectFunctionCreateChannel = new EditorProjectFunctionCreateChannel(
+      socket,
+      "editor:projects:functions:create"
+    );
+
+    const editorProjectFunctionDeleteChannel = new EditorProjectFunctionDeleteChannel(
+      socket,
+    "editor:projects:functions:delete"
+    );
+
+    const editorProjectFunctionRenameChannel = new EditorProjectFunctionRenameChannel(
+      socket,
+      "editor:projects:functions:rename"
+    );
+
+    // serverless functions end
+
     authenticateChannel.register();
 
     editorProjectListChannel.register();
@@ -182,6 +209,10 @@ export function createSocketServer(httpServer: HTTPServer) {
     editorProjectStaticAssetsUploadChannel.register();
     editorProjectStaticAssetsChannel.register();
     editorProjectStaticAssetsDeleteChannel.register();
+    editorProjectFunctionsChannel.register();
+    editorProjectFunctionCreateChannel.register();
+    editorProjectFunctionDeleteChannel.register();
+    editorProjectFunctionRenameChannel.register();
 
     socket.on("disconnect", () => {
       delete SocketRegistry.loggedIn[socket.id];

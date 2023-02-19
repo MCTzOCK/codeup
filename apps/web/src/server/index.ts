@@ -24,6 +24,8 @@ import formidable from "formidable";
 import { randomBytes } from "crypto";
 import { createSocketServer } from "./socket";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
+import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
+import Docker from "dockerode";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const app = next.default({
@@ -51,6 +53,8 @@ app
       }
     );
 
+    const docker = new Docker();
+
     const httpServer = createServer(async (req, res) => {
       try {
         const parsedUrl = parse(req.url!, true);
@@ -71,6 +75,99 @@ app
 
           if (!project) {
             await handle(req, res);
+            return;
+          }
+          if(pathname!.startsWith("/api")) {
+            
+            // check if pathname is /api/@codeup/internal/info
+
+            if(pathname!.startsWith("/api/@codeup/internal/info")) {
+              return;
+            } else {
+              const serverlessFunction = await EditorProjectFunctionModel.findOne({
+                project: project._id,
+                path: pathname!.replace("/api", "")
+              });
+
+              if(!serverlessFunction) {
+                res.statusCode = 404;
+                res.end("Not Found");
+                return;
+              }
+
+              const code = serverlessFunction.code;
+
+
+              let port = 0;
+
+              while(port === 0) {
+                const randomPort = Math.floor(Math.random() * 65535) + 1;
+                const containers = await docker.listContainers();
+                if(containers.filter(c => c.Ports.find(p => p.PublicPort === randomPort)).length === 0) {
+                  port = randomPort;
+                }
+              }
+
+              docker.createContainer({
+                Image: "mctzock/codeup-serverless-runtime",
+                Env: [
+                  "SERVERLESS_METHOD=GET",
+                  "SERVERLESS_ENDPOINT=/",
+                  "SERVERLESS_CODE=" + code
+                ],
+                HostConfig: {
+                  PortBindings: {
+                    "3000/tcp": [
+                      {
+                        HostPort: port.toString()
+                      }
+                    ]
+                  }
+                },
+                Tty: true,
+                OpenStdin: true,
+                StdinOnce: true,
+                AttachStdin: true,
+                AttachStdout: true,
+                AttachStderr: true,
+                ExposedPorts: {
+                  "3000/tcp": {}
+                }
+              }).then(async c => {
+                await c.start();
+
+                await new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    resolve(true);
+                  }, 1000);
+                });
+
+                const res0 = await fetch(`http://localhost:${port}`);
+
+
+                for(const [key, value] of res0.headers.entries()) {
+                  res.setHeader(key, value);
+                }
+
+
+                res.writeHead(res0.status, {
+                  ...res.getHeaders()
+                });
+
+                res.end(await res0.text());
+
+                await new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    resolve(true);
+                  }, 1000);
+                });
+
+                await c.remove();
+              })
+
+              return;
+            }
+
             return;
           }
 
