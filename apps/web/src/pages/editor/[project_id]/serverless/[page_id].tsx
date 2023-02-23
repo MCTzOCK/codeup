@@ -15,10 +15,14 @@ import { useLoggedIn } from "@codeup/hooks";
 import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../../global/PopupManager";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import { FaCode, FaEye, FaFileAlt, FaHome, FaLaptopCode } from "react-icons/fa";
+import PageResourceManager from "@codeup/components/dist/editor/PageResourceManager";
+import { SnippetViewer } from "@codeup/components/dist/ide";
+import EditorPreviewModal from "@codeup/components/dist/editor/EditorPreviewModal";
 
 export default function FunctionEditor() {
   const router = useRouter();
@@ -115,12 +119,47 @@ export default function FunctionEditor() {
     }
   }, [monaco]);
 
+  const { isOpen: isSVOpen, onOpen: onSVOpen, onClose: onSVClose } = useDisclosure();
+
   if (func) {
     return (
       <>
         <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
+            <Box p={"2rem"} w={"100%"} h={"100%"}>
+              <Box backgroundColor={"black"} h={"100%"} boxShadow={"2xl"}>
+                <Flex direction={"column"} h={"100%"}>
+                  <Tooltip label={"Snippets"} placement={"right"} hasArrow>
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      fontSize={"2xl"}
+                      p={"2rem"}
+                      icon={<FaLaptopCode />}
+                      rounded={"none"}
+                      onClick={onSVOpen}
+                    />
+                  </Tooltip>
 
+                  <Tooltip label={"Übersicht"} placement={"right"} hasArrow>
+                    <IconButton
+                      aria-label={""}
+                      variant="ghost"
+                      size={"lg"}
+                      fontSize={"2xl"}
+                      p={"2rem"}
+                      icon={<FaHome />}
+                      rounded={"none"}
+                      onClick={() => {
+                        router.push("/editor/" + router.query.project_id + "/serverless");
+                      }}
+                    />
+                  </Tooltip>
+                </Flex>
+              </Box>
+            </Box>
+            <SnippetViewer isOpen={isSVOpen} onClose={onSVClose} />
           </Box>
           <Box
             flex={["70%", "80%", "90%"]}

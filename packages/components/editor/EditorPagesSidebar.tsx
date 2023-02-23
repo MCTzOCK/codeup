@@ -82,35 +82,10 @@ export default function EditorPagesSidebar() {
       available: true,
     },
     {
-      title: "Datenbanken",
-      link: "/editor/" + projectId + "/databases",
-      icon: <FaDatabase />,
-      available: false,
-    },
-    {
       title: "Export",
       link: "/editor/" + projectId + "/export",
       icon: <FaFileExport />,
-      available: false,
-    },
-
-    {
-      title: "Analytics",
-      link: "/editor/" + projectId + "/analytics",
-      icon: <FaChartArea />,
-      available: false,
-    },
-    {
-      title: "Versionsverwaltung",
-      link: "/editor/" + projectId + "/scm",
-      icon: <FaGit />,
-      available: false,
-    },
-    {
-      title: "Einstellungen",
-      link: "/editor/" + projectId + "/settings",
-      icon: <FaCogs />,
-      available: false,
+      available: true,
     },
     {
       title: "Home",
