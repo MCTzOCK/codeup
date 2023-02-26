@@ -106,7 +106,7 @@
     "sass": "^1.54.0",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
-    "ua-parser-js": "^1.0.32",
+    "ua-parser-js": "^1.0.33",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
