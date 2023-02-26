@@ -57,6 +57,16 @@ app
 
     const docker = new Docker();
 
+    docker.pull("mctzock/codeup-serverless-runtime")
+      .then(stream => {
+        docker.modem.followProgress(stream, (err: any, res: any) => {
+          console.log(err, res);
+        });
+      })
+      .catch(e => {
+        console.error(e);
+      })
+
     const httpServer = createServer(async (req, res) => {
       try {
         const parsedUrl = parse(req.url!, true);
@@ -292,13 +302,18 @@ app
                   res.statusCode = 500;
                   res.end("[SF] Serverless function failed to execute properly. Error details: " + (e as any).toString())
 
-
                   try {
                     await c.kill();
                   } catch(e) {}
                   await c.remove();
                 }
-              });
+              })
+                .catch((e) => {
+                  console.error(e);
+                  res.statusCode = 500;
+                  res.setHeader("Content-Type", "application/json");
+                  res.end(JSON.stringify(e, null, 2));
+                });
 
               return;
             }

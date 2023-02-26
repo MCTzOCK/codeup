@@ -1,0 +1,10 @@
+version: "3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.Web
+    ports:
+      - "9002:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
