@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.Web
+    network_mode: host
     ports:
       - "9002:3000"
     volumes:
