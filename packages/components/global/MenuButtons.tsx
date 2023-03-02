@@ -13,22 +13,32 @@ import {
   Avatar,
   AvatarBadge,
   Badge,
+  Box,
   Button,
+  ButtonGroup,
   Center,
   chakra,
   Heading,
+  HStack,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+  Stack,
+  StackDivider,
   Text,
 } from "@chakra-ui/react";
 import { useLoggedIn } from "@codeup/hooks";
 import Link from "next/link";
-import { FiAlertTriangle, FiPlus } from "react-icons/fi";
+import { FiAlertTriangle, FiPlus, FiRepeat, FiShuffle } from "react-icons/fi";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
+import { FaCheck, FaPlus, FaTrash, FaUsers } from "react-icons/fa";
+import PopupManager from "@codeup/web/src/global/PopupManager";
+import { HiSwitchHorizontal } from "react-icons/hi";
+import AccountManager from "@codeup/util/src/AccountManager";
 
 export default function MenuButtons(props: {
   onClose: () => void;
@@ -115,6 +125,130 @@ export default function MenuButtons(props: {
               <Center>
                 <Text color={"gray"}>@{userInfo.username}</Text>
               </Center>
+              <MenuDivider />
+              <MenuItem
+                icon={<FaUsers />}
+                onClick={() => {
+                  const UserCard = (props: {
+                    username: string;
+                    firstName: string;
+                    lastName: string;
+                  }) => {
+                    return (
+                      <>
+                        <HStack
+                          display={"flex"}
+                          justifyContent={"space-between"}
+                        >
+                          <Box>
+                            <HStack display={"flex"}>
+                              <Avatar
+                                src={
+                                  "/api/account/" + props.username + "/picture"
+                                }
+                                size={"lg"}
+                              />
+                              <Stack>
+                                <Heading size={"lg"}>
+                                  {props.firstName}&nbsp;{props.lastName}
+                                </Heading>
+                                <Text color={"gray"}>@{props.username}</Text>
+                              </Stack>
+                            </HStack>
+                          </Box>
+                          {userInfo.username !== props.username ? (
+                            <ButtonGroup isAttached>
+                              <IconButton
+                                aria-label={"switch"}
+                                icon={<HiSwitchHorizontal />}
+                                onClick={async () => {
+                                  const oldToken = localStorage.getItem(
+                                    "token"
+                                  ) as string;
+                                  const ac = AccountManager.getAccounts().find(
+                                    (a) => a.username === props.username
+                                  );
+                                  const newToken = ac!.token;
+
+                                  AccountManager.removeAccount(ac!);
+                                  await AccountManager.addAccount(oldToken);
+
+                                  localStorage.setItem("token", newToken);
+
+                                  PopupManager.removeCurrentPopup();
+                                }}
+                              />
+                              <IconButton
+                                aria-label={"delete"}
+                                icon={<FaTrash />}
+                                onClick={async () => {
+                                  const ac = AccountManager.getAccounts().find(
+                                    (a) => a.username === props.username
+                                  );
+                                  AccountManager.removeAccount(ac!);
+                                  PopupManager.removeCurrentPopup();
+                                }}
+                              />
+                            </ButtonGroup>
+                          ) : (
+                            <>
+                              <chakra.span color={"green.400"}>
+                                <FaCheck />
+                              </chakra.span>
+                            </>
+                          )}
+                        </HStack>
+                      </>
+                    );
+                  };
+
+                  PopupManager.alert({
+                    title: "Account wechseln",
+                    description: (
+                      <>
+                        <Stack w={"100%"}>
+                          <UserCard
+                            firstName={userInfo.firstName}
+                            lastName={userInfo.lastName}
+                            username={userInfo.username}
+                          />
+                          {AccountManager.getAccounts().map((account) => (
+                            <>
+                              <UserCard
+                                firstName={account.firstName}
+                                lastName={account.lastName}
+                                username={account.username}
+                              />
+                              <StackDivider />
+                            </>
+                          ))}
+                          <StackDivider />
+                          <Button
+                            colorScheme={"green"}
+                            leftIcon={<FaPlus />}
+                            onClick={async () => {
+                              await AccountManager.addAccount(
+                                localStorage.getItem("token") as string
+                              );
+                              localStorage.removeItem("token");
+
+                              PopupManager.removeCurrentPopup();
+
+                              window.dispatchEvent(
+                                new CustomEvent("codeup::open_login")
+                              );
+                            }}
+                          >
+                            Hinzufügen
+                          </Button>
+                        </Stack>
+                      </>
+                    ),
+                  });
+                }}
+              >
+                Account wechseln
+              </MenuItem>
               <MenuDivider />
               {userInfo.role === "admin" ? (
                 <>

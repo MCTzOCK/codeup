@@ -22,7 +22,7 @@ import {
 
 export default function AlertPopupComponent(props: {
   title: string | undefined;
-  description: string;
+  description: string | React.ReactNode;
   onClose: () => void;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({

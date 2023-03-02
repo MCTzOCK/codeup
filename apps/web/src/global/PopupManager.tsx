@@ -15,6 +15,7 @@ import ConfirmPopupComponent from "./PopupManager/ConfirmPopupComponent";
 import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
 import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
 import * as React from "react";
+import { ReactNode } from "react";
 
 export default class PopupManager {
   public static prompt(options: {
@@ -73,7 +74,7 @@ export default class PopupManager {
 
   public static alert(options: {
     title?: string | undefined;
-    description: string;
+    description: string | ReactNode;
     callback?: () => void;
   }): void {
     ReactDOM.render(
@@ -188,5 +189,11 @@ export default class PopupManager {
         },
       });
     });
+  }
+
+  public static removeCurrentPopup(): void {
+    ReactDOM.unmountComponentAtNode(
+      document.querySelector("#__codeup_manual_mount_point") as HTMLElement
+    );
   }
 }
