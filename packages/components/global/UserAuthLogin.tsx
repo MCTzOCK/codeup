@@ -29,6 +29,7 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import REST from "@codeup/rest";
 import { IResponse } from "@codeup/rest/src/types/IResponse";
+import AccountManager, { Account } from "@codeup/util/src/AccountManager";
 
 export default function UserAuthLogin(props: { onClose: () => void }) {
   const [email, setEmail] = React.useState("");
@@ -84,6 +85,18 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
               } else {
                 if (res.payload.token) {
                   localStorage.setItem("token", res.payload.token);
+                  if (
+                    AccountManager.getAccounts().find(
+                      (a) => a.username === email || a.email === email
+                    ) !== undefined
+                  ) {
+                    AccountManager.removeAccount(
+                      AccountManager.getAccounts().find(
+                        (a) => a.username === email || a.email === email
+                      ) as Account
+                    );
+                  }
+
                   props.onClose();
                 } else {
                   set2fa(true);
@@ -177,6 +190,17 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
                     setAlertVisible(true);
                   } else {
                     localStorage.setItem("token", res.payload.token);
+                    if (
+                      AccountManager.getAccounts().find(
+                        (a) => a.username === email || a.email === email
+                      ) !== undefined
+                    ) {
+                      AccountManager.removeAccount(
+                        AccountManager.getAccounts().find(
+                          (a) => a.username === email || a.email === email
+                        ) as Account
+                      );
+                    }
                     props.onClose();
                   }
                 }}

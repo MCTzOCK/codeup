@@ -16,6 +16,11 @@ export default async function sendMail(
   content: string,
   firstName: string
 ) {
+  if (process.env.SMTP_DISABLE) {
+    console.log("SMTP is disabled");
+    return;
+  }
+
   let transport = nodemailer.createTransport({
     // @ts-ignore
     host: process.env.SMTP_HOST,
