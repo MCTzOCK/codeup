@@ -136,7 +136,8 @@ import {
   getBlogs,
   createBlog,
   updateBlog,
-  deleteBlog, getUserJWT
+  deleteBlog,
+  getUserJWT,
 } from "./api/Admin";
 
 import {
@@ -181,6 +182,7 @@ import {
   getSnippets,
   updateSnippet,
 } from "./api/Snippets";
+import { createOrg, deleteOrg, getOrgs } from "./api/Orgs";
 
 const REST = {
   Admin: {
@@ -221,7 +223,7 @@ const REST = {
     createBlog,
     updateBlog,
     deleteBlog,
-    getUserJWT
+    getUserJWT,
   },
   Blog: {
     getBlog,
@@ -364,6 +366,11 @@ const REST = {
     createSnippet,
     deleteSnippet,
     updateSnippet,
+  },
+  Orgs: {
+    getOrgs,
+    deleteOrg,
+    createOrg,
   },
 };
 
