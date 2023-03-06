@@ -18,7 +18,7 @@ import PopupManager from "../../global/PopupManager";
 import { useRouter } from "next/router";
 import {
   Box,
-  Button,
+  Button, ButtonGroup,
   chakra,
   Flex,
   Heading,
@@ -28,7 +28,7 @@ import {
   InputLeftElement,
   Text
 } from "@chakra-ui/react";
-import { FaExternalLinkAlt, FaSearch } from "react-icons/fa";
+import { FaExternalLinkAlt, FaSearch, FaTrash } from "react-icons/fa";
 
 export default function Index() {
 
@@ -43,6 +43,7 @@ export default function Index() {
     icon: string;
     subscription: string;
     createdAt: string;
+    _id: string;
   }[]>([]);
 
   useEffect(() => {
@@ -180,14 +181,55 @@ export default function Index() {
                     org.owner === userInfo?.id ? (
                       <>
                         <Text color={"red.300"}>Von dir verwaltet</Text>
-                        <IconButton aria-label={"Verwalten"}
-                                    icon={<FaExternalLinkAlt />}
-                                    onClick={() => {
-                                      router.push("/orgs/" + org.name + "/dashboard");
-                                    }}
-                                    variant={"ghost"}
-                                    colorScheme={"red"}
-                        />
+                        <ButtonGroup isAttached>
+
+                          <IconButton aria-label={"Verwalten"}
+                                      icon={<FaExternalLinkAlt />}
+                                      onClick={() => {
+                                        router.push("/orgs/" + org.name + "/manage");
+                                      }}
+                                      variant={"ghost"}
+                                      colorScheme={"blue"}
+                          />
+                          <IconButton aria-label={"Löschen"}
+                                      icon={<FaTrash />}
+                                      onClick={async () => {
+                                        if(await PopupManager.confirmAsync({
+                                          title: org.name + " löschen",
+                                          question: "Bist du dir sicher, dass du diese Organisation löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden. Alle Daten werden unwiederbringlich gelöscht. Alle Mitglieder werden aus der Organisation entfernt. Alle Projekte werden gelöscht."
+                                        })) {
+
+                                          if(await PopupManager.promptAsync({
+                                            title: "Bestätigung",
+                                            helperText: "Gib den Namen der Organisation ein, um sie zu löschen."
+                                          }) !== org.name) return PopupManager.alert({
+                                            title: "Fehler",
+                                            description: "Der Name der Organisation ist nicht korrekt."
+                                          });
+
+                                          const res = await REST.Orgs.deleteOrg({
+                                            token: AccountManager.getActiveToken(),
+                                            name: org.name
+                                          })
+
+                                          if (res.status === 200) {
+                                            PopupManager.alert({
+                                              title: "Erfolg",
+                                              description: "Die Organisation wurde erfolgreich gelöscht."
+                                            });
+                                            setOrgs(orgs.filter((o) => o._id !== org._id));
+                                          } else {
+                                            PopupManager.alert({
+                                              title: "Fehler",
+                                              description: "Die Organisation konnte nicht gelöscht werden: " + res.payload.error
+                                            });
+                                          }
+                                        }
+                                      }}
+                                      variant={"ghost"}
+                                      colorScheme={"red"}
+                          />
+                        </ButtonGroup>
                       </>
                     ) : null
                   }
