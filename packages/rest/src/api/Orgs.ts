@@ -13,6 +13,7 @@ import { IResponse } from "../types/IResponse";
 export async function createOrg(options: {
   token: string;
   name: string;
+  icon?: string;
 }): Promise<IResponse> {
   return await makeRequest({
     token: options.token,
@@ -20,6 +21,7 @@ export async function createOrg(options: {
     method: "POST",
     body: {
       name: options.name,
+      icon: options.icon,
     },
   });
 }

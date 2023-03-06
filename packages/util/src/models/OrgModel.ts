@@ -25,6 +25,22 @@ const OrgModel = new mongoose.Schema({
     required: true,
     default: [],
   },
+  icon: {
+    type: String,
+    required: false,
+    default: "https://codeup.space/codeup.png"
+  },
+  subscription: {
+    type: String,
+    required: true,
+    default: "FREE",
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+    immutable: true
+  }
 });
 
 export default mongoose.models?.Org || mongoose.model("Org", OrgModel);

@@ -82,4 +82,8 @@ export default class AccountManager {
 
     return true;
   }
+
+  public static getActiveToken(): string {
+    return localStorage.getItem("token") as string;
+  }
 }
