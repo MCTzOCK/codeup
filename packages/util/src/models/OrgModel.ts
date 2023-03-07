@@ -28,7 +28,7 @@ const OrgModel = new mongoose.Schema({
   icon: {
     type: String,
     required: false,
-    default: "https://codeup.space/codeup.png"
+    default: "/codeup.png",
   },
   subscription: {
     type: String,
@@ -39,8 +39,8 @@ const OrgModel = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-    immutable: true
-  }
+    immutable: true,
+  },
 });
 
 export default mongoose.models?.Org || mongoose.model("Org", OrgModel);

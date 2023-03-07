@@ -60,8 +60,8 @@ export default async function handleRequest(
               owner: user._id,
               name: req.body.name,
               members: [],
-              icon: req.body.icon || "https://codeup.space/codeup.png",
-              subscription: "FREE"
+              icon: req.body.icon,
+              subscription: "FREE",
             });
 
             res.status(200).json({
