@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/orgs/OrgAdminLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/update.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/orgs/[id]/manage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/orgs/[name]/manage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/orgs/[name]/manage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/orgs/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/orgs/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Orgs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Orgs.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/util/src/models/OrgModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/OrgModel.ts" afterDir="false" />
@@ -81,7 +82,7 @@
     "prettierjs.PrettierConfiguration.Package": "/Users/ben/Desktop/codeup/node_modules/prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/ben/Desktop/Projekte/codeup/node_modules/typescript/lib",
+    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {

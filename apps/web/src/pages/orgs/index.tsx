@@ -160,6 +160,7 @@ export default function Index() {
                     src={org.icon}
                     w={"50px"}
                     h={"50px"}
+                    objectFit={"cover"}
                     borderRadius={"50%"}
                     mr={4}
                   />

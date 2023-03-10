@@ -58,3 +58,52 @@ export async function getOrg(options: {
     method: "GET",
   });
 }
+
+export async function renameOrg(options: {
+  token: string;
+  oldName: string;
+  newName: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.oldName + "/update",
+    method: "POST",
+    body: {
+      update: {
+        name: options.newName,
+      }
+    },
+  });
+}
+
+export async function updateOrgIcon(options: {
+  token: string;
+  name: string;
+  icon: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.name + "/update",
+    method: "POST",
+    body: {
+      update: {
+        icon: options.icon,
+      }
+    },
+  });
+}
+
+export async function updateOrg(options: {
+  token: string;
+  name: string;
+  update: any;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.name + "/update",
+    method: "POST",
+    body: {
+      update: options.update,
+    },
+  });
+}

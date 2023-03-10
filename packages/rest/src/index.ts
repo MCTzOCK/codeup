@@ -182,7 +182,7 @@ import {
   getSnippets,
   updateSnippet,
 } from "./api/Snippets";
-import { createOrg, deleteOrg, getOrg, getOrgs } from "./api/Orgs";
+import { createOrg, deleteOrg, getOrg, getOrgs, renameOrg, updateOrg, updateOrgIcon } from "./api/Orgs";
 
 const REST = {
   Admin: {
@@ -372,6 +372,9 @@ const REST = {
     deleteOrg,
     createOrg,
     getOrg,
+    updateOrg,
+    updateOrgIcon,
+    renameOrg
   },
 };
 
