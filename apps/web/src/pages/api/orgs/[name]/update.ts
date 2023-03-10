@@ -64,24 +64,6 @@ export default async function handleRequest(
               name: name,
             });
 
-            if (!org) {
-              org = await OrgModel.findOne({
-                name: name,
-                members: {
-                  $elemMatch: {
-                    user: user._id,
-                  },
-                },
-              });
-              if (!org) {
-                res.status(404).json({
-                  success: false,
-                  error: "Organisation not found",
-                });
-                return;
-              }
-            }
-
             const allowedKeys = [
               "name",
               "icon"

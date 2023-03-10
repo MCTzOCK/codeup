@@ -67,9 +67,7 @@ export default async function handleRequest(
               org = await OrgModel.findOne({
                 name: name,
                 members: {
-                  $elemMatch: {
-                    user: user._id,
-                  },
+                  $in: [user._id.toString()],
                 },
               });
               if (!org) {

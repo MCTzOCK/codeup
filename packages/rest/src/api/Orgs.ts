@@ -107,3 +107,35 @@ export async function updateOrg(options: {
     },
   });
 }
+
+export async function addOrgMember(options: {
+  token: string;
+  name: string;
+  userId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.name + "/members",
+    method: "POST",
+    body: {
+      action: "ADD",
+      userId: options.userId,
+    },
+  });
+}
+
+export async function removeOrgMember(options: {
+  token: string;
+  name: string;
+  userId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.name + "/members",
+    method: "POST",
+    body: {
+      action: "REMOVE",
+      userId: options.userId,
+    },
+  });
+}

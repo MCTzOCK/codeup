@@ -12,6 +12,7 @@ import {
   checkUsername,
   createTestAccount,
   deleteAccount,
+  getUserById,
   login,
   loginWithUsername,
   register,
@@ -19,22 +20,22 @@ import {
   resetConfirm,
   update,
   update2FA,
-  verify,
+  verify
 } from "./api/Account";
 import makeRequest from "./makeRequest";
 import {
   createList,
   createTask,
+  createV2Project,
   deleteList,
   deleteTask,
+  deleteV2Project,
   getList,
   getMyLists,
-  toggleItemFinish,
-  createV2Project,
   getV2Project,
   getV2Projects,
-  deleteV2Project,
-  updateV2Project,
+  toggleItemFinish,
+  updateV2Project
 } from "./api/ToDo";
 import {
   addContributor,
@@ -61,7 +62,7 @@ import {
   toggleProjectPin,
   unpublishProject,
   updateTemplate,
-  useTemplate,
+  useTemplate
 } from "./api/IDE";
 import {
   createPost,
@@ -77,112 +78,107 @@ import {
   likePost,
   search,
   toggleFollow,
-  updateProfile,
+  updateProfile
 } from "./api/Community";
 import {
-  createProfile as createProfileV2,
-  deleteProfile as deleteProfileV2,
-  getProfile as getProfileV2,
-  modifyProfile as modifyProfileV2,
+  createChat as createChatV2,
   createPost as createPostV2,
-  getPost as getPostV2,
+  createProfile as createProfileV2,
+  deleteChat as deleteChatV2,
   deletePost as deletePostV2,
+  deleteProfile as deleteProfileV2,
+  getAllPosts as getAllPostsV2,
+  getChatList as getChatListV2,
+  getChatMessages as getChatMessagesV2,
+  getComments as getCommentsV2,
+  getEmbeds,
+  getPost as getPostV2,
+  getProfile as getProfileV2,
   getProfilePosts as getProfilePostsV2,
   getProfiles as getProfilesV2,
   likePost as likePostV2,
-  getComments as getCommentsV2,
-  getAllPosts as getAllPostsV2,
-  createChat as createChatV2,
-  getChatList as getChatListV2,
-  deleteChat as deleteChatV2,
-  getChatMessages as getChatMessagesV2,
-  sendMessage as sendMessageV2,
-  getEmbeds,
+  modifyProfile as modifyProfileV2,
+  sendMessage as sendMessageV2
 } from "./api/Forum";
 import {
-  listAccounts,
-  updateAccount,
-  deleteAccount as deleteAccountA,
-  createAccount,
-  listForumProfiles,
-  deleteForumProfile,
-  updateForumProfile,
-  createCourse,
-  listCourses,
-  deleteCourse,
-  updateCourse,
-  createVideo,
-  listVideos,
-  deleteVideo,
-  getVideo,
-  updateVideo,
-  createText,
-  listTexts,
-  deleteText,
-  getText,
-  updateText,
-  createContent,
-  getContents,
-  deleteContent,
-  getContactMessages,
-  getContactMessageCount,
-  deleteContactMessage,
   contactUser,
-  getAllObtainedCertificates,
-  deleteObtainedCertificate,
-  getProjectIdeas as getProjectIdeasAdmin,
-  deleteProjectIdea,
-  createProjectIdea,
-  getBlogs,
+  createAccount,
   createBlog,
-  updateBlog,
+  createContent,
+  createCourse,
+  createProjectIdea,
+  createText,
+  createVideo,
+  deleteAccount as deleteAccountA,
   deleteBlog,
+  deleteContactMessage,
+  deleteContent,
+  deleteCourse,
+  deleteForumProfile,
+  deleteObtainedCertificate,
+  deleteProjectIdea,
+  deleteText,
+  deleteVideo,
+  getAllObtainedCertificates,
+  getBlogs,
+  getContactMessageCount,
+  getContactMessages,
+  getContents,
+  getProjectIdeas as getProjectIdeasAdmin,
+  getText,
   getUserJWT,
+  getVideo,
+  listAccounts,
+  listCourses,
+  listForumProfiles,
+  listTexts,
+  listVideos,
+  updateAccount,
+  updateBlog,
+  updateCourse,
+  updateForumProfile,
+  updateText,
+  updateVideo
 } from "./api/Admin";
 
-import {
-  getCourse,
-  getSection,
-  listCourses as listCoursesU,
-} from "./api/Course";
+import { getCourse, getSection, listCourses as listCoursesU } from "./api/Course";
 
 import {
-  getCourses as getCoursesCreator,
-  createCourse as createCourseCreator,
-  deleteCourse as deleteCourseCreator,
-  updateCourse as updateCourseCreator,
-  createContent as createContentCreator,
-  deleteContent as deleteContentCreator,
-  getContents as getContentsCreator,
-  updateContent as updateContentCreator,
-  getTopCreators,
-  getCertificate,
   createCertificate,
+  createContent as createContentCreator,
+  createCourse as createCourseCreator,
+  deleteContent as deleteContentCreator,
+  deleteCourse as deleteCourseCreator,
+  getCertificate,
+  getContents as getContentsCreator,
+  getCourses as getCoursesCreator,
+  getTopCreators,
   updateCertificate,
+  updateContent as updateContentCreator,
+  updateCourse as updateCourseCreator
 } from "./api/Creator";
-import {
-  deleteAnalytics,
-  getSummary,
-  getViews,
-  postAnalytics,
-} from "./api/Analytics";
+import { deleteAnalytics, getSummary, getViews, postAnalytics } from "./api/Analytics";
 import {
   getCertificate as getCertificateC,
-  submitCertificate,
   getObtainedCertificate,
   getObtainedCertificates,
+  submitCertificate
 } from "./api/Certificates";
 import { getProjectIdeas } from "./api/ProjectIdeas";
 import { getDiscoveryProjects } from "./api/Discovery";
 import { getBlog, getBlogs as getBlogsB } from "./api/Blog";
+import { createSnippet, deleteSnippet, getSnippet, getSnippets, updateSnippet } from "./api/Snippets";
 import {
-  createSnippet,
-  deleteSnippet,
-  getSnippet,
-  getSnippets,
-  updateSnippet,
-} from "./api/Snippets";
-import { createOrg, deleteOrg, getOrg, getOrgs, renameOrg, updateOrg, updateOrgIcon } from "./api/Orgs";
+  addOrgMember,
+  createOrg,
+  deleteOrg,
+  getOrg,
+  getOrgs,
+  removeOrgMember,
+  renameOrg,
+  updateOrg,
+  updateOrgIcon
+} from "./api/Orgs";
 
 const REST = {
   Admin: {
@@ -223,11 +219,11 @@ const REST = {
     createBlog,
     updateBlog,
     deleteBlog,
-    getUserJWT,
+    getUserJWT
   },
   Blog: {
     getBlog,
-    getBlogsB,
+    getBlogsB
   },
   Account: {
     register,
@@ -242,6 +238,7 @@ const REST = {
     update2FA,
     verify,
     createTestAccount,
+    getUserById
   },
   ToDo: {
     getMyLists,
@@ -255,7 +252,7 @@ const REST = {
     getV2Project,
     getV2Projects,
     deleteV2Project,
-    updateV2Project,
+    updateV2Project
   },
   IDE: {
     getProjectPermissions,
@@ -282,7 +279,7 @@ const REST = {
     publishProject,
     unpublishProject,
     enableDiscovery,
-    disableDiscovery,
+    disableDiscovery
   },
   Community: {
     search,
@@ -298,13 +295,13 @@ const REST = {
     isFollowing,
     getProfileFollowers,
     getProfilePosts,
-    toggleFollow,
+    toggleFollow
   },
   Util: {
-    makeRequest: makeRequest,
+    makeRequest: makeRequest
   },
   Discovery: {
-    getDiscoveryProjects,
+    getDiscoveryProjects
   },
   Forum: {
     createProfileV2: createProfileV2,
@@ -324,12 +321,12 @@ const REST = {
     deleteChatV2: deleteChatV2,
     sendMessageV2: sendMessageV2,
     getChatMessagesV2: getChatMessagesV2,
-    getEmbeds,
+    getEmbeds
   },
   Course: {
     getSection,
     getCourse,
-    listCourses: listCoursesU,
+    listCourses: listCoursesU
   },
   Creator: {
     getCourses: getCoursesCreator,
@@ -343,29 +340,29 @@ const REST = {
     getTopCreators: getTopCreators,
     getCertificate: getCertificate,
     createCertificate: createCertificate,
-    updateCertificate: updateCertificate,
+    updateCertificate: updateCertificate
   },
   Analytics: {
     postAnalytics,
     getSummary,
     getViews,
-    deleteAnalytics,
+    deleteAnalytics
   },
   Certificates: {
     getCertificate: getCertificateC,
     submitCertificate,
     getObtainedCertificate,
-    getObtainedCertificates,
+    getObtainedCertificates
   },
   Ideas: {
-    getProjectIdeas,
+    getProjectIdeas
   },
   Snippets: {
     getSnippets,
     getSnippet,
     createSnippet,
     deleteSnippet,
-    updateSnippet,
+    updateSnippet
   },
   Orgs: {
     getOrgs,
@@ -374,8 +371,10 @@ const REST = {
     getOrg,
     updateOrg,
     updateOrgIcon,
-    renameOrg
-  },
+    renameOrg,
+    removeOrgMember,
+    addOrgMember
+  }
 };
 
 export default REST;

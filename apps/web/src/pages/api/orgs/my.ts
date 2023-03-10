@@ -12,6 +12,7 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import OrgModel from "@codeup/util/src/models/OrgModel";
+import mongoose from "mongoose";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -57,11 +58,17 @@ export default async function handleRequest(
         owner: user._id,
       });
 
+      /*
+       * OrgModel Structure:
+       * ...
+       * members: string[]
+       * ...
+       */
+
+      // a variable containing all orgs where the user is a member
       const memberOrgs = await OrgModel.find({
         members: {
-          $elemMatch: {
-            user: user._id,
-          },
+          $in: [user._id.toString()],
         },
       });
 
