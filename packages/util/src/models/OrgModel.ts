@@ -41,6 +41,12 @@ const OrgModel = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
+  joinMode: {
+    // TYPE: apps/web/src/pages/orgs/[name]/manage.tsx:29:5
+    type: String,
+    required: true,
+    default: "INVITE",
+  },
 });
 
 export default mongoose.models?.Org || mongoose.model("Org", OrgModel);

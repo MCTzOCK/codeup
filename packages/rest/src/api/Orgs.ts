@@ -47,3 +47,14 @@ export async function deleteOrg(options: {
     },
   });
 }
+
+export async function getOrg(options: {
+  token: string;
+  name: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: `/api/orgs/${options.name}`,
+    method: "GET",
+  });
+}
