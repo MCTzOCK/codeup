@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/members.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/users/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/user/[name].ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/users/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/users/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/[name]/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/my.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/orgs/my.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/orgs/[name]/manage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/orgs/[name]/manage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Orgs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Orgs.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,8 +67,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "18.7.0",
-    "javascript.nodejs.core.library.typings.version": "18.7.0",
+    "javascript.nodejs.core.library.configured.version": "16.14.2",
+    "javascript.nodejs.core.library.typings.version": "16.18.14",
     "last_opened_file_path": "/Users/ben/Desktop/Projekte/codeup/packages/util/src",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
@@ -85,7 +79,7 @@
     "prettierjs.PrettierConfiguration.Package": "/Users/ben/Desktop/codeup/node_modules/prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "/Users/ben/Desktop/Projekte/codeup/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -240,6 +234,7 @@
       <workItem from="1674650393939" duration="22075000" />
       <workItem from="1674895609344" duration="12176000" />
       <workItem from="1677764346945" duration="4236000" />
+      <workItem from="1678532877765" duration="695000" />
     </task>
     <servers />
   </component>

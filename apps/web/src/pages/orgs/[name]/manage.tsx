@@ -13,10 +13,12 @@ import { useLoggedIn } from "@codeup/hooks";
 import OrgAdminLayout from "@codeup/components/orgs/OrgAdminLayout";
 import { useRouter } from "next/router";
 import {
-  Box, Button,
+  Box,
+  Button,
   chakra,
   Divider,
   Flex,
+  FormControl,
   Heading,
   HStack,
   IconButton,
@@ -25,19 +27,21 @@ import {
   InputLeftElement,
   Link,
   Stack,
-  Table, TableCaption,
+  Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Text, Tfoot,
+  Text,
+  Tfoot,
   Th,
   Thead,
   Tr,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import AccountManager from "@codeup/util/src/AccountManager";
-import { FaPen, FaSearch, FaTrash } from "react-icons/fa";
+import { FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
 
 export default function ManageDashboard() {
@@ -53,20 +57,22 @@ export default function ManageDashboard() {
     _id: string;
   } | null>();
 
-  const [fetchedMembers, setFetchedMembers] = React.useState<{
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
-  }[]>([]);
+  const [fetchedMembers, setFetchedMembers] = React.useState<
+    {
+      id: string;
+      username: string;
+      firstName: string;
+      lastName: string;
+      profilePicture: string;
+    }[]
+  >([]);
 
   const [memberQuery, setMemberQuery] = React.useState<string>("");
 
   const fetchOrg = () => {
     REST.Orgs.getOrg({
       token: AccountManager.getActiveToken(),
-      name: router.query.name as string
+      name: router.query.name as string,
     }).then(async (r) => {
       if (r.status === 200) {
         setOrg(r.payload.org);
@@ -133,74 +139,93 @@ export default function ManageDashboard() {
                       borderRadius={"50%"}
                       mr={4}
                     />
-                    <Link color={"blue.300"} onClick={async () => {
-                      const fl: FileList = await PopupManager.uploadFileAsync({
-                        title: "Logo ändern",
-                        helperText: "Wähle ein neues Logo für die Organisation aus."
-                      });
+                    <Link
+                      color={"blue.300"}
+                      onClick={async () => {
+                        const fl: FileList = await PopupManager.uploadFileAsync(
+                          {
+                            title: "Logo ändern",
+                            helperText:
+                              "Wähle ein neues Logo für die Organisation aus.",
+                          }
+                        );
 
-                      if (fl.length === 0) return;
+                        if (fl.length === 0) return;
 
-                      const formData = new FormData();
-                      formData.append("file", fl[0]);
+                        const formData = new FormData();
+                        formData.append("file", fl[0]);
 
-                      const res = await fetch("/media/upload", {
-                        method: "POST",
-                        body: formData
-                      });
-
-                      if (res.status === 200) {
-                        const data = await res.json();
-
-                        const orgRes = await REST.Orgs.updateOrgIcon({
-                          token: AccountManager.getActiveToken(),
-                          name: org.name,
-                          icon: data.data.url
+                        const res = await fetch("/media/upload", {
+                          method: "POST",
+                          body: formData,
                         });
 
-                        if (orgRes.status === 200) {
-                          fetchOrg();
+                        if (res.status === 200) {
+                          const data = await res.json();
+
+                          const orgRes = await REST.Orgs.updateOrgIcon({
+                            token: AccountManager.getActiveToken(),
+                            name: org.name,
+                            icon: data.data.url,
+                          });
+
+                          if (orgRes.status === 200) {
+                            fetchOrg();
+                          } else {
+                            PopupManager.alertAsync({
+                              title: "Fehler",
+                              description:
+                                "Beim Hochladen des Logos ist ein Fehler aufgetreten: " +
+                                orgRes.payload.error,
+                            });
+                          }
                         } else {
                           PopupManager.alertAsync({
                             title: "Fehler",
-                            description: "Beim Hochladen des Logos ist ein Fehler aufgetreten: " + orgRes.payload.error
+                            description:
+                              "Beim Hochladen des Logos ist ein Fehler aufgetreten: " +
+                              res.statusText,
                           });
                         }
-                      } else {
-                        PopupManager.alertAsync({
-                          title: "Fehler",
-                          description: "Beim Hochladen des Logos ist ein Fehler aufgetreten: " + res.statusText
-                        });
-                      }
-                    }}>
+                      }}
+                    >
                       Logo ändern
                     </Link>
                   </VStack>
                   <HStack>
                     <Heading size={"xl"}>{org.name}</Heading>
-                    <IconButton aria-label={"Umbennenen"} onClick={async () => {
-                      const name = await PopupManager.promptAsync({
-                        title: "Umbenennen",
-                        helperText: "Gib den neuen Namen der Organisation ein. Der Name muss eindeutig sein."
-                      });
-
-                      if (name) {
-                        const res = await REST.Orgs.renameOrg({
-                          token: AccountManager.getActiveToken(),
-                          oldName: org.name,
-                          newName: name
+                    <IconButton
+                      aria-label={"Umbennenen"}
+                      onClick={async () => {
+                        const name = await PopupManager.promptAsync({
+                          title: "Umbenennen",
+                          helperText:
+                            "Gib den neuen Namen der Organisation ein. Der Name muss eindeutig sein.",
                         });
 
-                        if (res.status === 200) {
-                          router.push("/orgs/" + name + "/manage");
-                        } else {
-                          PopupManager.alertAsync({
-                            title: "Fehler",
-                            description: "Beim Umbenennen ist ein Fehler aufgetreten: " + res.payload.error
+                        if (name) {
+                          const res = await REST.Orgs.renameOrg({
+                            token: AccountManager.getActiveToken(),
+                            oldName: org.name,
+                            newName: name,
                           });
+
+                          if (res.status === 200) {
+                            router.push("/orgs/" + name + "/manage");
+                          } else {
+                            PopupManager.alertAsync({
+                              title: "Fehler",
+                              description:
+                                "Beim Umbenennen ist ein Fehler aufgetreten: " +
+                                res.payload.error,
+                            });
+                          }
                         }
-                      }
-                    }} icon={<FaPen />} variant={"ghost"} colorScheme={"blue"} />
+                      }}
+                      icon={<FaPen />}
+                      variant={"ghost"}
+                      colorScheme={"blue"}
+                    />
                   </HStack>
                   <Stack>
                     <Text>
@@ -220,16 +245,61 @@ export default function ManageDashboard() {
                 <Divider mt={6} />
                 <Box mt={6}>
                   <Heading size={"md"}>Mitglieder</Heading>
-                  <InputGroup mt={4} mb={4}>
-                    <InputLeftElement>
-                      <FaSearch />
-                    </InputLeftElement>
-                    <Input
-                      placeholder={"Mitglieder suchen..."}
-                      value={memberQuery}
-                      onChange={(e) => setMemberQuery(e.target.value)}
-                    />
-                  </InputGroup>
+                  <Flex alignItems={"center"} justifyContent={"center"} gap={4}>
+                    <InputGroup mt={4} mb={4}>
+                      <InputLeftElement>
+                        <FaSearch />
+                      </InputLeftElement>
+                      <Input
+                        placeholder={"Mitglieder suchen..."}
+                        value={memberQuery}
+                        onChange={(e) => setMemberQuery(e.target.value)}
+                      />
+                    </InputGroup>
+                    <Button
+                      colorScheme={"blue"}
+                      leftIcon={<FaPlus />}
+                      onClick={async () => {
+                        const name = await PopupManager.promptAsync({
+                          title: "Mitglied hinzufügen",
+                          helperText:
+                            "Gib den Benutzernamen des Mitglieds ein.",
+                        });
+
+                        if (name) {
+                          const accRes = await REST.Account.getUserByName(name);
+
+                          if (accRes.status === 200) {
+                            const res = await REST.Orgs.addOrgMember({
+                              token: AccountManager.getActiveToken(),
+                              name: org.name,
+                              userId: accRes.payload.user.id,
+                            });
+
+                            if (res.status === 200) {
+                              fetchOrg();
+                            } else {
+                              PopupManager.alertAsync({
+                                title: "Fehler",
+                                description:
+                                  "Beim Hinzufügen des Mitglieds ist ein Fehler aufgetreten: " +
+                                  res.payload.error,
+                              });
+                            }
+                          } else {
+                            PopupManager.alertAsync({
+                              title: "Fehler",
+                              description:
+                                "Beim Hinzufügen des Mitglieds ist ein Fehler aufgetreten: " +
+                                accRes.payload.error,
+                            });
+                          }
+                        }
+                      }}
+                    >
+                      Hinzufügen
+                    </Button>
+                  </Flex>
                   <TableContainer mt={2}>
                     <Table>
                       <Thead>
@@ -241,12 +311,21 @@ export default function ManageDashboard() {
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {
-                          fetchedMembers.filter((m) => {
-                            return m.username.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.firstName.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.lastName.toLowerCase().includes(memberQuery.toLowerCase());
-                          }).map((m) => {
+                        {fetchedMembers
+                          .filter((m) => {
+                            return (
+                              m.username
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase()) ||
+                              m.firstName
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase()) ||
+                              m.lastName
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase())
+                            );
+                          })
+                          .map((m) => {
                             return (
                               <Tr key={m.id}>
                                 <Td>
@@ -258,59 +337,85 @@ export default function ManageDashboard() {
                                     borderRadius={"50%"}
                                   />
                                 </Td>
+                                <Td>@{m.username}</Td>
+                                <Td>{m.firstName + " " + m.lastName}</Td>
                                 <Td>
-                                  @{m.username}
-                                </Td>
-                                <Td>
-                                  {m.firstName + " " + m.lastName}
-                                </Td>
-                                <Td>
-                                  <Button colorScheme={"red"} leftIcon={<FaTrash />} onClick={async () => {
+                                  <Button
+                                    colorScheme={"red"}
+                                    leftIcon={<FaTrash />}
+                                    onClick={async () => {
+                                      if (
+                                        !(await PopupManager.confirmAsync({
+                                          title: "Mitglied entfernen",
+                                          question:
+                                            "Bist du sicher, dass du " +
+                                            m.username +
+                                            " aus der Organisation entfernen möchtest?",
+                                        }))
+                                      )
+                                        return;
 
-                                    if(!await PopupManager.confirmAsync({
-                                      title: "Mitglied entfernen",
-                                      question: "Bist du sicher, dass du " + m.username + " aus der Organisation entfernen möchtest?"
-                                    })) return;
+                                      const res =
+                                        await REST.Orgs.removeOrgMember({
+                                          token:
+                                            AccountManager.getActiveToken(),
+                                          name: org.name,
+                                          userId: m.id,
+                                        });
 
-                                    const res = await REST.Orgs.removeOrgMember({
-                                      token: AccountManager.getActiveToken(),
-                                      name: org.name,
-                                      userId: m.id
-                                    });
-
-                                    if (res.status === 200) {
-                                      setFetchedMembers(fetchedMembers.filter((m0) => m0.id !== m.id));
-                                    } else {
-                                      PopupManager.alertAsync({
-                                        title: "Fehler",
-                                        description: "Beim Entfernen des Mitglieds ist ein Fehler aufgetreten: " + res.payload.error
-                                      });
-                                    }
-                                  }}>
+                                      if (res.status === 200) {
+                                        setFetchedMembers(
+                                          fetchedMembers.filter(
+                                            (m0) => m0.id !== m.id
+                                          )
+                                        );
+                                      } else {
+                                        PopupManager.alertAsync({
+                                          title: "Fehler",
+                                          description:
+                                            "Beim Entfernen des Mitglieds ist ein Fehler aufgetreten: " +
+                                            res.payload.error,
+                                        });
+                                      }
+                                    }}
+                                  >
                                     Entfernen
                                   </Button>
                                 </Td>
                               </Tr>
                             );
-                          })
-                        }
+                          })}
                       </Tbody>
                       <TableCaption>
-                        {
+                        {fetchedMembers.filter((m) => {
+                          return (
+                            m.username
+                              .toLowerCase()
+                              .includes(memberQuery.toLowerCase()) ||
+                            m.firstName
+                              .toLowerCase()
+                              .includes(memberQuery.toLowerCase()) ||
+                            m.lastName
+                              .toLowerCase()
+                              .includes(memberQuery.toLowerCase())
+                          );
+                        }).length === 0 ? (
+                          <Text>Keine Mitglieder gefunden.</Text>
+                        ) : (
                           fetchedMembers.filter((m) => {
-                            return m.username.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.firstName.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.lastName.toLowerCase().includes(memberQuery.toLowerCase());
-                          }).length === 0 ? (
-                            <Text>
-                              Keine Mitglieder gefunden.
-                            </Text>
-                          ) : fetchedMembers.filter((m) => {
-                            return m.username.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.firstName.toLowerCase().includes(memberQuery.toLowerCase())
-                              || m.lastName.toLowerCase().includes(memberQuery.toLowerCase());
+                            return (
+                              m.username
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase()) ||
+                              m.firstName
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase()) ||
+                              m.lastName
+                                .toLowerCase()
+                                .includes(memberQuery.toLowerCase())
+                            );
                           }).length + " Mitglieder gefunden."
-                        }
+                        )}
                       </TableCaption>
                     </Table>
                   </TableContainer>

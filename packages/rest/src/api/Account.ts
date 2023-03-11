@@ -162,3 +162,10 @@ export async function getUserById(id: string): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function getUserByName(name: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/user/" + name,
+    method: "GET",
+  });
+}
