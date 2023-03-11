@@ -33,7 +33,12 @@ export default async function handleRequest(
    * }
    */
 
-  if (!req.headers["x-jwt"] || !req.body || !req.body.action || !req.body.userId) {
+  if (
+    !req.headers["x-jwt"] ||
+    !req.body ||
+    !req.body.action ||
+    !req.body.userId
+  ) {
     res.status(400).json({
       error: "Missing token",
     });
@@ -68,15 +73,30 @@ export default async function handleRequest(
 
           try {
             let org = await OrgModel.findOne({
-              owner: user._id,
               name: name,
             });
 
+            if (!org) {
+              res.status(400).json({
+                success: false,
+                error: "Organisation not found",
+              });
+              return;
+            }
+
             if (req.body.action === "ADD") {
-              if(org.members.find(
+              if (org.owner.toString() !== user._id.toString()) {
+                res.status(400).json({
+                  success: false,
+                  error: "Not allowed to add members",
+                });
+                return;
+              }
+              if (
+                org.members.find(
                   (m: any) => m.toString() === req.body.userId
-              )
-                || org.owner.toString() === req.body.userId
+                ) ||
+                org.owner.toString() === req.body.userId
               ) {
                 res.status(400).json({
                   success: false,
@@ -89,7 +109,7 @@ export default async function handleRequest(
                 _id: req.body.userId,
               });
 
-              if(!existingUser) {
+              if (!existingUser) {
                 res.status(400).json({
                   success: false,
                   error: "User not found",
@@ -99,11 +119,20 @@ export default async function handleRequest(
 
               org.members.push(req.body.userId);
             } else if (req.body.action === "REMOVE") {
+              if (
+                org.owner.toString() !== user._id.toString() &&
+                user._id.toString() !== req.body.userId
+              ) {
+                res.status(400).json({
+                  success: false,
+                  error: "Not allowed to remove members",
+                });
+                return;
+              }
               const index = org.members.findIndex(
                 (m: any) => m.toString() === req.body.userId
               );
-              if (index === -1
-                || org.owner.toString() === req.body.userId) {
+              if (index === -1 || org.owner.toString() === req.body.userId) {
                 res.status(400).json({
                   success: false,
                   error: "User not in organisation",
@@ -117,8 +146,7 @@ export default async function handleRequest(
 
             res.status(200).json({
               success: true,
-            })
-
+            });
           } catch (e) {
             res.status(400).json({
               success: false,
@@ -134,5 +162,3 @@ export default async function handleRequest(
     });
   }
 }
-
- 
