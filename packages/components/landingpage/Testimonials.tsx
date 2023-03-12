@@ -1,0 +1,126 @@
+/**
+ * packages/components/landingpage/Testimonials.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2023 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 12.03.2023
+ * Original: https://templateskart.com
+ */
+
+import {
+  Avatar,
+  Box,
+  chakra,
+  Container,
+  Flex,
+  SimpleGrid,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import React from "react";
+import SuperText from "./SuperText";
+
+interface TestimonialAttributes {
+  name: string;
+  position: string;
+  company: string;
+  content: string;
+  image: string;
+}
+
+const testimonials: TestimonialAttributes[] = [
+  {
+    name: "Ben Siebert",
+    position: "Entwickler",
+    company: "CodeUp",
+    image: "https://avatars.githubusercontent.com/u/53553315",
+    content: `CodeUp ist eine tolle Plattform, um neue Technologien zu lernen.
+    Ich freue mich sehr, dass CodeUp mitlerweile schon so viele Nutzer hat und hoffe, dass es vielen
+    Menschen hilft, programmieren zu lernen.`,
+  },
+];
+
+const Testimonials = () => {
+  return (
+    <Container maxW="5xl" py={10} px={6}>
+      <Flex justify="center" mb={8}>
+        <SuperText>Was sagen unsere Kunden?</SuperText>
+      </Flex>
+      <SimpleGrid
+        columns={{ base: 1, md: 2 }}
+        placeItems="center"
+        spacing={1}
+        mt={12}
+        mb={4}
+      >
+        {testimonials.map((obj, index) => (
+          <>
+            <Stack
+              key={index}
+              direction={{ base: "column", sm: "row" }}
+              spacing={2}
+              mb={5}
+              justify="center"
+            >
+              <Stack
+                maxW="330px"
+                minW={"300px"}
+                boxShadow="lg"
+                rounded="md"
+                p={6}
+                pos="relative"
+                bg={"gray.900"}
+                _after={{
+                  content: `""`,
+                  w: "0",
+                  h: "0",
+                  borderColor: `transparent ${"#141517"} transparent`,
+                  borderStyle: "solid",
+                  borderWidth: "10px 0 10px 10px",
+                  position: "absolute",
+                  top: { base: "unset", sm: "45%" },
+                  right: { base: "unset", sm: "-10px" },
+                  left: { base: "48%", sm: "unset" },
+                  bottom: { base: "-15px", sm: "unset" },
+                  transform: { base: "rotate(90deg)", sm: "unset" },
+                  display: "block",
+                }}
+              >
+                <Text fontWeight="medium" fontSize="sm">
+                  {obj.content}
+                </Text>
+              </Stack>
+              <Stack
+                direction="column"
+                spacing={2}
+                p={2}
+                justify="flex-end"
+                alignItems="center"
+              >
+                <Avatar
+                  size="xl"
+                  showBorder={true}
+                  borderColor="#F7DE1F"
+                  name="avatar"
+                  src={obj.image}
+                />
+                <Box textAlign="center">
+                  <Text fontWeight="bold" fontSize="lg">
+                    {obj.name}
+                  </Text>
+                  <Text fontWeight="medium" fontSize="xs" color="white">
+                    {obj.position}, {obj.company}
+                  </Text>
+                </Box>
+              </Stack>
+            </Stack>
+          </>
+        ))}
+      </SimpleGrid>
+    </Container>
+  );
+};
+
+export default Testimonials;
