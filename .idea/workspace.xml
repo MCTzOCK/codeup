@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/_static/vectors/home/develop-1.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/public/_static/vectors/home/develop-2.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/stats.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/landingpage/BrandStats.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/landingpage/OverviewSection.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/landingpage/SuperText.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/components/landingpage/Testimonials.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/landingpage/Milestones.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/_static/vectors/home/create-projects.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/_static/vectors/home/create-projects.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/landingpage/OverviewSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/landingpage/OverviewSection.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -37,7 +37,7 @@ const overviewList = [
   {
     id: 3,
     label: "Verwirklichen",
-    subLabel: "Erstelle dir Projekte und lerne so neue Technologien.",
+    subLabel: "Erstelle Projekte und lerne so neue Technologien.",
   },
 ];
 

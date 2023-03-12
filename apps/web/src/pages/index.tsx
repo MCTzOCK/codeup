@@ -28,6 +28,7 @@ import Head from "next/head";
 import OverviewSection from "@codeup/components/landingpage/OverviewSection";
 import BrandStats from "@codeup/components/landingpage/BrandStats";
 import Testimonials from "@codeup/components/landingpage/Testimonials";
+import Milestones from "@codeup/components/landingpage/Milestones";
 
 export default function Index() {
   const { loggedIn } = useLoggedIn();
@@ -135,16 +136,14 @@ export default function Index() {
           alignItems={"center"}
           bgColor={"transparent"}
           justifyContent={"center"}
-          /**
-          borderTopLeftRadius={"75px"}
-          borderTopRightRadius={"75px"}
-          boxShadow={"0px 0px 10px 0px rgba(0,0,0,0.75)"}
-          */
         >
           <Testimonials />
         </Flex>
         <Flex w={"100%"} alignItems={"center"} bgColor={"transparent"}>
           <BrandStats />
+        </Flex>
+        <Flex w={"100%"} alignItems={"center"} bgColor={"transparent"}>
+          <Milestones />
         </Flex>
       </Stack>
     </>
