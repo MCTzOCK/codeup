@@ -75,7 +75,12 @@ const Footer = () => {
             </VStack>
           </VStack>
           <VStack spacing={4} alignItems="flex-start">
-            <Text fontSize="md" fontWeight="bold" color={"transparent"}>
+            <Text
+              fontSize="md"
+              fontWeight="bold"
+              color={"transparent"}
+              userSelect={"none"}
+            >
               Weitere Angebote
             </Text>
             <VStack spacing={2} alignItems="flex-start" color="white">
