@@ -7,7 +7,14 @@
  * Created At: 20.01.2023
  *
  */
-import { ChakraProvider, FormControl, FormHelperText, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import ReactDOM from "react-dom";
 import PromptPopupComponent from "./PopupManager/PromptPopupComponent";
 import theme from "./theme";
@@ -77,11 +84,13 @@ export default class PopupManager {
     title?: string | undefined;
     description: string | ReactNode;
     callback?: () => void;
+    customSize?: string;
   }): void {
     ReactDOM.render(
       <>
         <ChakraProvider theme={theme}>
           <AlertPopupComponent
+            customSize={options.customSize}
             title={options.title}
             description={options.description}
             onClose={() => {
@@ -226,12 +235,14 @@ export default class PopupManager {
 
   public static alertAsync(options: {
     title?: string;
-    description: string;
+    description: string | ReactNode;
+    customSize?: string;
   }): Promise<void> {
     return new Promise((resolve) => {
       this.alert({
         title: options.title,
         description: options.description,
+        customSize: options.customSize,
         callback: () => {
           resolve();
         },
@@ -249,9 +260,9 @@ export default class PopupManager {
         helperText: options.helperText,
         callback: (input: FileList) => {
           resolve(input);
-        }
-      })
-    })
+        },
+      });
+    });
   }
 
   public static removeCurrentPopup(): void {

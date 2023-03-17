@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/models/OrgDashboard.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager/AlertPopupComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/AlertPopupComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectCreate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +34,9 @@
         <option value="tsconfig.json" />
         <option value="CSS File" />
         <option value="React Component" />
-        <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -59,33 +67,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "18.7.0",
-    "javascript.nodejs.core.library.typings.version": "18.7.0",
-    "last_opened_file_path": "/Users/ben/Desktop/Projekte/codeup/packages/util/src",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.7.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.7.0&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ben/Desktop/Projekte/codeup/packages/util/src&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2023_CodeUp\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Shell Script"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>

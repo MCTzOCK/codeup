@@ -22,9 +22,9 @@ export default class EditorProjectPageCreateChannel extends Channel {
   public register() {
     this.socket.on(this.channelName, async (data) => {
       if (SocketRegistry.loggedIn[this.socket.id]) {
-        const { id, type, url } = data;
+        const { id, type, url, content } = data;
 
-        if(url.startsWith("/api")) {
+        if (url.startsWith("/api")) {
           this.emit({
             error: "URL cannot start with api",
           });
@@ -75,10 +75,11 @@ export default class EditorProjectPageCreateChannel extends Channel {
           project: id,
           type,
           url,
-          mainContent:
-            type.toLowerCase() === "html"
-              ? "<h1>HTML Seite</h1>"
-              : 'Gib "Hallo Welt" in der Dialogbox aus',
+          mainContent: content
+            ? content
+            : type.toLowerCase() === "html"
+            ? "<h1>HTML Seite</h1>"
+            : 'Gib "Hallo Welt" in der Dialogbox aus',
           resources: [],
         });
 

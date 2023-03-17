@@ -183,8 +183,8 @@ export default function PageEditor() {
                 p={2}
               >
                 {currentResource === "codeup.main_resource"
-                  ? "Hauptwebseite"
-                  : currentResource}
+                  ? "Hauptwebseite (" + page.url + ")"
+                  : "Resource (" + currentResource + ")"}
               </Heading>
 
               <Editor

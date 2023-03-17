@@ -15,7 +15,15 @@ import { useLoggedIn } from "@codeup/hooks";
 import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../global/PopupManager";
 import EditorProjectLayout from "@codeup/components/dist/editor/EditorProjectLayout";
-import { Box, Button, Flex, Heading, Stack, StackDivider, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Stack,
+  StackDivider,
+  Text,
+} from "@chakra-ui/react";
 import JSZip from "jszip";
 import Networking from "@codeup/util/dist/Networking";
 
@@ -85,9 +93,10 @@ export default function Export() {
                 <Stack>
                   <Text>
                     Du kannst deine App exportieren und auf deinem eigenen
-                    Server hosten. Klicke dazu auf die Schaltfläche unten.
-                    Der Prozess wird einige Minuten in Anspruch nehmen und die
-                    ZIP-Datei wird, nach Abschluss des Exports, automatisch heruntergeladen.
+                    Server hosten. Klicke dazu auf die Schaltfläche unten. Der
+                    Prozess wird einige Minuten in Anspruch nehmen und die
+                    ZIP-Datei wird, nach Abschluss des Exports, automatisch
+                    heruntergeladen.
                   </Text>
                   <StackDivider />
                   <Button
@@ -100,93 +109,142 @@ export default function Export() {
                       reactSocket.on("editor:projects:pages", (data: any) => {
                         if (data.success) {
                           let realPages: any[] = [];
-                          for(const p of data.pages){
-                            reactSocket.on("editor:projects:page:content", (data: any) => {
-                              if(data.success){
-                                realPages.push(data.page);
+                          for (const p of data.pages) {
+                            reactSocket.on(
+                              "editor:projects:page:content",
+                              (data: any) => {
+                                if (data.success) {
+                                  realPages.push(data.page);
+                                }
                               }
-                            });
+                            );
                             reactSocket.emit("editor:projects:page:content", {
                               projectId: router.query.project_id,
-                              pageId: p._id
+                              pageId: p._id,
                             });
                           }
                           pages = realPages;
 
-                          reactSocket.on("editor:projects:static:assets", (data: any) => {
-                            if (data.success) {
-                              staticAssets = data.files;
+                          reactSocket.on(
+                            "editor:projects:static:assets",
+                            (data: any) => {
+                              if (data.success) {
+                                staticAssets = data.files;
 
-                              reactSocket.on("editor:projects:functions", async (data: any) => {
-                                if (data.success) {
-                                  functions = data.functions;
+                                reactSocket.on(
+                                  "editor:projects:functions",
+                                  async (data: any) => {
+                                    if (data.success) {
+                                      functions = data.functions;
 
-                                  const zip = new JSZip();
+                                      const zip = new JSZip();
 
-                                  zip.file("project.json", JSON.stringify(project, null, 2));
-                                  const pagesFolder = zip.folder("pages") as JSZip;
-                                  const staticFolder = zip.folder("static") as JSZip;
-                                  const functionsFolder = zip.folder("functions") as JSZip;
+                                      zip.file(
+                                        "project.json",
+                                        JSON.stringify(project, null, 2)
+                                      );
+                                      const pagesFolder = zip.folder(
+                                        "pages"
+                                      ) as JSZip;
+                                      const staticFolder = zip.folder(
+                                        "static"
+                                      ) as JSZip;
+                                      const functionsFolder = zip.folder(
+                                        "functions"
+                                      ) as JSZip;
 
-                                  for(let page of pages){
-                                    const pageFolder = pagesFolder.folder(page.url) as JSZip;
-                                    if(page.type === "HTML"){
-                                      pageFolder!.file("index.html", page.mainContent);
-                                    }else {
-                                      pageFolder!.file("index.ic", page.mainContent);
+                                      for (let page of pages) {
+                                        let url = page.url.replace(/\//g, "_");
+
+                                        const pageFolder = pagesFolder.folder(
+                                          url
+                                        ) as JSZip;
+                                        if (page.type === "HTML") {
+                                          pageFolder!.file(
+                                            "index.html",
+                                            page.mainContent
+                                          );
+                                        } else {
+                                          pageFolder!.file(
+                                            "index.ic",
+                                            page.mainContent
+                                          );
+                                        }
+
+                                        for (let resource of page.resources) {
+                                          pageFolder!.file(
+                                            resource.name + "." + resource.type,
+                                            resource.content
+                                          );
+                                        }
+                                      }
+
+                                      for (let asset of staticAssets) {
+                                        staticFolder!.file(
+                                          asset.filename.replace("/", "_") +
+                                            ".json",
+                                          JSON.stringify(
+                                            {
+                                              originalName: asset.filename,
+                                              downloadUrl:
+                                                "https://codeup.space/editor-static/" +
+                                                asset.filename,
+                                            },
+                                            null,
+                                            2
+                                          )
+                                        );
+                                      }
+
+                                      for (let func of functions) {
+                                        functionsFolder!.file(
+                                          func.path.replace(/\//g, "_") + ".js",
+                                          func.code
+                                        );
+                                      }
+
+                                      // download zip
+                                      const blob = await zip.generateAsync({
+                                        type: "blob",
+                                      });
+                                      const url = URL.createObjectURL(blob);
+                                      const a = document.createElement("a");
+                                      a.href = url;
+                                      a.download = `${project.name}.zip`;
+                                      a.click();
+                                      URL.revokeObjectURL(url);
+                                    } else {
+                                      PopupManager.alert({
+                                        title: "Fehler",
+                                        description: data.error,
+                                      });
                                     }
-
-                                    for(let resource of page.resources) {
-                                      pageFolder!.file(resource.name + "." + resource.type, resource.content);
-                                    }
                                   }
-
-                                  for(let asset of staticAssets){
-                                    staticFolder!.file(asset.filename.replace("/", "_") + ".json", JSON.stringify({
-                                      originalName: asset.filename,
-                                      downloadUrl: "https://codeup.space/editor-static/" + asset.filename
-                                    }, null, 2));
-                                  }
-
-                                  for(let func of functions){
-                                    functionsFolder!.file(func.path + ".js", func.code);
-                                  }
-
-                                  // download zip
-                                  const blob = await zip.generateAsync({ type: "blob" });
-                                  const url = URL.createObjectURL(blob);
-                                  const a = document.createElement("a");
-                                  a.href = url;
-                                  a.download = `${project.name}.zip`;
-                                  a.click();
-                                  URL.revokeObjectURL(url);
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description: data.error,
-                                  });
-                                }
-                              })
-                              reactSocket.emit("editor:projects:functions", { id: router.query.project_id });
-                            } else {
-                              PopupManager.alert({
-                                title: "Fehler",
-                                description: data.error,
-                              });
+                                );
+                                reactSocket.emit("editor:projects:functions", {
+                                  id: router.query.project_id,
+                                });
+                              } else {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description: data.error,
+                                });
+                              }
                             }
-                          })
-                          reactSocket.emit("editor:projects:static:assets", { id: router.query.project_id });
-
+                          );
+                          reactSocket.emit("editor:projects:static:assets", {
+                            id: router.query.project_id,
+                          });
                         } else {
                           PopupManager.alert({
                             title: "Fehler",
                             description: data.error,
                           });
                         }
-                      })
-                      reactSocket.emit("editor:projects:pages", { id: router.query.project_id });
-
-
+                      });
+                      reactSocket.emit("editor:projects:pages", {
+                        id: router.query.project_id,
+                      });
                     }}
                   >
                     Exportieren

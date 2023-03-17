@@ -23,6 +23,7 @@ import {
 export default function AlertPopupComponent(props: {
   title: string | undefined;
   description: string | React.ReactNode;
+  customSize?: string;
   onClose: () => void;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({
@@ -42,6 +43,7 @@ export default function AlertPopupComponent(props: {
         isCentered
         // @ts-ignore
         leastDestructiveRef={whatEverRef}
+        size={props.customSize ? props.customSize : "md"}
       >
         <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
           <AlertDialogContent bg={"black"}>
