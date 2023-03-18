@@ -186,15 +186,20 @@ import {
 } from "./api/Snippets";
 import {
   addOrgMember,
+  addOrgTemplate,
   createOrg,
   deleteOrg,
   getOrg,
   getOrgs,
+  getOrgTemplates,
   removeOrgMember,
+  removeOrgTemplate,
   renameOrg,
   updateOrg,
   updateOrgIcon,
+  useOrgTemplate,
 } from "./api/Orgs";
+import { getProjects as getProjectsV2 } from "./api/Editor";
 
 const REST = {
   Admin: {
@@ -391,6 +396,13 @@ const REST = {
     renameOrg,
     removeOrgMember,
     addOrgMember,
+    removeOrgTemplate,
+    addOrgTemplate,
+    getOrgTemplates,
+    useOrgTemplate,
+  },
+  Editor: {
+    getProjectsV2: getProjectsV2,
   },
 };
 

@@ -71,7 +71,7 @@ export async function renameOrg(options: {
     body: {
       update: {
         name: options.newName,
-      }
+      },
     },
   });
 }
@@ -88,7 +88,7 @@ export async function updateOrgIcon(options: {
     body: {
       update: {
         icon: options.icon,
-      }
+      },
     },
   });
 }
@@ -137,5 +137,67 @@ export async function removeOrgMember(options: {
       action: "REMOVE",
       userId: options.userId,
     },
+  });
+}
+
+export async function addOrgTemplate(options: {
+  token: string;
+  projectId: string;
+  org: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.org + "/templates",
+    method: "POST",
+    body: {
+      action: "ADD",
+      projectId: options.projectId,
+    },
+  });
+}
+
+export async function removeOrgTemplate(options: {
+  token: string;
+  projectId: string;
+  org: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.org + "/templates",
+    method: "POST",
+    body: {
+      action: "REMOVE",
+      projectId: options.projectId,
+    },
+  });
+}
+
+export async function getOrgTemplates(options: {
+  token: string;
+  org: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.org + "/templates",
+    method: "GET",
+  });
+}
+
+export async function useOrgTemplate(options: {
+  token: string;
+  org: string;
+  projectId: string;
+  name: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path:
+      "/api/orgs/" +
+      options.org +
+      "/use-template?templateId=" +
+      options.projectId +
+      "&newProjectName=" +
+      options.name,
+    method: "GET",
   });
 }
