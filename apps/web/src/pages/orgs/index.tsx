@@ -30,6 +30,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {
+  FaCogs,
   FaDoorOpen,
   FaExternalLinkAlt,
   FaSearch,
@@ -160,11 +161,7 @@ export default function Index() {
                 borderRadius={"md"}
                 shadow={"xl"}
                 onClick={(e) => {
-                  if (
-                    e.target instanceof HTMLButtonElement ||
-                    e.target instanceof HTMLAnchorElement
-                  )
-                    return;
+                  if (e.target !== e.currentTarget) return;
 
                   router.push("/orgs/" + org.name + "/dashboard");
                 }}
@@ -203,7 +200,7 @@ export default function Index() {
                       <ButtonGroup isAttached>
                         <IconButton
                           aria-label={"Verwalten"}
-                          icon={<FaExternalLinkAlt />}
+                          icon={<FaCogs />}
                           onClick={() => {
                             router.push("/orgs/" + org.name + "/manage");
                           }}

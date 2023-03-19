@@ -24,6 +24,7 @@ import {
   AccordionPanel,
   Box,
   Button,
+  ButtonGroup,
   Divider,
   Flex,
   Heading,
@@ -31,10 +32,15 @@ import {
   IconButton,
   Stack,
   StackDivider,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaCogs, FaInfo, FaPlus } from "react-icons/fa";
+import { FaCogs, FaInfo, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
 
 export default function Dashboard() {
@@ -49,11 +55,11 @@ export default function Dashboard() {
     createdAt: string;
     _id: string;
   }>();
-
-  const [templates, setTemplates] = React.useState<
+  const [blogs, setBlogs] = React.useState<
     {
-      name: string;
-      projectId: string;
+      title: string;
+      content: string;
+      createdAt: string;
       _id: string;
     }[]
   >([]);
@@ -79,12 +85,20 @@ export default function Dashboard() {
     }).then(async (data) => {
       if (data.status === 200) {
         setOrg(data.payload.org);
-        reloadTemplates();
+        reloadBlogs();
       } else {
         setError(data.payload.error);
       }
     });
   }, [router, loggedIn, loaded]);
+
+  const [templates, setTemplates] = React.useState<
+    {
+      name: string;
+      projectId: string;
+      _id: string;
+    }[]
+  >([]);
 
   const reloadTemplates = async () => {
     const templateRes = await REST.Orgs.getOrgTemplates({
@@ -94,6 +108,22 @@ export default function Dashboard() {
 
     if (templateRes.status === 200) {
       setTemplates(templateRes.payload.templates);
+    }
+  };
+
+  const reloadBlogs = async () => {
+    const blogRes = await REST.Orgs.getBlogs({
+      token: AccountManager.getActiveToken(),
+      org: router.query.name as string,
+    });
+
+    if (blogRes.status === 200) {
+      const sortedBlogs = blogRes.payload.blogs.sort((a: any, b: any) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+      setBlogs(sortedBlogs);
     }
   };
 
@@ -192,149 +222,275 @@ export default function Dashboard() {
                     </AccordionItem>
                   </Accordion>
                 </Flex>
-                <Heading>Kurse</Heading>
-                <Heading>Projektvorlagen</Heading>
                 <StackDivider />
-                <StackDivider />
-                <StackDivider />
-                <Stack>
-                  {org.owner === userInfo.id ? (
-                    <>
-                      <Box
-                        p={6}
-                        backgroundColor={"gray.700"}
-                        rounded={"xl"}
-                        userSelect={"none"}
-                        cursor={"pointer"}
-                        boxShadow={"xl"}
-                        onClick={async () => {
-                          const projectsRes = await REST.Editor.getProjectsV2(
-                            AccountManager.getActiveToken()
-                          );
+                <Tabs w={"100%"} variant={"enclosed"} isFitted>
+                  <TabList w={"100%"}>
+                    <Tab>Mitteilungen</Tab>
+                    <Tab>Vorlagen</Tab>
+                    <Tab>Kurse</Tab>
+                  </TabList>
 
-                          if (projectsRes.status === 200) {
-                            const projects: any[] =
-                              projectsRes.payload.projects;
-
-                            const choice = await PopupManager.selectAsync({
-                              title: "Projekt auswählen",
-                              helperText:
-                                "Wähle ein Projekt aus, welches als Vorlage verwendet werden soll.",
-                              choices: projects.map((project) => {
-                                return project.name;
-                              }),
-                            });
-
-                            if (!choice) return;
-
-                            const project = projects.find(
-                              (project) => project.name === choice
-                            );
-
-                            const templateRes = await REST.Orgs.addOrgTemplate({
-                              token: AccountManager.getActiveToken(),
-                              org: org.name,
-                              projectId: project._id,
-                            });
-
-                            if (templateRes.status === 200) {
-                              reloadTemplates();
-                            } else {
-                              PopupManager.alert({
-                                title: "Fehler",
-                                description:
-                                  "Projekt konnte nicht als Vorlage hinzugefügt werden: " +
-                                  templateRes.payload.error,
+                  <TabPanels>
+                    <TabPanel>
+                      <Flex
+                        w={"100%"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                        mb={4}
+                      >
+                        <Heading>Neuste Meldungen</Heading>
+                        <i></i>
+                        {org.owner === userInfo.id ? (
+                          <Button
+                            colorScheme={"green"}
+                            leftIcon={<FaPlus />}
+                            onClick={async () => {
+                              const title = await PopupManager.promptAsync({
+                                title: "Titel der Meldung",
+                                helperText:
+                                  "Gib einen Titel für die Meldung ein",
                               });
-                            }
-                          } else {
-                            PopupManager.alert({
-                              title: "Fehler",
-                              description:
-                                "Projekte konnten nicht geladen werden: " +
-                                projectsRes.payload.error,
-                            });
-                          }
-                        }}
-                      >
-                        <Heading
-                          fontSize={"4xl"}
-                          color={"blue.300"}
-                          alignItems={"center"}
-                          display={"flex"}
-                          gap={4}
-                        >
-                          <FaPlus />
-                          Neue Vorlage
-                        </Heading>
-                      </Box>
 
-                      <StackDivider />
-                    </>
-                  ) : null}
-                  {templates.length === 0 && (
-                    <>
-                      <Text
-                        textAlign={"center"}
-                        color={"red.300"}
-                        fontSize={"lg"}
-                      >
-                        In dieser Organisation gibt es noch keine
-                        veröffentlichten Vorlagen.
-                      </Text>
-                    </>
-                  )}
-                  {templates.map((template) => {
-                    return (
-                      <Box
-                        p={6}
-                        backgroundColor={"gray.700"}
-                        rounded={"xl"}
-                        userSelect={"none"}
-                        cursor={"pointer"}
-                        boxShadow={"xl"}
-                        onClick={async () => {
-                          const name = await PopupManager.promptAsync({
-                            title: "Neues Projekt",
-                            helperText: "Gib einen Namen für das Projekt ein.",
-                          });
+                              if (!title) return;
 
-                          if (!name) return;
+                              const content = await PopupManager.promptAsync({
+                                title: "Inhalt der Meldung",
+                                helperText:
+                                  "Gib einen Inhalt für die Meldung ein",
+                                inputType: "TEXTAREA",
+                              });
 
-                          const useRes = await REST.Orgs.useOrgTemplate({
-                            token: AccountManager.getActiveToken(),
-                            org: org.name,
-                            projectId: template._id,
-                            name,
-                          });
+                              if (!content) return;
 
-                          if (useRes.status === 200) {
-                            router.push(
-                              "/editor/" + useRes.payload.project._id
-                            );
-                          } else {
-                            PopupManager.alert({
-                              title: "Fehler",
-                              description:
-                                "Projekt konnte nicht erstellt werden: " +
-                                useRes.payload.error,
-                            });
-                          }
-                        }}
-                      >
-                        <Heading
-                          fontSize={"4xl"}
-                          color={"blue.300"}
-                          alignItems={"center"}
-                          display={"flex"}
-                          gap={4}
-                        >
-                          {template.name}
-                        </Heading>
-                      </Box>
-                    );
-                  })}
-                </Stack>
+                              const res = await REST.Orgs.createBlog({
+                                token: AccountManager.getActiveToken(),
+                                org: org.name,
+                                title,
+                                content,
+                              });
+
+                              if (res.status === 200) {
+                                reloadBlogs();
+                              } else {
+                                PopupManager.alertAsync({
+                                  title: "Fehler",
+                                  description:
+                                    "Die Meldung konnte nicht erstellt werden: " +
+                                    res.payload.error,
+                                });
+                              }
+                            }}
+                          >
+                            Neue Meldung
+                          </Button>
+                        ) : null}
+                      </Flex>
+                      {blogs.length > 0 ? (
+                        blogs.map((blog) => {
+                          return (
+                            <Accordion allowToggle>
+                              <AccordionItem>
+                                <h2>
+                                  <AccordionButton>
+                                    <Box as="span" flex={1} textAlign={"left"}>
+                                      {new Date(
+                                        blog.createdAt
+                                      ).toLocaleString()}
+                                      &nbsp;-&nbsp;
+                                      {blog.title}
+                                    </Box>
+                                    <AccordionIcon />
+                                  </AccordionButton>
+                                </h2>
+                                <AccordionPanel pb={4}>
+                                  <Text fontSize={"md"}>{blog.content}</Text>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Accordion>
+                          );
+                        })
+                      ) : (
+                        <Text>Keine Meldungen vorhanden</Text>
+                      )}
+                    </TabPanel>
+                    <TabPanel>
+                      <Stack>
+                        {org.owner === userInfo.id ? (
+                          <>
+                            <Flex w={"100%"} justifyContent={"flex-end"}>
+                              <Button
+                                onClick={async () => {
+                                  const projectsRes =
+                                    await REST.Editor.getProjectsV2(
+                                      AccountManager.getActiveToken()
+                                    );
+
+                                  if (projectsRes.status === 200) {
+                                    const projects: any[] =
+                                      projectsRes.payload.projects;
+
+                                    const choice =
+                                      await PopupManager.selectAsync({
+                                        title: "Projekt auswählen",
+                                        helperText:
+                                          "Wähle ein Projekt aus, welches als Vorlage verwendet werden soll.",
+                                        choices: projects.map((project) => {
+                                          return project.name;
+                                        }),
+                                      });
+
+                                    if (!choice) return;
+
+                                    const project = projects.find(
+                                      (project) => project.name === choice
+                                    );
+
+                                    const templateRes =
+                                      await REST.Orgs.addOrgTemplate({
+                                        token: AccountManager.getActiveToken(),
+                                        org: org.name,
+                                        projectId: project._id,
+                                      });
+
+                                    if (templateRes.status === 200) {
+                                      reloadTemplates();
+                                    } else {
+                                      PopupManager.alert({
+                                        title: "Fehler",
+                                        description:
+                                          "Projekt konnte nicht als Vorlage hinzugefügt werden: " +
+                                          templateRes.payload.error,
+                                      });
+                                    }
+                                  } else {
+                                    PopupManager.alert({
+                                      title: "Fehler",
+                                      description:
+                                        "Projekte konnten nicht geladen werden: " +
+                                        projectsRes.payload.error,
+                                    });
+                                  }
+                                }}
+                                colorScheme={"green"}
+                                leftIcon={<FaPlus />}
+                              >
+                                Projekt hinzufügen
+                              </Button>
+                            </Flex>
+
+                            <StackDivider />
+                          </>
+                        ) : null}
+                        {templates.length === 0 && (
+                          <>
+                            <Text
+                              textAlign={"center"}
+                              color={"red.300"}
+                              fontSize={"lg"}
+                            >
+                              In dieser Organisation gibt es noch keine
+                              veröffentlichten Vorlagen.
+                            </Text>
+                          </>
+                        )}
+                        {templates.map((template) => {
+                          return (
+                            <Flex
+                              justifyContent={"space-between"}
+                              p={6}
+                              backgroundColor={"blue.100"}
+                              rounded={"xl"}
+                              userSelect={"none"}
+                              cursor={"pointer"}
+                              boxShadow={"xl"}
+                              onClick={async (e) => {
+                                if (e.target !== e.currentTarget) return;
+
+                                const name = await PopupManager.promptAsync({
+                                  title: "Neues Projekt",
+                                  helperText:
+                                    "Gib einen Namen für das Projekt ein.",
+                                });
+
+                                if (!name) return;
+
+                                const useRes = await REST.Orgs.useOrgTemplate({
+                                  token: AccountManager.getActiveToken(),
+                                  org: org.name,
+                                  projectId: template._id,
+                                  name,
+                                });
+
+                                if (useRes.status === 200) {
+                                  router.push(
+                                    "/editor/" + useRes.payload.project._id
+                                  );
+                                } else {
+                                  PopupManager.alert({
+                                    title: "Fehler",
+                                    description:
+                                      "Projekt konnte nicht erstellt werden: " +
+                                      useRes.payload.error,
+                                  });
+                                }
+                              }}
+                            >
+                              <Heading
+                                fontSize={"2xl"}
+                                color={"black"}
+                                alignItems={"center"}
+                                display={"flex"}
+                                gap={4}
+                              >
+                                {template.name}
+                              </Heading>
+                              {org.owner === userInfo.id ? (
+                                <>
+                                  <IconButton
+                                    aria-label={"Löschen"}
+                                    icon={<FaTrash />}
+                                    colorScheme={"red"}
+                                    onClick={async () => {
+                                      if (
+                                        await PopupManager.confirmAsync({
+                                          title: "Vorlage löschen",
+                                          question:
+                                            "Bist du dir sicher, dass du diese Vorlage löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+                                        })
+                                      ) {
+                                        const r =
+                                          await REST.Orgs.removeOrgTemplate({
+                                            token:
+                                              AccountManager.getActiveToken(),
+                                            projectId: template._id,
+                                            org: org.name,
+                                          });
+
+                                        if (r.status === 200) {
+                                          reloadTemplates();
+                                        } else {
+                                          PopupManager.alert({
+                                            title: "Fehler",
+                                            description:
+                                              "Vorlage konnte nicht gelöscht werden: " +
+                                              r.payload.error,
+                                          });
+                                        }
+                                      }
+                                    }}
+                                  />
+                                </>
+                              ) : null}
+                            </Flex>
+                          );
+                        })}
+                      </Stack>
+                    </TabPanel>
+                    <TabPanel>
+                      <p>three!</p>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </Stack>
             </Box>
           </Flex>

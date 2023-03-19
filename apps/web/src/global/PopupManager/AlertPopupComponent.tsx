@@ -25,6 +25,7 @@ export default function AlertPopupComponent(props: {
   description: string | React.ReactNode;
   customSize?: string;
   onClose: () => void;
+  inputType?: "INPUT" | "TEXTAREA";
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,

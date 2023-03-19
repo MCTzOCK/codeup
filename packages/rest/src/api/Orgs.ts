@@ -201,3 +201,31 @@ export async function useOrgTemplate(options: {
     method: "GET",
   });
 }
+
+export async function createBlog(options: {
+  token: string;
+  org: string;
+  title: string;
+  content: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.org + "/blog",
+    method: "POST",
+    body: {
+      title: options.title,
+      content: options.content,
+    },
+  });
+}
+
+export async function getBlogs(options: {
+  token: string;
+  org: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    token: options.token,
+    path: "/api/orgs/" + options.org + "/blog",
+    method: "GET",
+  });
+}

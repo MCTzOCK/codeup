@@ -127,7 +127,10 @@ export default async function handleRequest(
                   req.body.projectId
                 );
 
-                if (!template || template.org !== org._id) {
+                if (
+                  !template ||
+                  template.org.toString() !== org._id.toString()
+                ) {
                   res.status(400).json({
                     success: false,
                     error: "Template not found",
@@ -147,10 +150,10 @@ export default async function handleRequest(
                 success: false,
                 error: "Action must be type of ADD or REMOVE",
               });
-            } catch (e) {
+            } catch (e: any) {
               res.status(400).json({
                 success: false,
-                error: e,
+                error: e.message,
               });
             }
           }

@@ -198,6 +198,8 @@ import {
   updateOrg,
   updateOrgIcon,
   useOrgTemplate,
+  getBlogs as getBlogsOrg,
+  createBlog as createBlogOrg,
 } from "./api/Orgs";
 import { getProjects as getProjectsV2 } from "./api/Editor";
 
@@ -400,6 +402,8 @@ const REST = {
     addOrgTemplate,
     getOrgTemplates,
     useOrgTemplate,
+    createBlog: createBlogOrg,
+    getBlogs: getBlogsOrg,
   },
   Editor: {
     getProjectsV2: getProjectsV2,

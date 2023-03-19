@@ -30,6 +30,7 @@ export default class PopupManager {
     title: string;
     helperText: string;
     callback: (input: string) => void;
+    inputType?: "INPUT" | "TEXTAREA";
   }): void {
     ReactDOM.render(
       <>
@@ -38,6 +39,7 @@ export default class PopupManager {
             title={options.title}
             helperText={options.helperText}
             callback={options.callback}
+            inputType={options.inputType || "INPUT"}
             onClose={() => {
               ReactDOM.unmountComponentAtNode(
                 document.querySelector(
@@ -186,11 +188,13 @@ export default class PopupManager {
   public static promptAsync(options: {
     title: string;
     helperText: string;
+    inputType?: "INPUT" | "TEXTAREA";
   }): Promise<string> {
     return new Promise((resolve) => {
       this.prompt({
         title: options.title,
         helperText: options.helperText,
+        inputType: options.inputType || "INPUT",
         callback: (input: string) => {
           resolve(input);
         },
