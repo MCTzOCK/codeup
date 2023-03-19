@@ -398,7 +398,7 @@ export default function Dashboard() {
                             <Flex
                               justifyContent={"space-between"}
                               p={6}
-                              backgroundColor={"blue.100"}
+                              backgroundColor={"purple.800"}
                               rounded={"xl"}
                               userSelect={"none"}
                               cursor={"pointer"}
@@ -487,7 +487,7 @@ export default function Dashboard() {
                       </Stack>
                     </TabPanel>
                     <TabPanel>
-                      <p>three!</p>
+                      <p>Kurse</p>
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
