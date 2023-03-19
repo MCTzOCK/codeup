@@ -27,6 +27,8 @@ import {
   ButtonGroup,
   Divider,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   IconButton,
@@ -224,7 +226,7 @@ export default function Dashboard() {
                   </Accordion>
                 </Flex>
                 <StackDivider />
-                <Tabs w={"100%"} variant={"enclosed"} isFitted>
+                <Tabs w={"100%"} variant={"enclosed-colored"} isFitted>
                   <TabList w={"100%"}>
                     <Tab>Mitteilungen</Tab>
                     <Tab>Vorlagen</Tab>
@@ -394,97 +396,121 @@ export default function Dashboard() {
                             </Text>
                           </>
                         )}
-                        {templates.map((template) => {
-                          return (
-                            <Flex
-                              justifyContent={"space-between"}
-                              p={6}
-                              backgroundColor={"purple.800"}
-                              rounded={"xl"}
-                              userSelect={"none"}
-                              cursor={"pointer"}
-                              boxShadow={"xl"}
-                              onClick={async (e) => {
-                                if (e.target !== e.currentTarget) return;
 
-                                const name = await PopupManager.promptAsync({
-                                  title: "Neues Projekt",
-                                  helperText:
-                                    "Gib einen Namen für das Projekt ein.",
-                                });
+                        <Grid
+                          templateColumns={[
+                            "repeat(1, 1fr)",
+                            "repeat(2, 1fr)",
+                            "repeat(3, 1fr)",
+                            "repeat(4, 1fr)",
+                            "repeat(5, 1fr)",
+                          ]}
+                          gap={6}
+                          p={4}
+                          mt={"2rem"}
+                        >
+                          {templates.map((template) => {
+                            return (
+                              <>
+                                <GridItem
+                                  key={"new"}
+                                  bg={"gray.700"}
+                                  p={"1rem"}
+                                  borderRadius={"0.5rem"}
+                                >
+                                  <Stack>
+                                    <Heading textAlign={"center"} size={"lg"}>
+                                      {template.name}
+                                    </Heading>
+                                    <StackDivider />
+                                    <StackDivider />
+                                    <Button
+                                      colorScheme={"green"}
+                                      onClick={async (e) => {
+                                        if (e.target !== e.currentTarget)
+                                          return;
 
-                                if (!name) return;
-
-                                const useRes = await REST.Orgs.useOrgTemplate({
-                                  token: AccountManager.getActiveToken(),
-                                  org: org.name,
-                                  projectId: template._id,
-                                  name,
-                                });
-
-                                if (useRes.status === 200) {
-                                  router.push(
-                                    "/editor/" + useRes.payload.project._id
-                                  );
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description:
-                                      "Projekt konnte nicht erstellt werden: " +
-                                      useRes.payload.error,
-                                  });
-                                }
-                              }}
-                            >
-                              <Heading
-                                fontSize={"2xl"}
-                                color={"black"}
-                                alignItems={"center"}
-                                display={"flex"}
-                                gap={4}
-                              >
-                                {template.name}
-                              </Heading>
-                              {org.owner === userInfo.id ? (
-                                <>
-                                  <IconButton
-                                    aria-label={"Löschen"}
-                                    icon={<FaTrash />}
-                                    colorScheme={"red"}
-                                    onClick={async () => {
-                                      if (
-                                        await PopupManager.confirmAsync({
-                                          title: "Vorlage löschen",
-                                          question:
-                                            "Bist du dir sicher, dass du diese Vorlage löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
-                                        })
-                                      ) {
-                                        const r =
-                                          await REST.Orgs.removeOrgTemplate({
-                                            token:
-                                              AccountManager.getActiveToken(),
-                                            projectId: template._id,
-                                            org: org.name,
+                                        const name =
+                                          await PopupManager.promptAsync({
+                                            title: "Neues Projekt",
+                                            helperText:
+                                              "Gib einen Namen für das Projekt ein.",
                                           });
 
-                                        if (r.status === 200) {
-                                          reloadTemplates();
+                                        if (!name) return;
+
+                                        const useRes =
+                                          await REST.Orgs.useOrgTemplate({
+                                            token:
+                                              AccountManager.getActiveToken(),
+                                            org: org.name,
+                                            projectId: template._id,
+                                            name,
+                                          });
+
+                                        if (useRes.status === 200) {
+                                          router.push(
+                                            "/editor/" +
+                                              useRes.payload.project._id
+                                          );
                                         } else {
                                           PopupManager.alert({
                                             title: "Fehler",
                                             description:
-                                              "Vorlage konnte nicht gelöscht werden: " +
-                                              r.payload.error,
+                                              "Projekt konnte nicht erstellt werden: " +
+                                              useRes.payload.error,
                                           });
                                         }
-                                      }
-                                    }}
-                                  />
-                                </>
-                              ) : null}
-                            </Flex>
-                          );
-                        })}
+                                      }}
+                                    >
+                                      Verwenden
+                                    </Button>
+                                    {org.owner === userInfo.id ? (
+                                      <>
+                                        <Button
+                                          colorScheme={"red"}
+                                          leftIcon={<FaTrash />}
+                                          onClick={async () => {
+                                            if (
+                                              await PopupManager.confirmAsync({
+                                                title: "Vorlage löschen",
+                                                question:
+                                                  "Bist du dir sicher, dass du diese Vorlage löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+                                              })
+                                            ) {
+                                              const r =
+                                                await REST.Orgs.removeOrgTemplate(
+                                                  {
+                                                    token:
+                                                      AccountManager.getActiveToken(),
+                                                    projectId: template._id,
+                                                    org: org.name,
+                                                  }
+                                                );
+
+                                              if (r.status === 200) {
+                                                reloadTemplates();
+                                              } else {
+                                                PopupManager.alert({
+                                                  title: "Fehler",
+                                                  description:
+                                                    "Vorlage konnte nicht gelöscht werden: " +
+                                                    r.payload.error,
+                                                });
+                                              }
+                                            }
+                                          }}
+                                        >
+                                          Entfernen
+                                        </Button>
+                                      </>
+                                    ) : null}
+                                  </Stack>
+                                </GridItem>
+                              </>
+                            );
+                          })}
+                        </Grid>
                       </Stack>
                     </TabPanel>
                     <TabPanel>
