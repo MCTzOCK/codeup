@@ -86,6 +86,7 @@ export default function Dashboard() {
       if (data.status === 200) {
         setOrg(data.payload.org);
         reloadBlogs();
+        reloadTemplates();
       } else {
         setError(data.payload.error);
       }
