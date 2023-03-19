@@ -19,6 +19,7 @@ export default function About() {
       commits: number;
       commit: string;
       branch: string;
+      lastCommitMessage: string;
     };
     app: {
       totalLines: number;
@@ -56,6 +57,7 @@ export default function About() {
             commits: 42,
             commit: "edoCneb",
             branch: "features/42",
+            lastCommitMessage: "Added 42",
           },
           app: {
             totalLines: 42000,
@@ -194,6 +196,9 @@ export default function About() {
             </Heading>
             <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
               Commit: {appInfo.git.commit}
+            </Heading>
+            <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
+              Letzte Änderung: {appInfo.git.lastCommitMessage}
             </Heading>
             <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
               Zeilen: {appInfo.app.totalLines}
