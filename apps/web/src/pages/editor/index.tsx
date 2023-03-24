@@ -12,24 +12,9 @@ import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import {
-  Box,
-  Button,
-  ButtonGroup,
   CircularProgress,
   Flex,
-  FormControl,
-  Grid,
-  GridItem,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
@@ -39,7 +24,6 @@ import {
   FaFileUpload,
   FaPen,
   FaPlus,
-  FaSearch,
   FaTrash,
   FaUsers,
 } from "react-icons/fa";
@@ -107,13 +91,9 @@ export default function Editor() {
     }
   };
 
-  const whatEverRef = React.useRef();
-
   const [editProjectPropID, setEditProjectPropID] = React.useState<
     string | null
   >(null);
-
-  const [query, setQuery] = React.useState<string>("");
 
   return (
     <>
