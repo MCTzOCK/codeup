@@ -45,6 +45,7 @@ import {
 import { FaPlus } from "react-icons/fa";
 import ListItem from "./ListItem";
 import REST from "@codeup/rest";
+import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export default function ListViewer(props: {
   isOpen: boolean;
@@ -76,7 +77,7 @@ export default function ListViewer(props: {
         onClose={props.onClose}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent backgroundColor={"gray.900"}>
           <DrawerCloseButton />
           <DrawerHeader>{props.currentList.name}</DrawerHeader>
 
@@ -87,209 +88,84 @@ export default function ListViewer(props: {
                   <Heading fontSize={"3xl"}>Aufgaben</Heading>
                 </Box>
 
-                <Popover>
-                  <PopoverTrigger>
-                    <IconButton
-                      colorScheme="whatsapp"
-                      aria-label={"new-item"}
-                      icon={<FaPlus />}
-                      onClick={async () => {}}
-                    />
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <PopoverArrow />
-                    <PopoverHeader>
-                      Neue Aufgabe
-                      <PopoverCloseButton></PopoverCloseButton>
-                    </PopoverHeader>
-                    <PopoverBody>
-                      <form
-                        onSubmit={async (e) => {
-                          e.preventDefault();
+                <IconButton
+                  colorScheme="green"
+                  aria-label={"new-item"}
+                  icon={<FaPlus />}
+                  onClick={async () => {
+                    const name = await PopupManager.promptAsync({
+                      title: "Neue Aufgabe",
+                      helperText: "Gib die neue Aufgabe ein",
+                    });
 
-                          const res = await REST.ToDo.createTask({
-                            token: localStorage.getItem("token") as string,
-                            listId: props.currentList?._id as string,
-                            // @ts-ignore
-                            task: e.target.elements.taskname.value,
-                          });
+                    if (!name) return;
 
-                          if (res.status === 200) {
-                            props.reloadLists();
-                            let x = props.currentList;
-                            x?.tasks.push({
-                              // @ts-ignore
-                              name: e.target.elements.taskname.value,
-                              finished: false,
-                              uuid: res.payload.task,
-                            });
-                            props.setCurrentList(x);
+                    const res = await REST.ToDo.createTask({
+                      token: localStorage.getItem("token") as string,
+                      listId: props.currentList?._id as string,
+                      task: name,
+                    });
 
-                            toast({
-                              position: "top",
-                              variant: "solid",
-                              status: "success",
-                              title: "Erfolgreich",
-                              description: "Die Aufgabe wurde erstellt",
-                              isClosable: true,
-                              duration: 6000,
-                            });
-                          } else {
-                            toast({
-                              position: "top",
-                              variant: "solid",
-                              status: "error",
-                              title: "Fehler",
-                              description: res.payload.error,
-                              isClosable: true,
-                              duration: 6000,
-                            });
-                          }
-                        }}
-                      >
-                        <FormControl>
-                          <FormLabel>Name</FormLabel>
-                          <Input
-                            name={"taskname"}
-                            id={"taskname"}
-                            placeholder={"Name"}
-                          />
-                        </FormControl>
-                        <Button type={"submit"} mt={"1.2rem"}>
-                          Erstellen
-                        </Button>
-                      </form>
-                    </PopoverBody>
-                  </PopoverContent>
-                </Popover>
+                    if (res.status === 200) {
+                      props.reloadLists();
+                      let x = props.currentList;
+                      x?.tasks.push({
+                        name,
+                        finished: false,
+                        uuid: res.payload.task,
+                      });
+                      props.setCurrentList(x);
+
+                      toast({
+                        position: "top",
+                        variant: "solid",
+                        status: "success",
+                        title: "Erfolgreich",
+                        description: "Die Aufgabe wurde erstellt",
+                        isClosable: true,
+                        duration: 6000,
+                      });
+                    } else {
+                      toast({
+                        position: "top",
+                        variant: "solid",
+                        status: "error",
+                        title: "Fehler",
+                        description: res.payload.error,
+                        isClosable: true,
+                        duration: 6000,
+                      });
+                    }
+                  }}
+                />
               </Flex>
-              <Accordion
-                allowToggle={true}
-                allowMultiple={true}
-                borderColor={"gray.700"}
-                defaultIndex={[0]}
-              >
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        <Heading size={"md"}>Zu Erledigen</Heading>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    {props.currentList.tasks
-                      .filter((t) => !t.finished)
-                      .map((task) => {
-                        return (
-                          <ListItem
-                            listId={props.currentList?._id || ""}
-                            name={task.name}
-                            uuid={task.uuid}
-                            finished={task.finished}
-                            currentList={props.currentList}
-                            setCurrentList={props.setCurrentList}
-                            reloadLists={props.reloadLists}
-                          />
-                        );
-                      })}
-                  </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        <Heading size={"md"}>Erledigt</Heading>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    {props.currentList.tasks
-                      .filter((t) => t.finished)
-                      .map((task) => {
-                        return (
-                          <ListItem
-                            listId={props.currentList?._id || ""}
-                            name={task.name}
-                            uuid={task.uuid}
-                            finished={task.finished}
-                            currentList={props.currentList}
-                            setCurrentList={props.setCurrentList}
-                            reloadLists={props.reloadLists}
-                          />
-                        );
-                      })}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
+
+              {props.currentList.tasks
+                .sort((t, tx) => {
+                  return t.finished ? 1 : -1;
+                })
+                .map((task) => {
+                  return (
+                    <ListItem
+                      listId={props.currentList?._id || ""}
+                      name={task.name}
+                      uuid={task.uuid}
+                      finished={task.finished}
+                      currentList={props.currentList}
+                      setCurrentList={props.setCurrentList}
+                      reloadLists={props.reloadLists}
+                    />
+                  );
+                })}
+              {props.currentList.tasks.length === 0 ? (
+                <Text textAlign={"center"} color={"red.300"} fontSize={"lg"}>
+                  Keine Aufgaben vorhanden
+                </Text>
+              ) : (
+                <></>
+              )}
             </Flex>
           </DrawerBody>
-
-          <DrawerFooter>
-            <ButtonGroup>
-              <Popover>
-                <PopoverTrigger>
-                  <Button variant={"outline"} colorScheme="red">
-                    Liste Löschen
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent bgColor={"black"}>
-                  <PopoverArrow bgColor={"black"} />
-                  <PopoverHeader>Liste Löschen</PopoverHeader>
-                  <PopoverBody>
-                    <Text>
-                      Bist du dir sicher, dass du die Liste&nbsp;
-                      <i>{props.currentList.name}</i> wirklich löschen
-                      willst?&nbsp;
-                      <b>ACHTUNG:</b>&nbsp;Dieser Vorgang kann nicht rückgängig
-                      gemacht werden!
-                    </Text>
-                    <Button
-                      mt={"2rem"}
-                      colorScheme={"red"}
-                      onClick={async () => {
-                        const res = await REST.ToDo.deleteList({
-                          token: localStorage.getItem("token") as string,
-                          listId: props.currentList?._id as string,
-                        });
-
-                        if (res.status === 200) {
-                          props.reloadLists();
-                          props.onClose();
-                          toast({
-                            position: "top",
-                            variant: "solid",
-                            status: "success",
-                            title: "Erfolgreich",
-                            description: "Die Liste wurde gelöscht",
-                            isClosable: true,
-                            duration: 6000,
-                          });
-                        } else {
-                          toast({
-                            position: "top",
-                            variant: "solid",
-                            status: "error",
-                            title: "Fehler",
-                            description: res.payload.error,
-                            isClosable: true,
-                            duration: 6000,
-                          });
-                        }
-                      }}
-                    >
-                      Liste Löschen
-                    </Button>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-              <Button variant="outline" mr={3} onClick={props.onClose}>
-                Schließen
-              </Button>
-            </ButtonGroup>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

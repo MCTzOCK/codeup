@@ -46,11 +46,14 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { FaPlus } from "react-icons/fa";
+import { FaCheck, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import REST from "@codeup/rest";
 import ListViewer from "@codeup/components/todo/ListViewer";
+import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
+import PopupManager from "../../global/PopupManager";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Index() {
   const router = useRouter();
@@ -121,116 +124,116 @@ export default function Index() {
       <Heading size={"xl"} textAlign={"center"} mt={"2rem"}>
         ToDo
       </Heading>
-      <SimpleGrid minChildWidth={300} p={"2rem"}>
-        <Popover>
-          <PopoverTrigger>
-            <Box
-              p={"2rem"}
-              rounded={"xl"}
-              borderWidth={"2px"}
-              borderStyle={"dashed"}
-              borderColor={"gray.600"}
-              maxW={300}
-              cursor={"pointer"}
-              transition={"all 120ms ease"}
-              mt={"1.2rem"}
-              _hover={{
-                shadow: "2xl",
-              }}
-            >
-              <Heading size={"md"} textAlign={"center"}>
-                Neue Liste
-              </Heading>
-            </Box>
-          </PopoverTrigger>
-          <PopoverContent bgColor={"black"}>
-            <PopoverArrow bgColor={"black"} />
-            <PopoverCloseButton />
-            <PopoverHeader>Neue Liste</PopoverHeader>
-            <PopoverBody>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
+      <GridLayout
+        search={{
+          allow: true,
+          searchFields: false,
+        }}
+        specialEntries={[
+          {
+            icon: <FaPlus />,
+            onClick: async () => {
+              const name = await PopupManager.promptAsync({
+                title: "Neue Liste",
+                helperText: "Gib den Namen der Liste ein",
+              });
 
-                  const res = await REST.ToDo.createList({
-                    token: localStorage.getItem("token") as string,
-                    // @ts-ignore
-                    name: e.target.elements.name.value,
-                  });
-                  if (res.status === 200) {
-                    // @ts-ignore
-                    e.target.elements.name.value = "";
-                    reloadLists();
-                    toast({
-                      position: "top",
-                      variant: "solid",
-                      status: "success",
-                      title: "Erfolgreich",
-                      description: "Die Liste wurde erstellt",
-                      isClosable: true,
-                      duration: 6000,
-                    });
-                  } else {
-                    toast({
-                      position: "top",
-                      variant: "solid",
-                      status: "error",
-                      title: "Fehler",
-                      description: res.payload.error,
-                      isClosable: true,
-                      duration: 6000,
-                    });
-                  }
-                }}
-              >
-                <FormControl>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    name={"name"}
-                    id={"name"}
-                    type={"text"}
-                    placeholder={"Name"}
-                  />
-                </FormControl>
-                <Button type={"submit"} mt={"1.2rem"}>
-                  Erstellen
-                </Button>
-              </form>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-        {lists.map((list) => {
-          return (
-            <Box
-              p={"2rem"}
-              rounded={"xl"}
-              borderWidth={"2px"}
-              borderStyle={"solid"}
-              borderColor={"gray.600"}
-              maxW={300}
-              cursor={"pointer"}
-              position={"relative"}
-              transition={"all 120ms ease"}
-              mt={"1.2rem"}
-              zIndex={1}
-              _hover={{
-                shadow: "2xl",
-              }}
-              onClick={() => {
-                setCurrentList(list);
-                onOpen();
-              }}
-            >
-              <Heading size={"md"} textAlign={"center"}>
-                {list.name}
-              </Heading>
-              <Text textAlign={"center"} color={"gray.500"}>
-                {list.tasks.filter((t) => !t.finished).length} Aufgaben
-              </Text>
-            </Box>
-          );
+              if (!name) return;
+
+              const res = await REST.ToDo.createList({
+                token: localStorage.getItem("token") as string,
+                name: name,
+              });
+              if (res.status === 200) {
+                reloadLists();
+                toast({
+                  position: "top",
+                  variant: "solid",
+                  status: "success",
+                  title: "Erfolgreich",
+                  description: "Die Liste wurde erstellt",
+                  isClosable: true,
+                  duration: 6000,
+                });
+              } else {
+                toast({
+                  position: "top",
+                  variant: "solid",
+                  status: "error",
+                  title: "Fehler",
+                  description: res.payload.error,
+                  isClosable: true,
+                  duration: 6000,
+                });
+              }
+            },
+          },
+        ]}
+        entries={lists.map((list) => {
+          return {
+            title: list.name,
+            fields: [
+              {
+                icon: <FaCheck />,
+                text:
+                  "Erledigt: " +
+                  list.tasks.filter((task) => task.finished).length +
+                  "/" +
+                  list.tasks.length,
+              },
+            ],
+            buttonRows: [
+              {
+                buttons: [
+                  {
+                    text: "Öffnen",
+                    icon: <FaEye />,
+                    colorScheme: "blue",
+                    onClick: () => {
+                      setCurrentList(list);
+                      onOpen();
+                    },
+                  },
+                ],
+              },
+              {
+                buttons: [
+                  {
+                    text: "Löschen",
+                    icon: <FaTrash />,
+                    colorScheme: "red",
+                    onClick: async () => {
+                      if (
+                        await PopupManager.confirmAsync({
+                          title: "Liste löschen",
+                          question: "Willst du die Liste wirklich löschen?",
+                        })
+                      ) {
+                        const res = await REST.ToDo.deleteList({
+                          token: AccountManager.getActiveToken(),
+                          listId: list._id,
+                        });
+
+                        if (res.status === 200) {
+                          reloadLists();
+                          return;
+                        }
+
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Die Liste konnte nicht gelöscht werden: " +
+                            res.payload.error,
+                        });
+                      }
+                    },
+                  },
+                ],
+              },
+            ],
+          };
         })}
-      </SimpleGrid>
+      />
       <ListViewer
         isOpen={isOpen}
         onClose={onClose}
