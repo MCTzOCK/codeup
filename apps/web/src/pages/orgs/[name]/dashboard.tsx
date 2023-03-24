@@ -165,7 +165,9 @@ export default function Dashboard() {
           return course.available === "org:" + org._id;
         })
         .map((c: any) => {
-          c.contentPositions = c.contentPositions.filter((x) => x !== "false");
+          c.contentPositions = c.contentPositions.filter(
+            (x: any) => x !== "false"
+          );
           return c;
         });
       setCourses(courses);
