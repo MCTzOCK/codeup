@@ -13,27 +13,13 @@ import { io, Socket } from "socket.io-client";
 import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
-import {
-  Button,
-  Flex,
-  FormControl,
-  Grid,
-  GridItem,
-  Heading,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import {
   FaCode,
   FaEdit,
   FaHtml5,
   FaLink,
   FaPlus,
-  FaSearch,
   FaTrash,
 } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
@@ -54,8 +40,6 @@ export default function ProjectViewer() {
       type: string;
     }[]
   >([]);
-
-  const [query, setQuery] = React.useState<string>("");
 
   React.useEffect(() => {
     if (loaded) {
