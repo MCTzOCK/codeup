@@ -32,6 +32,7 @@ import MDRenderer from "../../../special-components/MDRenderer";
 import VideoPlayer from "@codeup/components/global/VideoPlayer";
 import { Quiz } from "@codeup/components/course";
 import Head from "next/head";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -77,6 +78,7 @@ export default function SectionViewer() {
     REST.Course.getSection({
       course: courseQuery,
       section: sectionQuery,
+      token: AccountManager.getActiveToken(),
     }).then((res) => {
       if (res.status !== 200) {
         setNotFound(true);
@@ -84,6 +86,7 @@ export default function SectionViewer() {
         setContent(res.payload.content);
         REST.Course.getCourse({
           course: courseQuery,
+          token: AccountManager.getActiveToken(),
         }).then((res0) => {
           if (res0.status === 200) {
             setContentPositions(res0.payload.course.contentPositions);

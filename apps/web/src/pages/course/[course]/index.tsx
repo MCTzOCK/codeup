@@ -30,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -68,6 +69,7 @@ export default function Index() {
     if (courseName) {
       REST.Course.getCourse({
         course: courseName as string,
+        token: AccountManager.getActiveToken(),
       }).then(async (res) => {
         if (res.status === 200) {
           setCourse(res.payload.course);
@@ -77,6 +79,7 @@ export default function Index() {
             const res0 = await REST.Course.getSection({
               course: courseName as string,
               section: contentId,
+              token: AccountManager.getActiveToken(),
             });
 
             if (res0.status === 200) {

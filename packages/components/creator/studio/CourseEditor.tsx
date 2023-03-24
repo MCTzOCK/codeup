@@ -27,12 +27,14 @@ import {
 } from "@chakra-ui/react";
 import { FaCheckCircle, FaPen, FaTimesCircle, FaTrash } from "react-icons/fa";
 import REST from "@codeup/rest";
+import { useLoggedIn } from "@codeup/hooks";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function CourseEditor(props: {
   course: {
     __v: number;
     _id: string;
-    available: boolean;
+    available: string;
     contentPositions: string[];
     createdAt: string;
     creator: string;
@@ -47,6 +49,26 @@ export default function CourseEditor(props: {
   reload: () => void;
 }) {
   const toast = useToast();
+
+  const { userInfo } = useLoggedIn();
+
+  const [orgs, setOrgs] = React.useState<
+    {
+      owner: string;
+      name: string;
+      members: string[];
+      icon: string;
+      subscription: string;
+      createdAt: string;
+      _id: string;
+    }[]
+  >([]);
+
+  React.useEffect(() => {
+    REST.Orgs.getOrgs(AccountManager.getActiveToken()).then((r) => {
+      setOrgs(r.payload.orgs);
+    });
+  }, [userInfo]);
 
   return (
     <>
@@ -82,7 +104,7 @@ export default function CourseEditor(props: {
                       friendlyName: friendlyName
                         ? friendlyName
                         : props.course.friendlyName,
-                      available: available === "public",
+                      available: available,
                       description: description
                         ? description
                         : props.course.description,
@@ -177,10 +199,29 @@ export default function CourseEditor(props: {
             <Select
               name={"available"}
               mt={"2rem"}
-              defaultValue={props.course.available ? "public" : "private"}
+              defaultValue={props.course.available}
             >
-              <option value={"public"}>Öffentlich</option>
-              <option value={"private"}>Privat</option>
+              <optgroup label={"Ganze Platform"}>
+                {["editor", "admin"].includes(userInfo?.role) ? (
+                  <>
+                    <option value={"public"}>Öffentlich</option>
+                  </>
+                ) : null}
+                <option value={"private"}>Privat</option>
+              </optgroup>
+              <optgroup label={"Deine Organisationen"}>
+                {orgs
+                  .filter((o) => {
+                    return o.owner === userInfo?.id;
+                  })
+                  .map((org) => {
+                    return (
+                      <option value={"org:" + org._id}>
+                        {org.name} ({org.members.length} Mitglieder)
+                      </option>
+                    );
+                  })}
+              </optgroup>
             </Select>
             <Textarea
               placeholder={"Beschreibung"}

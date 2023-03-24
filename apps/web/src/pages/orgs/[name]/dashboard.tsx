@@ -32,14 +32,22 @@ import {
   Heading,
   HStack,
   IconButton,
+  Image,
   Stack,
   StackDivider,
   Tab,
+  Table,
+  TableContainer,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
   VStack,
 } from "@chakra-ui/react";
 import { FaCogs, FaInfo, FaPlus, FaTrash } from "react-icons/fa";
@@ -89,6 +97,7 @@ export default function Dashboard() {
         setOrg(data.payload.org);
         reloadBlogs();
         reloadTemplates();
+        reloadCourses(data.payload.org);
       } else {
         setError(data.payload.error);
       }
@@ -100,6 +109,21 @@ export default function Dashboard() {
       name: string;
       projectId: string;
       _id: string;
+    }[]
+  >([]);
+
+  const [courses, setCourses] = React.useState<
+    {
+      _id: string;
+      name: string;
+      friendlyName: string;
+      description: string;
+      splashImage: string;
+      available: string;
+      contentPositions: string[];
+      creator: string;
+      createdAt: string;
+      __v: number;
     }[]
   >([]);
 
@@ -127,6 +151,24 @@ export default function Dashboard() {
         );
       });
       setBlogs(sortedBlogs);
+    }
+  };
+
+  const reloadCourses = async (org: any) => {
+    const allCourses = await REST.Course.listCourses({
+      token: AccountManager.getActiveToken(),
+    });
+
+    if (allCourses.status === 200) {
+      const courses = allCourses.payload.courses
+        .filter((course: any) => {
+          return course.available === "org:" + org._id;
+        })
+        .map((c: any) => {
+          c.contentPositions = c.contentPositions.filter((x) => x !== "false");
+          return c;
+        });
+      setCourses(courses);
     }
   };
 
@@ -514,7 +556,44 @@ export default function Dashboard() {
                       </Stack>
                     </TabPanel>
                     <TabPanel>
-                      <p>Kurse</p>
+                      <TableContainer>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th></Th>
+                              <Th>Name</Th>
+                              <Th>Creator</Th>
+                              <Th>Beschreibung</Th>
+                              <Th>Lektionen</Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
+                            {courses.map((c) => {
+                              return (
+                                <>
+                                  <Tr
+                                    onClick={() => {
+                                      router.push("/course/" + c.name);
+                                    }}
+                                    cursor={"pointer"}
+                                    _hover={{
+                                      bg: "gray.700",
+                                    }}
+                                  >
+                                    <Td>
+                                      <Image w={"100px"} src={c.splashImage} />
+                                    </Td>
+                                    <Td>{c.friendlyName}</Td>
+                                    <Td>@{c.creator}</Td>
+                                    <Td>{c.description}</Td>
+                                    <Td>{c.contentPositions.length}</Td>
+                                  </Tr>
+                                </>
+                              );
+                            })}
+                          </Tbody>
+                        </Table>
+                      </TableContainer>
                     </TabPanel>
                   </TabPanels>
                 </Tabs>

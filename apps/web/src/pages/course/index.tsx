@@ -30,6 +30,7 @@ import {
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import Head from "next/head";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -66,7 +67,9 @@ export default function Index() {
   const router = useRouter();
 
   React.useEffect(() => {
-    REST.Course.listCourses().then((res) => {
+    REST.Course.listCourses({
+      token: AccountManager.getActiveToken(),
+    }).then((res) => {
       if (res.status === 200) {
         setCourses(res.payload.courses);
         setFilteredCourses(res.payload.courses);

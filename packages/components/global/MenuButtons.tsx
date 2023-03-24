@@ -269,7 +269,9 @@ export default function MenuButtons(props: {
                   </Link>
                 </>
               ) : null}
-              {["admin", "editor"].includes(userInfo.role) ? (
+              {/* -- REMOVE CREATOR LOCK -- */
+              /*
+                {["admin", "editor"].includes(userInfo.role) ? (
                 <>
                   <Link href={"/creator/studio"}>
                     <MenuItem
@@ -281,7 +283,20 @@ export default function MenuButtons(props: {
                     </MenuItem>
                   </Link>
                 </>
-              ) : null}
+              ) : null}                
+                 */}
+
+              <>
+                <Link href={"/creator/studio"}>
+                  <MenuItem
+                    color={"blue.300"}
+                    fontWeight={"bold"}
+                    icon={<FiPlus />}
+                  >
+                    Creator Studio
+                  </MenuItem>
+                </Link>
+              </>
 
               <MenuDivider />
               <Link href={"/dashboard"}>

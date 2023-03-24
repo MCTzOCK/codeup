@@ -30,9 +30,12 @@ export default function CreatorStudioLayout(props: { children: ReactNode }) {
       return;
     }
 
+    /* -- REMOVE CREATOR LOCK -- */
+    /*
     if (!["admin", "editor"].includes(userInfo?.role)) {
       setError("Du bist nicht dazu berechtigt diese Seite zu sehen!");
     }
+    */
   }, [loggedIn, userInfo, userLoaded]);
 
   return (
