@@ -22,7 +22,7 @@ export default async function handleRequest(
     const creators = await CourseModel.aggregate([
       {
         $match: {
-          available: true,
+          available: "public",
         },
       },
       {
