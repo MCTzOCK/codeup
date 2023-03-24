@@ -149,9 +149,9 @@ export default function NavigationBar() {
       href: "/forum",
     },
     {
-      name: "IDE",
+      name: "Editor",
       icon: <BiCodeAlt />,
-      href: "/ide",
+      href: "/editor",
       text: "Verwirkliche deine Projektideen",
     },
     {
@@ -195,6 +195,12 @@ export default function NavigationBar() {
       icon: <FaFileCode />,
       text: "Speicher Code Snippets für spätere Verwendung",
       href: "/snippets/my",
+    },
+    {
+      name: "IDE (veraltet)",
+      icon: <BiCodeAlt />,
+      href: "/ide",
+      text: "Verwirkliche deine Projektideen",
     },
   ].sort((a, b) => {
     if (a.name < b.name) {

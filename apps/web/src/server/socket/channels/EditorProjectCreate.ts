@@ -12,6 +12,7 @@ import { Socket } from "socket.io";
 import Channel from "./Channel";
 import SocketRegistry from "../SocketRegistry";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
+import { v4 } from "uuid";
 
 export default class EditorProjectCreateChannel extends Channel {
   constructor(socket: Socket, channelName: string) {
@@ -28,7 +29,7 @@ export default class EditorProjectCreateChannel extends Channel {
           owner: SocketRegistry.loggedIn[this.socket.id].id,
           published: false,
           discovery: false,
-          publishedCustomName: "",
+          customDomain: "disabled:" + v4(),
           discoveryDescription: "",
           created_at: new Date(),
           updated_at: new Date(),

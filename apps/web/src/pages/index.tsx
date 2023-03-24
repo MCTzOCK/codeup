@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * apps/web/src/pages/index.tsx
  *
@@ -11,23 +13,22 @@
 import * as React from "react";
 
 import {
-  Box,
   Button,
   ButtonGroup,
   Flex,
   Heading,
   Image,
-  Link,
   Stack,
-  Text,
 } from "@chakra-ui/react";
-import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { motion } from "framer-motion";
 import Typed from "react-typed";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Title } from "chart.js";
+import OverviewSection from "@codeup/components/landingpage/OverviewSection";
+import BrandStats from "@codeup/components/landingpage/BrandStats";
+import Testimonials from "@codeup/components/landingpage/Testimonials";
+import Milestones from "@codeup/components/landingpage/Milestones";
 
 export default function Index() {
   const { loggedIn } = useLoggedIn();
@@ -47,7 +48,7 @@ export default function Index() {
         <Image
           src={"/_static/images/software-developer-6521720_1920.jpg"}
           width={"100%"}
-          height={"100%"}
+          height={"100vh"}
           objectFit={"cover"}
           position={"absolute"}
           zIndex={-1}
@@ -128,6 +129,23 @@ export default function Index() {
           </motion.div>
         </Stack>
       </Flex>
+      <Stack mt={4} bgColor={"black"}>
+        <OverviewSection />
+        <Flex
+          w={"100%"}
+          alignItems={"center"}
+          bgColor={"transparent"}
+          justifyContent={"center"}
+        >
+          <Testimonials />
+        </Flex>
+        <Flex w={"100%"} alignItems={"center"} bgColor={"transparent"}>
+          <BrandStats />
+        </Flex>
+        <Flex w={"100%"} alignItems={"center"} bgColor={"transparent"}>
+          <Milestones />
+        </Flex>
+      </Stack>
     </>
   );
 }

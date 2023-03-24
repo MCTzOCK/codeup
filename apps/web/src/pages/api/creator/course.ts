@@ -14,6 +14,7 @@ import CourseModel from "@codeup/util/src/models/CourseModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verify } from "jsonwebtoken";
+import OrgModel from "@codeup/util/dist/models/OrgModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -55,12 +56,15 @@ export default async function handleRequest(
       return;
     }
 
+    /* -- REMOVE CREATOR LOCK -- */
+    /*
     if (!["editor", "admin"].includes(editorUser.role)) {
       res.status(401).json({
         error: "Unauthorized",
       });
       return;
     }
+    */
 
     if (req.method === "GET") {
       const courses = await CourseModel.find({
@@ -95,7 +99,7 @@ export default async function handleRequest(
         friendlyName: friendlyName,
         description: description,
         splashImage: splashImage,
-        available: false,
+        available: "private",
         creator: editorUser.username,
       });
 
@@ -169,6 +173,30 @@ export default async function handleRequest(
       const { update } = req.body;
 
       for (const key in update) {
+        if (key === "available") {
+          const permissionLevel = !["editor", "admin"].includes(editorUser.role)
+            ? 0
+            : 1;
+
+          if (update[key] === "public" && permissionLevel === 0) {
+            continue;
+          }
+
+          if (update[key].startsWith("org:")) {
+            const org = await OrgModel.findById(
+              update[key].replace("org:", "")
+            );
+
+            if (!org) {
+              continue;
+            }
+
+            if (org.owner.toString() !== editorUser._id.toString()) {
+              continue;
+            }
+          }
+        }
+
         if (!disallowed.includes(key)) {
           course[key] = update[key];
         }

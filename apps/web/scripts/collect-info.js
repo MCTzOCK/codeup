@@ -20,6 +20,7 @@ const INFO = {
     commits: 0,
     commit: "",
     branch: "",
+    lastCommitMessage: "",
   },
   packages: {
     count: 0,
@@ -40,10 +41,16 @@ const getGitInfo = () => {
   const gitBranch = execSync("git rev-parse --abbrev-ref HEAD", {
     cwd,
   }).toString();
+  const gitLastCommitMessage = execSync("git log -1 --pretty=%B", {
+    cwd,
+  })
+    .toString()
+    .replace(/\n/g, "");
 
   INFO.git.commits = parseInt(gitCommits.replace("\n", ""));
   INFO.git.commit = gitCommit.replace("\n", "");
   INFO.git.branch = gitBranch.replace("\n", "");
+  INFO.git.lastCommitMessage = gitLastCommitMessage.replace("\n", "");
 };
 
 const getPackageInfo = () => {

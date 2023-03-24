@@ -9,49 +9,135 @@
  */
 
 import * as React from "react";
-import { Box, Divider, Link, Text, chakra } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  chakra,
+  Divider,
+  Heading,
+  HStack,
+  Link,
+  LinkProps,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { FaGithub } from "react-icons/fa";
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <>
-      <Divider />
-      <Box
-        w={"100%"}
-        bg={"black"}
-        minH={"10vh"}
-        textAlign={"center"}
-        paddingBlock={"2rem"}
-        paddingInline={"2rem"}
+    <Box p={{ base: 5, md: 8 }} maxW="5xl" marginInline="auto">
+      <Stack
+        spacing={{ base: 8, md: 0 }}
+        justifyContent="space-between"
+        direction={{ base: "column", md: "row" }}
       >
-        <Text>
-          CodeUp - Gemacht von Ben Siebert, ursprünglich erstellt für Jugend
-          Forscht 2023
-          <br />
-          Made with ❤ and ☕
-          <br />
-          <br />
-          <Link
-            href={"https://github.com/MCTzOCK/codeup"}
-            isExternal
-            color={"blue.400"}
+        <Box maxW="300px">
+          <Heading
+            as="h1"
+            fontSize={"4xl"}
+            fontFamily="ARCADE"
+            color={"#F7DE1F"}
           >
-            GitHub
-          </Link>
-          &nbsp;
+            CODEUP
+          </Heading>
+          <Text mt={2} color="white" fontSize="md">
+            Made with ❤ and ☕ by Ben Siebert
+          </Text>
+        </Box>
+        <HStack
+          spacing={8}
+          display={{ base: "none", sm: "flex" }}
+          justifyContent={{ sm: "space-between", md: "normal" }}
+        >
+          <VStack spacing={4} alignItems="flex-start">
+            <Text fontSize="md" fontWeight="bold">
+              Über
+            </Text>
+            <VStack spacing={2} alignItems="flex-start" color="white">
+              <CustomLink href={"/codeup/about"}>Über CodeUp</CustomLink>
+              <CustomLink href={"/codeup/contact"}>Kontakt</CustomLink>
+              <CustomLink href={"/codeup/blog"}>Blog</CustomLink>
+              <CustomLink href={"/legal/imprint"}>Impressum</CustomLink>
+              <CustomLink href={"/legal/privacy"}>Datenschutz</CustomLink>
+            </VStack>
+          </VStack>
+          <VStack spacing={4} alignItems="flex-start">
+            <Text fontSize="md" fontWeight="bold">
+              Weitere Angebote
+            </Text>
+            <VStack spacing={2} alignItems="flex-start" color="white">
+              <CustomLink href={"/forum"}>Forum</CustomLink>
+              <CustomLink href={"/editor"}>Editor</CustomLink>
+              <CustomLink href={"/todo"}>ToDo</CustomLink>
+              <CustomLink href={"/planning"}>Flowchart</CustomLink>
+              <CustomLink href={"/certificates"}>Zertifikate</CustomLink>
+            </VStack>
+          </VStack>
+          <VStack spacing={4} alignItems="flex-start">
+            <Text
+              fontSize="md"
+              fontWeight="bold"
+              color={"transparent"}
+              userSelect={"none"}
+            >
+              Weitere Angebote
+            </Text>
+            <VStack spacing={2} alignItems="flex-start" color="white">
+              <CustomLink href={"/course"}>Kurse</CustomLink>
+              <CustomLink href={"/discovery"}>Discovery</CustomLink>
+              <CustomLink href={"/creator/studio"}>Creator Panel</CustomLink>
+              <CustomLink href={"/dashboard"}>Dashboard</CustomLink>
+              <CustomLink href={"/snippets/my"}>Code Snippets</CustomLink>
+            </VStack>
+          </VStack>
+        </HStack>
+      </Stack>
+
+      <Divider my={4} />
+
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        spacing={3}
+        justifyContent="space-between"
+      >
+        <Text fontSize="md">
+          Copyright &copy;&nbsp;{new Date().getFullYear()}&nbsp;
           <Link
-            href={"https://twitter.com/OfficialMCTzOCK"}
+            href="https://ben-siebert.de"
+            _hover={{ textDecoration: "underline" }}
             isExternal
-            color={"blue.400"}
           >
-            Twitter
+            Ben Siebert
           </Link>
-          <br />
-          <br />
-          <chakra.span color="gray.700">
-            Vector Graphics from undraw.co, Icons from react-icons
-          </chakra.span>
         </Text>
-      </Box>
-    </>
+        <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+          <Button
+            leftIcon={<FaGithub />}
+            as={Link}
+            href="https://github.com/MCTzOCK/codeup"
+            rounded="md"
+            colorScheme="gray"
+          >
+            Github
+          </Button>
+        </Stack>
+      </Stack>
+    </Box>
   );
-}
+};
+
+const CustomLink = ({ children, ...props }: LinkProps) => {
+  return (
+    <Link
+      href="#"
+      fontSize="sm"
+      _hover={{ textDecoration: "underline" }}
+      {...props}
+    >
+      {children}
+    </Link>
+  );
+};
+
+export default Footer;

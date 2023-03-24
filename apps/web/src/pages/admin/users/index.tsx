@@ -202,7 +202,6 @@ export default function UserManagement() {
                   gap={"6rem"}
                   alignItems={"center"}
                   mt={4}
-                  p={"2rem"}
                 >
                   <Box w={"100%"}>
                     <DataTable

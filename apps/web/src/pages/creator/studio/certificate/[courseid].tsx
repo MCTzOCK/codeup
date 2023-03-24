@@ -56,6 +56,7 @@ import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function CertificateEditor() {
   const router = useRouter();
@@ -80,6 +81,7 @@ export default function CertificateEditor() {
     if (courseid) {
       REST.Course.getCourse({
         course: courseid as string,
+        token: AccountManager.getActiveToken(),
       }).then(async (res) => {
         if (res.status === 200) {
           setCourse(res.payload.course);

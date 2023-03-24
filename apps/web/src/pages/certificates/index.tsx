@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Index() {
   const [certificates, setCertificates] = React.useState<string[]>([]);
@@ -45,7 +46,9 @@ export default function Index() {
   }, [userInfo, loggedIn, loaded]);
 
   React.useEffect(() => {
-    REST.Course.listCourses().then(async (res) => {
+    REST.Course.listCourses({
+      token: AccountManager.getActiveToken(),
+    }).then(async (res) => {
       if (res.status === 200) {
         const courses = [];
         const certs = [];

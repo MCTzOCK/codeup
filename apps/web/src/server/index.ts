@@ -30,7 +30,7 @@ import jwt from "jsonwebtoken";
 import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
 
 const app = next.default({
-  dev: process.env.NODE_ENV === "development"
+  dev: process.env.NODE_ENV === "development",
 });
 const handle = app.getRequestHandler();
 
@@ -51,21 +51,22 @@ app
     const mediaBucket = new mongoose.mongo.GridFSBucket(
       mongoose.connection.db,
       {
-        bucketName: "media"
+        bucketName: "media",
       }
     );
 
     const docker = new Docker();
 
-    docker.pull("mctzock/codeup-serverless-runtime")
-      .then(stream => {
+    docker
+      .pull("mctzock/codeup-serverless-runtime")
+      .then((stream) => {
         docker.modem.followProgress(stream, (err: any, res: any) => {
           console.log(err, res);
         });
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
-      })
+      });
 
     const httpServer = createServer(async (req, res) => {
       try {
@@ -82,7 +83,7 @@ app
 
         if (customDomain!.split(".").length > 2) {
           const project = await EditorProjectModel.findOne({
-            customDomain
+            customDomain,
           });
 
           if (!project) {
@@ -90,30 +91,29 @@ app
             return;
           }
           if (pathname!.startsWith("/api")) {
-
             // check if pathname is /api/@codeup/internal/info
 
             if (pathname!.startsWith("/api/@codeup")) {
-
               const pathParts = pathname!.split("/").slice(3);
               if (pathParts.length === 2) {
                 if (pathParts[0] === "database") {
                   if (pathParts[1] === "set") {
                     const key = req.headers["x-codeup-database-key"] as string;
                     const token = req.headers["x-sf-access"] as string;
-                    const value = JSON.parse(await new Promise((resolve, reject) => {
-                      let body = "";
-                      req.on("data", (chunk) => {
-                        body += chunk;
-                      });
-                      req.on("end", () => {
-                        resolve(body);
-                      });
-                      req.on("error", (e) => {
-                        reject(e);
-                      });
-                    })).value as string;
-
+                    const value = JSON.parse(
+                      await new Promise((resolve, reject) => {
+                        let body = "";
+                        req.on("data", (chunk) => {
+                          body += chunk;
+                        });
+                        req.on("end", () => {
+                          resolve(body);
+                        });
+                        req.on("error", (e) => {
+                          reject(e);
+                        });
+                      })
+                    ).value as string;
 
                     if (!key || !token || !value) {
                       res.statusCode = 400;
@@ -121,15 +121,18 @@ app
                         JSON.stringify({
                           key: JSON.stringify(key),
                           token: JSON.stringify(token),
-                          value: JSON.stringify(value)
+                          value: JSON.stringify(value),
                         })
-                      )
+                      );
                       res.end();
                       return;
                     }
 
                     try {
-                      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { project: string, function: string };
+                      const decoded = jwt.verify(
+                        token,
+                        process.env.JWT_SECRET as string
+                      ) as { project: string; function: string };
 
                       if (decoded.project !== project._id.toString()) {
                         res.statusCode = 403;
@@ -137,36 +140,42 @@ app
                         return;
                       }
 
-                      const existingKVStore = await EditorProjectKVStorageModel.findOne({
-                        project: project._id,
-                      });
+                      const existingKVStore =
+                        await EditorProjectKVStorageModel.findOne({
+                          project: project._id,
+                        });
 
-                      console.log("[SFDB] Set", key, "to", value, "for", project._id.toString());
+                      console.log(
+                        "[SFDB] Set",
+                        key,
+                        "to",
+                        value,
+                        "for",
+                        project._id.toString()
+                      );
 
-                      if(existingKVStore) {
+                      if (existingKVStore) {
                         existingKVStore.storage = {
                           ...existingKVStore.storage,
-                          [key]: value
-                        }
+                          [key]: value,
+                        };
                         await existingKVStore.save();
                       } else {
                         await EditorProjectKVStorageModel.create({
                           project: project._id,
                           storage: {
-                            [key]: value
-                          }
+                            [key]: value,
+                          },
                         });
                       }
 
                       res.statusCode = 200;
                       res.end();
-
                     } catch (e) {
                       res.statusCode = 403;
                       res.end();
                       return;
                     }
-
                   } else if (pathParts[1] === "get") {
                     const key = req.headers["x-codeup-database-key"] as string;
                     const token = req.headers["x-sf-access"] as string;
@@ -178,7 +187,10 @@ app
                     }
 
                     try {
-                      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { project: string, function: string };
+                      const decoded = jwt.verify(
+                        token,
+                        process.env.JWT_SECRET as string
+                      ) as { project: string; function: string };
 
                       if (decoded.project !== project._id.toString()) {
                         res.statusCode = 403;
@@ -186,18 +198,18 @@ app
                         return;
                       }
 
-                      const existingKVStore = await EditorProjectKVStorageModel.findOne({
-                        project: project._id,
-                      });
+                      const existingKVStore =
+                        await EditorProjectKVStorageModel.findOne({
+                          project: project._id,
+                        });
 
-                      if(existingKVStore) {
+                      if (existingKVStore) {
                         res.statusCode = 200;
                         res.end(existingKVStore.storage[key]);
                       } else {
                         res.statusCode = 404;
                         res.end();
                       }
-
                     } catch (e) {
                       res.statusCode = 403;
                       res.end();
@@ -209,10 +221,11 @@ app
 
               return;
             } else {
-              const serverlessFunction = await EditorProjectFunctionModel.findOne({
-                project: project._id,
-                path: pathname!
-              });
+              const serverlessFunction =
+                await EditorProjectFunctionModel.findOne({
+                  project: project._id,
+                  path: pathname!,
+                });
 
               if (!serverlessFunction) {
                 res.statusCode = 404;
@@ -222,70 +235,49 @@ app
 
               const code = serverlessFunction.code;
 
+              let port = Math.floor(Math.random() * 32000) + 1;
 
-              let port = Math.floor(Math.random() * 32000) + 1;;
-
-              docker.createContainer({
-                Image: "mctzock/codeup-serverless-runtime",
-                Env: [
-                  "SERVERLESS_METHOD=GET",
-                  "SERVERLESS_ENDPOINT=/",
-                  "SERVERLESS_CODE=" + code,
-                  "SERVERLESS_TOKEN=" + jwt.sign({
-                    project: project._id,
-                    function: serverlessFunction._id
-                  }, process.env.JWT_SECRET as string, {
-                    expiresIn: 600
-                  }),
-                  "SERVERLESS_ENDPOINT_URL=http://" + customDomain
-                ],
-                HostConfig: {
-                  PortBindings: {
-                    "3000/tcp": [
-                      {
-                        HostPort: port.toString()
-                      }
-                    ]
-                  }
-                },
-                Tty: true,
-                OpenStdin: true,
-                StdinOnce: true,
-                AttachStdin: true,
-                AttachStdout: true,
-                AttachStderr: true,
-                ExposedPorts: {
-                  "3000/tcp": {}
-                },
-              }).then(async c => {
-                await c.start();
-
-                await new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    resolve(true);
-                  }, 1000);
-                });
-
-                const query = Object.keys(parsedUrl.query).map((key) => {
-                  return key + "=" + parsedUrl.query[key];
-                });
-
-                try {
-                  const res0 = await fetch(`http://localhost:${port}?${
-                    query.length > 0 ? query.join("&") : ""
-                  }`);
-
-
-                  for (const [key, value] of res0.headers.entries()) {
-                    res.setHeader(key, value);
-                  }
-
-
-                  res.writeHead(res0.status, {
-                    ...res.getHeaders()
-                  });
-
-                  res.end(await res0.text());
+              docker
+                .createContainer({
+                  Image: "mctzock/codeup-serverless-runtime",
+                  Env: [
+                    "SERVERLESS_METHOD=GET",
+                    "SERVERLESS_ENDPOINT=/",
+                    "SERVERLESS_CODE=" + code,
+                    "SERVERLESS_TOKEN=" +
+                      jwt.sign(
+                        {
+                          project: project._id,
+                          function: serverlessFunction._id,
+                        },
+                        process.env.JWT_SECRET as string,
+                        {
+                          expiresIn: 600,
+                        }
+                      ),
+                    "SERVERLESS_ENDPOINT_URL=http://" + customDomain,
+                  ],
+                  HostConfig: {
+                    PortBindings: {
+                      "3000/tcp": [
+                        {
+                          HostPort: port.toString(),
+                        },
+                      ],
+                    },
+                  },
+                  Tty: true,
+                  OpenStdin: true,
+                  StdinOnce: true,
+                  AttachStdin: true,
+                  AttachStdout: true,
+                  AttachStderr: true,
+                  ExposedPorts: {
+                    "3000/tcp": {},
+                  },
+                })
+                .then(async (c) => {
+                  await c.start();
 
                   await new Promise((resolve, reject) => {
                     setTimeout(() => {
@@ -293,21 +285,50 @@ app
                     }, 1000);
                   });
 
-                  try {
-                    await c.kill();
-                  } catch(e) {}
-                  await c.remove();
-                } catch (e) {
-
-                  res.statusCode = 500;
-                  res.end("[SF] Serverless function failed to execute properly. Error details: " + (e as any).toString())
+                  const query = Object.keys(parsedUrl.query).map((key) => {
+                    return key + "=" + parsedUrl.query[key];
+                  });
 
                   try {
-                    await c.kill();
-                  } catch(e) {}
-                  await c.remove();
-                }
-              })
+                    const res0 = await fetch(
+                      `http://localhost:${port}?${
+                        query.length > 0 ? query.join("&") : ""
+                      }`
+                    );
+
+                    for (const [key, value] of res0.headers.entries()) {
+                      res.setHeader(key, value);
+                    }
+
+                    res.writeHead(res0.status, {
+                      ...res.getHeaders(),
+                    });
+
+                    res.end(await res0.text());
+
+                    await new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        resolve(true);
+                      }, 1000);
+                    });
+
+                    try {
+                      await c.kill();
+                    } catch (e) {}
+                    await c.remove();
+                  } catch (e) {
+                    res.statusCode = 500;
+                    res.end(
+                      "[SF] Serverless function failed to execute properly. Error details: " +
+                        (e as any).toString()
+                    );
+
+                    try {
+                      await c.kill();
+                    } catch (e) {}
+                    await c.remove();
+                  }
+                })
                 .catch((e) => {
                   console.error(e);
                   res.statusCode = 500;
@@ -321,7 +342,7 @@ app
 
           const page = await EditorProjectPageModel.findOne({
             project: project._id,
-            url: pathname
+            url: pathname,
           });
 
           if (!page) {
@@ -368,7 +389,7 @@ app
                 res.end(
                   JSON.stringify({
                     status: "failed",
-                    message: "This endpoint is currently not available."
+                    message: "This endpoint is currently not available.",
                   })
                 );
               }
@@ -378,7 +399,7 @@ app
                 JSON.stringify({
                   status: "failed",
                   message:
-                    "This endpoint is only available in production mode."
+                    "This endpoint is only available in production mode.",
                 })
               );
             }
@@ -394,7 +415,7 @@ app
 
             try {
               const project = await IDEProjectModel.findOne({
-                publishedCustomName: customName
+                publishedCustomName: customName,
               });
 
               if (!project) {
@@ -415,7 +436,7 @@ app
               if (!file) {
                 // redirect to index.html
                 res.writeHead(302, {
-                  Location: `/project/${customName}/index.html`
+                  Location: `/project/${customName}/index.html`,
                 });
 
                 res.end();
@@ -428,8 +449,8 @@ app
               if (file.path.toLowerCase().endsWith(".ts")) {
                 ret = ts.transpileModule(ret, {
                   compilerOptions: {
-                    module: ts.ModuleKind.ESNext
-                  }
+                    module: ts.ModuleKind.ESNext,
+                  },
                 }).outputText;
               }
 
@@ -440,7 +461,7 @@ app
                 ret = sass.compileString(file.content, {
                   syntax: file.path.toLowerCase().endsWith(".scss")
                     ? "scss"
-                    : "indented"
+                    : "indented",
                 }).css;
               }
 
@@ -462,12 +483,12 @@ app
                 jpeg: "image/jpeg",
                 gif: "image/gif",
                 svg: "image/svg+xml",
-                ic: "text/html"
+                ic: "text/html",
               };
               const replaceTypes: { [key: string]: string } = {
                 "text/x-scss": "text/css",
                 "text/x-sass": "text/css",
-                "text/x-typescript": "application/javascript"
+                "text/x-typescript": "application/javascript",
               };
 
               let mimeType = "";
@@ -524,14 +545,14 @@ app
 
                     const uploadStream = mediaBucket.openUploadStream(
                       randomBytes(128).toString("hex") +
-                      "." +
-                      (fileName as string).split(".").pop(),
+                        "." +
+                        (fileName as string).split(".").pop(),
                       {
                         contentType: mimeType as string,
                         metadata: {
                           contentType: mimeType as string,
-                          fileName: fileName as string
-                        }
+                          fileName: fileName as string,
+                        },
                       }
                     );
 
@@ -550,8 +571,8 @@ app
                         status: "success",
                         message: "File uploaded successfully.",
                         data: {
-                          url: `/media/${uploadStream.filename}`
-                        }
+                          url: `/media/${uploadStream.filename}`,
+                        },
                       })
                     );
 
@@ -633,13 +654,13 @@ app
                   break;
                 case "scss":
                   content = sass.compileString(content, {
-                    syntax: "scss"
+                    syntax: "scss",
                   }).css;
                   res.setHeader("Content-Type", "text/css");
                   break;
                 case "sass":
                   content = sass.compileString(content, {
-                    syntax: "indented"
+                    syntax: "indented",
                   }).css;
                   res.setHeader("Content-Type", "text/css");
                   break;
@@ -649,8 +670,8 @@ app
                 case "typescript":
                   content = ts.transpileModule(content, {
                     compilerOptions: {
-                      module: ts.ModuleKind.ESNext
-                    }
+                      module: ts.ModuleKind.ESNext,
+                    },
                   }).outputText;
                   res.setHeader("Content-Type", "text/javascript");
                   break;
@@ -671,12 +692,12 @@ app
               const bucket = new mongoose.mongo.GridFSBucket(
                 mongoose.connection.db,
                 {
-                  bucketName: "editorStaticAssets"
+                  bucketName: "editorStaticAssets",
                 }
               );
 
               const file = await bucket.find({
-                filename: `${projectId}/${resName}`
+                filename: `${projectId}/${resName}`,
               });
 
               const fileEntry = await file.next();
@@ -716,16 +737,55 @@ app
               return;
             }
 
+            let resourceEmbedCode = ``;
+
+            for (const resource of page.resources) {
+              switch (resource.type.toLowerCase()) {
+                case "css":
+                  resourceEmbedCode += `<style>${resource.content}</style>`;
+                  break;
+                case "scss":
+                  resourceEmbedCode += `<style>${
+                    sass.compileString(resource.content, {
+                      syntax: "scss",
+                    }).css
+                  }</style>`;
+                  break;
+                case "sass":
+                  resourceEmbedCode += `<style>${
+                    sass.compileString(resource.content, {
+                      syntax: "indented",
+                    }).css
+                  }</style>`;
+                  break;
+                case "javascript":
+                  resourceEmbedCode += `<script defer>${resource.content}</script>`;
+                  break;
+                case "typescript":
+                  resourceEmbedCode += `<script defer>${
+                    ts.transpileModule(resource.content, {
+                      compilerOptions: {
+                        module: ts.ModuleKind.ESNext,
+                      },
+                    }).outputText
+                  }</script>`;
+                  break;
+                default:
+                  break;
+              }
+            }
+
             if (page.type.toLowerCase() === "html") {
               res.statusCode = 200;
               res.write(page.mainContent);
+              res.write(resourceEmbedCode);
               res.end();
             } else if (page.type.toLowerCase() === "incode") {
               res.statusCode = 200;
               res.write(
                 `<html><head><title>${
                   page.url
-                }</title></head><body><script defer>${compile(
+                }</title>${resourceEmbedCode}</head><body><script defer>${compile(
                   page.mainContent
                 )}</script></body></html>`
               );

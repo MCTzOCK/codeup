@@ -35,7 +35,7 @@ import Link from "next/link";
 import { FiAlertTriangle, FiPlus, FiRepeat, FiShuffle } from "react-icons/fi";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
-import { FaCheck, FaPlus, FaTrash, FaUsers } from "react-icons/fa";
+import { FaCheck, FaPlus, FaSitemap, FaTrash, FaUsers } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import { HiSwitchHorizontal } from "react-icons/hi";
 import AccountManager from "@codeup/util/src/AccountManager";
@@ -249,6 +249,9 @@ export default function MenuButtons(props: {
               >
                 Account wechseln
               </MenuItem>
+              <Link href={"/orgs"}>
+                <MenuItem icon={<FaSitemap />}>Organisationen</MenuItem>
+              </Link>
               <MenuDivider />
               {userInfo.role === "admin" ? (
                 <>
@@ -266,7 +269,9 @@ export default function MenuButtons(props: {
                   </Link>
                 </>
               ) : null}
-              {["admin", "editor"].includes(userInfo.role) ? (
+              {/* -- REMOVE CREATOR LOCK -- */
+              /*
+                {["admin", "editor"].includes(userInfo.role) ? (
                 <>
                   <Link href={"/creator/studio"}>
                     <MenuItem
@@ -278,7 +283,20 @@ export default function MenuButtons(props: {
                     </MenuItem>
                   </Link>
                 </>
-              ) : null}
+              ) : null}                
+                 */}
+
+              <>
+                <Link href={"/creator/studio"}>
+                  <MenuItem
+                    color={"blue.300"}
+                    fontWeight={"bold"}
+                    icon={<FiPlus />}
+                  >
+                    Creator Studio
+                  </MenuItem>
+                </Link>
+              </>
 
               <MenuDivider />
               <Link href={"/dashboard"}>

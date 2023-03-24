@@ -76,11 +76,13 @@ export default function PageResourceManager(props: {
                     borderStyle: "solid",
                   }}
                   onClick={async () => {
-                    const name = await PopupManager.promptAsync({
-                      title: "Name",
-                      helperText:
-                        "Gib einen eindeutigen Namen für die Resource ein",
-                    });
+                    const name = (
+                      await PopupManager.promptAsync({
+                        title: "Name",
+                        helperText:
+                          "Gib einen eindeutigen Namen für die Resource ein",
+                      })
+                    ).replace(/_/g, "-");
 
                     const type = await PopupManager.selectAsync({
                       title: "Typ auswählen",

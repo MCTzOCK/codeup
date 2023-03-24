@@ -56,13 +56,16 @@ export default async function handleRequest(
       });
       return;
     }
+    /* -- REMOVE CREATOR LOCK -- */
 
+    /*
     if (!["editor", "admin"].includes(editorUser.role)) {
       res.status(401).json({
         error: "Unauthorized",
       });
       return;
     }
+    */
 
     if (req.method === "GET") {
       if (req.query.course) {

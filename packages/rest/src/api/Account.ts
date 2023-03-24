@@ -155,3 +155,17 @@ export async function update2FA(options: {
     },
   });
 }
+
+export async function getUserById(id: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/users/" + id,
+    method: "GET",
+  });
+}
+
+export async function getUserByName(name: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/user/" + name,
+    method: "GET",
+  });
+}

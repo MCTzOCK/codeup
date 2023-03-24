@@ -7,7 +7,14 @@
  * Created At: 20.01.2023
  *
  */
-import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import ReactDOM from "react-dom";
 import PromptPopupComponent from "./PopupManager/PromptPopupComponent";
 import theme from "./theme";
@@ -16,12 +23,14 @@ import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
 import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
 import * as React from "react";
 import { ReactNode } from "react";
+import { FaFile } from "react-icons/fa";
 
 export default class PopupManager {
   public static prompt(options: {
     title: string;
     helperText: string;
     callback: (input: string) => void;
+    inputType?: "INPUT" | "TEXTAREA";
   }): void {
     ReactDOM.render(
       <>
@@ -30,6 +39,7 @@ export default class PopupManager {
             title={options.title}
             helperText={options.helperText}
             callback={options.callback}
+            inputType={options.inputType || "INPUT"}
             onClose={() => {
               ReactDOM.unmountComponentAtNode(
                 document.querySelector(
@@ -76,11 +86,13 @@ export default class PopupManager {
     title?: string | undefined;
     description: string | ReactNode;
     callback?: () => void;
+    customSize?: string;
   }): void {
     ReactDOM.render(
       <>
         <ChakraProvider theme={theme}>
           <AlertPopupComponent
+            customSize={options.customSize}
             title={options.title}
             description={options.description}
             onClose={() => {
@@ -126,14 +138,63 @@ export default class PopupManager {
     );
   }
 
+  public static uploadFile(options: {
+    title: string;
+    helperText: string;
+    callback: (input: FileList) => void;
+  }): void {
+    ReactDOM.render(
+      <>
+        <ChakraProvider theme={theme}>
+          <AlertPopupComponent
+            title={options.title}
+            description={
+              <>
+                <FormControl>
+                  <InputGroup>
+                    <InputLeftElement>
+                      <FaFile />
+                    </InputLeftElement>
+                    <Input
+                      type="file"
+                      onChange={(e) => {
+                        options.callback(e.target.files as FileList);
+                        ReactDOM.unmountComponentAtNode(
+                          document.querySelector(
+                            "#__codeup_manual_mount_point"
+                          ) as HTMLElement
+                        );
+                      }}
+                    />
+                  </InputGroup>
+                  <FormHelperText>{options.helperText}</FormHelperText>
+                </FormControl>
+              </>
+            }
+            onClose={() => {
+              ReactDOM.unmountComponentAtNode(
+                document.querySelector(
+                  "#__codeup_manual_mount_point"
+                ) as HTMLElement
+              );
+            }}
+          />
+        </ChakraProvider>
+      </>,
+      document.querySelector("#__codeup_manual_mount_point") as HTMLElement
+    );
+  }
+
   public static promptAsync(options: {
     title: string;
     helperText: string;
+    inputType?: "INPUT" | "TEXTAREA";
   }): Promise<string> {
     return new Promise((resolve) => {
       this.prompt({
         title: options.title,
         helperText: options.helperText,
+        inputType: options.inputType || "INPUT",
         callback: (input: string) => {
           resolve(input);
         },
@@ -178,14 +239,31 @@ export default class PopupManager {
 
   public static alertAsync(options: {
     title?: string;
-    description: string;
+    description: string | ReactNode;
+    customSize?: string;
   }): Promise<void> {
     return new Promise((resolve) => {
       this.alert({
         title: options.title,
         description: options.description,
+        customSize: options.customSize,
         callback: () => {
           resolve();
+        },
+      });
+    });
+  }
+
+  public static uploadFileAsync(options: {
+    title: string;
+    helperText: string;
+  }): Promise<FileList> {
+    return new Promise((resolve) => {
+      this.uploadFile({
+        title: options.title,
+        helperText: options.helperText,
+        callback: (input: FileList) => {
+          resolve(input);
         },
       });
     });

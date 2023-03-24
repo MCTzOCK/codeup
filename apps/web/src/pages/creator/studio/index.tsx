@@ -9,6 +9,7 @@
  */
 
 import * as React from "react";
+import { useEffect } from "react";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import {
   Badge,
@@ -22,25 +23,11 @@ import {
   Image,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputLeftElement,
-  Select,
-  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import {
-  FaBookReader,
-  FaCertificate,
-  FaCheckCircle,
-  FaEye,
-  FaPen,
-  FaPlus,
-  FaSearch,
-  FaTimesCircle,
-  FaTrash,
-} from "react-icons/fa";
-import { useEffect } from "react";
+import { FaCertificate, FaEye, FaPen, FaSearch, FaTrash } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import CourseEditor from "@codeup/components/creator/studio/CourseEditor";
@@ -59,7 +46,7 @@ export default function Index() {
     {
       __v: number;
       _id: string;
-      available: boolean;
+      available: string;
       contentPositions: string[];
       createdAt: string;
       creator: string;
@@ -73,7 +60,7 @@ export default function Index() {
   const [currentCourse, setCurrentCourse] = React.useState<{
     __v: number;
     _id: string;
-    available: boolean;
+    available: string;
     contentPositions: string[];
     createdAt: string;
     creator: string;
@@ -205,19 +192,21 @@ export default function Index() {
                             fontWeight={"normal"}
                             textAlign={"left"}
                           >
-                            {course.available ? (
-                              <>
-                                <Badge colorScheme={"green"} fontSize={"md"}>
-                                  Öffentlich
-                                </Badge>
-                              </>
-                            ) : (
-                              <>
-                                <Badge colorScheme={"red"} fontSize={"md"}>
-                                  Privat
-                                </Badge>
-                              </>
-                            )}
+                            {course.available === "public" ? (
+                              <Badge colorScheme={"green"} fontSize={"md"}>
+                                Öffentlich
+                              </Badge>
+                            ) : null}
+                            {course.available === "private" ? (
+                              <Badge colorScheme={"red"} fontSize={"md"}>
+                                Privat
+                              </Badge>
+                            ) : null}
+                            {course.available.startsWith("org:") ? (
+                              <Badge colorScheme={"yellow"} fontSize={"md"}>
+                                Organisation
+                              </Badge>
+                            ) : null}
                           </Heading>
                           <Heading
                             size={"md"}

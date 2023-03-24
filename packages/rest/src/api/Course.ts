@@ -13,25 +13,32 @@ import makeRequest from "../makeRequest";
 export async function getSection(options: {
   course: string;
   section: string;
+  token?: string;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/course/" + options.course + "/" + options.section,
     method: "GET",
+    token: options.token ? options.token : undefined,
   });
 }
 
 export async function getCourse(options: {
   course: string;
+  token?: string;
 }): Promise<IResponse> {
   return await makeRequest({
     path: "/api/course/" + options.course,
     method: "GET",
+    token: options.token ? options.token : undefined,
   });
 }
 
-export async function listCourses(): Promise<IResponse> {
+export async function listCourses(options: {
+  token?: string;
+}): Promise<IResponse> {
   return await makeRequest({
     path: "/api/course/list-courses",
     method: "GET",
+    token: options.token ? options.token : undefined,
   });
 }

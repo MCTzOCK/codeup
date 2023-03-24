@@ -24,7 +24,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  useDisclosure
+  Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
 
@@ -33,9 +34,10 @@ export default function PromptPopupComponent(props: {
   helperText: string;
   callback: (i: string) => void;
   onClose: () => void;
+  inputType?: "INPUT" | "TEXTAREA";
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({
-    defaultIsOpen: true
+    defaultIsOpen: true,
   });
 
   const whatEverRef = useRef();
@@ -63,12 +65,16 @@ export default function PromptPopupComponent(props: {
             <AlertDialogBody>
               <FormControl isRequired>
                 <FormLabel>Eingabe</FormLabel>
-                <InputGroup>
-                  <InputLeftElement>
-                    <FaPen />
-                  </InputLeftElement>
-                  <Input id={"input-" + id} placeholder={"Name"} />
-                </InputGroup>
+                {props.inputType === "INPUT" ? (
+                  <InputGroup>
+                    <InputLeftElement>
+                      <FaPen />
+                    </InputLeftElement>
+                    <Input id={"input-" + id} placeholder={"Name"} />
+                  </InputGroup>
+                ) : (
+                  <Textarea id={"input-" + id} placeholder={"Name"} />
+                )}
                 <FormHelperText>{props.helperText}</FormHelperText>
               </FormControl>
             </AlertDialogBody>

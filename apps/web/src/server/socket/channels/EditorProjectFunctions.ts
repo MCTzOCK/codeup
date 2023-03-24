@@ -42,6 +42,7 @@ export default class EditorProjectFunctionsChannel extends Channel {
               functionsArr.push({
                 _id: func._id,
                 path: func.path,
+                code: func.code,
               });
             }
 

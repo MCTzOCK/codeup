@@ -13,6 +13,8 @@ import Channel from "./Channel";
 import SocketRegistry from "../SocketRegistry";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
+import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
+import OrgProjectTemplateModel from "@codeup/util/dist/models/OrgProjectTemplateModel";
 
 export default class EditorProjectDeleteChannel extends Channel {
   constructor(socket: Socket, channelName: string) {
@@ -38,6 +40,22 @@ export default class EditorProjectDeleteChannel extends Channel {
 
             for (const page of pages) {
               await page.remove();
+            }
+
+            const functions = await EditorProjectFunctionModel.find({
+              project: project._id,
+            });
+
+            for (const func of functions) {
+              await func.remove();
+            }
+
+            const templates = await OrgProjectTemplateModel.find({
+              project: project._id,
+            });
+
+            for (const template of templates) {
+              await template.remove();
             }
 
             await project.remove();
