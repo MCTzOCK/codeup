@@ -22,58 +22,37 @@ import {
 } from "@chakra-ui/react";
 import SuperText from "./SuperText";
 
-const milestones = [
-  {
-    id: 0,
-    date: "Mai 2022",
-    title: "Ideenfindung",
-    description: `Die Idee für das Projekt wurde geboren. Es sollte eine Plattform werden, die es Einsteigern ermöglicht programmieren zu lernen.`,
-  },
-  {
-    id: 1,
-    date: "6. Juni 2022",
-    title: "Erster Commit",
-    description: `Der erste Commit wurde auf GitHub gemacht. Das Projekt wurde von Ben Siebert ins Leben gerufen.`,
-  },
-  {
-    id: 2,
-    date: "4. Juli 2022",
-    title: "Umstieg auf Turborepo",
-    description:
-      "Das Projekt wurde auf Turborepo umgestellt, um die Entwicklung zu vereinfachen.",
-  },
-  {
-    id: 3,
-    date: "16. Oktober 2022",
-    title: "Admin Panel",
-    description: "Fertigstellung der ersten Version des Admin Panels.",
-  },
-  {
-    id: 4,
-    date: "27. November 2022",
-    title: "Zertifikate",
-    description:
-      "Die Idee für das Erlangen von Zertifikaten wurde in die Realität umgesetzt.",
-  },
-  {
-    id: 5,
-    date: "24. Feburar 2023",
-    title: "Regionalwettbewerb",
-    description:
-      "CodeUp erhielt den ersten Preis beim Regionalwettbewerb Jugend Forscht der IHK in Münster in der Sparte Arbeitswelt.",
-  },
-];
-
-const Milestones = () => {
+const Milestones = (props: {
+  title: string;
+  milestones: {
+    date: string;
+    title: string;
+    description: string;
+    [key: string]: any;
+  }[];
+}) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const ms: {
+    id: number;
+    date: string;
+    title: string;
+    description: string;
+    [key: string]: any;
+  }[] = props.milestones.map((m) => {
+    return {
+      id: props.milestones.indexOf(m),
+      ...m,
+    };
+  });
 
   return (
     <Container maxWidth="7xl" p={{ base: 2, sm: 10 }}>
       <Box mb={8}>
-        <SuperText>Geschichte</SuperText>
+        <SuperText>{props.title}</SuperText>
       </Box>
-      {milestones.map((milestone) => (
+      {ms.map((milestone) => (
         <Flex key={milestone.id} mb="10px">
           {isDesktop && milestone.id % 2 === 0 && (
             <>
@@ -111,9 +90,10 @@ interface CardProps {
   title: string;
   description: string;
   date: string;
+  [key: string]: any;
 }
 
-const Card = ({ id, title, description, date }: CardProps) => {
+const Card = ({ id, title, description, date, ...rest }: CardProps) => {
   const isEvenId = id % 2 == 0;
   let borderWidthValue = isEvenId ? "15px 15px 15px 0" : "15px 0 15px 15px";
   let leftValue = isEvenId ? "-15px" : "unset";
@@ -148,7 +128,10 @@ const Card = ({ id, title, description, date }: CardProps) => {
         display: "block",
       }}
     >
-      <Box>
+      <Box
+        // add all other props from rest
+        {...rest}
+      >
         <Text fontSize="lg" color={isEvenId ? "teal.400" : "blue.400"}>
           {date}
         </Text>

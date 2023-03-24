@@ -27,10 +27,12 @@ import {
   Badge,
   Stack,
   StackDivider,
+  Divider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import Milestones from "@codeup/components/landingpage/Milestones";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -109,89 +111,58 @@ export default function Index() {
       {course ? (
         <>
           <Flex
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            w="100%"
-            h="100%"
-            p={4}
+            direction={"column"}
+            mt={"2rem"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            w={"100%"}
+            minH={"100%"}
+            h={"fit-content"}
           >
-            <Image
-              src={course.splashImage}
-              alt={course.name}
-              maxW={["100%", "35%"]}
-              objectFit="cover"
-              borderRadius="lg"
-              boxShadow={"2xl"}
-            />
-            <Heading as="h1" fontSize={"6xl"} mt={4} fontFamily={"Seymour One"}>
-              {course.name}
-            </Heading>
-            <Heading as="h2" fontSize="2xl" mt={4}>
-              von&nbsp;
-              <chakra.span color={"green.400"}>@{course.creator}</chakra.span>
-            </Heading>
-            <Text
-              mt={4}
-              fontSize={"3xl"}
-              maxW={["100%", "35%"]}
-              textAlign={"center"}
+            <Box
+              w={["100%", "75%"]}
+              backgroundColor={"black"}
+              p={4}
+              rounded={"xl"}
+              boxShadow={"xl"}
             >
-              {course.description}
-            </Text>
-            <ButtonGroup mt={4}>
-              <Button
-                colorScheme="blue"
-                size={"lg"}
-                fontSize={"xl"}
-                onClick={() => {
-                  // COURSE PROGRESS
-                  router.push(
-                    `/course/${course.friendlyName}/${
-                      // @ts-ignore
-                      contents.find((c) => c._id === course.contentPositions[0])
-                        ._id
-                    }`
-                  );
-                }}
-              >
-                Beginnen
-              </Button>
-            </ButtonGroup>
-            <Box mt={8} maxW={["100%", "35%"]} w={"100%"}>
-              <Stack w={"100%"}>
-                {contents.map((content) => (
-                  <>
-                    <Flex
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      p={4}
-                      bg={"gray.900"}
-                      w={"100%"}
-                      cursor={"pointer"}
-                      _hover={{
-                        bg: "gray.700",
-                      }}
-                      onClick={() => {
-                        router.push(
-                          `/course/${course.friendlyName}/${content._id}`
-                        );
-                      }}
-                    >
-                      <Heading as="h3" fontSize={"2xl"} flex={"70%"}>
-                        {content.displayName}
-                      </Heading>
-                      <Flex justifyContent={"space-between"} flex={"30%"}>
-                        <Heading as="h3" fontSize={"2xl"}>
-                          {content.quiz.length} Quiz Fragen
-                        </Heading>
-                      </Flex>
-                    </Flex>
-                    <StackDivider />
-                  </>
-                ))}
-              </Stack>
+              <Heading size={"2xl"} mb={6}>
+                {course.name} von @{course.creator}
+              </Heading>
+              <Divider />
+              <Flex direction={["column", "row"]} w={"100%"} mt={6}>
+                <Box flex={"100%"}>
+                  <Image
+                    src={course.splashImage}
+                    alt={course.name}
+                    maxW={["100%", "75%"]}
+                    objectFit="cover"
+                    borderRadius="lg"
+                    boxShadow={"2xl"}
+                  />
+                </Box>
+                <Box flex={"100%"}>
+                  <Milestones
+                    milestones={contents.map((content) => {
+                      return {
+                        title: content.displayName,
+                        date: new Date(content.createdAt).toLocaleDateString(),
+                        description:
+                          "Diese Lektion enthält " +
+                          content.quiz.length +
+                          " Quizfragen.",
+                        cursor: "pointer",
+                        onClick: () => {
+                          router.push(
+                            "/course/" + course.friendlyName + "/" + content._id
+                          );
+                        },
+                      };
+                    })}
+                    title={"Lektionen"}
+                  />
+                </Box>
+              </Flex>
             </Box>
           </Flex>
         </>
