@@ -33,6 +33,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
+import GridLayout from "@codeup/components/global/GridLayout";
+import { FaEye, FaPlus, FaTrash } from "react-icons/fa";
+import PopupManager from "../../global/PopupManager";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -80,116 +83,73 @@ export default function Index() {
       <Heading size="2xl" textAlign={"center"} mt={"2rem"}>
         Projekte
       </Heading>
-      <SimpleGrid minChildWidth={300} p={"2rem"}>
-        <Popover>
-          <PopoverTrigger>
-            <Box
-              p={"2rem"}
-              rounded={"xl"}
-              borderWidth={"2px"}
-              borderStyle={"dashed"}
-              borderColor={"gray.600"}
-              maxW={300}
-              cursor={"pointer"}
-              transition={"all 120ms ease"}
-              mt={"1.2rem"}
-              _hover={{
-                shadow: "2xl",
-              }}
-            >
-              <Heading size={"md"} textAlign={"center"}>
-                Neues Projekt
-              </Heading>
-            </Box>
-          </PopoverTrigger>
-          <PopoverContent bgColor={"black"}>
-            <PopoverArrow bgColor={"black"} />
-            <PopoverCloseButton />
-            <PopoverHeader>Neues Projekt</PopoverHeader>
-            <PopoverBody>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
+      <GridLayout
+        search={{
+          allow: true,
+          searchFields: true,
+        }}
+        specialEntries={[
+          {
+            icon: <FaPlus />,
+            onClick: async () => {
+              const name = await PopupManager.promptAsync({
+                title: "Neues Projekt",
+                helperText: "Gib den Namen des Projektes ein",
+              });
 
-                  const res = await REST.ToDo.createV2Project({
-                    token: localStorage.getItem("token") as string,
-                    // @ts-ignore
-                    name: e.target.elements.name.value,
-                  });
-                  if (res.status === 200) {
-                    // @ts-ignore
-                    e.target.elements.name.value = "";
-                    reload();
-                    toast({
-                      position: "bottom-right",
-                      status: "success",
-                      title: "Erfolgreich",
-                      description: "Das Projekt wurde erstellt",
-                      isClosable: true,
-                      duration: 1500,
-                    });
-                  } else {
-                    toast({
-                      position: "bottom-right",
-                      status: "error",
-                      title: "Fehler",
-                      description: res.payload.error,
-                      isClosable: true,
-                      duration: 1500,
-                    });
-                  }
-                }}
-              >
-                <FormControl>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    name={"name"}
-                    id={"name"}
-                    type={"text"}
-                    placeholder={"Name"}
-                  />
-                </FormControl>
-                <Button type={"submit"} mt={"1.2rem"}>
-                  Erstellen
-                </Button>
-              </form>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+              if (!name) return;
 
-        {projects.map((p: any) => {
-          return (
-            <>
-              <Box
-                p={"2rem"}
-                rounded={"xl"}
-                borderWidth={"2px"}
-                borderStyle={"solid"}
-                borderColor={"gray.600"}
-                maxW={300}
-                position={"relative"}
-                transition={"all 120ms ease"}
-                mt={"1.2rem"}
-                zIndex={1}
-              >
-                <Heading size={"md"} textAlign={"center"}>
-                  {p.name}
-                </Heading>
-                <ButtonGroup w={"100%"} mt={"1.2rem"}>
-                  <Button
-                    w={"100%"}
-                    colorScheme={"blue"}
-                    onClick={() => {
+              const res = await REST.ToDo.createV2Project({
+                token: localStorage.getItem("token") as string,
+                name: name,
+              });
+              if (res.status === 200) {
+                reload();
+                toast({
+                  position: "bottom-right",
+                  status: "success",
+                  title: "Erfolgreich",
+                  description: "Das Projekt wurde erstellt",
+                  isClosable: true,
+                  duration: 1500,
+                });
+              } else {
+                toast({
+                  position: "bottom-right",
+                  status: "error",
+                  title: "Fehler",
+                  description: res.payload.error,
+                  isClosable: true,
+                  duration: 1500,
+                });
+              }
+            },
+          },
+        ]}
+        entries={projects.map((p) => {
+          return {
+            title: p.name,
+            fields: [],
+            buttonRows: [
+              {
+                buttons: [
+                  {
+                    text: "Öffnen",
+                    icon: <FaEye />,
+                    colorScheme: "blue",
+                    onClick: () => {
                       router.push("/planning/" + p._id);
-                    }}
-                  >
-                    Öffnen
-                  </Button>
-                  <Button
-                    w={"100%"}
-                    colorScheme={"red"}
-                    variant={"ghost"}
-                    onClick={() => {
+                    },
+                  },
+                ],
+              },
+              {
+                buttons: [
+                  {
+                    text: "Löschen",
+                    icon: <FaTrash />,
+                    colorScheme: "red",
+                    onClick: async () => {
                       REST.ToDo.deleteV2Project({
                         token: localStorage.getItem("token") as string,
                         id: p._id,
@@ -215,16 +175,14 @@ export default function Index() {
                           });
                         }
                       });
-                    }}
-                  >
-                    Löschen
-                  </Button>
-                </ButtonGroup>
-              </Box>
-            </>
-          );
+                    },
+                  },
+                ],
+              },
+            ],
+          };
         })}
-      </SimpleGrid>
+      />
     </>
   );
 }

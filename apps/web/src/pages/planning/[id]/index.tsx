@@ -201,7 +201,7 @@ export default function Index() {
                 ? "Verbindung"
                 : currentNode !== null
                 ? "Knoten"
-                : "Inspektor"}
+                : ""}
             </Heading>
             <ButtonGroup w={"100%"}>
               <Button
