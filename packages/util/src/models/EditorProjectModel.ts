@@ -64,6 +64,11 @@ const EditorProject = new mongoose.Schema({
     default: "",
     unique: true,
   },
+  discoveryLikes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    required: true,
+  },
 });
 
 export default mongoose.models?.EditorProject ||

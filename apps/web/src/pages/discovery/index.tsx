@@ -26,9 +26,11 @@ import {
 } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader, CardFooter } from "@chakra-ui/card";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCode, FaEye, FaInfo, FaUser } from "react-icons/fa";
+import { FaCode, FaEye, FaInfo, FaStar, FaUser } from "react-icons/fa";
 import { useRouter } from "next/router";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
+import AccountManager from "@codeup/util/dist/AccountManager";
+import PopupManager from "../../global/PopupManager";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -40,6 +42,7 @@ export default function Discovery() {
       author: string;
       domain: string;
       id: string;
+      stars: string[];
     }[]
   >([]);
 
@@ -94,6 +97,10 @@ export default function Discovery() {
                     text: "Autor: @" + p.author,
                   },
                   {
+                    icon: <FaStar />,
+                    text: "Sterne: " + p.stars.length,
+                  },
+                  {
                     icon: <FaInfo />,
                     text:
                       "Beschreibung: " +
@@ -110,6 +117,46 @@ export default function Discovery() {
                         colorScheme: "green",
                         onClick: () => {
                           window.open("http://" + p.domain, "_blank");
+                        },
+                      },
+                      {
+                        text: p.stars.includes(userInfo.id)
+                          ? "Stern entfernen"
+                          : "Stern hinzufügen",
+                        icon: <FaStar />,
+                        colorScheme: "yellow",
+                        onClick: async () => {
+                          const res = await REST.Discovery.starProject({
+                            token: AccountManager.getActiveToken(),
+                            projectId: p.id,
+                          });
+
+                          if (res.status === 200) {
+                            setProjects(
+                              projects.map((pr) => {
+                                if (pr.id === p.id) {
+                                  return {
+                                    ...pr,
+                                    stars: res.payload.stars,
+                                  };
+                                } else {
+                                  return pr;
+                                }
+                              })
+                            );
+                            PopupManager.alert({
+                              title: "Erfolgreich",
+                              description:
+                                "Deine Aktion wurde erfolgreich ausgeführt!",
+                            });
+                          } else {
+                            PopupManager.alert({
+                              title: "Fehler",
+                              description:
+                                "Ein Fehler ist aufgetreten: " +
+                                res.payload.error,
+                            });
+                          }
                         },
                       },
                     ],

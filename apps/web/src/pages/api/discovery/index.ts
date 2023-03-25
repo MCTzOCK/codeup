@@ -1,10 +1,10 @@
 /**
- * apps/web/src/pages/api/discovery.ts
+ * apps/web/src/pages/api/discovery/index.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
- * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * Copyright: Copyright (c) 2018-2023 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 23.12.2022
+ * Created At: 25.03.2023
  *
  */
 
@@ -30,8 +30,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         author: user.username,
         domain: project.customDomain,
         id: project._id,
+        stars: project.discoveryLikes,
       });
     }
+
+    p = p.sort((a, b) => {
+      return b.stars - a.stars;
+    });
+
     res.status(200).json({ projects: p });
   } else {
     res.status(404).json({ error: "Not Found" });
