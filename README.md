@@ -1,24 +1,20 @@
-
 # CodeUp
 
-![CodeUp Logo](https://static.content.ben-siebert.de/api/public/dl/tIMG2cZT?inline=true)
+![CodeUp Logo](https://raw.githubusercontent.com/MCTzOCK/codeup/develop/logo-with-text.jpg)
 
 CodeUp ist eine Platform, die es Einsteigern erleichtert die Grundlagen der Programmierung zu erlernen.
 Mit den interaktiven Video Kursen und der integrierten Programmierumgebung entsteht ein einzigartiges Erlebnis.
 Außerdem verfügt CodeUp über eine Datenbank an Projektideen, die dazu verwendet werden können, gelerntes Wissen zu
-festigen. Das Forum bietet Benutzern die Möglichkeit, sich untereinander auszutauschen und den eigenen Fortschritt zu teilen.
-
-
+festigen. Das Forum bietet Benutzern die Möglichkeit, sich untereinander auszutauschen und den eigenen Fortschritt zu
+teilen.
 
 ## Autoren
 
 - [Ben Siebert (@MCTzOCK)](https://www.github.com/mctzock)
 
-
 ## Demo
 
 Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](https://codeup.space) eingesehen werden.
-
 
 ## Funktionen
 
@@ -28,12 +24,29 @@ Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](htt
     - Creator Dashboard für Anpassung
     - Zertifikate
         - Mit anderen teilen
+- Editor
+  - Mehrere Seiten
+  - InCode/HTML Support für Seitenaufbau
+  - Code-Resourcen pro Seite
+  - JavaScript,TypeScript,CSS,SCSS,SASS Support für Code-Resourcen
+  - Automatisches Einbinden von Code-Resourcen
+  - Zusammenarbeit mit anderen Benutzern
+  - Integration von Code Snippets
+  - Direkte Vorschau der Unterseite
+  - Serverseitige Ausführung von Code mit NodeJS (Express)
+  - Export/Import als ZIP
+  - Hochladen von Statischen Dateien (wie Bilder, Videos, etc.)
+  - Deployment mit eigener Subdomain (*.codeup.space)
+  - Discovery Integration (Andere Benutzer können das Projekt so finden)
 - Forum
     - Beiträge veröffentlichen
     - Antworten
     - Direktnachrichten
     - "Gefällt mir"-Funktion
-- IDE
+    - Veröffentlichen von Medien (Bilder, Videos, etc.)
+    - eigenes Profil mit Avatar und Beschreibung
+    - Verifizierung von Profilen (Admins können erstellte Profile verifizieren)
+- IDE (legacy)
     - Mehrere Dateien
     - Vorschau von HTML und InCode Dateien
     - Out of the Box TypeScript und SCSS Support
@@ -44,23 +57,52 @@ Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](htt
     - Hochladen von Dateien
 - InCode Dokumentation
     - vollständige Dokumentation der InCode Programmiersprache
+- Discovery
+    - Projekte von anderen Benutzern finden
+    - Projekte kommentieren
+    - Projekte mit einem Stern versehen, sodass diese höher in der Liste stehen
 - Projektideen
-    - Riesige Liste von Projektideen
+    - Liste von Projektideen
     - Mehrere Schwierigkeitsstufen
+    - Mit Source-Code Beispiel
+- Projektplanung
+  - Projekte mit Flussdiagrammen bis ins kleinste Deteil planen
 - ToDo App
     - Mehrere Listen
     - Aufgaben als "Erledigt" markieren
-    - Aufgaben/Listen löschen
-- Projektplanung
-    - Projekte mit Flussdiagrammen bis ins kleinste Deteil planen
+- Zertifikate
+    - Zertifikate für absolvierte Kurse
+    - Zertifikatslink teilen, sodass andere Benutzer das Zertifikat einsehen können
 - Admin Dashboard
     - Verwaltung von Benutzer Konten
-    - Analytics
-    - Verwalten von Projektideen
-    - Verwalten von Zertifikaten
-    - Verwalten von Kursen
-    - Kontaktanfragen beantworten
     - Verwalten von Forum-Profilen
+    - Verwalten der Inhalte auf CodeUp
+    - Analyse von Benutzeraktivitäten
+    - Einsehen der Kontaktanfragen
+    - Verwalten von Zertifikaten
+    - Verwalten von Projektideen
+    - Verwalten des CodeUp-Blogs
+- Creator Dashboard
+    - Erstellen von Kursen
+    - Erstellen von Lektionen (Video- und Textbasiert)
+    - Erstellen von Quizzen am Ende jeder Lektion
+    - Erstellen von Zertifikaten für Kurse
+    - Veröffentlichen (als "Creator" für die ganze Platform oder als normaler Benutzer nur für eine eigene Organisation)
+- Organisationen
+    - Erstellen von Organisationen (z.B. Schule, Verein, etc.)
+    - Verwalten der Mitglieder
+    - Mitteilungen auf der Startseite der Organisation (z.B. für Termine)
+    - Erstellen von Projektvorlagen
+    - Erstellen von Kursen nur für diese Organisation (Creator Dashboard)
+- Dashboard
+    - Übersicht über alle auf CodeUp erstellen Resourcen
+    - Direkter Zugriff auf alle Resourcen
+- Einstelungen
+    - Verwalten der Benutzereinstellungen (wie z.B. E-Mail, Name und Passwort)
+    - Ermöglicht das Wechseln zwischen mehreren Konten
+- Suche
+    - Ermöglicht schnellen Zugriff auf alles auf CodeUp über eine textbasierte Eingabe 
+
 ## Lokal ausführen
 
 ### Anforderungen
@@ -112,13 +154,15 @@ das "Production Next.JS Build" von CodeUp erzeugen:
 Anschließend kannst du CodeUp mit folgendem Befehl starten:
 
 ```bash
-    yarn --cwd apps/web next:start
+    yarn --cwd apps/web ts-start-prod
 ```
+
 ## Lizenz
 
 CodeUp ist unter der [GNU GENERAL PUBLIC LICENSE v3.0](https://choosealicense.com/licenses/gpl-3.0/) lizensiert.
 
 Folgendes ist erlaubt:
+
 - kommerzielle Nutzung
 - Verbreitung
 - Modifizierung
@@ -126,15 +170,19 @@ Folgendes ist erlaubt:
 - Private Benutzung
 
 Folgendes ist zu beachten:
+
 - Öffentlicher Quellcode
 - Lizenz und Urheberrechts Anmerkung
 - Verwendung der gleichen Lizenz
 
 Folgende Einschränkungen gibt es:
+
 - Es wird keine Haftung übernommen
 - Es gibt keine Garantie
 
-Die gesamte Lizenz kann unter [https://choosealicense.com/licenses/gpl-3.0/](https://choosealicense.com/licenses/gpl-3.0/) eingesehen werden.
+Die gesamte Lizenz kann
+unter [https://choosealicense.com/licenses/gpl-3.0/](https://choosealicense.com/licenses/gpl-3.0/) eingesehen werden.
+
 ## Verwendete Technologien
 
 - Next.js
@@ -148,7 +196,6 @@ Die gesamte Lizenz kann unter [https://choosealicense.com/licenses/gpl-3.0/](htt
 - ESLint
 - Prettier
 - react-icons
-- Caprover
 - GitHub
 - Webstorm
 - GitKraken
@@ -162,12 +209,14 @@ Die gesamte Lizenz kann unter [https://choosealicense.com/licenses/gpl-3.0/](htt
 - Copilot
 - GrapesJS
 
-Eine volle liste der verwendeten Technologien kann unter [https://codeup.space/codeup/about](https://codeup.space/codeup/about) eingesehen werden
+Eine volle liste der verwendeten Technologien kann
+unter [https://codeup.space/codeup/about](https://codeup.space/codeup/about) eingesehen werden
 
 ## Support
 
-Für jegliche Art von Support kann das Kontaktforumlar unter [https://codeup.sapce/codeup/contact](https://codeup.sapce/codeup/contact)
-verwendet werden. Für dringliche Anfragen kannst du mich per E-Mail unter [hello@ben-siebert.de](mailto:hello@ben-siebert.de) erreichen.
-Alternativ bin ich auf Discord (`MCTzOCK#0047`) erreichbar.
+Für jegliche Art von Support kann das Kontaktforumlar
+unter [https://codeup.sapce/codeup/contact](https://codeup.sapce/codeup/contact)
+verwendet werden. Für dringliche Anfragen kannst du mich per E-Mail
+unter [hello@ben-siebert.de](mailto:hello@ben-siebert.de) erreichen.
 
 
