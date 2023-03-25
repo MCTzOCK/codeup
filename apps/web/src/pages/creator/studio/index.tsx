@@ -145,7 +145,13 @@ export default function Index() {
             </Button>
           </InputGroup>
           <Grid
-            templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
+            templateColumns={[
+              "repeat(1, 1fr)",
+              "repeat(2, 1fr)",
+              "repeat(3, 1fr)",
+              "repeat(4, 1fr)",
+              "repeat(5, 1fr)",
+            ]}
             gap={6}
             mt={"2rem"}
             w={"100%"}
@@ -214,7 +220,7 @@ export default function Index() {
                             fontWeight={"normal"}
                             textAlign={"left"}
                           >
-                            {course.description}
+                            {course.description.substring(0, 100)}...
                           </Heading>
                           <ButtonGroup mt={4} w={"100%"}>
                             <Button

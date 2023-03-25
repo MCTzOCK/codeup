@@ -164,130 +164,138 @@ export default function UserManagement() {
         <>
           <AdminLayout>
             <>
-              <Flex
-                w={"100%"}
-                minH={"100vh"}
-                h="fit-content"
-                direction={"column"}
-              >
-                <Flex
-                  w={"100%"}
-                  direction={"row"}
-                  justify={"space-between"}
-                  alignItems={"center"}
-                  p={"2rem"}
-                >
-                  <Heading
-                    textAlign={"center"}
-                    size={"lg"}
-                    mt={4}
-                    flex={"100%"}
+              <Flex>
+                <Box flex={"10%"}></Box>
+                <Box flex={"80%"}>
+                  <Flex
+                    w={"100%"}
+                    minH={"100vh"}
+                    h="fit-content"
+                    direction={"column"}
                   >
-                    Benutzerverwaltung
-                  </Heading>
-                  <Button
-                    onClick={() => {
-                      onOpenViewer();
-                    }}
-                    colorScheme={"green"}
-                    leftIcon={<FaPlus />}
-                  >
-                    Neu
-                  </Button>
-                </Flex>
-                <Flex
-                  w={"100%"}
-                  h={"100%"}
-                  direction={"column"}
-                  gap={"6rem"}
-                  alignItems={"center"}
-                  mt={4}
-                >
-                  <Box w={"100%"}>
-                    <DataTable
-                      columns={[
-                        "Profilbild",
-                        "Name",
-                        "E-Mail",
-                        "Rolle",
-                        "Aktiv",
-                        "2FA",
-                        "Erstellt",
-                      ]}
-                      data={users.map(userToRow)}
-                      filter={(q: string, f: string, s: string) => {
-                        let x = users.filter((user: any) => {
-                          return (
-                            user.username
-                              .toLowerCase()
-                              .includes(q.toLowerCase()) ||
-                            user.email.toLowerCase().includes(q.toLowerCase())
-                          );
-                        });
-
-                        switch (f.toLowerCase()) {
-                          case "alle":
-                            break;
-                          case "aktive":
-                            x = x.filter((user: any) => user.active);
-                            break;
-                          case "inaktive":
-                            x = x.filter((user: any) => !user.active);
-                            break;
-                          default:
-                            break;
-                        }
-
-                        switch (s.toLowerCase()) {
-                          case "alphabetisch":
-                            x = x.sort((a: any, b: any) => {
-                              if (
-                                a.username.toLowerCase() <
-                                b.username.toLowerCase()
-                              ) {
-                                return -1;
-                              } else if (
-                                a.username.toLowerCase() >
-                                b.username.toLowerCase()
-                              ) {
-                                return 1;
-                              } else {
-                                return 0;
-                              }
-                            });
-                            break;
-                          case "neuste zuerst":
-                            x = x.sort((a: any, b: any) => {
+                    <Flex
+                      maxW={"75%"}
+                      direction={"row"}
+                      justify={"space-between"}
+                      alignItems={"center"}
+                      p={"2rem"}
+                    >
+                      <Heading
+                        textAlign={"center"}
+                        size={"lg"}
+                        mt={4}
+                        flex={"100%"}
+                      >
+                        Benutzerverwaltung
+                      </Heading>
+                      <Button
+                        onClick={() => {
+                          onOpenViewer();
+                        }}
+                        colorScheme={"green"}
+                        leftIcon={<FaPlus />}
+                      >
+                        Neu
+                      </Button>
+                    </Flex>
+                    <Flex
+                      w={"100%"}
+                      h={"100%"}
+                      direction={"column"}
+                      gap={"6rem"}
+                      alignItems={"center"}
+                      mt={4}
+                    >
+                      <Box w={"100%"}>
+                        <DataTable
+                          columns={[
+                            "Profilbild",
+                            "Name",
+                            "E-Mail",
+                            "Rolle",
+                            "Aktiv",
+                            "2FA",
+                            "Erstellt",
+                          ]}
+                          data={users.map(userToRow)}
+                          filter={(q: string, f: string, s: string) => {
+                            let x = users.filter((user: any) => {
                               return (
-                                new Date(b.createdAt).getTime() -
-                                new Date(a.createdAt).getTime()
+                                user.username
+                                  .toLowerCase()
+                                  .includes(q.toLowerCase()) ||
+                                user.email
+                                  .toLowerCase()
+                                  .includes(q.toLowerCase())
                               );
                             });
-                            break;
-                          case "älteste zuerst":
-                            x = x.sort((a: any, b: any) => {
-                              return (
-                                new Date(a.createdAt).getTime() -
-                                new Date(b.createdAt).getTime()
-                              );
-                            });
-                            break;
-                          default:
-                            break;
-                        }
 
-                        return x.map(userToRow);
-                      }}
-                      filterOptions={["Alle", "Aktive", "Inaktive"]}
-                      sortOptions={[
-                        "Alphabetisch",
-                        "Neuste zuerst",
-                        "Älteste zuerst",
-                      ]}
-                      reload={reload}
-                    />
-                  </Box>
-                </Flex>
+                            switch (f.toLowerCase()) {
+                              case "alle":
+                                break;
+                              case "aktive":
+                                x = x.filter((user: any) => user.active);
+                                break;
+                              case "inaktive":
+                                x = x.filter((user: any) => !user.active);
+                                break;
+                              default:
+                                break;
+                            }
+
+                            switch (s.toLowerCase()) {
+                              case "alphabetisch":
+                                x = x.sort((a: any, b: any) => {
+                                  if (
+                                    a.username.toLowerCase() <
+                                    b.username.toLowerCase()
+                                  ) {
+                                    return -1;
+                                  } else if (
+                                    a.username.toLowerCase() >
+                                    b.username.toLowerCase()
+                                  ) {
+                                    return 1;
+                                  } else {
+                                    return 0;
+                                  }
+                                });
+                                break;
+                              case "neuste zuerst":
+                                x = x.sort((a: any, b: any) => {
+                                  return (
+                                    new Date(b.createdAt).getTime() -
+                                    new Date(a.createdAt).getTime()
+                                  );
+                                });
+                                break;
+                              case "älteste zuerst":
+                                x = x.sort((a: any, b: any) => {
+                                  return (
+                                    new Date(a.createdAt).getTime() -
+                                    new Date(b.createdAt).getTime()
+                                  );
+                                });
+                                break;
+                              default:
+                                break;
+                            }
+
+                            return x.map(userToRow);
+                          }}
+                          filterOptions={["Alle", "Aktive", "Inaktive"]}
+                          sortOptions={[
+                            "Alphabetisch",
+                            "Neuste zuerst",
+                            "Älteste zuerst",
+                          ]}
+                          reload={reload}
+                        />
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </Box>
+                <Box flex={"10%"}></Box>
               </Flex>
             </>
             <AdminUserViewer

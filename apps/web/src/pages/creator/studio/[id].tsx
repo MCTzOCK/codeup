@@ -173,6 +173,7 @@ export default function CourseViewer() {
             description={
               "Keine Inhalte vorhanden. Erstelle Inhalte, damit sie hier angezeigt werden."
             }
+            title={"Keine Inhalte vorhanden"}
           />
         ) : null}
         <Flex alignItems={"center"} p={6} w={"100%"} justifyContent={"center"}>
