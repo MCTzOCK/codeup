@@ -19,6 +19,8 @@ import {
   chakra,
   Divider,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   IconButton,
@@ -57,6 +59,7 @@ import {
   FaGlobe,
   FaImage,
   FaMapMarkerAlt,
+  FaTimesCircle,
   FaVideo,
 } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
@@ -64,6 +67,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import Head from "next/head";
 import PopupManager from "../../global/PopupManager";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Profile() {
   const router = useRouter();
@@ -89,7 +93,32 @@ export default function Profile() {
     __v: number;
     username: string;
     profilePicture: string;
+    certificates: {
+      _id: string;
+      course: {
+        _id: string;
+        name: string;
+        friendlyName: string;
+        splashImage: string;
+      };
+      percentage: number;
+      date: string;
+    }[];
   } | null>(null);
+
+  const [certificates, setCertificates] = useState<
+    {
+      _id: string;
+      percentage: number;
+      date: string;
+      course: {
+        _id: string;
+        name: string;
+        friendlyName: string;
+        splashImage: string;
+      };
+    }[]
+  >([]);
 
   const [editMode, setEditMode] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
@@ -97,15 +126,64 @@ export default function Profile() {
 
   const toast = useToast();
 
-  useEffect(() => {
-    if (router.query.username) {
-      REST.Forum.getProfileV2(router.query.username as string).then((res) => {
+  const reloadProfile = () => {
+    REST.Forum.getProfileV2(router.query.username as string).then(
+      async (res) => {
         if (res.status === 200) {
-          setProfile((res.payload as any).profile);
+          const certificates: any[] = [];
+
+          for (const certificate of (res.payload as any).profile.certificates) {
+            const r = await REST.Certificates.getObtainedCertificate(
+              certificate
+            );
+
+            if (r.status === 200) {
+              let x = r.payload;
+              certificates.push({
+                _id: x.obtainedCertificate._id,
+                percentage: x.obtainedCertificate.percentage,
+                date: x.obtainedCertificate.date,
+                course: {
+                  _id: x.course._id,
+                  name: x.course.name,
+                  friendlyName: x.course.friendlyName,
+                  splashImage: x.course.splashImage,
+                },
+              });
+            }
+          }
+
+          let pf = {
+            ...(res.payload as any).profile,
+            certificates,
+          };
+
+          setProfile(pf);
         } else {
           router.push("/404");
         }
-      });
+      }
+    );
+
+    REST.Certificates.getObtainedCertificates(
+      AccountManager.getActiveToken()
+    ).then((res) => {
+      if (res.status === 200) {
+        setCertificates(
+          res.payload.certs.map((c: any) => {
+            return {
+              ...c,
+              course: c.courseObj,
+            };
+          })
+        );
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (router.query.username) {
+      reloadProfile();
     }
   }, [router]);
 
@@ -459,6 +537,134 @@ export default function Profile() {
                   <Text>{profile.bio}</Text>
                 )}
               </Box>
+              <Box mt={4}>
+                {editMode ? (
+                  <>
+                    <Grid
+                      templateColumns={[
+                        "repeat(1, 1fr)",
+                        "repeat(2, 1fr)",
+                        "repeat(3, 1fr)",
+                      ]}
+                      gap={6}
+                      mt={"2rem"}
+                    >
+                      {certificates.map((cert) => (
+                        <>
+                          <GridItem>
+                            <Stack
+                              alignItems={"center"}
+                              cursor={"pointer"}
+                              onClick={async () => {
+                                let newCerts: typeof profile.certificates =
+                                  profile.certificates;
+
+                                if (newCerts.find((c) => c._id === cert._id)) {
+                                  newCerts = newCerts.filter(
+                                    (c) => c._id !== cert._id
+                                  );
+                                } else {
+                                  newCerts.push({
+                                    _id: cert._id,
+                                    course: cert.course,
+                                    percentage: cert.percentage,
+                                    date: cert.date,
+                                  });
+                                }
+
+                                const res = await REST.Forum.modifyProfileV2({
+                                  token: AccountManager.getActiveToken(),
+                                  update: {
+                                    certificates: newCerts.map(
+                                      (c: any) => c._id
+                                    ),
+                                  },
+                                  username: profile.username,
+                                });
+                                if (res.status === 200) {
+                                  reloadProfile();
+                                  toast({
+                                    title: "Erfolgreich",
+                                    position: "top-right",
+                                    description:
+                                      "Deine Änderungen wurden gespeichert",
+                                    status: "success",
+                                    duration: 1500,
+                                    variant: "solid",
+                                  });
+                                } else {
+                                  toast({
+                                    title: "Fehler",
+                                    position: "top-right",
+                                    description:
+                                      "Deine Änderungen konnten nicht gespeichert werden",
+                                    status: "error",
+                                    duration: 1500,
+                                    variant: "solid",
+                                  });
+                                }
+                              }}
+                            >
+                              <Image
+                                src={cert.course.splashImage}
+                                w={32}
+                                h={32}
+                                alt={cert.course.name}
+                              />
+                              <Text>{cert.course.name}</Text>
+                              <Text>
+                                Aktuell angezeigt:&nbsp;
+                                {profile.certificates.find(
+                                  (c) => c._id === cert._id
+                                )
+                                  ? "Ja"
+                                  : "Nein"}
+                              </Text>
+                            </Stack>
+                          </GridItem>
+                        </>
+                      ))}
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    <Heading size={"md"}>Zertifikate</Heading>
+                    <Grid
+                      templateColumns={[
+                        "repeat(1, 1fr)",
+                        "repeat(2, 1fr)",
+                        "repeat(3, 1fr)",
+                      ]}
+                      gap={6}
+                      mt={"2rem"}
+                    >
+                      {profile.certificates.map((cert) => {
+                        console.log(cert);
+                        return (
+                          <>
+                            <GridItem>
+                              <Stack
+                                alignItems={"center"}
+                                cursor={"pointer"}
+                                onClick={() => {
+                                  router.push("/user-cert/" + cert._id);
+                                }}
+                              >
+                                <Image
+                                  src={cert.course.splashImage}
+                                  w={32}
+                                  h={32}
+                                  alt={cert.course.name}
+                                />
+                              </Stack>
+                            </GridItem>
+                          </>
+                        );
+                      })}
+                    </Grid>
+                  </>
+                )}
+              </Box>
               {editMode ? (
                 <Box mt={4}>
                   <ButtonGroup w={"100%"} justifyContent={"flex-end"}>
@@ -528,24 +734,9 @@ export default function Profile() {
                         });
 
                         if (r.status === 200) {
-                          const p = await REST.Forum.getProfileV2(
-                            profile.username
-                          );
-
-                          if (p.status === 200) {
-                            setProfile(p.payload.profile);
-                            setSaving(false);
-                            setEditMode(false);
-                          } else {
-                            toast({
-                              title: "Fehler",
-                              description: p.payload.message,
-                              status: "error",
-                              duration: 5000,
-                              isClosable: true,
-                              position: "top",
-                            });
-                          }
+                          reloadProfile();
+                          setSaving(false);
+                          setEditMode(false);
                         } else {
                           toast({
                             title: "Fehler",

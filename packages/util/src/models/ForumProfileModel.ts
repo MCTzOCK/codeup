@@ -49,6 +49,10 @@ const ForumProfile = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  certificates: {
+    type: [String],
+    default: [],
+  },
 });
 
 export default mongoose.models?.ForumProfile ||

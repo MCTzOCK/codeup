@@ -173,6 +173,7 @@ export default async function handleRequest(
 
       const alreadyObtained = await ObtainedCertificateModel.findOne({
         username: user.username,
+        course: courseObject._id,
       });
 
       if (percentage >= certificate.minPercentage) {
