@@ -33,6 +33,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FaCheck, FaExclamationTriangle } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Discovery() {
   const router = useRouter();
@@ -87,6 +88,9 @@ export default function Discovery() {
 
   return (
     <>
+      <Head>
+        <title>Discovery - Editor - CodeUp</title>
+      </Head>
       <EditorProjectLayout>
         {reactSocket ? (
           <>

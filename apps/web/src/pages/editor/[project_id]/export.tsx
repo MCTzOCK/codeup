@@ -27,6 +27,7 @@ import {
 import JSZip from "jszip";
 import Networking from "@codeup/util/dist/Networking";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import Head from "next/head";
 
 export default function Export() {
   const router = useRouter();
@@ -81,6 +82,9 @@ export default function Export() {
 
   return (
     <>
+      <Head>
+        <title>Export - Editor - CodeUp</title>
+      </Head>
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
           Export

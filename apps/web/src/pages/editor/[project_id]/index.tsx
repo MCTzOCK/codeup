@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
 import GridLayout from "@codeup/components/global/GridLayout";
+import Head from "next/head";
 
 export default function ProjectViewer() {
   const router = useRouter();
@@ -91,6 +92,9 @@ export default function ProjectViewer() {
 
   return (
     <>
+      <Head>
+        <title>Seiten - Editor - CodeUp</title>
+      </Head>
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
           Seiten

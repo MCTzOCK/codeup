@@ -20,6 +20,7 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import Head from "next/head";
 
 export default function PageEditor() {
   const router = useRouter();
@@ -159,6 +160,9 @@ export default function PageEditor() {
   if (page) {
     return (
       <>
+        <Head>
+          <title>Seite - Editor - CodeUp</title>
+        </Head>
         <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
             <EditorPageSidebar

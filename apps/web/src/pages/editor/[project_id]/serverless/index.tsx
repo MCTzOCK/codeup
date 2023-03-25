@@ -38,6 +38,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import PopupManager from "../../../../global/PopupManager";
+import Head from "next/head";
 
 export default function ProjectfunctionsViewer() {
   const router = useRouter();
@@ -106,6 +107,9 @@ export default function ProjectfunctionsViewer() {
 
   return (
     <>
+      <Head>
+        <title>Serverless - Editor - CodeUp</title>
+      </Head>
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
           Serverless

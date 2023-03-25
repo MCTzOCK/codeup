@@ -37,6 +37,7 @@ import {
   FaPlus,
   FaTrash,
 } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Contributors() {
   const router = useRouter();
@@ -118,6 +119,9 @@ export default function Contributors() {
   };
   return (
     <>
+      <Head>
+        <title>Statische Dateien - Editor - CodeUp</title>
+      </Head>
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
           Statische Dateien

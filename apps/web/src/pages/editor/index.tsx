@@ -31,6 +31,7 @@ import CollaboratorManager from "@codeup/components/editor/CollaboratorManager";
 import PopupManager from "../../global/PopupManager";
 import JSZip from "jszip";
 import GridLayout from "@codeup/components/global/GridLayout";
+import Head from "next/head";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -97,6 +98,9 @@ export default function Editor() {
 
   return (
     <>
+      <Head>
+        <title>Editor - CodeUp</title>
+      </Head>
       {loggedIn ? (
         <>
           <Heading textAlign={"center"} size={"2xl"} mt={8}>

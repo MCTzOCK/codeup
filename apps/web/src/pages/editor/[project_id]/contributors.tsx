@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../global/PopupManager";
 import { useLoggedIn } from "@codeup/hooks";
+import Head from "next/head";
 
 export default function Contributors() {
   const router = useRouter();
@@ -55,6 +56,10 @@ export default function Contributors() {
   };
   return (
     <>
+      <Head>
+        <title>Mitwirkende - Editor - CodeUp</title>
+      </Head>
+
       <EditorProjectLayout>
         <Heading textAlign={"center"} size={"2xl"} mt={8}>
           Mitwirkende

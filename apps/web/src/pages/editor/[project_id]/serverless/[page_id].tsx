@@ -15,7 +15,13 @@ import { useLoggedIn } from "@codeup/hooks";
 import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../../global/PopupManager";
 import AuthenticateLoadingIndicator from "@codeup/components/admin/AuthenticateLoadingIndicator";
-import { Box, Flex, IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
@@ -23,6 +29,7 @@ import { FaCode, FaEye, FaFileAlt, FaHome, FaLaptopCode } from "react-icons/fa";
 import PageResourceManager from "@codeup/components/dist/editor/PageResourceManager";
 import { SnippetViewer } from "@codeup/components/dist/ide";
 import EditorPreviewModal from "@codeup/components/dist/editor/EditorPreviewModal";
+import Head from "next/head";
 
 export default function FunctionEditor() {
   const router = useRouter();
@@ -64,7 +71,7 @@ export default function FunctionEditor() {
               } else {
                 PopupManager.alertAsync({
                   title: "Fehler",
-                  description: data.error
+                  description: data.error,
                 }).then(() => {
                   router.push("/editor");
                 });
@@ -75,14 +82,14 @@ export default function FunctionEditor() {
               if (!data.success) {
                 PopupManager.alert({
                   title: "Speichern fehlgeschlagen",
-                  description: data.error
+                  description: data.error,
                 });
               }
             });
 
             socket.emit("editor:projects:functions:content", {
               projectId: router.query.project_id,
-              pageId: router.query.page_id
+              pageId: router.query.page_id,
             });
           }
         } else {
@@ -110,20 +117,26 @@ export default function FunctionEditor() {
         inherit: true,
         rules: [],
         colors: {
-          "editor.background": "#101113"
-        }
+          "editor.background": "#101113",
+        },
       });
-
 
       setMonacoTheme("codeup-dark");
     }
   }, [monaco]);
 
-  const { isOpen: isSVOpen, onOpen: onSVOpen, onClose: onSVClose } = useDisclosure();
+  const {
+    isOpen: isSVOpen,
+    onOpen: onSVOpen,
+    onClose: onSVClose,
+  } = useDisclosure();
 
   if (func) {
     return (
       <>
+        <Head>
+          <title>Funktion - Editor - CodeUp</title>
+        </Head>
         <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
             <Box p={"2rem"} w={"100%"} h={"100%"}>
@@ -152,7 +165,9 @@ export default function FunctionEditor() {
                       icon={<FaHome />}
                       rounded={"none"}
                       onClick={() => {
-                        router.push("/editor/" + router.query.project_id + "/serverless");
+                        router.push(
+                          "/editor/" + router.query.project_id + "/serverless"
+                        );
                       }}
                     />
                   </Tooltip>
@@ -170,9 +185,7 @@ export default function FunctionEditor() {
             <Flex direction={"column"} minH={"90vh"} w={"100%"}>
               <Editor
                 defaultLanguage={"javascript"}
-                defaultValue={
-                  func.code
-                }
+                defaultValue={func.code}
                 onMount={(e) => {
                   editorRef.current = e;
                 }}
@@ -181,11 +194,11 @@ export default function FunctionEditor() {
                     reactSocket.emit("editor:projects:functions:content:set", {
                       projectId: router.query.project_id,
                       pageId: router.query.page_id,
-                      code: value
+                      code: value,
                     });
                     setFunc({
                       ...func,
-                      code: value as string
+                      code: value as string,
                     });
                   }
                 }}
@@ -193,7 +206,7 @@ export default function FunctionEditor() {
                 options={{
                   insertSpaces: false,
                   wrappingIndent: "indent",
-                  fontSize: 22
+                  fontSize: 22,
                 }}
                 height={"90vh"}
               />

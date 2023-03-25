@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/discovery/comment.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/discovery/star.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/discovery/star.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/discovery/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/discovery/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/contributors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/contributors.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/deployment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/deployment.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/discovery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/discovery.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/GridLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/GridLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Discovery.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Discovery.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/util/src/models/EditorProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/[page_id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/staticassets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/staticassets.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

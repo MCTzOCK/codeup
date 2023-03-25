@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import GridLayout from "@codeup/components/global/GridLayout";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
+import Head from "next/head";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -49,6 +50,9 @@ export default function Discovery() {
 
   return (
     <>
+      <Head>
+        <title>Discovery - CodeUp</title>
+      </Head>
       {error ? (
         <>
           <ErrorComponent
