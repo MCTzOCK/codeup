@@ -51,7 +51,7 @@ export default class EditorProjectDeleteChannel extends Channel {
             }
 
             const templates = await OrgProjectTemplateModel.find({
-              project: project._id,
+              projectId: project._id,
             });
 
             for (const template of templates) {
