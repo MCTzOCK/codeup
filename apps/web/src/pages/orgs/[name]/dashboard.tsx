@@ -575,7 +575,7 @@ export default function Dashboard() {
                                 <>
                                   <Tr
                                     onClick={() => {
-                                      router.push("/course/" + c.name);
+                                      router.push("/course/" + c.friendlyName);
                                     }}
                                     cursor={"pointer"}
                                     _hover={{
