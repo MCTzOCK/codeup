@@ -33,6 +33,7 @@ import {
   FaServer,
   FaUsers,
 } from "react-icons/fa";
+import { BiCodeBlock } from "react-icons/bi";
 
 export default function EditorPagesSidebar() {
   const router = useRouter();
@@ -73,6 +74,12 @@ export default function EditorPagesSidebar() {
       title: "Deployment",
       link: "/editor/" + projectId + "/deployment",
       icon: <FaRocket />,
+      available: true,
+    },
+    {
+      title: "Discovery",
+      link: "/editor/" + projectId + "/discovery",
+      icon: <BiCodeBlock />,
       available: true,
     },
     {

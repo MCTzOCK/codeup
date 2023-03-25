@@ -17,3 +17,17 @@ export async function getDiscoveryProjects(): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function starProject(options: {
+  token: string;
+  projectId: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/discovery/star",
+    method: "POST",
+    token: options.token,
+    body: {
+      projectId: options.projectId,
+    },
+  });
+}

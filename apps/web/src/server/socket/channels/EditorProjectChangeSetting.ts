@@ -40,8 +40,19 @@ export default class EditorProjectChangeSettingChannel extends Channel {
               ];
 
               for (const key of Object.keys(update)) {
+                if (
+                  key === "discovery" &&
+                  project.customDomain.startsWith("disabled:")
+                )
+                  continue;
                 if (allowedKeys.includes(key)) {
                   project[key] = update[key];
+                }
+                if (
+                  key === "customDomain" &&
+                  update[key].startsWith("disabled:")
+                ) {
+                  project.discovery = false;
                 }
               }
 
