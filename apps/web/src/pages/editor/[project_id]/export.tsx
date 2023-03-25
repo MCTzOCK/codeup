@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import JSZip from "jszip";
 import Networking from "@codeup/util/dist/Networking";
+import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 
 export default function Export() {
   const router = useRouter();
@@ -78,8 +79,6 @@ export default function Export() {
     }
   };
 
-  const inputId = useId();
-
   return (
     <>
       <EditorProjectLayout>
@@ -91,7 +90,7 @@ export default function Export() {
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 <Stack>
-                  <Text>
+                  <Text fontSize={"lg"}>
                     Du kannst deine App exportieren und auf deinem eigenen
                     Server hosten. Klicke dazu auf die Schaltfläche unten. Der
                     Prozess wird einige Minuten in Anspruch nehmen und die
@@ -254,7 +253,9 @@ export default function Export() {
             </Flex>
           </>
         ) : (
-          <></>
+          <>
+            <AuthenticateLoadingIndicator />
+          </>
         )}
       </EditorProjectLayout>
     </>
