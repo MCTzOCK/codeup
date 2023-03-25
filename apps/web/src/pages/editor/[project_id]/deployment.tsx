@@ -184,7 +184,10 @@ export default function Contributors() {
                       leftIcon={<FaExternalLinkAlt />}
                       colorScheme={"blue"}
                       onClick={() => {
-                        window.open(`http://${customDomain}`, "_blank");
+                        window.open(
+                          `http://${customDomain}.codeup.space`,
+                          "_blank"
+                        );
                       }}
                     >
                       Deploment Öffnen
