@@ -36,6 +36,7 @@ import {
   getV2Project,
   getV2Projects,
   toggleItemFinish,
+  updateItem,
   updateV2Project,
 } from "./api/ToDo";
 import {
@@ -276,6 +277,7 @@ const REST = {
     createTask,
     deleteTask,
     toggleItemFinish,
+    updateItem,
     createV2Project,
     getV2Project,
     getV2Projects,

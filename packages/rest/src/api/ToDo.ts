@@ -102,6 +102,23 @@ export async function toggleItemFinish(options: {
   });
 }
 
+export async function updateItem(options: {
+  token: string;
+  listId: string;
+  taskUUID: string;
+  update: { [key: string]: any };
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/todo/lists/" + options.listId + "/tasks/update",
+    token: options.token,
+    method: "POST",
+    body: {
+      task: options.taskUUID,
+      update: options.update,
+    },
+  });
+}
+
 export async function getV2Projects(token: string): Promise<IResponse> {
   return await makeRequest({
     path: "/api/todo/projects",

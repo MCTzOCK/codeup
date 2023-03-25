@@ -56,6 +56,7 @@ export default function ListViewer(props: {
     tasks: {
       name: string;
       finished: boolean;
+      description: string;
       uuid: string;
     }[];
   } | null;
@@ -112,6 +113,7 @@ export default function ListViewer(props: {
                       x?.tasks.push({
                         name,
                         finished: false,
+                        description: "",
                         uuid: res.payload.task,
                       });
                       props.setCurrentList(x);
@@ -151,6 +153,7 @@ export default function ListViewer(props: {
                       name={task.name}
                       uuid={task.uuid}
                       finished={task.finished}
+                      description={task.description}
                       currentList={props.currentList}
                       setCurrentList={props.setCurrentList}
                       reloadLists={props.reloadLists}
