@@ -179,7 +179,6 @@ export default function Index() {
             "repeat(4, 1fr)",
             "repeat(5, 1fr)",
           ]}
-          gap={6}
           p={4}
           w={"100%"}
           justifyContent="center"
@@ -188,7 +187,7 @@ export default function Index() {
         >
           {filteredCourses.map((c) => (
             <>
-              <GridItem m={8} h={"100%"} p={4}>
+              <GridItem h={"100%"} p={4}>
                 <Box
                   bg={"gray.900"}
                   color={"white"}
