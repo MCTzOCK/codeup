@@ -74,6 +74,7 @@ Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](htt
 - ToDo App
     - Mehrere Listen
     - Aufgaben als "Erledigt" markieren
+    - Beschreibung der Aufgabe
 - Zertifikate
     - Zertifikate für absolvierte Kurse
     - Zertifikatslink teilen, sodass andere Benutzer das Zertifikat einsehen können
