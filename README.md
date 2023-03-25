@@ -19,6 +19,10 @@ Die Produktiv Veröffentlichung von CodeUp kann unter [https://codeup.space](htt
 ## Funktionen
 
 - Sicheres Account System
+    - E-Mail Verifizierung
+    - Zwei-Faktor-Authentifizierung (TOTP)
+    - Zurücksetzen des Passworts
+    - Sicheres Anmelden zwischen Anfragen mit JSON Web Tokens
 - Video Kurse
     - Quizze
     - Creator Dashboard für Anpassung
