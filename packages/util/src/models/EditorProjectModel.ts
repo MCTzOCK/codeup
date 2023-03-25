@@ -69,6 +69,26 @@ const EditorProject = new mongoose.Schema({
     default: [],
     required: true,
   },
+  discoveryComments: {
+    type: [
+      {
+        username: {
+          type: String,
+          required: true,
+        },
+        comment: {
+          type: String,
+          required: true,
+        },
+        created_at: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    default: [],
+    required: true,
+  },
 });
 
 export default mongoose.models?.EditorProject ||

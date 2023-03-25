@@ -31,3 +31,19 @@ export async function starProject(options: {
     },
   });
 }
+
+export async function commentProject(options: {
+  token: string;
+  projectId: string;
+  comment: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/discovery/comment",
+    method: "POST",
+    token: options.token,
+    body: {
+      projectId: options.projectId,
+      comment: options.comment,
+    },
+  });
+}

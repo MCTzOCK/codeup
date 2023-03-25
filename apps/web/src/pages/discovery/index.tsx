@@ -11,24 +11,11 @@
 import * as React from "react";
 import REST from "@codeup/rest/src";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
-import {
-  Grid,
-  GridItem,
-  Heading,
-  Button,
-  Text,
-  chakra,
-  Flex,
-  Image,
-  Box,
-  ButtonGroup,
-  useToast,
-} from "@chakra-ui/react";
-import { Card, CardBody, CardHeader, CardFooter } from "@chakra-ui/card";
+import { Heading } from "@chakra-ui/react";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCode, FaEye, FaInfo, FaStar, FaUser } from "react-icons/fa";
+import { FaComment, FaEye, FaInfo, FaStar, FaUser } from "react-icons/fa";
 import { useRouter } from "next/router";
-import GridLayout from "@codeup/components/dist/global/GridLayout";
+import GridLayout from "@codeup/components/global/GridLayout";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 
@@ -125,6 +112,7 @@ export default function Discovery() {
                           : "Stern hinzufügen",
                         icon: <FaStar />,
                         colorScheme: "yellow",
+                        disabled: !loggedIn,
                         onClick: async () => {
                           const res = await REST.Discovery.starProject({
                             token: AccountManager.getActiveToken(),
@@ -158,6 +146,48 @@ export default function Discovery() {
                             });
                           }
                         },
+                      },
+                    ],
+                  },
+                  {
+                    buttons: [
+                      {
+                        text: "Kommentieren",
+                        icon: <FaComment />,
+                        colorScheme: "blue",
+                        onClick: async () => {
+                          const comment = await PopupManager.promptAsync({
+                            title: "Kommentar",
+                            helperText:
+                              "Gib deinen Kommentar ein. Achte dabei auf deine Wortwahl!",
+                            inputType: "TEXTAREA",
+                          });
+
+                          if (!comment) return;
+
+                          const res = await REST.Discovery.commentProject({
+                            token: AccountManager.getActiveToken(),
+                            projectId: p.id,
+                            comment: comment,
+                          });
+
+                          if (res.status === 200) {
+                            PopupManager.alert({
+                              title: "Erfolgreich",
+                              description:
+                                "Dein Kommentar wurde erfolgreich hinzugefügt!",
+                            });
+                            return;
+                          }
+
+                          PopupManager.alert({
+                            title: "Fehler",
+                            description:
+                              "Ein Fehler ist aufgetreten: " +
+                              res.payload.error,
+                          });
+                        },
+                        disabled: !loggedIn,
                       },
                     ],
                   },

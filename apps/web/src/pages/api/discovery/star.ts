@@ -67,6 +67,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           return;
         }
 
+        if (!project.discovery) {
+          res.status(403).json({
+            error: "Forbidden",
+          });
+          return;
+        }
+
         if (project.discoveryLikes.includes(user._id.toString())) {
           project.discoveryLikes = project.discoveryLikes.filter(
             (id: any) => id.toString() !== user._id.toString()

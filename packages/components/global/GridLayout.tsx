@@ -57,6 +57,7 @@ export default function GridLayout(props: {
         onClick: () => void;
         colorScheme: string;
         icon?: ReactNode;
+        disabled?: boolean;
       }[];
     }[];
   }[];
@@ -180,6 +181,7 @@ export default function GridLayout(props: {
                               leftIcon={<>{c.icon}</>}
                               onClick={c.onClick}
                               w={"100%"}
+                              disabled={c.disabled}
                             >
                               {c.text}
                             </Button>

@@ -16,6 +16,11 @@ import PopupManager from "../../../global/PopupManager";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   Flex,
@@ -260,6 +265,51 @@ export default function Discovery() {
                                   ? "Discovery Deaktivieren"
                                   : "Discovery Aktivieren"}
                               </Button>
+                              <StackDivider />
+                              <Heading size={"xl"}>Kommentare</Heading>
+                              {project.discoveryComments.length === 0 && (
+                                <>
+                                  <Text color={"red.300"}>
+                                    Es gibt noch keine Kommentare.
+                                  </Text>
+                                </>
+                              )}
+
+                              <Accordion allowToggle allowMultiple>
+                                {project.discoveryComments
+                                  .sort(
+                                    (a: any, b: any) =>
+                                      new Date(b.created_at).getTime() -
+                                      new Date(a.created_at).getTime()
+                                  )
+                                  .map((comment: any) => {
+                                    return (
+                                      <>
+                                        <AccordionItem>
+                                          <h2>
+                                            <AccordionButton>
+                                              <Box
+                                                as={"span"}
+                                                flex={1}
+                                                textAlign={"left"}
+                                              >
+                                                {new Date(
+                                                  comment.created_at
+                                                ).toLocaleString() +
+                                                  " - " +
+                                                  comment.username}
+                                              </Box>
+                                              <AccordionIcon />
+                                            </AccordionButton>
+                                            <AccordionPanel pb={4}>
+                                              {comment.comment}
+                                            </AccordionPanel>
+                                          </h2>
+                                        </AccordionItem>
+                                      </>
+                                    );
+                                  })}
+                              </Accordion>
                             </Stack>
                           </>
                         )}

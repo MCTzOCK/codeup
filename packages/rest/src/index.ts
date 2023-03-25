@@ -175,7 +175,11 @@ import {
   submitCertificate,
 } from "./api/Certificates";
 import { getProjectIdeas } from "./api/ProjectIdeas";
-import { getDiscoveryProjects, starProject } from "./api/Discovery";
+import {
+  commentProject,
+  getDiscoveryProjects,
+  starProject,
+} from "./api/Discovery";
 import { getBlog, getBlogs as getBlogsB } from "./api/Blog";
 import {
   createSnippet,
@@ -327,6 +331,7 @@ const REST = {
   Discovery: {
     getDiscoveryProjects,
     starProject,
+    commentProject,
   },
   Forum: {
     createProfileV2: createProfileV2,
