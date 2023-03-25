@@ -33,6 +33,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import Milestones from "@codeup/components/landingpage/Milestones";
+import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -61,6 +62,7 @@ export default function Index() {
       videoUrl: string;
     }[]
   >([]);
+  const [contentsLoading, setContentsLoading] = React.useState<boolean>(true);
 
   const router = useRouter();
 
@@ -90,6 +92,7 @@ export default function Index() {
           }
 
           setContents(contents0);
+          setContentsLoading(false);
         } else {
           toast({
             title: "Error",
@@ -135,11 +138,17 @@ export default function Index() {
                   <Image
                     src={course.splashImage}
                     alt={course.name}
-                    maxW={["100%", "75%"]}
+                    w={["100%", "75%"]}
+                    maxH={"300px"}
                     objectFit="cover"
                     borderRadius="lg"
                     boxShadow={"2xl"}
                   />
+                  <Text mt={4} fontSize={"lg"}>
+                    <b>Beschreibung</b>
+                    <br />
+                    {course.description}
+                  </Text>
                 </Box>
                 <Box flex={"100%"}>
                   <Milestones
@@ -161,6 +170,11 @@ export default function Index() {
                     })}
                     title={"Lektionen"}
                   />
+                  {contentsLoading && (
+                    <>
+                      <AuthenticateLoadingIndicator text={"Lade Inhalte..."} />
+                    </>
+                  )}
                 </Box>
               </Flex>
             </Box>

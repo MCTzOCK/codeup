@@ -31,6 +31,7 @@ import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -63,6 +64,8 @@ export default function Index() {
     }[]
   >([]);
 
+  const [coursesLoading, setCoursesLoading] = React.useState<boolean>(true);
+
   const toast = useToast();
   const router = useRouter();
 
@@ -73,6 +76,7 @@ export default function Index() {
       if (res.status === 200) {
         setCourses(res.payload.courses);
         setFilteredCourses(res.payload.courses);
+        setCoursesLoading(false);
       } else {
         toast({
           title: "Fehler",
@@ -95,8 +99,6 @@ export default function Index() {
         direction="column"
         w={"100%"}
         justifyContent="center"
-        gap={"2rem"}
-        mt={"2rem"}
         alignItems={"center"}
       >
         <Flex
@@ -104,7 +106,7 @@ export default function Index() {
           h={"fit-content"}
           direction={"column"}
           alignItems={"center"}
-          mt={"4rem"}
+          mt={4}
         >
           <Heading
             fontSize={["3xl", "6xl"]}
@@ -170,8 +172,15 @@ export default function Index() {
           </InputGroup>
         </Flex>
         <Grid
-          templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
+            "repeat(5, 1fr)",
+          ]}
           gap={6}
+          p={4}
           w={"100%"}
           justifyContent="center"
           alignItems={"center"}
@@ -227,7 +236,8 @@ export default function Index() {
                       fontWeight={"normal"}
                       textAlign={"left"}
                     >
-                      {c.description}
+                      {c.description.substring(0, 100)}
+                      ...
                     </Heading>
                     <Text fontSize={"xl"} color={"gray.400"} textAlign={"left"}>
                       {c.contentPositions.length} Lektion
@@ -239,7 +249,7 @@ export default function Index() {
             </>
           ))}
         </Grid>
-        {filteredCourses.length === 0 ? (
+        {filteredCourses.length === 0 && !coursesLoading ? (
           <>
             <Heading
               size={"md"}
@@ -251,6 +261,11 @@ export default function Index() {
             </Heading>
           </>
         ) : null}
+        {coursesLoading && (
+          <>
+            <AuthenticateLoadingIndicator text={"Lade Kurse..."} />
+          </>
+        )}
       </Flex>
     </>
   );

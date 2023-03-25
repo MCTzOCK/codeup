@@ -11,7 +11,7 @@
 import * as React from "react";
 import { Flex, CircularProgress, Heading } from "@chakra-ui/react";
 
-export default function AuthenticateLoadingIndicator() {
+export default function AuthenticateLoadingIndicator(props: { text?: string }) {
   return (
     <>
       <Flex
@@ -23,7 +23,7 @@ export default function AuthenticateLoadingIndicator() {
       >
         <CircularProgress size={"80px"} isIndeterminate color="red.300" />
         <Heading size={"lg"} mt={4}>
-          Authentifiziere...
+          {props.text ? props.text : "Authentifiziere..."}
         </Heading>
       </Flex>
     </>
