@@ -11,10 +11,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import UserModel from "@codeup/util/dist/models/UserModel";
+import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
-    let projects = await IDEProjectModel.find({
+    const projects = await EditorProjectModel.find({
       discovery: true,
     });
 
@@ -27,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name: project.name,
         description: project.discoveryDescription,
         author: user.username,
-        customName: project.publishedCustomName,
+        domain: project.customDomain,
         id: project._id,
       });
     }

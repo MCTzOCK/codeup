@@ -26,8 +26,9 @@ import {
 } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader, CardFooter } from "@chakra-ui/card";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCode, FaEye } from "react-icons/fa";
+import { FaCode, FaEye, FaInfo, FaUser } from "react-icons/fa";
 import { useRouter } from "next/router";
+import GridLayout from "@codeup/components/dist/global/GridLayout";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -37,7 +38,7 @@ export default function Discovery() {
       name: string;
       description: string;
       author: string;
-      customName: string;
+      domain: string;
       id: string;
     }[]
   >([]);
@@ -78,97 +79,45 @@ export default function Discovery() {
           >
             Discovery
           </Heading>
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-              "repeat(4, 1fr)",
-            ]}
-            gap={6}
-            p={12}
-          >
-            {projects.map((project, index) => {
-              return (
-                <>
-                  <GridItem key={index}>
-                    <Box
-                      bg={"gray.900"}
-                      color={"white"}
-                      rounded={"lg"}
-                      p={6}
-                      h={"100%"}
-                      cursor={"pointer"}
-                    >
-                      <Flex
-                        justifyContent={"space-between"}
-                        direction={"column"}
-                        gap={2}
-                      >
-                        <Heading
-                          size={"xl"}
-                          color={"white"}
-                          fontWeight={"bold"}
-                          textAlign={"left"}
-                          mt={4}
-                        >
-                          {project.name}
-                        </Heading>
-                        <Text
-                          fontSize={"xl"}
-                          color={"gray.400"}
-                          textAlign={"left"}
-                        >
-                          von&nbsp;
-                          <chakra.span color={"green.400"}>
-                            @{project.author}
-                          </chakra.span>
-                        </Text>
-                        <Heading
-                          size={"lg"}
-                          color={"gray.400"}
-                          fontWeight={"normal"}
-                          textAlign={"left"}
-                        >
-                          {project.description}
-                        </Heading>
-                        <ButtonGroup w={"100%"} mt={"1rem"}>
-                          <Button
-                            colorScheme={"green"}
-                            w={"100%"}
-                            leftIcon={<FaEye />}
-                            onClick={() => {
-                              window.open(
-                                "/project/" + project.customName,
-                                "_blank"
-                              );
-                            }}
-                          >
-                            Ansehen
-                          </Button>
-                          <Button
-                            leftIcon={<FaCode />}
-                            colorScheme={"blue"}
-                            w={"100%"}
-                            onClick={async () => {
-                              router.push(
-                                "/ide/project/" +
-                                  project.id +
-                                  "#editor-wrapper-flex"
-                              );
-                            }}
-                            disabled={!loggedIn}
-                          >
-                            Code
-                          </Button>
-                        </ButtonGroup>
-                      </Flex>
-                    </Box>
-                  </GridItem>
-                </>
-              );
+          <GridLayout
+            search={{
+              allow: true,
+              searchFields: true,
+            }}
+            specialEntries={[]}
+            entries={projects.map((p) => {
+              return {
+                title: p.name,
+                fields: [
+                  {
+                    icon: <FaUser />,
+                    text: "Autor: @" + p.author,
+                  },
+                  {
+                    icon: <FaInfo />,
+                    text:
+                      "Beschreibung: " +
+                      p.description.substring(0, 100) +
+                      "...",
+                  },
+                ],
+                buttonRows: [
+                  {
+                    buttons: [
+                      {
+                        text: "Ansehen",
+                        icon: <FaEye />,
+                        colorScheme: "green",
+                        onClick: () => {
+                          window.open("http://" + p.domain, "_blank");
+                        },
+                      },
+                    ],
+                  },
+                ],
+              };
             })}
-          </Grid>
+          />
         </>
       )}
     </>
