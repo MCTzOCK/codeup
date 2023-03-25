@@ -66,6 +66,7 @@ export default function Index() {
       tasks: {
         name: string;
         finished: boolean;
+        description: string;
         uuid: string;
       }[];
     }[]
@@ -112,6 +113,7 @@ export default function Index() {
     tasks: {
       name: string;
       finished: boolean;
+      description: string;
       uuid: string;
     }[];
   } | null>(null);

@@ -56,6 +56,7 @@ export default function ListViewer(props: {
     tasks: {
       name: string;
       finished: boolean;
+      description: string;
       uuid: string;
     }[];
   } | null;
@@ -99,6 +100,13 @@ export default function ListViewer(props: {
                     });
 
                     if (!name) return;
+                    const description = await PopupManager.promptAsync({
+                      title: "Neue Liste",
+                      helperText: "Gib eine Beschreibung der Liste ein",
+                      inputType: "TEXTAREA",
+                    });
+
+                    if (!description) return;
 
                     const res = await REST.ToDo.createTask({
                       token: localStorage.getItem("token") as string,
@@ -107,10 +115,20 @@ export default function ListViewer(props: {
                     });
 
                     if (res.status === 200) {
+                      const res2 = await REST.ToDo.updateItem({
+                        token: localStorage.getItem("token") as string,
+                        listId: props.currentList?._id as string,
+                        taskUUID: res.payload.task,
+                        update: {
+                          description,
+                        },
+                      });
+
                       props.reloadLists();
                       let x = props.currentList;
                       x?.tasks.push({
                         name,
+                        description,
                         finished: false,
                         uuid: res.payload.task,
                       });
@@ -151,6 +169,7 @@ export default function ListViewer(props: {
                       name={task.name}
                       uuid={task.uuid}
                       finished={task.finished}
+                      description={task.description}
                       currentList={props.currentList}
                       setCurrentList={props.setCurrentList}
                       reloadLists={props.reloadLists}
