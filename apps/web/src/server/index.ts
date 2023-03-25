@@ -326,7 +326,7 @@ app
                     try {
                       await c.kill();
                     } catch (e) {}
-                    await c.remove();
+                    //await c.remove();
                   }
                 })
                 .catch((e) => {

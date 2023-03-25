@@ -15,48 +15,46 @@ const codeup = {
         method: "GET",
         headers: {
           "X-SF-Access": ACCESS_TOKEN,
-          "x-codeup-database-key": key
-        }
+          "x-codeup-database-key": key,
+        },
       });
 
       const text = await res.text();
 
-      console.log(text)
+      console.log(text);
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         return text;
       } else {
         return null;
       }
-
     },
     set: async (key, value) => {
       const res = await fetch(ENDPOINT_URL + "/api/@codeup/database/set", {
         method: "POST",
         headers: {
           "X-SF-Access": ACCESS_TOKEN,
-          "x-codeup-database-key": key
+          "x-codeup-database-key": key,
         },
         body: JSON.stringify({
-          value
-        })
+          value,
+        }),
       });
 
-      console.log(await res.text())
+      console.log(await res.text());
 
       return res.status === 200;
-
-    }
-  }
-}
+    },
+  },
+};
 
 if (METHOD === "POST") {
   app.post(ENDPOINT, async (req, res) => {
-    eval(CODE)
+    eval(`(async () => {${CODE}})()`);
   });
 } else {
   app.get(ENDPOINT, async (req, res) => {
-    eval(CODE);
+    eval(`(async () => {${CODE}})()`);
   });
 }
 
