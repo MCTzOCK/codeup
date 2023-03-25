@@ -21,9 +21,18 @@ export default class EditorProjectListChannel extends Channel {
   public register() {
     this.socket.on(this.channelName, async (data) => {
       if (SocketRegistry.loggedIn[this.socket.id]) {
-        const projects = await EditorProjectModel.find({
-          owner: SocketRegistry.loggedIn[this.socket.id].id,
-        });
+        let projects: any[] = [
+          ...(await EditorProjectModel.find({
+            owner: SocketRegistry.loggedIn[this.socket.id].id,
+          })),
+          ...(await EditorProjectModel.find({
+            contributors: {
+              $elemMatch: {
+                user: SocketRegistry.loggedIn[this.socket.id].id,
+              },
+            },
+          })),
+        ];
 
         this.emit({
           projects,

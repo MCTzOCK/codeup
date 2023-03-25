@@ -24,7 +24,7 @@ export default class EditorProjectPageRenameChannel extends Channel {
       if (SocketRegistry.loggedIn[this.socket.id]) {
         const { projectId, pageId, newUrl } = data;
 
-        if(newUrl.startsWith("/api")) {
+        if (newUrl.startsWith("/api")) {
           this.emit({
             error: "URL cannot start with api",
           });
@@ -46,8 +46,10 @@ export default class EditorProjectPageRenameChannel extends Channel {
         if (
           !(
             project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
-            project.contributors.includes(
-              SocketRegistry.loggedIn[this.socket.id].id
+            project.contributors.find(
+              (c: any) =>
+                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
+                c.permissions.includes("RENAME")
             )
           )
         ) {

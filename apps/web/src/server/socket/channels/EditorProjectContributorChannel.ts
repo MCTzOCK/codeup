@@ -31,11 +31,11 @@ export default class EditorProjectContributorChannel extends Channel {
         if (project) {
           if (
             project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
-            project.contributors
-              .find((c: any) =>
-                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id)
-              )
-              .permissions.includes("MANAGE-CONTRIBUTORS")
+            project.contributors.find(
+              (c: any) =>
+                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
+                c.permissions.includes("MANAGE-CONTRIBUTORS")
+            )
           ) {
             let c: {
               email: string;

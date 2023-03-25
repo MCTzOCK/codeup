@@ -290,15 +290,6 @@ export default function CollaboratorManagerBody(props: {
                               Löschen
                             </Tag>
                           ) : null}
-                          {contributor.permissions.includes("DUPLICATE") ? (
-                            <Tag
-                              size={"lg"}
-                              variant={"solid"}
-                              colorScheme={"teal"}
-                            >
-                              Klonen
-                            </Tag>
-                          ) : null}
                           {contributor.permissions.includes("RENAME") ? (
                             <Tag
                               size={"lg"}
@@ -306,15 +297,6 @@ export default function CollaboratorManagerBody(props: {
                               colorScheme={"teal"}
                             >
                               Umbenennen
-                            </Tag>
-                          ) : null}
-                          {contributor.permissions.includes("EXPORT") ? (
-                            <Tag
-                              size={"lg"}
-                              variant={"solid"}
-                              colorScheme={"teal"}
-                            >
-                              Exportieren
                             </Tag>
                           ) : null}
                           {contributor.permissions.includes(
@@ -456,18 +438,6 @@ export default function CollaboratorManagerBody(props: {
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
-                                          "DUPLICATE"
-                                        )}
-                                        id={
-                                          "cb-upd-perms-" +
-                                          contributor.id +
-                                          "-duplicate"
-                                        }
-                                      >
-                                        Klonen
-                                      </Checkbox>
-                                      <Checkbox
-                                        defaultChecked={contributor.permissions.includes(
                                           "RENAME"
                                         )}
                                         id={
@@ -477,18 +447,6 @@ export default function CollaboratorManagerBody(props: {
                                         }
                                       >
                                         Umbenennen
-                                      </Checkbox>
-                                      <Checkbox
-                                        defaultChecked={contributor.permissions.includes(
-                                          "EXPORT"
-                                        )}
-                                        id={
-                                          "cb-upd-perms-" +
-                                          contributor.id +
-                                          "-export"
-                                        }
-                                      >
-                                        Exportieren
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
@@ -530,28 +488,10 @@ export default function CollaboratorManagerBody(props: {
                                               document.getElementById(
                                                 "cb-upd-perms-" +
                                                   contributor.id +
-                                                  "-duplicate"
-                                              ) as HTMLInputElement
-                                            ).checked
-                                              ? "DUPLICATE"
-                                              : "null",
-                                            (
-                                              document.getElementById(
-                                                "cb-upd-perms-" +
-                                                  contributor.id +
                                                   "-rename"
                                               ) as HTMLInputElement
                                             ).checked
                                               ? "RENAME"
-                                              : "null",
-                                            (
-                                              document.getElementById(
-                                                "cb-upd-perms-" +
-                                                  contributor.id +
-                                                  "-export"
-                                              ) as HTMLInputElement
-                                            ).checked
-                                              ? "EXPORT"
                                               : "null",
                                             (
                                               document.getElementById(

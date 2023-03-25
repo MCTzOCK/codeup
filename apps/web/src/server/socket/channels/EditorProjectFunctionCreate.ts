@@ -40,8 +40,10 @@ export default class EditorProjectFunctionCreateChannel extends Channel {
         if (
           !(
             project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
-            project.contributors.includes(
-              SocketRegistry.loggedIn[this.socket.id].id
+            project.contributors.find(
+              (c: any) =>
+                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
+                c.permissions.includes("WRITE")
             )
           )
         ) {
@@ -68,7 +70,7 @@ export default class EditorProjectFunctionCreateChannel extends Channel {
         const func = await EditorProjectFunctionModel.create({
           project: id,
           path: "/api" + url,
-          code: "res.status(200).json({ message: \"Hello World!\"});",
+          code: 'res.status(200).json({ message: "Hello World!"});',
         });
 
         this.emit({

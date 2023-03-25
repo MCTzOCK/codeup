@@ -29,7 +29,10 @@ export default class EditorProjectInfoChannel extends Channel {
 
         if (project) {
           if (
-            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
+            project.contributors.find((c: any) =>
+              c.user.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            )
           ) {
             this.emit({
               success: true,

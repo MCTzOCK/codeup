@@ -42,8 +42,8 @@ export default class EditorProjectFunctionContentChannel extends Channel {
               project.owner.equals(
                 SocketRegistry.loggedIn[this.socket.id].id
               ) ||
-              project.contributors.includes(
-                SocketRegistry.loggedIn[this.socket.id].id
+              project.contributors.find((c: any) =>
+                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id)
               )
             )
           ) {

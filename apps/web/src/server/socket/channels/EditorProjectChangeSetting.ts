@@ -30,7 +30,14 @@ export default class EditorProjectChangeSettingChannel extends Channel {
 
           if (project) {
             if (
-              project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+              project.owner.equals(
+                SocketRegistry.loggedIn[this.socket.id].id
+              ) ||
+              project.contributors.find(
+                (c: any) =>
+                  c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
+                  c.permissions.includes("WRITE")
+              )
             ) {
               const allowedKeys = [
                 "customDomain",

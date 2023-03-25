@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectChangeSetting.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectChangeSetting.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorAddChannel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorAddChannel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorChannel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorChannel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorDeleteChannel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorDeleteChannel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorPermissionChannel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectContributorPermissionChannel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionContent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionContent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionContentChange.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionContentChange.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionCreate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionDelete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionDelete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionRename.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctionRename.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectFunctions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectInfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectInfo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectList.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageContent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageContent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageContentChange.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageContentChange.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageCreate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageDelete.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageDelete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageRename.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPageRename.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/socket/channels/EditorProjectPages.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editor/CollaboratorManagerBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/CollaboratorManagerBody.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -46,8 +46,10 @@ export default class EditorProjectPageCreateChannel extends Channel {
         if (
           !(
             project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
-            project.contributors.includes(
-              SocketRegistry.loggedIn[this.socket.id].id
+            project.contributors.find(
+              (c: any) =>
+                c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
+                c.permissions.includes("WRITE")
             )
           )
         ) {

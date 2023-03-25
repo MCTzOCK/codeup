@@ -29,7 +29,10 @@ export default class EditorProjectPagesChannel extends Channel {
 
         if (project) {
           if (
-            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
+            project.contributors.find((c: any) =>
+              c.user.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            )
           ) {
             const pages = await EditorProjectPageModel.find({
               project: project._id,
