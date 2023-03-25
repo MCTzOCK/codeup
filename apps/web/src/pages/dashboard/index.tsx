@@ -168,7 +168,7 @@ export default function Dashboard() {
               title: project.name,
               href: "/planning/" + project._id,
               description:
-                "Gespeicherte Daten: " + byteSize(project.saved).toString(),
+                "Gespeicherte Daten: " + byteSize(project.saved.length).toString(),
             });
           }
 
