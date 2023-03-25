@@ -109,6 +109,39 @@ export default class EditorProjectPageContentChangeChannel extends Channel {
             }
           }
 
+          SocketRegistry.loggedIn[this.socket.id].currentlyEditing = pageId;
+
+          let otherSockets = Object.keys(SocketRegistry.loggedIn).filter(
+            (s) => {
+              if (!SocketRegistry.loggedIn[s]) return false;
+              if (s === this.socket.id) return false;
+              if (!SocketRegistry.loggedIn[s].currentlyEditing) return false;
+              if (SocketRegistry.loggedIn[s].currentlyEditing !== pageId)
+                return false;
+
+              return true;
+            }
+          );
+
+          let realOtherSockets = otherSockets.map((s) => {
+            // @ts-ignore
+            return global.io.sockets.sockets.get(s);
+          });
+
+          for (const s of realOtherSockets) {
+            if (!s) console.log("Socket not found");
+            s.emit("editor:projects:page:content", {
+              success: true,
+              user: SocketRegistry.loggedIn[this.socket.id].username,
+              page: {
+                url: page.url,
+                mainContent: page.mainContent,
+                type: page.type,
+                resources: page.resources,
+              },
+            });
+          }
+
           await page.save();
 
           this.emit({

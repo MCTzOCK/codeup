@@ -184,6 +184,8 @@ export default function PageResourceManager(props: {
                           colorScheme={"blue"}
                           leftIcon={<FaPen />}
                           onClick={() => {
+                            // @ts-ignore
+                            window.__editor_current_resource = r.name;
                             props.setCurrentResource(r.name);
                             props.onClose();
                           }}

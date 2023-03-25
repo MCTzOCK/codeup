@@ -47,6 +47,9 @@ export function createSocketServer(httpServer: HTTPServer) {
     maxHttpBufferSize: 1e8,
   });
 
+  // @ts-ignore
+  global.io = io;
+
   io.on("connection", (socket: Socket) => {
     // system channels
 
@@ -174,30 +177,35 @@ export function createSocketServer(httpServer: HTTPServer) {
       "editor:projects:functions"
     );
 
-    const editorProjectFunctionCreateChannel = new EditorProjectFunctionCreateChannel(
-      socket,
-      "editor:projects:functions:create"
-    );
+    const editorProjectFunctionCreateChannel =
+      new EditorProjectFunctionCreateChannel(
+        socket,
+        "editor:projects:functions:create"
+      );
 
-    const editorProjectFunctionDeleteChannel = new EditorProjectFunctionDeleteChannel(
-      socket,
-    "editor:projects:functions:delete"
-    );
+    const editorProjectFunctionDeleteChannel =
+      new EditorProjectFunctionDeleteChannel(
+        socket,
+        "editor:projects:functions:delete"
+      );
 
-    const editorProjectFunctionRenameChannel = new EditorProjectFunctionRenameChannel(
-      socket,
-      "editor:projects:functions:rename"
-    );
+    const editorProjectFunctionRenameChannel =
+      new EditorProjectFunctionRenameChannel(
+        socket,
+        "editor:projects:functions:rename"
+      );
 
-    const editorProjectFunctionContentChannel = new EditorProjectFunctionContentChannel(
-      socket,
-    "editor:projects:functions:content"
-    );
+    const editorProjectFunctionContentChannel =
+      new EditorProjectFunctionContentChannel(
+        socket,
+        "editor:projects:functions:content"
+      );
 
-    const editorProjectFunctionContentChangeChannel = new EditorProjectFunctionContentChangeChannel(
-      socket,
-      "editor:projects:functions:content:set"
-    );
+    const editorProjectFunctionContentChangeChannel =
+      new EditorProjectFunctionContentChangeChannel(
+        socket,
+        "editor:projects:functions:content:set"
+      );
 
     // serverless functions end
 

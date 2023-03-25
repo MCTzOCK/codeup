@@ -13,6 +13,7 @@ export default class SocketRegistry {
     [key: string]: {
       id: string;
       username: string;
+      currentlyEditing?: string;
     };
   } = {};
 }

@@ -84,6 +84,8 @@ export default function EditorPageSidebar(props: {
                 rounded={"none"}
                 onClick={() => {
                   props.setCurrentResource("codeup.main_resource");
+                  // @ts-ignore
+                  window.__editor_current_resource = "codeup.main_resource";
                 }}
               />
             </Tooltip>

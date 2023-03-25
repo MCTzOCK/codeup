@@ -18,7 +18,7 @@ import EditorPageSidebar from "@codeup/components/editor/EditorPageSidebar";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useRef, useState } from "react";
-import { editor } from "monaco-editor";
+import { editor, Position } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
 
@@ -53,6 +53,8 @@ export default function PageEditor() {
       } else {
         if (router.query.project_id) {
           socket = io();
+          // @ts-ignore
+          window.__editor_current_resource = "codeup.main_resource";
           setReactSocket(socket);
           registerSocket();
         }
@@ -67,7 +69,32 @@ export default function PageEditor() {
           if (socket) {
             socket.on("editor:projects:page:content", (data: any) => {
               if (data.success) {
-                setPage(data.page);
+                if (data.user && data.user === userInfo?.username) return;
+
+                if (page !== data.page) {
+                  if (!page) setPage(data.page);
+
+                  if (editorRef) {
+                    if (editorRef.current) {
+                      const oldPos = editorRef.current.getPosition();
+                      if (
+                        // @ts-ignore
+                        window.__editor_current_resource ===
+                        "codeup.main_resource"
+                      ) {
+                        if (
+                          data.page.mainContent === editorRef.current.getValue()
+                        )
+                          return;
+                        editorRef.current.setValue(data.page.mainContent);
+                        // @ts-ignore
+                        window.__editor_do_not_push = true;
+                      }
+
+                      editorRef.current.setPosition(oldPos as Position);
+                    }
+                  }
+                }
               } else {
                 PopupManager.alertAsync({
                   title: "Fehler",
@@ -207,6 +234,12 @@ export default function PageEditor() {
                 }}
                 onChange={(value, ev) => {
                   if (reactSocket) {
+                    // @ts-ignore
+                    if (window.__editor_do_not_push) {
+                      // @ts-ignore
+                      window.__editor_do_not_push = false;
+                      return;
+                    }
                     reactSocket.emit("editor:projects:page:content:set", {
                       projectId: router.query.project_id,
                       pageId: router.query.page_id,
