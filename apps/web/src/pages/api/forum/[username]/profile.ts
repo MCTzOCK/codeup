@@ -87,7 +87,13 @@ export default async function handleRequest(
           return;
         }
 
-        const updatableKeys = ["displayName", "bio", "website", "location"];
+        const updatableKeys = [
+          "displayName",
+          "bio",
+          "website",
+          "location",
+          "certificates",
+        ];
 
         for (const key of updatableKeys) {
           if (req.body[key]) {

@@ -54,6 +54,7 @@ export default async function handleRequest(
       for (const cert of c) {
         const course = await CourseModel.findOne({ _id: cert.course });
         cert.course = course.name;
+        cert.courseObj = course;
         delete cert.screenshot;
       }
 

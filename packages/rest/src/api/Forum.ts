@@ -30,7 +30,7 @@ export async function getProfile(username: string): Promise<IResponse> {
 }
 
 export async function modifyProfile(options: {
-  update: { [key: string]: string | undefined | null };
+  update: { [key: string]: any };
   token: string;
   username: string;
 }): Promise<IResponse> {
