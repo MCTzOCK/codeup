@@ -161,7 +161,7 @@ export default async function handleRequest(
         return;
       }
 
-      const certificate = await CertificateModel.findOne({ courseId });
+      const certificate = await CertificateModel.findOne({ course: courseId });
 
       if (!certificate) {
         res.status(400).json({
