@@ -48,6 +48,12 @@ export default class EditorProjectChangeSettingChannel extends Channel {
                 if (allowedKeys.includes(key)) {
                   project[key] = update[key];
                 }
+                if (
+                  key === "customDomain" &&
+                  update[key].startsWith("disabled:")
+                ) {
+                  project.discovery = false;
+                }
               }
 
               project.updated_at = new Date();
