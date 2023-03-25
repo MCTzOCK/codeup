@@ -118,7 +118,7 @@ export default function Index() {
             Kurse
           </Heading>
           <Text fontSize={["xl", "2xl"]} textAlign={["center", "initial"]}>
-            Aktuell bieten wir&nbsp;
+            Aktuell werden&nbsp;
             <b>
               {courses.length} Kurs
               {courses.length !== 1 ? "e" : ""}
@@ -135,7 +135,7 @@ export default function Index() {
                 ? "en"
                 : ""}
             </b>
-            &nbsp;an.
+            &nbsp;angeboten.
           </Text>
           <InputGroup
             w={["75%", "50%"]}

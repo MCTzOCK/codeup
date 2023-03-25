@@ -143,7 +143,45 @@ export default function Index() {
           <BrandStats />
         </Flex>
         <Flex w={"100%"} alignItems={"center"} bgColor={"transparent"}>
-          <Milestones />
+          <Milestones
+            title={"Geschichte"}
+            milestones={[
+              {
+                date: "Mai 2022",
+                title: "Ideenfindung",
+                description: `Die Idee für das Projekt wurde geboren. Es sollte eine Plattform werden, die es Einsteigern ermöglicht programmieren zu lernen.`,
+              },
+              {
+                date: "6. Juni 2022",
+                title: "Erster Commit",
+                description: `Der erste Commit wurde auf GitHub gemacht. Das Projekt wurde von Ben Siebert ins Leben gerufen.`,
+              },
+              {
+                date: "4. Juli 2022",
+                title: "Umstieg auf Turborepo",
+                description:
+                  "Das Projekt wurde auf Turborepo umgestellt, um die Entwicklung zu vereinfachen.",
+              },
+              {
+                date: "16. Oktober 2022",
+                title: "Admin Panel",
+                description:
+                  "Fertigstellung der ersten Version des Admin Panels.",
+              },
+              {
+                date: "27. November 2022",
+                title: "Zertifikate",
+                description:
+                  "Die Idee für das Erlangen von Zertifikaten wurde in die Realität umgesetzt.",
+              },
+              {
+                date: "24. Feburar 2023",
+                title: "Regionalwettbewerb",
+                description:
+                  "CodeUp erhielt den ersten Preis beim Regionalwettbewerb Jugend Forscht der IHK in Münster in der Sparte Arbeitswelt.",
+              },
+            ]}
+          />
         </Flex>
       </Stack>
     </>

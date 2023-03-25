@@ -12,24 +12,9 @@ import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import {
-  Box,
-  Button,
-  ButtonGroup,
   CircularProgress,
   Flex,
-  FormControl,
-  Grid,
-  GridItem,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
@@ -39,13 +24,13 @@ import {
   FaFileUpload,
   FaPen,
   FaPlus,
-  FaSearch,
   FaTrash,
   FaUsers,
 } from "react-icons/fa";
 import CollaboratorManager from "@codeup/components/editor/CollaboratorManager";
 import PopupManager from "../../global/PopupManager";
 import JSZip from "jszip";
+import GridLayout from "@codeup/components/global/GridLayout";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -106,13 +91,9 @@ export default function Editor() {
     }
   };
 
-  const whatEverRef = React.useRef();
-
   const [editProjectPropID, setEditProjectPropID] = React.useState<
     string | null
   >(null);
-
-  const [query, setQuery] = React.useState<string>("");
 
   return (
     <>
@@ -122,450 +103,371 @@ export default function Editor() {
             Projekte
           </Heading>
 
-          <Flex justifyContent={"center"} mt={8}>
-            <FormControl w={["75%", "25%"]}>
-              <InputGroup>
-                <InputLeftElement>
-                  <FaSearch />
-                </InputLeftElement>
-                <Input
-                  placeholder={"Suche"}
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                  }}
-                />
-              </InputGroup>
-            </FormControl>
-          </Flex>
-
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-              "repeat(4, 1fr)",
-              "repeat(5, 1fr)",
-            ]}
-            gap={6}
-            p={4}
-            mt={"2rem"}
-          >
-            <GridItem
-              key={"new"}
-              bg={"gray.900"}
-              p={"1rem"}
-              borderRadius={"0.5rem"}
-              _hover={{
-                cursor: "pointer",
-                borderColor: "blue.300",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-              onClick={async () => {
-                const name = await PopupManager.promptAsync({
-                  title: "Neues Projekt",
-                  helperText:
-                    "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
-                });
-
-                if (name) {
-                  reactSocket?.emit("editor:projects:create", {
-                    name: name,
-                  });
-
-                  reactSocket?.on("editor:projects:create", (data: any) => {
-                    if (data.success) {
-                      reactSocket?.emit("editor:projects:list");
-                    } else {
-                      PopupManager.alert({
-                        description: data.error as string,
-                      });
-                    }
-                  });
-                }
-              }}
-            >
-              <Heading
-                fontSize={"8xl"}
-                textAlign={"center"}
-                color={"blue.300"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                display={"flex"}
-                h={"100%"}
-              >
-                <FaPlus />
-              </Heading>
-            </GridItem>
-            <GridItem
-              key={"new"}
-              bg={"gray.900"}
-              p={"1rem"}
-              borderRadius={"0.5rem"}
-              _hover={{
-                cursor: "pointer",
-                borderColor: "blue.300",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-              onClick={async () => {
-                const name = await PopupManager.promptAsync({
-                  title: "Neues Projekt",
-                  helperText:
-                    "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
-                });
-
-                if (name) {
-                  const files = await PopupManager.uploadFileAsync({
-                    title: "Projekt importieren",
+          <GridLayout
+            search={{
+              searchFields: true,
+              allow: true,
+            }}
+            specialEntries={[
+              {
+                icon: <FaPlus />,
+                onClick: async () => {
+                  const name = await PopupManager.promptAsync({
+                    title: "Neues Projekt",
                     helperText:
-                      "Wähle eine ZIP-Datei aus, die du importieren möchtest.",
+                      "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
                   });
 
-                  if (files.length > 0) {
+                  if (name) {
                     reactSocket?.emit("editor:projects:create", {
                       name: name,
                     });
 
-                    reactSocket?.on(
-                      "editor:projects:create",
-                      (projectData: any) => {
-                        if (projectData.success) {
-                          const file = files[0];
-                          const reader = new FileReader();
-                          reader.readAsArrayBuffer(file);
+                    reactSocket?.on("editor:projects:create", (data: any) => {
+                      if (data.success) {
+                        reactSocket?.emit("editor:projects:list");
+                      } else {
+                        PopupManager.alert({
+                          description: data.error as string,
+                        });
+                      }
+                    });
+                  }
+                },
+              },
+              {
+                icon: <FaFileUpload />,
+                onClick: async () => {
+                  {
+                    const name = await PopupManager.promptAsync({
+                      title: "Neues Projekt",
+                      helperText:
+                        "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                    });
 
-                          reader.onload = () => {
-                            const buffer = Buffer.from(
-                              reader.result as ArrayBuffer
-                            );
-                            const zip = new JSZip();
+                    if (name) {
+                      const files = await PopupManager.uploadFileAsync({
+                        title: "Projekt importieren",
+                        helperText:
+                          "Wähle eine ZIP-Datei aus, die du importieren möchtest.",
+                      });
 
-                            zip.loadAsync(buffer).then(async (zip) => {
-                              if (
-                                zip.files["pages/"] &&
-                                zip.files["pages/"].dir
-                              ) {
-                                const corrupted = [];
-                                let pageDir = Object.keys(zip.files).filter(
-                                  (file) => file.startsWith("pages/")
+                      if (files.length > 0) {
+                        reactSocket?.emit("editor:projects:create", {
+                          name: name,
+                        });
+
+                        reactSocket?.on(
+                          "editor:projects:create",
+                          (projectData: any) => {
+                            if (projectData.success) {
+                              const file = files[0];
+                              const reader = new FileReader();
+                              reader.readAsArrayBuffer(file);
+
+                              reader.onload = () => {
+                                const buffer = Buffer.from(
+                                  reader.result as ArrayBuffer
                                 );
-                                let funcDir = Object.keys(zip.files).filter(
-                                  (file) => file.startsWith("functions/")
-                                );
+                                const zip = new JSZip();
 
-                                // only get top level directories
-                                let pdT = [];
-
-                                for (const page of pageDir) {
-                                  if (page.endsWith("/") && page !== "pages/") {
-                                    pdT.push(page);
-                                  }
-                                }
-
-                                pageDir = pdT;
-
-                                for (const page of pageDir) {
-                                  let indexType = "html";
-                                  let indexContent = "";
-                                  let pageCorrupted = false;
-
-                                  if (zip.files[`${page}index.html`]) {
-                                    indexContent = await zip.files[
-                                      `${page}index.html`
-                                    ].async("string");
-                                  } else {
-                                    if (zip.files[`${page}index.ic`]) {
-                                      indexType = "incode";
-                                      indexContent = await zip.files[
-                                        `${page}index.ic`
-                                      ].async("string");
-                                    } else {
-                                      corrupted.push(page);
-                                      pageCorrupted = true;
-                                    }
-                                  }
-
-                                  if (!pageCorrupted) {
-                                    reactSocket?.emit(
-                                      "editor:projects:pages:create",
-                                      {
-                                        id: projectData.project._id as string,
-                                        url: page
-                                          .split("/")
-                                          [page.split("/").length - 2].replace(
-                                            "_",
-                                            "/"
-                                          ),
-                                        type:
-                                          indexType === "html"
-                                            ? "HTML"
-                                            : "InCode",
-                                        content: indexContent,
-                                      }
+                                zip.loadAsync(buffer).then(async (zip) => {
+                                  if (
+                                    zip.files["pages/"] &&
+                                    zip.files["pages/"].dir
+                                  ) {
+                                    const corrupted = [];
+                                    let pageDir = Object.keys(zip.files).filter(
+                                      (file) => file.startsWith("pages/")
+                                    );
+                                    let funcDir = Object.keys(zip.files).filter(
+                                      (file) => file.startsWith("functions/")
                                     );
 
-                                    await new Promise((resolve) => {
-                                      reactSocket?.on(
-                                        "editor:projects:pages:create",
-                                        async (data: any) => {
-                                          if (data.success) {
-                                            if (
-                                              // @ts-ignore
-                                              !window.__codeup__temp__editor__resource_imports
-                                            ) {
-                                              // @ts-ignore
-                                              window.__codeup__temp__editor__resource_imports =
-                                                [];
-                                            }
+                                    // only get top level directories
+                                    let pdT = [];
 
-                                            let resourceFiles = Object.keys(
-                                              zip.files
-                                            ).filter((file) =>
-                                              file.startsWith(page)
-                                            );
+                                    for (const page of pageDir) {
+                                      if (
+                                        page.endsWith("/") &&
+                                        page !== "pages/"
+                                      ) {
+                                        pdT.push(page);
+                                      }
+                                    }
 
-                                            resourceFiles =
-                                              resourceFiles.filter(
-                                                (file) =>
-                                                  !file.endsWith(
-                                                    "index.html"
-                                                  ) &&
-                                                  !file.endsWith("index.ic")
-                                              );
+                                    pageDir = pdT;
 
-                                            const resources: any[] = [];
+                                    for (const page of pageDir) {
+                                      let indexType = "html";
+                                      let indexContent = "";
+                                      let pageCorrupted = false;
 
-                                            for (const resource of resourceFiles) {
-                                              const resourceContent =
-                                                await zip.files[resource].async(
-                                                  "string"
+                                      if (zip.files[`${page}index.html`]) {
+                                        indexContent = await zip.files[
+                                          `${page}index.html`
+                                        ].async("string");
+                                      } else {
+                                        if (zip.files[`${page}index.ic`]) {
+                                          indexType = "incode";
+                                          indexContent = await zip.files[
+                                            `${page}index.ic`
+                                          ].async("string");
+                                        } else {
+                                          corrupted.push(page);
+                                          pageCorrupted = true;
+                                        }
+                                      }
+
+                                      if (!pageCorrupted) {
+                                        reactSocket?.emit(
+                                          "editor:projects:pages:create",
+                                          {
+                                            id: projectData.project
+                                              ._id as string,
+                                            url: page
+                                              .split("/")
+                                              [
+                                                page.split("/").length - 2
+                                              ].replace("_", "/"),
+                                            type:
+                                              indexType === "html"
+                                                ? "HTML"
+                                                : "InCode",
+                                            content: indexContent,
+                                          }
+                                        );
+
+                                        await new Promise((resolve) => {
+                                          reactSocket?.on(
+                                            "editor:projects:pages:create",
+                                            async (data: any) => {
+                                              if (data.success) {
+                                                if (
+                                                  // @ts-ignore
+                                                  !window.__codeup__temp__editor__resource_imports
+                                                ) {
+                                                  // @ts-ignore
+                                                  window.__codeup__temp__editor__resource_imports =
+                                                    [];
+                                                }
+
+                                                let resourceFiles = Object.keys(
+                                                  zip.files
+                                                ).filter((file) =>
+                                                  file.startsWith(page)
                                                 );
-                                              resources.push({
-                                                content: resourceContent,
-                                                name: resource
-                                                  .split("/")
-                                                  [
-                                                    resource.split("/").length -
-                                                      1
-                                                  ].split(".")[0],
-                                                type: resource
-                                                  .split("/")
-                                                  [
-                                                    resource.split("/").length -
-                                                      1
-                                                  ].split(".")[1],
-                                              });
-                                            }
 
-                                            for (const resource of resources) {
-                                              if (
-                                                // @ts-ignore
-                                                window.__codeup__temp__editor__resource_imports.indexOf(
-                                                  page + "/" + resource.name
-                                                ) === -1
-                                              ) {
-                                                // @ts-ignore
-                                                window.__codeup__temp__editor__resource_imports.push(
-                                                  page + "/" + resource.name
-                                                );
-                                              } else {
-                                                return;
+                                                resourceFiles =
+                                                  resourceFiles.filter(
+                                                    (file) =>
+                                                      !file.endsWith(
+                                                        "index.html"
+                                                      ) &&
+                                                      !file.endsWith("index.ic")
+                                                  );
+
+                                                const resources: any[] = [];
+
+                                                for (const resource of resourceFiles) {
+                                                  const resourceContent =
+                                                    await zip.files[
+                                                      resource
+                                                    ].async("string");
+                                                  resources.push({
+                                                    content: resourceContent,
+                                                    name: resource
+                                                      .split("/")
+                                                      [
+                                                        resource.split("/")
+                                                          .length - 1
+                                                      ].split(".")[0],
+                                                    type: resource
+                                                      .split("/")
+                                                      [
+                                                        resource.split("/")
+                                                          .length - 1
+                                                      ].split(".")[1],
+                                                  });
+                                                }
+
+                                                for (const resource of resources) {
+                                                  if (
+                                                    // @ts-ignore
+                                                    window.__codeup__temp__editor__resource_imports.indexOf(
+                                                      page + "/" + resource.name
+                                                    ) === -1
+                                                  ) {
+                                                    // @ts-ignore
+                                                    window.__codeup__temp__editor__resource_imports.push(
+                                                      page + "/" + resource.name
+                                                    );
+                                                  } else {
+                                                    return;
+                                                  }
+                                                  reactSocket?.emit(
+                                                    "editor:projects:page:content:set",
+                                                    {
+                                                      projectId:
+                                                        projectData.project._id,
+                                                      pageId: data.page._id,
+                                                      resource: resource.name,
+                                                      resourceType:
+                                                        resource.type,
+                                                      content: resource.content,
+                                                    }
+                                                  );
+                                                }
+
+                                                resolve(true);
                                               }
+                                            }
+                                          );
+                                        });
+                                      }
+                                    }
+
+                                    let functions = zip.files["functions/"].dir
+                                      ? Object.keys(zip.files)
+                                          .filter((file) =>
+                                            file.startsWith("functions/")
+                                          )
+                                          .filter(
+                                            (file) => file !== "functions/"
+                                          )
+                                      : [];
+
+                                    functions = functions.map((f) => {
+                                      return f.split("/")[1];
+                                    });
+
+                                    for (const func of functions) {
+                                      let funcContent = "";
+
+                                      if (zip.files[`functions/${func}`]) {
+                                        funcContent = await zip.files[
+                                          `functions/${func}`
+                                        ].async("string");
+                                      } else {
+                                        corrupted.push(func);
+                                      }
+
+                                      reactSocket?.emit(
+                                        "editor:projects:functions:create",
+                                        {
+                                          id: projectData.project._id as string,
+                                          url: func
+                                            .replace(/_/g, "/")
+                                            .replace(/\/api/g, "")
+                                            .replace(/\.js/g, ""),
+                                        }
+                                      );
+
+                                      await new Promise((resolve) => {
+                                        reactSocket?.on(
+                                          "editor:projects:functions:create",
+                                          (data: any) => {
+                                            if (data.success) {
                                               reactSocket?.emit(
-                                                "editor:projects:page:content:set",
+                                                "editor:projects:functions:content:set",
                                                 {
                                                   projectId:
                                                     projectData.project._id,
-                                                  pageId: data.page._id,
-                                                  resource: resource.name,
-                                                  resourceType: resource.type,
-                                                  content: resource.content,
+                                                  pageId: data.function._id,
+                                                  code: funcContent,
                                                 }
                                               );
-                                            }
 
-                                            resolve(true);
+                                              resolve(true);
+                                            }
                                           }
-                                        }
-                                      );
-                                    });
-                                  }
-                                }
-
-                                let functions = zip.files["functions/"].dir
-                                  ? Object.keys(zip.files)
-                                      .filter((file) =>
-                                        file.startsWith("functions/")
-                                      )
-                                      .filter((file) => file !== "functions/")
-                                  : [];
-
-                                functions = functions.map((f) => {
-                                  return f.split("/")[1];
-                                });
-
-                                for (const func of functions) {
-                                  let funcContent = "";
-
-                                  if (zip.files[`functions/${func}`]) {
-                                    funcContent = await zip.files[
-                                      `functions/${func}`
-                                    ].async("string");
-                                  } else {
-                                    corrupted.push(func);
-                                  }
-
-                                  reactSocket?.emit(
-                                    "editor:projects:functions:create",
-                                    {
-                                      id: projectData.project._id as string,
-                                      url: func
-                                        .replace(/_/g, "/")
-                                        .replace(/\/api/g, "")
-                                        .replace(/\.js/g, ""),
+                                        );
+                                      });
                                     }
+
+                                    reactSocket?.emit("editor:projects:list");
+                                  }
+                                });
+                              };
+                            } else {
+                              PopupManager.alert({
+                                description: projectData.error as string,
+                              });
+                            }
+                          }
+                        );
+                      }
+                    }
+                  }
+                },
+              },
+            ]}
+            entries={projects.map((project) => {
+              return {
+                title: project.name,
+                fields: [
+                  {
+                    icon: <FaClock />,
+                    text: new Date(project.updated_at).toLocaleString(),
+                  },
+                ],
+                buttonRows: [
+                  {
+                    buttons: [
+                      {
+                        text: "Löschen",
+                        onClick: async () => {
+                          if (
+                            await PopupManager.confirmAsync({
+                              title: "Projekt löschen",
+                              question:
+                                "Willst du das Projekt wirklich unwiederuflich löschen? Dies kann nicht rückgängig gemacht werden.",
+                            })
+                          ) {
+                            reactSocket?.on(
+                              "editor:projects:delete",
+                              (data: any) => {
+                                if (data.success) {
+                                  setProjects(
+                                    projects.filter(
+                                      (p) => p._id !== project._id
+                                    )
                                   );
-
-                                  await new Promise((resolve) => {
-                                    reactSocket?.on(
-                                      "editor:projects:functions:create",
-                                      (data: any) => {
-                                        if (data.success) {
-                                          reactSocket?.emit(
-                                            "editor:projects:functions:content:set",
-                                            {
-                                              projectId:
-                                                projectData.project._id,
-                                              pageId: data.function._id,
-                                              code: funcContent,
-                                            }
-                                          );
-
-                                          resolve(true);
-                                        }
-                                      }
-                                    );
+                                } else {
+                                  PopupManager.alert({
+                                    description: data.error as string,
                                   });
                                 }
-
-                                reactSocket?.emit("editor:projects:list");
                               }
+                            );
+
+                            reactSocket?.emit("editor:projects:delete", {
+                              id: project._id,
                             });
-                          };
-                        } else {
-                          PopupManager.alert({
-                            description: projectData.error as string,
-                          });
-                        }
-                      }
-                    );
-                  }
-                }
-              }}
-            >
-              <Heading
-                fontSize={"8xl"}
-                textAlign={"center"}
-                color={"blue.300"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                display={"flex"}
-                h={"100%"}
-              >
-                <FaFileUpload />
-              </Heading>
-            </GridItem>
-
-            {projects
-              .filter((project) => {
-                return project.name
-                  .toLowerCase()
-                  .trim()
-                  .includes(query.toLowerCase().trim());
-              })
-              .sort((a, b) => {
-                return (
-                  new Date(b.updated_at).getTime() -
-                  new Date(a.updated_at).getTime()
-                );
-              })
-              .map((project) => (
-                <GridItem
-                  key={project.id}
-                  bg={"gray.900"}
-                  p={"1rem"}
-                  borderRadius={"0.5rem"}
-                >
-                  <Stack spacing={4}>
-                    <Heading fontSize={"2xl"}>{project.name}</Heading>
-                    <Text
-                      fontSize={"xl"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      gap={3}
-                    >
-                      <FaClock />
-                      {new Date(project.updated_at).toLocaleString()}
-                    </Text>
-
-                    <Button
-                      leftIcon={<FaTrash />}
-                      textAlign={"left"}
-                      colorScheme={"red"}
-                      w={"100%"}
-                      onClick={async () => {
-                        if (
-                          await PopupManager.confirmAsync({
-                            title: "Projekt löschen",
-                            question:
-                              "Willst du das Projekt wirklich unwiederuflich löschen? Dies kann nicht rückgängig gemacht werden.",
-                          })
-                        ) {
-                          reactSocket?.on(
-                            "editor:projects:delete",
-                            (data: any) => {
-                              if (data.success) {
-                                setProjects(
-                                  projects.filter((p) => p._id !== project._id)
-                                );
-                              } else {
-                                PopupManager.alert({
-                                  description: data.error as string,
-                                });
-                              }
-                            }
-                          );
-
-                          reactSocket?.emit("editor:projects:delete", {
-                            id: project._id,
-                          });
-                        }
-                      }}
-                    >
-                      Löschen
-                    </Button>
-                    <Button
-                      leftIcon={<FaEye />}
-                      textAlign={"left"}
-                      justifyContent={"left"}
-                      colorScheme={"blue"}
-                      w={"100%"}
-                      onClick={() => {
-                        router.push(`/editor/${project._id}`);
-                      }}
-                    >
-                      Öffnen
-                    </Button>
-                    <ButtonGroup w={"100%"}>
-                      <Button
-                        leftIcon={<FaPen />}
-                        textAlign={"left"}
-                        justifyContent={"left"}
-                        colorScheme={"green"}
-                        w={"100%"}
-                        onClick={async () => {
+                          }
+                        },
+                        colorScheme: "red",
+                        icon: <FaTrash />,
+                      },
+                    ],
+                  },
+                  {
+                    buttons: [
+                      {
+                        text: "Öffnen",
+                        onClick: () => {
+                          router.push(`/editor/${project._id}`);
+                        },
+                        colorScheme: "blue",
+                        icon: <FaEye />,
+                      },
+                    ],
+                  },
+                  {
+                    buttons: [
+                      {
+                        text: "Umbenennen",
+                        onClick: async () => {
                           const newName = await PopupManager.promptAsync({
                             title: "Projekt umbenennen",
                             helperText:
@@ -591,28 +493,25 @@ export default function Editor() {
                               name: newName,
                             });
                           }
-                        }}
-                      >
-                        Umbenennen
-                      </Button>
-                      <Button
-                        leftIcon={<FaUsers />}
-                        textAlign={"left"}
-                        justifyContent={"left"}
-                        colorScheme={"yellow"}
-                        w={"100%"}
-                        onClick={() => {
+                        },
+                        colorScheme: "green",
+                        icon: <FaPen />,
+                      },
+                      {
+                        text: "Mitwirkende",
+                        onClick: () => {
                           setEditProjectPropID(project._id);
                           onCollabOpen();
-                        }}
-                      >
-                        Mitwirkende
-                      </Button>
-                    </ButtonGroup>
-                  </Stack>
-                </GridItem>
-              ))}
-          </Grid>
+                        },
+                        colorScheme: "yellow",
+                        icon: <FaUsers />,
+                      },
+                    ],
+                  },
+                ],
+              };
+            })}
+          />
         </>
       ) : (
         <>

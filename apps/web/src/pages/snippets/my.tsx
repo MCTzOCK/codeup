@@ -34,10 +34,21 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaCopy, FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import {
+  FaClock,
+  FaCode,
+  FaCopy,
+  FaFile,
+  FaPen,
+  FaPlus,
+  FaSearch,
+  FaTrash,
+} from "react-icons/fa";
 import REST from "@codeup/rest";
 import Editor from "@monaco-editor/react";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
+import GridLayout from "@codeup/components/global/GridLayout";
+import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 
 export default function MySnippetViewer() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -259,129 +270,91 @@ export default function MySnippetViewer() {
           >
             Code Snippets
           </Heading>
-          <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
-            <InputGroup w={["75%", "25%"]}>
-              <InputLeftElement>
-                <FaSearch />
-              </InputLeftElement>
-              <Input
-                placeholder={"Suche"}
-                onChange={(e) => {
-                  setQuery(e.currentTarget.value);
-                }}
-              />
-            </InputGroup>
-          </Flex>
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-            ]}
-            gap={"2rem"}
-            p={8}
-          >
-            <GridItem
-              key={"new"}
-              bg={"gray.900"}
-              p={"1rem"}
-              borderRadius={"0.5rem"}
-              _hover={{
-                cursor: "pointer",
-                borderColor: "blue.300",
-                borderWidth: "1px",
-                borderStyle: "solid",
-              }}
-              onClick={() => {
-                REST.Snippets.createSnippet({
-                  title: "Neues Snippet",
-                  code: 'console.log("Hello World")',
-                  language: "javascript",
-                  token: localStorage.getItem("token") as string,
-                }).then((res) => {
-                  if (res.status === 200) {
-                    reload();
-                    onOpen();
-                    setCurrentSnippet(res.payload.snippet);
-                  } else {
-                    toast({
-                      title: "Fehler",
-                      description: res.payload.error,
-                      status: "error",
-                      duration: 1500,
-                      isClosable: false,
-                      position: "bottom-right",
-                    });
-                  }
-                });
-              }}
-            >
-              <Heading
-                fontSize={"8xl"}
-                textAlign={"center"}
-                color={"blue.300"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                display={"flex"}
-                h={"100%"}
-              >
-                <FaPlus />
-              </Heading>
-            </GridItem>
 
-            {filteredSnippets.map((snippet) => (
-              <>
-                <GridItem
-                  key={snippet._id}
-                  bg={"gray.900"}
-                  p={"1rem"}
-                  borderRadius={"0.5rem"}
-                >
-                  <Flex alignItems={"center"}>
-                    <Heading size={"lg"}>{snippet.title}</Heading>
-                    <Text ml={"auto"}>
-                      {new Date(snippet.createdAt).toLocaleString()}
-                    </Text>
-                  </Flex>
-                  <Text mb={"2rem"}>
-                    <chakra.span color={"blue.300"}>
-                      {snippet.language}
-                    </chakra.span>
-                  </Text>
-                  <p>{snippet.code.substring(0, 200)}</p>
-                  <ButtonGroup mt={"2rem"}>
-                    <Button
-                      colorScheme={"blue"}
-                      leftIcon={<FaPen />}
-                      onClick={() => {
-                        setCurrentSnippet(snippet);
-                        onOpen();
-                      }}
-                    >
-                      Bearbeiten
-                    </Button>
-                    <Button
-                      colorScheme={"green"}
-                      leftIcon={<FaCopy />}
-                      onClick={() => {
-                        navigator.clipboard.writeText(snippet.code);
-                        toast({
-                          title: "Code kopiert",
-                          description: "Der Code wurde erfolgreich kopiert",
-                          status: "success",
-                          duration: 1500,
-                          isClosable: false,
-                          position: "bottom-right",
-                        });
-                      }}
-                    >
-                      Kopieren
-                    </Button>
-                  </ButtonGroup>
-                </GridItem>
-              </>
-            ))}
-          </Grid>
+          <GridLayout
+            search={{
+              allow: true,
+              searchFields: true,
+            }}
+            specialEntries={[
+              {
+                icon: <FaPlus />,
+                onClick: () => {
+                  REST.Snippets.createSnippet({
+                    title: "Neues Snippet",
+                    code: 'console.log("Hello World")',
+                    language: "javascript",
+                    token: localStorage.getItem("token") as string,
+                  }).then((res) => {
+                    if (res.status === 200) {
+                      reload();
+                      onOpen();
+                      setCurrentSnippet(res.payload.snippet);
+                    } else {
+                      toast({
+                        title: "Fehler",
+                        description: res.payload.error,
+                        status: "error",
+                        duration: 1500,
+                        isClosable: false,
+                        position: "bottom-right",
+                      });
+                    }
+                  });
+                },
+              },
+            ]}
+            entries={snippets.map((snippet) => {
+              return {
+                title: snippet.title,
+                fields: [
+                  {
+                    icon: <FaCode />,
+                    text: snippet.language,
+                  },
+                  {
+                    icon: <FaClock />,
+                    text: new Date(snippet.createdAt).toLocaleString(),
+                  },
+                  {
+                    icon: <FaFile />,
+                    text: snippet.code.substring(0, 50) + "...",
+                  },
+                ],
+                buttonRows: [
+                  {
+                    buttons: [
+                      {
+                        icon: <FaPen />,
+                        text: "Bearbeiten",
+                        colorScheme: "blue",
+                        onClick: async () => {
+                          setCurrentSnippet(snippet);
+                          onOpen();
+                        },
+                      },
+                      {
+                        icon: <FaCopy />,
+                        text: "Kopieren",
+                        colorScheme: "green",
+                        onClick: async () => {
+                          navigator.clipboard.writeText(snippet.code);
+                          toast({
+                            title: "Code kopiert",
+                            description: "Der Code wurde erfolgreich kopiert",
+                            status: "success",
+                            duration: 1500,
+                            isClosable: false,
+                            position: "bottom-right",
+                          });
+                        },
+                      },
+                    ],
+                  },
+                ],
+              };
+            })}
+          />
         </>
       ) : (
         <>
@@ -405,22 +378,7 @@ export default function MySnippetViewer() {
                 </>
               ) : (
                 <>
-                  <Flex
-                    w={"100%"}
-                    h={"100vh"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    direction={"column"}
-                  >
-                    <CircularProgress
-                      size={"80px"}
-                      isIndeterminate
-                      color="red.300"
-                    />
-                    <Heading size={"lg"} mt={4}>
-                      Anmelden ...
-                    </Heading>
-                  </Flex>
+                  <AuthenticateLoadingIndicator />
                 </>
               )}
             </>

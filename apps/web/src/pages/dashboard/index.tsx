@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useHover, useLoggedIn } from "@codeup/hooks";
 import { NextRouter, useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import redirect from "@codeup/util/src/userworkflow/redirect";
 import Head from "next/head";
@@ -28,18 +28,24 @@ import {
   FaCertificate,
   FaCheck,
   FaCode,
+  FaEye,
+  FaInfo,
+  FaPlus,
   FaProjectDiagram,
 } from "react-icons/fa";
 import byteSize from "byte-size";
+import GridLayout from "@codeup/components/global/GridLayout";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 export default function Dashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   const [projectEntries, setProjectEntries] = useState<
-    { title: string; description?: string; href: string }[]
+    { isNewItem?: boolean; title: string; description?: string; href: string }[]
   >([]);
   const [certificates, setCertificates] = useState<
     {
+      isNewItem?: boolean;
       title: string;
       description?: string;
       href: string;
@@ -47,11 +53,11 @@ export default function Dashboard() {
   >([]);
 
   const [todoEntries, setTodoEntries] = useState<
-    { title: string; description?: string; href: string }[]
+    { isNewItem?: boolean; title: string; description?: string; href: string }[]
   >([]);
 
   const [projectPlanningEntries, setProjectPlanningEntries] = useState<
-    { title: string; description?: string; href: string }[]
+    { isNewItem?: boolean; title: string; description?: string; href: string }[]
   >([]);
 
   const router = useRouter();
@@ -65,32 +71,28 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (loaded && loggedIn) {
-      REST.IDE.getProjects({
-        token: localStorage.getItem("token") as string,
-        type: "ALL",
-        minimal: true,
-      }).then((res) => {
+      REST.Editor.getProjectsV2(AccountManager.getActiveToken()).then((res) => {
         let x = [];
         for (const project of res.payload.projects) {
           x.push({
             title: project.name,
-            href: "/ide/project/" + project.id + "#editor-wrapper-flex",
+            href: "/editor/" + project._id,
             description:
-              "Geändert: " + new Date(project.updated_at).toLocaleString(),
+              "Erstellt: " + new Date(project.created_at).toLocaleString(),
           });
         }
 
         if (x.length === 0) {
           x.push({
+            isNewItem: true,
             title: "Keine Projekte vorhanden",
-            href: "/ide",
+            href: "/editor",
             description: "Klicke, um ein neues Projekt zu erstellen",
           });
         }
 
         setProjectEntries(x as any);
       });
-
       REST.ToDo.getMyLists(localStorage.getItem("token") as string).then(
         (res) => {
           let x = [];
@@ -107,6 +109,7 @@ export default function Dashboard() {
 
           if (x.length === 0) {
             x.push({
+              isNewItem: true,
               title: "Keine Listen vorhanden",
               href: "/todo",
               description: "Klicke, um eine neue Liste zu erstellen",
@@ -123,6 +126,7 @@ export default function Dashboard() {
         if (res.status !== 200) {
           setCertificates([
             {
+              isNewItem: true,
               title: "Keine Zertifikate erhalten",
               href: "/certificates",
               description: "Klicke, um Zertifikate zu erhalten",
@@ -146,6 +150,7 @@ export default function Dashboard() {
 
         if (x.length === 0) {
           x.push({
+            isNewItem: true,
             title: "Keine Zertifikate erhalten",
             href: "/certificates",
             description: "Klicke, um Zertifikate zu erhalten",
@@ -169,6 +174,7 @@ export default function Dashboard() {
 
           if (x.length === 0) {
             x.push({
+              isNewItem: true,
               title: "Keine Projekte vorhanden",
               href: "/planning",
               description: "Klicke, um ein neues Projekt zu erstellen",
@@ -221,52 +227,13 @@ export default function Dashboard() {
   );
 }
 
-function DCard(props: {
-  router: NextRouter;
-  entry: {
-    href: string;
-    title: string;
-    description: string;
-  };
-  icon: any;
-}) {
-  return (
-    <>
-      <>
-        <Box
-          p={"1rem"}
-          borderRadius={"lg"}
-          borderWidth={"1px"}
-          _hover={{
-            borderColor: "blue.300",
-          }}
-          cursor={"pointer"}
-          backgroundColor={"gray.900"}
-          onClick={() => props.router.push(props.entry.href)}
-        >
-          <Flex direction={"row"} gap={8}>
-            <Flex alignItems={"center"} justifyContent={"center"}>
-              <Heading size={"2xl"} color={"blue.300"}>
-                {props.icon}
-              </Heading>
-            </Flex>
-            <Box>
-              <Heading size={"md"}>{props.entry.title}</Heading>
-              <Text>{props.entry.description}</Text>
-            </Box>
-          </Flex>
-        </Box>
-      </>
-    </>
-  );
-}
-
 function DSection(props: {
   title: string;
   entries: {
     title: string;
     description?: string;
     href: string;
+    isNewItem?: boolean;
   }[];
   icon: any;
   router: NextRouter;
@@ -276,25 +243,47 @@ function DSection(props: {
       <Heading size={"xl"} mt={"2rem"}>
         {props.title}
       </Heading>
-      <Grid
-        templateColumns={["1fr", "1fr 1fr"]}
-        gap={["1rem", "2rem"]}
-        mt={"2rem"}
-      >
-        {props.entries.map((entry, i) => (
-          <>
-            <DCard
-              router={props.router}
-              entry={{
-                title: entry.title as string,
-                description: entry.description as string,
-                href: entry.href as string,
-              }}
-              icon={props.icon}
-            />
-          </>
-        ))}
-      </Grid>
+      <GridLayout
+        search={{
+          allow: false,
+          searchFields: false,
+        }}
+        specialEntries={props.entries
+          .filter((x) => x.isNewItem === true)
+          .map((y) => {
+            return {
+              icon: <FaPlus />,
+              onClick: () => props.router.push(y.href),
+            };
+          })}
+        entries={props.entries
+          .filter((x) => x.isNewItem !== true)
+          .map((y) => {
+            return {
+              title: y.title,
+              fields: [
+                {
+                  icon: (<FaInfo />) as ReactNode,
+                  text: y.description as string,
+                },
+              ],
+              buttonRows: [
+                {
+                  buttons: [
+                    {
+                      icon: (<FaEye />) as ReactNode,
+                      onClick: () => {
+                        props.router.push(y.href);
+                      },
+                      text: "Ansehen",
+                      colorScheme: "blue",
+                    },
+                  ],
+                },
+              ],
+            };
+          })}
+      />
     </>
   );
 }
