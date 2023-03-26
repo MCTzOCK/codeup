@@ -65,13 +65,19 @@ export default function ListItem(props: {
 
               props.reloadLists();
 
-              let x = props.currentList;
-              (x.tasks as any).find(
-                (y: any) => y.uuid === props.uuid
-              ).finished = !(x.tasks as any).find(
-                (y: any) => y.uuid === props.uuid
-              ).finished;
-              props.setCurrentList(x);
+              props.setCurrentList({
+                ...props.currentList,
+                tasks: props.currentList.tasks.map((task: any) => {
+                  if (task.uuid === props.uuid) {
+                    return {
+                      ...task,
+                      finished: !task.finished,
+                    };
+                  } else {
+                    return task;
+                  }
+                }),
+              });
             }}
           />
         </Box>

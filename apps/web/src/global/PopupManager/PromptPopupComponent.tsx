@@ -70,10 +70,10 @@ export default function PromptPopupComponent(props: {
                     <InputLeftElement>
                       <FaPen />
                     </InputLeftElement>
-                    <Input id={"input-" + id} placeholder={"Name"} />
+                    <Input id={"input-" + id} placeholder={"Eingabe"} />
                   </InputGroup>
                 ) : (
-                  <Textarea id={"input-" + id} placeholder={"Name"} />
+                  <Textarea id={"input-" + id} placeholder={"Eingabe"} />
                 )}
                 <FormHelperText>{props.helperText}</FormHelperText>
               </FormControl>

@@ -94,6 +94,12 @@ export default function Index() {
 
     if (res.status === 200) {
       setLists(res.payload.lists);
+
+      if (currentList) {
+        setCurrentList(
+          res.payload.lists.find((e: any) => e._id === currentList._id)
+        );
+      }
     } else {
       toast({
         position: "top",

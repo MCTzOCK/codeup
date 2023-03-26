@@ -158,24 +158,20 @@ export default function ListViewer(props: {
                 />
               </Flex>
 
-              {props.currentList.tasks
-                .sort((t, tx) => {
-                  return t.finished ? 1 : -1;
-                })
-                .map((task) => {
-                  return (
-                    <ListItem
-                      listId={props.currentList?._id || ""}
-                      name={task.name}
-                      uuid={task.uuid}
-                      finished={task.finished}
-                      description={task.description}
-                      currentList={props.currentList}
-                      setCurrentList={props.setCurrentList}
-                      reloadLists={props.reloadLists}
-                    />
-                  );
-                })}
+              {props.currentList.tasks.map((task) => {
+                return (
+                  <ListItem
+                    listId={props.currentList?._id || ""}
+                    name={task.name}
+                    uuid={task.uuid}
+                    finished={task.finished}
+                    description={task.description}
+                    currentList={props.currentList}
+                    setCurrentList={props.setCurrentList}
+                    reloadLists={props.reloadLists}
+                  />
+                );
+              })}
               {props.currentList.tasks.length === 0 ? (
                 <Text textAlign={"center"} color={"red.300"} fontSize={"lg"}>
                   Keine Aufgaben vorhanden
