@@ -128,21 +128,38 @@ export default function SnippetViewer(props: {
                           {snippet.language}
                         </chakra.span>
                       </Text>
-                      <p>{snippet.code.substring(0, 200)}</p>
+                      <p>
+                        <pre>
+                          <code>{snippet.code}</code>
+                        </pre>
+                      </p>
                       <ButtonGroup mt={"2rem"}>
                         <Button
                           colorScheme={"green"}
                           leftIcon={<FaCopy />}
                           onClick={() => {
-                            navigator.clipboard.writeText(snippet.code);
-                            toast({
-                              title: "Code kopiert",
-                              description: "Der Code wurde erfolgreich kopiert",
-                              status: "success",
-                              duration: 1500,
-                              isClosable: false,
-                              position: "bottom-right",
-                            });
+                            try {
+                              navigator.clipboard.writeText(snippet.code);
+                              toast({
+                                title: "Code kopiert",
+                                description:
+                                  "Der Code wurde erfolgreich kopiert",
+                                status: "success",
+                                duration: 1500,
+                                isClosable: false,
+                                position: "bottom-right",
+                              });
+                            } catch (e) {
+                              toast({
+                                title: "Fehler",
+                                description:
+                                  "Der Code konnte nicht kopiert werden. Eventuell wird dein Browser nicht unterstützt.",
+                                status: "error",
+                                duration: 1500,
+                                isClosable: false,
+                                position: "bottom-right",
+                              });
+                            }
                           }}
                         >
                           Kopieren
