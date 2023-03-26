@@ -130,7 +130,7 @@ export default function Index() {
         <title>ToDo - CodeUp</title>
       </Head>
       <Heading size={"xl"} textAlign={"center"} mt={"2rem"}>
-        ToDo
+        Aufgabenplanung - ToDo
       </Heading>
       <GridLayout
         search={{
