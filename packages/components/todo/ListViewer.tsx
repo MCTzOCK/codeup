@@ -101,7 +101,7 @@ export default function ListViewer(props: {
 
                     if (!name) return;
                     const description = await PopupManager.promptAsync({
-                      title: "Neue Liste",
+                      title: "Neue Aufgabe",
                       helperText: "Gib eine Beschreibung der Liste ein",
                       inputType: "TEXTAREA",
                     });
