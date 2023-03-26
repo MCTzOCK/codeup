@@ -88,7 +88,7 @@ export default function UserAuthReset() {
           </FormControl>
           <Button
             variant={"solid"}
-            type={"button"}
+            type={"submit"}
             isLoading={loading}
             disabled={forceDisable || loading}
             w={"100%"}
