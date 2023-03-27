@@ -40,6 +40,16 @@ const testimonials: TestimonialAttributes[] = [
     Ich freue mich sehr, dass CodeUp mitlerweile schon so viele Nutzer hat und hoffe, dass es vielen
     Menschen hilft, programmieren zu lernen.`,
   },
+  {
+    name: "Felix Schlesinger",
+    position: "Entwickler",
+    image: "/_static/customers/felix.jpg",
+    company: "Ratzfatz Foto",
+    content: `
+    Man kennt viele IDEs, welche für den Informatikunterricht eingesetzt werden.
+    CodeUp ist eine Möglichkeit für Schüler einen besseren Einstieg in die Programierung zu finden und für Lehrkräfte, um ihren Unterricht von Grund auf neu und interessanter zu gestalten.
+    Wir setzen CodeUp im Unterrricht ein und sind einfach nur begeistert.`,
+  },
 ];
 
 const Testimonials = () => {
