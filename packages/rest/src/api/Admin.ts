@@ -541,14 +541,22 @@ export async function updateBlog(options: {
 
 export async function getUserJWT(options: {
   token: string;
-  username: string
+  username: string;
 }): Promise<IResponse> {
   return makeRequest({
     method: "POST",
     token: options.token,
     path: "/api/admin/account/jwt",
     body: {
-      username: options.username
-    }
-  })
+      username: options.username,
+    },
+  });
+}
+
+export async function getOverview(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/overview",
+  });
 }

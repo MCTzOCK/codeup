@@ -42,6 +42,7 @@ import {
 import { Bar, Pie } from "react-chartjs-2";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import SuperText from "@codeup/components/landingpage/SuperText";
 
 export default function Index() {
   ChartJS.register(
@@ -176,9 +177,7 @@ export default function Index() {
         <title>Analytics - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Heading size={"2xl"} textAlign={"center"} mt={"4rem"}>
-          Analytics
-        </Heading>
+        <SuperText>Analytics</SuperText>
         <Grid
           templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
           p={"2rem"}
