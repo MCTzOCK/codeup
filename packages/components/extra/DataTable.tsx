@@ -172,7 +172,9 @@ export default function DataTable(props: {
                   return (
                     <>
                       <Tr
-                        onClick={d[0]}
+                        onClick={(e: any) => {
+                          d[0](e);
+                        }}
                         _hover={{
                           backgroundColor: "gray.600",
                         }}

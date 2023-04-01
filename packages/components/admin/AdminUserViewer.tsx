@@ -303,7 +303,7 @@ export default function AdminUserViewer(props: {
               )}
             </Box>
             {!editMode ? (
-              <ButtonGroup ml={"auto"}>
+              <Flex ml={"auto"} direction={["column", "row"]} gap={2}>
                 <IconButton
                   colorScheme={"red"}
                   aria-label={"delete"}
@@ -438,31 +438,33 @@ export default function AdminUserViewer(props: {
                   colorScheme={"orange"}
                   onClick={() => setEditMode(true)}
                 />
-              </ButtonGroup>
+              </Flex>
             ) : null}
           </Flex>
           <Box mt={4}>
             <Heading size={"sm"}>Allgemein</Heading>
-            <Table variant={"simple"}>
-              <Thead>
-                <Tr>
-                  <Th>Benutzername</Th>
-                  <Th>E-Mail</Th>
-                  <Th>Rolle</Th>
-                  <Th>2FA</Th>
-                  <Th>Aktiv</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>{props.user?.username}</Td>
-                  <Td>{props.user?.email}</Td>
-                  <Td>{props.user?.role}</Td>
-                  <Td>{props.user?.twoFactorEnabled ? "Ja" : "Nein"}</Td>
-                  <Td>{props.user?.active ? "Ja" : "Nein"}</Td>
-                </Tr>
-              </Tbody>
-            </Table>
+            <TableContainer>
+              <Table variant={"simple"}>
+                <Thead>
+                  <Tr>
+                    <Th>Benutzername</Th>
+                    <Th>E-Mail</Th>
+                    <Th>Rolle</Th>
+                    <Th>2FA</Th>
+                    <Th>Aktiv</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>{props.user?.username}</Td>
+                    <Td>{props.user?.email}</Td>
+                    <Td>{props.user?.role}</Td>
+                    <Td>{props.user?.twoFactorEnabled ? "Ja" : "Nein"}</Td>
+                    <Td>{props.user?.active ? "Ja" : "Nein"}</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Box>
           <Box mt={4}>
             <Heading size={"sm"}>Sonstiges</Heading>
