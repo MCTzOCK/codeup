@@ -34,10 +34,13 @@ import {
   FaComments,
   FaProjectDiagram,
   FaUser,
+  FaUsers,
 } from "react-icons/fa";
 import AuthenticateLoadingIndicator from "./AuthenticateLoadingIndicator";
 import ErrorComponent from "../global/ErrorComponent";
 import { SiWritedotas } from "react-icons/si";
+import Sidebar from "../global/Sidebar";
+import { AiFillDashboard } from "react-icons/ai";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -154,122 +157,77 @@ export default function AdminLayout(props: { children: ReactNode }) {
             minH={"100vh"}
             h={"fit-content"}
           >
-            <Flex
-              w={["100%", "100%", "20%"]}
-              minH={"100%"}
-              direction={"column"}
-              bg={"gray.900"}
-              color={"white"}
-              p={4}
-              maxW={collapsed ? "fit-content" : "inherit"}
-            >
-              <Heading size={"xl"} textAlign={"center"}>
-                Admin
-              </Heading>
-              <Flex
-                direction={"column"}
-                w={"100%"}
-                h={"100%"}
-                mt={4}
-                overflowY={"auto"}
-              >
-                {sections.map((section) => (
-                  <>
-                    {collapsed ? (
-                      <>
-                        <Tooltip label={section.title as string}>
-                          <IconButton
-                            aria-label={""}
-                            icon={section.icon as any}
-                            variant={"ghost"}
-                            size={"lg"}
-                            mt={"1.2rem"}
-                            mb={"1.2rem"}
-                            fontSize={"4xl"}
-                            rounded={"none"}
-                            p={8}
-                            onClick={() => {
-                              router.push(section.link);
-                            }}
-                          />
-                        </Tooltip>
-                      </>
-                    ) : (
-                      <Button
-                        rounded={"none"}
-                        colorScheme={"gray"}
-                        variant={"ghost"}
-                        w={"100%"}
-                        justifyContent={"flex-start"}
-                        size={"lg"}
-                        leftIcon={section.icon as any}
-                        fontSize={"2xl"}
-                        onClick={() => {
-                          router.push(section.link);
-                        }}
-                      >
-                        {section.title}
-                      </Button>
-                    )}
-                  </>
-                ))}
-                <Box>
-                  {collapsed ? (
-                    <>
-                      <Tooltip label={"Ausklappen"}>
-                        <IconButton
-                          aria-label={""}
-                          icon={<FaChevronRight />}
-                          variant={"ghost"}
-                          size={"lg"}
-                          mt={"1.2rem"}
-                          mb={"1.2rem"}
-                          fontSize={"4xl"}
-                          rounded={"none"}
-                          p={8}
-                          onClick={() => {
-                            let n = !collapsed;
-
-                            setCollapsed(n);
-
-                            localStorage.setItem(
-                              "admin.dashboard.sidebar.collapsed",
-                              `${n}`
-                            );
-                          }}
-                        />
-                      </Tooltip>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        rounded={"none"}
-                        colorScheme={"gray"}
-                        variant={"ghost"}
-                        w={"100%"}
-                        justifyContent={"flex-start"}
-                        size={"lg"}
-                        fontSize={"2xl"}
-                        leftIcon={<FaChevronLeft />}
-                        onClick={() => {
-                          let n = !collapsed;
-
-                          setCollapsed(n);
-
-                          localStorage.setItem(
-                            "admin.dashboard.sidebar.collapsed",
-                            `${n}`
-                          );
-                        }}
-                      >
-                        Einklappen
-                      </Button>
-                    </>
-                  )}
-                </Box>
-              </Flex>
-            </Flex>
-            <Box w={"100%"}>{props.children}</Box>
+            <Box flex={"10%"}>
+              <Sidebar
+                entries={[
+                  {
+                    title: "Dashboard",
+                    icon: <AiFillDashboard />,
+                    onClick: () => {
+                      router.push("/admin");
+                    },
+                  },
+                  {
+                    title: "Benutzer",
+                    icon: <FaUser />,
+                    onClick: () => {
+                      router.push("/admin/users");
+                    },
+                  },
+                  {
+                    title: "Profile",
+                    icon: <FaUsers />,
+                    onClick: () => {
+                      router.push("/admin/profiles");
+                    },
+                  },
+                  {
+                    title: "Inhalte",
+                    icon: <FaBookOpen />,
+                    onClick: () => {
+                      router.push("/admin/contents/courses");
+                    },
+                  },
+                  {
+                    title: "Analytics",
+                    icon: <FaChartBar />,
+                    onClick: () => {
+                      router.push("/admin/analytics");
+                    },
+                  },
+                  {
+                    title: "Nachrichten",
+                    icon: <FaComment />,
+                    onClick: () => {
+                      router.push("/admin/contacts");
+                    },
+                  },
+                  {
+                    title: "Zertifikate",
+                    icon: <FaCertificate />,
+                    onClick: () => {
+                      router.push("/admin/certificates");
+                    },
+                  },
+                  {
+                    title: "Projekt Ideen",
+                    icon: <FaProjectDiagram />,
+                    onClick: () => {
+                      router.push("/admin/project-ideas");
+                    },
+                  },
+                  {
+                    title: "Blog",
+                    icon: <SiWritedotas />,
+                    onClick: () => {
+                      router.push("/admin/blog");
+                    },
+                  },
+                ]}
+                title={"Admin"}
+              />
+            </Box>
+            <Box flex={"90%"}>{props.children}</Box>
           </Flex>
         </>
       ) : null}
