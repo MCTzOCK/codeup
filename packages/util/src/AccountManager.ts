@@ -8,6 +8,7 @@
  *
  */
 import REST from "@codeup/rest/dist";
+import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export type Account = {
   username: string;
@@ -85,5 +86,11 @@ export default class AccountManager {
 
   public static getActiveToken(): string {
     return localStorage.getItem("token") as string;
+  }
+
+  public static async setActiveToken(token: string): Promise<void> {
+    await AccountManager.addAccount(localStorage.getItem("token") as string);
+
+    localStorage.setItem("token", token);
   }
 }
