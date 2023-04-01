@@ -65,6 +65,7 @@ import { useEffect } from "react";
 import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import AccountManager from "@codeup/util/src/AccountManager";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -302,17 +303,19 @@ export default function AdminUserViewer(props: {
               )}
             </Box>
             {!editMode ? (
-              <ButtonGroup ml={"auto"}>
+              <Flex ml={"auto"} direction={["column", "row"]} gap={2}>
                 <IconButton
                   colorScheme={"red"}
                   aria-label={"delete"}
                   icon={<FaTrash />}
                   onClick={async () => {
-
-                    if(await PopupManager.confirmAsync({
-                      title: "Benutzer löschen",
-                      question: "Willst du den Benutzer wirklich unwiederruflich löschen?"
-                    })) {
+                    if (
+                      await PopupManager.confirmAsync({
+                        title: "Benutzer löschen",
+                        question:
+                          "Willst du den Benutzer wirklich unwiederruflich löschen?",
+                      })
+                    ) {
                       const r = await REST.Admin.deleteAccount({
                         token: localStorage.getItem("token") as string,
                         username: props.user?.username as string,
@@ -327,11 +330,11 @@ export default function AdminUserViewer(props: {
                         props.setCurrentUser(null);
 
                         props.onClose();
-                      }else {
+                      } else {
                         PopupManager.alert({
                           title: "Fehler",
-                          description: r.payload.error
-                        })
+                          description: r.payload.error,
+                        });
                       }
                     }
                   }}
@@ -345,22 +348,21 @@ export default function AdminUserViewer(props: {
                       onClick={async () => {
                         const jwtRes = await REST.Admin.getUserJWT({
                           token: localStorage.getItem("token") as string,
-                          username: props.user?.username as string
+                          username: props.user?.username as string,
                         });
 
-                        if(jwtRes.status === 200) {
-
-                          localStorage.setItem("token", jwtRes.payload.jwt);
-                          window.location.href = "/";
-
+                        if (jwtRes.status === 200) {
+                          await AccountManager.setActiveToken(
+                            jwtRes.payload.jwt
+                          );
                         } else {
                           PopupManager.alert({
                             title: "Fehler",
-                            description: jwtRes.payload.error
+                            description: jwtRes.payload.error,
                           });
                         }
                       }}
-                      />
+                    />
                     <IconButton
                       aria-label={"deactivate"}
                       icon={<FaWindowClose />}
@@ -436,31 +438,33 @@ export default function AdminUserViewer(props: {
                   colorScheme={"orange"}
                   onClick={() => setEditMode(true)}
                 />
-              </ButtonGroup>
+              </Flex>
             ) : null}
           </Flex>
           <Box mt={4}>
             <Heading size={"sm"}>Allgemein</Heading>
-            <Table variant={"simple"}>
-              <Thead>
-                <Tr>
-                  <Th>Benutzername</Th>
-                  <Th>E-Mail</Th>
-                  <Th>Rolle</Th>
-                  <Th>2FA</Th>
-                  <Th>Aktiv</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>{props.user?.username}</Td>
-                  <Td>{props.user?.email}</Td>
-                  <Td>{props.user?.role}</Td>
-                  <Td>{props.user?.twoFactorEnabled ? "Ja" : "Nein"}</Td>
-                  <Td>{props.user?.active ? "Ja" : "Nein"}</Td>
-                </Tr>
-              </Tbody>
-            </Table>
+            <TableContainer>
+              <Table variant={"simple"}>
+                <Thead>
+                  <Tr>
+                    <Th>Benutzername</Th>
+                    <Th>E-Mail</Th>
+                    <Th>Rolle</Th>
+                    <Th>2FA</Th>
+                    <Th>Aktiv</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>{props.user?.username}</Td>
+                    <Td>{props.user?.email}</Td>
+                    <Td>{props.user?.role}</Td>
+                    <Td>{props.user?.twoFactorEnabled ? "Ja" : "Nein"}</Td>
+                    <Td>{props.user?.active ? "Ja" : "Nein"}</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Box>
           <Box mt={4}>
             <Heading size={"sm"}>Sonstiges</Heading>

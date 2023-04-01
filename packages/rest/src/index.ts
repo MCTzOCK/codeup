@@ -126,6 +126,7 @@ import {
   getContactMessageCount,
   getContactMessages,
   getContents,
+  getOverview,
   getProjectIdeas as getProjectIdeasAdmin,
   getText,
   getUserJWT,
@@ -248,6 +249,7 @@ const REST = {
     updateBlog,
     deleteBlog,
     getUserJWT,
+    getOverview,
   },
   Blog: {
     getBlog,

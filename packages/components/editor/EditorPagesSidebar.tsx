@@ -34,6 +34,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { BiCodeBlock } from "react-icons/bi";
+import Sidebar from "../global/Sidebar";
 
 export default function EditorPagesSidebar() {
   const router = useRouter();
@@ -106,50 +107,19 @@ export default function EditorPagesSidebar() {
 
   return (
     <>
-      <Flex
-        w={"100%"}
-        h={"100%"}
-        minH={"100vh"}
-        bgColor={"black"}
-        direction={"column"}
-        pt={"2rem"}
-        alignItems={"center"}
-      >
-        <InputGroup w={"90%"} mb={4}>
-          <InputLeftElement>
-            <FaSearch />
-          </InputLeftElement>
-          <Input
-            placeholder={"Seite suchen..."}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </InputGroup>
-        {subPages
-          .filter((p) => p.title.toLowerCase().includes(query.toLowerCase()))
-          .map((page, i) => {
-            return (
-              <>
-                <Button
-                  rounded={"none"}
-                  colorScheme={"gray"}
-                  variant={"ghost"}
-                  w={"100%"}
-                  justifyContent={"flex-start"}
-                  size={"lg"}
-                  leftIcon={page.icon as any}
-                  fontSize={"2xl"}
-                  onClick={() => {
-                    router.push(page.link);
-                  }}
-                  disabled={!page.available}
-                >
-                  {page.title}
-                </Button>
-              </>
-            );
-          })}
-      </Flex>
+      <Sidebar
+        entries={subPages.map((e) => {
+          return {
+            title: e.title,
+            onClick: () => {
+              router.push(e.link);
+            },
+            icon: e.icon,
+            disabled: !e.available,
+          };
+        })}
+        title={"Projekt Editor"}
+      />
     </>
   );
 }

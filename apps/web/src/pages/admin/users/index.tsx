@@ -164,21 +164,21 @@ export default function UserManagement() {
         <>
           <AdminLayout>
             <>
-              <Flex>
-                <Box flex={"10%"}></Box>
-                <Box flex={"80%"}>
+              <Flex maxW={"100vw"}>
+                <Box flex={["1%", "10%"]}></Box>
+                <Box flex={["99%", "80%"]}>
                   <Flex
                     w={"100%"}
+                    maxW={"100vw"}
                     minH={"100vh"}
                     h="fit-content"
                     direction={"column"}
                   >
                     <Flex
-                      maxW={"75%"}
                       direction={"row"}
-                      justify={"space-between"}
+                      justify={"center"}
                       alignItems={"center"}
-                      p={"2rem"}
+                      p={4}
                     >
                       <Heading
                         textAlign={"center"}
@@ -295,7 +295,7 @@ export default function UserManagement() {
                     </Flex>
                   </Flex>
                 </Box>
-                <Box flex={"10%"}></Box>
+                <Box flex={["1%", "10%"]}></Box>
               </Flex>
             </>
             <AdminUserViewer
