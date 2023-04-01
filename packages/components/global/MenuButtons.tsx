@@ -255,7 +255,7 @@ export default function MenuButtons(props: {
               <MenuDivider />
               {userInfo.role === "admin" ? (
                 <>
-                  <Link href={"/admin/users"}>
+                  <Link href={"/admin"}>
                     <MenuItem
                       color={"red.300"}
                       fontWeight={"bold"}
