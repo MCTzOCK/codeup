@@ -58,6 +58,7 @@
     "@types/qrcode": "^1.5.0",
     "@types/ua-parser-js": "^0.7.36",
     "@vercel/og": "^0.0.20",
+    "blockly": "^9.3.1",
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
     "canvg": "^4.0.1",

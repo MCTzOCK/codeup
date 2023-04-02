@@ -208,6 +208,13 @@ import {
   createBlog as createBlogOrg,
 } from "./api/Orgs";
 import { getProjects as getProjectsV2 } from "./api/Editor";
+import {
+  getProjects as getKidsProjects,
+  deleteProject as deleteKidsProject,
+  createProject as createKidsProject,
+  updateProject as updateKidsProject,
+  getProject as getKidsProject,
+} from "./api/Kids";
 
 const REST = {
   Admin: {
@@ -417,6 +424,13 @@ const REST = {
   },
   Editor: {
     getProjectsV2: getProjectsV2,
+  },
+  Kids: {
+    getProjects: getKidsProjects,
+    deleteProject: deleteKidsProject,
+    createProject: createKidsProject,
+    updateProject: updateKidsProject,
+    getProject: getKidsProject,
   },
 };
 
