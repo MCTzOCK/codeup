@@ -33,6 +33,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 import {
+  FaChild,
   FaComment,
   FaFileCode,
   FaProjectDiagram,
@@ -201,6 +202,12 @@ export default function NavigationBar() {
       icon: <BiCodeAlt />,
       href: "/ide",
       text: "Verwirkliche deine Projektideen",
+    },
+    {
+      name: "CodeUp Kids",
+      icon: <FaChild />,
+      href: "/kids",
+      text: "Blockbasierte Programmierung mit CodeUp Kids",
     },
   ].sort((a, b) => {
     if (a.name < b.name) {
