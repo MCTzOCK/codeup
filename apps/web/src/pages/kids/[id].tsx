@@ -16,10 +16,11 @@ import REST from "@codeup/rest/src/index";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import BlocklyEditor from "@codeup/util/dist/blockly/BlocklyEditor";
+import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
 import { BlocklyCompiler } from "@codeup/util/dist/blockly/blockly/BlocklyCompiler";
 import { FaPlay, FaSave } from "react-icons/fa";
 import Blockly from "blockly";
+import * as InCode from "@codeup/incode-compiler";
 
 export default function ProjectViewer() {
   const [project, setProject] = React.useState<{
@@ -83,9 +84,15 @@ export default function ProjectViewer() {
                     "codeup-kids_preview"
                   ) as HTMLIFrameElement;
 
-                  const html = new BlocklyCompiler().compile();
+                  const incode = new InCode.BlocklyCompiler().compile();
+                  const html = InCode.Compiler.compile(incode);
 
-                  iframe.srcdoc = html;
+                  console.log(incode, html);
+
+                  iframe.srcdoc =
+                    "<html><body><script defer async>" +
+                    html +
+                    "</script></body></html>";
                 }}
                 leftIcon={<FaPlay />}
                 mt={[0, 8]}
