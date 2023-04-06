@@ -18,7 +18,7 @@ import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageMo
 import mongoose from "mongoose";
 import * as ts from "typescript";
 import * as sass from "sass";
-import { compile } from "@codeup/incode-compiler/dist";
+import * as InCode from "@codeup/incode-compiler/dist";
 import { lookup as mimeLookup } from "mime-types";
 import formidable from "formidable";
 import { randomBytes } from "crypto";
@@ -361,7 +361,7 @@ app
             res.write(
               `<html><head><title>${
                 page.url
-              }</title></head><body><script defer>${compile(
+              }</title></head><body><script defer>${InCode.Compiler.compile(
                 page.mainContent
               )}</script></body></html>`
             );
@@ -468,7 +468,7 @@ app
               if (file.path.toLowerCase().endsWith(".ic")) {
                 ret = `<html><head><title>${
                   file.path
-                }</title></head><body><script defer>${compile(
+                }</title></head><body><script defer>${InCode.Compiler.compile(
                   ret
                 )}</script></body></html>`;
               }
@@ -785,7 +785,7 @@ app
               res.write(
                 `<html><head><title>${
                   page.url
-                }</title>${resourceEmbedCode}</head><body><script defer>${compile(
+                }</title>${resourceEmbedCode}</head><body><script defer>${InCode.Compiler.compile(
                   page.mainContent
                 )}</script></body></html>`
               );

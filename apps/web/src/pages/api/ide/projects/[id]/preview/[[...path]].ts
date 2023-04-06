@@ -16,7 +16,7 @@ import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import * as ts from "typescript";
 import * as sass from "sass";
 import { lookup as mimeLookup } from "mime-types";
-import { compile } from "@codeup/incode-compiler";
+import * as InCode from "@codeup/incode-compiler/dist";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -116,7 +116,7 @@ export default async function handleRequest(
         if (file.path.toLowerCase().endsWith(".ic")) {
           ret = `<html><head><title>${
             file.path
-          }</title></head><body><script defer>${compile(
+          }</title></head><body><script defer>${InCode.Compiler.compile(
             ret
           )}</script></body></html>`;
         }
