@@ -10,11 +10,10 @@
 
 import * as React from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import BlocklyEditor from "@codeup/util/src/blockly/BlocklyEditor";
-import { BlocklyCompiler } from "@codeup/util/src/blockly/blockly/BlocklyCompiler";
-import Networking from "@codeup/util/dist/Networking";
-import Blockly from "blockly";
+import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
+//import { BlocklyCompiler } from "@codeup/incode-blockly/dist/blockly/BlocklyCompiler";
 import { FaPlay } from "react-icons/fa";
+import * as InCode from "@codeup/incode-compiler/dist";
 
 export default function Playground() {
   return (
@@ -29,7 +28,7 @@ export default function Playground() {
         <Box w={"100%"} h={"100vh"} flex={"100%"}>
           <BlocklyEditor
             initialXml={
-              '<xml><block type="html" id="|(^9%DCME)E4UEoWv~G]" x="134" y="70"></block></xml>'
+              '<xml><block type="start" id="|(^9%DCME)E4UEoWv~G]" x="134" y="70"></block></xml>'
             }
           />
         </Box>
@@ -40,9 +39,13 @@ export default function Playground() {
                 "codeup-kids_playground_preview"
               ) as HTMLIFrameElement;
 
-              const html = new BlocklyCompiler().compile();
+              const incode = new InCode.BlocklyCompiler().compile();
+              const html = InCode.Compiler.compile(incode);
 
-              iframe.srcdoc = html;
+              iframe.srcdoc =
+                "<html><body><script defer async>" +
+                html +
+                "</script></body></html>";
             }}
             leftIcon={<FaPlay />}
             mt={[0, 8]}

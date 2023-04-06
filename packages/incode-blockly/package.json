@@ -1,0 +1,14 @@
+{
+  "name": "@codeup/incode-blockly",
+  "version": "1.0.0",
+  "author": "Ben Siebert",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "blockly": "^9.3.1",
+    "react": "18.2.0"
+  }
+}
