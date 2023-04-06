@@ -23,8 +23,6 @@ export default function BlocklyEditor(props: BlocklyProps) {
     // @ts-ignore
     window.injectedBlockly = true;
 
-    // @ts-ignore
-    window.editor = undefined;
     Blocks.register();
     Blockly.setLocale(DE);
     const ws = Blockly.inject("blockly", {
@@ -38,6 +36,7 @@ export default function BlocklyEditor(props: BlocklyProps) {
       },
     });
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(props.initialXml), ws);
+    console.log(Blockly.getMainWorkspace());
   }, []);
 
   return (

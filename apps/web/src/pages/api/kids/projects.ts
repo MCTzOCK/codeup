@@ -89,7 +89,7 @@ export default async function handleRequest(
         name: req.body.name,
         code:
           req.body.code ||
-          '<xml><block type="html" id="|(^9%DCME)E4UEoWv~G]" x="134" y="70"></block></xml>',
+          '<xml><block type="start" id="|(^9%DCME)E4UEoWv~G]" x="134" y="70"></block></xml>',
       });
 
       res.status(200).json({

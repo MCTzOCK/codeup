@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/kids/projects.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/kids/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/kids/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/Kids.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/CodeUpKidsProjectModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/kids/projects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/kids/projects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/kids/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/kids/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +27,9 @@
         <option value="React Component" />
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
+        <option value="package.json" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -71,7 +68,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.7.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.7.0&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2023_CodeUp/packages/util/src/blockly&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2023_CodeUp/packages/incode-blockly/src/blockly&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -100,18 +97,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src\blockly" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util\src\blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\todo\lists\[id]\tasks" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\discovery" />
-      <recent name="$PROJECT_DIR$/packages/util/src" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\server\socket\channels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src" />
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src\blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\.github" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\vectors\home" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\serverless-runtime" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\editor\[project_id]\serverless" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build (1)">
