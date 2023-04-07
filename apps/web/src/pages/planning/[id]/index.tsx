@@ -189,7 +189,6 @@ export default function Index() {
               setCurrentEdge(null);
             }}
           >
-            <MiniMap />
             <Background />
             <Controls />
           </ReactFlow>

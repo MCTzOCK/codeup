@@ -20,6 +20,8 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   IconButton,
   Input,
@@ -33,10 +35,12 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 import {
+  FaBook,
   FaChild,
   FaComment,
   FaFileCode,
   FaProjectDiagram,
+  FaRocket,
   FaSearch,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -50,6 +54,7 @@ import NavigationBarMenu from "./NavigationBarMenu";
 import MenuButtons from "./MenuButtons";
 import CodeUpModal from "../codeup/CodeUpModal";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import SuperText from "../landingpage/SuperText";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();
@@ -105,6 +110,8 @@ export default function NavigationBar() {
       <>
         <Box
           padding={".8rem"}
+          borderRadius={"6px"}
+          h={"100%"}
           w={"100%"}
           _hover={{
             backgroundColor: "whiteAlpha.100",
@@ -124,7 +131,7 @@ export default function NavigationBar() {
             <Box flex={"10%"}>
               <Heading color={"white"}>{props.icon}</Heading>
             </Box>
-            <Box flex={"10%"}></Box>
+            <Box flex={"10%"} minW={"20px"}></Box>
             <Box flex={"80%"}>
               <Flex w={"100%"} direction={"column"}>
                 <Heading size={"lg"}>{props.name}</Heading>
@@ -142,82 +149,100 @@ export default function NavigationBar() {
     text: string;
     icon: any;
     href: string;
+    category: string;
   }[] = [
     {
       name: "Forum",
       icon: <FaComment />,
       text: "Unterhalte dich mit anderen Entwicklern",
       href: "/forum",
+      category: "communicate",
     },
     {
       name: "Editor",
       icon: <BiCodeAlt />,
       href: "/editor",
       text: "Verwirkliche deine Projektideen",
-    },
-    {
-      name: "Projekte",
-      icon: <BiCodeBlock />,
-      text: "Sieh dir Projekte an, die von anderen Entwicklern veröffentlicht wurden.",
-      href: "/discovery",
-    },
-    {
-      name: "InCode",
-      icon: <InCodeIcon />,
-      text: "Originale Dokumentation der InCode Programmiersprache",
-      href: "/redirect?url=https://incode.codeup.space/docs/intro",
-    },
-    {
-      name: "Zertifikate",
-      icon: <TbCertificate />,
-      text: "Erhalte Zertifikate für absolvierte Kurse",
-      href: "/certificates",
-    },
-    {
-      name: "Projektideen",
-      icon: <HiLightBulb />,
-      text: "Finde Inspirationen für neue Projekte",
-      href: "/ideas",
-    },
-    {
-      name: "Todo",
-      icon: <BsCheck2Square />,
-      text: "Plane Projekte mit einfachen To-Do Listen",
-      href: "/todo",
-    },
-    {
-      name: "Projektplanung",
-      icon: <FaProjectDiagram />,
-      text: "Plane Projekte mit komplexen Flussdiagrammen",
-      href: "/planning",
-    },
-    {
-      name: "Code Snippets",
-      icon: <FaFileCode />,
-      text: "Speicher Code Snippets für spätere Verwendung",
-      href: "/snippets/my",
-    },
-    {
-      name: "IDE (veraltet)",
-      icon: <BiCodeAlt />,
-      href: "/ide",
-      text: "Verwirkliche deine Projektideen",
+      category: "develop",
     },
     {
       name: "CodeUp Kids",
       icon: <FaChild />,
       href: "/kids",
       text: "Blockbasierte Programmierung mit CodeUp Kids",
+      category: "develop",
     },
-  ].sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    } else if (a.name > b.name) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
+    {
+      name: "Discovery",
+      icon: <BiCodeBlock />,
+      text: "Sieh dir Projekte an, die von anderen Entwicklern veröffentlicht wurden.",
+      href: "/discovery",
+      category: "communicate",
+    },
+    {
+      name: "InCode",
+      icon: <InCodeIcon />,
+      text: "Originale Dokumentation der InCode Programmiersprache",
+      href: "/redirect?url=https://incode.codeup.space/docs/intro",
+      category: "other",
+    },
+    {
+      name: "Kurse",
+      icon: <FaBook />,
+      text: "Lerne neue Programmiersprachen und Technologien",
+      href: "/course",
+      category: "learn",
+    },
+    {
+      name: "Zertifikate",
+      icon: <TbCertificate />,
+      text: "Erhalte Zertifikate für absolvierte Kurse",
+      href: "/certificates",
+      category: "learn",
+    },
+    {
+      name: "Projektideen",
+      icon: <HiLightBulb />,
+      text: "Finde Inspirationen für neue Projekte",
+      href: "/ideas",
+      category: "develop",
+    },
+    {
+      name: "Todo",
+      icon: <BsCheck2Square />,
+      text: "Plane Projekte mit einfachen To-Do Listen",
+      href: "/todo",
+      category: "plan",
+    },
+    {
+      name: "Flows",
+      icon: <FaProjectDiagram />,
+      text: "Plane Projekte mit komplexen Flussdiagrammen",
+      href: "/planning",
+      category: "plan",
+    },
+    {
+      name: "Code Snippets",
+      icon: <FaFileCode />,
+      text: "Speicher Code Snippets für spätere Verwendung",
+      href: "/snippets/my",
+      category: "develop",
+    },
+    {
+      name: "Roadmap",
+      icon: <FaRocket />,
+      href: "/roadmap",
+      text: "Behalte den Überblick über deinen Entwicklungsprozess",
+      category: "other",
+    },
+    {
+      name: "IDE (veraltet)",
+      icon: <BiCodeAlt />,
+      href: "/ide",
+      text: "Verwirkliche deine Projektideen",
+      category: "other",
+    },
+  ];
 
   const [filteredMoreOptions, setFilteredMoreOptions] =
     useState<typeof moreOptions>(moreOptions);
@@ -325,50 +350,178 @@ export default function NavigationBar() {
         onOpen={onMoreMenuOpen}
         onClose={onMoreMenuClose}
         isOpen={isMoreMenuOpen}
-        title={"Werkzeuge"}
+        title={"Angebote"}
+        customSize={["full"]}
       >
-        <Flex direction={"column"} w={"100%"}>
-          <Box
-            mb={8}
-            position={"sticky"}
-            top={0}
-            right={0}
-            left={0}
-            backgroundColor={"gray.800"}
-            shadow={"2xl"}
-          >
-            <InputGroup>
-              <InputLeftElement>
-                <FaSearch />
-              </InputLeftElement>
-              <Input
-                placeholder={"Suchbegriff eingeben"}
-                onChange={(event) => {
-                  const searchTerm = event.target.value.toLowerCase() as string;
+        <Box mb={8} backgroundColor={"gray.800"} shadow={"2xl"}>
+          <InputGroup>
+            <InputLeftElement>
+              <FaSearch />
+            </InputLeftElement>
+            <Input
+              placeholder={"Suchbegriff eingeben"}
+              onChange={(event) => {
+                const searchTerm = event.target.value.toLowerCase() as string;
 
-                  setFilteredMoreOptions(
-                    moreOptions.filter((option) => {
-                      return (
-                        option.name.toLowerCase().includes(searchTerm) ||
-                        option.text.toLowerCase().includes(searchTerm)
-                      );
-                    })
-                  );
-                }}
-              />
-            </InputGroup>
-          </Box>
-          {filteredMoreOptions.map((item) => (
-            <>
-              <ExpandedMenuOption
-                name={item.name}
-                icon={item.icon}
-                url={item.href}
-                description={item.text}
-              />
-            </>
-          ))}
-        </Flex>
+                setFilteredMoreOptions(
+                  moreOptions.filter((option) => {
+                    return (
+                      option.name.toLowerCase().includes(searchTerm) ||
+                      option.text.toLowerCase().includes(searchTerm)
+                    );
+                  })
+                );
+              }}
+            />
+          </InputGroup>
+        </Box>
+        <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} gap={6}>
+          <GridItem
+            borderStyle={"dashed"}
+            borderRadius={"6px"}
+            borderColor={"gray.700"}
+            borderWidth={"3px"}
+            p={2}
+            pt={0}
+          >
+            <SuperText>Lernen</SuperText>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              gap={6}
+            >
+              {filteredMoreOptions
+                .filter((option) => option.category === "learn")
+                .map((option) => (
+                  <>
+                    <GridItem>
+                      <ExpandedMenuOption
+                        name={option.name}
+                        description={option.text}
+                        icon={option.icon}
+                        url={option.href}
+                      />
+                    </GridItem>
+                  </>
+                ))}
+            </Grid>
+          </GridItem>
+          <GridItem
+            borderStyle={"dashed"}
+            borderRadius={"6px"}
+            borderColor={"gray.700"}
+            borderWidth={"3px"}
+            p={2}
+            pt={0}
+          >
+            <SuperText>Entwickeln</SuperText>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              gap={6}
+            >
+              {filteredMoreOptions
+                .filter((option) => option.category === "develop")
+                .map((option) => (
+                  <>
+                    <GridItem>
+                      <ExpandedMenuOption
+                        name={option.name}
+                        description={option.text}
+                        icon={option.icon}
+                        url={option.href}
+                      />
+                    </GridItem>
+                  </>
+                ))}
+            </Grid>
+          </GridItem>
+          <GridItem
+            borderStyle={"dashed"}
+            borderRadius={"6px"}
+            borderColor={"gray.700"}
+            borderWidth={"3px"}
+            p={2}
+            pt={0}
+          >
+            <SuperText>Austauschen</SuperText>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              gap={6}
+            >
+              {filteredMoreOptions
+                .filter((option) => option.category === "communicate")
+                .map((option) => (
+                  <>
+                    <GridItem>
+                      <ExpandedMenuOption
+                        name={option.name}
+                        description={option.text}
+                        icon={option.icon}
+                        url={option.href}
+                      />
+                    </GridItem>
+                  </>
+                ))}
+            </Grid>
+          </GridItem>
+          <GridItem
+            borderStyle={"dashed"}
+            borderRadius={"6px"}
+            borderColor={"gray.700"}
+            borderWidth={"3px"}
+            p={2}
+            pt={0}
+          >
+            <SuperText>Planen</SuperText>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              gap={6}
+            >
+              {filteredMoreOptions
+                .filter((option) => option.category === "plan")
+                .map((option) => (
+                  <>
+                    <GridItem>
+                      <ExpandedMenuOption
+                        name={option.name}
+                        description={option.text}
+                        icon={option.icon}
+                        url={option.href}
+                      />
+                    </GridItem>
+                  </>
+                ))}
+            </Grid>
+          </GridItem>
+          <GridItem
+            borderStyle={"dashed"}
+            borderRadius={"6px"}
+            borderColor={"gray.700"}
+            borderWidth={"3px"}
+            p={2}
+            pt={0}
+          >
+            <SuperText>Anderes</SuperText>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              gap={6}
+            >
+              {filteredMoreOptions
+                .filter((option) => option.category === "other")
+                .map((option) => (
+                  <>
+                    <GridItem>
+                      <ExpandedMenuOption
+                        name={option.name}
+                        description={option.text}
+                        icon={option.icon}
+                        url={option.href}
+                      />
+                    </GridItem>
+                  </>
+                ))}
+            </Grid>
+          </GridItem>
+        </Grid>
       </CodeUpModal>
     </>
   );
