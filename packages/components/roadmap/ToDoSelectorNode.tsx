@@ -227,7 +227,7 @@ export default function ToDoSelectorNode({
                         <>
                           <AutoCompleteItem
                             value={a.name}
-                            key={"course_" + a._id}
+                            key={"todo_" + a._id}
                             align={"center"}
                           />
                         </>

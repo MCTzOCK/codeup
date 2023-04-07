@@ -54,6 +54,7 @@ import CourseSelectorNode from "@codeup/components/roadmap/CourseSelectorNode";
 import ProjectIdeaSelectorNode from "@codeup/components/roadmap/ProjectIdeaSelectorNode";
 import ToDoSelectorNode from "@codeup/components/roadmap/ToDoSelectorNode";
 import FlowSelectorNode from "@codeup/components/roadmap/FlowSelectorNode";
+import EditorProjectSelectorNode from "@codeup/components/roadmap/EditorProjectSelectorNode";
 
 export default function RoadmapViewer() {
   const nodeTypes = useMemo(
@@ -62,6 +63,7 @@ export default function RoadmapViewer() {
       projectIdeaSelector: ProjectIdeaSelectorNode,
       todoSelector: ToDoSelectorNode,
       flowSelector: FlowSelectorNode,
+      editorProjectSelector: EditorProjectSelectorNode,
     }),
     []
   );
@@ -194,6 +196,18 @@ export default function RoadmapViewer() {
           },
           deletable: false,
         },
+        {
+          type: "editorProjectSelector",
+          id: "node-5",
+          position: { x: 1900, y: 0 },
+          data: roadmap?.linkedProject,
+          draggable: false,
+          style: {
+            backgroundColor: "black",
+            borderRadius: "24px",
+          },
+          deletable: false,
+        },
       ]);
 
       rfInstance.addEdges([
@@ -221,6 +235,26 @@ export default function RoadmapViewer() {
           id: "edge-3",
           source: "node-2",
           target: "node-4",
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 50,
+            height: 50,
+          },
+        },
+        {
+          id: "edge-4",
+          source: "node-3",
+          target: "node-5",
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 50,
+            height: 50,
+          },
+        },
+        {
+          id: "edge-5",
+          source: "node-4",
+          target: "node-5",
           markerEnd: {
             type: MarkerType.ArrowClosed,
             width: 50,

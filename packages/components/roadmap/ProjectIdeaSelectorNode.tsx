@@ -52,7 +52,7 @@ export default function ProjectIdeaSelectorNode({
   return (
     <>
       <Box p={6} w={"100%"}>
-        <SuperText>Projekt Idee</SuperText>
+        <SuperText>Idee</SuperText>
         <FormControl mb={2} mt={6} w={"100%"}>
           <Stack>
             <Textarea
