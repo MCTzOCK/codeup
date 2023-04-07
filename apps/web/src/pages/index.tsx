@@ -180,6 +180,12 @@ export default function Index() {
                 description:
                   "CodeUp erhielt den ersten Preis beim Regionalwettbewerb Jugend Forscht der IHK in Münster in der Sparte Arbeitswelt.",
               },
+              {
+                date: "29. März 2023",
+                title: "Landeswettbewerb",
+                description:
+                  "CodeUp erhielt den ersten Preis beim Landeswettbewerb Jugend Forscht im Bundesland NRW in der Sparte Arbeitswelt.",
+              },
             ]}
           />
         </Flex>

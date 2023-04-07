@@ -56,7 +56,7 @@ const Testimonials = () => {
   return (
     <Container maxW="5xl" py={10} px={6}>
       <Flex justify="center" mb={8}>
-        <SuperText>Was sagen unsere Kunden?</SuperText>
+        <SuperText>Was sagen unsere Benutzer?</SuperText>
       </Flex>
       <SimpleGrid
         columns={{ base: 1, md: 2 }}
