@@ -129,6 +129,7 @@ import {
   getOverview,
   getProjectIdeas as getProjectIdeasAdmin,
   getText,
+  getUserAnalytics,
   getUserJWT,
   getVideo,
   listAccounts,
@@ -264,6 +265,7 @@ const REST = {
     deleteBlog,
     getUserJWT,
     getOverview,
+    getUserAnalytics,
   },
   Blog: {
     getBlog,

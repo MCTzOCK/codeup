@@ -73,6 +73,7 @@ import AdminUserCreator from "@codeup/components/admin/AdminUserCreator";
 import DataTable from "@codeup/components/extra/DataTable";
 import Head from "next/head";
 import * as React from "react";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 type User = {
   id: string;
@@ -180,14 +181,9 @@ export default function UserManagement() {
                       alignItems={"center"}
                       p={4}
                     >
-                      <Heading
-                        textAlign={"center"}
-                        size={"lg"}
-                        mt={4}
-                        flex={"100%"}
-                      >
-                        Benutzerverwaltung
-                      </Heading>
+                      <Box flex={"100%"}>
+                        <SuperText>Benutzerverwalung</SuperText>
+                      </Box>
                       <Button
                         onClick={() => {
                           onOpenViewer();

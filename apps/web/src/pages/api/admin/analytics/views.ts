@@ -46,6 +46,8 @@ export default async function handleRequest(
       process.env.JWT_SECRET as string
     ) as any;
 
+    await mongoConnect();
+
     const adminuser = await UserModel.findOne({ username: decoded.username });
 
     if (adminuser.role !== "admin") {
@@ -54,8 +56,6 @@ export default async function handleRequest(
       });
       return;
     }
-
-    await mongoConnect();
 
     const data: number[] = [];
 

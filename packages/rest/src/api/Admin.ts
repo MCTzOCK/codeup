@@ -560,3 +560,17 @@ export async function getOverview(token: string): Promise<IResponse> {
     path: "/api/admin/overview",
   });
 }
+
+export async function getUserAnalytics(options: {
+  token: string;
+  userId: string;
+  detailed?: boolean;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: `/api/admin/analytics/user-summary?userId=${
+      options.userId
+    }&detailed=${options.detailed ? "true" : "false"}`,
+  });
+}

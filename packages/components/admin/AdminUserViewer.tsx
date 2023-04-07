@@ -60,12 +60,14 @@ import {
   FaPen,
   FaUserShield,
   FaUserTag,
+  FaChartLine,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import AccountManager from "@codeup/util/src/AccountManager";
+import { useRouter } from "next/router";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -99,6 +101,37 @@ export default function AdminUserViewer(props: {
   const [editMode, setEditMode] = React.useState(false);
 
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const [analyticsData, setAnalyticsData] = React.useState<{
+    first: {
+      view: string;
+      page: string;
+      browser: string;
+      os: string;
+    };
+    last: {
+      view: string;
+      page: string;
+      browser: string;
+      os: string;
+    };
+    totalViews: number;
+    averageViewsPerDay: number;
+  }>();
+
+  React.useEffect(() => {
+    if (props.user) {
+      REST.Admin.getUserAnalytics({
+        token: AccountManager.getActiveToken(),
+        // @ts-ignore
+        userId: props.user._id,
+      }).then((res) => {
+        setAnalyticsData(res.payload as any);
+      });
+    }
+  }, [props.user]);
+
+  const router = useRouter();
 
   return (
     <>
@@ -305,6 +338,15 @@ export default function AdminUserViewer(props: {
             {!editMode ? (
               <Flex ml={"auto"} direction={["column", "row"]} gap={2}>
                 <IconButton
+                  aria-label={"analytics"}
+                  colorScheme={"pink"}
+                  icon={<FaChartLine />}
+                  onClick={async () => {
+                    // @ts-ignore
+                    router.push("/admin/analytics/" + props.user._id);
+                  }}
+                />
+                <IconButton
                   colorScheme={"red"}
                   aria-label={"delete"}
                   icon={<FaTrash />}
@@ -473,6 +515,7 @@ export default function AdminUserViewer(props: {
                 <Tr>
                   <Th>SSO</Th>
                   <Th>Registrierungsdatum</Th>
+                  <Th>ID</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -484,6 +527,61 @@ export default function AdminUserViewer(props: {
                   </Td>
                   <Td>
                     {new Date(props.user?.createdAt as string).toLocaleString()}
+                  </Td>
+                  <Td>
+                    {
+                      // @ts-ignore
+                      props.user?._id
+                    }
+                  </Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          </Box>
+          <Box mt={4}>
+            <Heading size={"sm"}>Analytics</Heading>
+            <Table variant={"simple"}>
+              <Thead>
+                <Tr>
+                  <Th>Erster Login</Th>
+                  <Th>Letzter Login</Th>
+                  <Th>Besuche</Th>
+                  <Th>&#216;Besuche/Tag</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td>
+                    {new Date(
+                      analyticsData?.first.view as string
+                    ).toLocaleString()}
+                    <br />
+                    <b>Seite:&nbsp;</b>
+                    {analyticsData?.first.page}
+                    <br />
+                    <b>Browser:&nbsp;</b>
+                    {analyticsData?.first.browser}
+                    <br />
+                    <b>OS:&nbsp;</b>
+                    {analyticsData?.first.os}
+                  </Td>
+                  <Td>
+                    {new Date(
+                      analyticsData?.last.view as string
+                    ).toLocaleString()}
+                    <br />
+                    <b>Seite:&nbsp;</b>
+                    {analyticsData?.last.page}
+                    <br />
+                    <b>Browser:&nbsp;</b>
+                    {analyticsData?.last.browser}
+                    <br />
+                    <b>OS:&nbsp;</b>
+                    {analyticsData?.last.os}
+                  </Td>
+                  <Td>{analyticsData?.totalViews}</Td>
+                  <Td>
+                    {Math.round(analyticsData?.averageViewsPerDay as number)}
                   </Td>
                 </Tr>
               </Tbody>

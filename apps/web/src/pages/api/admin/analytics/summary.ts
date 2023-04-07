@@ -84,7 +84,13 @@ export default async function handleRequest(
       totalViews: 0,
     };
 
-    const analytics = await AnalyticsModel.find({});
+    let findObject: any = {};
+
+    if (req.query.userId) {
+      findObject.userId = req.query.userId;
+    }
+
+    const analytics = await AnalyticsModel.find(findObject);
 
     analytics.forEach((a) => {
       data.totalViews++;

@@ -20,10 +20,13 @@ export async function postAnalytics(options: {
   });
 }
 
-export async function getSummary(token: string): Promise<IResponse> {
+export async function getSummary(
+  token: string,
+  userId?: string
+): Promise<IResponse> {
   return await makeRequest({
     method: "GET",
-    path: "/api/admin/analytics/summary",
+    path: `/api/admin/analytics/summary${userId ? `?userId=${userId}` : ""}`,
     token,
   });
 }
