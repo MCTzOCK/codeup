@@ -29,7 +29,7 @@ import {
 } from "@chakra-ui/react";
 import SuperText from "../landingpage/SuperText";
 import PopupManager from "@codeup/web/src/global/PopupManager";
-import { FaSave, FaTrash } from "react-icons/fa";
+import { FaPlus, FaSave, FaTrash } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Handle, Position } from "reactflow";
 import {
@@ -93,6 +93,39 @@ export default function FlowSelectorNode({
         <SuperText>Flows</SuperText>
         {loaded ? (
           <>
+            <Stack mt={6}>
+              <Button
+                colorScheme={"green"}
+                leftIcon={<FaPlus />}
+                onClick={async () => {
+                  const name = await PopupManager.promptAsync({
+                    title: "Neuer Flow",
+                    inputType: "INPUT",
+                    helperText: "Gib einen Namen für den neuen Flow ein",
+                  });
+
+                  if (!name) return;
+
+                  const res = await REST.ToDo.createV2Project({
+                    token: AccountManager.getActiveToken(),
+                    name: name,
+                  });
+
+                  if (res.status !== 200) {
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description:
+                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                    });
+                    return;
+                  }
+
+                  reload();
+                }}
+              >
+                Neuer Flow
+              </Button>
+            </Stack>
             <FormControl mb={2} mt={6} w={"100%"}>
               <AutoComplete
                 suggestWhenEmpty
