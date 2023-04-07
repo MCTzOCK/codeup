@@ -352,9 +352,47 @@ app
 
           res.setHeader("Content-Type", "text/html");
 
+          let resourceEmbedCode = "";
+
+          for (const resource of page.resources) {
+            switch (resource.type.toLowerCase()) {
+              case "css":
+                resourceEmbedCode += `<style>${resource.content}</style>`;
+                break;
+              case "scss":
+                resourceEmbedCode += `<style>${
+                  sass.compileString(resource.content, {
+                    syntax: "scss",
+                  }).css
+                }</style>`;
+                break;
+              case "sass":
+                resourceEmbedCode += `<style>${
+                  sass.compileString(resource.content, {
+                    syntax: "indented",
+                  }).css
+                }</style>`;
+                break;
+              case "javascript":
+                resourceEmbedCode += `<script defer>${resource.content}</script>`;
+                break;
+              case "typescript":
+                resourceEmbedCode += `<script defer>${
+                  ts.transpileModule(resource.content, {
+                    compilerOptions: {
+                      module: ts.ModuleKind.ESNext,
+                    },
+                  }).outputText
+                }</script>`;
+                break;
+              default:
+                break;
+            }
+          }
+
           if (page.type.toLowerCase() === "html") {
             res.statusCode = 200;
-            res.write(page.mainContent);
+            res.write((page.mainContent += resourceEmbedCode));
             res.end();
           } else if (page.type.toLowerCase() === "incode") {
             res.statusCode = 200;
@@ -363,7 +401,7 @@ app
                 page.url
               }</title></head><body><script defer>${InCode.Compiler.compile(
                 page.mainContent
-              )}</script></body></html>`
+              )}</script></body></html>${resourceEmbedCode}`
             );
             res.end();
           }
