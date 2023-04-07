@@ -215,6 +215,13 @@ import {
   updateProject as updateKidsProject,
   getProject as getKidsProject,
 } from "./api/Kids";
+import {
+  createRoad,
+  deleteRoad,
+  getMyRoads,
+  getRoad,
+  updateRoad,
+} from "./api/Roadmap";
 
 const REST = {
   Admin: {
@@ -431,6 +438,13 @@ const REST = {
     createProject: createKidsProject,
     updateProject: updateKidsProject,
     getProject: getKidsProject,
+  },
+  Roadmap: {
+    getMyRoads,
+    createRoad,
+    deleteRoad,
+    updateRoad,
+    getRoad,
   },
 };
 
