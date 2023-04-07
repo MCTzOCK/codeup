@@ -138,7 +138,7 @@ export default function ToDoSelectorNode({
               <AutoComplete
                 suggestWhenEmpty
                 openOnFocus
-                emptyState={"Keine Kurse gefunden"}
+                emptyState={"Keine Listen gefunden"}
                 onChange={async (v: string) => {
                   if (v === "") return;
 
@@ -181,7 +181,7 @@ export default function ToDoSelectorNode({
                 <AutoCompleteInput
                   variant={"filled"}
                   placeholder={"Liste hinzufügen"}
-                  id={"course_ac_input"}
+                  id={"todo_ac_input"}
                   w={"100%"}
                 />
                 <AutoCompleteList backgroundColor={"gray.800"} w={"100%"} p={4}>
@@ -268,11 +268,6 @@ export default function ToDoSelectorNode({
                           }
 
                           setLists(lists.filter((c) => c._id !== l._id));
-                          setAvailableLists(
-                            availableLists.concat({
-                              ...l,
-                            })
-                          );
                         }}
                       />
                     </Flex>

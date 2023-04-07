@@ -53,6 +53,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import CourseSelectorNode from "@codeup/components/roadmap/CourseSelectorNode";
 import ProjectIdeaSelectorNode from "@codeup/components/roadmap/ProjectIdeaSelectorNode";
 import ToDoSelectorNode from "@codeup/components/roadmap/ToDoSelectorNode";
+import FlowSelectorNode from "@codeup/components/roadmap/FlowSelectorNode";
 
 export default function RoadmapViewer() {
   const nodeTypes = useMemo(
@@ -60,6 +61,7 @@ export default function RoadmapViewer() {
       courseSelector: CourseSelectorNode,
       projectIdeaSelector: ProjectIdeaSelectorNode,
       todoSelector: ToDoSelectorNode,
+      flowSelector: FlowSelectorNode,
     }),
     []
   );
@@ -181,10 +183,10 @@ export default function RoadmapViewer() {
           deletable: false,
         },
         {
-          type: "courseSelector",
+          type: "flowSelector",
           id: "node-4",
           position: { x: 1200, y: 300 },
-          data: [],
+          data: roadmap!.linkedFlows!,
           draggable: false,
           style: {
             backgroundColor: "black",
