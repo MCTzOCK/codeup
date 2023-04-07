@@ -42,18 +42,13 @@ export default function NavigationBarMenu(props: {
 
   return (
     <>
-      <Link href={"/course"}>
-        <Button variant={"ghost"} size={"lg"} onClick={props.onClose}>
-          Kurse
-        </Button>
-      </Link>
       <Button
         variant={"ghost"}
         size={"lg"}
         rightIcon={<AiFillCaretDown />}
         onClick={props.onMoreMenuOpen}
       >
-        Tools
+        Angebote
       </Button>
       <Popover>
         <PopoverTrigger>

@@ -11,10 +11,18 @@
 import * as React from "react";
 import { Box, Text } from "@chakra-ui/react";
 
-export default function SuperText(props: { children: React.ReactNode }) {
+export default function SuperText(props: {
+  children: React.ReactNode;
+  fontzSize?: string;
+}) {
   return (
     <>
-      <Text fontWeight="extrabold" fontSize="4xl" mb={2} textAlign={"center"}>
+      <Text
+        fontWeight="extrabold"
+        fontSize={props.fontzSize ? props.fontzSize : "4xl"}
+        mb={2}
+        textAlign={"center"}
+      >
         <Box as="span" display="inline-block" position="relative">
           {props.children}
           <Box

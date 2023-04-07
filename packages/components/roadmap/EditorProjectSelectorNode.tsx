@@ -86,7 +86,14 @@ export default function EditorProjectSelectorNode({
 
   return (
     <>
-      <Box p={6} w={"100%"}>
+      <Box
+        p={6}
+        w={"100%"}
+        borderWidth={"1px"}
+        borderStyle={"solid"}
+        borderRadius={"24px"}
+        borderColor={"blue.300"}
+      >
         <Handle
           type={"target"}
           position={Position.Left}

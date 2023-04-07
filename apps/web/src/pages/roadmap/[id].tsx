@@ -14,9 +14,10 @@ import { useRouter } from "next/router";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
-import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import SuperText from "@codeup/components/landingpage/SuperText";
 import {
   Box,
+  chakra,
   Divider,
   Flex,
   FormControl,
@@ -276,7 +277,24 @@ export default function RoadmapViewer() {
           {roadmap ? (
             <>
               <Box mt={4}></Box>
-              <SuperText>Roadmap: {roadmap.name}</SuperText>
+              <SuperText fontzSize={"5xl"}>
+                Deine Roadmap: {roadmap.name}
+              </SuperText>
+              <chakra.p
+                fontSize={"3xl"}
+                m={6}
+                fontWeight={"extrabold"}
+                textTransform={"uppercase"}
+                transform={"rotate(-15deg) translateY(8rem) translateX(16rem)"}
+                w={"fit-content"}
+                bg={"#F7DE1F"}
+                color={"black"}
+                p={3}
+                borderRadius={"xl"}
+                boxShadow={"xl"}
+              >
+                Von der Idee zum Projekt
+              </chakra.p>
               <Box h={"100vh"} w={"100%"}>
                 <ReactFlow
                   nodeTypes={nodeTypes}
