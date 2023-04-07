@@ -21,7 +21,7 @@ const Roadmap = new mongoose.Schema({
     required: true,
   },
   projectIdea: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "ProjectIdea",
   },
   linkedCourses: {

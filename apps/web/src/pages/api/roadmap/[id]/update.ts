@@ -106,18 +106,16 @@ export default async function handleRequest(
 
     if (update.linkedTodos) {
       for (const todo of update.linkedTodos) {
-        if (!roadmap.linkedTodos.includes(todo)) {
-          const todoX = await TodoListModel.findById(todo);
-          if (!todoX || todoX.owner.toString() !== user._id.toString()) {
-            res.status(403).send({
-              error: "Not allowed",
-            });
-            return;
-          }
-
-          roadmap.linkedTodos.push(todo);
+        const todoX = await TodoListModel.findById(todo);
+        if (!todoX || todoX.owner.toString() !== user._id.toString()) {
+          res.status(403).send({
+            error: "Not allowed",
+          });
+          return;
         }
       }
+
+      roadmap.linkedTodos = update.linkedTodos;
     }
 
     if (update.linkedProject) {
@@ -137,14 +135,6 @@ export default async function handleRequest(
     }
 
     if (update.projectIdea) {
-      const idea = await ProjectIdeaModel.findById(update.projectIdea);
-      if (!idea) {
-        res.status(404).send({
-          error: "Project idea not found",
-        });
-        return;
-      }
-
       roadmap.projectIdea = update.projectIdea;
     }
 

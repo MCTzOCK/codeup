@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/[id]/delete.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/[id]/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/[id]/update.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/create.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/my.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/roadmap/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/Roadmap.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/util/src/models/RoadmapModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/roadmap/[id].tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/roadmap/CourseSelectorNode.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/roadmap/ProjectIdeaSelectorNode.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/components/roadmap/ToDoSelectorNode.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/[id]/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/roadmap/[id]/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/planning/[id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/planning/[id]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/admin/AuthenticateLoadingIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AuthenticateLoadingIndicator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/RoadmapModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/RoadmapModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +77,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "18.7.0",
     "javascript.nodejs.core.library.typings.version": "18.7.0",
-    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/apps/web/src/pages/api/roadmap/[id]",
+    "last_opened_file_path": "P:/Competitions/JuFo/2023_CodeUp/packages/components/roadmap",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -104,11 +106,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\components\roadmap" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\roadmap\[id]" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src\blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\util\src\blockly" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\src\pages\api\todo\lists\[id]\tasks" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src" />

@@ -11,12 +11,15 @@
 import * as React from "react";
 import { Flex, CircularProgress, Heading } from "@chakra-ui/react";
 
-export default function AuthenticateLoadingIndicator(props: { text?: string }) {
+export default function AuthenticateLoadingIndicator(props: {
+  text?: string;
+  inline?: boolean;
+}) {
   return (
     <>
       <Flex
         w={"100%"}
-        h={"100vh"}
+        h={!props.inline ? "100vh" : "fit-content"}
         justifyContent={"center"}
         alignItems={"center"}
         direction={"column"}
