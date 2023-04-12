@@ -32,6 +32,8 @@ import {
   FaChevronRight,
   FaComment,
   FaComments,
+  FaPeopleArrows,
+  FaPeopleCarry,
   FaProjectDiagram,
   FaUser,
   FaUsers,
@@ -41,6 +43,7 @@ import ErrorComponent from "../global/ErrorComponent";
 import { SiWritedotas } from "react-icons/si";
 import Sidebar from "../global/Sidebar";
 import { AiFillDashboard } from "react-icons/ai";
+import { BsPeople } from "react-icons/bs";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -48,64 +51,6 @@ export default function AdminLayout(props: { children: ReactNode }) {
   const [error, setError] = useState("");
 
   const router = useRouter();
-
-  const sections: {
-    title: string;
-    description: string;
-    link: string;
-    icon: ReactNode;
-    withBadge?: boolean;
-  }[] = [
-    {
-      title: "Benutzer",
-      description: "Verwalte alle Benutzer",
-      link: "/admin/users",
-      icon: <FaUser />,
-    },
-    {
-      title: "Forum Profile",
-      description: "Verwalte alle Profile",
-      link: "/admin/profiles",
-      icon: <FaComments />,
-    },
-    {
-      title: "Inhalte",
-      description: "Verwalte alle Inhalte (Kurse, Texte, Videos)",
-      link: "/admin/contents/courses",
-      icon: <FaBookOpen />,
-    },
-    {
-      title: "Analytics",
-      description: "Sieh dir die Aufrufstatistiken an",
-      link: "/admin/analytics",
-      icon: <FaChartBar />,
-    },
-    {
-      title: "Nachrichten",
-      description: "Sieh dir alle Nachrichten an",
-      link: "/admin/contacts",
-      icon: <FaComment />,
-      withBadge: true,
-    },
-    {
-      title: "Zertifikate",
-      description: "Sieh dir alle Zertifikate der Benutzer an",
-      link: "/admin/certificates",
-      icon: <FaCertificate />,
-    },
-    {
-      title: "Projekt Ideen",
-      description: "Sieh dir alle Projekt Ideen an",
-      link: "/admin/project-ideas",
-      icon: <FaProjectDiagram />,
-    },
-    {
-      title: "Blog",
-      description: "Verwalte den Blog",
-      link: "/admin/blog",
-      icon: <SiWritedotas />,
-    },
-  ];
 
   useEffect(() => {
     if (!userLoaded) return;
@@ -221,6 +166,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <SiWritedotas />,
                     onClick: () => {
                       router.push("/admin/blog");
+                    },
+                  },
+                  {
+                    title: "Meinungen",
+                    icon: <BsPeople />,
+                    onClick: () => {
+                      router.push("/admin/testimonials");
                     },
                   },
                 ]}

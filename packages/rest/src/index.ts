@@ -109,6 +109,7 @@ import {
   createContent,
   createCourse,
   createProjectIdea,
+  createTestimonial,
   createText,
   createVideo,
   deleteAccount as deleteAccountA,
@@ -119,6 +120,7 @@ import {
   deleteForumProfile,
   deleteObtainedCertificate,
   deleteProjectIdea,
+  deleteTestimonial,
   deleteText,
   deleteVideo,
   getAllObtainedCertificates,
@@ -141,6 +143,7 @@ import {
   updateBlog,
   updateCourse,
   updateForumProfile,
+  updateTestimonial,
   updateText,
   updateVideo,
 } from "./api/Admin";
@@ -223,6 +226,7 @@ import {
   getRoad,
   updateRoad,
 } from "./api/Roadmap";
+import { getTestimonials } from "./api/Landingpage";
 
 const REST = {
   Admin: {
@@ -266,10 +270,17 @@ const REST = {
     getUserJWT,
     getOverview,
     getUserAnalytics,
+    getTestimonials,
+    createTestimonial,
+    deleteTestimonial,
+    updateTestimonial,
   },
   Blog: {
     getBlog,
     getBlogsB,
+  },
+  Landingpage: {
+    getTestimonials,
   },
   Account: {
     register,

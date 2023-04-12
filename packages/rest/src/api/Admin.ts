@@ -574,3 +574,61 @@ export async function getUserAnalytics(options: {
     }&detailed=${options.detailed ? "true" : "false"}`,
   });
 }
+
+export async function getTestimonials(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/testimonials",
+  });
+}
+
+export async function createTestimonial(options: {
+  token: string;
+  name: string;
+  position: string;
+  company: string;
+  image: string;
+  content: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/testimonials",
+    body: {
+      name: options.name,
+      position: options.position,
+      company: options.company,
+      image: options.image,
+      content: options.content,
+    },
+  });
+}
+
+export async function deleteTestimonial(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/testimonials?id=" + options.id,
+  });
+}
+
+export async function updateTestimonial(options: {
+  token: string;
+  id: string;
+  update: {
+    [key: string]: any;
+  };
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "PUT",
+    token: options.token,
+    path: "/api/admin/testimonials?id=" + options.id,
+    body: {
+      update: options.update,
+    },
+  });
+}
