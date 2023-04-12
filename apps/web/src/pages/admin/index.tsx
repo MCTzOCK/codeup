@@ -9,43 +9,23 @@
  */
 
 import * as React from "react";
+import { ReactElement, useState } from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
 import Head from "next/head";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import {
-  Heading,
-  useToast,
   Box,
   Flex,
-  Text,
-  Button,
-  Link,
-  Icon,
-  Stack,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  StatGroup,
-  SimpleGrid,
   Grid,
-  GridItem,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
+  Heading,
   HStack,
-  Select,
-  VStack,
+  Stack,
+  Text,
+  useToast,
 } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
-import { ReactElement, useState } from "react";
 import {
   ArcElement,
   BarElement,
@@ -58,15 +38,12 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { Bar, Pie } from "react-chartjs-2";
 import {
   FaChartBar,
   FaCheck,
   FaCode,
   FaComment,
-  FaDiagnoses,
   FaPeopleArrows,
-  FaPlus,
   FaProjectDiagram,
   FaSitemap,
   FaUser,
