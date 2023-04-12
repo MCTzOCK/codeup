@@ -73,7 +73,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       projects: {
         count: await EditorProjectModel.countDocuments(),
         newProjects: await EditorProjectModel.countDocuments({
-          createdAt: {
+          created_at: {
             $gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24),
           },
         }),

@@ -40,11 +40,63 @@ import {
   Th,
   Td,
   TableCaption,
+  HStack,
+  Select,
+  VStack,
 } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { ReactElement, useState } from "react";
+import {
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js";
+import { Bar, Pie } from "react-chartjs-2";
+import {
+  FaChartBar,
+  FaCheck,
+  FaCode,
+  FaComment,
+  FaDiagnoses,
+  FaPeopleArrows,
+  FaPlus,
+  FaProjectDiagram,
+  FaSitemap,
+  FaUser,
+} from "react-icons/fa";
+
+const colors = [
+  "green.300",
+  "blue.400",
+  "purple.300",
+  "red.300",
+  "teal.600",
+  "pink.400",
+  "orange.400",
+];
 
 export default function Index() {
+  ChartJS.register(
+    ArcElement,
+    Tooltip,
+    Legend,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    PointElement,
+    LineElement,
+    Title
+  );
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const [views, setViews] = useState<number>(0);
 
   const [stats, setStats] = React.useState<{
     users: {
@@ -71,16 +123,11 @@ export default function Index() {
     };
     todo: {
       count: number;
-      newTodos: number;
     };
     flowCharts: {
       count: number;
-      newFlowCharts: number;
     };
   }>();
-
-  const toast = useToast();
-
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
       if (res.status === 200) {
@@ -95,7 +142,22 @@ export default function Index() {
         });
       }
     });
+    REST.Analytics.getSummary(AccountManager.getActiveToken()).then((res) => {
+      if (res.status === 200) {
+        setViews(res.payload.data.totalViews);
+      } else {
+        toast({
+          title: "Fehler",
+          description: "Die Statistiken konnten nicht geladen werden.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    });
   }, []);
+
+  const toast = useToast();
 
   return (
     <>
@@ -107,115 +169,131 @@ export default function Index() {
           w={"100%"}
           minH={"100vh"}
           h={"fit-content"}
-          alignItems={"center"}
-          justifyContent={"center"}
           direction={"column"}
+          mt={8}
         >
           <SuperText>Dashboard</SuperText>
-          <Flex w={"100%"} justifyContent={"center"}>
-            <Flex
-              p={4}
-              textAlign={"center"}
-              direction={"column"}
-              alignItems={"center"}
-              justifyContent={"center"}
+          <Stack>
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
             >
-              <Box mt={10}>
-                <Heading as="h2" size="lg">
-                  Generell
-                </Heading>
-                <Box mt={5}>
-                  <Flex gap={8} alignItems={"center"} justifyContent={"center"}>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Benutzer</StatLabel>
-                      <StatNumber>{stats?.users.count}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.users.newUsers} neue Benutzer
-                      </StatHelpText>
-                    </Stat>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Organisationen</StatLabel>
-                      <StatNumber>{stats?.orgs.count}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.orgs.newOrgs} neue Organisationen
-                      </StatHelpText>
-                    </Stat>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Projekte</StatLabel>
-                      <StatNumber>{stats?.projects.count}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.projects.newProjects} neue Projekte
-                      </StatHelpText>
-                    </Stat>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Projektseiten</StatLabel>
-                      <StatNumber>{stats?.projects.projectPages}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.projects.publishedProjects} veröffentlichte
-                        Projekte
-                      </StatHelpText>
-                    </Stat>
-                  </Flex>
-                </Box>
-              </Box>
-              <Box mt={10}>
-                <Heading as="h2" size="lg">
-                  Forum
-                </Heading>
-                <Box mt={5}>
-                  <Flex gap={8} alignItems={"center"} justifyContent={"center"}>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Profile</StatLabel>
-                      <StatNumber>{stats?.forum.profiles}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.forum.newProfiles} neue Profile
-                      </StatHelpText>
-                    </Stat>
-                    <Stat flex={"100%"}>
-                      <StatLabel>Posts</StatLabel>
-                      <StatNumber>{stats?.forum.posts}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.forum.newPosts} neue Posts
-                      </StatHelpText>
-                    </Stat>
-                  </Flex>
-                </Box>
-              </Box>
-              <Box mt={10}>
-                <Heading as="h2" size="lg">
-                  Planung
-                </Heading>
-                <Box mt={5}>
-                  <Flex gap={8} alignItems={"center"} justifyContent={"center"}>
-                    <Stat flex={"100%"}>
-                      <StatLabel>ToDos</StatLabel>
-                      <StatNumber>{stats?.todo.count}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.todo.newTodos} neue ToDos
-                      </StatHelpText>
-                    </Stat>
-                    <Stat flex={"100%"}>
-                      <StatLabel>FlowCharts</StatLabel>
-                      <StatNumber>{stats?.flowCharts.count}</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        {stats?.flowCharts.newFlowCharts} neue FlowCharts
-                      </StatHelpText>
-                    </Stat>
-                  </Flex>
-                </Box>
-              </Box>
-            </Flex>
-          </Flex>
+              <DashCard
+                icon={<FaUser />}
+                title={"benutzer"}
+                number={stats?.users.count!.toString() as string}
+                subtitle={`${stats?.users.newUsers} neue Benutzer`}
+                color={"green.300"}
+              />
+              <DashCard
+                icon={<FaChartBar />}
+                title={"Aufrufe"}
+                number={views!.toString() as string}
+                color={"blue.400"}
+              />
+              <DashCard
+                icon={<FaSitemap />}
+                title={"organisationen"}
+                number={stats?.orgs.count!.toString() as string}
+                subtitle={`${stats?.orgs.newOrgs} neue Organisationen`}
+                color={"purple.300"}
+              />
+              <DashCard
+                icon={<FaCode />}
+                title={"projekte"}
+                number={stats?.projects.count!.toString() as string}
+                subtitle={`${stats?.projects.newProjects} neue Projekte`}
+                color={"red.300"}
+              />
+              <DashCard
+                icon={<FaPeopleArrows />}
+                title={"profile"}
+                number={stats?.forum.profiles!.toString() as string}
+                subtitle={`${stats?.forum.newProfiles} neue Profile`}
+                color={"teal.600"}
+              />
+              <DashCard
+                icon={<FaComment />}
+                title={"posts"}
+                number={stats?.forum.posts!.toString() as string}
+                subtitle={`${stats?.forum.newPosts} neue Posts`}
+                color={"pink.400"}
+              />
+              <DashCard
+                icon={<FaCheck />}
+                title={"todos"}
+                number={stats?.todo.count!.toString() as string}
+                color={"blue.400"}
+              />
+              <DashCard
+                icon={<FaProjectDiagram />}
+                title={"flows"}
+                number={stats?.flowCharts.count!.toString() as string}
+                color={"orange.400"}
+              />
+            </Grid>
+          </Stack>
         </Flex>
       </AdminLayout>
     </>
   );
 }
+
+const DashCard = (props: {
+  icon: ReactElement;
+  title: string;
+  number: string;
+  subtitle?: string;
+  color: string;
+}) => {
+  return (
+    <>
+      <Box
+        h={"100%"}
+        w={"100%"}
+        boxShadow={"xl"}
+        backgroundColor={props.color}
+        rounded={"xl"}
+        maxW={"600px"}
+        minW={"fit-content"}
+      >
+        <HStack>
+          <Heading size={"2xl"} p={8}>
+            {props.icon}
+          </Heading>
+          <Box borderLeft={"3px dashed black"} pl={8} pt={4} pb={4} pr={4}>
+            <Text
+              fontSize={"md"}
+              textAlign={"left"}
+              color={"gray.600"}
+              fontWeight={"extrabold"}
+            >
+              {props.title.toUpperCase()}
+            </Text>
+            <Heading size={"xl"} color={"white"}>
+              {props.number}
+            </Heading>
+
+            {props.subtitle && (
+              <>
+                <Text
+                  fontSize={"md"}
+                  textAlign={"left"}
+                  color={"gray.600"}
+                  fontWeight={"extrabold"}
+                >
+                  {props.subtitle}
+                </Text>
+              </>
+            )}
+          </Box>
+        </HStack>
+      </Box>
+    </>
+  );
+};
