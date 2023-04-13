@@ -710,3 +710,11 @@ export async function getTodos(token: string): Promise<IResponse> {
     path: "/api/admin/todos",
   });
 }
+
+export async function getSnippets(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/snippets",
+  });
+}

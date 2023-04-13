@@ -105,7 +105,7 @@ export default async function handleRequest(
             return;
           }
 
-          if (snippet.username !== user.username) {
+          if (snippet.username !== user.username && user.role !== "admin") {
             res.status(403).json({
               error: "You are not allowed to access this snippet",
             });
@@ -132,7 +132,7 @@ export default async function handleRequest(
             return;
           }
 
-          if (snippet.username !== user.username) {
+          if (snippet.username !== user.username && user.role !== "admin") {
             res.status(403).json({
               error: "You are not allowed to access this snippet",
             });
