@@ -149,6 +149,7 @@ import {
   getOrgs as getOrgsAdmin,
   getNewsletterMembers,
   sendNewsletter,
+  removeFromDiscovery,
 } from "./api/Admin";
 
 import {
@@ -281,6 +282,7 @@ const REST = {
     getOrgs: getOrgsAdmin,
     getNewsletterMembers,
     sendNewsletter,
+    removeFromDiscovery,
   },
   Blog: {
     getBlog,

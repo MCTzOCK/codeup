@@ -667,3 +667,14 @@ export async function sendNewsletter(options: {
     },
   });
 }
+
+export async function removeFromDiscovery(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: `/api/admin/discovery/delete?id=${options.id}`,
+  });
+}

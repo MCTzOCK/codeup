@@ -46,6 +46,7 @@ import { SiWritedotas } from "react-icons/si";
 import Sidebar from "../global/Sidebar";
 import { AiFillDashboard } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
+import { BiCodeBlock } from "react-icons/bi";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -189,6 +190,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaNewspaper />,
                     onClick: () => {
                       router.push("/admin/newsletter");
+                    },
+                  },
+                  {
+                    title: "Discovery",
+                    icon: <BiCodeBlock />,
+                    onClick: () => {
+                      router.push("/admin/discovery");
                     },
                   },
                 ]}
