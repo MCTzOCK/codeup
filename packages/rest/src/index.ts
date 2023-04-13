@@ -150,6 +150,7 @@ import {
   getNewsletterMembers,
   sendNewsletter,
   removeFromDiscovery,
+  getFlows,
 } from "./api/Admin";
 
 import {
@@ -283,6 +284,7 @@ const REST = {
     getNewsletterMembers,
     sendNewsletter,
     removeFromDiscovery,
+    getFlows,
   },
   Blog: {
     getBlog,

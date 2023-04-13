@@ -678,3 +678,11 @@ export async function removeFromDiscovery(options: {
     path: `/api/admin/discovery/delete?id=${options.id}`,
   });
 }
+
+export async function getFlows(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/flows",
+  });
+}

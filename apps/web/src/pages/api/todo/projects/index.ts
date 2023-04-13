@@ -59,7 +59,10 @@ export default async function handleRequest(
           if (req.query.id) {
             const project = await ToDoProjectModel.findById(req.query.id);
 
-            if (project.owner.toString() !== user._id.toString()) {
+            if (
+              project.owner.toString() !== user._id.toString() &&
+              user.role !== "admin"
+            ) {
               res.status(400).json({
                 error: "Invalid token",
               });
@@ -104,7 +107,10 @@ export default async function handleRequest(
           const project = await ToDoProjectModel.findById(req.query.id);
 
           if (project) {
-            if (project.owner.toString() !== user._id.toString()) {
+            if (
+              project.owner.toString() !== user._id.toString() &&
+              user.role !== "admin"
+            ) {
               res.status(400).json({
                 error: "Invalid token",
               });
@@ -140,7 +146,10 @@ export default async function handleRequest(
 
           const project = await ToDoProjectModel.findById(req.query.id);
 
-          if (project.owner.toString() !== user._id.toString()) {
+          if (
+            project.owner.toString() !== user._id.toString() &&
+            user.role !== "admin"
+          ) {
             res.status(400).json({
               error: "Invalid token",
             });
