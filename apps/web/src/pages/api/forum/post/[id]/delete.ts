@@ -68,7 +68,7 @@ export default async function handler(
       return;
     }
 
-    if (post.user.toString() !== user._id.toString()) {
+    if (post.user.toString() !== user._id.toString() && user.role !== "admin") {
       res.status(401).json({
         error: "Unauthorized",
       });

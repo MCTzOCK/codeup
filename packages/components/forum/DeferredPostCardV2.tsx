@@ -48,7 +48,10 @@ export default function DeferredPostCardV2(props: {
         <PostCardV2
           post={props.post}
           profile={profile}
-          postOwner={userInfo && userInfo.username === props.post.username}
+          postOwner={
+            userInfo.username === props.post.username ||
+            userInfo.role === "admin"
+          }
           reloadPosts={props.reloadPosts}
           userId={userInfo.id}
         />
