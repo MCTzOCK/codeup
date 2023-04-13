@@ -37,6 +37,7 @@ import {
   FaPeopleArrows,
   FaPeopleCarry,
   FaProjectDiagram,
+  FaRocket,
   FaSitemap,
   FaUser,
   FaUsers,
@@ -212,6 +213,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaChild />,
                     onClick: () => {
                       router.push("/admin/kids");
+                    },
+                  },
+                  {
+                    title: "Roadmaps",
+                    icon: <FaRocket />,
+                    onClick: () => {
+                      router.push("/admin/roads");
                     },
                   },
                 ]}

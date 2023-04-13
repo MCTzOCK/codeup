@@ -64,6 +64,13 @@ export default async function handleRequest(
       return;
     }
 
+    if (roadmap.owner !== user._id && user.role !== "admin") {
+      res.status(401).send({
+        error: "Not authorized",
+      });
+      return;
+    }
+
     res.status(200).send({
       roadmap,
       success: true,

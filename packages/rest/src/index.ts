@@ -152,6 +152,7 @@ import {
   removeFromDiscovery,
   getFlows,
   getKidsProjects as getKidsProjectsAdmin,
+  getRoads,
 } from "./api/Admin";
 
 import {
@@ -287,6 +288,7 @@ const REST = {
     removeFromDiscovery,
     getFlows,
     getKidsProjects: getKidsProjectsAdmin,
+    getRoads,
   },
   Blog: {
     getBlog,

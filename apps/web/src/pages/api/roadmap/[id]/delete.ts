@@ -64,7 +64,10 @@ export default async function handleRequest(
       return;
     }
 
-    if (roadmap.owner.toString() !== user._id.toString()) {
+    if (
+      roadmap.owner.toString() !== user._id.toString() &&
+      user.role !== "admin"
+    ) {
       res.status(403).send({
         error: "Not allowed",
       });

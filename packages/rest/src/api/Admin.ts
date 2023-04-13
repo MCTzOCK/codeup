@@ -694,3 +694,11 @@ export async function getKidsProjects(token: string): Promise<IResponse> {
     path: "/api/admin/kids",
   });
 }
+
+export async function getRoads(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/roads",
+  });
+}
