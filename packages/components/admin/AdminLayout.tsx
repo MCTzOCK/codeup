@@ -28,6 +28,7 @@ import {
   FaBookOpen,
   FaCertificate,
   FaChartBar,
+  FaCheckSquare,
   FaChevronLeft,
   FaChevronRight,
   FaChild,
@@ -47,7 +48,7 @@ import ErrorComponent from "../global/ErrorComponent";
 import { SiWritedotas } from "react-icons/si";
 import Sidebar from "../global/Sidebar";
 import { AiFillDashboard } from "react-icons/ai";
-import { BsPeople } from "react-icons/bs";
+import { BsPeople, BsCheck2Square } from "react-icons/bs";
 import { BiCodeBlock } from "react-icons/bi";
 
 export default function AdminLayout(props: { children: ReactNode }) {
@@ -220,6 +221,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaRocket />,
                     onClick: () => {
                       router.push("/admin/roads");
+                    },
+                  },
+                  {
+                    title: "ToDo",
+                    icon: <BsCheck2Square />,
+                    onClick: () => {
+                      router.push("/admin/todos");
                     },
                   },
                 ]}

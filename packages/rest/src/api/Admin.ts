@@ -702,3 +702,11 @@ export async function getRoads(token: string): Promise<IResponse> {
     path: "/api/admin/roads",
   });
 }
+
+export async function getTodos(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/todos",
+  });
+}

@@ -64,7 +64,7 @@ export default async function handleRequest(
         return;
       }
 
-      if (!list.owner.equals(user._id)) {
+      if (!list.owner.equals(user._id) && user.role !== "admin") {
         res.status(400).json({
           error: "Invalid list",
         });

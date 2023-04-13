@@ -85,13 +85,7 @@ export default function GridLayout(props: {
         </Flex>
       )}
       <Grid
-        templateColumns={[
-          "repeat(1, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(3, 1fr)",
-          "repeat(4, 1fr)",
-          "repeat(5, 1fr)",
-        ]}
+        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}
         gap={6}
         p={4}
         mt={"2rem"}

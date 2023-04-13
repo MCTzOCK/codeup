@@ -153,6 +153,7 @@ import {
   getFlows,
   getKidsProjects as getKidsProjectsAdmin,
   getRoads,
+  getTodos,
 } from "./api/Admin";
 
 import {
@@ -289,6 +290,7 @@ const REST = {
     getFlows,
     getKidsProjects: getKidsProjectsAdmin,
     getRoads,
+    getTodos,
   },
   Blog: {
     getBlog,
