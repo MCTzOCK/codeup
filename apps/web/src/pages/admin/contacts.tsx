@@ -31,6 +31,7 @@ import { FiMail } from "react-icons/fi";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import AdminUserContact from "@codeup/components/admin/AdminUserContact";
 
 export default function Contacts() {
   const [messages, setMessages] = React.useState<
@@ -194,61 +195,13 @@ export default function Contacts() {
             />
           </Box>
         </Flex>
-        <CodeUpModal
+        <AdminUserContact
           onOpen={onOpen}
-          onClose={onClose}
           isOpen={isOpen}
+          onClose={onClose}
           title={"Nachricht an " + selected}
-          customSize={"md"}
-        >
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-
-              const form = e.target as HTMLFormElement;
-
-              const data = new FormData(form);
-
-              const message = data.get("message") as string;
-
-              const res = await REST.Admin.contactUser({
-                token: localStorage.getItem("token") as string,
-                username: selected,
-                message,
-              });
-
-              if (res.status === 200) {
-                toast({
-                  title: "Erfolgreich",
-                  description: "Nachricht gesendet",
-                  status: "success",
-                  duration: 1500,
-                  isClosable: true,
-                  position: "bottom-right",
-                });
-                onClose();
-              } else {
-                toast({
-                  title: "Fehler",
-                  description:
-                    "Es ist ein Fehler aufgetreten: " + res.payload.error,
-                  status: "error",
-                  duration: 1500,
-                  isClosable: true,
-                  position: "bottom-right",
-                });
-              }
-            }}
-          >
-            <FormControl>
-              <FormLabel>Nachricht</FormLabel>
-              <Textarea placeholder={"Nachricht"} name={"message"} />
-            </FormControl>
-            <Button colorScheme={"blue"} mt={"2rem"} type={"submit"}>
-              Senden
-            </Button>
-          </form>
-        </CodeUpModal>
+          username={selected}
+        />
       </AdminLayout>
     </>
   );

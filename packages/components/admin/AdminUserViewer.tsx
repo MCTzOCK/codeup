@@ -46,6 +46,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   FaCheck,
@@ -68,6 +69,8 @@ import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import AccountManager from "@codeup/util/src/AccountManager";
 import { useRouter } from "next/router";
+import { FiMail } from "react-icons/all";
+import AdminUserContact from "./AdminUserContact";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -118,6 +121,8 @@ export default function AdminUserViewer(props: {
     totalViews: number;
     averageViewsPerDay: number;
   }>();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   React.useEffect(() => {
     if (props.user) {
@@ -337,6 +342,12 @@ export default function AdminUserViewer(props: {
             </Box>
             {!editMode ? (
               <Flex ml={"auto"} direction={["column", "row"]} gap={2}>
+                <IconButton
+                  aria-label={"message"}
+                  icon={<FiMail />}
+                  colorScheme={"blue"}
+                  onClick={onOpen}
+                />
                 <IconButton
                   aria-label={"analytics"}
                   colorScheme={"pink"}
@@ -589,6 +600,13 @@ export default function AdminUserViewer(props: {
           </Box>
         </Box>
       </CodeUpModal>
+      <AdminUserContact
+        onOpen={onOpen}
+        isOpen={isOpen}
+        onClose={onClose}
+        title={"Nachricht an " + (props.user ? props.user.username : "")}
+        username={props.user ? props.user.username : ""}
+      />
     </>
   );
 }
