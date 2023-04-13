@@ -14,6 +14,7 @@ import {
   Button,
   chakra,
   Divider,
+  Flex,
   Heading,
   HStack,
   Link,
@@ -23,15 +24,17 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
+import Newsletter from "./Newsletter";
 
 const Footer = () => {
   return (
     <Box w={"100%"} backgroundColor={"black"}>
-      <Box p={{ base: 5, md: 8 }} maxW="5xl" marginInline="auto">
+      <Box p={{ base: 5, md: 8 }} maxW="7xl" marginInline="auto">
         <Stack
           spacing={{ base: 8, md: 0 }}
           justifyContent="space-between"
           direction={{ base: "column", md: "row" }}
+          gap={24}
         >
           <Box maxW="300px">
             <Heading
@@ -46,6 +49,7 @@ const Footer = () => {
               Made with ❤ and ☕ by Ben Siebert
             </Text>
           </Box>
+          <Newsletter />
           <HStack
             spacing={8}
             display={"flex"}

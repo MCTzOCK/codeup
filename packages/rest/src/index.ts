@@ -228,6 +228,7 @@ import {
   updateRoad,
 } from "./api/Roadmap";
 import { getTestimonials } from "./api/Landingpage";
+import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
 
 const REST = {
   Admin: {
@@ -460,6 +461,11 @@ const REST = {
     deleteRoad,
     updateRoad,
     getRoad,
+  },
+  Newsletter: {
+    subscribe,
+    unsubscribe,
+    subscribed,
   },
 };
 
