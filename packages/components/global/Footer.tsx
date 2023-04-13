@@ -48,8 +48,9 @@ const Footer = () => {
           </Box>
           <HStack
             spacing={8}
-            display={{ base: "none", sm: "flex" }}
+            display={"flex"}
             justifyContent={{ sm: "space-between", md: "normal" }}
+            direction={{ base: "column", md: "row" }}
           >
             <VStack spacing={4} alignItems="flex-start">
               <Text fontSize="md" fontWeight="bold">
