@@ -32,6 +32,7 @@ import {
   FaChevronRight,
   FaComment,
   FaComments,
+  FaNewspaper,
   FaPeopleArrows,
   FaPeopleCarry,
   FaProjectDiagram,
@@ -181,6 +182,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaSitemap />,
                     onClick: () => {
                       router.push("/admin/orgs");
+                    },
+                  },
+                  {
+                    title: "Newsletter",
+                    icon: <FaNewspaper />,
+                    onClick: () => {
+                      router.push("/admin/newsletter");
                     },
                   },
                 ]}

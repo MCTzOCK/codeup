@@ -182,7 +182,7 @@ export default function UserManagement() {
                       p={4}
                     >
                       <Box flex={"100%"}>
-                        <SuperText>Benutzerverwalung</SuperText>
+                        <SuperText>Benutzer</SuperText>
                       </Box>
                       <Button
                         onClick={() => {

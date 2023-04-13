@@ -187,6 +187,7 @@ export default function UserViewer() {
   return (
     <>
       <AdminLayout>
+        <Box mt={8}></Box>
         <SuperText>Analytics</SuperText>
         {!loaded || !user ? (
           <>

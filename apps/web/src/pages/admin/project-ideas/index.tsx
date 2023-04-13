@@ -15,6 +15,7 @@ import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import {
   Badge,
+  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -39,6 +40,7 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import Head from "next/head";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Editor() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -111,14 +113,12 @@ export default function Editor() {
       <AdminLayout>
         <Flex
           w={"100%"}
-          mt={"2rem"}
           alignItems={"center"}
           justifyContent={"center"}
           direction={"column"}
         >
-          <Heading size={"2xl"} textAlign={"center"} mt={"2rem"}>
-            Projektideen
-          </Heading>
+          <Box mt={8}></Box>
+          <SuperText>Projektideen</SuperText>
           <Input
             placeholder={"Suche nach Projektideen"}
             value={query}

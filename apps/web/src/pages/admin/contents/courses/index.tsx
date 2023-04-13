@@ -44,6 +44,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import Head from "next/head";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -82,6 +83,8 @@ export default function Index() {
       </Head>
       <AdminLayout>
         <AdminContentsLayout>
+          <Box mt={8}></Box>
+          <SuperText>Kurse</SuperText>
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {courses.map((course) => (
               <>

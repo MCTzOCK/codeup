@@ -19,6 +19,7 @@ import ForumProfileModel from "@codeup/util/dist/models/ForumProfileModel";
 import ForumPostModel from "@codeup/util/dist/models/ForumPostModel";
 import TodoListModel from "@codeup/util/dist/models/TodoListModel";
 import ToDoProjectModel from "@codeup/util/dist/models/ToDoProjectModel";
+import NewsletterModel from "@codeup/util/dist/models/NewsletterModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
@@ -114,6 +115,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           },
         }),
       },
+      newsletterMembers: await NewsletterModel.countDocuments(),
     };
 
     res.status(200).send(stats);

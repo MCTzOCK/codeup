@@ -43,6 +43,7 @@ import {
   FaCheck,
   FaCode,
   FaComment,
+  FaNewspaper,
   FaPeopleArrows,
   FaProjectDiagram,
   FaSitemap,
@@ -104,6 +105,7 @@ export default function Index() {
     flowCharts: {
       count: number;
     };
+    newsletterMembers: number;
   }>();
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
@@ -212,6 +214,12 @@ export default function Index() {
                 title={"flows"}
                 number={stats?.flowCharts.count!.toString() as string}
                 color={"orange.400"}
+              />
+              <DashCard
+                icon={<FaNewspaper />}
+                title={"newsletter"}
+                number={stats?.newsletterMembers!.toString() as string}
+                color={"green.300"}
               />
             </Grid>
           </Stack>

@@ -30,6 +30,7 @@ import { FaTrash } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import Head from "next/head";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Contacts() {
   const [messages, setMessages] = React.useState<
@@ -142,16 +143,8 @@ export default function Contacts() {
         <title>Nachrichten - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Heading
-          as="h1"
-          size="2xl"
-          fontWeight="bold"
-          textAlign="center"
-          mt={10}
-          mb={10}
-        >
-          Nachrichten
-        </Heading>
+        <Box mt={8}></Box>
+        <SuperText>Nachrichten</SuperText>
         <Flex justifyContent={"center"} w={"100%"}>
           <Box maxW={"75%"} w={"100%"}>
             <DataTable

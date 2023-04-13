@@ -34,6 +34,7 @@ import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import Builder from "../../../special-components/Builder";
 import Head from "next/head";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -89,9 +90,8 @@ export default function NewContents() {
         <AdminContentsLayout>
           <>
             <Flex flexDir="column" width="100%" p={"5rem"}>
-              <Heading size="lg" mb={"2rem"} textAlign={"left"}>
-                Neuer Inhalt
-              </Heading>
+              <Box mt={8}></Box>
+              <SuperText>Kurse</SuperText>
               <Steps size={"lg"} activeStep={activeStep}>
                 {steps.map(({ label }, index) => (
                   <Step label={label} key={label} mb={"2rem"}>

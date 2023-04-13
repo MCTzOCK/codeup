@@ -640,3 +640,30 @@ export async function getOrgs(token: string): Promise<IResponse> {
     path: "/api/admin/orgs",
   });
 }
+
+export async function getNewsletterMembers(options: {
+  token: string;
+  count?: boolean;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: `/api/admin/newsletter/members${options.count ? "?count=true" : ""}`,
+  });
+}
+
+export async function sendNewsletter(options: {
+  token: string;
+  title: string;
+  content: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/newsletter",
+    body: {
+      title: options.title,
+      content: options.content,
+    },
+  });
+}

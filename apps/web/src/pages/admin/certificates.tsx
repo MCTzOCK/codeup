@@ -26,6 +26,7 @@ import DataTable from "@codeup/components/extra/DataTable";
 import AdminProfileViewer from "@codeup/components/admin/AdminProfileViewer";
 import Head from "next/head";
 import * as React from "react";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -91,18 +92,9 @@ export default function Certificates() {
         <title>Zertifikate - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
+        <Box mt={8}></Box>
+        <SuperText>Zertifikate</SuperText>
         <Flex w={"100%"} minH={"100vh"} h="fit-content" direction={"column"}>
-          <Flex
-            w={"100%"}
-            direction={"row"}
-            justify={"space-between"}
-            alignItems={"center"}
-            p={"2rem"}
-          >
-            <Heading textAlign={"center"} size={"lg"} mt={4} flex={"100%"}>
-              Zertifikatverwaltung
-            </Heading>
-          </Flex>
           <Flex
             w={"100%"}
             h={"100%"}

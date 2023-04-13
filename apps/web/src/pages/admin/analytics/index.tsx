@@ -177,6 +177,7 @@ export default function Index() {
         <title>Analytics - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
+        <Box mt={8}></Box>
         <SuperText>Analytics</SuperText>
         <Grid
           templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}

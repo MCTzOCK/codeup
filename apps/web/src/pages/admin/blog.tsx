@@ -33,12 +33,14 @@ import {
   HStack,
   ButtonGroup,
   Button,
+  Box,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import Editor from "@monaco-editor/react";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Blog() {
   const [blogs, setBlogs] = React.useState<
@@ -285,9 +287,8 @@ export default function Blog() {
               </Stack>
             </CodeUpModal>
 
-            <Heading size={"2xl"} textAlign={"center"} mt={"2rem"} mb={"2rem"}>
-              Blog
-            </Heading>
+            <Box mt={8}></Box>
+            <SuperText>Blog</SuperText>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Input
                 w={["75%", "25%"]}

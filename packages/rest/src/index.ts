@@ -147,6 +147,8 @@ import {
   updateText,
   updateVideo,
   getOrgs as getOrgsAdmin,
+  getNewsletterMembers,
+  sendNewsletter,
 } from "./api/Admin";
 
 import {
@@ -277,6 +279,8 @@ const REST = {
     deleteTestimonial,
     updateTestimonial,
     getOrgs: getOrgsAdmin,
+    getNewsletterMembers,
+    sendNewsletter,
   },
   Blog: {
     getBlog,
