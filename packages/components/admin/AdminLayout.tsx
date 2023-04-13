@@ -30,6 +30,7 @@ import {
   FaChartBar,
   FaChevronLeft,
   FaChevronRight,
+  FaChild,
   FaComment,
   FaComments,
   FaNewspaper,
@@ -204,6 +205,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaProjectDiagram />,
                     onClick: () => {
                       router.push("/admin/flows");
+                    },
+                  },
+                  {
+                    title: "Kids",
+                    icon: <FaChild />,
+                    onClick: () => {
+                      router.push("/admin/kids");
                     },
                   },
                 ]}

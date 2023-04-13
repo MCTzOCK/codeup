@@ -151,6 +151,7 @@ import {
   sendNewsletter,
   removeFromDiscovery,
   getFlows,
+  getKidsProjects as getKidsProjectsAdmin,
 } from "./api/Admin";
 
 import {
@@ -285,6 +286,7 @@ const REST = {
     sendNewsletter,
     removeFromDiscovery,
     getFlows,
+    getKidsProjects: getKidsProjectsAdmin,
   },
   Blog: {
     getBlog,

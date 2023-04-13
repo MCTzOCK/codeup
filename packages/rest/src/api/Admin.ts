@@ -686,3 +686,11 @@ export async function getFlows(token: string): Promise<IResponse> {
     path: "/api/admin/flows",
   });
 }
+
+export async function getKidsProjects(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/kids",
+  });
+}

@@ -63,7 +63,10 @@ export default async function handleRequest(
         return;
       }
 
-      if (project.owner.toString() !== user._id.toString()) {
+      if (
+        project.owner.toString() !== user._id.toString() &&
+        user.role !== "admin"
+      ) {
         res.status(401).json({
           error: "Unauthorized",
         });
@@ -116,7 +119,10 @@ export default async function handleRequest(
         return;
       }
 
-      if (project.owner.toString() !== user._id.toString()) {
+      if (
+        project.owner.toString() !== user._id.toString() &&
+        user.role !== "admin"
+      ) {
         res.status(401).json({
           error: "Unauthorized",
         });
@@ -157,7 +163,10 @@ export default async function handleRequest(
         return;
       }
 
-      if (project.owner.toString() !== user._id.toString()) {
+      if (
+        project.owner.toString() !== user._id.toString() &&
+        user.role !== "admin"
+      ) {
         res.status(401).json({
           error: "Unauthorized",
         });
