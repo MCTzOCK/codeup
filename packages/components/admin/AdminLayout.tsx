@@ -35,6 +35,7 @@ import {
   FaPeopleArrows,
   FaPeopleCarry,
   FaProjectDiagram,
+  FaSitemap,
   FaUser,
   FaUsers,
 } from "react-icons/fa";
@@ -173,6 +174,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <BsPeople />,
                     onClick: () => {
                       router.push("/admin/testimonials");
+                    },
+                  },
+                  {
+                    title: "Organisationen",
+                    icon: <FaSitemap />,
+                    onClick: () => {
+                      router.push("/admin/orgs");
                     },
                   },
                 ]}

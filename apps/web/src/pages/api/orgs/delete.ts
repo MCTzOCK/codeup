@@ -57,11 +57,14 @@ export default async function handleRequest(
 
           try {
             const org = await OrgModel.findOne({
-              owner: user._id,
               name: req.body.name,
             });
 
-            if (org) await org.remove();
+            if (
+              (org && org.owner.toString() === user._id.toString()) ||
+              user.role === "admin"
+            )
+              org.remove();
 
             res.status(200).json({
               success: true,

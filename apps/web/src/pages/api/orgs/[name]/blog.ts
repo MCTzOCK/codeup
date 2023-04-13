@@ -56,6 +56,8 @@ export default async function handleRequest(
           permissionLevel = 2;
         } else if (org.members.includes(user._id.toString())) {
           permissionLevel = 1;
+        } else if (user.role === "admin") {
+          permissionLevel = 2;
         }
 
         if (permissionLevel < 1) throw new Error("Permission denied");

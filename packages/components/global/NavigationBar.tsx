@@ -11,6 +11,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
+  Badge,
   Box,
   Divider,
   Drawer,
@@ -29,6 +30,7 @@ import {
   InputLeftElement,
   Link as ChakraLink,
   Text,
+  Tooltip,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -55,6 +57,7 @@ import MenuButtons from "./MenuButtons";
 import CodeUpModal from "../codeup/CodeUpModal";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import SuperText from "../landingpage/SuperText";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();
@@ -73,12 +76,7 @@ export default function NavigationBar() {
 
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const {
-    isOpen: isLogoutOpen,
-    onOpen: onLogoutOpen,
-    onClose: onLogoutClose,
-  } = useDisclosure();
+  const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   const router = useRouter();
 
@@ -266,7 +264,13 @@ export default function NavigationBar() {
                 gap="1.2rem"
               >
                 <img src="/codeup.svg" width="48" />
-                CodeUp
+                <Text
+                  textTransform={"uppercase"}
+                  fontWeight={"extrabold"}
+                  ml={4}
+                >
+                  CodeUp
+                </Text>
               </ChakraLink>
             </Link>
           </Heading>
@@ -336,6 +340,19 @@ export default function NavigationBar() {
               gap={"1.2rem"}
               mt={["2rem", 0]}
             >
+              {userInfo && userInfo.role === "admin" ? (
+                <Tooltip
+                  label={`
+                Du bist als Admin angemeldet.
+                Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen.
+                Nutze deine Berechtigungen nicht aus und verhalte dich fair.
+                `}
+                >
+                  <Badge colorScheme={"red"} ml={2} fontSize={"md"} size={"md"}>
+                    ADMIN
+                  </Badge>
+                </Tooltip>
+              ) : null}
               <MenuButtons
                 onClose={onClose}
                 onUserAuthOpen={onUserAuthOpen}

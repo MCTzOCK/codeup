@@ -632,3 +632,11 @@ export async function updateTestimonial(options: {
     },
   });
 }
+
+export async function getOrgs(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/orgs",
+  });
+}

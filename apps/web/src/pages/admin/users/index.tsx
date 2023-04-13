@@ -222,6 +222,12 @@ export default function UserManagement() {
                                   .includes(q.toLowerCase()) ||
                                 user.email
                                   .toLowerCase()
+                                  .includes(q.toLowerCase()) ||
+                                user._id
+                                  .toLowerCase()
+                                  .includes(q.toLowerCase()) ||
+                                (user.firstName + " " + user.lastName)
+                                  .toLowerCase()
                                   .includes(q.toLowerCase())
                               );
                             });

@@ -71,11 +71,24 @@ export default async function handleRequest(
                 },
               });
               if (!org) {
-                res.status(404).json({
-                  success: false,
-                  error: "Organisation not found",
+                if (user.role !== "admin") {
+                  res.status(404).json({
+                    success: false,
+                    error: "Organisation not found",
+                  });
+                  return;
+                }
+                org = await OrgModel.findOne({
+                  name: name,
                 });
-                return;
+
+                if (!org) {
+                  res.status(404).json({
+                    success: false,
+                    error: "Organisation not found",
+                  });
+                  return;
+                }
               }
             }
 

@@ -60,26 +60,33 @@ export default async function handleRequest(
 
           try {
             let org = await OrgModel.findOne({
-              owner: user._id,
               name: name,
             });
 
-            const allowedKeys = [
-              "name",
-              "icon"
-            ];
+            if (
+              org.owner.toString() !== user._id.toString() &&
+              user.role !== "admin"
+            ) {
+              res.status(400).json({
+                success: false,
+                error: "You are not allowed to do this",
+              });
+              return;
+            }
+
+            const allowedKeys = ["name", "icon"];
 
             for (const key in req.body.update) {
-              if(allowedKeys.includes(key)) {
-                if(key === "name") {
+              if (allowedKeys.includes(key)) {
+                if (key === "name") {
                   const exists = await OrgModel.findOne({
-                    name: req.body.update[key]
+                    name: req.body.update[key],
                   });
 
-                  if(exists){
+                  if (exists) {
                     res.status(400).json({
                       success: false,
-                      error: "Name already exists"
+                      error: "Name already exists",
                     });
                     return;
                   }
@@ -95,9 +102,8 @@ export default async function handleRequest(
 
             res.status(200).json({
               success: true,
-              org
+              org,
             });
-
           } catch (e) {
             res.status(400).json({
               success: false,

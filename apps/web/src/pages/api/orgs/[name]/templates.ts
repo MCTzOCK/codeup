@@ -72,7 +72,10 @@ export default async function handleRequest(
                 return;
               }
 
-              if (org.owner.toString() !== user._id.toString()) {
+              if (
+                org.owner.toString() !== user._id.toString() &&
+                user.role !== "admin"
+              ) {
                 res.status(400).json({
                   success: false,
                   error: "You are not the owner of this organisation",

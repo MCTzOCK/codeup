@@ -85,7 +85,10 @@ export default async function handleRequest(
             }
 
             if (req.body.action === "ADD") {
-              if (org.owner.toString() !== user._id.toString()) {
+              if (
+                org.owner.toString() !== user._id.toString() &&
+                user.role !== "admin"
+              ) {
                 res.status(400).json({
                   success: false,
                   error: "Not allowed to add members",
