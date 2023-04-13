@@ -12,6 +12,7 @@ import * as React from "react";
 import { useState } from "react";
 import REST from "@codeup/rest";
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -23,7 +24,14 @@ import {
   HStack,
   Select,
   Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
   useToast,
 } from "@chakra-ui/react";
 import AdminLayout from "@codeup/components/admin/AdminLayout";
@@ -75,6 +83,11 @@ export default function Index() {
     anonymousViewPercentage: number;
     // Total views
     totalViews: number;
+    todayActiveUsers: {
+      username: string;
+      views: string;
+      userId: string;
+    }[];
   }>();
 
   const toast = useToast();
@@ -337,9 +350,9 @@ export default function Index() {
             maxH={"50vh"}
             mb={"8rem"}
           >
-            <HStack>
+            <HStack gap={6}>
               <Heading size={"lg"} textAlign={"left"}>
-                Aufrufe / Tag
+                Aufrufe
               </Heading>
               <Select
                 value={periodOffset}
@@ -422,6 +435,51 @@ export default function Index() {
             />
           </Box>
         </Flex>
+        <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
+          <Box
+            mt={"2rem"}
+            maxW={["100%", "75%"]}
+            flex={"100%"}
+            maxH={"50vh"}
+            mb={"8rem"}
+          >
+            <Heading size={"lg"} textAlign={"left"}>
+              Aktive Nutzer in den letzten 24 Stunden
+            </Heading>
+            <TableContainer mt={6}>
+              <Table>
+                <Thead>
+                  <Th>Profilbild</Th>
+                  <Th>Benutername</Th>
+                  <Th>Aufrufe</Th>
+                </Thead>
+                <Tbody>
+                  {summary?.todayActiveUsers.map((user) => (
+                    <Tr
+                      key={user.userId}
+                      _hover={{
+                        backgroundColor: "gray.700",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        router.push(`/admin/analytics/${user.userId}`);
+                      }}
+                    >
+                      <Td>
+                        <Avatar
+                          size={"lg"}
+                          src={`/api/account/${user.username}/picture`}
+                        />
+                      </Td>
+                      <Td>@{user.username}</Td>
+                      <Td>{user.views}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Flex>
         <Flex
           w={"100%"}
           alignItems={"center"}
@@ -429,7 +487,6 @@ export default function Index() {
           direction={"column"}
           gap={"4rem"}
           mb={"8rem"}
-          mt={"8rem"}
         >
           <Heading size={"lg"} textAlign={"left"}>
             Daten löschen

@@ -75,6 +75,11 @@ export default async function handleRequest(
       anonymousViewPercentage: number;
       // Total views
       totalViews: number;
+      todayActiveUsers: {
+        username: string;
+        userId: string;
+        views: number;
+      }[];
     } = {
       browsers: {},
       paths: {},
@@ -82,6 +87,7 @@ export default async function handleRequest(
       authenticatedViewPercentage: 0,
       anonymousViewPercentage: 0,
       totalViews: 0,
+      todayActiveUsers: [],
     };
 
     let findObject: any = {};
@@ -142,6 +148,40 @@ export default async function handleRequest(
     for (const p in data.paths) {
       data.paths[p] = Math.round((data.paths[p] / data.totalViews) * 100);
     }
+
+    const todayViews = await AnalyticsModel.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+          },
+        },
+      },
+    ]);
+
+    const todayActiveUsers: {
+      username: string;
+      views: number;
+      userId: string;
+    }[] = [];
+
+    for (const v of todayViews) {
+      const user = await UserModel.findOne({ _id: v.userId });
+
+      if (user) {
+        if (todayActiveUsers.find((u) => u.username === user.username)) {
+          todayActiveUsers.find((u) => u.username === user.username)!.views++;
+        } else {
+          todayActiveUsers.push({
+            username: user.username,
+            views: 1,
+            userId: user._id,
+          });
+        }
+      }
+    }
+
+    data.todayActiveUsers = todayActiveUsers;
 
     res.status(200).json({ data });
   } catch (e) {
