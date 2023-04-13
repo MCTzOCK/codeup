@@ -340,19 +340,6 @@ export default function NavigationBar() {
               gap={"1.2rem"}
               mt={["2rem", 0]}
             >
-              {userInfo && userInfo.role === "admin" ? (
-                <Tooltip
-                  label={`
-                Du bist als Admin angemeldet.
-                Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen.
-                Nutze deine Berechtigungen nicht aus und verhalte dich fair.
-                `}
-                >
-                  <Badge colorScheme={"red"} ml={2} fontSize={"md"} size={"md"}>
-                    ADMIN
-                  </Badge>
-                </Tooltip>
-              ) : null}
               <MenuButtons
                 onClose={onClose}
                 onUserAuthOpen={onUserAuthOpen}
