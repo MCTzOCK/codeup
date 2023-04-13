@@ -199,6 +199,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                       router.push("/admin/discovery");
                     },
                   },
+                  {
+                    title: "Flows",
+                    icon: <FaProjectDiagram />,
+                    onClick: () => {
+                      router.push("/admin/flows");
+                    },
+                  },
                 ]}
                 title={"Admin"}
               />

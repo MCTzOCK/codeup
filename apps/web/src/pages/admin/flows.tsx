@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import AdminLayout from "@codeup/components/dist/admin/AdminLayout";
+import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest/src";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
