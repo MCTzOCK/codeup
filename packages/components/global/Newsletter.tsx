@@ -134,7 +134,7 @@ export default function Newsletter() {
                 window.dispatchEvent(new CustomEvent("codeup::open_login"));
               }}
             >
-              Zum abonieren anmelden
+              Zum Abonieren anmelden
             </Button>
           </>
         )}
