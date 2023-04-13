@@ -69,7 +69,7 @@ import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import AccountManager from "@codeup/util/src/AccountManager";
 import { useRouter } from "next/router";
-import { FiMail } from "react-icons/all";
+import { FiMail } from "react-icons/fi";
 import AdminUserContact from "./AdminUserContact";
 
 export default function AdminUserViewer(props: {

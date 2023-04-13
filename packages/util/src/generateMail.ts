@@ -10,42 +10,6 @@
 
 export default function generateMail(firstName: string, content: string) {
   return {
-    html0: `
-<!DOCTYPE html>
-<html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-</head>
-
-<body>
-    <div style="width: 100%; max-width: 600px; margin: 0 auto;">
-        <div style="width: 100%; background-color: #fafafa; padding: 20px;">
-            
-            <div style="width: 100%; text-align: center;">
-                <img src="https://static.content.ben-siebert.de/api/public/dl/GMODqV3y" alt="Ben Siebert" style="width: 100%; max-width: 200px;">
-            </div> 
-            
-            <div style="width: 100%; text-align: center;">
-                <h1 style="font-size: 1.5em; font-weight: bold;">Moin ${firstName}!</h1>
-            </div>
-            <div style="width: 100%; text-align: center;">
-                <p style="font-size: 1em;">${content}</p>
-            </div>
-            <div style="width: 100%; text-align: center;">
-                <p style="font-size: 1em;">
-                    Beste Grüße aus Hattingen,<br>
-                    Ben von <a href="https://codeup.space">CodeUp</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</body>
-
-</html>
-`,
     text: `Moin ${firstName}!,\n\n
 ${content}\n\n
 Beste Grüße aus Hattingen,\n
@@ -61,17 +25,21 @@ Ben von CodeUp`,
     <meta name="supported-color-schemes" content="dark light" />
   </head>
   <body>
-    <div style="width: 100%; max-width: 600px; margin: 0 auto;">
+    <div style="
+          width: 100vw;
+          min-height: 100vh;
+          height: fit-content; margin: 0 auto;
+          ">
       <div style="
-          width: 100%;
-          background-color: #323232;
+          background-color: #000000;
           padding: 20px;
-          box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-          border-radius: 10px;">
+          width: 100vw;
+          min-height: 100vh;
+          height: fit-content;
+          ">
           
         <div style="width: 100%; text-align: center; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
-          <img width="64" src="https://codeup.space/codeup.png" alt="Ben Siebert" style="width: 100%; max-width: 200px;">
-          
+          <img src="https://codeup.space/codeup-splash-github.jpg" alt="Ben Siebert" style="width: 100%; min-width: 100%;">
         </div>
         
         <div style="width: 100%; text-align: center;">
@@ -82,10 +50,10 @@ Ben von CodeUp`,
           <p style="font-size: 1.5rem; color: #fff;">${content}</p>
           <p style="font-size: 1.5rem; color: #fff;">
             Beste Grüße aus Hattingen,<br>
-            Ben von <a href="https://codeup.space">CodeUp</a>
+            Ben von <a href="https://codeup.space" style="color: deeppink">CodeUp</a>
           </p>
           <p style="font-size: 1.5rem; color: #fff;">
-            <a href="https://codeup.space">codeup.space</a> | <a href="https://ben-siebert.de">ben-siebert.de</a>
+            <a href="https://codeup.space" style="color: deeppink">codeup.space</a> | <a href="https://ben-siebert.de" style="color: deeppink">ben-siebert.de</a>
           </p>
         </div>
 
@@ -93,7 +61,6 @@ Ben von CodeUp`,
     </div>
   </body>
 </html>
-
     `,
   };
 }
