@@ -20,6 +20,13 @@ import ForumPostModel from "@codeup/util/dist/models/ForumPostModel";
 import TodoListModel from "@codeup/util/dist/models/TodoListModel";
 import ToDoProjectModel from "@codeup/util/dist/models/ToDoProjectModel";
 import NewsletterModel from "@codeup/util/dist/models/NewsletterModel";
+import ObtainedCertificateModel from "@codeup/util/dist/models/ObtainedCertificateModel";
+import CodeUpKidsProjectModel from "@codeup/util/dist/models/CodeUpKidsProjectModel";
+import ContactModel from "@codeup/util/dist/models/ContactModel";
+import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
+import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
+import RoadmapModel from "@codeup/util/dist/models/RoadmapModel";
+import CodeSnippet from "@codeup/util/dist/models/CodeSnippet";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
@@ -84,6 +91,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             $not: /disabled:/,
           },
         }),
+        projectFunctions: await EditorProjectFunctionModel.countDocuments(),
       },
       forum: {
         profiles: await ForumProfileModel.countDocuments(),
@@ -116,6 +124,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         }),
       },
       newsletterMembers: await NewsletterModel.countDocuments(),
+      // from here
+      certificates: await ObtainedCertificateModel.countDocuments(),
+      kids: await CodeUpKidsProjectModel.countDocuments(),
+      contactMessages: await ContactModel.countDocuments(),
+      ideProjects: await IDEProjectModel.countDocuments(),
+      roadmaps: await RoadmapModel.countDocuments(),
+      snippets: await CodeSnippet.countDocuments(),
     };
 
     res.status(200).send(stats);

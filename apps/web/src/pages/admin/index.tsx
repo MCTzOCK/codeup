@@ -39,26 +39,20 @@ import {
   Tooltip,
 } from "chart.js";
 import {
+  FaCertificate,
   FaChartBar,
   FaCheck,
+  FaChild,
   FaCode,
   FaComment,
+  FaLaptopCode,
   FaNewspaper,
   FaPeopleArrows,
   FaProjectDiagram,
+  FaRocket,
   FaSitemap,
   FaUser,
 } from "react-icons/fa";
-
-const colors = [
-  "green.300",
-  "blue.400",
-  "purple.300",
-  "red.300",
-  "teal.600",
-  "pink.400",
-  "orange.400",
-];
 
 export default function Index() {
   ChartJS.register(
@@ -92,6 +86,7 @@ export default function Index() {
       newProjects: number;
       projectPages: number;
       publishedProjects: number;
+      projectFunctions: number;
     };
     forum: {
       profiles: number;
@@ -106,6 +101,12 @@ export default function Index() {
       count: number;
     };
     newsletterMembers: number;
+    certificates: number;
+    kids: number;
+    contactMessages: number;
+    ideProjects: number;
+    roadmaps: number;
+    snippets: number;
   }>();
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
@@ -161,6 +162,7 @@ export default function Index() {
               ]}
               gap={8}
               p={8}
+              maxW={"100%"}
             >
               <DashCard
                 icon={<FaUser />}
@@ -188,6 +190,13 @@ export default function Index() {
                 number={stats?.projects.count!.toString() as string}
                 subtitle={`${stats?.projects.newProjects} neue Projekte`}
                 color={"red.300"}
+              />
+              <DashCard
+                icon={<FaCode />}
+                title={"projektseiten"}
+                number={stats?.projects.projectPages!.toString() as string}
+                subtitle={`${stats?.projects.projectFunctions} Funktionen`}
+                color={"green.300"}
               />
               <DashCard
                 icon={<FaPeopleArrows />}
@@ -220,6 +229,42 @@ export default function Index() {
                 title={"newsletter"}
                 number={stats?.newsletterMembers!.toString() as string}
                 color={"green.300"}
+              />
+              <DashCard
+                icon={<FaCertificate />}
+                title={"zertifikate"}
+                number={stats?.certificates!.toString() as string}
+                color={"orange.400"}
+              />
+              <DashCard
+                icon={<FaChild />}
+                title={"kids"}
+                number={stats?.kids!.toString() as string}
+                color={"pink.400"}
+              />
+              <DashCard
+                icon={<FaComment />}
+                title={"kontaktanfragen"}
+                number={stats?.contactMessages!.toString() as string}
+                color={"blue.400"}
+              />
+              <DashCard
+                icon={<FaCode />}
+                title={"legacy projekte"}
+                number={stats?.ideProjects!.toString() as string}
+                color={"teal.600"}
+              />
+              <DashCard
+                icon={<FaRocket />}
+                title={"roadmaps"}
+                number={stats?.roadmaps!.toString() as string}
+                color={"red.300"}
+              />
+              <DashCard
+                icon={<FaLaptopCode />}
+                title={"snippets"}
+                number={stats?.snippets!.toString() as string}
+                color={"purple.300"}
               />
             </Grid>
           </Stack>
