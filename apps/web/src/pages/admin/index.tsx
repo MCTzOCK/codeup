@@ -39,6 +39,9 @@ import {
   Tooltip,
 } from "chart.js";
 import {
+  FaBook,
+  FaBookmark,
+  FaBookOpen,
   FaCertificate,
   FaChartBar,
   FaCheck,
@@ -107,6 +110,8 @@ export default function Index() {
     ideProjects: number;
     roadmaps: number;
     snippets: number;
+    courses: number;
+    lessons: number;
   }>();
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
@@ -154,6 +159,38 @@ export default function Index() {
         >
           <SuperText>Dashboard</SuperText>
           <Stack>
+            <Heading p={8} pb={0}>
+              Generell
+            </Heading>
+
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
+              maxW={"100%"}
+            >
+              <DashCard
+                icon={<FaChartBar />}
+                title={"Aufrufe"}
+                number={views!.toString() as string}
+                color={"orange.400"}
+              />
+              <DashCard
+                icon={<FaComment />}
+                title={"kontaktanfragen"}
+                number={stats?.contactMessages!.toString() as string}
+                color={"orange.400"}
+              />
+            </Grid>
+
+            <Heading p={8} pb={0}>
+              Benutzer
+            </Heading>
+
             <Grid
               templateColumns={[
                 "repeat(1, 1fr)",
@@ -172,18 +209,34 @@ export default function Index() {
                 color={"green.300"}
               />
               <DashCard
-                icon={<FaChartBar />}
-                title={"Aufrufe"}
-                number={views!.toString() as string}
-                color={"blue.400"}
+                icon={<FaNewspaper />}
+                title={"newsletter"}
+                number={stats?.newsletterMembers!.toString() as string}
+                color={"green.300"}
               />
               <DashCard
                 icon={<FaSitemap />}
                 title={"organisationen"}
                 number={stats?.orgs.count!.toString() as string}
                 subtitle={`${stats?.orgs.newOrgs} neue Organisationen`}
-                color={"purple.300"}
+                color={"green.300"} // purple.300
               />
+            </Grid>
+
+            <Heading p={8} pb={0}>
+              Entwicklung
+            </Heading>
+
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
+              maxW={"100%"}
+            >
               <DashCard
                 icon={<FaCode />}
                 title={"projekte"}
@@ -196,63 +249,7 @@ export default function Index() {
                 title={"projektseiten"}
                 number={stats?.projects.projectPages!.toString() as string}
                 subtitle={`${stats?.projects.projectFunctions} Funktionen`}
-                color={"green.300"}
-              />
-              <DashCard
-                icon={<FaPeopleArrows />}
-                title={"profile"}
-                number={stats?.forum.profiles!.toString() as string}
-                subtitle={`${stats?.forum.newProfiles} neue Profile`}
-                color={"teal.600"}
-              />
-              <DashCard
-                icon={<FaComment />}
-                title={"posts"}
-                number={stats?.forum.posts!.toString() as string}
-                subtitle={`${stats?.forum.newPosts} neue Posts`}
-                color={"pink.400"}
-              />
-              <DashCard
-                icon={<FaCheck />}
-                title={"todos"}
-                number={stats?.todo.count!.toString() as string}
-                color={"blue.400"}
-              />
-              <DashCard
-                icon={<FaProjectDiagram />}
-                title={"flows"}
-                number={stats?.flowCharts.count!.toString() as string}
-                color={"orange.400"}
-              />
-              <DashCard
-                icon={<FaNewspaper />}
-                title={"newsletter"}
-                number={stats?.newsletterMembers!.toString() as string}
-                color={"green.300"}
-              />
-              <DashCard
-                icon={<FaCertificate />}
-                title={"zertifikate"}
-                number={stats?.certificates!.toString() as string}
-                color={"orange.400"}
-              />
-              <DashCard
-                icon={<FaChild />}
-                title={"kids"}
-                number={stats?.kids!.toString() as string}
-                color={"pink.400"}
-              />
-              <DashCard
-                icon={<FaComment />}
-                title={"kontaktanfragen"}
-                number={stats?.contactMessages!.toString() as string}
-                color={"blue.400"}
-              />
-              <DashCard
-                icon={<FaCode />}
-                title={"legacy projekte"}
-                number={stats?.ideProjects!.toString() as string}
-                color={"teal.600"}
+                color={"red.300"}
               />
               <DashCard
                 icon={<FaRocket />}
@@ -264,7 +261,111 @@ export default function Index() {
                 icon={<FaLaptopCode />}
                 title={"snippets"}
                 number={stats?.snippets!.toString() as string}
-                color={"purple.300"}
+                color={"red.300"}
+              />
+              <DashCard
+                icon={<FaChild />}
+                title={"kids"}
+                number={stats?.kids!.toString() as string}
+                color={"red.300"}
+              />
+              <DashCard
+                icon={<FaCode />}
+                title={"legacy projekte"}
+                number={stats?.ideProjects!.toString() as string}
+                color={"red.300"}
+              />
+            </Grid>
+
+            <Heading p={8} pb={0}>
+              Austausch
+            </Heading>
+
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
+              maxW={"100%"}
+            >
+              <DashCard
+                icon={<FaPeopleArrows />}
+                title={"profile"}
+                number={stats?.forum.profiles!.toString() as string}
+                subtitle={`${stats?.forum.newProfiles} neue Profile`}
+                color={"pink.400"}
+              />
+              <DashCard
+                icon={<FaComment />}
+                title={"posts"}
+                number={stats?.forum.posts!.toString() as string}
+                subtitle={`${stats?.forum.newPosts} neue Posts`}
+                color={"pink.400"}
+              />
+            </Grid>
+
+            <Heading p={8} pb={0}>
+              Planung
+            </Heading>
+
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
+              maxW={"100%"}
+            >
+              <DashCard
+                icon={<FaCheck />}
+                title={"todos"}
+                number={stats?.todo.count!.toString() as string}
+                color={"blue.400"}
+              />
+              <DashCard
+                icon={<FaProjectDiagram />}
+                title={"flows"}
+                number={stats?.flowCharts.count!.toString() as string}
+                color={"blue.400"}
+              />
+            </Grid>
+
+            <Heading p={8} pb={0}>
+              Lernen
+            </Heading>
+
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gap={8}
+              p={8}
+              maxW={"100%"}
+            >
+              <DashCard
+                icon={<FaBook />}
+                title={"kurse"}
+                number={stats?.courses!.toString() as string}
+                color={"teal.600"}
+              />
+              <DashCard
+                icon={<FaBookmark />}
+                title={"lektionen"}
+                number={stats?.certificates!.toString() as string}
+                color={"teal.600"}
+              />
+              <DashCard
+                icon={<FaCertificate />}
+                title={"zertifikate"}
+                number={stats?.certificates!.toString() as string}
+                color={"teal.600"}
               />
             </Grid>
           </Stack>

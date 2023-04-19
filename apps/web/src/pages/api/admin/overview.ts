@@ -27,6 +27,8 @@ import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFu
 import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
 import RoadmapModel from "@codeup/util/dist/models/RoadmapModel";
 import CodeSnippet from "@codeup/util/dist/models/CodeSnippet";
+import CourseModel from "@codeup/util/dist/models/CourseModel";
+import ContentModel from "@codeup/util/dist/models/ContentModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
@@ -131,6 +133,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       ideProjects: await IDEProjectModel.countDocuments(),
       roadmaps: await RoadmapModel.countDocuments(),
       snippets: await CodeSnippet.countDocuments(),
+      courses: await CourseModel.countDocuments(),
+      lessons: await ContentModel.countDocuments(),
     };
 
     res.status(200).send(stats);
