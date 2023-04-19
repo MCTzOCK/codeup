@@ -22,6 +22,7 @@ const ShortURLModel = new mongoose.Schema({
   short: {
     type: String,
     required: true,
+    unique: true,
   },
 });
 

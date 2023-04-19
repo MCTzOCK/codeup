@@ -718,3 +718,38 @@ export async function getSnippets(token: string): Promise<IResponse> {
     path: "/api/admin/snippets",
   });
 }
+
+export async function getShorts(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/shorturls",
+  });
+}
+
+export async function createShort(options: {
+  token: string;
+  dest: string;
+  short: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/shorturls",
+    body: {
+      short: options.short,
+      destination: options.dest,
+    },
+  });
+}
+
+export async function deleteShort(options: {
+  token: string;
+  short: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/shorturls?short=" + options.short,
+  });
+}

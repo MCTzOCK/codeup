@@ -28,6 +28,7 @@ import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFu
 import Docker from "dockerode";
 import jwt from "jsonwebtoken";
 import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
+import ShortURLModel from "@codeup/util/dist/models/ShortURLModel";
 
 const app = next.default({
   dev: process.env.NODE_ENV === "development",
@@ -441,6 +442,20 @@ app
                 })
               );
             }
+
+            return;
+          }
+
+          const shortUrl = await ShortURLModel.findOne({
+            short: pathname!.startsWith("/") ? pathname!.slice(1) : pathname,
+          });
+
+          if (shortUrl) {
+            res.writeHead(302, {
+              Location: shortUrl.destination,
+            });
+
+            res.end();
 
             return;
           }

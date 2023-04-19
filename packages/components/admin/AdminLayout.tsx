@@ -35,6 +35,7 @@ import {
   FaComment,
   FaComments,
   FaFileCode,
+  FaLink,
   FaNewspaper,
   FaPeopleArrows,
   FaPeopleCarry,
@@ -236,6 +237,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaFileCode />,
                     onClick: () => {
                       router.push("/admin/snippets");
+                    },
+                  },
+                  {
+                    title: "Shorts",
+                    icon: <FaLink />,
+                    onClick: () => {
+                      router.push("/admin/shorts");
                     },
                   },
                 ]}

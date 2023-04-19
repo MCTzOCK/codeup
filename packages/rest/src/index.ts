@@ -155,6 +155,9 @@ import {
   getRoads,
   getTodos,
   getSnippets as getSnippetsAdmin,
+  getShorts,
+  createShort,
+  deleteShort,
 } from "./api/Admin";
 
 import {
@@ -293,6 +296,9 @@ const REST = {
     getRoads,
     getTodos,
     getSnippets: getSnippetsAdmin,
+    getShorts,
+    createShort,
+    deleteShort,
   },
   Blog: {
     getBlog,
