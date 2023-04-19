@@ -366,7 +366,7 @@ export default function Index() {
               <DashCard
                 icon={<FaBookmark />}
                 title={"lektionen"}
-                number={stats?.certificates!.toString() as string}
+                number={stats?.lessons!.toString() as string}
                 color={"teal.600"}
               />
               <DashCard
