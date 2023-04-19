@@ -29,6 +29,7 @@ import RoadmapModel from "@codeup/util/dist/models/RoadmapModel";
 import CodeSnippet from "@codeup/util/dist/models/CodeSnippet";
 import CourseModel from "@codeup/util/dist/models/CourseModel";
 import ContentModel from "@codeup/util/dist/models/ContentModel";
+import ShortURLModel from "@codeup/util/dist/models/ShortURLModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
@@ -135,6 +136,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       snippets: await CodeSnippet.countDocuments(),
       courses: await CourseModel.countDocuments(),
       lessons: await ContentModel.countDocuments(),
+      shorts: await ShortURLModel.countDocuments(),
     };
 
     res.status(200).send(stats);

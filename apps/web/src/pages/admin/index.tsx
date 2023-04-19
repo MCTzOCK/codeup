@@ -49,6 +49,7 @@ import {
   FaCode,
   FaComment,
   FaLaptopCode,
+  FaLink,
   FaNewspaper,
   FaPeopleArrows,
   FaProjectDiagram,
@@ -112,6 +113,7 @@ export default function Index() {
     snippets: number;
     courses: number;
     lessons: number;
+    shorts: number;
   }>();
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
@@ -183,6 +185,12 @@ export default function Index() {
                 icon={<FaComment />}
                 title={"kontaktanfragen"}
                 number={stats?.contactMessages!.toString() as string}
+                color={"orange.400"}
+              />
+              <DashCard
+                icon={<FaLink />}
+                title={"shorts"}
+                number={stats?.shorts!.toString() as string}
                 color={"orange.400"}
               />
             </Grid>

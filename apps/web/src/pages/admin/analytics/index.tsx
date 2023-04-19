@@ -440,7 +440,7 @@ export default function Index() {
             mt={"2rem"}
             maxW={["100%", "75%"]}
             flex={"100%"}
-            maxH={"50vh"}
+            h={"fit-content"}
             mb={"8rem"}
           >
             <Heading size={"lg"} textAlign={"left"}>
