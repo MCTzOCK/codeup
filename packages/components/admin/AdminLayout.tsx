@@ -32,6 +32,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaChild,
+  FaCode,
   FaComment,
   FaComments,
   FaFileCode,
@@ -244,6 +245,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaLink />,
                     onClick: () => {
                       router.push("/admin/shorts");
+                    },
+                  },
+                  {
+                    title: "IDE",
+                    icon: <FaCode />,
+                    onClick: () => {
+                      router.push("/admin/ide");
                     },
                   },
                 ]}

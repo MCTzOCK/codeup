@@ -18,6 +18,8 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { FaEye, FaPen, FaPlus, FaTrash, FaUser } from "react-icons/fa";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
+import { Box } from "@chakra-ui/react";
+import SuperText from "@codeup/components/dist/landingpage/SuperText";
 
 export default function Kids() {
   const router = useRouter();
@@ -65,6 +67,8 @@ export default function Kids() {
               </>
             ) : (
               <>
+                <Box mt={6}></Box>
+                <SuperText>Kids Projekte</SuperText>
                 <GridLayout
                   search={{
                     allow: true,

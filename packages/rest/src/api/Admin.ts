@@ -753,3 +753,11 @@ export async function deleteShort(options: {
     path: "/api/admin/shorturls?short=" + options.short,
   });
 }
+
+export async function getIDEProjects(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/ide",
+  });
+}

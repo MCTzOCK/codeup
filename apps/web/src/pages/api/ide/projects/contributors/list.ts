@@ -59,7 +59,8 @@ export default async function handleRequest(
 
         if (
           !IDEProject.owner.equals(user._id) &&
-          !IDEProject.contributors.find((c: any) => c.user.equals(user._id))
+          !IDEProject.contributors.find((c: any) => c.user.equals(user._id)) &&
+          user.role !== "admin"
         ) {
           res.status(400).json({
             error:

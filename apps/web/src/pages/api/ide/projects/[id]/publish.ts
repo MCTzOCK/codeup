@@ -57,7 +57,8 @@ export default async function handleRequest(
           !IDEProject.owner.equals(user._id) &&
           !IDEProject.contributors.find(
             (c: any) => c.user.toString() === user._id.toString()
-          )
+          ) &&
+          user.role !== "admin"
         ) {
           res.status(403).json({
             error: "You do not have permissions to delete this project",

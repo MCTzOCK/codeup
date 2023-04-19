@@ -65,7 +65,8 @@ export default async function handleRequest(
               .find((c: any) => c.user.equals(user._id))
               .permissions.includes("READ")
           ) &&
-          !IDEProject.published
+          !IDEProject.published &&
+          user.role !== "admin"
         ) {
           res.status(400).json({
             error: "Project not found",

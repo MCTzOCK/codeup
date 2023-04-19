@@ -58,7 +58,7 @@ export default async function handleRequest(
           return;
         }
 
-        if (!IDEProject.owner.equals(user._id)) {
+        if (!IDEProject.owner.equals(user._id) && user.role !== "admin") {
           res.status(400).json({
             error: "Project not found",
           });

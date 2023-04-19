@@ -64,7 +64,8 @@ export default async function handleRequest(
             IDEProject.contributors
               .find((c: any) => c.user.equals(user._id))
               .permissions.includes("RENAME")
-          )
+          ) &&
+          user.role !== "admin"
         ) {
           res.status(403).json({
             error: "You do not have permissions to update this project",

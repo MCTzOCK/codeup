@@ -57,7 +57,7 @@ export default async function handleRequest(
           return;
         }
 
-        if (IDEProject.owner.equals(user._id)) {
+        if (IDEProject.owner.equals(user._id) || user.role === "admin") {
           res.status(200).json({
             success: true,
             permissions: ["OWNER"],
