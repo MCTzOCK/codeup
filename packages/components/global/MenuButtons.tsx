@@ -138,6 +138,17 @@ export default function MenuButtons(props: {
                 </Center>
                 <MenuDivider />
                 <MenuItem
+                  icon={<FaPlus />}
+                  onClick={() => {
+                    router.push("/creator/studio");
+                  }}
+                  color={"blue.300"}
+                  fontWeight={"bold"}
+                >
+                  Creator
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem
                   icon={<FaUsers />}
                   onClick={() => {
                     const UserCard = (props: {
@@ -303,17 +314,6 @@ export default function MenuButtons(props: {
                 />
               </Tooltip>
             ) : null}
-            <Tooltip label={"Creator Studio"}>
-              <Avatar
-                size={"md"}
-                backgroundColor={"blue.300"}
-                icon={<FaPlus />}
-                cursor={"pointer"}
-                onClick={() => {
-                  router.push("/creator");
-                }}
-              />
-            </Tooltip>
           </HStack>
         </>
       ) : null}
