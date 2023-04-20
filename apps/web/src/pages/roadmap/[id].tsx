@@ -280,21 +280,9 @@ export default function RoadmapViewer() {
               <SuperText fontzSize={"5xl"}>
                 Deine Roadmap: {roadmap.name}
               </SuperText>
-              <chakra.p
-                fontSize={"3xl"}
-                m={6}
-                fontWeight={"extrabold"}
-                textTransform={"uppercase"}
-                transform={"rotate(-15deg) translateY(8rem) translateX(16rem)"}
-                w={"fit-content"}
-                bg={"#F7DE1F"}
-                color={"black"}
-                p={3}
-                borderRadius={"xl"}
-                boxShadow={"xl"}
-              >
+              <Text fontSize={"xl"} textAlign={"center"} mb={6}>
                 Von der Idee zum Projekt
-              </chakra.p>
+              </Text>
               <Box h={"100vh"} w={"100%"}>
                 <ReactFlow
                   nodeTypes={nodeTypes}
