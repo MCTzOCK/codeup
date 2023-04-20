@@ -162,6 +162,14 @@ export default function Quiz(props: {
                               }
                             >
                               {a.answer}
+                              {correctAnswersList.includes(i) ? (
+                                <Badge
+                                  ml="1rem"
+                                  colorScheme={a.correct ? "green" : "red"}
+                                >
+                                  Ausgewählt
+                                </Badge>
+                              ) : null}
                             </Text>
                           );
                         })}
