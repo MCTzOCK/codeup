@@ -36,6 +36,7 @@ export default class AuthenticateChannel extends Channel {
           SocketRegistry.loggedIn[this.socket.id] = {
             id: user._id,
             username: user.username,
+            admin: user.role === "admin" ? true : undefined,
           };
           this.emit({
             authenticated: true,

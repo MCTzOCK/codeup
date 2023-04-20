@@ -35,7 +35,8 @@ export default class EditorProjectContributorDeleteChannel extends Channel {
               (c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
                 c.permissions.includes("MANAGE-CONTRIBUTORS")
-            )
+            ) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           ) {
             const contributor = await UserModel.findOne({
               email,

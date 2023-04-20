@@ -761,3 +761,11 @@ export async function getIDEProjects(token: string): Promise<IResponse> {
     path: "/api/admin/ide",
   });
 }
+
+export async function getEditorProjects(token: string): Promise<IResponse> {
+  return makeRequest({
+    method: "GET",
+    token,
+    path: "/api/admin/editor",
+  });
+}

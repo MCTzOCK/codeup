@@ -29,7 +29,8 @@ export default class EditorProjectRenameChannel extends Channel {
 
         if (project) {
           if (
-            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           ) {
             project.name = name;
             project.updated_at = new Date();

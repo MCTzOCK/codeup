@@ -254,6 +254,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                       router.push("/admin/ide");
                     },
                   },
+                  {
+                    title: "Editor",
+                    icon: <FaCode />,
+                    onClick: () => {
+                      router.push("/admin/editor");
+                    },
+                  },
                 ]}
                 title={"Admin"}
               />

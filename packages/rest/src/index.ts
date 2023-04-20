@@ -159,6 +159,7 @@ import {
   createShort,
   deleteShort,
   getIDEProjects,
+  getEditorProjects,
 } from "./api/Admin";
 
 import {
@@ -301,6 +302,7 @@ const REST = {
     createShort,
     deleteShort,
     getIDEProjects,
+    getEditorProjects,
   },
   Blog: {
     getBlog,

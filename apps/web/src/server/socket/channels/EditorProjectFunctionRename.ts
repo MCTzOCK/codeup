@@ -44,7 +44,8 @@ export default class EditorProjectFunctionRenameChannel extends Channel {
               (c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
                 c.permissions.includes("RENAME")
-            )
+            ) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           )
         ) {
           this.emit({

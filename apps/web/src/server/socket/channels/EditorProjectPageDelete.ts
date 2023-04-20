@@ -43,7 +43,8 @@ export default class EditorProjectPageDeleteChannel extends Channel {
               (c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
                 c.permissions.includes("DELETE")
-            )
+            ) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           )
         ) {
           this.emit({

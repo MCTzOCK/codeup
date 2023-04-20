@@ -32,7 +32,8 @@ export default class EditorProjectDeleteChannel extends Channel {
 
         if (project) {
           if (
-            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           ) {
             const pages = await EditorProjectPageModel.find({
               project: project._id,

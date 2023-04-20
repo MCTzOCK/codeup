@@ -43,7 +43,8 @@ export default class EditorProjectPageContentChannel extends Channel {
               ) ||
               project.contributors.find((c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id)
-              )
+              ) ||
+              SocketRegistry.loggedIn[this.socket.id].admin
             )
           ) {
             this.emit({

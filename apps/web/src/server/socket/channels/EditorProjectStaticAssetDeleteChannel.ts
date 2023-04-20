@@ -31,7 +31,8 @@ export default class EditorProjectStaticAssetDeleteChannel extends Channel {
 
         if (project) {
           if (
-            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id)
+            project.owner.equals(SocketRegistry.loggedIn[this.socket.id].id) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           ) {
             const bucket = new mongoose.mongo.GridFSBucket(
               mongoose.connection.db,

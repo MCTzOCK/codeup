@@ -35,7 +35,8 @@ export default class EditorProjectContributorChannel extends Channel {
               (c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
                 c.permissions.includes("MANAGE-CONTRIBUTORS")
-            )
+            ) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           ) {
             let c: {
               email: string;

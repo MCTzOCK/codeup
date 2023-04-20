@@ -50,7 +50,8 @@ export default class EditorProjectPageCreateChannel extends Channel {
               (c: any) =>
                 c.user.equals(SocketRegistry.loggedIn[this.socket.id].id) &&
                 c.permissions.includes("WRITE")
-            )
+            ) ||
+            SocketRegistry.loggedIn[this.socket.id].admin
           )
         ) {
           this.emit({
