@@ -286,9 +286,7 @@ export default function About() {
           />
           <TechListItem
             name={"GitHub"}
-            icon={
-              "https://pbs.twimg.com/profile_images/1414990564408262661/r6YemvF9_400x400.jpg"
-            }
+            icon={"https://avatars.githubusercontent.com/u/9919?s=200&v=4"}
           />
           <TechListItem
             name={"Webstorm"}
@@ -335,9 +333,7 @@ export default function About() {
           />
           <TechListItem
             name={"DiceBear"}
-            icon={
-              "https://camo.githubusercontent.com/ac918a0462f377851e54ba49534b13cbdfb64a778d9a2845a23c0df23c2cfa9c/68747470733a2f2f64696365626561722e636f6d2f6170692f6d616c652f736565642e7376673f6d6f6f643d6861707079"
-            }
+            icon={"https://avatars.githubusercontent.com/u/7983162?s=200&v=4"}
           />
           <TechListItem
             name={"Copilot"}
