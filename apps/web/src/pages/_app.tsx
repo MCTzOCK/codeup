@@ -22,10 +22,6 @@ function App({ Component, pageProps }: AppProps) {
 
   useAnalytics();
 
-  React.useEffect(() => {
-    console.log(router.pathname);
-  }, [router.pathname]);
-
   return (
     <>
       <DefaultSeo

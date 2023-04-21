@@ -57,28 +57,6 @@ export default function MenuButtons(props: {
   const { loggedIn, userInfo } = useLoggedIn();
   const router = useRouter();
 
-  const [contactCount, setContactCount] = React.useState(0);
-
-  useEffect(() => {
-    if (userInfo.role === "admin") {
-      reload();
-      const i = setInterval(reload, 20000);
-      return () => clearInterval(i);
-    }
-  }, [userInfo]);
-
-  const reload = () => {
-    if (userInfo.role === "admin") {
-      REST.Admin.getContactMessageCount(
-        localStorage.getItem("token") as string
-      ).then((res) => {
-        if (res.status === 200) {
-          setContactCount(res.payload.count);
-        }
-      });
-    }
-  };
-
   return (
     <>
       {!loggedIn ? (
@@ -109,15 +87,7 @@ export default function MenuButtons(props: {
                 <Avatar
                   src={"/api/account/" + userInfo.username + "/picture"}
                   size={"md"}
-                >
-                  {userInfo.role === "admin" && contactCount > 0 ? (
-                    <>
-                      <AvatarBadge boxSize={"1.5em"} bg={"red.500"}>
-                        {contactCount < 9 ? contactCount : "9+"}
-                      </AvatarBadge>
-                    </>
-                  ) : null}
-                </Avatar>
+                />
               </MenuButton>
               <MenuList bg={"black"} zIndex={10}>
                 <br />
