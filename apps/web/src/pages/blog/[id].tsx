@@ -26,6 +26,8 @@ import {
   UnorderedList,
   Td,
   Th,
+  Code,
+  Divider,
 } from "@chakra-ui/react";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { useRouter } from "next/router";
@@ -56,6 +58,8 @@ export default function BlogViewer() {
         const content = heading.replace(/#+/g, "").trim();
         elements.push(
           <Heading
+            mb={4}
+            mt={4}
             fontSize={
               level === 1
                 ? "2xl"
@@ -156,91 +160,137 @@ export default function BlogViewer() {
                   alignItems={"center"}
                   justifyContent={"center"}
                   p={4}
-                  bg={"#000000"}
+                  bg={"black"}
                   borderRadius={"md"}
                   boxShadow={"2xl"}
                 >
                   <Heading size={"lg"} textAlign={"center"} mb={6}>
                     {blog?.title}
                   </Heading>
+                  <Divider />
                   <Markdown
                     options={{
                       overrides: {
                         h1: {
                           component: Heading,
                           props: {
-                            fontSize: "4xl",
+                            fontSize: "6xl",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         h2: {
                           component: Heading,
                           props: {
-                            fontSize: "2xl",
+                            fontSize: "4xl",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         h3: {
                           component: Heading,
                           props: {
-                            fontSize: "xl",
+                            fontSize: "2xl",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         h4: {
                           component: Heading,
                           props: {
-                            fontSize: "lg",
+                            fontSize: "xl",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         h5: {
                           component: Heading,
                           props: {
-                            fontSize: "md",
+                            fontSize: "lg",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         h6: {
                           component: Heading,
                           props: {
-                            fontSize: "sm",
+                            fontSize: "md",
+                            mb: 4,
+                            mt: 4,
                           },
                         },
                         a: {
                           component: Link,
                           props: {
-                            fontSize: "md",
+                            fontSize: "xl",
                             color: "blue.300",
                           },
                         },
                         ul: {
                           component: UnorderedList,
                           props: {
-                            fontSize: "md",
+                            fontSize: "xl",
                           },
                         },
                         ol: {
                           component: OrderedList,
                           props: {
-                            fontSize: "md",
+                            fontSize: "xl",
                           },
                         },
                         li: {
                           component: ListItem,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         table: {
                           component: Table,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         thead: {
                           component: Thead,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         tbody: {
                           component: Tbody,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         tr: {
                           component: Tr,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         th: {
                           component: Th,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                         td: {
                           component: Td,
+                          props: {
+                            fontSize: "xl",
+                          },
+                        },
+                        p: {
+                          component: Text,
+                          props: {
+                            fontSize: "xl",
+                          },
+                        },
+                        code: {
+                          component: Code,
+                          props: {
+                            fontSize: "xl",
+                          },
                         },
                       },
                     }}
