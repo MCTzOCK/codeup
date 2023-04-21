@@ -62,14 +62,14 @@ export default function Showcase() {
             <Flex justifyContent={"center"} w={"100%"}>
               <Flex gap={4} direction={["column", "row"]} mt={16}>
                 <Button
-                  bg={"#F7DE1F"}
+                  bg={"brand"}
                   color={"black"}
                   _hover={{
-                    bg: "#F7DE1F",
+                    bg: "brand",
                     color: "black",
                   }}
                   _focus={{
-                    bg: "#F7DE1F",
+                    bg: "brand",
                     color: "black",
                   }}
                   size={"lg"}

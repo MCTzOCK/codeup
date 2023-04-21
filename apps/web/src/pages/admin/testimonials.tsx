@@ -208,7 +208,7 @@ export default function Testimonials() {
               <Avatar
                 size="xl"
                 showBorder={true}
-                borderColor="#F7DE1F"
+                borderColor="brand"
                 name="avatar"
                 src={"https://avatars.githubusercontent.com/u/53553315"}
               />
@@ -561,7 +561,7 @@ export default function Testimonials() {
                   <Avatar
                     size="xl"
                     showBorder={true}
-                    borderColor="#F7DE1F"
+                    borderColor="brand"
                     name="avatar"
                     src={obj.image}
                   />

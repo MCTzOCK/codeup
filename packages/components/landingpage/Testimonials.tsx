@@ -141,7 +141,7 @@ const Testimonials = () => {
                   <Avatar
                     size="xl"
                     showBorder={true}
-                    borderColor="#F7DE1F"
+                    borderColor="brand"
                     name="avatar"
                     src={obj.image}
                   />

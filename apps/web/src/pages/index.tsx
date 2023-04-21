@@ -74,7 +74,7 @@ export default function Index() {
             as="h1"
             fontSize={["4xl", "8xl"]}
             fontFamily="ARCADE"
-            color={"#F7DE1F"}
+            color={"brand"}
           >
             <Typed
               strings={["CodeUp"]}
@@ -104,14 +104,14 @@ export default function Index() {
           >
             <ButtonGroup w={"100%"} justifyContent={["center", "right"]}>
               <Button
-                bg={"#F7DE1F"}
+                bg={"brand"}
                 color={"black"}
                 _hover={{
-                  bg: "#F7DE1F",
+                  bg: "brand",
                   color: "black",
                 }}
                 _focus={{
-                  bg: "#F7DE1F",
+                  bg: "brand",
                   color: "black",
                 }}
                 size={"lg"}

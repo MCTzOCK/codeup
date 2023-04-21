@@ -17,6 +17,8 @@ const theme = extendTheme({
     initialColorMode: "dark",
   },
   colors: {
+    brand: "#F7DE1F",
+
     "gray.100": "#C1C2C5",
     "gray.200": "#A6A7AB",
     "gray.300": "#909296",
