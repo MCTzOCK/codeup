@@ -14,13 +14,18 @@ import UserModel from "@codeup/util/dist/models/UserModel";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import ContentModel from "@codeup/util/dist/models/ContentModel";
 import OrgModel from "@codeup/util/dist/models/OrgModel";
+import CodeUpKidsProjectModel from "@codeup/util/dist/models/CodeUpKidsProjectModel";
+import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await mongoConnect();
 
     const users = await UserModel.countDocuments();
-    const projects = await EditorProjectModel.countDocuments();
+    const projects =
+      (await EditorProjectModel.countDocuments()) +
+      (await CodeUpKidsProjectModel.countDocuments()) +
+      (await IDEProjectModel.countDocuments());
     const lessons = await ContentModel.countDocuments();
     const orgs = await OrgModel.countDocuments();
 
