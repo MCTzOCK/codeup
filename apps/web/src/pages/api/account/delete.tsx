@@ -9,12 +9,14 @@
  */
 import { NextApiRequest, NextApiResponse } from "next";
 import mongoConnect from "@codeup/util/src/mongo";
-import sendMail from "@codeup/util/src/sendMail";
+import sendMail, { sendMailV2 } from "@codeup/util/src/sendMail";
 import generateMail from "@codeup/util/src/generateMail";
 import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
 import checkPassword from "@codeup/util/src/checkPassword";
 import jwt from "jsonwebtoken";
+import DeleteUserEmail from "@codeup/components/emails/DeleteUser";
+import { render } from "@react-email/render";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -58,13 +60,12 @@ export default async function handleRequest(
         return;
       }
 
-      await sendMail(
-        user.email,
-        "Konto gelöscht",
-        "Dein Konto wurde erfolgreich gelöscht!",
-        user.firstName
-      );
-
+      await sendMailV2({
+        to: user.email,
+        subject: "Konto gelöscht",
+        text: "Dein Konto wurde erfolgreich gelöscht!",
+        html: render(<DeleteUserEmail firstName={user.firstName} />)
+      })
       await user.remove();
 
       // DELETE: CommunityProfile, CommunityPosts, TodoLists with no contributors, IDEProjects with no contributors

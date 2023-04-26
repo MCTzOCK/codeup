@@ -1,5 +1,5 @@
 /**
- * apps/web/src/pages/api/admin/newsletter/index.ts
+ * apps/web/src/pages/api/admin/newsletter/index.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2023 Ben Siebert. All rights reserved.
@@ -13,6 +13,9 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import NewsletterModel from "@codeup/util/src/models/NewsletterModel";
 import sendMail from "@codeup/util/dist/sendMail";
+import { sendMailV2 } from "@codeup/util/src/sendMail";
+import { render } from "@react-email/render";
+import NewsletterEmail from "@codeup/components/emails/Newsletter";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -77,12 +80,14 @@ export default async function handleRequest(
           continue;
         }
 
-        await sendMail(
-          user.email,
-          req.body.title,
-          req.body.content,
-          user.firstName
-        );
+        if(user.email.endsWith("users.codeup.space")) continue;
+
+        await sendMailV2({
+          to: user.email,
+          subject: req.body.title,
+          text: req.body.content,
+          html: render(<NewsletterEmail firstName={user.firstName} content={req.body.content} />)
+        })
       }
 
       res.status(200).json({

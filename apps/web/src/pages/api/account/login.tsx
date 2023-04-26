@@ -1,5 +1,5 @@
 /**
- * src/pages/api/account/login.ts
+ * src/pages/api/account/Login.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -13,8 +13,10 @@ import mongoConnect from "@codeup/util/src/mongo";
 import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
 import generateJWT from "@codeup/util/src/generateJWT";
-import { default as sm } from "@codeup/util/src/sendMail";
+import { default as sm, sendMailV2 } from "@codeup/util/src/sendMail";
 import { authenticator } from "otplib";
+import { render } from "@react-email/render";
+import LoginEmail from "@codeup/components/emails/Login";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -126,11 +128,10 @@ export default async function handleRequest(
 }
 
 const sendMail = async (email: string, firstName: string) => {
-  await sm(
-    email,
-    "Logged In",
-    `Du hast dich erfolgreich angemeldet.
-Wenn du das nicht warst, kontaktiere umgehend den Support unter hello@ben-siebert.de`,
-    firstName
-  );
+  await sendMailV2({
+    to: email,
+    subject: "Angemeldet",
+    html: await render(<LoginEmail firstName={firstName} />),
+    text: "",
+  });
 };

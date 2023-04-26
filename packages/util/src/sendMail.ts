@@ -46,3 +46,38 @@ export default async function sendMail(
     html: tmp.html,
   });
 }
+
+export async function sendMailV2(options: {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+}) {
+  if (process.env.SMTP_DISABLE) {
+    console.log("SMTP is disabled");
+    return;
+  }
+
+  let transport = nodemailer.createTransport({
+    // @ts-ignore
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  await transport.sendMail({
+    from: "Ben von CodeUp <" + process.env.SMTP_USER + ">",
+    to: options.to,
+    replyTo: process.env.SMTP_USER,
+    subject: options.subject,
+    text: options.text,
+    html: options.html,
+  });
+}

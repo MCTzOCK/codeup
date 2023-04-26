@@ -12,7 +12,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import UserModel from "@codeup/util/src/models/UserModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { uuid } from "uuidv4";
-import sendMail from "@codeup/util/src/sendMail";
+import sendMail, { sendMailV2 } from "@codeup/util/src/sendMail";
+import { render } from "@react-email/render";
+import ResetEmail from "@codeup/components/emails/Reset";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -56,13 +58,13 @@ export default async function handleRequest(
 
   await user.save();
 
-  await sendMail(
-    user.email,
-    "Passwort Zurücksetzen",
-    `Klicke den folgenden Link um dein Passwort zurückzusetzen: http://${req.headers.host}/account/reset/${token}`,
-    user.firstName
-  );
-
+  await sendMailV2({
+    to: user.email,
+    subject: "Passwort zurücksetzen",
+    html: render(<ResetEmail firstName={user.firstName} link={`http://${req.headers.host}/account/reset/${token}`} />),
+    text: ""
+  });
+  
   res.status(200).json({
     success: true,
     message: "Reset E-Mail sent",

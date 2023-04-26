@@ -39,3 +39,4 @@ yarn-error.log*
 .codeup_app_stats.json
 *.temp.js
 *.temp.ts
+.react-email

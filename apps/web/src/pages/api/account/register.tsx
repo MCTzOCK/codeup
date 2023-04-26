@@ -1,5 +1,5 @@
 /**
- * src/pages/api/account/register.ts
+ * src/pages/api/account/register.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
@@ -13,10 +13,12 @@ import mongoConnect from "@codeup/util/src/mongo";
 import UserModel from "@codeup/util/src/models/UserModel";
 import * as crypto from "crypto";
 import { uuid } from "uuidv4";
-import sendMail from "@codeup/util/src/sendMail";
+import sendMail, { sendMailV2 } from "@codeup/util/src/sendMail";
 import checkPassword from "@codeup/util/src/checkPassword";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/avatars-bottts-sprites";
+import { render } from "@react-email/render";
+import RegisterEmail from "@codeup/components/emails/Register"
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -96,12 +98,12 @@ export default async function handleRequest(
 
     await user.save();
 
-    await sendMail(
-      req.body.email,
-      "Account activation",
-      `Bitte klicke den folgenden Link um dein Konto zu aktivieren:\nhttps://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=https://${req.headers.host}#login\n\nWenn du dich nicht registriert hast, kannst du diese E-Mail ignorieren.`,
-      req.body.firstName
-    );
+    await sendMailV2({
+      to: req.body.email,
+      subject: "Account aktivieren",
+      html: render(<RegisterEmail firstName={req.body.firstName} link={`https://${req.headers.host}/api/account/action?operation=activate&token=${acToken}&redirect=https://${req.headers.host}#login`} />),
+      text: ""
+    })
 
     res.status(200).json({
       success: true,

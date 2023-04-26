@@ -38,6 +38,7 @@ const disallowed = [
   ".codeup_app_stats.json",
   "privacy.tsx",
   "imprint.tsx",
+  ".react-email",
 ];
 
 // filter disallowed files

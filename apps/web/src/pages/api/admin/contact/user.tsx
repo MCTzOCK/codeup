@@ -14,7 +14,9 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import mongoConnect from "@codeup/util/src/mongo";
 import { verify } from "jsonwebtoken";
 import CourseModel from "@codeup/util/src/models/CourseModel";
-import sendMail from "@codeup/util/src/sendMail";
+import sendMail, { sendMailV2 } from "@codeup/util/src/sendMail";
+import { render } from "@react-email/render";
+import PrivateMessageEmail from "@codeup/components/emails/PrivateMessage";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -65,12 +67,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    await sendMail(
-      user.email,
-      "Nachricht von CodeUp",
-      req.body.message,
-      user.firstName
-    );
+    await sendMailV2({
+      to: user.email,
+      subject: "Nachricht von CodeUp",
+      text: req.body.message,
+      html: render(<PrivateMessageEmail firstName={user.firstName} content={req.body.message} />)
+    });
+
 
     res.status(200).json({
       success: true,

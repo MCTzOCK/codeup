@@ -15,8 +15,10 @@ import mongoConnect from "@codeup/util/src/mongo";
 import checkPassword from "@codeup/util/src/checkPassword";
 import generateJWT from "@codeup/util/src/generateJWT";
 import { uuid } from "uuidv4";
-import sendMail from "@codeup/util/src/sendMail";
+import sendMail, { sendMailV2 } from "@codeup/util/src/sendMail";
 import * as crypto from "crypto";
+import { render } from "@react-email/render";
+import UpdateEmail from "@codeup/components/emails/UpdateEmail";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -105,22 +107,12 @@ export default async function handleRequest(
             user.emailChangeCode = uuid();
             user.newEmail = req.body.keyValue;
 
-            await sendMail(
-              user.email,
-              "E-Mail Adresse ändern",
-              `Klicke den folgenden Link um deine E-Mail Adresse zu ändern:\nhttp://${
-                req.headers.host
-              }/api/account/action?operation=changeEmail&token=${
-                user.emailChangeCode
-              }&redirect=${encodeURIComponent(
-                `http://${
-                  req.headers.host
-                }/account/settings?component=account&newToken=${generateJWT(
-                  user
-                )}`
-              )}\n\nWenn du diese Aktion nicht beabsichtigt hast, dann kontaktiere sofort den Support unter hello@ben-siebert.de`,
-              user.firstName
-            );
+            await sendMailV2({
+              to: user.email,
+              subject: "E-Mail Adresse ändern",
+              text: "",
+              html: render(<UpdateEmail firstName={user.firstName} link={`https://${req.headers.host}/api/account/action?operation=changeEmail&token=${user.emailChangeCode}&redirect=${encodeURIComponent(`https://${req.headers.host}/account/settings?component=account&newToken=${generateJWT(user)}`)}`} />)
+            })
 
             res.status(200).json({
               success: true,
