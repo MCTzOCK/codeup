@@ -52,7 +52,7 @@ import { SiWritedotas } from "react-icons/si";
 import Sidebar from "../global/Sidebar";
 import { AiFillDashboard } from "react-icons/ai";
 import { BsPeople, BsCheck2Square } from "react-icons/bs";
-import { BiCodeBlock } from "react-icons/bi";
+import { BiCodeBlock, BiError } from "react-icons/bi";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -259,6 +259,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <FaCode />,
                     onClick: () => {
                       router.push("/admin/editor");
+                    },
+                  },
+                  {
+                    title: "Fehler",
+                    icon: <BiError />,
+                    onClick: () => {
+                      router.push("/admin/errors");
                     },
                   },
                 ]}
