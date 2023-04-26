@@ -18,6 +18,7 @@ import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
 import theme from "../global/theme";
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
+import { useLoggedIn } from "@codeup/hooks";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== 'undefined') {
@@ -35,6 +36,17 @@ if (typeof window !== 'undefined') {
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const {loggedIn, userInfo, loaded} = useLoggedIn();
+
+  useEffect(() => {
+    if(loaded && loggedIn) {
+      posthog?.identify(userInfo.email, {
+        name: userInfo.firstName + " " + userInfo.lastName,
+        email: userInfo.email,
+        username: userInfo.username,
+      })
+    }
+  }, [loaded, loggedIn])
 
   useAnalytics();
 

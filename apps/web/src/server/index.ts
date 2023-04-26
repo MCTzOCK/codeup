@@ -30,7 +30,7 @@ import jwt from "jsonwebtoken";
 import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
 import ShortURLModel from "@codeup/util/dist/models/ShortURLModel";
 import ErrorModel from "@codeup/util/src/models/ErrorModel";
-
+import { PostHog } from "posthog-node";
 
 const app = next.default({
   dev: process.env.NODE_ENV === "development",
