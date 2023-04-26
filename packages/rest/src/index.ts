@@ -160,6 +160,7 @@ import {
   deleteShort,
   getIDEProjects,
   getEditorProjects,
+  getErrors
 } from "./api/Admin";
 
 import {
@@ -245,6 +246,7 @@ import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
 
 const REST = {
   Admin: {
+    getErrors,
     listAccounts,
     updateAccount,
     deleteAccount: deleteAccountA,

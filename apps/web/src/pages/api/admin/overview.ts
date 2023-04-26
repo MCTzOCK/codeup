@@ -13,6 +13,7 @@ import jwt from "jsonwebtoken";
 import mongoConnect from "@codeup/util/dist/mongo";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import OrgModel from "@codeup/util/dist/models/OrgModel";
+import ErrorModel from "@codeup/util/dist/models/ErrorModel";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
 import ForumProfileModel from "@codeup/util/dist/models/ForumProfileModel";
@@ -137,6 +138,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       courses: await CourseModel.countDocuments(),
       lessons: await ContentModel.countDocuments(),
       shorts: await ShortURLModel.countDocuments(),
+      errors: await ErrorModel.countDocuments(),
     };
 
     res.status(200).send(stats);

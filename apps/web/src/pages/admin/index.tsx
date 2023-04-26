@@ -47,7 +47,7 @@ import {
   FaCheck,
   FaChild,
   FaCode,
-  FaComment,
+  FaComment, FaCross,
   FaLaptopCode,
   FaLink,
   FaNewspaper,
@@ -55,8 +55,9 @@ import {
   FaProjectDiagram,
   FaRocket,
   FaSitemap,
-  FaUser,
+  FaUser
 } from "react-icons/fa";
+import { BiError } from "react-icons/bi";
 
 export default function Index() {
   ChartJS.register(
@@ -114,6 +115,7 @@ export default function Index() {
     courses: number;
     lessons: number;
     shorts: number;
+    errors: number;
   }>();
   React.useEffect(() => {
     REST.Admin.getOverview(AccountManager.getActiveToken()).then((res) => {
@@ -191,6 +193,12 @@ export default function Index() {
                 icon={<FaLink />}
                 title={"shorts"}
                 number={stats?.shorts!.toString() as string}
+                color={"orange.400"}
+              />
+              <DashCard
+                icon={<BiError />}
+                title={"Fehler"}
+                number={stats?.errors!.toString() as string}
                 color={"orange.400"}
               />
             </Grid>

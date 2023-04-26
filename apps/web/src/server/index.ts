@@ -29,6 +29,8 @@ import Docker from "dockerode";
 import jwt from "jsonwebtoken";
 import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
 import ShortURLModel from "@codeup/util/dist/models/ShortURLModel";
+import ErrorModel from "@codeup/util/src/models/ErrorModel";
+
 
 const app = next.default({
   dev: process.env.NODE_ENV === "development",
@@ -56,6 +58,10 @@ app
       }
     );
 
+    process.on("uncaughtException", async (e) => {
+      await handleError(e)
+    })
+
     const docker = new Docker();
 
     docker
@@ -65,8 +71,8 @@ app
           console.log(err, res);
         });
       })
-      .catch((e) => {
-        console.error(e);
+      .catch(async (e) => {
+        await handleError(e);
       });
 
     const httpServer = createServer(async (req, res) => {
@@ -849,6 +855,7 @@ app
           await handle(req, res, parsedUrl);
         }
       } catch (e) {
+        await handleError(e);
         await app.renderError(e as any, req, res, req.url!);
       }
     });
@@ -859,7 +866,22 @@ app
       console.log(`> Ready on http://localhost:${port}`);
     });
   })
-  .catch((e) => {
+  .catch(async (e) => {
+    handleError(e);
     console.error(e);
     process.exit(1);
   });
+
+const handleError = async (e: any) => {
+  const err = {
+    name: "Unknown Error",
+    message: "No message provided",
+    stack: "No stack provided",
+  }
+
+  if(e.name) err.name = e.name;
+  if(e.message) err.message = e.message;
+  if(e.stack) err.stack = e.stack;
+  await ErrorModel.create(err)
+  console.log(123)
+}
