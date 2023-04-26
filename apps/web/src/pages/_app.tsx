@@ -16,11 +16,37 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import REST from "@codeup/rest";
 import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
 import theme from "../global/theme";
+import posthog from 'posthog-js'
+import { PostHogProvider } from 'posthog-js/react'
+
+// Check that PostHog is client-side (used to handle Next.js SSR)
+if (typeof window !== 'undefined') {
+  // @ts-ignore
+  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+    // @ts-ignore
+    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+    // Enable debug mode in development
+    loaded: (posthog) => {
+      if (process.env.NODE_ENV === 'development') posthog.debug()
+    },
+    autocapture: true,
+  })
+}
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useAnalytics();
+
+  useEffect(() => {
+    // Track page views
+    const handleRouteChange = () => posthog?.capture('$pageview')
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [])
 
   return (
     <>
@@ -57,28 +83,30 @@ function App({ Component, pageProps }: AppProps) {
           cardType: "summary_large_image",
         }}
       />
-      <ChakraProvider theme={theme}>
-        <CommandPalette />
-        <Box minH="100vh" minW="100%">
-          <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-          <NavigationBar />
-          <Box minH={"96vh"}>
-            {router.pathname.startsWith("/community") ? (
-              <CommunityNavigationBar />
-            ) : null}
-            {router.pathname.startsWith("/forum") ? (
-              <ForumNavigationBar />
-            ) : null}
+      <PostHogProvider client={posthog}>
+        <ChakraProvider theme={theme}>
+          <CommandPalette />
+          <Box minH="100vh" minW="100%">
+            <div id={"__codeup_other_component_render_space_do_not_use"}></div>
+            <NavigationBar />
+            <Box minH={"96vh"}>
+              {router.pathname.startsWith("/community") ? (
+                <CommunityNavigationBar />
+              ) : null}
+              {router.pathname.startsWith("/forum") ? (
+                <ForumNavigationBar />
+              ) : null}
 
-            <Box id={"__codeup_manual_mount_point"}></Box>
+              <Box id={"__codeup_manual_mount_point"}></Box>
 
-            <Component {...pageProps} />
+              <Component {...pageProps} />
 
-            {router.pathname.startsWith("/community") ? <PostButton /> : null}
+              {router.pathname.startsWith("/community") ? <PostButton /> : null}
+            </Box>
+            <Footer />
           </Box>
-          <Footer />
-        </Box>
-      </ChakraProvider>
+        </ChakraProvider>
+      </PostHogProvider>
     </>
   );
 }
