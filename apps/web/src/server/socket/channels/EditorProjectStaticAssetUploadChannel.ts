@@ -24,7 +24,9 @@ export default class EditorProjectStaticAssetUploadChannel extends Channel {
       this.channelName,
       async (data: any, callback: (status: any) => void) => {
         if (SocketRegistry.loggedIn[this.socket.id]) {
-          const { id, fileContent, fileName } = data;
+          let { id, fileContent, fileName } = data;
+
+          fileName = fileName.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
 
           const project = await EditorProjectModel.findOne({
             _id: id,
