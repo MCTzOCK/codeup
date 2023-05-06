@@ -58,7 +58,7 @@ export default async function handleRequest(
 
     if (!user) {
       res.status(400).json({
-        error: "User not found",
+        error: "Benutzer nicht gefunden",
       });
       return;
     }
@@ -68,7 +68,7 @@ export default async function handleRequest(
       user.password
     ) {
       res.status(400).json({
-        error: "Wrong password",
+        error: "Falsches Passwort",
       });
       return;
     }
@@ -76,7 +76,7 @@ export default async function handleRequest(
     if (!user.active) {
       res.status(400).json({
         error:
-          "Account not activated. Check your E-Mail for an activation Link",
+          "Konto nicht aktiviert. Überprüfen Sie Ihre E-Mail für einen Aktivierungslink.",
       });
       return;
     }
@@ -92,7 +92,7 @@ export default async function handleRequest(
       if (req.body.code) {
         if (!authenticator.check(req.body.code, user.twoFactorSecret)) {
           res.status(400).json({
-            error: "Wrong code",
+            error: "Falscher Code",
           });
           return;
         }

@@ -63,7 +63,7 @@ export default async function handleRequest(
     ) {
       res.status(400).json({
         error:
-          "Username must be between 4 and 20 characters long and can only contain letters, numbers, and the underscore",
+          "Benutzername muss zwischen 4 und 20 Zeichen lang sein und darf nur Buchstaben, Zahlen und Unterstriche enthalten.",
       });
       return;
     }
