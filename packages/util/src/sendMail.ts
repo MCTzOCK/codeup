@@ -67,13 +67,14 @@ export async function sendMailV2(options: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
     },
+    from: process.env.SMTP_FROM,
     tls: {
       rejectUnauthorized: false,
     },
   });
 
   await transport.sendMail({
-    from: "Ben von CodeUp <" + process.env.SMTP_USER + ">",
+    from: "Ben von CodeUp <" + process.env.SMTP_FROM + ">",
     to: options.to,
     replyTo: process.env.SMTP_USER,
     subject: options.subject,
