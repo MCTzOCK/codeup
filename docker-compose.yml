@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.Web
+      dockerfile: Dockerfile
     network_mode: host
     ports:
       - "9002:3000"
