@@ -13,6 +13,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Build Docker Image
-        run: docker build -t registry.ben-siebert.com/codeup .
+        run: docker build -t registry.ben-siebert.com/ben/codeup .
       - name: Push Docker Image
-        run: docker push registry.ben-siebert.com/codeup
+        run: docker push registry.ben-siebert.com/ben/codeup
