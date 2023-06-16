@@ -4743,6 +4743,11 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
+"@types/node@>=8.1.0":
+  version "20.3.1"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.3.1.tgz#e8a83f1aa8b649377bb1fb5d7bac5cb90e784dfe"
+  integrity sha512-EhcH/wvidPy1WeML3TtYFGR83UzjxeWRen9V402T8aUGYsCHOmfoisV3ZSg03gAFIbLq8TnWOJ0f4cALtnSEUg==
+
 "@types/node@^17.0.18", "@types/node@^17.0.5":
   version "17.0.45"
   resolved "https://registry.npmjs.org/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
@@ -15319,6 +15324,14 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==
+
+stripe@^12.9.0:
+  version "12.9.0"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-12.9.0.tgz#d520d85b46a91784ea39f7a49401e0a63c749341"
+  integrity sha512-stYtrWetRYUsEbsUVyJaPG9Sppt0ds2szBqXsuDG6KZPPuUmCccbpceLrhoOBwNl1RziEfNB7oG9wg1n2eW+EQ==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.11.0"
 
 striptags@^3.1.1:
   version "3.2.0"

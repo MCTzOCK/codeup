@@ -23,6 +23,7 @@ export function useLoggedIn(): {
     username: string;
     sso?: string | boolean;
     role: string;
+    subscription?: string;
   };
 } {
   const [loggedIn, setLoggedIn] = useState(false);

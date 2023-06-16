@@ -91,6 +91,18 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  subscription: {
+    type: String,
+    default: "FREE",
+  },
+  stripeSubscriptionId: {
+    type: "String",
+    default: "",
+  },
+  stripeCustomerId: {
+    type: "String",
+    default: "",
+  }
 });
 
 export default mongoose.models?.User || mongoose.model("User", UserSchema);

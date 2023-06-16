@@ -243,6 +243,7 @@ import {
 } from "./api/Roadmap";
 import { getTestimonials } from "./api/Landingpage";
 import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
+import { createCheckoutLink } from "./api/Payments";
 
 const REST = {
   Admin: {
@@ -495,6 +496,9 @@ const REST = {
     unsubscribe,
     subscribed,
   },
+  Payments: {
+    createCheckoutLink
+  }
 };
 
 export default REST;

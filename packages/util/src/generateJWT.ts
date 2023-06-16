@@ -20,6 +20,7 @@ export default function generateJWT(user: any) {
       username: user.username,
       sso: user.sso || false,
       role: user.role || "user",
+      subscription: user.subscription || "FREE"
     },
     process.env.JWT_SECRET as string,
     {

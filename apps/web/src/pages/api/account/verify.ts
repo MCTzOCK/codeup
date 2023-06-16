@@ -52,6 +52,7 @@ export default async function handleRequest(
           "firstName",
           "lastName",
           "twoFactorEnabled",
+          "subscription",
         ];
 
         let dU = decoded as any;
