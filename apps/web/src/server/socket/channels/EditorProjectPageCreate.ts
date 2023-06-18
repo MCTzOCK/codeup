@@ -74,6 +74,26 @@ export default class EditorProjectPageCreateChannel extends Channel {
           return;
         }
 
+        let allowedToCreate = true;
+
+        if (!SocketRegistry.loggedIn[this.socket.id].pro) {
+          const pages = await EditorProjectPageModel.find({
+            project: project._id,
+          });
+          if (pages.length >= 5) {
+            allowedToCreate = false;
+          }
+        }
+
+        if (!allowedToCreate) {
+          this.emit({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 5 Seiten zu erstellen.",
+            success: false,
+          });
+          return;
+        }
+
         const page = await EditorProjectPageModel.create({
           project: id,
           type,
