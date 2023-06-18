@@ -38,6 +38,14 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
             ) ||
             SocketRegistry.loggedIn[this.socket.id].admin
           ) {
+            if (!SocketRegistry.loggedIn[this.socket.id].pro) {
+              this.emit({
+                error:
+                  "Du musst CodeUp PRO abonnieren, um mit anderen zusammenarbeiten zu können.",
+                success: false,
+              });
+              return;
+            }
             const contributor = await UserModel.findOne({
               email,
             });
