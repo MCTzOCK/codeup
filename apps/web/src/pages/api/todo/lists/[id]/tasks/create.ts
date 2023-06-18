@@ -75,7 +75,7 @@ export default async function handleRequest(
       if (user.subscription !== "PRO" && user.role !== "admin") {
         let allowed = true;
 
-        if (lists.tasks.length >= 10) {
+        if (list.tasks.length >= 10) {
           allowed = false;
         }
 
