@@ -29,8 +29,9 @@ import {
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCaretDown, FaSearch } from "react-icons/fa";
+import { FaCaretDown, FaDollarSign, FaSearch } from "react-icons/fa";
 import DividerWithText from "./DividerWithText";
+import { useRouter } from "next/router";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -39,6 +40,7 @@ export default function NavigationBarMenu(props: {
   onLogoutOpen: () => void;
 }) {
   const { loggedIn } = useLoggedIn();
+  const router = useRouter();
 
   return (
     <>
@@ -49,6 +51,15 @@ export default function NavigationBarMenu(props: {
         onClick={props.onMoreMenuOpen}
       >
         Angebote
+      </Button>
+      <Button
+        variant={"ghost"}
+        size={"lg"}
+        onClick={() => {
+          router.push("/pricing");
+        }}
+      >
+        Preise
       </Button>
       <Popover>
         <PopoverTrigger>
