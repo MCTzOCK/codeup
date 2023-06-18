@@ -160,7 +160,7 @@ import {
   deleteShort,
   getIDEProjects,
   getEditorProjects,
-  getErrors
+  getErrors,
 } from "./api/Admin";
 
 import {
@@ -243,7 +243,7 @@ import {
 } from "./api/Roadmap";
 import { getTestimonials } from "./api/Landingpage";
 import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
-import { createCheckoutLink } from "./api/Payments";
+import { cancelSubscription, createCheckoutLink } from "./api/Payments";
 
 const REST = {
   Admin: {
@@ -497,8 +497,9 @@ const REST = {
     subscribed,
   },
   Payments: {
-    createCheckoutLink
-  }
+    createCheckoutLink,
+    cancelSubscription,
+  },
 };
 
 export default REST;

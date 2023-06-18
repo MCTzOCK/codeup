@@ -11,9 +11,17 @@ import { IResponse } from "../types/IResponse";
 import makeRequest from "../makeRequest";
 
 export async function createCheckoutLink(jwt: string): Promise<IResponse> {
-    return await makeRequest({
-      method: "POST",
-      path: "/api/payments/createCheckoutSession",
-      token: jwt
-    });
+  return await makeRequest({
+    method: "POST",
+    path: "/api/payments/createCheckoutSession",
+    token: jwt,
+  });
+}
+
+export async function cancelSubscription(jwt: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/payments/cancelSubscription",
+    token: jwt,
+  });
 }

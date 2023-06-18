@@ -39,9 +39,11 @@ import * as React from "react";
 import { useEffect } from "react";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import {
+  FaCrown,
   FaInfo,
   FaLock,
   FaPen,
+  FaTimes,
   FaTrash,
   FaUnlock,
   FaUserCircle,
@@ -459,6 +461,89 @@ export default function Settings() {
                 ],
               },
             ],
+          },
+          {
+            title: "CodeUp Pro",
+            fields: [
+              {
+                text:
+                  "Aktueller Status: " +
+                  (userInfo.subscription === "PRO" ? "Aktiv" : "Inaktiv"),
+                icon: <FaCrown />,
+              },
+            ],
+            buttonRows:
+              userInfo.subscription === "PRO"
+                ? [
+                    {
+                      buttons: [
+                        {
+                          text: "Kündigen",
+                          colorScheme: "red",
+                          icon: <FaTimes />,
+                          onClick: async () => {
+                            if (
+                              !(await PopupManager.confirmAsync({
+                                title: "Kündigen",
+                                question:
+                                  "Willst du CodeUp PRO wirklich kündigen und all deine Vorteile verlieren?",
+                              }))
+                            ) {
+                              return;
+                            }
+
+                            const res = await REST.Payments.cancelSubscription(
+                              AccountManager.getActiveToken()
+                            );
+                            if (res.status === 200) {
+                              await PopupManager.alertAsync({
+                                title: "Erfolgreich",
+                                description:
+                                  "CodeUp PRO erfolgreich gekündigt!",
+                              });
+                              AccountManager.overrideActiveToken(
+                                res.payload.jwt
+                              );
+                            } else {
+                              PopupManager.alert({
+                                title: "Fehler",
+                                description:
+                                  "Es ist ein Fehler aufgetreten. Bitte kontaktiere den Support mit dieser Fehlermeldung: " +
+                                  res.payload.error,
+                              });
+                            }
+                          },
+                        },
+                      ],
+                    },
+                  ]
+                : [
+                    {
+                      buttons: [
+                        {
+                          text: "Aktivieren",
+                          colorScheme: "green",
+                          icon: <FaCrown />,
+                          onClick: async () => {
+                            const res = await REST.Payments.createCheckoutLink(
+                              AccountManager.getActiveToken()
+                            );
+
+                            if (res.status === 200) {
+                              window.location.href = res.payload.url;
+                            } else {
+                              PopupManager.alert({
+                                title: "Fehler",
+                                description:
+                                  "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
+                                  res.payload.error,
+                              });
+                            }
+                          },
+                        },
+                      ],
+                    },
+                  ],
           },
         ]}
       />

@@ -93,4 +93,8 @@ export default class AccountManager {
 
     localStorage.setItem("token", token);
   }
+
+  public static overrideActiveToken(token: string): void {
+    localStorage.setItem("token", token);
+  }
 }
