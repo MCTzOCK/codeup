@@ -13,6 +13,8 @@ import mongoConnect from "@codeup/util/dist/mongo";
 import jwt from "jsonwebtoken";
 import RoadmapModel from "@codeup/util/dist/models/RoadmapModel";
 import UserModel from "@codeup/util/dist/models/UserModel";
+import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
+import SocketRegistry from "../../../server/socket/SocketRegistry";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -58,6 +60,25 @@ export default async function handleRequest(
     if (!user) {
       res.status(401).send({
         error: "Not authenticated",
+      });
+      return;
+    }
+
+    let allowedToCreate = true;
+
+    if (user.subscription !== "PRO" && user.role !== "admin") {
+      const maps = await RoadmapModel.find({
+        owner: user._id,
+      });
+      if (maps.length >= 1) {
+        allowedToCreate = false;
+      }
+    }
+
+    if (!allowedToCreate) {
+      res.status(403).send({
+        error:
+          "Du musst CodeUp PRO abonnieren, um mehr als 1 Roadmap zu erstellen.",
       });
       return;
     }
