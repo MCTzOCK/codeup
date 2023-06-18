@@ -111,6 +111,7 @@ export default async function handleRequest(
                 return;
               }
             }
+
             const newProject = await ToDoProjectModel.create({
               owner: user._id,
               name: req.query.name,

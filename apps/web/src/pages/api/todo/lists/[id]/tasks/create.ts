@@ -14,6 +14,7 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import TodoListModel from "@codeup/util/src/models/TodoListModel";
 import { uuid } from "uuidv4";
+import ToDoProjectModel from "@codeup/util/dist/models/ToDoProjectModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -69,6 +70,22 @@ export default async function handleRequest(
           error: "Invalid list",
         });
         return;
+      }
+
+      if (user.subscription !== "PRO" && user.role !== "admin") {
+        let allowed = true;
+
+        if (lists.tasks.length >= 10) {
+          allowed = false;
+        }
+
+        if (!allowed) {
+          res.status(403).json({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 10 Einträge in einer Liste zu erstellen.",
+          });
+          return;
+        }
       }
 
       let tId = uuid();
