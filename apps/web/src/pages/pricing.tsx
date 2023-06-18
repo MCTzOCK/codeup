@@ -145,10 +145,6 @@ export default function Pricing() {
                           },
                           {
                             av: false,
-                            t: "Verändern der Biographie",
-                          },
-                          {
-                            av: false,
                             t: "Verändern des Anzeigenamens",
                           },
                           {
@@ -358,10 +354,6 @@ export default function Pricing() {
                           {
                             av: true,
                             t: "Anzeigen von Zertifikaten",
-                          },
-                          {
-                            av: true,
-                            t: "Verändern der Biographie",
                           },
                           {
                             av: true,

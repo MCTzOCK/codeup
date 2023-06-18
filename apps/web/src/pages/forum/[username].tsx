@@ -54,6 +54,7 @@ import REST from "@codeup/rest";
 import {
   FaBirthdayCake,
   FaCheckCircle,
+  FaCrown,
   FaEnvelope,
   FaFile,
   FaGlobe,
@@ -395,6 +396,16 @@ export default function Profile() {
                   size={"xl"}
                 />
                 <Box ml={4}>
+                  {editMode && userInfo.subscription !== "PRO" ? (
+                    <>
+                      <HStack color={"orange.400"}>
+                        <FaCrown />
+                        <Text>
+                          Personalisiere dein Profil mit <b>CodeUp PRO</b>
+                        </Text>
+                      </HStack>
+                    </>
+                  ) : null}
                   {editMode ? (
                     <>
                       <Input
@@ -403,6 +414,7 @@ export default function Profile() {
                         placeholder={"Anzeigename"}
                         defaultValue={profile.displayName}
                         onChange={(e) => {}}
+                        disabled={userInfo.subscription !== "PRO"}
                       />
                     </>
                   ) : (
@@ -465,6 +477,7 @@ export default function Profile() {
                           id={"edit-website"}
                           placeholder={"Webseite"}
                           defaultValue={profile.website}
+                          disabled={userInfo.subscription !== "PRO"}
                         />
                       </InputGroup>
                     </>
@@ -498,6 +511,7 @@ export default function Profile() {
                           id={"edit-location"}
                           placeholder={"Ort"}
                           defaultValue={profile.location}
+                          disabled={userInfo.subscription !== "PRO"}
                         />
                       </InputGroup>
                     </>
@@ -531,7 +545,11 @@ export default function Profile() {
               <Box mt={4}>
                 {editMode ? (
                   <>
-                    <Textarea defaultValue={profile.bio} id={"edit-bio"} />
+                    <Textarea
+                      disabled={userInfo.subscription !== "PRO"}
+                      defaultValue={profile.bio}
+                      id={"edit-bio"}
+                    />
                   </>
                 ) : (
                   <Text>{profile.bio}</Text>

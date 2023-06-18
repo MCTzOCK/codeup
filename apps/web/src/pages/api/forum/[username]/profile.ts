@@ -87,13 +87,14 @@ export default async function handleRequest(
           return;
         }
 
-        const updatableKeys = [
-          "displayName",
-          "bio",
-          "website",
-          "location",
-          "certificates",
-        ];
+        const updatableKeys = ["certificates"];
+
+        if (user.subscription === "PRO") {
+          updatableKeys.push("bio");
+          updatableKeys.push("website");
+          updatableKeys.push("displayName");
+          updatableKeys.push("location");
+        }
 
         for (const key of updatableKeys) {
           if (req.body[key]) {
