@@ -13,6 +13,7 @@ import SocketRegistry from "../SocketRegistry";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import mongoose from "mongoose";
 import { v4 } from "uuid";
+import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
 
 export default class EditorProjectStaticAssetUploadChannel extends Channel {
   constructor(socket: Socket, channelName: string) {
@@ -26,7 +27,7 @@ export default class EditorProjectStaticAssetUploadChannel extends Channel {
         if (SocketRegistry.loggedIn[this.socket.id]) {
           let { id, fileContent, fileName } = data;
 
-          fileName = fileName.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
+          fileName = fileName.replace(/[^a-z0-9.]/gi, "_").toLowerCase();
 
           const project = await EditorProjectModel.findOne({
             _id: id,

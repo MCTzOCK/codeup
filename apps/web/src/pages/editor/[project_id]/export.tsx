@@ -20,6 +20,7 @@ import {
   Button,
   Flex,
   Heading,
+  HStack,
   Stack,
   StackDivider,
   Text,
@@ -28,6 +29,7 @@ import JSZip from "jszip";
 import Networking from "@codeup/util/dist/Networking";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import Head from "next/head";
+import { FaCrown } from "react-icons/fa";
 
 export default function Export() {
   const router = useRouter();
@@ -94,6 +96,12 @@ export default function Export() {
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 <Stack>
+                  <HStack color={"orange.400"}>
+                    <FaCrown />
+                    <Text>
+                      Exportiere dein Projekt mit <b>CodeUp PRO</b>
+                    </Text>
+                  </HStack>
                   <Text fontSize={"lg"}>
                     Du kannst deine App exportieren und auf deinem eigenen
                     Server hosten. Klicke dazu auf die Schaltfläche unten. Der
@@ -105,6 +113,15 @@ export default function Export() {
                   <Button
                     colorScheme={"blue"}
                     onClick={async () => {
+                      if (userInfo.subscription !== "PRO") {
+                        await PopupManager.alertAsync({
+                          title: "CodeUp PRO",
+                          description:
+                            "Du kannst dein Projekt nur exportieren, wenn du eine aktive CodeUp PRO Lizenz hast!",
+                        });
+                        return;
+                      }
+
                       let pages: any[] = [];
                       let staticAssets: any[] = [];
                       let functions: any[] = [];

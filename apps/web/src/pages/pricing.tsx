@@ -181,7 +181,7 @@ export default function Pricing() {
                           },
                           {
                             av: true,
-                            t: "Hochladen von 5 statischen Dateien",
+                            t: "Hochladen von ∞ statischen Dateien",
                           },
                           {
                             av: false,
