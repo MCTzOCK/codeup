@@ -68,6 +68,25 @@ export default class EditorProjectFunctionCreateChannel extends Channel {
           return;
         }
 
+        let allowedToCreate = true;
+
+        if (!SocketRegistry.loggedIn[this.socket.id].pro) {
+          const funcs = await EditorProjectFunctionModel.find({
+            project: project._id,
+          });
+          if (funcs.length >= 1) {
+            allowedToCreate = false;
+          }
+        }
+
+        if (!allowedToCreate) {
+          this.emit({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 1 Funktion zu erstellen.",
+            success: false,
+          });
+          return;
+        }
         const func = await EditorProjectFunctionModel.create({
           project: id,
           path: "/api" + url,
