@@ -24,6 +24,26 @@ export default class EditorProjectCreateChannel extends Channel {
       if (SocketRegistry.loggedIn[this.socket.id]) {
         const { name } = data;
 
+        let allowedToCreateProject = true;
+
+        if (!SocketRegistry.loggedIn[this.socket.id].pro) {
+          const projects = await EditorProjectModel.find({
+            owner: SocketRegistry.loggedIn[this.socket.id].id,
+          });
+          if (projects.length >= 3) {
+            allowedToCreateProject = false;
+          }
+        }
+
+        if (!allowedToCreateProject) {
+          this.emit({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 3 Projekte zu erstellen.",
+            success: false,
+          });
+          return;
+        }
+
         const project = await EditorProjectModel.create({
           name,
           owner: SocketRegistry.loggedIn[this.socket.id].id,

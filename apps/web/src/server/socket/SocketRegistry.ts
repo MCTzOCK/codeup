@@ -15,6 +15,7 @@ export default class SocketRegistry {
       username: string;
       currentlyEditing?: string;
       admin?: boolean;
+      pro?: boolean;
     };
   } = {};
 }
