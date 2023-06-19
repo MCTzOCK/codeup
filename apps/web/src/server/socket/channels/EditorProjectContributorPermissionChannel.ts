@@ -25,7 +25,7 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
         const { id, email, permissions } = data;
 
         const project = await EditorProjectModel.findOne({
-          _id: id,
+          _id: id
         });
 
         if (project) {
@@ -38,8 +38,18 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
             ) ||
             SocketRegistry.loggedIn[this.socket.id].admin
           ) {
+
+            if (!SocketRegistry.loggedIn[this.socket.id].pro) {
+              this.emit({
+                error:
+                  "Du musst CodeUp PRO abonnieren, um mit anderen zusammenarbeiten zu können.",
+                success: false
+              });
+              return;
+            }
+
             const contributor = await UserModel.findOne({
-              email,
+              email
             });
 
             if (contributor) {
@@ -61,7 +71,7 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
                   if (c.user.equals(contributor._id)) {
                     contributrs.push({
                       ...c,
-                      permissions: rPerms,
+                      permissions: rPerms
                     });
                   } else {
                     contributrs.push(c);
@@ -74,12 +84,12 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
 
                 this.emit({
                   success: true,
-                  permissions: rPerms,
+                  permissions: rPerms
                 });
               } else {
                 this.emit({
                   success: false,
-                  error: "Contributor not found",
+                  error: "Contributor not found"
                 });
               }
 
@@ -95,31 +105,31 @@ export default class EditorProjectContributorPermissionChannel extends Channel {
                   username: contributor.username,
                   firstName: contributor.firstName,
                   lastName: contributor.lastName,
-                  permissions: ["READ", "WRITE", "DUPLICATE"],
-                },
+                  permissions: ["READ", "WRITE", "DUPLICATE"]
+                }
               });
             } else {
               this.emit({
                 error: "User not found",
-                success: false,
+                success: false
               });
             }
           } else {
             this.emit({
               error: "Not authorized",
-              success: false,
+              success: false
             });
           }
         } else {
           this.emit({
             error: "Project not found",
-            success: false,
+            success: false
           });
         }
       } else {
         this.emit({
           error: "Not authenticated",
-          success: false,
+          success: false
         });
       }
     });
