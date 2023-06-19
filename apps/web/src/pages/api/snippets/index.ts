@@ -13,6 +13,7 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import CodeSnippet from "@codeup/util/src/models/CodeSnippet";
+import CodeUpKidsProjectModel from "@codeup/util/dist/models/CodeUpKidsProjectModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -83,6 +84,26 @@ export default async function handleRequest(
             error: "Missing parameters",
           });
           return;
+        }
+
+        if (user.subscription !== "PRO" && user.role !== "admin") {
+          let allowed = true;
+
+          const snippets = await CodeSnippet.find({
+            username: user.username,
+          });
+
+          if (snippets.length >= 3) {
+            allowed = false;
+          }
+
+          if (!allowed) {
+            res.status(403).json({
+              error:
+                "Du musst CodeUp PRO abonnieren, um mehr als 3 Code-Snippets zu erstellen.",
+            });
+            return;
+          }
         }
 
         const snippet = await CodeSnippet.create({

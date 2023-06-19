@@ -46,7 +46,6 @@ export default class EditorProjectContributorDeleteChannel extends Channel {
               });
               return;
             }
-
             const contributor = await UserModel.findOne({
               email,
             });

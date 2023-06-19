@@ -38,10 +38,6 @@ export default class EditorProjectContributorAddChannel extends Channel {
             ) ||
             SocketRegistry.loggedIn[this.socket.id].admin
           ) {
-
-
-            let allowedToCreateProject = true;
-
             if (!SocketRegistry.loggedIn[this.socket.id].pro) {
               this.emit({
                 error:

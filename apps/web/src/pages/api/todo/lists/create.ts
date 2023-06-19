@@ -14,6 +14,7 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import IDEProjectModel from "@codeup/util/src/models/IDEProjectModel";
 import TodoListModel from "@codeup/util/src/models/TodoListModel";
+import ToDoProjectModel from "@codeup/util/dist/models/ToDoProjectModel";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -53,6 +54,26 @@ export default async function handleRequest(
           error: "Invalid token",
         });
         return;
+      }
+
+      if (user.subscription !== "PRO" && user.role !== "admin") {
+        let allowed = true;
+
+        const lists = await TodoListModel.find({
+          owner: user._id,
+        });
+
+        if (lists.length >= 3) {
+          allowed = false;
+        }
+
+        if (!allowed) {
+          res.status(403).json({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 3 ToDo-Listen zu erstellen.",
+          });
+          return;
+        }
       }
 
       const list = await TodoListModel.create({

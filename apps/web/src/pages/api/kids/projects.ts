@@ -87,6 +87,26 @@ export default async function handleRequest(
         return;
       }
 
+      if (user.subscription !== "PRO" && user.role !== "admin") {
+        let allowed = true;
+
+        const projects = await CodeUpKidsProjectModel.find({
+          owner: user._id,
+        });
+
+        if (projects.length >= 2) {
+          allowed = false;
+        }
+
+        if (!allowed) {
+          res.status(403).json({
+            error:
+              "Du musst CodeUp PRO abonnieren, um mehr als 2 Kids-Projekte zu erstellen.",
+          });
+          return;
+        }
+      }
+
       const project = await CodeUpKidsProjectModel.create({
         owner: user._id,
         name: req.body.name,
