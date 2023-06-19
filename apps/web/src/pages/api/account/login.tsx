@@ -17,6 +17,7 @@ import { default as sm, sendMailV2 } from "@codeup/util/src/sendMail";
 import { authenticator } from "otplib";
 import { render } from "@react-email/render";
 import LoginEmail from "@codeup/components/emails/Login";
+import Stripe from "stripe";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -79,6 +80,20 @@ export default async function handleRequest(
           "Konto nicht aktiviert. Überprüfen Sie Ihre E-Mail für einen Aktivierungslink.",
       });
       return;
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+      apiVersion: "2022-11-15"
+    });
+
+    if(user.stripeSubscriptionId && user.stripeSubscriptionId !== "") {
+      const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+      console.log(subscription);
+      if(subscription.status !== "active") {
+        user.subscription = "FREE";
+        user.stripeSubscriptionId = "";
+        await user.save();
+      }
     }
 
     if (!user.twoFactorEnabled) {

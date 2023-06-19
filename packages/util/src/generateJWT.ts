@@ -24,7 +24,7 @@ export default function generateJWT(user: any) {
     },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "30d",
+      expiresIn: "3d",
     }
   );
 }
