@@ -113,7 +113,7 @@ export default function MenuButtons(props: {
                 </Center>
                 <MenuDivider />
                 {
-                  userInfo.subscription === "FREE" && (
+                  (userInfo.subscription === "FREE" && userInfo.role !== "admin") && (
                     <MenuItem
                       onClick={async () => {
                         const res = await REST.Payments.createCheckoutLink(AccountManager.getActiveToken());
@@ -134,7 +134,6 @@ export default function MenuButtons(props: {
                     >
                       Upgrade auf PRO
                     </MenuItem>
-
                   )
                 }
                 <MenuItem
@@ -155,6 +154,7 @@ export default function MenuButtons(props: {
                       username: string;
                       firstName: string;
                       lastName: string;
+                      pro: boolean;
                     }) => {
                       return (
                         <>
@@ -176,7 +176,10 @@ export default function MenuButtons(props: {
                                   <Heading size={"lg"}>
                                     {props.firstName}&nbsp;{props.lastName}
                                   </Heading>
-                                  <Text color={"gray"}>@{props.username}</Text>
+                                  <HStack>
+                                    <Text color={"gray"}>@{props.username}</Text>
+                                    {props.pro && <Badge colorScheme={"orange"} size={"lg"}>PRO</Badge>}
+                                  </HStack>
                                 </Stack>
                               </HStack>
                             </Box>
@@ -237,6 +240,7 @@ export default function MenuButtons(props: {
                               firstName={userInfo.firstName}
                               lastName={userInfo.lastName}
                               username={userInfo.username}
+                              pro={userInfo.subscription === "PRO"}
                             />
                             {AccountManager.getAccounts().map((account) => (
                               <>
@@ -244,6 +248,7 @@ export default function MenuButtons(props: {
                                   firstName={account.firstName}
                                   lastName={account.lastName}
                                   username={account.username}
+                                  pro={userInfo.subscription === "PRO"}
                                 />
                                 <StackDivider />
                               </>

@@ -31,6 +31,7 @@ import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectK
 import ShortURLModel from "@codeup/util/dist/models/ShortURLModel";
 import ErrorModel from "@codeup/util/src/models/ErrorModel";
 import { PostHog } from "posthog-node";
+import Stripe from "stripe";
 
 const app = next.default({
   dev: process.env.NODE_ENV === "development",
@@ -74,6 +75,10 @@ app
       .catch(async (e) => {
         await handleError(e);
       });
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+      apiVersion: "2022-11-15"
+    });
 
     const httpServer = createServer(async (req, res) => {
       try {
@@ -851,6 +856,8 @@ app
               res.end();
             }
           }
+
+
 
           await handle(req, res, parsedUrl);
         }
