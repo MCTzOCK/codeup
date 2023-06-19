@@ -8,55 +8,56 @@
  *
  */
 
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { decode } from "jsonwebtoken";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import mongoConnect from "@codeup/util/dist/mongo";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
-
     await mongoConnect();
 
-    if(req.method !== "POST") {
+    if (req.method !== "POST") {
       res.status(405).json({
-        error: "Method not allowed"
+        error: "Method not allowed",
       });
       return;
     }
 
     const jwt = req.headers["x-jwt"] as string;
 
-    if(!jwt) {
+    if (!jwt) {
       res.status(401).json({
-        error: "Unauthorized"
+        error: "Unauthorized",
       });
       return;
     }
 
-    const decoded = await decode(jwt) as any;
+    const decoded = (await decode(jwt)) as any;
 
-    if(!decoded) {
+    if (!decoded) {
       res.status(401).json({
-        error: "Unauthorized"
+        error: "Unauthorized",
       });
       return;
     }
 
     const user = await UserModel.findById(decoded["id"] as string);
 
-    if(!user) {
+    if (!user) {
       res.status(401).json({
-        error: "Unauthorized"
+        error: "Unauthorized",
       });
       return;
     }
 
-    if(!user.active || user.role === "admin" || user.subscription === "PRO") {
+    if (!user.active || user.role === "admin" || user.subscription === "PRO") {
       res.status(403).json({
-        error: "Forbidden"
+        error: "Forbidden",
       });
       return;
     }
@@ -67,10 +68,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let customerId: string = "";
 
-    if(!user.stripeCustomerId || user.stripeCustomerId.length === 0) {
-      customerId = (await stripe.customers.create({
-        email: user.email
-      })).id;
+    if (!user.stripeCustomerId || user.stripeCustomerId.length === 0) {
+      customerId = (
+        await stripe.customers.create({
+          email: user.email,
+        })
+      ).id;
     } else {
       customerId = user.stripeCustomerId;
     }
@@ -85,19 +88,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       line_items: [
         {
           price: process.env.STRIPE_CODEUP_PRO_PRICE_ID as string,
-          quantity: 1
-        }
-      ]
-    })
+          quantity: 1,
+        },
+      ],
+      allow_promotion_codes: true,
+    });
 
     res.status(200).json({
-      url: session.url as string
-    })
-
+      url: session.url as string,
+    });
   } catch (e: any) {
     res.status(500).json({
-      error: e.message
+      error: e.message,
     });
   }
-
 }
