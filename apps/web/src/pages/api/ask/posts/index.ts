@@ -25,21 +25,21 @@ export default async function handleRequest(
     return;
   }
 
-  const jwt = req.headers["x-jwt"];
-
-  if (!jwt) {
-    res.status(401).json({
-      error: "Unauthorized",
-    });
-    return;
-  }
-
   try {
     await mongoConnect();
 
     let user: any;
 
     if (req.method !== "GET") {
+      const jwt = req.headers["x-jwt"];
+
+      if (!jwt) {
+        res.status(401).json({
+          error: "Unauthorized",
+        });
+        return;
+      }
+
       const decoded = verify(
         jwt as string,
         process.env.JWT_SECRET as string
@@ -97,7 +97,7 @@ export default async function handleRequest(
           });
 
           posts.push(...post);
-        } else if (req.query.allPosts) {
+        } else {
           const post = await AskPostModel.find({
             parent: null,
           });
