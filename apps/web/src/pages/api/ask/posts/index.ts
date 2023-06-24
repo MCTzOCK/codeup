@@ -13,6 +13,7 @@ import mongoConnect from "@codeup/util/src/mongo";
 import { decode, verify } from "jsonwebtoken";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import AskPostModel from "@codeup/util/dist/models/AskPostModel";
+import ogs from "open-graph-scraper";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -201,6 +202,7 @@ export default async function handleRequest(
         username: user.username,
         content: content,
         parent: parentId,
+        embeds: await getEmbeds(content),
       });
 
       res.status(200).json({
@@ -211,4 +213,83 @@ export default async function handleRequest(
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }
+}
+
+async function getEmbeds(content: string): Promise<any[]> {
+  const embeds: {
+    type: "file" | "image" | "video" | "audio" | "link";
+    url?: string;
+    title?: string;
+    description?: string;
+    image?: string;
+    site_name?: string;
+  }[] = [];
+
+  const links = content.match(/(https?:\/\/[^\s]+)/g) || [];
+
+  for (const link of links) {
+    if (link.match(/(https?:\/\/[^\s]+)*\.codeup\.space/g)) {
+      let name = "";
+      if (link.includes("https://")) {
+        name = link.replace("https://", "").split(".")[0];
+      } else {
+        name = link.replace("http://", "").split(".")[0];
+      }
+
+      embeds.push({
+        type: "link",
+        url: link,
+        title: "CodeUp Projekt " + name,
+        description:
+          "Dies ist ein Link, der zu einem Projekt führt, welches mit CodeUp veröffentlicht wurde.",
+        image: "https://codeup.space/codeup-splash-github.jpg",
+        site_name: name,
+      });
+    } else {
+      try {
+        const headRes = await fetch(link, {
+          method: "HEAD",
+        });
+
+        const contentType = (
+          (headRes.headers.get("Content-Type") as string) || ""
+        )
+          .toLowerCase()
+          .split(";")[0];
+
+        if (contentType === "text/html") {
+          const o = await ogs({ url: link });
+          if (!o.error) {
+            embeds.push({
+              title: (o.result as any).ogTitle as string,
+              description: (o.result as any).ogDescription as string,
+              image: (o.result as any).ogImage.url as string,
+              url: (o.result as any).ogUrl as string,
+              site_name: (o.result as any).ogSiteName as string,
+              type: "link",
+            });
+          }
+        } else if (contentType.startsWith("image/")) {
+          embeds.push({
+            url: link,
+            type: "image",
+          });
+        } else if (contentType.startsWith("video/")) {
+          embeds.push({
+            url: link,
+            type: "video",
+          });
+        } else {
+          embeds.push({
+            url: link,
+            type: "file",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  return embeds;
 }

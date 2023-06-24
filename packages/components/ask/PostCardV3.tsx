@@ -25,6 +25,7 @@ import { FaTrash } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { FiDownload, FiFile } from "react-icons/fi";
 
 export default function PostCardV3(props: {
   post: IAskPost;
@@ -65,6 +66,92 @@ export default function PostCardV3(props: {
             <Text fontSize={"xl"}>{props.post.content}</Text>
           </Box>
         </HStack>
+        <Stack w={"80%"} mb={2}>
+          {
+            // @ts-ignore
+            props.post.embeds.map((e) => {
+              if (e.type === "link") {
+                return (
+                  <>
+                    <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                      <HStack gap={4}>
+                        <Stack>
+                          {e.site_name && <Text>{e.site_name}</Text>}
+                          {e.title && (
+                            <Heading
+                              size={"md"}
+                              color={"blue.300"}
+                              cursor={"pointer"}
+                              as={"a"}
+                              href={e.url}
+                              target={"_blank"}
+                            >
+                              {e.title}
+                            </Heading>
+                          )}
+                          {e.description && <Text mt={2}>{e.description}</Text>}
+                        </Stack>
+                        {e.image && (
+                          <img
+                            src={e.image}
+                            width={"128"}
+                            height={"128"}
+                            alt={e.image || ""}
+                          />
+                        )}
+                      </HStack>
+                    </Box>
+                  </>
+                );
+              } else if (e.type === "image") {
+                return (
+                  <>
+                    <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                      <img src={e.url} alt={e.url || ""} />
+                    </Box>
+                  </>
+                );
+              } else if (e.type === "video") {
+                return (
+                  <>
+                    <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
+                      <video src={e.url} controls />
+                    </Box>
+                  </>
+                );
+              } else if (e.type === "file") {
+                return (
+                  <>
+                    <Flex
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                      w={"100%"}
+                      p={4}
+                      rounded={"xl"}
+                      bg={"gray.800"}
+                      shadow={"xl"}
+                      gap={4}
+                    >
+                      <Flex alignItems={"center"} gap={"1rem"}>
+                        <FiFile />
+                        <Text>{e.url.split("/").pop()}</Text>
+                      </Flex>
+                      <IconButton
+                        as={"a"}
+                        href={e.url}
+                        target={"_blank"}
+                        rel={"noreferrer"}
+                        colorScheme={"blue"}
+                        icon={<FiDownload />}
+                        aria-label={"Download"}
+                      />
+                    </Flex>
+                  </>
+                );
+              }
+            })
+          }
+        </Stack>
         <Flex direction={"row"} w={"100%"} gap={0} h={"20%"}>
           <IconButton
             w={"100%"}
