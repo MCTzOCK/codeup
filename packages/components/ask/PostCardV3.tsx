@@ -44,6 +44,7 @@ export default function PostCardV3(props: {
             backgroundColor: "gray.800",
           }}
           p={8}
+          onClick={props.onClick}
         >
           <Flex
             alignItems={"center"}
@@ -70,6 +71,31 @@ export default function PostCardV3(props: {
             variant={"ghost"}
             aria-label={"Kommentieren"}
             icon={<AiFillMessage />}
+            onClick={async () => {
+              if (!props.loggedIn) {
+                window.dispatchEvent(new CustomEvent("codeup::open_login"));
+                return;
+              }
+
+              const content = await PopupManager.promptAsync({
+                title: "Kommentieren",
+                helperText: "Was möchtest du kommentieren?",
+                inputType: "TEXTAREA",
+              });
+
+              if (!content) return;
+
+              const res = await REST.Ask.createPost(
+                content,
+                AccountManager.getActiveToken(),
+                props.post._id
+              );
+
+              PopupManager.alert({
+                title: "Kommentar erstellt",
+                description: "Dein Kommentar wurde erfolgreich erstellt.",
+              });
+            }}
           />
           {props.owner && (
             <IconButton

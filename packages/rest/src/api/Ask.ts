@@ -71,7 +71,7 @@ export async function searchPosts(
 ): Promise<IResponse> {
   return await makeRequest({
     method: "GET",
-    path: "/api/ask/posts?search=" + query + "&page=" + page,
+    path: "/api/ask/posts?query=" + query + "&page=" + page,
   });
 }
 

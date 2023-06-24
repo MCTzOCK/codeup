@@ -93,7 +93,7 @@ export default async function handleRequest(
           posts.push(...post);
         } else if (req.query.query) {
           const post = await AskPostModel.find({
-            content: { $regex: req.query.query as string, $options: "i" },
+            content: { $regex: req.query.query as string, $options: "gi" },
           });
 
           posts.push(...post);
