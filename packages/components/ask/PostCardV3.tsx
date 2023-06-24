@@ -66,7 +66,7 @@ export default function PostCardV3(props: {
             <Text fontSize={"xl"}>{props.post.content}</Text>
           </Box>
         </HStack>
-        <Stack w={"80%"} mb={2}>
+        <Stack w={"100%"} p={4} justifyContent={"center"} alignItems={"center"}>
           {
             // @ts-ignore
             props.post.embeds.map((e) => {
