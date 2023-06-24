@@ -7,7 +7,6 @@
  * Created At: 23.09.2022
  *
  */
-
 import mongoose from "mongoose";
 
 const ForumPost = new mongoose.Schema({

@@ -244,8 +244,24 @@ import {
 import { getTestimonials } from "./api/Landingpage";
 import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
 import { cancelSubscription, createCheckoutLink } from "./api/Payments";
+import {
+  deletePost as deletePostA,
+  createPost as createPostA,
+  getPost as getPostA,
+  getPostsByParent,
+  searchPosts,
+  getPosts,
+} from "./api/Ask";
 
 const REST = {
+  Ask: {
+    deletePost: deletePostA,
+    createPost: createPostA,
+    getPost: getPostA,
+    getPostsByParent,
+    searchPosts,
+    getPosts,
+  },
   Admin: {
     getErrors,
     listAccounts,
