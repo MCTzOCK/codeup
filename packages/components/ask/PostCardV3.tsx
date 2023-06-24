@@ -71,6 +71,7 @@ export default function PostCardV3(props: {
             variant={"ghost"}
             aria-label={"Kommentieren"}
             icon={<AiFillMessage />}
+            disabled={props.post.parent !== null}
             onClick={async () => {
               if (!props.loggedIn) {
                 window.dispatchEvent(new CustomEvent("codeup::open_login"));
