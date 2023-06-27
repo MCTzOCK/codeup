@@ -251,6 +251,8 @@ import {
   getPostsByParent,
   searchPosts,
   getPosts,
+  getProfile as getProfileA,
+  getPostsByUser,
 } from "./api/Ask";
 
 const REST = {
@@ -261,6 +263,8 @@ const REST = {
     getPostsByParent,
     searchPosts,
     getPosts,
+    getProfile: getProfileA,
+    getPostsByUser,
   },
   Admin: {
     getErrors,

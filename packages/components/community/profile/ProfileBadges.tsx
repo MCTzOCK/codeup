@@ -25,6 +25,7 @@ export default function ProfileBadges(props: {
         justifyContent={"center"}
         alignItems={"center"}
       >
+        w
         {props.verified ? (
           <Tooltip label={"Official Account"} hasArrow>
             <Badge

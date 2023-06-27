@@ -51,7 +51,7 @@ export async function getPostsByUser(
 ): Promise<IResponse> {
   return await makeRequest({
     method: "GET",
-    path: "/api/ask/posts?username=" + username + "&page=" + page,
+    path: "/api/ask/posts?user=" + username + "&page=" + page,
   });
 }
 
@@ -79,5 +79,12 @@ export async function getPosts(page?: number): Promise<IResponse> {
   return await makeRequest({
     method: "GET",
     path: "/api/ask/posts?page=" + page,
+  });
+}
+
+export async function getProfile(username: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/ask/profiles/" + username,
   });
 }

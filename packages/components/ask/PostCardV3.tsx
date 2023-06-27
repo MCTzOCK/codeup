@@ -21,11 +21,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { AiFillMessage } from "react-icons/ai";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaUser } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { FiDownload, FiFile } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 export default function PostCardV3(props: {
   post: IAskPost;
@@ -34,6 +35,8 @@ export default function PostCardV3(props: {
   owner?: boolean;
   setPosts: React.Dispatch<React.SetStateAction<IAskPost[]>>;
 }) {
+  const router = useRouter();
+
   return (
     <>
       <Box bg={"black"} w={"100%"} h={"fit-content"} minH={"25%"}>
@@ -218,6 +221,15 @@ export default function PostCardV3(props: {
               }}
             />
           )}
+          <IconButton
+            w={"100%"}
+            variant={"ghost"}
+            aria-label={"Profil aufrufen"}
+            icon={<FaUser />}
+            onClick={async () => {
+              router.push("/ask/u/@" + props.post.username);
+            }}
+          />
         </Flex>
       </Box>
     </>
