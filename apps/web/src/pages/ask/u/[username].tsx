@@ -21,18 +21,21 @@ import {
   chakra,
   Flex,
   Heading,
+  IconButton,
   Image,
   Link,
   Spinner,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { HiBadgeCheck } from "react-icons/hi";
-import { FaGlobe } from "react-icons/fa";
+import { FaGlobe, FaPen } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import { IAskPost } from "../../../types/IAskPost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCardV3 from "@codeup/components/dist/ask/PostCardV3";
+import EditProfileModal from "@codeup/components/ask/EditProfileModal";
 
 export default function UserProfileViewer() {
   const router = useRouter();
@@ -61,6 +64,7 @@ export default function UserProfileViewer() {
   const [maxPage, setMaxPage] = useState<number>(0);
 
   const loadNext = () => {
+    if (!router || !router.query || !router.query.username) return;
     REST.Ask.getPostsByUser(
       (router.query.username as string).split("@")[1],
       page + 1
@@ -70,7 +74,9 @@ export default function UserProfileViewer() {
       setMaxPage(res.payload.pages);
     });
   };
-  React.useEffect(loadNext, []);
+  React.useEffect(loadNext, [router, router.query]);
+
+  const { onOpen, onClose, isOpen } = useDisclosure();
 
   if (notFound) {
     return (
@@ -144,6 +150,16 @@ export default function UserProfileViewer() {
                   </>
                 ) : null}
               </Heading>
+
+              {userInfo.username === profile.username && (
+                <IconButton
+                  aria-label={"Bearbeiten"}
+                  variant={"ghost"}
+                  icon={<FaPen />}
+                  colorScheme={"blue"}
+                  onClick={onOpen}
+                />
+              )}
             </Flex>
           </Flex>
           <Flex
@@ -209,6 +225,12 @@ export default function UserProfileViewer() {
           </Stack>
         </Box>
       </AskLayout>
+      <EditProfileModal
+        onOpen={onOpen}
+        onClose={onClose}
+        isOpen={isOpen}
+        profile={profile}
+      />
     </>
   );
 }

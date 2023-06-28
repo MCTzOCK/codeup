@@ -253,6 +253,7 @@ import {
   getPosts,
   getProfile as getProfileA,
   getPostsByUser,
+  updateProfile as updateProfileA,
 } from "./api/Ask";
 
 const REST = {
@@ -265,6 +266,7 @@ const REST = {
     getPosts,
     getProfile: getProfileA,
     getPostsByUser,
+    updateProfile: updateProfileA,
   },
   Admin: {
     getErrors,

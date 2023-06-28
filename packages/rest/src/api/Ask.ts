@@ -88,3 +88,22 @@ export async function getProfile(username: string): Promise<IResponse> {
     path: "/api/ask/profiles/" + username,
   });
 }
+
+export async function updateProfile(
+  username: string,
+  token: string,
+  update: {
+    bio?: string;
+    banner?: string;
+    website?: string;
+    projects?: string[];
+    certificates?: string[];
+  }
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/ask/profiles/" + username,
+    body: { update },
+    token: token,
+  });
+}
