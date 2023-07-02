@@ -134,6 +134,7 @@ export default function EditProfileModal(props: {
                   type={"url"}
                   name={"website"}
                   placeholder={"https://my.codeup.space"}
+                  defaultValue={props.profile.website}
                 />
               </InputGroup>
             </FormControl>
@@ -143,6 +144,7 @@ export default function EditProfileModal(props: {
                 name={"bio"}
                 placeholder={"Erzähle etwas über dich"}
                 maxLength={250}
+                defaultValue={props.profile.bio}
               />
             </FormControl>
             <FormControl>
@@ -226,7 +228,9 @@ export default function EditProfileModal(props: {
                 {projects.map((proj) => {
                   return (
                     <>
-                      <Checkbox mr={4} value={proj._id}>{proj.name}</Checkbox>
+                      <Checkbox mr={4} value={proj._id}>
+                        {proj.name}
+                      </Checkbox>
                     </>
                   );
                 })}
