@@ -203,7 +203,7 @@ const getProfileByUsername = async (
     profile = await AskProfileModel.create({
       user: user._id,
       username: username,
-      banner: "/_static/images/software-developer-6521720_1920.jpgw",
+      banner: "/_static/images/software-developer-6521720_1920.jpg",
       badges: [],
       website: "",
       bio: "",

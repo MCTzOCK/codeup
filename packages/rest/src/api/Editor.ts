@@ -18,3 +18,10 @@ export async function getProjects(token: string): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function getDomainById(id: string): Promise<IResponse> {
+  return await makeRequest({
+    path: `/api/editor/published-domain?id=${id}`,
+    method: "GET",
+  });
+}

@@ -9,7 +9,7 @@
  */
 import { IAskProfile } from "@codeup/web/src/types/IAskProfile";
 import React from "react";
-import CodeUpModal from "../dist/codeup/CodeUpModal";
+import CodeUpModal from "../codeup/CodeUpModal";
 import {
   Button,
   Checkbox,
@@ -226,7 +226,7 @@ export default function EditProfileModal(props: {
                 {projects.map((proj) => {
                   return (
                     <>
-                      <Checkbox value={proj._id}>{proj.name}</Checkbox>
+                      <Checkbox mr={4} value={proj._id}>{proj.name}</Checkbox>
                     </>
                   );
                 })}

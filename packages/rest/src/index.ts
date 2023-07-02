@@ -226,7 +226,7 @@ import {
   getBlogs as getBlogsOrg,
   createBlog as createBlogOrg,
 } from "./api/Orgs";
-import { getProjects as getProjectsV2 } from "./api/Editor";
+import { getDomainById, getProjects as getProjectsV2 } from "./api/Editor";
 import {
   getProjects as getKidsProjects,
   deleteProject as deleteKidsProject,
@@ -498,6 +498,7 @@ const REST = {
   },
   Editor: {
     getProjectsV2: getProjectsV2,
+    getDomainById,
   },
   Kids: {
     getProjects: getKidsProjects,

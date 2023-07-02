@@ -8,13 +8,15 @@
  *
  */
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { IAskProfile } from "../../../types/IAskProfile";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import AskLayout from "@codeup/components/dist/ask/AskLayout";
 import REST from "@codeup/rest/src";
 import { ProfileAvatar } from "@codeup/components/dist/community/profile";
+import AskProfileCertificateDisplay from "@codeup/components/ask/AskProfileCertificateDisplay";
+import AskProfileProjectDisplay from "@codeup/components/ask/AskProfileProjectDisplay";
 import {
   Box,
   Button,
@@ -188,6 +190,17 @@ export default function UserProfileViewer() {
               </Stack>
             ) : null}
           </Flex>
+          <Heading size={"lg"} mt={4} mb={4}>
+            Zertifikate
+          </Heading>
+          <AskProfileCertificateDisplay certificates={profile.certificates} />
+          <Heading size={"lg"} mt={4} mb={4}>
+            Projekte
+          </Heading>
+          <AskProfileProjectDisplay projects={profile.projects} />
+          <Heading size={"lg"} mt={4} mb={4}>
+            Beiträge
+          </Heading>
 
           <Stack
             w={"100%"}
