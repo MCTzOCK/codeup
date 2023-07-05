@@ -17,13 +17,20 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
   Link,
   LinkProps,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaGithub } from "react-icons/fa";
+import {
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+  FaLinkedinIn,
+  FaTwitter,
+} from "react-icons/fa";
 import Newsletter from "./Newsletter";
 
 const Footer = () => {
@@ -118,15 +125,27 @@ const Footer = () => {
             </Link>
           </Text>
           <Stack spacing={2} direction={{ base: "column", md: "row" }}>
-            <Button
-              leftIcon={<FaGithub />}
+            <IconButton
+              aria-label={"Twitter"}
               as={Link}
-              href="https://github.com/MCTzOCK/codeup"
-              rounded="md"
-              colorScheme="gray"
-            >
-              Github
-            </Button>
+              target={"_blank"}
+              href={"https://twitter.com/codeupspace"}
+              icon={<FaTwitter />}
+            />
+            <IconButton
+              aria-label={"Instagram"}
+              as={Link}
+              target={"_blank"}
+              href={"https://instagram.com/codeupspace"}
+              icon={<FaInstagram />}
+            />
+            <IconButton
+              aria-label={"LinkedIn"}
+              as={Link}
+              target={"_blank"}
+              href={"https://www.linkedin.com/in/ben-siebert-111595278/"}
+              icon={<FaLinkedinIn />}
+            />
           </Stack>
         </Stack>
       </Box>

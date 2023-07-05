@@ -60,6 +60,7 @@ const getPackageInfo = () => {
 
   const getPackage = (pkg) => {
     let packages = [];
+    console.log(pkg);
     for (let i in pkg.dependencies) {
       packages.push({
         name: i,
