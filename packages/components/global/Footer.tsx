@@ -18,6 +18,7 @@ import {
   Heading,
   HStack,
   IconButton,
+  Image,
   Link,
   LinkProps,
   Stack,
@@ -124,6 +125,34 @@ const Footer = () => {
               Ben Siebert
             </Link>
           </Text>
+          <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+            <Link
+              isExternal
+              href={
+                "https://www.jugend-forscht.de/projektdatenbank/codeup-einfacher-einstieg-in-die-programmierung.html"
+              }
+            >
+              <Image
+                src={"/_static/images/logos/jugend-forscht.svg"}
+                alt={"Jugend Forscht"}
+                width={"150px"}
+              />
+            </Link>
+            <Link
+              isExternal
+              href={
+                "https://www.startupteens.de/challenge-2023/voting/education/codeup/"
+              }
+            >
+              <Image
+                src={
+                  "https://www.startupteens.de/fileadmin/_processed_/3/f/csm_startup-teens-logo_23c805f72e.png"
+                }
+                alt={"STARTUPTEENS"}
+                width={"150px"}
+              />
+            </Link>
+          </Stack>
           <Stack spacing={2} direction={{ base: "column", md: "row" }}>
             <IconButton
               aria-label={"Twitter"}
