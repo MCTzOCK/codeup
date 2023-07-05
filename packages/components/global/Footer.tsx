@@ -125,7 +125,8 @@ const Footer = () => {
               Ben Siebert
             </Link>
           </Text>
-          <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+          <Stack spacing={2} direction={{ base: "column", md: "row" }} gap={4}>
+            <Text fontSize="md">Ausgezeichnet durch:</Text>
             <Link
               isExternal
               href={
