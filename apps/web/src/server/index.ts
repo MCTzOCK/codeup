@@ -38,6 +38,9 @@ const app = next.default({
 });
 const handle = app.getRequestHandler();
 
+if (process.env.DISABLE_PAYMENTS === "true") {
+  process.env.DISABLE_PAYMENTS = true;
+}
 app
   .prepare()
   .then(async () => {
@@ -60,8 +63,8 @@ app
     );
 
     process.on("uncaughtException", async (e) => {
-      await handleError(e)
-    })
+      await handleError(e);
+    });
 
     const docker = new Docker();
 
@@ -77,7 +80,7 @@ app
       });
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-      apiVersion: "2022-11-15"
+      apiVersion: "2022-11-15",
     });
 
     const httpServer = createServer(async (req, res) => {
@@ -857,8 +860,6 @@ app
             }
           }
 
-
-
           await handle(req, res, parsedUrl);
         }
       } catch (e) {
@@ -884,11 +885,11 @@ const handleError = async (e: any) => {
     name: "Unknown Error",
     message: "No message provided",
     stack: "No stack provided",
-  }
+  };
 
-  if(e.name) err.name = e.name;
-  if(e.message) err.message = e.message;
-  if(e.stack) err.stack = e.stack;
-  await ErrorModel.create(err)
-  console.log(123)
-}
+  if (e.name) err.name = e.name;
+  if (e.message) err.message = e.message;
+  if (e.stack) err.stack = e.stack;
+  await ErrorModel.create(err);
+  console.log(123);
+};

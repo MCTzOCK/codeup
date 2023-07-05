@@ -89,7 +89,7 @@ export default async function handleRequest(
 
         const updatableKeys = ["certificates"];
 
-        if (user.subscription === "PRO") {
+        if (!process.env.DISABLE_PAYMENTS && user.subscription === "PRO") {
           updatableKeys.push("bio");
           updatableKeys.push("website");
           updatableKeys.push("displayName");
