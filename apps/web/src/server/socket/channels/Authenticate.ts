@@ -37,7 +37,9 @@ export default class AuthenticateChannel extends Channel {
             id: user._id,
             username: user.username,
             admin: user.role === "admin" ? true : undefined,
-            pro: user.subscription === "PRO",
+            pro: process.env.DISABLE_PAYMENTS
+              ? true
+              : user.subscription === "PRO",
           };
           this.emit({
             authenticated: true,

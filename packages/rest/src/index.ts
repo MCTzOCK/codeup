@@ -226,7 +226,7 @@ import {
   getBlogs as getBlogsOrg,
   createBlog as createBlogOrg,
 } from "./api/Orgs";
-import { getProjects as getProjectsV2 } from "./api/Editor";
+import { getDomainById, getProjects as getProjectsV2 } from "./api/Editor";
 import {
   getProjects as getKidsProjects,
   deleteProject as deleteKidsProject,
@@ -244,8 +244,30 @@ import {
 import { getTestimonials } from "./api/Landingpage";
 import { subscribe, subscribed, unsubscribe } from "./api/Newsletter";
 import { cancelSubscription, createCheckoutLink } from "./api/Payments";
+import {
+  deletePost as deletePostA,
+  createPost as createPostA,
+  getPost as getPostA,
+  getPostsByParent,
+  searchPosts,
+  getPosts,
+  getProfile as getProfileA,
+  getPostsByUser,
+  updateProfile as updateProfileA,
+} from "./api/Ask";
 
 const REST = {
+  Ask: {
+    deletePost: deletePostA,
+    createPost: createPostA,
+    getPost: getPostA,
+    getPostsByParent,
+    searchPosts,
+    getPosts,
+    getProfile: getProfileA,
+    getPostsByUser,
+    updateProfile: updateProfileA,
+  },
   Admin: {
     getErrors,
     listAccounts,
@@ -476,6 +498,7 @@ const REST = {
   },
   Editor: {
     getProjectsV2: getProjectsV2,
+    getDomainById,
   },
   Kids: {
     getProjects: getKidsProjects,

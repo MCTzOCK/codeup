@@ -17,13 +17,21 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
+  Image,
   Link,
   LinkProps,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaGithub } from "react-icons/fa";
+import {
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+  FaLinkedinIn,
+  FaTwitter,
+} from "react-icons/fa";
 import Newsletter from "./Newsletter";
 
 const Footer = () => {
@@ -117,16 +125,57 @@ const Footer = () => {
               Ben Siebert
             </Link>
           </Text>
-          <Stack spacing={2} direction={{ base: "column", md: "row" }}>
-            <Button
-              leftIcon={<FaGithub />}
-              as={Link}
-              href="https://github.com/MCTzOCK/codeup"
-              rounded="md"
-              colorScheme="gray"
+          <Stack spacing={2} direction={{ base: "column", md: "row" }} gap={4}>
+            <Text fontSize="md">Ausgezeichnet durch:</Text>
+            <Link
+              isExternal
+              href={
+                "https://www.jugend-forscht.de/projektdatenbank/codeup-einfacher-einstieg-in-die-programmierung.html"
+              }
             >
-              Github
-            </Button>
+              <Image
+                src={"/_static/images/logos/jugend-forscht.svg"}
+                alt={"Jugend Forscht"}
+                width={"150px"}
+              />
+            </Link>
+            <Link
+              isExternal
+              href={
+                "https://www.startupteens.de/challenge-2023/voting/education/codeup/"
+              }
+            >
+              <Image
+                src={
+                  "https://www.startupteens.de/fileadmin/_processed_/3/f/csm_startup-teens-logo_23c805f72e.png"
+                }
+                alt={"STARTUPTEENS"}
+                width={"150px"}
+              />
+            </Link>
+          </Stack>
+          <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+            <IconButton
+              aria-label={"Twitter"}
+              as={Link}
+              target={"_blank"}
+              href={"https://twitter.com/codeupspace"}
+              icon={<FaTwitter />}
+            />
+            <IconButton
+              aria-label={"Instagram"}
+              as={Link}
+              target={"_blank"}
+              href={"https://instagram.com/codeupspace"}
+              icon={<FaInstagram />}
+            />
+            <IconButton
+              aria-label={"LinkedIn"}
+              as={Link}
+              target={"_blank"}
+              href={"https://www.linkedin.com/in/ben-siebert-111595278/"}
+              icon={<FaLinkedinIn />}
+            />
           </Stack>
         </Stack>
       </Box>

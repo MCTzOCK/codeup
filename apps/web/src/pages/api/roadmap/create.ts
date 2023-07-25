@@ -73,6 +73,9 @@ export default async function handleRequest(
       if (maps.length >= 1) {
         allowedToCreate = false;
       }
+      if (process.env.DISABLE_PAYMENTS) {
+        allowedToCreate = true;
+      }
     }
 
     if (!allowedToCreate) {

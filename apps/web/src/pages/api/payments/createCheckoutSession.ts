@@ -18,6 +18,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (process.env.DISABLE_PAYMENTS) {
+    res.status(403).json({
+      error: "Payments are disabled",
+    });
+    return;
+  }
+
   try {
     await mongoConnect();
 

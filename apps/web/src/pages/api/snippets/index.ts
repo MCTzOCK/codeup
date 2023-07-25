@@ -97,6 +97,10 @@ export default async function handleRequest(
             allowed = false;
           }
 
+          if (process.env.DISABLE_PAYMENTS) {
+            allowed = true;
+          }
+
           if (!allowed) {
             res.status(403).json({
               error:

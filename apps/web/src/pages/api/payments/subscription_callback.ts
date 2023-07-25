@@ -8,65 +8,82 @@
  *
  */
 
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { decode } from "jsonwebtoken";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import mongoConnect from "@codeup/util/dist/mongo";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (process.env.DISABLE_PAYMENTS) {
+    res.status(403).json({
+      error: "Payments are disabled",
+    });
+    return;
+  }
   try {
     await mongoConnect();
 
     if (req.method !== "GET") {
       res.status(405).json({
-        error: "Method not allowed"
+        error: "Method not allowed",
       });
       return;
     }
 
-    const {session_id} = req.query;
+    const { session_id } = req.query;
 
-    if(!session_id) {
-      res.redirect("/error?error=Keine Session ID übermittelt. Bitte kontaktiere den Support.");
+    if (!session_id) {
+      res.redirect(
+        "/error?error=Keine Session ID übermittelt. Bitte kontaktiere den Support."
+      );
       return;
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-      apiVersion: "2022-11-15"
+      apiVersion: "2022-11-15",
     });
 
-    const session = await stripe.checkout.sessions.retrieve(session_id as string);
+    const session = await stripe.checkout.sessions.retrieve(
+      session_id as string
+    );
 
-    if(!session) {
-      res.redirect("/error?error=Die Session ID ist ungültig. Bitte kontaktiere den Support.");
+    if (!session) {
+      res.redirect(
+        "/error?error=Die Session ID ist ungültig. Bitte kontaktiere den Support."
+      );
       return;
     }
 
-    console.log(session.customer)
+    console.log(session.customer);
 
     const user = await UserModel.findOne({
-      stripeCustomerId: session.customer
+      stripeCustomerId: session.customer,
     });
 
-    if(!user) {
-      res.redirect("/error?error=Der Benutzer konnte nicht gefunden werden. Bitte kontaktiere den Support.");
+    if (!user) {
+      res.redirect(
+        "/error?error=Der Benutzer konnte nicht gefunden werden. Bitte kontaktiere den Support."
+      );
       return;
     }
 
-    if(session.payment_status === "paid") {
+    if (session.payment_status === "paid") {
       user.subscription = "PRO";
       user.stripeSubscriptionId = session.subscription;
       await user.save();
       res.redirect("/payment/success/thank_you");
     } else {
-      res.redirect("/error?error=Die Zahlung ist fehlgeschlagen. Bitte kontaktiere den Support.");
+      res.redirect(
+        "/error?error=Die Zahlung ist fehlgeschlagen. Bitte kontaktiere den Support."
+      );
     }
-
   } catch (e: any) {
     res.status(500).json({
-      error: e.message
+      error: e.message,
     });
   }
 }
