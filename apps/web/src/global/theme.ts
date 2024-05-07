@@ -85,10 +85,17 @@ const theme = extendTheme({
       "900": "#099268",
     },
     //black: "#101113",
-    black: "#121212",
+    black: "#101010",
   },
   components: {
     Steps,
+  },
+  styles: {
+    global: (props: any) => ({
+      body: {
+        bg: "black",
+      },
+    }),
   },
 });
 

@@ -16,49 +16,49 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import REST from "@codeup/rest";
 import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
 import theme from "../global/theme";
-import posthog from 'posthog-js'
-import { PostHogProvider } from 'posthog-js/react'
+import posthog from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
 import { useLoggedIn } from "@codeup/hooks";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // @ts-ignore
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
     // @ts-ignore
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com",
     // Enable debug mode in development
     loaded: (posthog) => {
-      if (process.env.NODE_ENV === 'development') posthog.debug()
+      if (process.env.NODE_ENV === "development") posthog.debug();
     },
     autocapture: true,
-  })
+  });
 }
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const {loggedIn, userInfo, loaded} = useLoggedIn();
+  const { loggedIn, userInfo, loaded } = useLoggedIn();
 
   useEffect(() => {
-    if(loaded && loggedIn) {
+    if (loaded && loggedIn) {
       posthog?.identify(userInfo.email, {
         name: userInfo.firstName + " " + userInfo.lastName,
         email: userInfo.email,
         username: userInfo.username,
-      })
+      });
     }
-  }, [loaded, loggedIn])
+  }, [loaded, loggedIn]);
 
   useAnalytics();
 
   useEffect(() => {
     // Track page views
-    const handleRouteChange = () => posthog?.capture('$pageview')
-    router.events.on('routeChangeComplete', handleRouteChange)
+    const handleRouteChange = () => posthog?.capture("$pageview");
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  }, [])
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, []);
 
   return (
     <>
@@ -82,7 +82,7 @@ function App({ Component, pageProps }: AppProps) {
             "CodeUp ist eine Platform, um die Grundlagen der Programmierung mit interaktiven Videokursen zu erlernen.",
           images: [
             {
-              url: "https://static.content.ben-siebert.de/api/public/dl/tIMG2cZT?inline=true",
+              url: "https://codeup.space/codeup-splash-github.jpg",
               alt: "Splash Image of CodeUp",
               type: "image/jpg",
               width: 1200,
