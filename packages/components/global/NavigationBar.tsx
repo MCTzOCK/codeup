@@ -111,6 +111,7 @@ export default function NavigationBar() {
           borderRadius={"6px"}
           h={"100%"}
           w={"100%"}
+          zIndex={100}
           _hover={{
             backgroundColor: "whiteAlpha.100",
           }}
