@@ -17,7 +17,17 @@ const theme = extendTheme({
     initialColorMode: "dark",
   },
   colors: {
-    brand: "#F7DE1F",
+    brand: {
+      "100": "#FEFCD7",
+      "200": "#F7F4B0",
+      "300": "#F0EC89",
+      "400": "#E9E462",
+      "500": "#F7DE1F",
+      "600": "#D8C31A",
+      "700": "#B9A916",
+      "800": "#9B8B11",
+      "900": "#7C6E0C",
+    },
     gray: {
       "100": "#C1C2C5",
       "200": "#A6A7AB",
@@ -84,11 +94,33 @@ const theme = extendTheme({
       "800": "#0ca678",
       "900": "#099268",
     },
+    swhite: {
+      "100": "#FFFFFF",
+      "200": "#F2F2F2",
+      "300": "#E5E5E5",
+      "400": "#D9D9D9",
+      "500": "#CCCCCC",
+      "600": "#BFBFBF",
+      "700": "#B3B3B3",
+      "800": "#A6A6A6",
+      "900": "#999999",
+    },
     //black: "#101113",
     black: "#101010",
   },
   components: {
     Steps,
+    Button: {
+      variants: {
+        brand: {
+          bg: "brand.500",
+          color: "white",
+          _hover: {
+            bg: "brand.600",
+          },
+        },
+      },
+    },
   },
   styles: {
     global: (props: any) => ({

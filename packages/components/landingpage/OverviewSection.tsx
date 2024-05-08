@@ -63,7 +63,7 @@ const OverviewSection = () => {
                 <Flex
                   fontWeight="bold"
                   boxShadow="md"
-                  bg={"brand"}
+                  bg={"brand.500"}
                   color={"black"}
                   rounded="full"
                   justifyContent="center"

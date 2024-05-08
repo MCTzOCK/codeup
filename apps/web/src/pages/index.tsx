@@ -19,6 +19,7 @@ import {
   Heading,
   Image,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Typed from "react-typed";
@@ -39,35 +40,84 @@ export default function Home() {
       <Head>
         <title>CodeUp - Einfach Programmieren lernen</title>
       </Head>
-      <Flex
-        w={"100%"}
-        minH={"100vh"}
-        h={"fit-content"}
-        justifyContent={"center"}
-      >
-        <Stack mt={32}>
-          <Heading
-            fontSize={["4xl", "4xl", "8xl"]}
-            fontWeight={800}
-            fontFamily={"Inter"}
+      <Flex w={"100%"} minH={"100vh"} h={"fit-content"} bg={"#000"}>
+        <Flex
+          w={"100%"}
+          h={"fit-content"}
+          p={10}
+          direction={["column", "column", "row"]}
+          alignItems={"center"}
+          minH={"100vh"}
+        >
+          <Stack flex={["100%", "100%", "70%"]} spacing={2} pt={10}>
+            <Heading
+              as={"h3"}
+              fontSize={["2xl", "3xl", "4xl"]}
+              color={"gray.300"}
+              fontWeight={1000}
+              letterSpacing={-2}
+            >
+              CodeUp
+            </Heading>
+            <Heading
+              as={"h1"}
+              fontSize={["4xl", "5xl", "7xl"]}
+              fontWeight={900}
+              letterSpacing={-2}
+              fontFamily={"Jetbrains Mono ExtraBold"}
+              color={"brand.500"}
+            >
+              Programmieren lernen
+            </Heading>
+            <Text fontWeight={100} fontSize={["xl", "2xl", "3xl"]}>
+              Lerne mit interaktiven Videokursen.
+              <br />
+              Plane anstehende Projekte bis ins Detail.
+              <br />
+              Tausche dich mit anderen Entwicklern aus.
+              <br />
+              Setze deine Ideen in die Tat um.
+              <br />
+              Erhalte Feedback der Community.
+            </Text>
+            <ButtonGroup spacing={4} mt={2}>
+              <Button
+                rounded={"md"}
+                variant={"brand"}
+                fontSize={"xl"}
+                size={"lg"}
+                color={"black"}
+                onClick={() => {
+                  if (loggedIn) {
+                    router.push("/dashboard");
+                  } else {
+                    window.dispatchEvent(new CustomEvent("codeup::open_login"));
+                  }
+                }}
+              >
+                {loggedIn ? "Dashboard" : "Jetzt starten"}
+              </Button>
+            </ButtonGroup>
+          </Stack>
+          <Flex
+            alignItems={"center"}
+            justifyContent={"center"}
+            w={"100%"}
+            h={"100%"}
           >
-            Lernen.
-          </Heading>
-          <Heading
-            fontSize={["4xl", "4xl", "8xl"]}
-            fontWeight={800}
-            fontFamily={"Inter"}
-          >
-            Planen.
-          </Heading>
-          <Heading
-            fontSize={["4xl", "4xl", "8xl"]}
-            fontWeight={800}
-            fontFamily={"Inter"}
-          >
-            Umsetzen.
-          </Heading>
-        </Stack>
+            <Image
+              src={"/_static/images/software-developer-6521720_1920.jpg"}
+              alt={"Software Developer"}
+              w={"100%"}
+              h={"100%"}
+              objectFit={"cover"}
+              objectPosition={"center"}
+              borderRadius={"lg"}
+              maxW={["400px", "500px", "700px"]}
+              shadow={"xl"}
+            />
+          </Flex>
+        </Flex>
       </Flex>
     </>
   );
