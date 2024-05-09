@@ -25,7 +25,7 @@ export default function NotFound() {
           "Die Seite kann aufgrund eines Fehlers nicht angezeigt werden."
         }
         title={"Interner Server Fehler"}
-        image={"/_static/vectors/error/500.svg"}
+        image={"/_static/vectors/error/500_v2.svg"}
       />
     </>
   );

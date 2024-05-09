@@ -12,6 +12,7 @@ import * as React from "react";
 import { useLoggedIn } from "@codeup/hooks";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import {
+  Box,
   Button,
   ButtonGroup,
   chakra,
@@ -49,6 +50,7 @@ import Editor from "@monaco-editor/react";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import GridLayout from "@codeup/components/global/GridLayout";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function MySnippetViewer() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -259,17 +261,9 @@ export default function MySnippetViewer() {
               </ButtonGroup>
             </Stack>
           </CodeUpModal>
-          <Heading
-            fontSize={["3xl", "6xl"]}
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            textShadow={"0px 10px 100px #000000"}
-            m={8}
-          >
-            Code Snippets
-          </Heading>
+          <Box textAlign={"center"} pt={6}>
+            <CHeading size={"3xl"}>Code Snippets</CHeading>
+          </Box>
 
           <GridLayout
             search={{

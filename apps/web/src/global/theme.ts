@@ -121,6 +121,11 @@ const theme = extendTheme({
         },
       },
     },
+    Input: {
+      defaultProps: {
+        focusBorderColor: "brand.500",
+      },
+    },
   },
   styles: {
     global: (props: any) => ({
