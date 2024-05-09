@@ -30,8 +30,9 @@ import { FaCrown } from "react-icons/fa";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../global/PopupManager";
+import { CHeading } from "@codeup/components/global/CHeading";
 
-export default function Pricing() {
+export default function Pricing(props: { ENABLE_PAYMENTS: boolean }) {
   const { userInfo, loggedIn } = useLoggedIn();
 
   return (
@@ -43,9 +44,19 @@ export default function Pricing() {
         alignItems={"center"}
         direction={"column"}
         p={8}
+        bg={"#000"}
       >
         <Box>
-          <Heading size={"2xl"}>Preisgestaltung</Heading>
+          <Heading
+            as={"h1"}
+            size={"2xl"}
+            fontWeight={900}
+            letterSpacing={-2}
+            fontFamily={"Jetbrains Mono ExtraBold"}
+            color={"brand.500"}
+          >
+            Preisgestaltung
+          </Heading>
         </Box>
         <Box w={["90%", "60%"]}>
           <Flex
@@ -57,13 +68,12 @@ export default function Pricing() {
             <Stack
               bg={"black"}
               p={6}
-              border={"1px solid"}
-              borderColor={"gray.500"}
-              rounded={"lg"}
+              rounded={"xl"}
               gap={8}
               w={"100%"}
+              shadow={"xl"}
             >
-              <Heading>Standard</Heading>
+              <CHeading size={"xl"}>Standard</CHeading>
               <Text fontSize={"2xl"}>Gratis</Text>
               {loggedIn ? (
                 <>
@@ -255,25 +265,30 @@ export default function Pricing() {
               gap={8}
               w={"100%"}
             >
-              <Heading>CodeUp PRO</Heading>
+              <CHeading size={"xl"}>CodeUp PRO</CHeading>
               <Text fontSize={"2xl"}>
                 12 € <chakra.sub>/Monat</chakra.sub>
               </Text>
               {userInfo.subscription === "PRO" ? (
                 <>
-                  <Button
-                    colorScheme={"orange"}
-                    leftIcon={<FaCrown />}
-                    disabled
-                  >
+                  <Button variant={"brand"} leftIcon={<FaCrown />} disabled>
                     Bereits aktiv
                   </Button>
                 </>
               ) : (
                 <>
                   <Button
-                    colorScheme={"orange"}
+                    variant={"brand"}
                     onClick={async () => {
+                      if (!props.ENABLE_PAYMENTS) {
+                        await PopupManager.alertAsync({
+                          title: "Deaktiviert",
+                          description:
+                            "Zum aktuellen Zeitpunkt sind keine Zahlungen möglich. Du kannst alle Funktionen des CodeUp PRO Pakets nutzen.",
+                        });
+                        return;
+                      }
+
                       if (loggedIn) {
                         const res = await REST.Payments.createCheckoutLink(
                           AccountManager.getActiveToken()
@@ -474,7 +489,7 @@ function FeatureList(props: { features: { av: boolean; t: string }[] }) {
     <>
       {props.features.map((item) => (
         <HStack fontSize={"xl"}>
-          <Text color={item.av ? "green.400" : "red.400"} fontSize={"4xl"}>
+          <Text color={item.av ? "brand.500" : "red.400"} fontSize={"4xl"}>
             {item.av ? <BiCheck /> : <BiX />}
           </Text>
           <Text color={"white"}>{item.t}</Text>
@@ -483,3 +498,11 @@ function FeatureList(props: { features: { av: boolean; t: string }[] }) {
     </>
   );
 }
+
+export const getServerSideProps = async () => {
+  return {
+    props: {
+      DISABLE_PAYMENTS: process.env.DISABLE_PAYMENTS,
+    },
+  };
+};
