@@ -52,6 +52,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCogs, FaInfo, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -192,12 +193,12 @@ export default function Dashboard() {
         <>
           <Flex
             direction={"column"}
-            mt={"2rem"}
-            justifyContent={"center"}
+            pt={"2rem"}
             alignItems={"center"}
             w={"100%"}
-            minH={"100%"}
+            minH={"100vh"}
             h={"fit-content"}
+            bg={"#000"}
           >
             <Box
               w={["100%", "75%"]}
@@ -230,9 +231,9 @@ export default function Dashboard() {
                 </>
               ) : null}
               <Stack>
-                <Heading size="2xl" textAlign={"center"}>
-                  {org.name}
-                </Heading>
+                <Box textAlign={"center"}>
+                  <CHeading size="2xl">{org.name}</CHeading>
+                </Box>
                 <StackDivider />
                 <Flex
                   w={"100%"}
@@ -270,7 +271,12 @@ export default function Dashboard() {
                   </Accordion>
                 </Flex>
                 <StackDivider />
-                <Tabs w={"100%"} variant={"enclosed-colored"} isFitted>
+                <Tabs
+                  w={"100%"}
+                  variant={"enclosed-colored"}
+                  isFitted
+                  colorScheme={"brand"}
+                >
                   <TabList w={"100%"}>
                     <Tab>Mitteilungen</Tab>
                     <Tab>Vorlagen</Tab>
@@ -289,7 +295,7 @@ export default function Dashboard() {
                         <i></i>
                         {org.owner === userInfo.id ? (
                           <Button
-                            colorScheme={"green"}
+                            variant={"brand"}
                             leftIcon={<FaPlus />}
                             onClick={async () => {
                               const title = await PopupManager.promptAsync({
@@ -418,7 +424,7 @@ export default function Dashboard() {
                                     });
                                   }
                                 }}
-                                colorScheme={"green"}
+                                variant={"brand"}
                                 leftIcon={<FaPlus />}
                               >
                                 Projekt hinzufügen
@@ -469,7 +475,8 @@ export default function Dashboard() {
                                     <StackDivider />
                                     <StackDivider />
                                     <Button
-                                      colorScheme={"green"}
+                                      variant={"brand"}
+                                      leftIcon={<FaPlus />}
                                       onClick={async (e) => {
                                         if (e.target !== e.currentTarget)
                                           return;

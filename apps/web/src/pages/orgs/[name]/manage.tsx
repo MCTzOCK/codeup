@@ -112,11 +112,13 @@ export default function ManageDashboard() {
           h={"fit-content"}
           justifyContent={"center"}
           alignItems={"center"}
+          minH={"100vh"}
+          bg={"#000"}
         >
           <Box
             w={["100%", "75%", "50%"]}
             shadow={"xl"}
-            bgColor={"black"}
+            bgColor={"gray.900"}
             mt={4}
             rounded={"lg"}
             p={6}
@@ -140,7 +142,7 @@ export default function ManageDashboard() {
                       mr={4}
                     />
                     <Link
-                      color={"blue.300"}
+                      color={"brand.500"}
                       onClick={async () => {
                         const fl: FileList = await PopupManager.uploadFileAsync(
                           {
@@ -257,7 +259,7 @@ export default function ManageDashboard() {
                       />
                     </InputGroup>
                     <Button
-                      colorScheme={"blue"}
+                      variant={"brand"}
                       leftIcon={<FaPlus />}
                       onClick={async () => {
                         const name = await PopupManager.promptAsync({
