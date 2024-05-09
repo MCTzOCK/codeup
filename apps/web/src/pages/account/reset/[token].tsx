@@ -32,6 +32,7 @@ import { useRouter } from "next/router";
 import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import REST from "@codeup/rest";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Token() {
   const router = useRouter();
@@ -96,6 +97,7 @@ export default function Token() {
         minW={"100%"}
         minH={"100vh"}
         padding={"1.2rem"}
+        bg={"#000"}
       >
         <Box
           maxW={["100%", "50%"]}
@@ -111,7 +113,7 @@ export default function Token() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <Heading size={"xl"}>Passwort zurücksetzen</Heading>
+              <CHeading size={"xl"}>Passwort zurücksetzen</CHeading>
               <Text textAlign={"center"} mt={".4rem"}>
                 Gib ein neues Passwort ein.
               </Text>
@@ -177,7 +179,7 @@ export default function Token() {
                 </FormErrorMessage>
               </FormControl>
               <Button
-                variant={"solid"}
+                variant={"brand"}
                 type={"submit"}
                 isLoading={loading}
                 disabled={disabled || loading}
