@@ -32,6 +32,7 @@ import { FaSearch } from "react-icons/fa";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -98,8 +99,9 @@ export default function Index() {
       <Flex
         direction="column"
         w={"100%"}
-        justifyContent="center"
-        alignItems={"center"}
+        h={"fit-content"}
+        minH={"100vh"}
+        bg={"#000"}
       >
         <Flex
           w={"100%"}
@@ -108,25 +110,17 @@ export default function Index() {
           alignItems={"center"}
           mt={4}
         >
-          <Heading
-            fontSize={["3xl", "6xl"]}
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            maxW={["75%", "50%"]}
-            textShadow={"0px 10px 100px #000000"}
-          >
-            Kurse
-          </Heading>
+          <Box textAlign={"center"}>
+            <CHeading size={"3xl"}>Kurse</CHeading>
+          </Box>
           <Text fontSize={["xl", "2xl"]} textAlign={["center", "initial"]}>
             Aktuell werden&nbsp;
-            <b>
+            <chakra.b color={"brand.500"}>
               {courses.length} Kurs
               {courses.length !== 1 ? "e" : ""}
-            </b>
+            </chakra.b>
             &nbsp;mit insgesamt&nbsp;
-            <b>
+            <chakra.b color={"brand.500"}>
               {courses
                 .map((course) => course.contentPositions.length)
                 .reduce((a, b) => a + b, 0)}
@@ -136,7 +130,7 @@ export default function Index() {
                 .reduce((a, b) => a + b, 0) !== 1
                 ? "en"
                 : ""}
-            </b>
+            </chakra.b>
             &nbsp;angeboten.
           </Text>
           <InputGroup
@@ -191,7 +185,7 @@ export default function Index() {
                 <Box
                   bg={"gray.900"}
                   color={"white"}
-                  rounded={"lg"}
+                  rounded={"xl"}
                   p={6}
                   h={"100%"}
                   cursor={"pointer"}
@@ -210,35 +204,26 @@ export default function Index() {
                     <Image
                       src={c.splashImage}
                       alt={c.name}
-                      shadow={"xl"}
                       w={"100%"}
                       h={"150px"}
                     />
-                    <Heading
-                      size={"xl"}
-                      color={"white"}
-                      fontWeight={"bold"}
-                      textAlign={"left"}
-                      mt={4}
-                    >
-                      {c.name}
-                    </Heading>
-                    <Text fontSize={"xl"} color={"gray.400"} textAlign={"left"}>
+                    <CHeading size={"xl"}>{c.name}</CHeading>
+                    <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
                       von&nbsp;
-                      <chakra.span color={"green.400"}>
+                      <chakra.span color={"brand.400"}>
                         @{c.creator}
                       </chakra.span>
                     </Text>
                     <Heading
                       size={"lg"}
-                      color={"gray.400"}
+                      color={"gray.300"}
                       fontWeight={"normal"}
                       textAlign={"left"}
                     >
                       {c.description.substring(0, 100)}
                       ...
                     </Heading>
-                    <Text fontSize={"xl"} color={"gray.400"} textAlign={"left"}>
+                    <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
                       {c.contentPositions.length} Lektion
                       {c.contentPositions.length !== 1 ? "en" : ""}
                     </Text>

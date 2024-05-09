@@ -33,6 +33,7 @@ import VideoPlayer from "@codeup/components/global/VideoPlayer";
 import { Quiz } from "@codeup/components/course";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { FaBackward, FaForward } from "react-icons/fa";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -125,8 +126,9 @@ export default function SectionViewer() {
             justifyContent={"center"}
             alignItems={"center"}
             direction={"column"}
+            bg={"#000"}
           >
-            <CircularProgress size={"80px"} isIndeterminate color="blue.300" />
+            <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
             <Heading size={"lg"} mt={4}>
               Lade Inhalte...
             </Heading>
@@ -221,7 +223,8 @@ export default function SectionViewer() {
               <ButtonGroup w={"100%"} mt={"2rem"}>
                 <Button
                   w={"100%"}
-                  colorScheme={"blue"}
+                  variant={"brand"}
+                  leftIcon={<FaBackward />}
                   onClick={() => {
                     router.push(
                       "/course/" +
@@ -238,7 +241,8 @@ export default function SectionViewer() {
                 </Button>
                 <Button
                   w={"100%"}
-                  colorScheme={"green"}
+                  variant={"brand"}
+                  rightIcon={<FaForward />}
                   onClick={() => {
                     router.push(
                       "/course/" +

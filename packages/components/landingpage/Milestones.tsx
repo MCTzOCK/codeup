@@ -15,12 +15,14 @@ import {
   Container,
   Flex,
   HStack,
+  Stack,
   Text,
   useBreakpointValue,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import SuperText from "./SuperText";
+import { CHeading } from "../global/CHeading";
 
 const Milestones = (props: {
   title: string;
@@ -49,8 +51,8 @@ const Milestones = (props: {
 
   return (
     <Container maxWidth="7xl" p={{ base: 2, sm: 10 }}>
-      <Box mb={8}>
-        <SuperText>{props.title}</SuperText>
+      <Box mb={8} textAlign={"center"}>
+        <CHeading size={"xl"}>{props.title}</CHeading>
       </Box>
       {ms.map((milestone) => (
         <Flex key={milestone.id} mb="10px">
@@ -132,16 +134,14 @@ const Card = ({ id, title, description, date, ...rest }: CardProps) => {
         // add all other props from rest
         {...rest}
       >
-        <Text fontSize="lg" color={isEvenId ? "teal.400" : "blue.400"}>
+        <Text fontSize="lg" color={"brand.500"}>
           {date}
         </Text>
 
-        <VStack spacing={2} mb={3} textAlign="left">
-          <chakra.h1 fontSize="2xl" lineHeight={1.2} fontWeight="bold" w="100%">
-            {title}
-          </chakra.h1>
+        <Stack spacing={2} mb={3} textAlign="left">
+          <CHeading size={"lg"}>{title}</CHeading>
           <Text fontSize="md">{description}</Text>
-        </VStack>
+        </Stack>
       </Box>
     </HStack>
   );
@@ -175,7 +175,7 @@ const LineWithDot = () => {
           backgroundSize="cover"
           backgroundRepeat="no-repeat"
           backgroundPosition="center center"
-          bg={"gray.200"}
+          bg={"brand.600"}
           borderRadius="100px"
           backgroundImage="none"
           opacity={1}

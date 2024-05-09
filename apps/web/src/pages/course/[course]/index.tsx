@@ -34,6 +34,7 @@ import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import Milestones from "@codeup/components/landingpage/Milestones";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -115,12 +116,12 @@ export default function Index() {
         <>
           <Flex
             direction={"column"}
-            mt={"2rem"}
-            justifyContent={"center"}
+            pt={"2rem"}
             alignItems={"center"}
             w={"100%"}
-            minH={"100%"}
+            minH={"100vh"}
             h={"fit-content"}
+            bg={"#000"}
           >
             <Box
               w={["100%", "75%"]}
@@ -129,10 +130,12 @@ export default function Index() {
               rounded={"xl"}
               boxShadow={"xl"}
             >
-              <Heading size={"2xl"} mb={6}>
-                {course.name} von @{course.creator}
-              </Heading>
-              <Divider />
+              <CHeading size={"2xl"}>
+                {course.name}
+                <chakra.sub pl={4} fontSize={"2xl"}>
+                  von @{course.creator}
+                </chakra.sub>
+              </CHeading>
               <Flex direction={["column", "row"]} w={"100%"} mt={6}>
                 <Box flex={"100%"}>
                   <Image
@@ -142,10 +145,9 @@ export default function Index() {
                     maxH={"300px"}
                     objectFit="cover"
                     borderRadius="lg"
-                    boxShadow={"2xl"}
                   />
                   <Text mt={4} fontSize={"lg"}>
-                    <b>Beschreibung</b>
+                    <CHeading size={"lg"}>Beschreibung</CHeading>
                     <br />
                     {course.description}
                   </Text>

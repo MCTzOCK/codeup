@@ -308,7 +308,7 @@ export default function Quiz(props: {
         </Text>
         <Button
           mt="1.2rem"
-          colorScheme={"whatsapp"}
+          variant={"brand"}
           size="lg"
           onClick={() => {
             setFinished(false);
