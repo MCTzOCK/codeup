@@ -29,6 +29,7 @@ import makeRequest from "@codeup/rest/src/makeRequest";
 import DividerWithText from "@codeup/components/dist/global/DividerWithText";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Contact() {
   const [disableButton, setDisableButton] = React.useState(false);
@@ -44,19 +45,24 @@ export default function Contact() {
       <Head>
         <title>Kontakt - CodeUp</title>
       </Head>
-      <Flex align="center" justify="center" w={"100%"} minH={[0, "100vh"]}>
+      <Flex
+        align="center"
+        justify="center"
+        w={"100%"}
+        h={"fit-content"}
+        minH={"100vh"}
+        bg={"#000"}
+      >
         <Stack
           spacing={8}
           w="100%"
           maxW="800px"
-          p={8}
-          bgColor={["transparent", "gray.900"]}
-          rounded="lg"
+          p={6}
+          bgColor={["transparent", "black"]}
+          rounded="xl"
           shadow={["none", "xl"]}
         >
-          <Heading as="h1" size="2xl" textAlign={["center", "initial"]}>
-            Team Kontaktieren
-          </Heading>
+          <CHeading size={"2xl"}>Kontakt</CHeading>
 
           <form
             onSubmit={async (e) => {
@@ -130,7 +136,7 @@ export default function Contact() {
                 <FormLabel>Nachricht</FormLabel>
                 <Textarea name={"message"} placeholder={"Nachricht ..."} />
               </FormControl>
-              <Button type="submit" colorScheme="blue" disabled={disableButton}>
+              <Button type="submit" variant={"brand"} disabled={disableButton}>
                 {loggedIn ? "Absenden" : "Anmelden zum Senden"}
               </Button>
             </Stack>
@@ -138,7 +144,7 @@ export default function Contact() {
           <DividerWithText text={"ODER"} />
           <Text textAlign={"center"}>
             Schreibe uns eine E-Mail an&nbsp;
-            <Link color={"blue.400"} href="mailto:hello@ben-siebert.de">
+            <Link color={"brand.500"} href="mailto:hello@ben-siebert.de">
               hello@ben-siebert.de
             </Link>
           </Text>
