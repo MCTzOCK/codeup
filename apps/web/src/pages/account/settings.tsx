@@ -9,6 +9,7 @@
  */
 
 import {
+  Box,
   Button,
   Flex,
   FormControl,
@@ -26,6 +27,7 @@ import {
   PopoverTrigger,
   SimpleGrid,
   Spinner,
+  Stack,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -55,6 +57,7 @@ import * as qr from "qrcode";
 import PopupManager from "../../global/PopupManager";
 import { IoWarning } from "react-icons/io5";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Settings() {
   const router = useRouter();
@@ -90,9 +93,377 @@ export default function Settings() {
         <title>Einstellungen - CodeUp</title>
       </Head>
 
-      <Heading textAlign={"center"} mt={6} mb={6} size={"xl"}>
-        Konto Einstellungen
-      </Heading>
+      <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
+        <Flex pt={6} pb={6} w={"100%"} justifyContent={"center"}>
+          <CHeading size={"xl"}>Konto Einstellungen</CHeading>
+        </Flex>
+
+        <Flex alignItems={"center"} justifyContent={"center"}>
+          <Box
+            maxW={["90%", "90%", "60%"]}
+            bg={"gray.900"}
+            p={4}
+            rounded={"xl"}
+            minW={["100px", "200px", "400px"]}
+          >
+            <Stack gap={2}>
+              <FormControl>
+                <FormLabel>Vorname</FormLabel>
+                <Input
+                  id={"sett.firstname"}
+                  placeholder={"Vorname"}
+                  defaultValue={userInfo.firstName}
+                />
+              </FormControl>
+              <Button
+                variant={"brand"}
+                onClick={async () => {
+                  const newName = (
+                    document.getElementById(
+                      "sett.firstname"
+                    ) as HTMLInputElement
+                  ).value;
+
+                  if (!newName) return;
+
+                  const res = await REST.Account.update({
+                    keyName: "firstName",
+                    keyValue: newName,
+                    token: localStorage.getItem("token") as string,
+                  });
+
+                  if (res.payload.success) {
+                    localStorage.setItem("token", res.payload.newToken);
+                    PopupManager.alert({
+                      title: "Erfolgreich",
+                      description: "Dein Vorname wurde erfolgreich geändert!",
+                    });
+                  } else {
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description: res.payload.message,
+                    });
+                  }
+                }}
+              >
+                Speichern
+              </Button>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>Nachname</FormLabel>
+                <Input
+                  id={"sett.lastname"}
+                  placeholder={"Nachname"}
+                  defaultValue={userInfo.lastName}
+                />
+              </FormControl>
+              <Button
+                variant={"brand"}
+                onClick={async () => {
+                  const newName = (
+                    document.getElementById("sett.lastname") as HTMLInputElement
+                  ).value;
+
+                  if (!newName) return;
+
+                  const res = await REST.Account.update({
+                    keyName: "lastName",
+                    keyValue: newName,
+                    token: localStorage.getItem("token") as string,
+                  });
+
+                  if (res.payload.success) {
+                    localStorage.setItem("token", res.payload.newToken);
+                    PopupManager.alert({
+                      title: "Erfolgreich",
+                      description: "Dein Nachname wurde erfolgreich geändert!",
+                    });
+                  } else {
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description: res.payload.message,
+                    });
+                  }
+                }}
+              >
+                Speichern
+              </Button>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>E-Mail</FormLabel>
+                <Input
+                  id={"sett.email"}
+                  placeholder={"E-Mail"}
+                  defaultValue={userInfo.email}
+                />
+              </FormControl>
+              <Button
+                variant={"brand"}
+                onClick={async () => {
+                  const newMail = (
+                    document.getElementById("sett.lastname") as HTMLInputElement
+                  ).value;
+                  if (
+                    !newMail.match(
+                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    )
+                  ) {
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description: "Die E-Mail Adresse ist ungültig!",
+                    });
+                    return;
+                  }
+
+                  const res = await REST.Account.update({
+                    keyName: "email",
+                    keyValue: newMail,
+                    token: localStorage.getItem("token") as string,
+                  });
+
+                  if (res.payload.success) {
+                    localStorage.setItem("token", res.payload.newToken);
+                    PopupManager.alert({
+                      title: "Erfolgreich",
+                      description:
+                        "Überprüfe dein Postfach, um deine neue E-Mail Adresse zu bestätigen!",
+                    });
+                  } else {
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description: res.payload.message,
+                    });
+                  }
+                }}
+              >
+                Speichern
+              </Button>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>Zwei Faktor Authentifizierung</FormLabel>
+                <Button
+                  w={"100%"}
+                  variant={"brand"}
+                  onClick={async () => {
+                    // @ts-ignore
+                    if (!userInfo.twoFactorEnabled) {
+                      const res = await REST.Account.update2FA({
+                        token: localStorage.getItem("token") as string,
+                        enabled: true,
+                      });
+
+                      if (res.status === 200) {
+                        setTwoFactorURL(
+                          (await qr.toCanvas(res.payload.url)).toDataURL()
+                        );
+
+                        on2FASuccessOpen();
+
+                        localStorage.setItem("token", res.payload.newToken);
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Zwei Faktor Authentifizierung fehlgeschlagen: " +
+                            res.payload.error,
+                        });
+                      }
+                    } else {
+                      const code = await PopupManager.promptAsync({
+                        title: "Zwei Faktor Authentifizierung deaktivieren",
+                        helperText:
+                          "Bitte gebe den Code aus deiner Authentifizierungs App ein",
+                      });
+
+                      const res = await REST.Account.update2FA({
+                        token: localStorage.getItem("token") as string,
+                        enabled: false,
+                        code: code,
+                      });
+
+                      if (res.status === 200) {
+                        localStorage.setItem("token", res.payload.newToken);
+                        PopupManager.alert({
+                          title: "Erfolgreich",
+                          description:
+                            "Zwei Faktor Authentifizierung erfolgreich deaktiviert!",
+                        });
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Zwei Faktor Authentifizierung fehlgeschlagen: " +
+                            res.payload.error,
+                        });
+                      }
+                    }
+                  }}
+                >
+                  {
+                    // @ts-ignore
+                    userInfo.twoFactorEnabled ? "Deaktivieren" : "Aktivieren"
+                  }
+                </Button>
+              </FormControl>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>Passwort</FormLabel>
+                <Button
+                  w={"100%"}
+                  variant={"brand"}
+                  onClick={async () => {
+                    const newPassword = await PopupManager.promptAsync({
+                      title: "Passwort ändern",
+                      helperText: "Bitte gebe dein neues Passwort ein",
+                    });
+
+                    if (!newPassword) return;
+
+                    const newPasswordRepeat = await PopupManager.promptAsync({
+                      title: "Passwort ändern",
+                      helperText: "Bitte wiederhole dein neues Passwort",
+                    });
+
+                    if (!newPasswordRepeat) return;
+
+                    if (newPassword !== newPasswordRepeat) {
+                      PopupManager.alert({
+                        title: "Fehler",
+                        description: "Die Passwörter stimmen nicht überein!",
+                      });
+                      return;
+                    }
+
+                    const res = await REST.Account.update({
+                      keyName: "password",
+                      keyValue: newPassword,
+                      token: AccountManager.getActiveToken(),
+                    });
+
+                    if (res.status === 200) {
+                      PopupManager.alert({
+                        title: "Erfolgreich",
+                        description: "Passwort erfolgreich geändert!",
+                      });
+                      return;
+                    }
+
+                    PopupManager.alert({
+                      title: "Fehler",
+                      description:
+                        "Passwort konnte nicht geändert werden: " +
+                        res.payload.error,
+                    });
+                  }}
+                >
+                  Passwort ändern
+                </Button>
+              </FormControl>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>
+                  CodeUp PRO (
+                  {userInfo.subscription === "PRO" ? "Aktiv" : "Inaktiv"})
+                </FormLabel>
+                <Button
+                  w={"100%"}
+                  variant={"brand"}
+                  onClick={async () => {
+                    if (userInfo.subscription === "PRO") {
+                      if (
+                        !(await PopupManager.confirmAsync({
+                          title: "Kündigen",
+                          question:
+                            "Willst du CodeUp PRO wirklich kündigen und all deine Vorteile verlieren?",
+                        }))
+                      ) {
+                        return;
+                      }
+
+                      const res = await REST.Payments.cancelSubscription(
+                        AccountManager.getActiveToken()
+                      );
+                      if (res.status === 200) {
+                        await PopupManager.alertAsync({
+                          title: "Erfolgreich",
+                          description: "CodeUp PRO erfolgreich gekündigt!",
+                        });
+                        AccountManager.overrideActiveToken(res.payload.jwt);
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Es ist ein Fehler aufgetreten. Bitte kontaktiere den Support mit dieser Fehlermeldung: " +
+                            res.payload.error,
+                        });
+                      }
+                    } else {
+                      const res = await REST.Payments.createCheckoutLink(
+                        AccountManager.getActiveToken()
+                      );
+
+                      if (res.status === 200) {
+                        window.location.href = res.payload.url;
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
+                            res.payload.error,
+                        });
+                      }
+                    }
+                  }}
+                >
+                  {
+                    // @ts-ignore
+                    userInfo.subscription === "PRO" ? "Kündigen" : "Aktivieren"
+                  }
+                </Button>
+              </FormControl>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>Konto löschen</FormLabel>
+                <Text>
+                  Diese Aktion kann unter keinen Umständen rückgängig gemacht
+                  werden!
+                </Text>
+                <Button
+                  w={"100%"}
+                  colorScheme={"red"}
+                  onClick={async () => {
+                    if (
+                      !(await PopupManager.confirmAsync({
+                        title: "Konto löschen",
+                        question:
+                          "Bist du dir sicher, dass du dein Konto löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!",
+                      }))
+                    )
+                      return;
+
+                    const res = await REST.Account.deleteAccount(
+                      localStorage.getItem("token") as string
+                    );
+
+                    localStorage.removeItem("token");
+                    document.cookie = "jwt=;path=/";
+
+                    await router.push("/");
+                  }}
+                >
+                  KONTO LÖSCHEN
+                </Button>
+              </FormControl>
+            </Stack>
+          </Box>
+        </Flex>
+      </Box>
 
       <CodeUpModal
         onOpen={on2FASuccessOpen}
@@ -112,441 +483,6 @@ export default function Settings() {
           <img src={twoFactorURL as string} />
         </Flex>
       </CodeUpModal>
-
-      <GridLayout
-        search={{
-          allow: false,
-          searchFields: false,
-        }}
-        specialEntries={[]}
-        entries={[
-          {
-            title: "Vorname",
-            fields: [
-              {
-                text: "Aktueller Vorname: " + userInfo.firstName,
-                icon: <FaInfo />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "Bearbeiten",
-                    icon: <FaPen />,
-                    colorScheme: "blue",
-                    onClick: async () => {
-                      const newName = await PopupManager.promptAsync({
-                        title: "Vornamen ändern",
-                        helperText: "Bitte gebe deinen neuen Vornamen ein",
-                      });
-
-                      if (!newName) return;
-
-                      const res = await REST.Account.update({
-                        keyName: "firstName",
-                        keyValue: newName,
-                        token: localStorage.getItem("token") as string,
-                      });
-
-                      if (res.payload.success) {
-                        localStorage.setItem("token", res.payload.newToken);
-                        PopupManager.alert({
-                          title: "Erfolgreich",
-                          description:
-                            "Dein Vorname wurde erfolgreich geändert!",
-                        });
-                      } else {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: res.payload.message,
-                        });
-                      }
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "Nachname",
-            fields: [
-              {
-                text: "Aktueller Nachname: " + userInfo.lastName,
-                icon: <FaInfo />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "Bearbeiten",
-                    icon: <FaPen />,
-                    colorScheme: "blue",
-                    onClick: async () => {
-                      const newName = await PopupManager.promptAsync({
-                        title: "Nachnamen ändern",
-                        helperText: "Bitte gebe deinen neuen Nachnamen ein",
-                      });
-
-                      if (!newName) return;
-
-                      const res = await REST.Account.update({
-                        keyName: "lastName",
-                        keyValue: newName,
-                        token: localStorage.getItem("token") as string,
-                      });
-
-                      if (res.payload.success) {
-                        localStorage.setItem("token", res.payload.newToken);
-                        PopupManager.alert({
-                          title: "Erfolgreich",
-                          description:
-                            "Dein Nachname wurde erfolgreich geändert!",
-                        });
-                      } else {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: res.payload.message,
-                        });
-                      }
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "E-Mail",
-            fields: [
-              {
-                text: "Aktuelle E-Mail: " + userInfo.email,
-                icon: <FaInfo />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "Bearbeiten",
-                    icon: <FaPen />,
-                    colorScheme: "blue",
-                    onClick: async () => {
-                      const newMail = await PopupManager.promptAsync({
-                        title: "E-Mail ändern",
-                        helperText: "Bitte gebe deine neue E-Mail Adresse ein",
-                      });
-
-                      if (!newMail) return;
-
-                      if (
-                        !newMail.match(
-                          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                        )
-                      ) {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: "Die E-Mail Adresse ist ungültig!",
-                        });
-                        return;
-                      }
-
-                      const res = await REST.Account.update({
-                        keyName: "email",
-                        keyValue: newMail,
-                        token: localStorage.getItem("token") as string,
-                      });
-
-                      if (res.payload.success) {
-                        localStorage.setItem("token", res.payload.newToken);
-                        PopupManager.alert({
-                          title: "Erfolgreich",
-                          description:
-                            "Überprüfe dein Postfach, um deine neue E-Mail Adresse zu bestätigen!",
-                        });
-                      } else {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: res.payload.message,
-                        });
-                      }
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "Zwei Faktor Authentifizierung",
-            fields: [
-              {
-                text:
-                  "Aktueller Status: " +
-                  // @ts-ignore
-                  (userInfo.twoFactorEnabled ? "Aktiv" : "Inaktiv"),
-                icon: <FaInfo />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text:
-                      // @ts-ignore
-                      userInfo.twoFactorEnabled ? "Deaktivieren" : "Aktivieren",
-                    icon:
-                      // @ts-ignore
-                      userInfo.twoFactorEnabled ? <FaLock /> : <FaUnlock />,
-                    colorScheme:
-                      // @ts-ignore
-                      userInfo.twoFactorEnabled ? "red" : "green",
-                    onClick: async () => {
-                      // @ts-ignore
-                      if (!userInfo.twoFactorEnabled) {
-                        const res = await REST.Account.update2FA({
-                          token: localStorage.getItem("token") as string,
-                          enabled: true,
-                        });
-
-                        if (res.status === 200) {
-                          setTwoFactorURL(
-                            (await qr.toCanvas(res.payload.url)).toDataURL()
-                          );
-
-                          on2FASuccessOpen();
-
-                          localStorage.setItem("token", res.payload.newToken);
-                        } else {
-                          PopupManager.alert({
-                            title: "Fehler",
-                            description:
-                              "Zwei Faktor Authentifizierung fehlgeschlagen: " +
-                              res.payload.error,
-                          });
-                        }
-                      } else {
-                        const code = await PopupManager.promptAsync({
-                          title: "Zwei Faktor Authentifizierung deaktivieren",
-                          helperText:
-                            "Bitte gebe den Code aus deiner Authentifizierungs App ein",
-                        });
-
-                        const res = await REST.Account.update2FA({
-                          token: localStorage.getItem("token") as string,
-                          enabled: false,
-                          code: code,
-                        });
-
-                        if (res.status === 200) {
-                          localStorage.setItem("token", res.payload.newToken);
-                          PopupManager.alert({
-                            title: "Erfolgreich",
-                            description:
-                              "Zwei Faktor Authentifizierung erfolgreich deaktiviert!",
-                          });
-                        } else {
-                          PopupManager.alert({
-                            title: "Fehler",
-                            description:
-                              "Zwei Faktor Authentifizierung fehlgeschlagen: " +
-                              res.payload.error,
-                          });
-                        }
-                      }
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "Konto löschen",
-            fields: [
-              {
-                text: "DIESE AKTION KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN!",
-                icon: <IoWarning />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "LÖSCHEN",
-                    icon: <FaTrash />,
-                    colorScheme: "red",
-                    onClick: async () => {
-                      if (
-                        !(await PopupManager.confirmAsync({
-                          title: "Konto löschen",
-                          question:
-                            "Bist du dir sicher, dass du dein Konto löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!",
-                        }))
-                      )
-                        return;
-
-                      const res = await REST.Account.deleteAccount(
-                        localStorage.getItem("token") as string
-                      );
-
-                      localStorage.removeItem("token");
-                      document.cookie = "jwt=;path=/";
-
-                      await router.push("/");
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "Passwort",
-            fields: [
-              {
-                text: "Passwort deines Kontos ändern",
-                icon: <FaInfo />,
-              },
-            ],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "Ändern",
-                    icon: <FaPen />,
-                    colorScheme: "blue",
-                    onClick: async () => {
-                      const newPassword = await PopupManager.promptAsync({
-                        title: "Passwort ändern",
-                        helperText: "Bitte gebe dein neues Passwort ein",
-                      });
-
-                      if (!newPassword) return;
-
-                      const newPasswordRepeat = await PopupManager.promptAsync({
-                        title: "Passwort ändern",
-                        helperText: "Bitte wiederhole dein neues Passwort",
-                      });
-
-                      if (!newPasswordRepeat) return;
-
-                      if (newPassword !== newPasswordRepeat) {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: "Die Passwörter stimmen nicht überein!",
-                        });
-                        return;
-                      }
-
-                      const res = await REST.Account.update({
-                        keyName: "password",
-                        keyValue: newPassword,
-                        token: AccountManager.getActiveToken(),
-                      });
-
-                      if (res.status === 200) {
-                        PopupManager.alert({
-                          title: "Erfolgreich",
-                          description: "Passwort erfolgreich geändert!",
-                        });
-                        return;
-                      }
-
-                      PopupManager.alert({
-                        title: "Fehler",
-                        description:
-                          "Passwort konnte nicht geändert werden: " +
-                          res.payload.error,
-                      });
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CodeUp Pro",
-            fields: [
-              {
-                text:
-                  "Aktueller Status: " +
-                  (userInfo.subscription === "PRO" ? "Aktiv" : "Inaktiv"),
-                icon: <FaCrown />,
-              },
-            ],
-            buttonRows:
-              userInfo.subscription === "PRO"
-                ? [
-                    {
-                      buttons: [
-                        {
-                          text: "Kündigen",
-                          colorScheme: "red",
-                          icon: <FaTimes />,
-                          onClick: async () => {
-                            if (
-                              !(await PopupManager.confirmAsync({
-                                title: "Kündigen",
-                                question:
-                                  "Willst du CodeUp PRO wirklich kündigen und all deine Vorteile verlieren?",
-                              }))
-                            ) {
-                              return;
-                            }
-
-                            const res = await REST.Payments.cancelSubscription(
-                              AccountManager.getActiveToken()
-                            );
-                            if (res.status === 200) {
-                              await PopupManager.alertAsync({
-                                title: "Erfolgreich",
-                                description:
-                                  "CodeUp PRO erfolgreich gekündigt!",
-                              });
-                              AccountManager.overrideActiveToken(
-                                res.payload.jwt
-                              );
-                            } else {
-                              PopupManager.alert({
-                                title: "Fehler",
-                                description:
-                                  "Es ist ein Fehler aufgetreten. Bitte kontaktiere den Support mit dieser Fehlermeldung: " +
-                                  res.payload.error,
-                              });
-                            }
-                          },
-                        },
-                      ],
-                    },
-                  ]
-                : [
-                    {
-                      buttons: [
-                        {
-                          text: "Aktivieren",
-                          colorScheme: "green",
-                          icon: <FaCrown />,
-                          onClick: async () => {
-                            const res = await REST.Payments.createCheckoutLink(
-                              AccountManager.getActiveToken()
-                            );
-
-                            if (res.status === 200) {
-                              window.location.href = res.payload.url;
-                            } else {
-                              PopupManager.alert({
-                                title: "Fehler",
-                                description:
-                                  "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
-                                  res.payload.error,
-                              });
-                            }
-                          },
-                        },
-                      ],
-                    },
-                  ],
-          },
-        ]}
-      />
     </>
   );
 }
