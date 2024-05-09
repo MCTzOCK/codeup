@@ -19,6 +19,7 @@ import PopupManager from "../../global/PopupManager";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import { Box } from "@chakra-ui/react";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function KidsDashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -65,7 +66,141 @@ export default function KidsDashboard() {
         </>
       ) : (
         <>
-          <Box mt={4}></Box>
+          <Box pt={4} pb={4} bg={"#000"} h={"fit-content"} minH={"100vh"}>
+            <GridLayoutV2
+              pageTitle={"CodeUp Kids"}
+              entries={projects.map((p) => ({
+                title: p.name,
+                fields: [
+                  {
+                    text: "",
+                    icon: undefined,
+                  },
+                ],
+                buttonRows: [
+                  [
+                    {
+                      text: "Öffnen",
+                      leftIcon: <FaEye />,
+                      onClick: () => {
+                        router.push(`/kids/${p._id}`);
+                      },
+                      variant: "brand",
+                    },
+                    {
+                      text: "Umbenennen",
+                      onClick: async () => {
+                        const newName = await PopupManager.promptAsync({
+                          title: "Projekt umbenennen",
+                          inputType: "INPUT",
+                          helperText:
+                            "Gib einen neuen Namen für dein Projekt ein",
+                        });
+
+                        if (!newName) return;
+
+                        const res = await REST.Kids.updateProject({
+                          token: AccountManager.getActiveToken(),
+                          name: newName,
+                          id: p._id,
+                        });
+
+                        if (res.status !== 200) {
+                          PopupManager.alertAsync({
+                            title: "Fehler",
+                            description:
+                              "Es ist ein Fehler aufgetreten: " +
+                              res.payload.error,
+                          });
+                          return;
+                        }
+
+                        reload();
+
+                        PopupManager.alertAsync({
+                          title: "Projekt umbenannt",
+                          description:
+                            "Dein Projekt wurde erfolgreich umbenannt.",
+                        });
+                      },
+                      leftIcon: <FaPen />,
+                      variant: "brand",
+                    },
+                  ],
+                  [
+                    {
+                      text: "Löschen",
+                      onClick: async () => {
+                        if (
+                          !(await PopupManager.confirmAsync({
+                            title: "Projekt löschen",
+                            question:
+                              "Bist du dir sicher, dass du das Projekt löschen möchtest?",
+                          }))
+                        )
+                          return;
+
+                        const res = await REST.Kids.deleteProject({
+                          token: AccountManager.getActiveToken(),
+                          id: p._id,
+                        });
+
+                        if (res.status !== 200) {
+                          PopupManager.alertAsync({
+                            title: "Fehler",
+                            description:
+                              "Es ist ein Fehler aufgetreten: " +
+                              res.payload.error,
+                          });
+                          return;
+                        }
+
+                        reload();
+                      },
+                      leftIcon: <FaTrash />,
+                      colorScheme: "red",
+                    },
+                  ],
+                ],
+              }))}
+              topButtons={[
+                {
+                  text: "Neu",
+                  leftIcon: <FaPlus />,
+                  variant: "brand",
+                  onClick: async () => {
+                    const name = await PopupManager.promptAsync({
+                      title: "Neues Projekt",
+                      inputType: "INPUT",
+                      helperText: "Gib einen Namen für dein Projekt ein",
+                    });
+
+                    if (!name) return;
+
+                    const res = await REST.Kids.createProject({
+                      name,
+                      token: AccountManager.getActiveToken(),
+                    });
+                    if (res.status !== 200) {
+                      PopupManager.alertAsync({
+                        title: "Fehler",
+                        description:
+                          "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                      });
+                      return;
+                    }
+
+                    reload();
+                  },
+                },
+              ]}
+              search={{
+                show: true,
+                fields: true,
+              }}
+            />
+          </Box>
+
           <SuperText>CodeUp Kids</SuperText>
           <GridLayout
             search={{
@@ -114,6 +249,46 @@ export default function KidsDashboard() {
                       },
                       icon: <FaEye />,
                       colorScheme: "blue",
+                      disabled: false,
+                    },
+                    {
+                      text: "Umbenennen",
+                      onClick: async () => {
+                        const newName = await PopupManager.promptAsync({
+                          title: "Projekt umbenennen",
+                          inputType: "INPUT",
+                          helperText:
+                            "Gib einen neuen Namen für dein Projekt ein",
+                        });
+
+                        if (!newName) return;
+
+                        const res = await REST.Kids.updateProject({
+                          token: AccountManager.getActiveToken(),
+                          name: newName,
+                          id: p._id,
+                        });
+
+                        if (res.status !== 200) {
+                          PopupManager.alertAsync({
+                            title: "Fehler",
+                            description:
+                              "Es ist ein Fehler aufgetreten: " +
+                              res.payload.error,
+                          });
+                          return;
+                        }
+
+                        reload();
+
+                        PopupManager.alertAsync({
+                          title: "Projekt umbenannt",
+                          description:
+                            "Dein Projekt wurde erfolgreich umbenannt.",
+                        });
+                      },
+                      icon: <FaPen />,
+                      colorScheme: "green",
                       disabled: false,
                     },
                   ],

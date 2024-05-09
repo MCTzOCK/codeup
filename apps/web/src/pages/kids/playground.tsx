@@ -12,8 +12,9 @@ import * as React from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
 //import { BlocklyCompiler } from "@codeup/incode-blockly/dist/blockly/BlocklyCompiler";
-import { FaPlay } from "react-icons/fa";
+import { FaCode, FaPlay } from "react-icons/fa";
 import * as InCode from "@codeup/incode-compiler/dist";
+import PopupManager from "../../global/PopupManager";
 
 export default function Playground() {
   return (
@@ -24,6 +25,7 @@ export default function Playground() {
         h={"fit-content"}
         direction={["column", "row"]}
         gap={"2rem"}
+        bg={"#000"}
       >
         <Box w={"100%"} h={"100vh"} flex={"100%"}>
           <BlocklyEditor
@@ -50,9 +52,37 @@ export default function Playground() {
             leftIcon={<FaPlay />}
             mt={[0, 8]}
             ml={[8, 0]}
-            colorScheme={"green"}
+            variant={"brand"}
           >
-            Run
+            Ausführen
+          </Button>
+          <Button
+            variant={"brand"}
+            mt={[0, 8]}
+            w={"100%"}
+            leftIcon={<FaCode />}
+            onClick={async () => {
+              const incode = new InCode.BlocklyCompiler().compile();
+              const html = InCode.Compiler.compile(incode);
+
+              await PopupManager.alertAsync({
+                title: "JavaScript Code",
+                description: (
+                  <>
+                    <pre
+                      style={{
+                        overflow: "scroll",
+                      }}
+                    >
+                      {html}
+                    </pre>
+                  </>
+                ),
+                customSize: "2xl",
+              });
+            }}
+          >
+            Code
           </Button>
         </Box>
         <Box flex={"100%"}>

@@ -56,7 +56,7 @@ export default function AlertPopupComponent(props: {
 
             <AlertDialogFooter>
               <Button
-                colorScheme="brand"
+                variant="brand"
                 onClick={() => {
                   onClose();
                   props.onClose();
