@@ -25,6 +25,7 @@ import {
 import Head from "next/head";
 import makeRequest from "@codeup/rest/dist/makeRequest";
 import DividerWithText from "@codeup/components/dist/global/DividerWithText";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Imprint() {
   return (
@@ -36,9 +37,11 @@ export default function Imprint() {
         align="center"
         justify="center"
         w={"100%"}
-        minH={[0, "100vh"]}
-        mt={"2rem"}
-        mb={"2rem"}
+        minH={"100vh"}
+        h={"fit-content"}
+        bg={"#000"}
+        pt={6}
+        pb={6}
       >
         <Stack
           spacing={8}
@@ -49,14 +52,12 @@ export default function Imprint() {
           rounded="lg"
           shadow={["none", "xl"]}
         >
-          <Heading as="h1" size="2xl" textAlign={["center", "initial"]}>
-            Datenschutzerklärung
-          </Heading>
+          <CHeading size={"2xl"}>Datenschutzerklärung</CHeading>
           <>
-            <Heading as="h2" size="xl" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               1. Datenschutz auf einen Blick
             </Heading>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Allgemeine Hinweise
             </Heading>
             &nbsp;
@@ -68,11 +69,11 @@ export default function Imprint() {
               Informationen zum Thema Datenschutz entnehmen Sie unserer unter
               diesem Text aufgeführten Datenschutzerklärung.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Datenerfassung auf dieser Website
             </Heading>
             &nbsp;
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Wer ist verantwortlich für die Datenerfassung auf dieser Website?
             </Heading>
             &nbsp;
@@ -83,7 +84,7 @@ export default function Imprint() {
               Datenschutzerklärung entnehmen.
             </Text>
             &nbsp;
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Wie erfassen wir Ihre Daten?
             </Heading>
             &nbsp;
@@ -101,7 +102,7 @@ export default function Imprint() {
               erfolgt automatisch, sobald Sie diese Website betreten.
             </Text>
             &nbsp;
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Wofür nutzen wir Ihre Daten?
             </Heading>
             &nbsp;
@@ -111,7 +112,7 @@ export default function Imprint() {
               zur Analyse Ihres Nutzerverhaltens verwendet werden.
             </Text>
             &nbsp;
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Welche Rechte haben Sie bezüglich Ihrer Daten?
             </Heading>
             &nbsp;
@@ -132,7 +133,7 @@ export default function Imprint() {
               Hierzu sowie zu weiteren Fragen zum Thema Datenschutz können Sie
               sich jederzeit an uns wenden.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Analyse-Tools und Tools von Dritt­anbietern
             </Heading>
             &nbsp;
@@ -146,10 +147,10 @@ export default function Imprint() {
               Detaillierte Informationen zu diesen Analyseprogrammen finden Sie
               in der folgenden Datenschutzerklärung.
             </Text>
-            <Heading as="h2" size="xl" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               2. Allgemeine Hinweise und Pflicht­informationen
             </Heading>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Datenschutz
             </Heading>
             &nbsp;
@@ -175,7 +176,7 @@ export default function Imprint() {
               aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff
               durch Dritte ist nicht möglich.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Hinweis zur verantwortlichen Stelle
             </Heading>
             &nbsp;
@@ -202,7 +203,7 @@ export default function Imprint() {
               der Verarbeitung von personenbezogenen Daten (z.&nbsp;B. Namen,
               E-Mail-Adressen o. Ä.) entscheidet.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Speicherdauer
             </Heading>
             &nbsp;
@@ -218,7 +219,7 @@ export default function Imprint() {
               letztgenannten Fall erfolgt die Löschung nach Fortfall dieser
               Gründe.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung
               auf dieser Website
             </Heading>
@@ -246,7 +247,7 @@ export default function Imprint() {
               Über die jeweils im Einzelfall einschlägigen Rechtsgrundlagen wird
               in den folgenden Absätzen dieser Datenschutzerklärung informiert.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Hinweis zur Datenweitergabe in die USA und sonstige Drittstaaten
             </Heading>
             &nbsp;
@@ -266,7 +267,7 @@ export default function Imprint() {
               speichern. Wir haben auf diese Verarbeitungstätigkeiten keinen
               Einfluss.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Widerruf Ihrer Einwilligung zur Datenverarbeitung
             </Heading>
             &nbsp;
@@ -277,7 +278,7 @@ export default function Imprint() {
               Widerruf erfolgten Datenverarbeitung bleibt vom Widerruf
               unberührt.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Widerspruchsrecht gegen die Datenerhebung in besonderen Fällen
               sowie gegen Direktwerbung (Art. 21 DSGVO)
             </Heading>
@@ -309,7 +310,7 @@ export default function Imprint() {
               ANSCHLIESSEND NICHT MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET
               (WIDERSPRUCH NACH ART. 21 ABS. 2 DSGVO).
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Beschwerde­recht bei der zuständigen Aufsichts­behörde
             </Heading>
             &nbsp;
@@ -321,7 +322,7 @@ export default function Imprint() {
               besteht unbeschadet anderweitiger verwaltungsrechtlicher oder
               gerichtlicher Rechtsbehelfe.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Recht auf Daten­übertrag­barkeit
             </Heading>
             &nbsp;
@@ -333,7 +334,7 @@ export default function Imprint() {
               direkte Übertragung der Daten an einen anderen Verantwortlichen
               verlangen, erfolgt dies nur, soweit es technisch machbar ist.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Auskunft, Löschung und Berichtigung
             </Heading>
             &nbsp;
@@ -346,7 +347,7 @@ export default function Imprint() {
               weiteren Fragen zum Thema personenbezogene Daten können Sie sich
               jederzeit an uns wenden.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Recht auf Einschränkung der Verarbeitung
             </Heading>
             &nbsp;
@@ -400,7 +401,7 @@ export default function Imprint() {
               aus Gründen eines wichtigen öffentlichen Interesses der
               Europäischen Union oder eines Mitgliedstaats verarbeitet werden.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               SSL- bzw. TLS-Verschlüsselung
             </Heading>
             &nbsp;
@@ -419,10 +420,10 @@ export default function Imprint() {
               Daten, die Sie an uns übermitteln, nicht von Dritten mitgelesen
               werden.
             </Text>
-            <Heading as="h2" size="xl" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               3. Datenerfassung auf dieser Website
             </Heading>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Cookies
             </Heading>
             &nbsp;
@@ -485,7 +486,7 @@ export default function Imprint() {
               Datenschutzerklärung gesondert informieren und ggf. eine
               Einwilligung abfragen.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Server-Log-Dateien
             </Heading>
             &nbsp;
@@ -516,7 +517,7 @@ export default function Imprint() {
               seiner Website – hierzu müssen die Server-Log-Files erfasst
               werden.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Kontaktformular
             </Heading>
             &nbsp;
@@ -548,7 +549,7 @@ export default function Imprint() {
               Anfrage). Zwingende gesetzliche Bestimmungen – insbesondere
               Aufbewahrungsfristen – bleiben unberührt.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Anfrage per E-Mail, Telefon oder Telefax
             </Heading>
             &nbsp;
@@ -580,7 +581,7 @@ export default function Imprint() {
               Bearbeitung Ihres Anliegens). Zwingende gesetzliche Bestimmungen –
               insbesondere gesetzliche Aufbewahrungsfristen – bleiben unberührt.
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Kommentar­funktion auf dieser Website
             </Heading>
             &nbsp;
@@ -590,7 +591,7 @@ export default function Imprint() {
               Kommentars, Ihre E-Mail-Adresse und, wenn Sie nicht anonym posten,
               der von Ihnen gewählte Nutzername gespeichert.
             </Text>
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Speicherdauer der Kommentare
             </Heading>
             &nbsp;
@@ -601,7 +602,7 @@ export default function Imprint() {
               Gründen gelöscht werden müssen (z.&nbsp;B. beleidigende
               Kommentare).
             </Text>
-            <Heading as="h4" size="md" textAlign={["center", "initial"]}>
+            <Heading size="md" color="brand.500">
               Rechtsgrundlage
             </Heading>
             &nbsp;
@@ -613,10 +614,10 @@ export default function Imprint() {
               bereits erfolgten Datenverarbeitungsvorgänge bleibt vom Widerruf
               unberührt.
             </Text>
-            <Heading as="h2" size="xl" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               4. Soziale Medien
             </Heading>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Twitter
             </Heading>
             &nbsp;
@@ -684,10 +685,10 @@ export default function Imprint() {
               </a>
               &nbsp; ändern.
             </Text>
-            <Heading as="h2" size="xl" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               5. Plugins und Tools
             </Heading>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               YouTube
             </Heading>
             &nbsp;
@@ -745,7 +746,7 @@ export default function Imprint() {
               </a>
               .
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Google Fonts (lokales Hosting)
             </Heading>
             &nbsp;
@@ -775,7 +776,7 @@ export default function Imprint() {
               </a>
               .
             </Text>
-            <Heading as="h3" size="lg" textAlign={["center", "initial"]}>
+            <Heading size="lg" color="brand.500">
               Font Awesome (lokales Hosting)
             </Heading>
             &nbsp;
