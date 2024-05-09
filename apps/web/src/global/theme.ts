@@ -114,7 +114,7 @@ const theme = extendTheme({
       variants: {
         brand: {
           bg: "brand.500",
-          color: "white",
+          color: "black",
           _hover: {
             bg: "brand.600",
           },

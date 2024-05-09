@@ -9,12 +9,6 @@
  */
 
 import * as React from "react";
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
@@ -27,7 +21,11 @@ export default function Error() {
       <Head>
         <title>Fehler - CodeUp</title>
       </Head>
-      <ErrorComponent description={router.query.error as string} />
+      <ErrorComponent
+        description={router.query.error as string}
+        title={"Fehler"}
+        image={"/_static/vectors/error/500_v2.svg"}
+      />
     </>
   );
 }
