@@ -49,7 +49,7 @@ const Footer = () => {
               as="h1"
               fontSize={"4xl"}
               fontFamily="ARCADE"
-              color={"brand"}
+              color={"brand.500"}
             >
               CODEUP
             </Heading>

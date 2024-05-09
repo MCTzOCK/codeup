@@ -24,7 +24,7 @@ export default function NotFound() {
       <ErrorComponent
         description={"Die angeforderte Seite konnte nicht gefunden werden."}
         title={"Seite nicht gefunden"}
-        image={"/_static/vectors/error/404.svg"}
+        image={"/_static/vectors/error/404_v2.svg"}
       />
     </>
   );

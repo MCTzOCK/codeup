@@ -27,7 +27,7 @@ export default function Callback() {
         localStorage.setItem("token", params.token);
         router.push("/");
       } else {
-        router.push("/sso/error?error=Kein Token erhalten.");
+        router.push("/error?error=Kein Token erhalten.");
       }
     }
   }, []);
@@ -42,6 +42,7 @@ export default function Callback() {
         justifyContent={"center"}
         w={"100%"}
         h={"100vh"}
+        bg={"#000"}
       >
         <Spinner size={"xl"} />
       </Flex>

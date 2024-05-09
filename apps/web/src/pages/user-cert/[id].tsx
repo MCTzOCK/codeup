@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   Avatar,
+  Box,
   chakra,
   CircularProgress,
   Divider,
@@ -27,6 +28,7 @@ import { Card, CardBody } from "@chakra-ui/card";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -65,11 +67,12 @@ export default function CertViewer() {
             justifyContent={"center"}
             alignItems={"center"}
             direction={"column"}
+            bg={"#000"}
           >
             <CircularProgress
               size={"100px"}
               isIndeterminate
-              color="purple.300"
+              color="brand.500"
             />
           </Flex>
         </>
@@ -90,6 +93,7 @@ export default function CertViewer() {
                 justifyContent={"center"}
                 alignItems={"center"}
                 direction={"column"}
+                bg={"#000"}
               >
                 <Card
                   w={"100%"}
@@ -100,6 +104,7 @@ export default function CertViewer() {
                   mb={"4rem"}
                   p={"2rem"}
                   id={"certificate"}
+                  rounded={"lg"}
                 >
                   <CardBody>
                     <Image
@@ -108,9 +113,11 @@ export default function CertViewer() {
                       alt={_rawResponse?.course?.name}
                     />
                     <Stack mt={6} spacing={3}>
-                      <Heading size={"2xl"} textAlign={"center"}>
-                        {_rawResponse?.course?.name}
-                      </Heading>
+                      <Box textAlign={"center"}>
+                        <CHeading size={"2xl"}>
+                          {_rawResponse?.course?.name}
+                        </CHeading>
+                      </Box>
                       <Divider />
                       <HStack pt={"2rem"} pb={"2rem"}>
                         <Flex
@@ -133,14 +140,12 @@ export default function CertViewer() {
                             fontSize={["xl", "2xl"]}
                             textAlign={"center"}
                             fontWeight={"bold"}
-                            fontFamily={"Seymour One"}
                           >
                             {_rawResponse?.obtainedCertificate?.name} <br />
                             <Text
                               fontSize={["md", "xl"]}
                               textAlign={"center"}
                               fontWeight={"normal"}
-                              fontFamily={"Seymour One"}
                             >
                               @{_rawResponse?.obtainedCertificate?.username}
                             </Text>
@@ -154,7 +159,7 @@ export default function CertViewer() {
                         >
                           <CircularProgress
                             size={"100px"}
-                            color={"green.400"}
+                            color={"brand.500"}
                             value={
                               _rawResponse?.obtainedCertificate?.percentage
                             }
@@ -162,7 +167,6 @@ export default function CertViewer() {
                             <Text
                               fontSize={["xl", "2xl"]}
                               fontWeight={"bold"}
-                              fontFamily={"Seymour One"}
                               textAlign={"center"}
                             >
                               {_rawResponse?.obtainedCertificate?.percentage}%
@@ -172,15 +176,15 @@ export default function CertViewer() {
                       </HStack>
                       <Divider />
                       <Stack pt={"2rem"}>
-                        <Heading size={"lg"}>Zertifikat</Heading>
+                        <CHeading size={"lg"}>Zertifikat</CHeading>
                         <Text fontSize={"3xl"} color={"gray.400"}>
-                          <chakra.span color={"green.300"}>
+                          <chakra.span color={"brand.500"}>
                             {_rawResponse?.obtainedCertificate?.name}
                           </chakra.span>
                           &nbsp;(@
                           {_rawResponse?.obtainedCertificate?.username}) hat den
                           Kurs &quot;
-                          <chakra.span color={"green.300"}>
+                          <chakra.span color={"brand.500"}>
                             {_rawResponse?.course?.name}
                           </chakra.span>
                           &quot; am&nbsp;
@@ -188,7 +192,7 @@ export default function CertViewer() {
                             _rawResponse?.obtainedCertificate?.date
                           ).toLocaleString()}
                           &nbsp;mit&nbsp;
-                          <chakra.span color={"green.300"}>
+                          <chakra.span color={"brand.500"}>
                             {_rawResponse?.obtainedCertificate?.percentage}
                           </chakra.span>
                           % erfolgreich bestanden.
@@ -196,11 +200,11 @@ export default function CertViewer() {
                         <Divider />
                         <Text fontSize={"xl"} color={"gray.400"}>
                           Dieses Zertifikat wurde von&nbsp;@
-                          <chakra.span color={"green.300"}>
+                          <chakra.span color={"brand.500"}>
                             {_rawResponse?.course?.creator}
                           </chakra.span>
                           &nbsp;im Namen von&nbsp;
-                          <chakra.span color={"green.300"}>CodeUp</chakra.span>
+                          <chakra.span color={"brand.500"}>CodeUp</chakra.span>
                           &nbsp;ausgestellt.
                         </Text>
                       </Stack>

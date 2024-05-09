@@ -22,6 +22,8 @@ import {
 } from "@chakra-ui/react";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import REST from "@codeup/rest";
+import { CHeading } from "@codeup/components/global/CHeading";
+import PopupManager from "../global/PopupManager";
 
 export default function Try() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ export default function Try() {
         w="100%"
         minH="100vh"
         p="2rem"
+        bg={"#000"}
       >
         <Box w="100%" maxW="800px">
           <Card
@@ -46,9 +49,7 @@ export default function Try() {
             p={5}
           >
             <CardHeader>
-              <Heading as="h2" size="lg">
-                CodeUp Testen
-              </Heading>
+              <CHeading size="xl">CodeUp Testen</CHeading>
             </CardHeader>
             <CardBody mt={"2rem"}>
               <Text>
@@ -71,8 +72,7 @@ export default function Try() {
                 onClick={() => {}}
               >
                 <Button
-                  colorScheme={"blue"}
-                  variant={"solid"}
+                  variant={"brand"}
                   w={"100%"}
                   onClick={async () => {
                     const r = await REST.Account.createTestAccount();
@@ -81,9 +81,11 @@ export default function Try() {
                       localStorage.setItem("token", r.payload.token);
                       window.location.assign("/account/settings");
                     } else {
-                      alert(
-                        "Es ist ein Fehler aufgetreten! Bitte versuche es später erneut."
-                      );
+                      await PopupManager.alertAsync({
+                        title: "Fehler",
+                        description:
+                          "Es ist ein Fehler aufgetreten: " + r.payload.error,
+                      });
                     }
                   }}
                   isLoading={loading}

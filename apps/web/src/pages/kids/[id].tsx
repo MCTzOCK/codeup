@@ -15,10 +15,10 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import REST from "@codeup/rest/src/index";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
 import { BlocklyCompiler } from "@codeup/util/dist/blockly/blockly/BlocklyCompiler";
-import { FaPlay, FaSave } from "react-icons/fa";
+import { FaCode, FaPlay, FaSave } from "react-icons/fa";
 import Blockly from "blockly";
 import * as InCode from "@codeup/incode-compiler";
 
@@ -73,6 +73,7 @@ export default function ProjectViewer() {
             h={"fit-content"}
             direction={["column", "row"]}
             gap={"2rem"}
+            bg={"#000"}
           >
             <Box w={"100%"} h={"100vh"} flex={"100%"}>
               <BlocklyEditor initialXml={project?.code as string} />
@@ -97,9 +98,9 @@ export default function ProjectViewer() {
                 leftIcon={<FaPlay />}
                 mt={[0, 8]}
                 ml={[8, 0]}
-                colorScheme={"green"}
+                variant={"brand"}
               >
-                Run
+                Ausführen
               </Button>
               <Button
                 onClick={async () => {
@@ -127,8 +128,37 @@ export default function ProjectViewer() {
                 leftIcon={<FaSave />}
                 mt={[0, 8]}
                 ml={[8, 0]}
+                variant={"brand"}
               >
                 Speichern
+              </Button>
+              <Button
+                variant={"brand"}
+                mt={[0, 8]}
+                w={"100%"}
+                leftIcon={<FaCode />}
+                onClick={async () => {
+                  const incode = new InCode.BlocklyCompiler().compile();
+                  const html = InCode.Compiler.compile(incode);
+
+                  await PopupManager.alertAsync({
+                    title: "JavaScript Code",
+                    description: (
+                      <>
+                        <pre
+                          style={{
+                            overflow: "scroll",
+                          }}
+                        >
+                          {html}
+                        </pre>
+                      </>
+                    ),
+                    customSize: "2xl",
+                  });
+                }}
+              >
+                Code
               </Button>
             </Box>
             <Box flex={"100%"}>

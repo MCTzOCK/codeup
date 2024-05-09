@@ -40,3 +40,8 @@ yarn-error.log*
 *.temp.js
 *.temp.ts
 .react-email
+apps/web/a.js
+
+apps/web/b.js
+
+apps/web/done.json

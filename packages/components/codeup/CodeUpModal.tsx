@@ -63,11 +63,7 @@ export default function CodeUpModal(props: {
               <Heading size={"lg"}>CodeUp</Heading>
             </Flex>
             {!props.noCloseButton ? (
-              <Button
-                variant={"outline"}
-                colorScheme={"red"}
-                onClick={props.onClose}
-              >
+              <Button variant={"brand"} onClick={props.onClose}>
                 Schließen
               </Button>
             ) : null}

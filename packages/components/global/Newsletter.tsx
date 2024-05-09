@@ -119,14 +119,14 @@ export default function Newsletter() {
         ) : (
           <>
             <Button
-              bg={"brand"}
+              bg={"brand.500"}
               color={"black"}
               _hover={{
-                bg: "brand",
+                bg: "brand.500",
                 color: "black",
               }}
               _focus={{
-                bg: "brand",
+                bg: "brand.500",
                 color: "black",
               }}
               size={"lg"}

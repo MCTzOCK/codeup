@@ -109,7 +109,7 @@ export default function GridLayout(props: {
                 <Heading
                   fontSize={"8xl"}
                   textAlign={"center"}
-                  color={"blue.300"}
+                  color={"brand.500"}
                   alignItems={"center"}
                   justifyContent={"center"}
                   display={"flex"}

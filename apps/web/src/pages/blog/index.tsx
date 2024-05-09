@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import {
+  Box,
   chakra,
   Flex,
   Grid,
@@ -27,6 +28,7 @@ import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Blogs() {
   const [blogs, setBlogs] = React.useState<
@@ -79,18 +81,10 @@ export default function Blogs() {
           <ErrorComponent description={"Blogs konnten nicht geladen werden."} />
         </>
       ) : (
-        <>
-          <Heading
-            fontSize={["3xl", "6xl"]}
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            textShadow={"0px 10px 100px #000000"}
-            m={8}
-          >
-            Blog
-          </Heading>
+        <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
+          <Box p={6} textAlign={"center"}>
+            <CHeading size={"4xl"}>Blog</CHeading>
+          </Box>
           <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
             <Input
               w={["75%", "25%"]}
@@ -113,12 +107,21 @@ export default function Blogs() {
               <>
                 <GridItem
                   key={blog._id}
-                  bg={"gray.900"}
+                  bg={"black"}
                   p={"1rem"}
                   borderRadius={"0.5rem"}
+                  as={Link}
+                  href={"/blog/" + blog._id}
+                  cursor={"pointer"}
+                  _hover={{
+                    textDecoration: "none",
+                  }}
+                  onClick={() => {
+                    router.push("/blog/" + blog._id);
+                  }}
                 >
                   <Flex alignItems={"center"}>
-                    <Heading size={"lg"}>{blog.title}</Heading>
+                    <CHeading size={"lg"}>{blog.title}</CHeading>
                     <Text ml={"auto"}>
                       {new Date(blog.published_at).toLocaleString()}
                     </Text>
@@ -142,20 +145,11 @@ export default function Blogs() {
                     })}
                   </HStack>
                   <p>{blog.content.substring(0, 200)}&nbsp;...</p>
-                  <Link
-                    href={"/blog/" + blog._id}
-                    color={"blue.300"}
-                    onClick={() => {
-                      router.push("/blog/" + blog._id);
-                    }}
-                  >
-                    Weiterlesen
-                  </Link>
                 </GridItem>
               </>
             ))}
           </Grid>
-        </>
+        </Box>
       )}
     </>
   );

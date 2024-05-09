@@ -33,9 +33,11 @@ import {
   FaCogs,
   FaDoorOpen,
   FaExternalLinkAlt,
+  FaPlus,
   FaSearch,
   FaTrash,
 } from "react-icons/fa";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -85,12 +87,14 @@ export default function Index() {
       <Flex
         w={"100%"}
         h={"fit-content"}
-        justifyContent={"center"}
         alignItems={"center"}
         flexDirection={"column"}
-        mt={4}
+        bg={"#000"}
+        pt={4}
+        minH={"100vh"}
+        pb={4}
       >
-        <Heading>Organisationen</Heading>
+        <CHeading>Organisationen</CHeading>
         <Box
           w={["100%", "75%", "50%"]}
           h={"100%"}
@@ -111,7 +115,7 @@ export default function Index() {
               />
             </InputGroup>
             <Button
-              colorScheme={"blue"}
+              variant={"brand"}
               onClick={async () => {
                 const name = await PopupManager.promptAsync({
                   title: "Neue Organisation",
@@ -138,6 +142,7 @@ export default function Index() {
                   });
                 }
               }}
+              leftIcon={<FaPlus />}
             >
               Neu
             </Button>
@@ -157,7 +162,7 @@ export default function Index() {
                 justifyContent={"space-between"}
                 alignItems={"center"}
                 flexDirection={["column", "row"]}
-                bg={"black"}
+                bg={"gray.900"}
                 borderRadius={"md"}
                 shadow={"xl"}
                 onClick={(e) => {
