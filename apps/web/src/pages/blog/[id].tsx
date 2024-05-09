@@ -33,6 +33,7 @@ import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest";
 import Markdown from "markdown-to-jsx";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function BlogViewer() {
   const [status, setStatus] = React.useState<"loading" | "error" | "success">(
@@ -127,6 +128,7 @@ export default function BlogViewer() {
             justifyContent={"center"}
             alignItems={"center"}
             direction={"column"}
+            bg={"#000"}
           >
             <CircularProgress size={"80px"} isIndeterminate color="red.300" />
             <Heading size={"lg"} mt={4}>
@@ -149,6 +151,7 @@ export default function BlogViewer() {
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
+                bg={"#000"}
               >
                 <Box
                   w={"100%"}
@@ -164,9 +167,9 @@ export default function BlogViewer() {
                   borderRadius={"md"}
                   boxShadow={"2xl"}
                 >
-                  <Heading size={"lg"} textAlign={"center"} mb={6}>
-                    {blog?.title}
-                  </Heading>
+                  <Box mb={6} textAlign={"center"}>
+                    <CHeading size={"2xl"}>{blog?.title}</CHeading>
+                  </Box>
                   <Divider />
                   <Markdown
                     options={{
@@ -177,6 +180,9 @@ export default function BlogViewer() {
                             fontSize: "6xl",
                             mb: 4,
                             mt: 4,
+                            color: "brand.500",
+                            fontFamily: "Jetbrains Mono ExtraBold",
+                            letterSpacing: -2,
                           },
                         },
                         h2: {
@@ -185,6 +191,8 @@ export default function BlogViewer() {
                             fontSize: "4xl",
                             mb: 4,
                             mt: 4,
+                            color: "brand.500",
+                            fontFamily: "Jetbrains Mono ExtraBold",
                           },
                         },
                         h3: {
@@ -223,7 +231,7 @@ export default function BlogViewer() {
                           component: Link,
                           props: {
                             fontSize: "xl",
-                            color: "blue.300",
+                            color: "brand.500",
                           },
                         },
                         ul: {
