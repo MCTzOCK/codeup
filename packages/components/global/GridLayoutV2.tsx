@@ -42,6 +42,7 @@ interface IField {
 
 interface IProps {
   pageTitle: string;
+  noTopBar?: boolean;
   search: {
     show: boolean;
     fields: boolean;
@@ -63,6 +64,7 @@ export default function GridLayoutV2(props: IProps) {
         p={4}
         direction={["column", "row"]}
         gap={2}
+        display={props.noTopBar ? "none" : "flex"}
       >
         <Box></Box>
         <CHeading>{props.pageTitle}</CHeading>
@@ -81,6 +83,7 @@ export default function GridLayoutV2(props: IProps) {
             </>
           );
         })}
+        {props.topButtons.length === 0 ? <Box></Box> : null}
       </Flex>
       {props.search.show && (
         <Flex justifyContent={"center"} mt={4} p={4}>

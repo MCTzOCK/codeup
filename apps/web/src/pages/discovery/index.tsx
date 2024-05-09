@@ -11,7 +11,7 @@
 import * as React from "react";
 import REST from "@codeup/rest/src";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
-import { Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { useLoggedIn } from "@codeup/hooks";
 import { FaComment, FaEye, FaInfo, FaStar, FaUser } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -19,6 +19,8 @@ import GridLayout from "@codeup/components/global/GridLayout";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -61,24 +63,14 @@ export default function Discovery() {
           />
         </>
       ) : (
-        <>
-          <Heading
-            fontSize={["3xl", "6xl"]}
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            textShadow={"0px 10px 100px #000000"}
-            m={8}
-          >
-            Discovery
-          </Heading>
-          <GridLayout
+        <Box bg={"#000"} minH={"100vh"} h={"fit-content"}>
+          <GridLayoutV2
+            pageTitle={"Discovery"}
             search={{
-              allow: true,
-              searchFields: true,
+              show: true,
+              fields: true,
             }}
-            specialEntries={[]}
+            topButtons={[]}
             entries={projects.map((p) => {
               return {
                 title: p.name,
@@ -100,106 +92,101 @@ export default function Discovery() {
                   },
                 ],
                 buttonRows: [
-                  {
-                    buttons: [
-                      {
-                        text: "Ansehen",
-                        icon: <FaEye />,
-                        colorScheme: "green",
-                        onClick: () => {
-                          window.open("http://" + p.domain, "_blank");
-                        },
+                  [
+                    {
+                      text: "Ansehen",
+                      leftIcon: <FaEye />,
+                      variant: "brand",
+                      onClick: () => {
+                        window.open("http://" + p.domain, "_blank");
                       },
-                      {
-                        text: p.stars.includes(userInfo.id)
-                          ? "Stern entfernen"
-                          : "Stern hinzufügen",
-                        icon: <FaStar />,
-                        colorScheme: "yellow",
-                        disabled: !loggedIn,
-                        onClick: async () => {
-                          const res = await REST.Discovery.starProject({
-                            token: AccountManager.getActiveToken(),
-                            projectId: p.id,
+                    },
+                    {
+                      text: p.stars.includes(userInfo.id)
+                        ? "Stern entfernen"
+                        : "Stern hinzufügen",
+                      leftIcon: <FaStar />,
+                      variant: "brand",
+                      disabled: !loggedIn,
+                      onClick: async () => {
+                        const res = await REST.Discovery.starProject({
+                          token: AccountManager.getActiveToken(),
+                          projectId: p.id,
+                        });
+
+                        if (res.status === 200) {
+                          setProjects(
+                            projects.map((pr) => {
+                              if (pr.id === p.id) {
+                                return {
+                                  ...pr,
+                                  stars: res.payload.stars,
+                                };
+                              } else {
+                                return pr;
+                              }
+                            })
+                          );
+                          PopupManager.alert({
+                            title: "Erfolgreich",
+                            description:
+                              "Deine Aktion wurde erfolgreich ausgeführt!",
                           });
-
-                          if (res.status === 200) {
-                            setProjects(
-                              projects.map((pr) => {
-                                if (pr.id === p.id) {
-                                  return {
-                                    ...pr,
-                                    stars: res.payload.stars,
-                                  };
-                                } else {
-                                  return pr;
-                                }
-                              })
-                            );
-                            PopupManager.alert({
-                              title: "Erfolgreich",
-                              description:
-                                "Deine Aktion wurde erfolgreich ausgeführt!",
-                            });
-                          } else {
-                            PopupManager.alert({
-                              title: "Fehler",
-                              description:
-                                "Ein Fehler ist aufgetreten: " +
-                                res.payload.error,
-                            });
-                          }
-                        },
-                      },
-                    ],
-                  },
-                  {
-                    buttons: [
-                      {
-                        text: "Kommentieren",
-                        icon: <FaComment />,
-                        colorScheme: "blue",
-                        onClick: async () => {
-                          const comment = await PopupManager.promptAsync({
-                            title: "Kommentar",
-                            helperText:
-                              "Gib deinen Kommentar ein. Achte dabei auf deine Wortwahl!",
-                            inputType: "TEXTAREA",
-                          });
-
-                          if (!comment) return;
-
-                          const res = await REST.Discovery.commentProject({
-                            token: AccountManager.getActiveToken(),
-                            projectId: p.id,
-                            comment: comment,
-                          });
-
-                          if (res.status === 200) {
-                            PopupManager.alert({
-                              title: "Erfolgreich",
-                              description:
-                                "Dein Kommentar wurde erfolgreich hinzugefügt!",
-                            });
-                            return;
-                          }
-
+                        } else {
                           PopupManager.alert({
                             title: "Fehler",
                             description:
                               "Ein Fehler ist aufgetreten: " +
                               res.payload.error,
                           });
-                        },
-                        disabled: !loggedIn,
+                        }
                       },
-                    ],
-                  },
+                    },
+                  ],
+                  [
+                    {
+                      text: "Kommentieren",
+                      leftIcon: <FaComment />,
+                      variant: "brand",
+                      onClick: async () => {
+                        const comment = await PopupManager.promptAsync({
+                          title: "Kommentar",
+                          helperText:
+                            "Gib deinen Kommentar ein. Achte dabei auf deine Wortwahl!",
+                          inputType: "TEXTAREA",
+                        });
+
+                        if (!comment) return;
+
+                        const res = await REST.Discovery.commentProject({
+                          token: AccountManager.getActiveToken(),
+                          projectId: p.id,
+                          comment: comment,
+                        });
+
+                        if (res.status === 200) {
+                          PopupManager.alert({
+                            title: "Erfolgreich",
+                            description:
+                              "Dein Kommentar wurde erfolgreich hinzugefügt!",
+                          });
+                          return;
+                        }
+
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Ein Fehler ist aufgetreten: " + res.payload.error,
+                        });
+                      },
+                      disabled: !loggedIn,
+                    },
+                  ],
                 ],
               };
             })}
           />
-        </>
+        </Box>
       )}
     </>
   );
