@@ -15,6 +15,7 @@ import AdminLayout from "@codeup/components/admin/AdminLayout";
 import REST from "@codeup/rest";
 import {
   Badge,
+  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -39,6 +40,7 @@ import { FaPlus } from "react-icons/fa";
 import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Viewer() {
   const [projectIdeas, setProjectIdeas] = React.useState<
@@ -103,121 +105,124 @@ export default function Viewer() {
       <Head>
         <title>Projektideen - CodeUp</title>
       </Head>
-      <Flex
-        w={"100%"}
-        mt={"2rem"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        direction={"column"}
-      >
-        <Heading size={"2xl"} textAlign={"center"} mt={"2rem"}>
-          Projektideen
-        </Heading>
-        <Input
-          placeholder={"Suche nach Projektideen"}
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }}
-          w={"50%"}
-          mt={"2rem"}
-        />
-      </Flex>
-      <Grid
-        templateColumns={
-          filteredProjectIdeas.length > 0
-            ? [
-                "repeat(1, 1fr)",
-                "repeat(2, 1fr)",
-                "repeat(3, 1fr)",
-                "repeat(4, 1fr)",
-                "repeat(5, 1fr)",
-              ]
-            : "repeat(1, 1fr)"
-        }
-        gap={6}
-        p={10}
-      >
-        {filteredProjectIdeas.map((idea) => (
-          <>
-            <Card
-              maxW="sm"
-              h={"100%"}
-              bgColor={"black"}
-              rounded={"xl"}
-              boxShadow={"xl"}
-              p={5}
-              id={"_card_" + idea._id}
-            >
-              <CardBody>
-                <Stack mt={2} spacing="3">
-                  <Heading size="md">{idea.title}</Heading>
-                  <Badge
-                    w={"100%"}
-                    fontSize={"lg"}
-                    colorScheme={
-                      idea.level === "easy"
-                        ? "green"
+      <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
+        <Flex
+          w={"100%"}
+          pt={"2rem"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+        >
+          <Box textAlign={"center"} pt={4}>
+            <CHeading size={"2xl"}>Projektideen</CHeading>
+          </Box>
+          <Input
+            placeholder={"Suche nach Projektideen"}
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            w={"50%"}
+            mt={"2rem"}
+          />
+        </Flex>
+        <Grid
+          templateColumns={
+            filteredProjectIdeas.length > 0
+              ? [
+                  "repeat(1, 1fr)",
+                  "repeat(2, 1fr)",
+                  "repeat(3, 1fr)",
+                  "repeat(4, 1fr)",
+                  "repeat(5, 1fr)",
+                ]
+              : "repeat(1, 1fr)"
+          }
+          gap={6}
+          p={10}
+        >
+          {filteredProjectIdeas.map((idea) => (
+            <>
+              <Card
+                maxW="sm"
+                h={"100%"}
+                bgColor={"gray.900"}
+                rounded={"xl"}
+                boxShadow={"xl"}
+                p={5}
+                id={"_card_" + idea._id}
+              >
+                <CardBody>
+                  <Stack mt={2} spacing="3">
+                    <Heading size="md">{idea.title}</Heading>
+                    <Badge
+                      w={"100%"}
+                      fontSize={"lg"}
+                      colorScheme={
+                        idea.level === "easy"
+                          ? "green"
+                          : idea.level === "medium"
+                          ? "yellow"
+                          : "red"
+                      }
+                    >
+                      {idea.level === "easy"
+                        ? "Einfach"
                         : idea.level === "medium"
-                        ? "yellow"
-                        : "red"
-                    }
-                  >
-                    {idea.level === "easy"
-                      ? "Einfach"
-                      : idea.level === "medium"
-                      ? "Mittel"
-                      : "Schwer"}
-                  </Badge>
-                  <Text>{idea.description}</Text>
-                </Stack>
-              </CardBody>
-              <CardFooter mt={4}>
-                <ButtonGroup spacing="2">
-                  {idea.exampleDeployedURL && idea.exampleDeployedURL !== "" ? (
-                    <>
-                      <Button
-                        colorScheme="blue"
-                        variant={"solid"}
-                        onClick={() => {
-                          window.open(idea.exampleDeployedURL, "_blank");
-                        }}
-                      >
-                        Beispiel
-                      </Button>
-                    </>
-                  ) : null}
-                  {idea.exampleSourceURL && idea.exampleSourceURL !== "" ? (
-                    <>
-                      <Button
-                        variant="ghost"
-                        colorScheme="blue"
-                        onClick={() => {
-                          window.open(idea.exampleSourceURL, "_blank");
-                        }}
-                      >
-                        Source Code
-                      </Button>
-                    </>
-                  ) : null}
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
-          </>
-        ))}
-        {filteredProjectIdeas.length === 0 ? (
-          <>
-            <Text
-              textAlign={"center"}
-              fontSize={"2xl"}
-              color={"gray.500"}
-              mt={4}
-            >
-              Keine Projekt Ideen gefunden!
-            </Text>
-          </>
-        ) : null}
-      </Grid>
+                        ? "Mittel"
+                        : "Schwer"}
+                    </Badge>
+                    <Text>{idea.description}</Text>
+                  </Stack>
+                </CardBody>
+                <CardFooter mt={4}>
+                  <ButtonGroup spacing="2">
+                    {idea.exampleDeployedURL &&
+                    idea.exampleDeployedURL !== "" ? (
+                      <>
+                        <Button
+                          colorScheme="blue"
+                          variant={"solid"}
+                          onClick={() => {
+                            window.open(idea.exampleDeployedURL, "_blank");
+                          }}
+                        >
+                          Beispiel
+                        </Button>
+                      </>
+                    ) : null}
+                    {idea.exampleSourceURL && idea.exampleSourceURL !== "" ? (
+                      <>
+                        <Button
+                          variant="ghost"
+                          colorScheme="blue"
+                          onClick={() => {
+                            window.open(idea.exampleSourceURL, "_blank");
+                          }}
+                        >
+                          Source Code
+                        </Button>
+                      </>
+                    ) : null}
+                  </ButtonGroup>
+                </CardFooter>
+              </Card>
+            </>
+          ))}
+          {filteredProjectIdeas.length === 0 ? (
+            <>
+              <Text
+                textAlign={"center"}
+                fontSize={"2xl"}
+                color={"gray.500"}
+                mt={4}
+              >
+                Keine Projekt Ideen gefunden!
+              </Text>
+            </>
+          ) : null}
+        </Grid>
+      </Box>
     </>
   );
 }
