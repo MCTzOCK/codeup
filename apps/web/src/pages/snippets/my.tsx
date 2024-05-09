@@ -51,6 +51,7 @@ import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import GridLayout from "@codeup/components/global/GridLayout";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 
 export default function MySnippetViewer() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -261,8 +262,92 @@ export default function MySnippetViewer() {
               </ButtonGroup>
             </Stack>
           </CodeUpModal>
-          <Box textAlign={"center"} pt={6}>
-            <CHeading size={"3xl"}>Code Snippets</CHeading>
+          <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
+            <GridLayoutV2
+              search={{
+                show: true,
+                fields: true,
+              }}
+              entries={snippets.map((snippet) => {
+                return {
+                  title: snippet.title,
+                  fields: [
+                    {
+                      icon: <FaCode />,
+                      text: snippet.language,
+                    },
+                    {
+                      icon: <FaClock />,
+                      text: new Date(snippet.createdAt).toLocaleString(),
+                    },
+                    {
+                      icon: <FaFile />,
+                      text: snippet.code.substring(0, 50) + "...",
+                    },
+                  ],
+                  buttonRows: [
+                    [
+                      {
+                        text: "Bearbeiten",
+                        onClick: async () => {
+                          setCurrentSnippet(snippet);
+                          onOpen();
+                        },
+                        variant: "brand",
+                        leftIcon: <FaPen />,
+                      },
+                      {
+                        leftIcon: <FaCopy />,
+                        text: "Kopieren",
+                        colorScheme: "green",
+                        onClick: async () => {
+                          await navigator.clipboard.writeText(snippet.code);
+                          toast({
+                            title: "Code kopiert",
+                            description: "Der Code wurde erfolgreich kopiert",
+                            status: "success",
+                            duration: 1500,
+                            isClosable: false,
+                            position: "bottom-right",
+                          });
+                        },
+                      },
+                    ],
+                  ],
+                };
+              })}
+              topButtons={[
+                {
+                  variant: "brand",
+                  text: "Neu",
+                  leftIcon: <FaPlus />,
+                  onClick: () => {
+                    REST.Snippets.createSnippet({
+                      title: "Neues Snippet",
+                      code: 'console.log("Hello World")',
+                      language: "javascript",
+                      token: localStorage.getItem("token") as string,
+                    }).then((res) => {
+                      if (res.status === 200) {
+                        reload();
+                        onOpen();
+                        setCurrentSnippet(res.payload.snippet);
+                      } else {
+                        toast({
+                          title: "Fehler",
+                          description: res.payload.error,
+                          status: "error",
+                          duration: 1500,
+                          isClosable: false,
+                          position: "bottom-right",
+                        });
+                      }
+                    });
+                  },
+                },
+              ]}
+              pageTitle={"CodeSnippets"}
+            />
           </Box>
 
           <GridLayout
