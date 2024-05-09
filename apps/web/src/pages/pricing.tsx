@@ -58,7 +58,7 @@ export default function Pricing(props: { ENABLE_PAYMENTS: boolean }) {
             Preisgestaltung
           </Heading>
         </Box>
-        <Box w={["90%", "60%"]}>
+        <Box w={["100%", "60%"]}>
           <Flex
             direction={["column", "column", "row"]}
             justifyContent={"center"}
@@ -256,15 +256,7 @@ export default function Pricing(props: { ENABLE_PAYMENTS: boolean }) {
                 </Accordion>
               </Stack>
             </Stack>
-            <Stack
-              bg={"black"}
-              p={6}
-              border={"1px solid"}
-              borderColor={"gray.500"}
-              rounded={"lg"}
-              gap={8}
-              w={"100%"}
-            >
+            <Stack bg={"black"} p={6} rounded={"xl"} gap={8} w={"100%"}>
               <CHeading size={"xl"}>CodeUp PRO</CHeading>
               <Text fontSize={"2xl"}>
                 12 € <chakra.sub>/Monat</chakra.sub>
