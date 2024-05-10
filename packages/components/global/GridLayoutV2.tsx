@@ -17,6 +17,7 @@ import {
   FormControl,
   Grid,
   HStack,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -49,6 +50,7 @@ interface IProps {
   };
   topButtons: IButton[];
   entries: {
+    image?: string;
     title: string;
     buttonRows: IButton[][];
     fields: IField[];
@@ -130,6 +132,16 @@ export default function GridLayoutV2(props: IProps) {
               return (
                 <>
                   <Box bg={"black"} rounded={"xl"} p={4} w={"100%"}>
+                    {e.image && (
+                      <Image
+                        src={e.image}
+                        w={"100%"}
+                        objectFit={"contain"}
+                        objectPosition={"center"}
+                        borderRadius={"lg"}
+                        h={"150px"}
+                      />
+                    )}
                     <CHeading size={"lg"}>{e.title}</CHeading>
                     <Stack
                       gap={3}

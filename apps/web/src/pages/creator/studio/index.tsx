@@ -27,11 +27,23 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaCertificate, FaEye, FaPen, FaSearch, FaTrash } from "react-icons/fa";
+import {
+  FaCertificate,
+  FaEye,
+  FaEyeSlash,
+  FaLock,
+  FaPen,
+  FaPlus,
+  FaSearch,
+  FaTrash,
+} from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import CourseEditor from "@codeup/components/creator/studio/CourseEditor";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
+import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
+import PopupManager from "../../../global/PopupManager";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
@@ -106,213 +118,125 @@ export default function Index() {
           w={"100%"}
           h={"fit-content"}
           direction={"column"}
-          alignItems={"center"}
-          mt={"4rem"}
+          bg={"#000"}
+          minH={"100vh"}
         >
-          <Heading
-            fontSize={["3xl", "6xl"]}
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            maxW={["75%", "50%"]}
-            textShadow={"0px 10px 100px #000000"}
-          >
-            Willkommen im Creator Studio
-          </Heading>
-          <InputGroup
-            w={["75%", "50%"]}
-            mt={"2rem"}
-            maxW={["75%", "50%"]}
-            boxShadow={"xl"}
-          >
-            <InputLeftElement pointerEvents="none">
-              <FaSearch />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Meine Kurse durchsuchen"
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <Button
-              colorScheme={"blue"}
-              ml={2}
-              onClick={() => {
-                router.push("/creator/studio/create/course");
-              }}
-            >
-              Neu
-            </Button>
-          </InputGroup>
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-              "repeat(4, 1fr)",
-              "repeat(5, 1fr)",
+          <GridLayoutV2
+            pageTitle={"Creator Studio"}
+            search={{
+              show: true,
+              fields: true,
+            }}
+            topButtons={[
+              {
+                text: "Neu",
+                leftIcon: <FaPlus />,
+                variant: "brand",
+                onClick: async () => {
+                  router.push("/creator/studio/create/course");
+                },
+              },
             ]}
-            gap={6}
-            mt={"2rem"}
-            w={"100%"}
-          >
-            {courses &&
-              courses
-                .filter((c) =>
-                  c.name.toLowerCase().includes(query.toLowerCase())
-                )
-                .map((course) => (
-                  <GridItem m={4}>
-                    <Box
-                      bg={"gray.900"}
-                      color={"white"}
-                      rounded={"lg"}
-                      p={6}
-                      h={"100%"}
-                    >
-                      <Flex
-                        justifyContent={"space-between"}
-                        direction={"column"}
-                        gap={2}
-                      >
-                        <>
-                          <Image
-                            src={course.splashImage}
-                            alt={course.name}
-                            shadow={"xl"}
-                            w={"100%"}
-                            h={"150px"}
-                          />
-                          <Heading
-                            size={"lg"}
-                            color={"white"}
-                            fontWeight={"bold"}
-                            textAlign={"left"}
-                            mt={4}
-                          >
-                            {course.name}
-                          </Heading>
-                          <Heading
-                            size={"md"}
-                            color={"gray.400"}
-                            fontWeight={"normal"}
-                            textAlign={"left"}
-                          >
-                            {course.available === "public" ? (
-                              <Badge colorScheme={"green"} fontSize={"md"}>
-                                Öffentlich
-                              </Badge>
-                            ) : null}
-                            {course.available === "private" ? (
-                              <Badge colorScheme={"red"} fontSize={"md"}>
-                                Privat
-                              </Badge>
-                            ) : null}
-                            {course.available.startsWith("org:") ? (
-                              <Badge colorScheme={"yellow"} fontSize={"md"}>
-                                Organisation
-                              </Badge>
-                            ) : null}
-                          </Heading>
-                          <Heading
-                            size={"md"}
-                            color={"gray.400"}
-                            fontWeight={"normal"}
-                            textAlign={"left"}
-                          >
-                            {course.description.substring(0, 100)}...
-                          </Heading>
-                          <ButtonGroup mt={4} w={"100%"}>
-                            <Button
-                              w={"100%"}
-                              colorScheme={"blue"}
-                              leftIcon={<FaPen />}
-                              onClick={() => {
-                                setCurrentCourse(course);
-                                onCourseEditorOpen();
-                              }}
-                            >
-                              Bearbeiten
-                            </Button>
-                            <Button
-                              w={"100%"}
-                              colorScheme={"red"}
-                              leftIcon={<FaTrash />}
-                              onClick={async () => {
-                                if (
-                                  confirm(
-                                    "Willst du diesen Kurs wirklich löschen?"
-                                  )
-                                ) {
-                                  const res = await REST.Creator.deleteCourse({
-                                    token: localStorage.getItem(
-                                      "token"
-                                    ) as string,
-                                    id: course._id,
-                                  });
+            entries={courses.map((course) => {
+              return {
+                title: course.name,
+                image: course.splashImage,
+                fields: [
+                  {
+                    icon:
+                      course.available === "public" ? (
+                        <FaEye />
+                      ) : course.available === "private" ? (
+                        <FaEyeSlash />
+                      ) : (
+                        <FaLock />
+                      ),
+                    text:
+                      course.available === "public"
+                        ? "Öffentlich"
+                        : course.available === "private"
+                        ? "Privat"
+                        : "Organisation",
+                  },
+                ],
+                buttonRows: [
+                  [
+                    {
+                      text: "Bearbeiten",
+                      variant: "brand",
+                      leftIcon: <FaPen />,
+                      onClick: async () => {
+                        setCurrentCourse(course);
+                        onCourseEditorOpen();
+                      },
+                    },
+                    {
+                      text: "Löschen",
+                      colorScheme: "red",
+                      leftIcon: <FaTrash />,
+                      onClick: async () => {
+                        if (
+                          await PopupManager.confirmAsync({
+                            title: "Kurs löschen",
+                            question: "Willst du diesen Kurs wirklich löschen?",
+                          })
+                        ) {
+                          const res = await REST.Creator.deleteCourse({
+                            token: localStorage.getItem("token") as string,
+                            id: course._id,
+                          });
 
-                                  if (res.status === 200) {
-                                    toast({
-                                      title: "Kurs gelöscht",
-                                      description:
-                                        "Der Kurs wurde erfolgreich gelöscht",
-                                      status: "success",
-                                      duration: 1500,
-                                      isClosable: true,
-                                    });
+                          if (res.status === 200) {
+                            toast({
+                              title: "Kurs gelöscht",
+                              description:
+                                "Der Kurs wurde erfolgreich gelöscht",
+                              status: "success",
+                              duration: 1500,
+                              isClosable: true,
+                            });
 
-                                    setCourses(
-                                      courses.filter(
-                                        (c) => c._id !== course._id
-                                      )
-                                    );
-                                  } else {
-                                    toast({
-                                      title: "Fehler",
-                                      description:
-                                        "Löschen fehlgeschlagen: " +
-                                        res.payload.error,
-                                      status: "error",
-                                      duration: 1500,
-                                      isClosable: true,
-                                    });
-                                  }
-                                }
-                              }}
-                            >
-                              Löschen
-                            </Button>
-                          </ButtonGroup>
-                          <ButtonGroup mt={4} w={"100%"}>
-                            <Button
-                              w={"100%"}
-                              colorScheme={"green"}
-                              leftIcon={<FaEye />}
-                              onClick={() => {
-                                router.push("/creator/studio/" + course._id);
-                              }}
-                            >
-                              Lektionen
-                            </Button>
-                            <Button
-                              w={"100%"}
-                              colorScheme={"green"}
-                              leftIcon={<FaCertificate />}
-                              onClick={() => {
-                                router.push(
-                                  "/creator/studio/certificate/" + course._id
-                                );
-                              }}
-                            >
-                              Zertifikat
-                            </Button>
-                          </ButtonGroup>
-                        </>
-                      </Flex>
-                    </Box>
-                  </GridItem>
-                ))}
-          </Grid>
+                            setCourses(
+                              courses.filter((c) => c._id !== course._id)
+                            );
+                          } else {
+                            toast({
+                              title: "Fehler",
+                              description:
+                                "Löschen fehlgeschlagen: " + res.payload.error,
+                              status: "error",
+                              duration: 1500,
+                              isClosable: true,
+                            });
+                          }
+                        }
+                      },
+                    },
+                  ],
+                  [
+                    {
+                      text: "Lektionen",
+                      variant: "brand",
+                      leftIcon: <FaEye />,
+                      onClick: () => {
+                        router.push("/creator/studio/" + course._id);
+                      },
+                    },
+                    {
+                      text: "Zertifikat",
+                      variant: "brand",
+                      leftIcon: <FaCertificate />,
+                      onClick: () => {
+                        router.push(
+                          "/creator/studio/certificate/" + course._id
+                        );
+                      },
+                    },
+                  ],
+                ],
+              };
+            })}
+          />
           {courses &&
             courses.length !== 0 &&
             courses.filter((c) =>

@@ -23,8 +23,9 @@ export default function AuthenticateLoadingIndicator(props: {
         justifyContent={"center"}
         alignItems={"center"}
         direction={"column"}
+        bg={"#000"}
       >
-        <CircularProgress size={"80px"} isIndeterminate color="red.300" />
+        <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
         <Heading size={"lg"} mt={4}>
           {props.text ? props.text : "Authentifiziere..."}
         </Heading>
