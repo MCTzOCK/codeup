@@ -36,6 +36,8 @@ import Head from "next/head";
 import GridLayout from "@codeup/components/global/GridLayout";
 import { FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import byteSize from "byte-size";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -80,6 +82,111 @@ export default function Index() {
       <Head>
         <title>Projektplanung - CodeUp</title>
       </Head>
+      <Box h={"fit-content"} minH={"100vh"} bg={"#000"}>
+        <GridLayoutV2
+          pageTitle={"Projekte"}
+          search={{
+            show: true,
+            fields: true,
+          }}
+          topButtons={[
+            {
+              text: "Neu",
+              leftIcon: <FaPlus />,
+              variant: "brand",
+              onClick: async () => {
+                const name = await PopupManager.promptAsync({
+                  title: "Neues Projekt",
+                  helperText: "Gib den Namen des Projektes ein",
+                });
+
+                if (!name) return;
+
+                const res = await REST.ToDo.createV2Project({
+                  token: localStorage.getItem("token") as string,
+                  name: name,
+                });
+                if (res.status === 200) {
+                  reload();
+                  toast({
+                    position: "bottom-right",
+                    status: "success",
+                    title: "Erfolgreich",
+                    description: "Das Projekt wurde erstellt",
+                    isClosable: true,
+                    duration: 1500,
+                  });
+                } else {
+                  toast({
+                    position: "bottom-right",
+                    status: "error",
+                    title: "Fehler",
+                    description: res.payload.error,
+                    isClosable: true,
+                    duration: 1500,
+                  });
+                }
+              },
+            },
+          ]}
+          entries={projects.map((p) => {
+            return {
+              title: p.name,
+              fields: [
+                {
+                  text:
+                    "Gespeicherte Daten: " +
+                    byteSize(p.saved.length).toString(),
+                },
+              ],
+              buttonRows: [
+                [
+                  {
+                    text: "Öffnen",
+                    leftIcon: <FaEye />,
+                    variant: "brand",
+                    onClick: () => {
+                      router.push("/planning/" + p._id);
+                    },
+                  },
+                  {
+                    text: "Löschen",
+                    leftIcon: <FaTrash />,
+                    colorScheme: "red",
+                    onClick: async () => {
+                      REST.ToDo.deleteV2Project({
+                        token: localStorage.getItem("token") as string,
+                        id: p._id,
+                      }).then((res) => {
+                        if (res.status === 200) {
+                          toast({
+                            position: "bottom-right",
+                            status: "success",
+                            title: "Erfolgreich",
+                            description: "Das Projekt wurde gelöscht",
+                            isClosable: true,
+                            duration: 1500,
+                          });
+                          reload();
+                        } else {
+                          toast({
+                            position: "bottom-right",
+                            status: "error",
+                            title: "Fehler",
+                            description: res.payload.error,
+                            isClosable: true,
+                            duration: 1500,
+                          });
+                        }
+                      });
+                    },
+                  },
+                ],
+              ],
+            };
+          })}
+        />
+      </Box>
       <Heading size="2xl" textAlign={"center"} mt={"2rem"}>
         Projekte
       </Heading>
