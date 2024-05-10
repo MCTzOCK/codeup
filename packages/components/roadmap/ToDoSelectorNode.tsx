@@ -40,6 +40,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import ListViewer from "../todo/ListViewer";
+import { CHeading } from "../global/CHeading";
 
 export default function ToDoSelectorNode({
   data,
@@ -125,18 +126,20 @@ export default function ToDoSelectorNode({
         setCurrentList={setCurrentList}
         reloadLists={reload}
       />
-      <Box p={6} w={"100%"}>
+      <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
         <Handle
           type={"target"}
           position={Position.Left}
           isConnectable={isConnectable}
         />
-        <SuperText>ToDo-Listen</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading>ToDo-Listen</CHeading>
+        </Box>
         {loaded ? (
           <>
             <Stack mt={6}>
               <Button
-                colorScheme={"green"}
+                variant={"brand"}
                 leftIcon={<FaPlus />}
                 onClick={async () => {
                   const name = await PopupManager.promptAsync({

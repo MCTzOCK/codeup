@@ -39,6 +39,7 @@ import {
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
+import { CHeading } from "../global/CHeading";
 
 export default function EditorProjectSelectorNode({
   data,
@@ -89,17 +90,20 @@ export default function EditorProjectSelectorNode({
       <Box
         p={6}
         w={"100%"}
-        borderWidth={"1px"}
+        borderWidth={"2px"}
         borderStyle={"solid"}
-        borderRadius={"24px"}
-        borderColor={"blue.300"}
+        rounded={"xl"}
+        borderColor={"brand.500"}
+        bg={"gray.900"}
       >
         <Handle
           type={"target"}
           position={Position.Left}
           isConnectable={isConnectable}
         />
-        <SuperText>Projekt</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Projekt</CHeading>
+        </Box>
         {loaded ? (
           <>
             <FormControl mb={2} mt={6} w={"100%"}>
@@ -151,7 +155,7 @@ export default function EditorProjectSelectorNode({
                   id={"todo_ac_input"}
                   w={"100%"}
                 />
-                <AutoCompleteList backgroundColor={"gray.800"} w={"100%"} p={4}>
+                <AutoCompleteList backgroundColor={"gray.900"} w={"100%"} p={4}>
                   {availableProjects
                     .filter((a) => {
                       if (!project) return true;

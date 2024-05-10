@@ -40,6 +40,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import ListViewer from "../todo/ListViewer";
+import { CHeading } from "../global/CHeading";
 
 export default function FlowSelectorNode({
   data,
@@ -84,18 +85,20 @@ export default function FlowSelectorNode({
 
   return (
     <>
-      <Box p={6} w={"100%"}>
+      <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
         <Handle
           type={"target"}
           position={Position.Left}
           isConnectable={isConnectable}
         />
-        <SuperText>Flows</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Flows</CHeading>
+        </Box>
         {loaded ? (
           <>
             <Stack mt={6}>
               <Button
-                colorScheme={"green"}
+                variant={"brand"}
                 leftIcon={<FaPlus />}
                 onClick={async () => {
                   const name = await PopupManager.promptAsync({
@@ -174,7 +177,7 @@ export default function FlowSelectorNode({
                   id={"course_ac_input"}
                   w={"100%"}
                 />
-                <AutoCompleteList backgroundColor={"gray.800"} w={"100%"} p={4}>
+                <AutoCompleteList backgroundColor={"gray.900"} w={"100%"} p={4}>
                   {availableLists
                     .filter((a) => {
                       return !lists.find((l) => l._id === a._id);

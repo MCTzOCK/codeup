@@ -37,6 +37,7 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
+import { CHeading } from "../global/CHeading";
 
 export default function ProjectIdeaSelectorNode({
   data,
@@ -51,8 +52,10 @@ export default function ProjectIdeaSelectorNode({
 
   return (
     <>
-      <Box p={6} w={"100%"}>
-        <SuperText>Idee</SuperText>
+      <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Idee</CHeading>
+        </Box>
         <FormControl mb={2} mt={6} w={"100%"}>
           <Stack>
             <Textarea
@@ -62,7 +65,7 @@ export default function ProjectIdeaSelectorNode({
               id={"project_idea_ta"}
             />
             <Button
-              colorScheme={"green"}
+              variant={"brand"}
               leftIcon={<FaSave />}
               onClick={async () => {
                 const value = (

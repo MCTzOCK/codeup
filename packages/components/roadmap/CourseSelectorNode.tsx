@@ -36,6 +36,7 @@ import {
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
+import { CHeading } from "../global/CHeading";
 
 export default function CourseSelectorNode({
   data,
@@ -84,9 +85,11 @@ export default function CourseSelectorNode({
 
   return (
     <>
-      <Box p={6} w={"100%"}>
+      <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
         <Handle type={"target"} position={Position.Left} />
-        <SuperText>Kurse</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Kurse</CHeading>
+        </Box>
         {loaded ? (
           <>
             <FormControl mb={2} mt={6} w={"100%"}>
@@ -133,7 +136,7 @@ export default function CourseSelectorNode({
                   id={"course_ac_input"}
                   w={"100%"}
                 />
-                <AutoCompleteList backgroundColor={"gray.800"} w={"100%"} p={4}>
+                <AutoCompleteList backgroundColor={"gray.900"} w={"100%"} p={4}>
                   {availableCourses
                     .filter((a) => {
                       return !courses.find((c) => c._id === a._id);
