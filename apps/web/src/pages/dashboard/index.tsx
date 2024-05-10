@@ -36,6 +36,8 @@ import {
 import byteSize from "byte-size";
 import GridLayout from "@codeup/components/global/GridLayout";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Dashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -168,7 +170,8 @@ export default function Dashboard() {
               title: project.name,
               href: "/planning/" + project._id,
               description:
-                "Gespeicherte Daten: " + byteSize(project.saved.length).toString(),
+                "Gespeicherte Daten: " +
+                byteSize(project.saved.length).toString(),
             });
           }
 
@@ -192,10 +195,16 @@ export default function Dashboard() {
       <Head>
         <title>Dashboard - CodeUp</title>
       </Head>
-      <Flex direction={"column"} mt={"2rem"}>
-        <Heading size={"2xl"} textAlign={"center"} boxShadow={"2xl"} p={"2rem"}>
-          Willkommen, {`${userInfo.firstName} ${userInfo.lastName}`}!
-        </Heading>
+      <Flex
+        direction={"column"}
+        pt={"2rem"}
+        bg={"#000"}
+        h={"fit-content"}
+        minH={"100vh"}
+      >
+        <Box textAlign={"center"}>
+          <CHeading>Willkommen, {userInfo.firstName}!</CHeading>
+        </Box>
         <Box padding={[".4rem", "2rem"]}>
           <DSection
             title={"Projekte"}
@@ -240,22 +249,13 @@ function DSection(props: {
 }) {
   return (
     <>
-      <Heading size={"xl"} mt={"2rem"}>
-        {props.title}
-      </Heading>
-      <GridLayout
+      <GridLayoutV2
+        pageTitle={props.title}
         search={{
-          allow: false,
-          searchFields: false,
+          show: false,
+          fields: false,
         }}
-        specialEntries={props.entries
-          .filter((x) => x.isNewItem === true)
-          .map((y) => {
-            return {
-              icon: <FaPlus />,
-              onClick: () => props.router.push(y.href),
-            };
-          })}
+        topButtons={[]}
         entries={props.entries
           .filter((x) => x.isNewItem !== true)
           .map((y) => {
@@ -268,18 +268,16 @@ function DSection(props: {
                 },
               ],
               buttonRows: [
-                {
-                  buttons: [
-                    {
-                      icon: (<FaEye />) as ReactNode,
-                      onClick: () => {
-                        props.router.push(y.href);
-                      },
-                      text: "Ansehen",
-                      colorScheme: "blue",
+                [
+                  {
+                    icon: (<FaEye />) as ReactNode,
+                    onClick: () => {
+                      props.router.push(y.href);
                     },
-                  ],
-                },
+                    text: "Ansehen",
+                    variant: "brand",
+                  },
+                ],
               ],
             };
           })}

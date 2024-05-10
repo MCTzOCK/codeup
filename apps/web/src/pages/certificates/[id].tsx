@@ -29,6 +29,7 @@ import {
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -89,19 +90,21 @@ export default function CertViewer() {
       </Head>
       <Flex
         w={"100%"}
-        h={"100vh"}
+        h={"fit-content"}
+        minH={"100vh"}
         alignItems={"center"}
         justifyContent={"center"}
         direction={"column"}
+        bg={"#000"}
       >
         <Box maxW={["90%", "30%"]}>
-          <Heading as="h1" size="2xl" mt={8} textAlign={"center"}>
-            Zertifikat
-          </Heading>
+          <Box textAlign={"center"}>
+            <CHeading size={"2xl"}>Zertifikat</CHeading>
+          </Box>
           <Text fontSize="2xl" mt={8} textAlign={"center"}>
             Fülle die folgenden Schritte aus, um dein Zertifikat zu erhalten.
             <br />
-            <chakra.span color={"red.400"} fontWeight={"bold"}>
+            <chakra.span color={"brand.500"} fontWeight={"bold"}>
               ACHTUNG:
             </chakra.span>
             &nbsp;Du kannst die Schritte nicht mehr bearbeiten, wenn du sie
@@ -116,8 +119,7 @@ export default function CertViewer() {
           >
             <Button
               size={"lg"}
-              colorScheme={"red"}
-              variant={"outline"}
+              variant={"brand"}
               onClick={() => {
                 onOpen();
                 setCurrentStep(0);
@@ -376,9 +378,9 @@ export default function CertViewer() {
           )}
           {currentStep === steps.length && (
             <>
-              <Heading as="h1" size="2xl" mt={8} textAlign={"center"}>
-                Zertifikat beantragen
-              </Heading>
+              <Box textAlign={"center"} pt={4}>
+                <CHeading size={"2xl"}>Zertifikat beantragen</CHeading>
+              </Box>
               <Text fontSize="2xl" mt={8} textAlign={"center"}>
                 Du hast alle Schritte abgeschlossen. Möchtest du das Zertifikat
                 beantragen?
@@ -391,8 +393,7 @@ export default function CertViewer() {
               >
                 <Button
                   size={"lg"}
-                  colorScheme={"red"}
-                  variant={"outline"}
+                  variant={"brand"}
                   isLoading={finishButtonLoading}
                   onClick={async () => {
                     setFinishButtonLoading(true);

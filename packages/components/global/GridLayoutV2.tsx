@@ -17,6 +17,7 @@ import {
   FormControl,
   Grid,
   HStack,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -42,12 +43,14 @@ interface IField {
 
 interface IProps {
   pageTitle: string;
+  noTopBar?: boolean;
   search: {
     show: boolean;
     fields: boolean;
   };
   topButtons: IButton[];
   entries: {
+    image?: string;
     title: string;
     buttonRows: IButton[][];
     fields: IField[];
@@ -63,6 +66,7 @@ export default function GridLayoutV2(props: IProps) {
         p={4}
         direction={["column", "row"]}
         gap={2}
+        display={props.noTopBar ? "none" : "flex"}
       >
         <Box></Box>
         <CHeading>{props.pageTitle}</CHeading>
@@ -81,6 +85,7 @@ export default function GridLayoutV2(props: IProps) {
             </>
           );
         })}
+        {props.topButtons.length === 0 ? <Box></Box> : null}
       </Flex>
       {props.search.show && (
         <Flex justifyContent={"center"} mt={4} p={4}>
@@ -127,6 +132,16 @@ export default function GridLayoutV2(props: IProps) {
               return (
                 <>
                   <Box bg={"black"} rounded={"xl"} p={4} w={"100%"}>
+                    {e.image && (
+                      <Image
+                        src={e.image}
+                        w={"100%"}
+                        objectFit={"contain"}
+                        objectPosition={"center"}
+                        borderRadius={"lg"}
+                        h={"150px"}
+                      />
+                    )}
                     <CHeading size={"lg"}>{e.title}</CHeading>
                     <Stack
                       gap={3}

@@ -37,7 +37,7 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
@@ -165,7 +165,9 @@ export default function Index() {
         paddingTop={"0"}
         alignItems={"center"}
         justifyContent={"center"}
-        mt={"2rem"}
+        pt={"2rem"}
+        bg={"#000"}
+        gap={6}
       >
         <Box h={"100%"} w={"100%"} flex={"80%"}>
           <ReactFlow
@@ -205,7 +207,7 @@ export default function Index() {
             <ButtonGroup w={"100%"}>
               <Button
                 w={"100%"}
-                colorScheme={"green"}
+                variant={"brand"}
                 leftIcon={<FaPlus />}
                 onClick={() => {
                   const randomNumber = (min: number, max: number) => {
@@ -325,6 +327,7 @@ export default function Index() {
                     <Button
                       w={"100%"}
                       colorScheme={"red"}
+                      leftIcon={<FaTrash />}
                       onClick={() => {
                         setCurrentEdge(null);
                         setEdges(

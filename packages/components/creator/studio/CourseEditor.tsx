@@ -231,7 +231,7 @@ export default function CourseEditor(props: {
             />
             <ButtonGroup mt={"2rem"} w={"100%"}>
               <Button
-                colorScheme={"green"}
+                variant={"brand"}
                 leftIcon={<FaCheckCircle />}
                 w={"100%"}
                 type={"submit"}

@@ -29,6 +29,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { Box } from "@chakra-ui/react";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Index() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -76,88 +77,88 @@ export default function Index() {
         </>
       ) : (
         <>
-          <Box mt={4}></Box>
-          <SuperText>Roadmaps</SuperText>
-          <GridLayout
-            search={{
-              allow: true,
-              searchFields: true,
-            }}
-            specialEntries={[
-              {
-                icon: <FaPlus />,
-                onClick: async () => {
-                  const name = await PopupManager.promptAsync({
-                    title: "Neue Roadmap",
-                    helperText: "Gib einen Namen für die Roadmap ein",
-                    inputType: "INPUT",
-                  });
-
-                  if (!name) return;
-
-                  const res = await REST.Roadmap.createRoad({
-                    token: AccountManager.getActiveToken(),
-                    name,
-                  });
-
-                  if (res.status !== 200) {
-                    PopupManager.alert({
-                      title: "Fehler",
-                      description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+          <Box bg={"#000"} minH={"100vh"} h={"fit-content"}>
+            <GridLayoutV2
+              pageTitle={"Roadmaps"}
+              search={{
+                show: true,
+                fields: true,
+              }}
+              topButtons={[
+                {
+                  variant: "brand",
+                  text: "Neu",
+                  leftIcon: <FaPlus />,
+                  onClick: async () => {
+                    const name = await PopupManager.promptAsync({
+                      title: "Neue Roadmap",
+                      helperText: "Gib einen Namen für die Roadmap ein",
+                      inputType: "INPUT",
                     });
-                    return;
-                  }
 
-                  reload();
+                    if (!name) return;
+
+                    const res = await REST.Roadmap.createRoad({
+                      token: AccountManager.getActiveToken(),
+                      name,
+                    });
+
+                    if (res.status !== 200) {
+                      PopupManager.alert({
+                        title: "Fehler",
+                        description:
+                          "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                      });
+                      return;
+                    }
+
+                    reload();
+                  },
                 },
-              },
-            ]}
-            entries={roadmaps.map((r) => {
-              return {
-                fields: [
-                  {
-                    icon: <FaLightbulb />,
-                    text: "Idee Verlinkt: " + (r.projectIdea ? "Ja" : "Nein"),
-                  },
-                  {
-                    icon: <FaCode />,
-                    text:
-                      "Projekt Verlinkt: " + (r.linkedProject ? "Ja" : "Nein"),
-                  },
-                  {
-                    icon: <FaBookOpen />,
-                    text: "Kurse Verlinkt: " + r.linkedCourses.length,
-                  },
-                  {
-                    icon: <FaProjectDiagram />,
-                    text: "Flows Verlinkt: " + r.linkedFlows.length,
-                  },
-                  {
-                    icon: <FaCheck />,
-                    text: "Todos Verlinkt: " + r.linkedTodos.length,
-                  },
-                ],
-                title: r.name,
-                buttonRows: [
-                  {
-                    buttons: [
+              ]}
+              entries={roadmaps.map((r) => {
+                return {
+                  fields: [
+                    {
+                      icon: <FaLightbulb />,
+                      text: "Idee Verlinkt: " + (r.projectIdea ? "Ja" : "Nein"),
+                    },
+                    {
+                      icon: <FaCode />,
+                      text:
+                        "Projekt Verlinkt: " +
+                        (r.linkedProject ? "Ja" : "Nein"),
+                    },
+                    {
+                      icon: <FaBookOpen />,
+                      text: "Kurse Verlinkt: " + r.linkedCourses.length,
+                    },
+                    {
+                      icon: <FaProjectDiagram />,
+                      text: "Flows Verlinkt: " + r.linkedFlows.length,
+                    },
+                    {
+                      icon: <FaCheck />,
+                      text: "Todos Verlinkt: " + r.linkedTodos.length,
+                    },
+                  ],
+                  title: r.name,
+                  buttonRows: [
+                    [
                       {
                         text: "Öffnen",
-                        icon: <FaEye />,
+                        leftIcon: <FaEye />,
                         disabled: false,
-                        colorScheme: "blue",
+                        variant: "brand",
                         onClick: () => {
                           router.push("/roadmap/" + r._id);
                         },
                       },
                     ],
-                  },
-                  {
-                    buttons: [
+                    [
                       {
                         text: "Löschen",
-                        icon: <FaTrash />,
+                        leftIcon: <FaTrash />,
                         disabled: false,
                         colorScheme: "red",
                         onClick: async () => {
@@ -191,8 +192,8 @@ export default function Index() {
                       },
                       {
                         text: "Umbenennen",
-                        icon: <FaPen />,
-                        colorScheme: "green",
+                        leftIcon: <FaPen />,
+                        variant: "brand",
                         disabled: false,
                         onClick: async () => {
                           const name = await PopupManager.promptAsync({
@@ -226,11 +227,11 @@ export default function Index() {
                         },
                       },
                     ],
-                  },
-                ],
-              };
-            })}
-          />
+                  ],
+                };
+              })}
+            />
+          </Box>
         </>
       )}
     </>

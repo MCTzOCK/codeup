@@ -56,6 +56,7 @@ import ProjectIdeaSelectorNode from "@codeup/components/roadmap/ProjectIdeaSelec
 import ToDoSelectorNode from "@codeup/components/roadmap/ToDoSelectorNode";
 import FlowSelectorNode from "@codeup/components/roadmap/FlowSelectorNode";
 import EditorProjectSelectorNode from "@codeup/components/roadmap/EditorProjectSelectorNode";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function RoadmapViewer() {
   const nodeTypes = useMemo(
@@ -275,11 +276,10 @@ export default function RoadmapViewer() {
       ) : (
         <>
           {roadmap ? (
-            <>
-              <Box mt={4}></Box>
-              <SuperText fontzSize={"5xl"}>
-                Deine Roadmap: {roadmap.name}
-              </SuperText>
+            <Box pt={4} bg={"#000"} minH={"100vh"} h={"fit-content"}>
+              <Box textAlign={"center"}>
+                <CHeading>Deine Roadmap: {roadmap.name}</CHeading>
+              </Box>
               <Text fontSize={"xl"} textAlign={"center"} mb={6}>
                 Von der Idee zum Projekt
               </Text>
@@ -310,7 +310,7 @@ export default function RoadmapViewer() {
                   <Controls />
                 </ReactFlow>
               </Box>
-            </>
+            </Box>
           ) : (
             <>
               <AuthenticateLoadingIndicator text={"Lade Roadmap..."} />

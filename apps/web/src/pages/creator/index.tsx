@@ -2,30 +2,31 @@
  * apps/web/src/pages/creator/index.tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
- * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 18.11.2022
+ * Created At: 10.05.2024
  *
  */
 
 import * as React from "react";
-import { useEffect } from "react";
 import {
-  Avatar,
-  Box,
   Button,
   ButtonGroup,
   Flex,
   Heading,
+  Image,
   Text,
+  Box,
+  Grid,
+  Avatar,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import REST from "@codeup/rest";
-import Head from "next/head";
+import { useEffect } from "react";
+import REST from "@codeup/rest/dist";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   const router = useRouter();
-
   const [topCreators, setTopCreators] = React.useState<
     {
       _id: string;
@@ -43,132 +44,142 @@ export default function Index() {
 
   return (
     <>
-      <Head>
-        <title>Creator - CodeUp</title>
-      </Head>
-      <Flex
-        w={"100%"}
-        minH={"100vh"}
-        h={"fit-content"}
-        direction={"column"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        bgPosition={"center"}
-        bgRepeat={"no-repeat"}
-        bgSize={"cover"}
-        bgImage={"url(/_static/images/creator/worker.jpg)"}
-      >
-        <Heading
-          mt={"4rem"}
-          fontSize={["3xl", "6xl"]}
-          color={"white"}
-          textAlign={"center"}
-          fontWeight={"bold"}
-          fontFamily={"Seymour One"}
-          maxW={["75%", "50%"]}
-          textShadow={"0px 10px 50px #000000"}
-        >
-          Werde ein Creator auf CodeUp
-        </Heading>
-
-        <Text
-          mt={"2rem"}
-          fontSize={["xl", "2xl"]}
-          color={"white"}
-          textAlign={"center"}
-          fontFamily={"Seymour One"}
-          maxW={["75%", "50%"]}
-          textShadow={"0px 10px 50px #000000"}
-        >
-          Du bist ein Experte in einem bestimmten Bereich? Dann bewirb dich
-          jetzt als Creator auf CodeUp! Wir suchen immer wieder neue Creator,
-          die hochwertige Inhalte für unsere Community erstellen.
-        </Text>
-
-        <ButtonGroup mt={"2rem"} spacing={"2rem"}>
-          <Button
-            colorScheme={"red"}
-            size={"lg"}
-            fontSize={"xl"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            textTransform={"uppercase"}
-            onClick={() => {
-              router.push("/codeup/contact?creator=true");
-            }}
+      <Box bg={"#000"}>
+        <Flex w={"100%"} minH={"100vh"} h={"fit-content"} bg={"#000"}>
+          <Flex
+            w={"100%"}
+            h={"fit-content"}
+            p={[5, 10, 20]}
+            direction={["column", "column", "row"]}
+            alignItems={"center"}
+            minH={"100vh"}
+            zIndex={2}
           >
-            Bewerben
-          </Button>
-          <Button
-            colorScheme={"facebook"}
-            size={"lg"}
-            fontSize={"xl"}
-            fontWeight={"bold"}
-            fontFamily={"Seymour One"}
-            textTransform={"uppercase"}
-            onClick={() => {
-              router.push("/creator/studio");
-            }}
-          >
-            Studio
-          </Button>
-        </ButtonGroup>
-      </Flex>
-      <Box w={"100%"} h={"fit-content"} p={"4rem"}>
-        <Heading
-          w={"100%"}
-          fontSize={["3xl", "6xl"]}
-          textAlign={"center"}
-          fontWeight={"bold"}
-          fontFamily={"Seymour One"}
-        >
-          Top Creator
-        </Heading>
-        <Flex
-          w={"100%"}
-          h={"100%"}
-          direction={["column", "row"]}
-          alignItems={"center"}
-          justifyContent={"center"}
-          mt={4}
-        >
-          {topCreators.map((creator) => (
-            <Box
-              key={creator._id}
-              w={"100%"}
-              h={"fit-content"}
-              p={"2rem"}
-              display={"flex"}
-              flexDirection={"column"}
+            <Flex
+              flex={["100%", "100%", "100%"]}
               alignItems={"center"}
+              w={"100%"}
               justifyContent={"center"}
             >
-              <Avatar
-                size={"2xl"}
-                name={creator._id}
-                bgColor={"transparent"}
-                src={`/api/account/${creator._id}/picture`}
-              />
-              <Heading
-                mt={2}
-                fontSize={["xl", "2xl"]}
-                textAlign={"center"}
-                fontWeight={"bold"}
-                fontFamily={"Seymour One"}
-              >
-                @{creator._id} <br />
-                <Text
-                  fontSize={["md", "xl"]}
-                  textAlign={"center"}
-                  fontWeight={"normal"}
-                  fontFamily={"Seymour One"}
+              <Flex gap={2} pt={10} direction={"column"}>
+                <Heading
+                  as={"h3"}
+                  fontSize={["2xl", "3xl", "4xl"]}
+                  color={"gray.300"}
+                  fontWeight={1000}
+                  letterSpacing={-2}
                 >
-                  {creator.count} Kurs(e)
+                  CodeUp for Creators
+                </Heading>
+                <Heading
+                  as={"h1"}
+                  fontSize={["4xl", "5xl", "8xl"]}
+                  fontWeight={900}
+                  letterSpacing={-2}
+                  fontFamily={"Jetbrains Mono ExtraBold"}
+                  color={"brand.500"}
+                >
+                  Creator Platform
+                </Heading>
+                <Text fontWeight={100} fontSize={["xl", "2xl", "4xl"]}>
+                  Erstelle interaktive Videokurse.
+                  <br />
+                  Teile dein Wissen mit der Community.
+                  <br />
+                  Baue eigene Zertifikate für deine Kurse.
+                  <br />
+                  Nutze die besten Werkzeuge.
+                  <br />
+                  Erhalte Unterstützung von CodeUp.
                 </Text>
-              </Heading>
-            </Box>
-          ))}
+                <ButtonGroup spacing={4} mt={2}>
+                  <Button
+                    rounded={"md"}
+                    variant={"brand"}
+                    fontSize={"xl"}
+                    size={"lg"}
+                    color={"black"}
+                    onClick={() => {
+                      router.push("/codeup/contact?creator=true");
+                    }}
+                  >
+                    Bewerben
+                  </Button>
+                  <Button
+                    rounded={"md"}
+                    fontSize={"xl"}
+                    size={"lg"}
+                    onClick={() => {
+                      router.push("/creator/studio");
+                    }}
+                  >
+                    Studio
+                  </Button>
+                </ButtonGroup>
+              </Flex>
+            </Flex>
+            <Flex
+              alignItems={"center"}
+              justifyContent={"center"}
+              w={"100%"}
+              h={"100%"}
+            >
+              <Image
+                src={"/_static/images/showcase/framed_course.png"}
+                alt={"Software Developer"}
+                w={"100%"}
+                h={"100%"}
+                objectFit={"cover"}
+                objectPosition={"center"}
+                borderRadius={"lg"}
+                maxW={["400px", "500px", "1000px"]}
+                shadow={"xl"}
+              />
+            </Flex>
+          </Flex>
         </Flex>
+        <Box h={"fit-content"}>
+          <Box textAlign={"center"}>
+            <CHeading>Creator Network</CHeading>
+          </Box>
+          <Flex alignItems={"center"} justifyContent={"center"}>
+            <Grid
+              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              maxW={["100%", "60%", "40%"]}
+            >
+              {topCreators.map((creator) => (
+                <Box
+                  key={creator._id}
+                  w={"100%"}
+                  h={"fit-content"}
+                  p={"2rem"}
+                  display={"flex"}
+                  flexDirection={"column"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Avatar
+                    src={`/api/account/${creator._id}/picture`}
+                    size={"2xl"}
+                    bgColor={"transparent"}
+                    name={creator._id}
+                    objectFit={"cover"}
+                    objectPosition={"center"}
+                    borderRadius={"lg"}
+                    maxW={["400px", "500px", "1000px"]}
+                    shadow={"xl"}
+                  />
+                  <Text fontWeight={"bold"} fontSize={"xl"} color={"brand.500"}>
+                    @{creator._id}
+                  </Text>
+                  <Text fontWeight={"bold"} fontSize={"xl"} color={"brand.500"}>
+                    {creator.count} Kurse
+                  </Text>
+                </Box>
+              ))}
+            </Grid>
+          </Flex>
+        </Box>
       </Box>
     </>
   );
