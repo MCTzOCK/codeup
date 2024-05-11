@@ -81,7 +81,7 @@ export default function NewComponent() {
           <Heading size="lg" mb={"2rem"} textAlign={"left"}>
             Neuer Kurs
           </Heading>
-          <Steps size={"lg"} activeStep={activeStep}>
+          <Steps size={"lg"} activeStep={activeStep} colorScheme={"brand"}>
             {steps.map(({ label }, index) => (
               <Step label={label} key={label} mb={"2rem"}>
                 {index === 0 ? (
@@ -189,12 +189,12 @@ export default function NewComponent() {
                   }
                 }}
                 size="lg"
-                variant="ghost"
               >
                 {activeStep === 0 ? "Abbrechen" : "Vorheriger"}
               </Button>
               <Button
                 size="lg"
+                variant={"brand"}
                 onClick={async () => {
                   if (activeStep !== steps.length - 1) {
                     switch (activeStep) {

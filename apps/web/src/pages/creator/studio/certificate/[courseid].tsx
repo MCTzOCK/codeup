@@ -57,6 +57,7 @@ import { editor } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function CertificateEditor() {
   const router = useRouter();
@@ -217,24 +218,25 @@ export default function CertificateEditor() {
         <title>Zerifikat Editor - Creator Studio - CodeUp</title>
       </Head>
       <CreatorStudioLayout>
-        <Heading size={"xl"} textAlign={"center"} mt={8}>
-          Zertifikat Editor
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading size={"xl"}>Zertifikatseditor</CHeading>
+        </Box>
 
         <Stack w={"100%"} alignItems={"center"} justifyContent={"center"}>
-          <Box w={"70%"}>
+          <Box w={["100%", "100%", "75%"]}>
             <Flex
               w={"100%"}
               alignItems={"center"}
               justifyContent={"center"}
               direction={"column"}
             >
-              <FormControl maxW={"25%"} mt={8}>
+              <FormControl maxW={"50%"} mt={8}>
                 <FormLabel>Mindestpunktzahl (in %)</FormLabel>
                 <Box pt={6} pb={2}>
                   <Slider
                     aria-label="slider-ex-6"
                     value={minPercentage}
+                    colorScheme={"brand"}
                     onChange={(val) => setMinPercentage(val)}
                   >
                     <SliderMark value={25} {...labelStyles}>
@@ -249,7 +251,7 @@ export default function CertificateEditor() {
                     <SliderMark
                       value={minPercentage}
                       textAlign="center"
-                      bg="blue.500"
+                      bg="brand.600"
                       color="white"
                       mt="-10"
                       ml="-5"
@@ -265,7 +267,7 @@ export default function CertificateEditor() {
                 </Box>
               </FormControl>
 
-              <Box w={"75%"}>
+              <Box w={"100%"}>
                 <Heading size={"lg"} textAlign={"center"} mt={8}>
                   Schritte
                 </Heading>
@@ -506,6 +508,7 @@ export default function CertificateEditor() {
                                                           isChecked={
                                                             answer.correct
                                                           }
+                                                          colorScheme={"brand"}
                                                           onChange={() => {
                                                             setSteps(
                                                               // @ts-ignore
@@ -608,6 +611,7 @@ export default function CertificateEditor() {
                                                           Eingabefeld
                                                         </FormLabel>
                                                         <Switch
+                                                          colorScheme={"brand"}
                                                           isChecked={
                                                             t.type === "INPUT"
                                                           }
@@ -675,7 +679,7 @@ export default function CertificateEditor() {
                                                     </>
                                                   ))}
                                                   <Button
-                                                    colorScheme="green"
+                                                    variant={"brand"}
                                                     onClick={() => {
                                                       setSteps(
                                                         steps.map((s) =>
@@ -871,8 +875,9 @@ export default function CertificateEditor() {
                                                     w={"100%"}
                                                   >
                                                     <Button
-                                                      colorScheme={"blue"}
+                                                      variant={"brand"}
                                                       w={"100%"}
+                                                      maxW={"600px"}
                                                       onClick={() => {
                                                         setSteps(
                                                           // @ts-ignore
@@ -987,6 +992,7 @@ export default function CertificateEditor() {
                                                           : "red"
                                                       }
                                                       w={"100%"}
+                                                      maxW={"600px"}
                                                       onClick={() => {
                                                         setSteps(
                                                           // @ts-ignore
@@ -1054,7 +1060,7 @@ export default function CertificateEditor() {
                         />
                         <Button
                           ml={2}
-                          colorScheme={"green"}
+                          variant={"brand"}
                           boxShadow={"2xl"}
                           onClick={() => {
                             // remove monaco editor if exists
@@ -1119,7 +1125,7 @@ export default function CertificateEditor() {
                           Sprache wechseln
                         </Button>
                         <Button
-                          colorScheme={"green"}
+                          variant={"brand"}
                           w={"100%"}
                           leftIcon={<FaCamera />}
                           onClick={async () => {
@@ -1146,30 +1152,34 @@ export default function CertificateEditor() {
 
                 <Popover>
                   <PopoverTrigger>
-                    <Box
-                      mt={8}
-                      mb={8}
-                      bgColor={"green.200"}
+                    <Flex
                       w={"100%"}
-                      minH={"10vh"}
-                      rounded={"xl"}
-                      _hover={{
-                        cursor: "pointer",
-                        shadow: "2xl",
-                        bgColor: "green.100",
-                      }}
-                      display={hidePlusButton ? "none" : "inherit"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
                     >
-                      <Flex
+                      <Box
+                        mt={8}
+                        mb={8}
+                        bgColor={"gray.900"}
                         w={"100%"}
-                        h={"10vh"}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        direction={"column"}
+                        maxW={"600px"}
+                        minH={"10vh"}
+                        rounded={"xl"}
+                        cursor={"pointer"}
+                        display={hidePlusButton ? "none" : "inherit"}
                       >
-                        <FaPlus size={64} />
-                      </Flex>
-                    </Box>
+                        <Flex
+                          w={"100%"}
+                          h={"10vh"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          direction={"column"}
+                          color={"brand.500"}
+                        >
+                          <FaPlus size={64} />
+                        </Flex>
+                      </Box>
+                    </Flex>
                   </PopoverTrigger>
                   <PopoverContent bgColor={"black"}>
                     <PopoverArrow bgColor={"black"} />
@@ -1265,7 +1275,7 @@ export default function CertificateEditor() {
                               <option value="CODE_CHECK">Code Check</option>
                             </Select>
                           </FormControl>
-                          <Button colorScheme={"green"} type={"submit"}>
+                          <Button variant={"brand"} type={"submit"}>
                             Hinzufügen
                           </Button>
                         </Stack>

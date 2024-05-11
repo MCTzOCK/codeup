@@ -143,7 +143,7 @@ export default function AdminQuizMaker(props: {
               </Td>
               <Td>
                 <Button
-                  colorScheme={"green"}
+                  variant={"brand"}
                   onClick={() => {
                     setQuizQuestions([
                       ...quizQuestions,

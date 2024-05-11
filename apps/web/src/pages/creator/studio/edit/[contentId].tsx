@@ -14,9 +14,17 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
-import { Button, ButtonGroup, Flex, Heading, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Heading,
+  useToast,
+} from "@chakra-ui/react";
 import Builder from "../../../../special-components/Builder";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function ContentEditor() {
   const router = useRouter();
@@ -71,9 +79,9 @@ export default function ContentEditor() {
         <title>Inhalt Editor - Creator Studio - CodeUp</title>
       </Head>
       <CreatorStudioLayout>
-        <Heading mt={"2rem"} size="2xl" textAlign={"center"}>
-          Inhalt bearbeiten
-        </Heading>
+        <Box textAlign={"center"} pt={"2rem"}>
+          <CHeading>Inhalt bearbeiten</CHeading>
+        </Box>
         {content ? (
           <>
             <Flex flexDir="column" width="100%" p={"5rem"} minH={"100vh"}>
@@ -88,7 +96,6 @@ export default function ContentEditor() {
                 justifyContent={"center"}
               >
                 <Button
-                  fontSize={"2xl"}
                   size={"lg"}
                   colorScheme={"red"}
                   onClick={async () => {
@@ -117,7 +124,6 @@ export default function ContentEditor() {
                   Inhalt Löschen
                 </Button>
                 <Button
-                  fontSize={"2xl"}
                   size={"lg"}
                   colorScheme={"red"}
                   onClick={() => {
@@ -127,9 +133,8 @@ export default function ContentEditor() {
                   Abbrechen
                 </Button>
                 <Button
-                  fontSize={"2xl"}
                   size={"lg"}
-                  colorScheme={"green"}
+                  variant={"brand"}
                   onClick={async () => {
                     window.dispatchEvent(
                       new CustomEvent(

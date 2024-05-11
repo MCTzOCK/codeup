@@ -11,6 +11,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import {
+  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -29,6 +30,7 @@ import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudio
 import { FaPen } from "react-icons/fa";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Info() {
   const router = useRouter();
@@ -92,9 +94,9 @@ export default function Info() {
         <title>Inhalt Editor - Creator Studio - CodeUp</title>
       </Head>
       <CreatorStudioLayout>
-        <Heading mt={"2rem"} size="2xl" textAlign={"center"}>
-          Bearbeiten
-        </Heading>
+        <Box textAlign={"center"} pt={"2rem"}>
+          <CHeading size={"xl"}>Bearbeiten</CHeading>
+        </Box>
         {content ? (
           <>
             <Flex
@@ -158,7 +160,6 @@ export default function Info() {
                 justifyContent={"center"}
               >
                 <Button
-                  fontSize={"2xl"}
                   size={"lg"}
                   colorScheme={"red"}
                   onClick={() => {
@@ -168,9 +169,8 @@ export default function Info() {
                   Abbrechen
                 </Button>
                 <Button
-                  fontSize={"2xl"}
                   size={"lg"}
-                  colorScheme={"green"}
+                  variant={"brand"}
                   onClick={async () => {
                     const displayName = document.querySelector(
                       "input[name=displayName]"
