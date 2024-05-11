@@ -22,11 +22,11 @@ export default function EditorProjectLayout(props: {
     <>
       {loggedIn ? (
         <>
-          <Flex w={"100%"} minH={"100vh"} direction={"row"}>
+          <Flex w={"100%"} minH={"100vh"} direction={"row"} bg={"#000"}>
             <Box flex={"10%"}>
               <EditorPagesSidebar />
             </Box>
-            <Box flex={"80%"} bgColor={"gray.800"}>
+            <Box flex={"80%"} bgColor={"#000"}>
               {props.children}
             </Box>
           </Flex>

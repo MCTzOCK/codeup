@@ -57,7 +57,7 @@ export default function PageResourceManager(props: {
             <ModalCloseButton />
             <ModalBody>
               <Text mb={4}>
-                <chakra.span color={"yellow.400"} fontWeight={"bold"}>
+                <chakra.span color={"brand.500"} fontWeight={"bold"}>
                   Information
                 </chakra.span>
                 :&nbsp;Jede Resource ist mit der eindeutigen URL öffentlich
@@ -71,7 +71,7 @@ export default function PageResourceManager(props: {
                   borderRadius={"0.5rem"}
                   _hover={{
                     cursor: "pointer",
-                    borderColor: "blue.300",
+                    borderColor: "brand.500",
                     borderWidth: "1px",
                     borderStyle: "solid",
                   }}
@@ -129,7 +129,7 @@ export default function PageResourceManager(props: {
                   <Heading
                     fontSize={"8xl"}
                     textAlign={"center"}
-                    color={"blue.300"}
+                    color={"brand.500"}
                     alignItems={"center"}
                     justifyContent={"center"}
                     display={"flex"}

@@ -70,7 +70,11 @@ export default function GridLayoutV2(props: IProps) {
       >
         <Box></Box>
         <CHeading>{props.pageTitle}</CHeading>
-        <Flex gap={2} direction={["column", "row", "row"]}>
+        <Flex
+          gap={2}
+          direction={["column", "row", "row"]}
+          display={props.topButtons.length === 0 ? "none" : "flex"}
+        >
           {props.topButtons.map((b) => {
             return (
               <>

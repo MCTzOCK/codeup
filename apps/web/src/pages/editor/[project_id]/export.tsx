@@ -30,6 +30,7 @@ import Networking from "@codeup/util/dist/Networking";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import Head from "next/head";
 import { FaCrown } from "react-icons/fa";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Export() {
   const router = useRouter();
@@ -88,15 +89,15 @@ export default function Export() {
         <title>Export - Editor - CodeUp</title>
       </Head>
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Export
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading size={"xl"}>Exportieren</CHeading>
+        </Box>
         {reactSocket ? (
           <>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 <Stack>
-                  <HStack color={"orange.400"}>
+                  <HStack color={"brand.500"}>
                     <FaCrown />
                     <Text>
                       Exportiere dein Projekt mit <b>CodeUp PRO</b>
@@ -111,7 +112,7 @@ export default function Export() {
                   </Text>
                   <StackDivider />
                   <Button
-                    colorScheme={"blue"}
+                    variant={"brand"}
                     onClick={async () => {
                       if (userInfo.subscription !== "PRO") {
                         await PopupManager.alertAsync({

@@ -30,6 +30,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import { useId } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { v4 } from "uuid";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Contributors() {
   const router = useRouter();
@@ -90,9 +91,9 @@ export default function Contributors() {
   return (
     <>
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Deployment
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading>Deployment</CHeading>
+        </Box>
         {reactSocket ? (
           <>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
@@ -182,7 +183,7 @@ export default function Contributors() {
                   {customDomain !== "" ? (
                     <Button
                       leftIcon={<FaExternalLinkAlt />}
-                      colorScheme={"blue"}
+                      variant={"brand"}
                       onClick={() => {
                         window.open(
                           `http://${customDomain}.codeup.space`,
