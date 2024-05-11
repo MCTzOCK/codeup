@@ -70,21 +70,23 @@ export default function GridLayoutV2(props: IProps) {
       >
         <Box></Box>
         <CHeading>{props.pageTitle}</CHeading>
-        {props.topButtons.map((b) => {
-          return (
-            <>
-              <Button
-                variant={b.variant}
-                colorScheme={b.colorScheme}
-                leftIcon={b.leftIcon}
-                onClick={b.onClick}
-                disabled={b.disabled}
-              >
-                {b.text}
-              </Button>
-            </>
-          );
-        })}
+        <Flex gap={2} direction={["column", "row", "row"]}>
+          {props.topButtons.map((b) => {
+            return (
+              <>
+                <Button
+                  variant={b.variant}
+                  colorScheme={b.colorScheme}
+                  leftIcon={b.leftIcon}
+                  onClick={b.onClick}
+                  disabled={b.disabled}
+                >
+                  {b.text}
+                </Button>
+              </>
+            );
+          })}
+        </Flex>
         {props.topButtons.length === 0 ? <Box></Box> : null}
       </Flex>
       {props.search.show && (
