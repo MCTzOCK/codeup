@@ -13,6 +13,7 @@
 import * as React from "react";
 
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -22,7 +23,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import Typed from "react-typed";
 import { useLoggedIn } from "@codeup/hooks";
 import { useRouter } from "next/router";
@@ -36,103 +37,108 @@ export default function Home() {
   const { loggedIn } = useLoggedIn();
   const router = useRouter();
 
+  const { scrollYProgress } = useScroll();
+
   return (
     <>
       <Head>
         <title>CodeUp - Einfach Programmieren lernen</title>
       </Head>
-      <Box bg={"#000"}>
-        <Flex w={"100%"} minH={"100vh"} h={"fit-content"} bg={"#000"}>
+      <Flex
+        w={"100%"}
+        minH={"100vh"}
+        h={"fit-content"}
+        bg={"transparent"}
+        overflow={"hidden"}
+      >
+        <img
+          src={"/_static/images/software-developer-6521720_1920.jpg"}
+          alt={""}
+          className={"index-header-image"}
+        />
+        <Flex
+          w={"100%"}
+          h={"fit-content"}
+          p={[5, 10, 20]}
+          direction={["column", "column", "row"]}
+          alignItems={"center"}
+          minH={"100vh"}
+          overflow={"hidden"}
+        >
           <Flex
-            w={"100%"}
-            h={"fit-content"}
-            p={[5, 10, 20]}
-            direction={["column", "column", "row"]}
+            flex={["100%", "100%", "100%"]}
             alignItems={"center"}
-            minH={"100vh"}
+            w={"100%"}
+            justifyContent={"center"}
             zIndex={2}
           >
-            <Flex
-              flex={["100%", "100%", "100%"]}
-              alignItems={"center"}
-              w={"100%"}
-              justifyContent={"center"}
-            >
-              <Flex gap={2} pt={10} direction={"column"}>
-                <Heading
-                  as={"h3"}
-                  fontSize={["2xl", "3xl", "4xl"]}
-                  color={"gray.300"}
-                  fontWeight={1000}
-                  letterSpacing={-2}
+            <Flex gap={2} pt={10} direction={"column"}>
+              <Heading
+                as={"h3"}
+                fontSize={["2xl", "3xl", "4xl"]}
+                color={"gray.300"}
+                fontWeight={1000}
+                letterSpacing={-2}
+              >
+                CodeUp
+              </Heading>
+              <Heading
+                as={"h1"}
+                fontSize={["4xl", "5xl", "8xl"]}
+                fontWeight={900}
+                letterSpacing={-2}
+                fontFamily={"Jetbrains Mono ExtraBold"}
+                color={"brand.500"}
+              >
+                Programmieren lernen
+              </Heading>
+              <Text
+                fontWeight={[400, 400, 100]}
+                fontSize={["xl", "2xl", "4xl"]}
+                maxW={["100%", "100%", "60%"]}
+              >
+                Von der ersten Zeile Code bis zum eigenen Projekt. Wir
+                unterstützen dich auf deinem Weg mit allem was du brauchst.
+              </Text>
+              <ButtonGroup spacing={4} mt={2}>
+                <Button
+                  rounded={"md"}
+                  variant={"brand"}
+                  fontSize={"xl"}
+                  size={"lg"}
+                  color={"black"}
+                  onClick={() => {
+                    if (loggedIn) {
+                      router.push("/dashboard");
+                    } else {
+                      window.dispatchEvent(
+                        new CustomEvent("codeup::open_login")
+                      );
+                    }
+                  }}
                 >
-                  CodeUp
-                </Heading>
-                <Heading
-                  as={"h1"}
-                  fontSize={["4xl", "5xl", "8xl"]}
-                  fontWeight={900}
-                  letterSpacing={-2}
-                  fontFamily={"Jetbrains Mono ExtraBold"}
-                  color={"brand.500"}
-                >
-                  Programmieren lernen
-                </Heading>
-                <Text fontWeight={100} fontSize={["xl", "2xl", "4xl"]}>
-                  Lerne mit interaktiven Videokursen.
-                  <br />
-                  Plane anstehende Projekte bis ins Detail.
-                  <br />
-                  Tausche dich mit anderen Entwicklern aus.
-                  <br />
-                  Setze deine Ideen in die Tat um.
-                  <br />
-                  Erhalte Feedback der Community.
-                </Text>
-                <ButtonGroup spacing={4} mt={2}>
-                  <Button
-                    rounded={"md"}
-                    variant={"brand"}
-                    fontSize={"xl"}
-                    size={"lg"}
-                    color={"black"}
-                    onClick={() => {
-                      if (loggedIn) {
-                        router.push("/dashboard");
-                      } else {
-                        window.dispatchEvent(
-                          new CustomEvent("codeup::open_login")
-                        );
-                      }
-                    }}
-                  >
-                    {loggedIn ? "Dashboard" : "Jetzt starten"}
-                  </Button>
-                </ButtonGroup>
-              </Flex>
-            </Flex>
-            <Flex
-              alignItems={"center"}
-              justifyContent={"center"}
-              w={"100%"}
-              h={"100%"}
-            >
-              <Image
-                src={"/_static/images/software-developer-6521720_1920.jpg"}
-                alt={"Software Developer"}
-                w={"100%"}
-                h={"100%"}
-                objectFit={"cover"}
-                objectPosition={"center"}
-                borderRadius={"lg"}
-                maxW={["400px", "500px", "1000px"]}
-                shadow={"xl"}
-              />
+                  {loggedIn ? "Dashboard" : "Jetzt starten"}
+                </Button>
+              </ButtonGroup>
             </Flex>
           </Flex>
         </Flex>
+      </Flex>
+
+      <Box
+        bg={
+          "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.95), #000)"
+          //"linear-gradient(to bottom, transparent, #000)"
+          //"linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.083) 8.33%, rgba(0, 0, 0, 0.167) 16.67%, rgba(0, 0, 0, 0.25) 25%, rgba(0, 0, 0, 0.333) 33.33%, rgba(0, 0, 0, 0.417) 41.67%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.583) 58.33%, rgba(0, 0, 0, 0.667) 66.67%, rgba(0, 0, 0, 0.75) 75%, rgba(0, 0, 0, 0.83) 83.33%, rgba(0, 0, 0, 0.91) 91.67% 100%)"
+        }
+      >
         <Testimonials />
         <BrandStats />
+        <img
+          src={"/_static/images/mohammad-rahmani-lPKIb8dJ8kw-unsplash.jpg"}
+          alt={""}
+          className={"index-header-image ihi-rot"}
+        />
         <Milestones
           title={"Geschichte"}
           milestones={[

@@ -77,7 +77,7 @@ export default function Testimonials() {
   }, []);
   return (
     <>
-      <Box bg={"#000"} p={6} mt={6} mb={6}>
+      <Box p={6} mt={6} mb={6} roundedTop={"xl"}>
         <Heading
           color={"brand.500"}
           textAlign={"center"}
