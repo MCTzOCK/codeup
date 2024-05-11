@@ -44,6 +44,7 @@ import { BiRename } from "react-icons/bi";
 import { FiRotateCcw } from "react-icons/fi";
 import TemplatePicker from "./TemplatePicker";
 import { useRouter } from "next/router";
+import { CHeading } from "../global/CHeading";
 
 export default function CreateProjectMenu() {
   const toast = useToast();
@@ -63,7 +64,7 @@ export default function CreateProjectMenu() {
       <>
         <Box
           flex={"33%"}
-          backgroundColor={"gray.800"}
+          backgroundColor={"gray.700"}
           shadow={"xl"}
           rounded={"xl"}
           h={"100%"}
@@ -85,6 +86,7 @@ export default function CreateProjectMenu() {
               justifyContent={"center"}
               h={"100%"}
               w={"100%"}
+              color={"brand.500"}
             >
               {props.icon}
             </Flex>
@@ -96,7 +98,7 @@ export default function CreateProjectMenu() {
               w={"100%"}
               direction={"column"}
             >
-              <Heading size={"lg"}>{props.title}</Heading>
+              <CHeading size={"xl"}>{props.title}</CHeading>
             </Flex>
           </Flex>
         </Box>
@@ -136,9 +138,9 @@ export default function CreateProjectMenu() {
           p={"1.2rem"}
           rounded={"xl"}
         >
-          <Heading textAlign={"center"} size={"xl"}>
-            Projekt Erstellen
-          </Heading>
+          <Box textAlign={"center"}>
+            <CHeading size={"xl"}>Projekt erstellen</CHeading>
+          </Box>
           <Divider mt={"1.2rem"} />
           {section === "menu" ? (
             <>
@@ -338,7 +340,7 @@ export default function CreateProjectMenu() {
                 <Text mt={"1.2rem"}>
                   Wie wäre es mit&nbsp;
                   <Link
-                    color={"blue.400"}
+                    color={"brand.500"}
                     onClick={() => {
                       (
                         document.getElementById(nameId) as HTMLInputElement
@@ -363,7 +365,12 @@ export default function CreateProjectMenu() {
                   </Tooltip>
                 </Text>
                 <FormControl mt={"1.2rem"}>
-                  <Button isLoading={loading} id="c_for_sb" type={"submit"}>
+                  <Button
+                    isLoading={loading}
+                    id="c_for_sb"
+                    type={"submit"}
+                    variant={"brand"}
+                  >
                     Erstellen
                   </Button>
                 </FormControl>

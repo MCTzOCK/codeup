@@ -54,6 +54,7 @@ import { ContributorManager } from "./index";
 import TemplatePublisher from "./TemplatePublisher";
 import { default as NextLink } from "next/link";
 import Networking from "@codeup/util/src/Networking";
+import { CHeading } from "../global/CHeading";
 
 export default function OpenProjectMenu() {
   const [projectList, setProjectList] = useState<
@@ -200,9 +201,9 @@ export default function OpenProjectMenu() {
           p={"1.2rem"}
           rounded={"xl"}
         >
-          <Heading textAlign={"center"} size={"xl"}>
-            Projekt Öffnen
-          </Heading>
+          <Box textAlign={"center"}>
+            <CHeading size={"xl"}>Projekt öffnen</CHeading>
+          </Box>
           {loading ? (
             <>
               <Flex justifyContent={"center"} mt={"1.2rem"}>
@@ -215,7 +216,7 @@ export default function OpenProjectMenu() {
               <Flex justifyContent={"center"} mt={"1.2rem"}>
                 <Box>
                   Du hast noch keine Projekte erstellt.&nbsp;
-                  <Link color="blue.400" href={"?component=create"}>
+                  <Link color="brand.500" href={"?component=create"}>
                     <NextLink href={"?component=create"}>
                       Erstelle dein erstes Projekt
                     </NextLink>
