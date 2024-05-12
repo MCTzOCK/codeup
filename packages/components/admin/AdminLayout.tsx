@@ -110,6 +110,7 @@ export default function AdminLayout(props: { children: ReactNode }) {
             direction={["column", "column", "row"]}
             minH={"100vh"}
             h={"fit-content"}
+            bg={"#000"}
           >
             <Box flex={"10%"}>
               <Sidebar
