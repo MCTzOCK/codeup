@@ -137,10 +137,21 @@ export default function FunctionEditor() {
         <Head>
           <title>Funktion - Editor - CodeUp</title>
         </Head>
-        <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
+        <Flex
+          w={"100%"}
+          minH={"100vh"}
+          maxW={"100%"}
+          direction={"row"}
+          bg={"#000"}
+        >
           <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
             <Box p={"2rem"} w={"100%"} h={"100%"}>
-              <Box backgroundColor={"black"} h={"100%"} boxShadow={"2xl"}>
+              <Box
+                backgroundColor={"black"}
+                h={"100%"}
+                boxShadow={"2xl"}
+                rounded={"xl"}
+              >
                 <Flex direction={"column"} h={"100%"}>
                   <Tooltip label={"Snippets"} placement={"right"} hasArrow>
                     <IconButton
@@ -182,7 +193,7 @@ export default function FunctionEditor() {
             m={"2rem"}
             boxShadow={"2xl"}
           >
-            <Flex direction={"column"} minH={"90vh"} w={"100%"}>
+            <Flex direction={"column"} minH={"90vh"} w={"100%"} rounded={"xl"}>
               <Editor
                 defaultLanguage={"javascript"}
                 defaultValue={func.code}
