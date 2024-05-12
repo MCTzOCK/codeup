@@ -11,6 +11,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import redirect from "@codeup/util/src/userworkflow/redirect";
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -22,6 +23,7 @@ import { FaPlus, FaRegFolderOpen } from "react-icons/fa";
 import CreateProjectMenu from "@codeup/components/ide/CreateProjectMenu";
 import OpenProjectMenu from "@codeup/components/ide/OpenProjectMenu";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   useEffect(() => {
@@ -72,13 +74,16 @@ export default function Index() {
           direction={"column"}
           flex={"15%"}
           minH={"100%"}
-          bgColor={useColorModeValue("gray.400", "gray.900")}
+          bgColor={"gray.900"}
           p={"1.2rem"}
         >
-          <Heading textAlign={"center"}>Projekte</Heading>
+          <Box textAlign={"center"}>
+            <CHeading size={"xl"}>Projekte</CHeading>
+          </Box>
           <Button
             m={"1.2rem"}
-            variant={currentSelected === "create" ? "solid" : "ghost"}
+            justifyContent={"flex-start"}
+            variant={currentSelected === "create" ? "brand" : "ghost"}
             leftIcon={<FaPlus />}
             onClick={() => {
               router.push("/ide?component=create");
@@ -88,7 +93,8 @@ export default function Index() {
           </Button>
           <Button
             marginInline={"1.2rem"}
-            variant={currentSelected === "open" ? "solid" : "ghost"}
+            justifyContent={"flex-start"}
+            variant={currentSelected === "open" ? "brand" : "ghost"}
             leftIcon={<FaRegFolderOpen />}
             onClick={() => {
               setCurrentSelected("account");
@@ -98,7 +104,7 @@ export default function Index() {
             Meine Projekte
           </Button>
         </Flex>
-        <Flex direction={"column"} flex={"85%"} minH={"100%"}>
+        <Flex direction={"column"} flex={"85%"} minH={"100%"} bg={"#000"}>
           {currentComponent}
         </Flex>
       </Flex>

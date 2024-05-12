@@ -114,11 +114,7 @@ export default function ContributorManager(props: {
                 <Flex justifyContent={"right"} mr={[0, "2rem"]}>
                   <Popover>
                     <PopoverTrigger>
-                      <Button
-                        variant={"solid"}
-                        colorScheme={"whatsapp"}
-                        leftIcon={<FaPlus />}
-                      >
+                      <Button variant={"brand"} leftIcon={<FaPlus />}>
                         Hinzufügen
                       </Button>
                     </PopoverTrigger>
@@ -176,7 +172,7 @@ export default function ContributorManager(props: {
                                 />
                               </InputGroup>
                             </FormControl>
-                            <Button type="submit" colorScheme={"whatsapp"}>
+                            <Button type="submit" variant={"brand"}>
                               Hinzufügen
                             </Button>
                           </Stack>
@@ -426,6 +422,7 @@ export default function ContributorManager(props: {
                                                 "READ"
                                               )}
                                               disabled={true}
+                                              colorScheme={"brand"}
                                             >
                                               Lesen
                                             </Checkbox>
@@ -438,6 +435,7 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-write"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Schreiben
                                             </Checkbox>
@@ -450,6 +448,7 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-delete"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Löschen
                                             </Checkbox>
@@ -462,6 +461,7 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-duplicate"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Klonen
                                             </Checkbox>
@@ -474,6 +474,7 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-rename"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Umbenennen
                                             </Checkbox>
@@ -486,6 +487,7 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-export"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Exportieren
                                             </Checkbox>
@@ -498,12 +500,12 @@ export default function ContributorManager(props: {
                                                 contributor.id +
                                                 "-manage_contributors"
                                               }
+                                              colorScheme={"brand"}
                                             >
                                               Mitwirkende verwalten
                                             </Checkbox>
                                             <Button
-                                              variant={"solid"}
-                                              colorScheme={"blue"}
+                                              variant={"brand"}
                                               onClick={async () => {
                                                 const res =
                                                   await REST.IDE.overwriteContributorPermissions(
@@ -624,7 +626,7 @@ export default function ContributorManager(props: {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={props.onClose}>
+            <Button variant="brand" mr={3} onClick={props.onClose}>
               Schließen
             </Button>
           </ModalFooter>

@@ -159,7 +159,7 @@ export default function CourseViewer() {
           <Heading size={"lg"}>{courseName[0]}</Heading>
 
           <Button
-            colorScheme={"blue"}
+            variant={"brand"}
             ml={2}
             onClick={() => {
               router.push("/creator/studio/create/content/" + id);
@@ -230,7 +230,7 @@ export default function CourseViewer() {
                                       borderWidth="1px"
                                       borderRadius="lg"
                                       _hover={{
-                                        borderColor: "blue.500",
+                                        borderColor: "brand.500",
                                       }}
                                       cursor={"pointer"}
                                     >
@@ -264,7 +264,7 @@ export default function CourseViewer() {
                                             <Stack>
                                               <Button
                                                 w={"100%"}
-                                                colorScheme={"blue"}
+                                                variant={"brand"}
                                                 leftIcon={<FaEye />}
                                                 onClick={() => {
                                                   if (
@@ -322,7 +322,7 @@ export default function CourseViewer() {
                                                 <Button
                                                   w={"100%"}
                                                   leftIcon={<FaPen />}
-                                                  colorScheme={"blue"}
+                                                  variant={"brand"}
                                                   onClick={() => {
                                                     router.push(
                                                       `/creator/studio/edit/${content._id}/info`
@@ -334,7 +334,7 @@ export default function CourseViewer() {
                                                 <Button
                                                   w={"100%"}
                                                   leftIcon={<FaPen />}
-                                                  colorScheme={"blue"}
+                                                  variant={"brand"}
                                                   onClick={() => {
                                                     router.push(
                                                       `/creator/studio/edit/${content._id}`

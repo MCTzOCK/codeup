@@ -11,12 +11,13 @@
 import * as React from "react";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
 import CollaboratorManagerBody from "@codeup/components/editor/CollaboratorManagerBody";
-import { Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import PopupManager from "../../../global/PopupManager";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Contributors() {
   const router = useRouter();
@@ -61,9 +62,9 @@ export default function Contributors() {
       </Head>
 
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Mitwirkende
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading size={"xl"}>Mitwirkende</CHeading>
+        </Box>
         {reactSocket ? (
           <>
             <CollaboratorManagerBody

@@ -49,7 +49,7 @@ export default function CollaboratorManager(props: {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={props.onClose}>
+            <Button variant={"brand"} mr={3} onClick={props.onClose}>
               Schließen
             </Button>
           </ModalFooter>

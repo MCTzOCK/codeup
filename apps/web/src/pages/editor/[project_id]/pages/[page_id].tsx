@@ -21,6 +21,7 @@ import { useRef, useState } from "react";
 import { editor, Position } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function PageEditor() {
   const router = useRouter();
@@ -190,8 +191,14 @@ export default function PageEditor() {
         <Head>
           <title>Seite - Editor - CodeUp</title>
         </Head>
-        <Flex w={"100%"} minH={"100vh"} maxW={"100%"} direction={"row"}>
-          <Box flex={["30%", "20%", "10%"]} minH={"90vh"}>
+        <Flex
+          w={"100%"}
+          minH={"100vh"}
+          maxW={"100%"}
+          direction={"row"}
+          bg={"#000"}
+        >
+          <Box flex={["30%", "20%", "10%"]} minH={"90vh"} rounded={"xl"}>
             <EditorPageSidebar
               page={page}
               projectId={router.query.project_id as string}
@@ -205,18 +212,16 @@ export default function PageEditor() {
             minH={"90vh"}
             m={"2rem"}
             boxShadow={"2xl"}
+            rounded={"xl"}
           >
-            <Flex direction={"column"} minH={"90vh"} w={"100%"}>
-              <Heading
-                bgColor={"black"}
-                fontFamily={"monospace"}
-                size={"xl"}
-                p={2}
-              >
-                {currentResource === "codeup.main_resource"
-                  ? "Hauptwebseite (" + page.url + ")"
-                  : "Resource (" + currentResource + ")"}
-              </Heading>
+            <Flex direction={"column"} minH={"90vh"} w={"100%"} rounded={"xl"}>
+              <Box bg={"black"} p={4}>
+                <CHeading size={"xl"}>
+                  {currentResource === "codeup.main_resource"
+                    ? "Hauptwebseite (" + page.url + ")"
+                    : "Resource (" + currentResource + ")"}
+                </CHeading>
+              </Box>
 
               <Editor
                 defaultLanguage={monacoLanguage}

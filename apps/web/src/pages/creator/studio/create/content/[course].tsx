@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaBookOpen, FaGlobe } from "react-icons/fa";
 import {
+  Box,
   Button,
   CircularProgress,
   Flex,
@@ -32,6 +33,7 @@ import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudio
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Builder from "../../../../../special-components/Builder";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function NewContents() {
   const router = useRouter();
@@ -96,17 +98,18 @@ export default function NewContents() {
         <title>Creator Studio - CodeUp</title>
       </Head>
       <CreatorStudioLayout>
-        <Heading mt={6} textAlign={"center"}>
-          Neuen Inhalt erstellen
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading size={"xl"}>Neuer Inhalt</CHeading>
+        </Box>
         <>
           {loaded && !error ? (
             <>
               <Flex flexDir="column" width="100%" p={"5rem"}>
-                <Heading size="lg" mb={"2rem"} textAlign={"left"}>
-                  Neuer Inhalt
-                </Heading>
-                <Steps size={"lg"} activeStep={activeStep}>
+                <Steps
+                  size={"lg"}
+                  activeStep={activeStep}
+                  colorScheme={"brand"}
+                >
                   {steps.map(({ label }, index) => (
                     <Step label={label} key={label} mb={"2rem"}>
                       {index === 0 ? (
@@ -235,13 +238,13 @@ export default function NewContents() {
                         prevStep();
                       }}
                       size="lg"
-                      variant="ghost"
                     >
                       Vorheriger
                     </Button>
                     <Button
                       size="lg"
                       id={"new_content_submit"}
+                      variant={"brand"}
                       onClick={async () => {
                         if (activeStep !== steps.length - 1) {
                           switch (activeStep) {

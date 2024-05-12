@@ -21,6 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { CHeading } from "../global/CHeading";
 
 export default function CodeUpModal(props: {
   onOpen: () => void;
@@ -45,9 +46,11 @@ export default function CodeUpModal(props: {
           bg={props.blackBackground ? "black" : "blackAlpha.300"}
           backdropFilter={props.blackBackground ? "blur(0px)" : "blur(10px)"}
         />
-        <ModalContent backgroundColor={"black"}>
+        <ModalContent backgroundColor={"#000"}>
           <ModalHeader>
-            {props.title ? <Heading size={"lg"}>{props.title}</Heading> : null}
+            {props.title ? (
+              <CHeading size={"lg"}>{props.title}</CHeading>
+            ) : null}
             {!props.noCloseButton ? <ModalCloseButton /> : null}
           </ModalHeader>
           <ModalBody>{props.children}</ModalBody>

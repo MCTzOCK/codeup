@@ -32,6 +32,7 @@ import {
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import { FaCopy, FaSearch } from "react-icons/fa";
+import { CHeading } from "../global/CHeading";
 
 export default function SnippetViewer(props: {
   isOpen: boolean;
@@ -118,13 +119,13 @@ export default function SnippetViewer(props: {
                       borderRadius={"0.5rem"}
                     >
                       <Flex alignItems={"center"}>
-                        <Heading size={"lg"}>{snippet.title}</Heading>
+                        <CHeading size={"lg"}>{snippet.title}</CHeading>
                         <Text ml={"auto"}>
                           {new Date(snippet.createdAt).toLocaleString()}
                         </Text>
                       </Flex>
                       <Text mb={"2rem"}>
-                        <chakra.span color={"blue.300"}>
+                        <chakra.span color={"brand.500"}>
                           {snippet.language}
                         </chakra.span>
                       </Text>
@@ -135,7 +136,7 @@ export default function SnippetViewer(props: {
                       </p>
                       <ButtonGroup mt={"2rem"}>
                         <Button
-                          colorScheme={"green"}
+                          variant={"brand"}
                           leftIcon={<FaCopy />}
                           onClick={() => {
                             try {

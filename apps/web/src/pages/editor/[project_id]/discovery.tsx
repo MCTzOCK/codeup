@@ -34,6 +34,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCheck, FaExclamationTriangle } from "react-icons/fa";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Discovery() {
   const router = useRouter();
@@ -94,9 +95,9 @@ export default function Discovery() {
       <EditorProjectLayout>
         {reactSocket ? (
           <>
-            <Heading textAlign={"center"} size={"2xl"} mt={8}>
-              Discovery
-            </Heading>
+            <Box textAlign={"center"} pt={6}>
+              <CHeading size={"xl"}>Discovery</CHeading>
+            </Box>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 {project && project.customDomain && (
@@ -114,7 +115,7 @@ export default function Discovery() {
                             <FaExclamationTriangle /> Du hast deine App noch
                             nicht mit einer Domain verbunden. Dies kannst du
                             <Text
-                              color={"blue.400"}
+                              color={"brand.500"}
                               cursor={"pointer"}
                               _hover={{
                                 textDecoration: "underline",
@@ -133,7 +134,7 @@ export default function Discovery() {
                           <>
                             <Stack>
                               <Flex
-                                color={"green.300"}
+                                color={"brand.500"}
                                 alignItems={"center"}
                                 gap={4}
                               >
@@ -143,7 +144,7 @@ export default function Discovery() {
                               {project.discovery ? (
                                 <>
                                   <Flex
-                                    color={"green.300"}
+                                    color={"brand.500"}
                                     alignItems={"center"}
                                     gap={4}
                                   >
@@ -165,7 +166,7 @@ export default function Discovery() {
                               )}
                               <StackDivider />
                               <Button
-                                colorScheme={"blue"}
+                                variant={"brand"}
                                 onClick={async () => {
                                   if (project.discovery) {
                                     reactSocket?.emit(

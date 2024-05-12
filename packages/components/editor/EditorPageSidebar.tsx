@@ -70,7 +70,7 @@ export default function EditorPageSidebar(props: {
 
   return (
     <>
-      <Box p={"2rem"} w={"100%"} h={"100%"}>
+      <Box p={"2rem"} w={"100%"} h={"100%"} rounded={"xl"}>
         <Box backgroundColor={"black"} h={"100%"} boxShadow={"2xl"}>
           <Flex direction={"column"} h={"100%"}>
             <Tooltip label={"Code"} placement={"right"} hasArrow>

@@ -39,6 +39,7 @@ import {
 } from "react-icons/fa";
 import PopupManager from "../../../../global/PopupManager";
 import Head from "next/head";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function ProjectfunctionsViewer() {
   const router = useRouter();
@@ -111,17 +112,17 @@ export default function ProjectfunctionsViewer() {
         <title>Serverless - Editor - CodeUp</title>
       </Head>
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Serverless
-        </Heading>
-        <GridLayout
+        <GridLayoutV2
+          pageTitle={"Serverless"}
           search={{
-            allow: true,
-            searchFields: true,
+            show: true,
+            fields: true,
           }}
-          specialEntries={[
+          topButtons={[
             {
-              icon: <FaPlus />,
+              text: "Neu",
+              leftIcon: <FaPlus />,
+              variant: "brand",
               onClick: async () => {
                 const url = await PopupManager.promptAsync({
                   title: "Neue Funktion",
@@ -161,121 +162,111 @@ export default function ProjectfunctionsViewer() {
           entries={functions.map((func) => {
             return {
               title: func.path,
-              fields: [],
+              fields: [
+                {
+                  text: "",
+                  icon: null,
+                },
+              ],
               buttonRows: [
-                {
-                  buttons: [
-                    {
-                      colorScheme: "red",
-                      icon: <FaTrash />,
-                      text: "Löschen",
-                      onClick: async () => {
-                        if (
-                          await PopupManager.confirmAsync({
-                            title: "Seite löschen",
-                            question:
-                              "Möchtest du diese Seite wirklich löschen?",
-                          })
-                        ) {
-                          if (reactSocket) {
-                            reactSocket.on(
-                              "editor:projects:functions:delete",
-                              (data: any) => {
-                                if (data.success) {
-                                  setFunctions(
-                                    functions.filter((p) => p._id !== func._id)
-                                  );
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description: data.error as string,
-                                  });
-                                }
+                [
+                  {
+                    colorScheme: "red",
+                    leftIcon: <FaTrash />,
+                    text: "Löschen",
+                    onClick: async () => {
+                      if (
+                        await PopupManager.confirmAsync({
+                          title: "Seite löschen",
+                          question: "Möchtest du diese Seite wirklich löschen?",
+                        })
+                      ) {
+                        if (reactSocket) {
+                          reactSocket.on(
+                            "editor:projects:functions:delete",
+                            (data: any) => {
+                              if (data.success) {
+                                setFunctions(
+                                  functions.filter((p) => p._id !== func._id)
+                                );
+                              } else {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description: data.error as string,
+                                });
                               }
-                            );
+                            }
+                          );
 
-                            reactSocket.emit(
-                              "editor:projects:functions:delete",
-                              {
-                                projectId: router.query.project_id,
-                                pageId: func._id,
-                              }
-                            );
-                          }
+                          reactSocket.emit("editor:projects:functions:delete", {
+                            projectId: router.query.project_id,
+                            pageId: func._id,
+                          });
                         }
-                      },
+                      }
                     },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      colorScheme: "green",
-                      icon: <FaLink />,
-                      text: "URL Ändern",
-                      onClick: async () => {
-                        let newUrl = await PopupManager.promptAsync({
-                          title: "Seite bearbeiten",
-                          helperText: "Gib die neue URL der Seite ein.",
-                        });
+                  },
+                ],
+                [
+                  {
+                    variant: "brand",
+                    leftIcon: <FaLink />,
+                    text: "URL Ändern",
+                    onClick: async () => {
+                      let newUrl = await PopupManager.promptAsync({
+                        title: "Seite bearbeiten",
+                        helperText: "Gib die neue URL der Seite ein.",
+                      });
 
-                        if (newUrl) {
-                          newUrl = ["/api/", newUrl].join("");
+                      if (newUrl) {
+                        newUrl = ["/api/", newUrl].join("");
 
-                          if (reactSocket) {
-                            reactSocket.on(
-                              "editor:projects:functions:rename",
-                              (data: any) => {
-                                if (data.success) {
-                                  setFunctions(
-                                    functions.map((p) => {
-                                      if (p._id === func._id) {
-                                        return {
-                                          ...p,
-                                          path: newUrl,
-                                        };
-                                      } else {
-                                        return p;
-                                      }
-                                    })
-                                  );
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description: data.error as string,
-                                  });
-                                }
+                        if (reactSocket) {
+                          reactSocket.on(
+                            "editor:projects:functions:rename",
+                            (data: any) => {
+                              if (data.success) {
+                                setFunctions(
+                                  functions.map((p) => {
+                                    if (p._id === func._id) {
+                                      return {
+                                        ...p,
+                                        path: newUrl,
+                                      };
+                                    } else {
+                                      return p;
+                                    }
+                                  })
+                                );
+                              } else {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description: data.error as string,
+                                });
                               }
-                            );
+                            }
+                          );
 
-                            reactSocket.emit(
-                              "editor:projects:functions:rename",
-                              {
-                                projectId: router.query.project_id,
-                                pageId: func._id,
-                                newUrl,
-                              }
-                            );
-                          }
+                          reactSocket.emit("editor:projects:functions:rename", {
+                            projectId: router.query.project_id,
+                            pageId: func._id,
+                            newUrl,
+                          });
                         }
-                      },
+                      }
                     },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      text: "Bearbeiten",
-                      colorScheme: "blue",
-                      icon: <FaEdit />,
-                      onClick: () => {
-                        router.push(
-                          `/editor/${router.query.project_id}/serverless/${func._id}`
-                        );
-                      },
+                  },
+                  {
+                    text: "Bearbeiten",
+                    variant: "brand",
+                    leftIcon: <FaEdit />,
+                    onClick: () => {
+                      router.push(
+                        `/editor/${router.query.project_id}/serverless/${func._id}`
+                      );
                     },
-                  ],
-                },
+                  },
+                ],
               ],
             };
           })}

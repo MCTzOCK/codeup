@@ -58,6 +58,7 @@ import CodeUpModal from "../codeup/CodeUpModal";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
+import { CHeading } from "./CHeading";
 
 export default function NavigationBar() {
   const whatEverRef = React.useRef();
@@ -253,7 +254,7 @@ export default function NavigationBar() {
         onClose={onUserAuthClose}
         isOpen={isUserAuthOpen}
       />
-      <Box w={"100%"} bg={"black"} padding={"1.2rem"}>
+      <Box w={"100%"} bg={"transparent"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <Heading flex={"flex-start"} textAlign={["center", "left"]}>
             <Link href={"/"}>
@@ -350,7 +351,6 @@ export default function NavigationBar() {
           ) : null}
         </Flex>
       </Box>
-      <Divider />
       <CodeUpModal
         onOpen={onMoreMenuOpen}
         onClose={onMoreMenuClose}
@@ -358,7 +358,7 @@ export default function NavigationBar() {
         title={"Angebote"}
         customSize={["full"]}
       >
-        <Box mb={8} backgroundColor={"gray.800"} shadow={"2xl"}>
+        <Box mb={8} backgroundColor={"black"} shadow={"2xl"}>
           <InputGroup>
             <InputLeftElement>
               <FaSearch />
@@ -388,8 +388,17 @@ export default function NavigationBar() {
             borderWidth={"3px"}
             p={2}
             pt={0}
+            display={
+              filteredMoreOptions.filter(
+                (option) => option.category === "learn"
+              ).length > 0
+                ? "block"
+                : "none"
+            }
           >
-            <SuperText>Lernen</SuperText>
+            <Box textAlign={"center"} p={2}>
+              <CHeading size={"xl"}>Lernen</CHeading>
+            </Box>
             <Grid
               templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
               gap={6}
@@ -417,8 +426,17 @@ export default function NavigationBar() {
             borderWidth={"3px"}
             p={2}
             pt={0}
+            display={
+              filteredMoreOptions.filter(
+                (option) => option.category === "develop"
+              ).length > 0
+                ? "block"
+                : "none"
+            }
           >
-            <SuperText>Entwickeln</SuperText>
+            <Box textAlign={"center"} p={2}>
+              <CHeading size={"xl"}>Entwickeln</CHeading>
+            </Box>
             <Grid
               templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
               gap={6}
@@ -446,8 +464,17 @@ export default function NavigationBar() {
             borderWidth={"3px"}
             p={2}
             pt={0}
+            display={
+              filteredMoreOptions.filter(
+                (option) => option.category === "communicate"
+              ).length > 0
+                ? "block"
+                : "none"
+            }
           >
-            <SuperText>Austauschen</SuperText>
+            <Box textAlign={"center"} p={2}>
+              <CHeading size={"xl"}>Austauschen</CHeading>
+            </Box>
             <Grid
               templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
               gap={6}
@@ -475,8 +502,16 @@ export default function NavigationBar() {
             borderWidth={"3px"}
             p={2}
             pt={0}
+            display={
+              filteredMoreOptions.filter((option) => option.category === "plan")
+                .length > 0
+                ? "block"
+                : "none"
+            }
           >
-            <SuperText>Planen</SuperText>
+            <Box textAlign={"center"} p={2}>
+              <CHeading size={"xl"}>Planen</CHeading>
+            </Box>
             <Grid
               templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
               gap={6}
@@ -504,8 +539,17 @@ export default function NavigationBar() {
             borderWidth={"3px"}
             p={2}
             pt={0}
+            display={
+              filteredMoreOptions.filter(
+                (option) => option.category === "other"
+              ).length > 0
+                ? "block"
+                : "none"
+            }
           >
-            <SuperText>Anderes</SuperText>
+            <Box textAlign={"center"} p={2}>
+              <CHeading size={"xl"}>Anderes</CHeading>
+            </Box>
             <Grid
               templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
               gap={6}

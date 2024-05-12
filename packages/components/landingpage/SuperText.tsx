@@ -10,11 +10,19 @@
 
 import * as React from "react";
 import { Box, Text } from "@chakra-ui/react";
+import { CHeading } from "../global/CHeading";
 
 export default function SuperText(props: {
   children: React.ReactNode;
   fontzSize?: string;
 }) {
+  return (
+    <>
+      <Box textAlign={"center"} pb={""}>
+        <CHeading size={props.fontzSize || "xl"}>{props.children}</CHeading>
+      </Box>
+    </>
+  );
   return (
     <>
       <Text

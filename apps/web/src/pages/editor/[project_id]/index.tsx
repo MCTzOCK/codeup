@@ -25,6 +25,7 @@ import {
 import PopupManager from "../../../global/PopupManager";
 import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function ProjectViewer() {
   const router = useRouter();
@@ -96,18 +97,17 @@ export default function ProjectViewer() {
         <title>Seiten - Editor - CodeUp</title>
       </Head>
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Seiten
-        </Heading>
-
-        <GridLayout
+        <GridLayoutV2
+          pageTitle={"Seiten"}
           search={{
-            allow: true,
-            searchFields: true,
+            show: true,
+            fields: true,
           }}
-          specialEntries={[
+          topButtons={[
             {
-              icon: <FaPlus />,
+              text: "Neu",
+              leftIcon: <FaPlus />,
+              variant: "brand",
               onClick: async () => {
                 const url = await PopupManager.promptAsync({
                   title: "Neue Seite",
@@ -164,113 +164,104 @@ export default function ProjectViewer() {
                 },
               ],
               buttonRows: [
-                {
-                  buttons: [
-                    {
-                      text: "Löschen",
-                      icon: <FaTrash />,
-                      colorScheme: "red",
-                      onClick: async () => {
-                        if (
-                          await PopupManager.confirmAsync({
-                            title: "Seite löschen",
-                            question:
-                              "Möchtest du diese Seite wirklich löschen?",
-                          })
-                        ) {
-                          if (reactSocket) {
-                            reactSocket.on(
-                              "editor:projects:pages:delete",
-                              (data: any) => {
-                                if (data.success) {
-                                  setPages(
-                                    pages.filter((p) => p._id !== page._id)
-                                  );
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description: data.error as string,
-                                  });
-                                }
+                [
+                  {
+                    text: "Löschen",
+                    leftIcon: <FaTrash />,
+                    colorScheme: "red",
+                    onClick: async () => {
+                      if (
+                        await PopupManager.confirmAsync({
+                          title: "Seite löschen",
+                          question: "Möchtest du diese Seite wirklich löschen?",
+                        })
+                      ) {
+                        if (reactSocket) {
+                          reactSocket.on(
+                            "editor:projects:pages:delete",
+                            (data: any) => {
+                              if (data.success) {
+                                setPages(
+                                  pages.filter((p) => p._id !== page._id)
+                                );
+                              } else {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description: data.error as string,
+                                });
                               }
-                            );
+                            }
+                          );
 
-                            reactSocket.emit("editor:projects:pages:delete", {
-                              projectId: router.query.project_id,
-                              pageId: page._id,
-                            });
-                          }
+                          reactSocket.emit("editor:projects:pages:delete", {
+                            projectId: router.query.project_id,
+                            pageId: page._id,
+                          });
                         }
-                      },
+                      }
                     },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      text: "URL Ändern",
-                      icon: <FaLink />,
-                      colorScheme: "green",
-                      onClick: async () => {
-                        let newUrl = await PopupManager.promptAsync({
-                          title: "Seite bearbeiten",
-                          helperText: "Gib die neue URL der Seite ein.",
-                        });
+                  },
+                  {
+                    text: "URL Ändern",
+                    leftIcon: <FaLink />,
+                    variant: "brand",
+                    onClick: async () => {
+                      let newUrl = await PopupManager.promptAsync({
+                        title: "Seite bearbeiten",
+                        helperText: "Gib die neue URL der Seite ein.",
+                      });
 
-                        if (newUrl) {
-                          newUrl = ["/", newUrl].join("");
+                      if (newUrl) {
+                        newUrl = ["/", newUrl].join("");
 
-                          if (reactSocket) {
-                            reactSocket.on(
-                              "editor:projects:pages:rename",
-                              (data: any) => {
-                                if (data.success) {
-                                  setPages(
-                                    pages.map((p) => {
-                                      if (p._id === page._id) {
-                                        return {
-                                          ...p,
-                                          url: newUrl,
-                                        };
-                                      } else {
-                                        return p;
-                                      }
-                                    })
-                                  );
-                                } else {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description: data.error as string,
-                                  });
-                                }
+                        if (reactSocket) {
+                          reactSocket.on(
+                            "editor:projects:pages:rename",
+                            (data: any) => {
+                              if (data.success) {
+                                setPages(
+                                  pages.map((p) => {
+                                    if (p._id === page._id) {
+                                      return {
+                                        ...p,
+                                        url: newUrl,
+                                      };
+                                    } else {
+                                      return p;
+                                    }
+                                  })
+                                );
+                              } else {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description: data.error as string,
+                                });
                               }
-                            );
+                            }
+                          );
 
-                            reactSocket.emit("editor:projects:pages:rename", {
-                              projectId: router.query.project_id,
-                              pageId: page._id,
-                              newUrl,
-                            });
-                          }
+                          reactSocket.emit("editor:projects:pages:rename", {
+                            projectId: router.query.project_id,
+                            pageId: page._id,
+                            newUrl,
+                          });
                         }
-                      },
+                      }
                     },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      text: "Bearbeiten",
-                      icon: <FaEdit />,
-                      colorScheme: "blue",
-                      onClick: async () => {
-                        router.push(
-                          `/editor/${router.query.project_id}/pages/${page._id}`
-                        );
-                      },
+                  },
+                ],
+                [
+                  {
+                    text: "Bearbeiten",
+                    leftIcon: <FaEdit />,
+                    variant: "brand",
+                    onClick: async () => {
+                      router.push(
+                        `/editor/${router.query.project_id}/pages/${page._id}`
+                      );
                     },
-                  ],
-                },
+                  },
+                ],
               ],
             };
           })}

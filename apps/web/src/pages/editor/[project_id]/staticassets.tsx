@@ -12,6 +12,7 @@ import * as React from "react";
 import EditorProjectLayout from "@codeup/components/editor/EditorProjectLayout";
 import CollaboratorManagerBody from "@codeup/components/editor/CollaboratorManagerBody";
 import {
+  Box,
   Button,
   ButtonGroup,
   Heading,
@@ -38,6 +39,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Contributors() {
   const router = useRouter();
@@ -123,9 +125,9 @@ export default function Contributors() {
         <title>Statische Dateien - Editor - CodeUp</title>
       </Head>
       <EditorProjectLayout>
-        <Heading textAlign={"center"} size={"2xl"} mt={8}>
-          Statische Dateien
-        </Heading>
+        <Box textAlign={"center"} pt={6}>
+          <CHeading size={"xl"}>Statische Dateien</CHeading>
+        </Box>
         {reactSocket ? (
           <>
             <TableContainer mt={"2rem"} p={6}>
@@ -147,7 +149,7 @@ export default function Contributors() {
                     <Td />
                     <Td>
                       <Button
-                        colorScheme={"green"}
+                        variant={"brand"}
                         leftIcon={<FaPlus />}
                         onClick={async () => {
                           const input = document.createElement("input");
@@ -211,7 +213,7 @@ export default function Contributors() {
                           />
                           <IconButton
                             aria-label={"Kopieren"}
-                            colorScheme={"green"}
+                            variant={"brand"}
                             icon={<FaLink />}
                             onClick={() => {
                               PopupManager.alert({

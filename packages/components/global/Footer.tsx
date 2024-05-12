@@ -83,8 +83,8 @@ const Footer = () => {
               <VStack spacing={2} alignItems="flex-start" color="white">
                 <CustomLink href={"/forum"}>Forum</CustomLink>
                 <CustomLink href={"/editor"}>Editor</CustomLink>
-                <CustomLink href={"/todo"}>ToDo</CustomLink>
-                <CustomLink href={"/planning"}>Flowchart</CustomLink>
+                <CustomLink href={"/todo"}>ToDos</CustomLink>
+                <CustomLink href={"/planning"}>Flowcharts</CustomLink>
                 <CustomLink href={"/certificates"}>Zertifikate</CustomLink>
               </VStack>
             </VStack>
@@ -146,9 +146,7 @@ const Footer = () => {
               }
             >
               <Image
-                src={
-                  "https://www.startupteens.de/fileadmin/_processed_/3/f/csm_startup-teens-logo_23c805f72e.png"
-                }
+                src={"/_static/images/logos/startupteens.png"}
                 alt={"STARTUPTEENS"}
                 width={"150px"}
               />

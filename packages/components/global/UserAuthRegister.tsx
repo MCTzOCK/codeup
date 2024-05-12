@@ -278,7 +278,7 @@ export default function UserAuthRegister() {
                 Die Passwörter stimmen nicht überein.
               </FormErrorMessage>
             </FormControl>
-            <Button variant={"solid"} type={"submit"} isLoading={loading}>
+            <Button variant={"brand"} type={"submit"} isLoading={loading}>
               Registrieren
             </Button>
           </Flex>
@@ -286,7 +286,7 @@ export default function UserAuthRegister() {
             Wenn auf &apos;Registrieren&apos; klickst, stimmt du der&nbsp;
             <ChakraLink
               href={"/legal/privacy"}
-              color={"blue.400"}
+              color={"brand.500"}
               target={"_blank"}
             >
               Datenschutzerklärung

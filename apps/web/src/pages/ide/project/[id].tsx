@@ -623,6 +623,7 @@ export default function Index() {
             w={"100%"}
             minH={"100vh"}
             id={"editor-wrapper-flex"}
+            bg={"#000"}
           >
             <Box
               flex={"5%"}
