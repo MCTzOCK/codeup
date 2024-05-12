@@ -87,7 +87,7 @@ export default function UserAuthReset() {
             <FormErrorMessage>{emailError}</FormErrorMessage>
           </FormControl>
           <Button
-            variant={"solid"}
+            variant={"brand"}
             type={"submit"}
             isLoading={loading}
             disabled={forceDisable || loading}

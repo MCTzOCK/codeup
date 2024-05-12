@@ -139,7 +139,7 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
                 </InputGroup>
               </FormControl>
               <Button
-                variant={"solid"}
+                variant={"brand"}
                 type={"submit"}
                 isLoading={btnDisabled}
                 disabled={btnDisabled}

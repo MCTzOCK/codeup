@@ -38,11 +38,12 @@ import { useEffect } from "react";
 import REST from "@codeup/rest";
 import {
   FaCheck,
-  FaCogs, FaCrown,
+  FaCogs,
+  FaCrown,
   FaPlus,
   FaSitemap,
   FaTrash,
-  FaUsers
+  FaUsers,
 } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import { HiSwitchHorizontal } from "react-icons/hi";
@@ -62,12 +63,11 @@ export default function MenuButtons(props: {
       {!loggedIn ? (
         <>
           <Button
-            variant={"solid"}
             onClick={() => {
               props.onClose();
               props.onUserAuthOpen();
             }}
-            colorScheme={"whatsapp"}
+            variant={"brand"}
           >
             Anmelden
           </Button>
@@ -89,7 +89,7 @@ export default function MenuButtons(props: {
                   size={"md"}
                 />
               </MenuButton>
-              <MenuList bg={"black"} zIndex={10}>
+              <MenuList bg={"#000"} zIndex={10}>
                 <br />
                 <Center>
                   <Avatar
@@ -105,37 +105,37 @@ export default function MenuButtons(props: {
                 </Center>
                 <Center display={"flex"} alignItems={"center"} gap={2}>
                   <Text color={"gray"}>@{userInfo.username}</Text>
-                  {
-                    userInfo.subscription === "PRO" || userInfo.role === "admin" ? (
-                      <Badge colorScheme={"orange"}>PRO</Badge>
-                    ) : null
-                  }
+                  {userInfo.subscription === "PRO" ||
+                  userInfo.role === "admin" ? (
+                    <Badge colorScheme={"brand"}>PRO</Badge>
+                  ) : null}
                 </Center>
                 <MenuDivider />
-                {
-                  (userInfo.subscription === "FREE" && userInfo.role !== "admin") && (
-                    <MenuItem
-                      onClick={async () => {
-                        const res = await REST.Payments.createCheckoutLink(AccountManager.getActiveToken());
+                {userInfo.subscription === "FREE" && userInfo.role !== "admin" && (
+                  <MenuItem
+                    onClick={async () => {
+                      const res = await REST.Payments.createCheckoutLink(
+                        AccountManager.getActiveToken()
+                      );
 
-                        if(res.status === 200){
-                          window.location.href = res.payload.url;
-                        } else {
-                          PopupManager.alert({
-                            title: "Fehler",
-                            description: "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " + res.payload.error
-                          })
-                        }
-
-                      }}
-                      color={"orange.400"}
-                      fontWeight={"bold"}
-                      icon={<FaCrown />}
-                    >
-                      Upgrade auf PRO
-                    </MenuItem>
-                  )
-                }
+                      if (res.status === 200) {
+                        window.location.href = res.payload.url;
+                      } else {
+                        PopupManager.alert({
+                          title: "Fehler",
+                          description:
+                            "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
+                            res.payload.error,
+                        });
+                      }
+                    }}
+                    color={"orange.400"}
+                    fontWeight={"bold"}
+                    icon={<FaCrown />}
+                  >
+                    Upgrade auf PRO
+                  </MenuItem>
+                )}
                 <MenuItem
                   icon={<FaPlus />}
                   onClick={() => {
@@ -177,8 +177,14 @@ export default function MenuButtons(props: {
                                     {props.firstName}&nbsp;{props.lastName}
                                   </Heading>
                                   <HStack>
-                                    <Text color={"gray"}>@{props.username}</Text>
-                                    {props.pro && <Badge colorScheme={"orange"} size={"lg"}>PRO</Badge>}
+                                    <Text color={"gray"}>
+                                      @{props.username}
+                                    </Text>
+                                    {props.pro && (
+                                      <Badge colorScheme={"orange"} size={"lg"}>
+                                        PRO
+                                      </Badge>
+                                    )}
                                   </HStack>
                                 </Stack>
                               </HStack>

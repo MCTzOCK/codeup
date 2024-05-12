@@ -61,7 +61,7 @@ export default function UserAuthAction(props: {
         isOpen={props.isOpen}
         title={"Anmelden"}
       >
-        <Tabs isFitted variant={"line"} colorScheme={"red"} flex={"50%"}>
+        <Tabs isFitted variant={"line"} colorScheme={"brand"} flex={"50%"}>
           <TabList>
             <Tab>Registrieren</Tab>
             <Tab>Anmelden</Tab>
