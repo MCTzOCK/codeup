@@ -73,9 +73,9 @@ export default function ChatViewV2(props: {
     return () => {
       clearInterval(s);
     };
-  }, []);
+  }, [props.chatId]);
 
-  useEffect(reloadMessages, []);
+  useEffect(reloadMessages, [props.chatId]);
 
   const { userInfo, loggedIn, loaded: loadedUserInfo } = useLoggedIn();
 
@@ -198,10 +198,13 @@ export default function ChatViewV2(props: {
                     <Box
                       bg={
                         userInfo.username === m.username
-                          ? "green.100"
+                          ? "brand.600"
                           : "gray.500"
                       }
                       p={4}
+                      color={
+                        userInfo.username === m.username ? "black" : "white"
+                      }
                       fontSize={"xl"}
                       rounded={"xl"}
                       shadow={"xl"}
@@ -335,11 +338,7 @@ export default function ChatViewV2(props: {
                 </MenuList>
               </Menu>
               <Input type={"text"} placeholder={"Nachricht"} name={"message"} />
-              <Button
-                leftIcon={<FiSend />}
-                type={"submit"}
-                colorScheme={"green"}
-              >
+              <Button leftIcon={<FiSend />} type={"submit"} variant={"brand"}>
                 Senden
               </Button>
             </Flex>

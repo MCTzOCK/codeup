@@ -32,6 +32,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
+import { CHeading } from "../global/CHeading";
 
 export default function ForumNavigationBar() {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -102,7 +103,7 @@ export default function ForumNavigationBar() {
     <>
       <Box w={"100%"} bg={"gray.900"} padding={"1.2rem"}>
         <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
-          <Heading flex={"5%"} textAlign={["center", "left"]}>
+          <CHeading size={"xl"}>
             <ChakraLink
               onClick={() => {
                 router.push("/forum");
@@ -110,7 +111,7 @@ export default function ForumNavigationBar() {
             >
               Forum
             </ChakraLink>
-          </Heading>
+          </CHeading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
             {!isMobile ? (
               <Menu />

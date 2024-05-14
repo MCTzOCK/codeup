@@ -25,6 +25,7 @@ import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import { useLoggedIn } from "@codeup/hooks";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function PostView() {
   const router = useRouter();
@@ -73,26 +74,20 @@ export default function PostView() {
       ) : null}
       {post ? (
         <>
-          <Flex
-            mt={[0, "2rem"]}
-            mb={[0, "2rem"]}
-            w={"100%"}
-            justifyContent={"center"}
-          >
+          <Flex p={4} w={"100%"} justifyContent={"center"}>
             <Box
               w={"100%"}
               maxW={"600px"}
               p={4}
               borderRadius={"md"}
               boxShadow={"md"}
-              bg={"gray.700"}
+              bg={"black"}
               position={"relative"}
             >
               <DeferredPostCardV2 post={post} reloadPosts={reloadPosts} />
-              <Divider />
-              <Heading size={"lg"} mt={4}>
-                Kommentare
-              </Heading>
+              <Divider mb={4} />
+              <CHeading size={"lg"}>Kommentare</CHeading>
+
               {post.parent !== null ? (
                 <>
                   <Text mt={4} color={"gray.400"}>

@@ -15,6 +15,7 @@ import {
   chakra,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Text,
   useToast,
@@ -51,7 +52,7 @@ export default function ChatCardV2(props: {
           if (window.innerWidth < 768) {
             router.push("/forum/messages/" + props.chat.id);
           } else {
-            props.setActiveChat(props.chat.id);
+            router.push("/forum/messages/?chat=" + props.chat.id);
           }
         }}
       >
@@ -60,15 +61,16 @@ export default function ChatCardV2(props: {
           src={"/api/account/" + props.chat.username + "/picture"}
         />
         <Flex direction={"column"} flex={"100%"}>
-          <Heading size={"md"}>{props.chat.displayName}</Heading>
+          <HStack>
+            <Heading size={"md"}>{props.chat.displayName}</Heading>
+            {props.chat.verified ? (
+              <chakra.span color={"brand.500"} fontSize={"2xl"}>
+                <FaCheckCircle />
+              </chakra.span>
+            ) : null}
+          </HStack>
           <Text color={"gray"}>@{props.chat.username}</Text>
         </Flex>
-
-        {props.chat.verified ? (
-          <chakra.span color={"green.500"} fontSize={"2xl"}>
-            <FaCheckCircle />
-          </chakra.span>
-        ) : null}
         <Flex flex={"100%"} alignItems={"center"} justifyContent={"flex-end"}>
           <IconButton
             aria-label={"delete_chat"}

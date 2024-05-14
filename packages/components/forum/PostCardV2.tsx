@@ -84,8 +84,10 @@ export default function PostCardV2(props: {
       position={"relative"}
       cursor={isFullScreen ? "default" : "pointer"}
       _hover={{
-        bg: isFullScreen ? "gray.700" : "gray.600",
+        bg: isFullScreen ? "black" : "gray.800",
       }}
+      rounded={"xl"}
+      p={2}
       onClick={
         isFullScreen
           ? undefined
@@ -97,7 +99,7 @@ export default function PostCardV2(props: {
           router.push("/forum/" + props.profile.username);
         }}
       >
-        <Flex direction={"row"} gap={"1rem"} alignItems={"center"} mb={4}>
+        <Flex direction={"row"} gap={"1rem"} alignItems={"flex-start"} mb={4}>
           <Avatar
             size={"md"}
             src={`/api/account/${props.profile.username}/picture`}
@@ -115,7 +117,7 @@ export default function PostCardV2(props: {
           ) : null}
           {props.profile.verified ? (
             <chakra.span
-              color={"green.500"}
+              color={"brand.500"}
               fontSize={props.profile.displayName ? "2xl" : "lg"}
             >
               <FaCheckCircle />
@@ -147,7 +149,7 @@ export default function PostCardV2(props: {
                     {e.title && (
                       <Heading
                         size={"md"}
-                        color={"blue.300"}
+                        color={"brand.500"}
                         cursor={"pointer"}
                         as={"a"}
                         href={e.url}
@@ -269,7 +271,7 @@ export default function PostCardV2(props: {
               </PopoverBody>
               <PopoverFooter>
                 <Button
-                  colorScheme={"green"}
+                  variant={"brand"}
                   onClick={async () => {
                     const content = document.getElementById(
                       post_ta_id

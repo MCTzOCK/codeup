@@ -28,6 +28,7 @@ import {
 import { FaCheckCircle } from "react-icons/fa";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
@@ -98,16 +99,16 @@ export default function Index() {
       </Head>
       {!hasProfile ? (
         <>
-          <Flex w={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
+          <Flex w={"100%"} justifyContent={"center"} p={4}>
             <Box
               w={"100%"}
               maxW={"600px"}
               p={4}
-              bg={"gray.700"}
+              bg={"black"}
               borderRadius={"md"}
               boxShadow={"md"}
             >
-              <Heading size={"lg"}>Profil erstellen</Heading>
+              <CHeading size={"lg"}>Profil erstellen</CHeading>
               <Text mt={4}>
                 Du hast noch kein Profil erstellt. Erstelle jetzt dein Profil
                 und werde Teil der Community!
@@ -115,7 +116,7 @@ export default function Index() {
               <ButtonGroup w={"100%"} justifyContent={"flex-end"}>
                 <Button
                   mt={4}
-                  colorScheme={"green"}
+                  variant={"brand"}
                   onClick={async () => {
                     const r = await REST.Forum.createProfileV2({
                       username: userInfo.username,
@@ -154,22 +155,17 @@ export default function Index() {
         </>
       ) : (
         <>
-          <Flex
-            w={"100%"}
-            direction={["column", "row"]}
-            gap={"2rem"}
-            mb={"2rem"}
-          >
+          <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={4}>
             <Flex flex={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
               <Box
                 w={"100%"}
                 maxW={"600px"}
                 p={4}
-                bg={"gray.700"}
+                bg={"black"}
                 borderRadius={"md"}
                 boxShadow={"md"}
               >
-                <Heading size={"lg"}>Öffentliche Profile</Heading>
+                <CHeading size={"lg"}>Öffentliche Profile</CHeading>
                 <Text mt={4}>
                   Hier findest du alle öffentlichen Profile der Community.
                 </Text>
@@ -198,13 +194,13 @@ export default function Index() {
                           <Flex
                             w={"100%"}
                             p={4}
-                            bg={"gray.600"}
+                            bg={"gray.800"}
                             borderRadius={"md"}
                             mt={4}
                             justifyContent={"space-between"}
                             alignItems={"center"}
                             _hover={{
-                              bg: "gray.500",
+                              bg: "gray.700",
                             }}
                             cursor={"pointer"}
                             onClick={() => {
@@ -230,7 +226,7 @@ export default function Index() {
                                   {profile.displayName}
                                   {profile.verified ? (
                                     <>
-                                      <chakra.span color={"green.500"}>
+                                      <chakra.span color={"brand.500"}>
                                         <FaCheckCircle />
                                       </chakra.span>
                                     </>
@@ -255,11 +251,11 @@ export default function Index() {
                 w={"100%"}
                 maxW={"600px"}
                 p={4}
-                bg={"gray.700"}
+                bg={"black"}
                 borderRadius={"md"}
                 boxShadow={"md"}
               >
-                <Heading size={"lg"}>Beiträge</Heading>
+                <CHeading size={"lg"}>Beiträge</CHeading>
                 <Text mt={4}>Hier findest du alle Beiträge.</Text>
                 <Input
                   mt={4}

@@ -44,6 +44,7 @@ import REST from "@codeup/rest";
 import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
 import Head from "next/head";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function MessageView() {
   const [chats, setChats] = useState<
@@ -103,18 +104,18 @@ export default function MessageView() {
       <Head>
         <title>Direktnachrichten - CodeUp</title>
       </Head>
-      <Flex direction={"row"} w={"100%"} h={"100vh"}>
+      <Flex direction={"row"} w={"100%"} h={"80vh"}>
         <Box flex={["100%", "25%"]} shadow={"xl"}>
           <Flex
             direction={"column"}
             w={"100%"}
-            minH={"100%"}
-            maxH={"100%"}
+            h={"fit-content"}
+            maxH={"80vh"}
             overflow={"auto"}
           >
-            <Heading size={"lg"} textAlign={"center"} mt={4}>
-              Chats
-            </Heading>
+            <Box textAlign={"center"} mt={4}>
+              <CHeading size={"lg"}>Chats</CHeading>
+            </Box>
             <Divider mt={4} />
             {!loaded ? (
               <Flex
@@ -140,7 +141,7 @@ export default function MessageView() {
                     <>
                       <PopoverTrigger>
                         <Button
-                          colorScheme={"green"}
+                          variant={"brand"}
                           leftIcon={<FaPlus />}
                           w={"80%"}
                         >
@@ -162,7 +163,7 @@ export default function MessageView() {
                         </PopoverBody>
                         <PopoverFooter>
                           <Button
-                            colorScheme="green"
+                            variant={"brand"}
                             id={"forum_msg-new-chat-btn"}
                             onClick={async () => {
                               const username = document.getElementById(
@@ -239,9 +240,9 @@ export default function MessageView() {
             maxH={"100%"}
             overflow={"auto"}
           >
-            <Heading size={"lg"} textAlign={"center"} mt={4}>
-              Chat
-            </Heading>
+            <Box pt={4} textAlign={"center"}>
+              <CHeading size={"lg"}>Chat</CHeading>
+            </Box>
             <Divider mt={4} />
             {activeChat ? (
               <>

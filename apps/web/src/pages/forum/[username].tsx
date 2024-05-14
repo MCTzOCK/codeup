@@ -286,19 +286,14 @@ export default function Profile() {
       ) : null}
       {profile ? (
         <>
-          <Flex
-            mt={[0, "2rem"]}
-            mb={[0, "2rem"]}
-            w={"100%"}
-            justifyContent={"center"}
-          >
+          <Flex p={4} w={"100%"} justifyContent={"center"}>
             <Box
               w={"100%"}
               maxW={"600px"}
               p={4}
               borderRadius={"md"}
               boxShadow={"md"}
-              bg={"gray.700"}
+              bg={"black"}
               position={"relative"}
             >
               {userInfo.username !== profile.username ? (
@@ -428,7 +423,7 @@ export default function Profile() {
                         {profile.displayName}
                         {profile.verified ? (
                           <>
-                            <chakra.span color={"green.500"}>
+                            <chakra.span color={"brand.500"}>
                               <FaCheckCircle />
                             </chakra.span>
                           </>
@@ -695,7 +690,7 @@ export default function Profile() {
                       Abbrechen
                     </Button>
                     <Button
-                      colorScheme={"green"}
+                      variant={"brand"}
                       isLoading={saving}
                       onClick={async () => {
                         setSaving(true);
@@ -783,7 +778,7 @@ export default function Profile() {
                         <Stack>
                           <Popover>
                             <PopoverTrigger>
-                              <Button colorScheme={"green"}>Beitrag</Button>
+                              <Button variant={"brand"}>Beitrag</Button>
                             </PopoverTrigger>
                             <PopoverContent bg={"black"} textAlign={"left"}>
                               <PopoverArrow bg={"black"} />
@@ -796,7 +791,7 @@ export default function Profile() {
                               </PopoverBody>
                               <PopoverFooter>
                                 <Button
-                                  colorScheme={"green"}
+                                  variant={"brand"}
                                   onClick={async () => {
                                     const content = document.getElementById(
                                       "new-post_text"
@@ -831,7 +826,7 @@ export default function Profile() {
                             </PopoverContent>
                           </Popover>
                           <Menu>
-                            <MenuButton as={Button} colorScheme={"blue"}>
+                            <MenuButton as={Button} variant={"brand"}>
                               Medium
                             </MenuButton>
                             <MenuList>
