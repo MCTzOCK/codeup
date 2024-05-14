@@ -45,6 +45,7 @@ export default function Ask() {
           maxH={"100vh"}
           overflow={"auto"}
           id={"scrollableDiv"}
+          bg={"black"}
         >
           <InfiniteScroll
             next={loadNext}

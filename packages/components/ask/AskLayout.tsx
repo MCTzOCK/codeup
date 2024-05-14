@@ -34,9 +34,10 @@ export default function AskLayout(props: { children: React.ReactNode }) {
         w={"100%"}
         h={"fit-content"}
         minH={"100vh"}
-        direction={["column", "column", "column", "row"]}
+        direction={["column", "column", "row"]}
         paddingInline={["0", "0", "0", "20%"]}
         paddingBlock={"2rem"}
+        bg={"#000"}
       >
         <Flex
           flex={["100%", "100%", "100%", "10%"]}

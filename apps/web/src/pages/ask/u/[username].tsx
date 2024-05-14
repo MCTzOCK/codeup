@@ -12,7 +12,7 @@ import React, { Component, useState } from "react";
 import { IAskProfile } from "../../../types/IAskProfile";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
-import AskLayout from "@codeup/components/dist/ask/AskLayout";
+import AskLayout from "@codeup/components/ask/AskLayout";
 import REST from "@codeup/rest/src";
 import { ProfileAvatar } from "@codeup/components/dist/community/profile";
 import AskProfileCertificateDisplay from "@codeup/components/ask/AskProfileCertificateDisplay";
@@ -38,6 +38,7 @@ import { IAskPost } from "../../../types/IAskPost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCardV3 from "@codeup/components/dist/ask/PostCardV3";
 import EditProfileModal from "@codeup/components/ask/EditProfileModal";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function UserProfileViewer() {
   const router = useRouter();
@@ -71,7 +72,13 @@ export default function UserProfileViewer() {
       (router.query.username as string).split("@")[1],
       page + 1
     ).then((res) => {
-      setPosts([...posts, ...res.payload.posts]);
+      let newPosts = [...posts, ...res.payload.posts];
+      // remove duplicates
+      newPosts = newPosts.filter(
+        (post, index, self) =>
+          index === self.findIndex((t) => t._id === post._id)
+      );
+      setPosts(newPosts);
       setPage(page + 1);
       setMaxPage(res.payload.pages);
     });
@@ -93,7 +100,7 @@ export default function UserProfileViewer() {
   if (!profile) {
     return (
       <>
-        <AuthenticateLoadingIndicator text={"Lade Profil..."} />{" "}
+        <AuthenticateLoadingIndicator text={"Lade Profil..."} />
       </>
     );
   }
@@ -107,8 +114,8 @@ export default function UserProfileViewer() {
           roundedTopRight={"xl"}
           roundedBottomRight={"xl"}
           bgColor={"black"}
-          h={"fit-content"}
           minH={"100vh"}
+          h={"fit-content"}
         >
           <Image
             src={profile.banner}
@@ -135,9 +142,7 @@ export default function UserProfileViewer() {
               ml={[0, "-128px"]}
               gap={4}
             >
-              <Heading as={"h1"} fontSize={["3xl", "4xl"]}>
-                @{profile.username}
-              </Heading>
+              <CHeading size={"xl"}>@{profile.username}</CHeading>
               <Heading
                 size={"lg"}
                 display={"flex"}
@@ -146,7 +151,7 @@ export default function UserProfileViewer() {
               >
                 {profile.badges.includes("verified") ? (
                   <>
-                    <chakra.span color={"green.500"}>
+                    <chakra.span color={"brand.500"}>
                       <HiBadgeCheck />
                     </chakra.span>
                   </>
@@ -190,51 +195,23 @@ export default function UserProfileViewer() {
               </Stack>
             ) : null}
           </Flex>
-          <Heading size={"lg"} mt={4} mb={4}>
-            Zertifikate
-          </Heading>
+          <Box pt={4} pb={4}>
+            <CHeading size={"xl"}>Zertifikate</CHeading>
+          </Box>
           <AskProfileCertificateDisplay certificates={profile.certificates} />
-          <Heading size={"lg"} mt={4} mb={4}>
-            Projekte
-          </Heading>
+          <Box pt={4} pb={4}>
+            <CHeading size={"xl"}>Projekte</CHeading>
+          </Box>
           <AskProfileProjectDisplay projects={profile.projects} />
-          <Heading size={"lg"} mt={4} mb={4}>
-            Beiträge
-          </Heading>
+          <Box pt={4} pb={4}>
+            <CHeading size={"xl"}>Beiträge</CHeading>
+          </Box>
 
-          <Stack
-            w={"100%"}
-            roundedBottomRight={"xl"}
-            maxH={"50vh"}
-            overflow={"auto"}
-            id={"scrollableDiv"}
-          >
-            <InfiniteScroll
-              next={loadNext}
-              hasMore={page < maxPage && posts.length > 0}
-              loader={<Spinner />}
-              dataLength={posts.length}
-              scrollableTarget="scrollableDiv"
-            >
-              {posts.map((p) => {
-                return (
-                  <>
-                    <PostCardV3
-                      post={p}
-                      loggedIn={loggedIn}
-                      owner={
-                        p.username === userInfo.username ||
-                        userInfo.role === "admin"
-                      }
-                      setPosts={setPosts}
-                      onClick={() => {
-                        router.push("/ask/t/" + p._id);
-                      }}
-                    />
-                  </>
-                );
-              })}
-            </InfiniteScroll>
+          <Stack w={"100%"} roundedBottomRight={"xl"} overflow={"scroll"}>
+            {posts.map((post) => {
+              return <PostCardV3 post={post} setPosts={setPosts} />;
+            })}
+            <Button onClick={loadNext}>Mehr laden</Button>
           </Stack>
         </Box>
       </AskLayout>

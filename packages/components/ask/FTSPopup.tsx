@@ -79,11 +79,11 @@ export default function FTSPopup(props: {
         </InputGroup>
         <Stack
           w={"100%"}
-          roundedTopRight={"xl"}
-          roundedBottomRight={"xl"}
+          rounded={"xl"}
           maxH={"100%"}
           overflow={"auto"}
           id={"scrollableDiv"}
+          mt={2}
         >
           <InfiniteScroll
             next={loadNext}

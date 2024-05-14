@@ -201,7 +201,7 @@ export default function EditProfileModal(props: {
             <FormControl>
               <FormLabel>Zertifikate</FormLabel>
               <CheckboxGroup
-                colorScheme={"blue"}
+                colorScheme={"brand"}
                 value={activeCerts}
                 onChange={(e) => {
                   setActiveCerts(e as string[]);
@@ -210,7 +210,9 @@ export default function EditProfileModal(props: {
                 {certificates.map((cert) => {
                   return (
                     <>
-                      <Checkbox value={cert._id}>{cert.course}</Checkbox>
+                      <Checkbox mr={4} value={cert._id}>
+                        {cert.course}
+                      </Checkbox>
                     </>
                   );
                 })}
@@ -219,7 +221,7 @@ export default function EditProfileModal(props: {
             <FormControl>
               <FormLabel>Projekte</FormLabel>
               <CheckboxGroup
-                colorScheme={"blue"}
+                colorScheme={"brand"}
                 value={activeProjcts}
                 onChange={(e) => {
                   setActiveProjects(e as string[]);
@@ -236,7 +238,7 @@ export default function EditProfileModal(props: {
                 })}
               </CheckboxGroup>
             </FormControl>
-            <Button leftIcon={<FaSave />} colorScheme={"green"} type={"submit"}>
+            <Button leftIcon={<FaSave />} variant={"brand"} type={"submit"}>
               Speichern
             </Button>
           </Stack>

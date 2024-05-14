@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { FaTimes } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function ThreadViewer() {
   const [notFound, setNotFound] = React.useState(false);
@@ -88,9 +89,7 @@ export default function ThreadViewer() {
               )}
             </>
           )}
-          <Heading size={"lg"} pl={4}>
-            Kommentare
-          </Heading>
+          <CHeading size={"xl"}>Kommentare</CHeading>
           <InfiniteScroll
             next={loadNextComments}
             hasMore={page < maxPage && comments.length > 0}

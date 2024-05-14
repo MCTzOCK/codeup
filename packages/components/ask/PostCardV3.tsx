@@ -42,10 +42,10 @@ export default function PostCardV3(props: {
       <Box bg={"black"} w={"100%"} h={"fit-content"} minH={"25%"}>
         <HStack
           gap={4}
-          h={"80%"}
+          h={"fit-content"}
           _hover={{
             cursor: "pointer",
-            backgroundColor: "gray.800",
+            backgroundColor: "gray.900",
           }}
           p={8}
           onClick={props.onClick}
@@ -115,7 +115,14 @@ export default function PostCardV3(props: {
                     return (
                       <>
                         <Box mt={2} p={4} bg={"gray.800"} borderRadius={"md"}>
-                          <img src={e.url} alt={e.url || ""} />
+                          <img
+                            src={e.url}
+                            alt={e.url || ""}
+                            style={{
+                              maxWidth: "600px",
+                              maxHeight: "400px",
+                            }}
+                          />
                         </Box>
                       </>
                     );
@@ -162,10 +169,16 @@ export default function PostCardV3(props: {
             </Stack>
           </Box>
         </HStack>
-        <Flex direction={"row"} w={"100%"} gap={0} h={"20%"}>
+        <Flex
+          direction={"row"}
+          w={"100%"}
+          gap={2}
+          h={"20%"}
+          justifyContent={"flex-end"}
+        >
           <IconButton
-            w={"100%"}
             variant={"ghost"}
+            size={"lg"}
             aria-label={"Kommentieren"}
             icon={<AiFillMessage />}
             disabled={props.post.parent !== null}
@@ -197,9 +210,9 @@ export default function PostCardV3(props: {
           />
           {props.owner && (
             <IconButton
-              w={"100%"}
               variant={"ghost"}
               aria-label={"Löschen"}
+              size={"lg"}
               icon={<FaTrash />}
               onClick={async () => {
                 if (
@@ -215,6 +228,19 @@ export default function PostCardV3(props: {
                   AccountManager.getActiveToken()
                 );
 
+                if (res.status === 200) {
+                  await PopupManager.alertAsync({
+                    title: "Post gelöscht",
+                    description:
+                      "Der Post wurde erfolgreich gelöscht. Bitte beachte, dass es einige Minuten dauern kann, bis er nicht mehr sichtbar ist.",
+                  });
+                } else {
+                  await PopupManager.alertAsync({
+                    title: "Fehler",
+                    description: "Der Post konnte nicht gelöscht werden.",
+                  });
+                }
+
                 props.setPosts((prev) => {
                   return prev.filter((p) => p._id !== props.post._id);
                 });
@@ -222,9 +248,9 @@ export default function PostCardV3(props: {
             />
           )}
           <IconButton
-            w={"100%"}
             variant={"ghost"}
             aria-label={"Profil aufrufen"}
+            size={"lg"}
             icon={<FaUser />}
             onClick={async () => {
               router.push("/ask/u/@" + props.post.username);
