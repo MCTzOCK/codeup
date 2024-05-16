@@ -42,3 +42,35 @@ export async function listCourses(options: {
     token: options.token ? options.token : undefined,
   });
 }
+
+export async function getEnrollments(options: {
+  token: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/enrollments",
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function getEnrollment(options: {
+  token: string;
+  course: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/" + options.course + "/enrollment",
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function changeEnrollment(options: {
+  token: string;
+  course: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/" + options.course + "/enrollment",
+    method: "POST",
+    token: options.token,
+  });
+}
