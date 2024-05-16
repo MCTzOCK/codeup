@@ -39,6 +39,7 @@ import {
 import { motion } from "framer-motion";
 import { FaTwitter } from "react-icons/fa";
 import CodeUpModal from "../codeup/CodeUpModal";
+import { CHeading } from "../global/CHeading";
 
 export default function Quiz(props: {
   title: string;
@@ -50,6 +51,7 @@ export default function Quiz(props: {
       correct: boolean;
     }[];
   }[];
+  successCB?: () => void;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -125,14 +127,12 @@ export default function Quiz(props: {
                 </CircularProgressLabel>
               </CircularProgress>
 
-              <Text color={"white"} mt="2rem">
+              <Text color={"white"} mt="2rem" mb={"3rem"}>
                 Du hast {correctAnswers} von {props.questions.length} Fragen
                 richtig beantwortet.
               </Text>
 
-              <Heading color={"white"} mt="3rem" size="lg">
-                Richtige Antworten
-              </Heading>
+              <CHeading size={"lg"}>Richtige Antworten</CHeading>
               <Accordion mt="1.2rem" allowToggle>
                 {props.questions.map((q, i) => {
                   return (
@@ -181,15 +181,21 @@ export default function Quiz(props: {
 
               <ButtonGroup mt="3rem" isAttached>
                 <Button
-                  colorScheme="blue"
-                  variant="outline"
+                  variant={"brand"}
                   onClick={() => {
+                    let correctAnswers = correctAnswersList.length;
+                    let totalQuestions = props.questions.length;
+
                     setCurrentQuestion(0);
                     setCorrectAnswers(0);
                     setFinishedValue(0);
                     setCorrectAnswersList([]);
                     setFinished(false);
                     onClose();
+
+                    if (props.successCB && correctAnswers === totalQuestions) {
+                      props.successCB();
+                    }
                   }}
                 >
                   Schließen
@@ -206,7 +212,7 @@ export default function Quiz(props: {
               <IconButton
                 icon={<FaTwitter />}
                 aria-label="Share on Twitter"
-                colorScheme="twitter"
+                variant={"brand"}
                 onClick={async () => {
                   window.open(
                     `https://twitter.com/intent/tweet?text=Ich%20habe%20${correctAnswers}%20von%20${
@@ -246,7 +252,7 @@ export default function Quiz(props: {
               <Progress
                 size="sm"
                 value={(currentQuestion / props.questions.length) * 100}
-                colorScheme={"green"}
+                colorScheme={"brand"}
               />
 
               <Text fontSize={"1.5rem"} mt={"1rem"}>

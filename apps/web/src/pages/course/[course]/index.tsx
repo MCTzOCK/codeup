@@ -28,6 +28,7 @@ import {
   Stack,
   StackDivider,
   Divider,
+  Progress,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -37,6 +38,7 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useEffect, useState } from "react";
 import redirect from "@codeup/util/dist/userworkflow/redirect";
+import { FaCheck } from "react-icons/fa";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -66,6 +68,7 @@ export default function Index() {
     }[]
   >([]);
   const [contentsLoading, setContentsLoading] = React.useState<boolean>(true);
+  const [progress, setProgress] = React.useState<string[]>([]);
 
   const [isEnrolled, setEnrolled] = useState<boolean>(false);
 
@@ -121,8 +124,20 @@ export default function Index() {
       REST.Course.getEnrollment({
         token: AccountManager.getActiveToken(),
         course: courseName as string,
-      }).then((res) => {
-        setEnrolled(res.payload.enrolled ? true : false);
+      }).then(async (res) => {
+        let enrolled = res.payload.enrolled ? true : false;
+        setEnrolled(enrolled);
+
+        if (enrolled) {
+          const rx = await REST.Course.getCourseProgress({
+            token: AccountManager.getActiveToken(),
+            course: courseName as string,
+          });
+
+          if (rx.status === 200) {
+            setProgress(rx.payload.progress);
+          }
+        }
       });
     }
   }, [courseName]);
@@ -176,7 +191,9 @@ export default function Index() {
                       <>
                         <Badge colorScheme="green">Eingeschrieben</Badge>
                         <br />
-                        Du kannst deinen Fortschritt nachverfolgen.
+                        Du kannst deinen Fortschritt nachverfolgen. <br />
+                        Eine Lektion wird als abgeschlossen markiert, wenn du
+                        alle Quizfragen richtig beantwortet hast.
                       </>
                     ) : (
                       <>
@@ -201,12 +218,28 @@ export default function Index() {
                       </>
                     )}
                   </Text>
+                  {isEnrolled && (
+                    <>
+                      <Text mt={4} fontSize={"lg"}>
+                        <CHeading size={"lg"}>Fortschritt</CHeading>
+                        <br />
+                        <Progress
+                          value={progress.length}
+                          max={contents.length}
+                          colorScheme={"brand"}
+                        />
+                      </Text>
+                    </>
+                  )}
                 </Box>
                 <Box flex={"100%"}>
                   <Milestones
                     milestones={contents.map((content) => {
                       return {
                         title: content.displayName,
+                        lwdIcon: progress.includes(content._id) ? (
+                          <FaCheck />
+                        ) : null,
                         date: new Date(content.createdAt).toLocaleDateString(),
                         description:
                           "Diese Lektion enthält " +

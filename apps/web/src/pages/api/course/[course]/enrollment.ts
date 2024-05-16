@@ -160,17 +160,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-function sendResponse(req: any, res: any, content: any) {
-  if (req.query.raw) {
-    res.status(200).end(content.textContent);
-    return;
-  }
-  res.status(200).json({
-    content: content,
-    success: true,
-  });
-}
-
 async function hasAccessToCourse(course: any, user: any): Promise<boolean> {
   if (course.available === "public" || user.role === "admin") {
     return true;

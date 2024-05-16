@@ -74,3 +74,29 @@ export async function changeEnrollment(options: {
     token: options.token,
   });
 }
+
+export async function getCourseProgress(options: {
+  token: string;
+  course: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/" + options.course + "/progress",
+    method: "GET",
+    token: options.token,
+  });
+}
+
+export async function updateCourseProgress(options: {
+  token: string;
+  course: string;
+  section: string;
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/course/" + options.course + "/progress",
+    method: "POST",
+    token: options.token,
+    body: {
+      section: options.section,
+    },
+  });
+}

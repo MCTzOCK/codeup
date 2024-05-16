@@ -59,7 +59,7 @@ const Milestones = (props: {
           {isDesktop && milestone.id % 2 === 0 && (
             <>
               <EmptyCard />
-              <LineWithDot />
+              <LineWithDot icon={milestone.lwdIcon} />
               <Card {...milestone} />
             </>
           )}
@@ -67,7 +67,7 @@ const Milestones = (props: {
           {/* Mobile view */}
           {isMobile && (
             <>
-              <LineWithDot />
+              <LineWithDot icon={milestone.lwdIcon} />
               <Card {...milestone} />
             </>
           )}
@@ -77,7 +77,7 @@ const Milestones = (props: {
             <>
               <Card {...milestone} />
 
-              <LineWithDot />
+              <LineWithDot icon={milestone.lwdIcon} />
               <EmptyCard />
             </>
           )}
@@ -147,7 +147,7 @@ const Card = ({ id, title, description, date, ...rest }: CardProps) => {
   );
 };
 
-const LineWithDot = () => {
+const LineWithDot = (props: { icon?: any }) => {
   return (
     <Flex
       pos="relative"
@@ -163,8 +163,8 @@ const LineWithDot = () => {
         borderColor={useColorModeValue("gray.200", "gray.700")}
         top="0px"
       ></chakra.span>
-      <Box pos="relative" p="10px">
-        <Box
+      <Box pos="relative" p="15px">
+        <Flex
           pos="absolute"
           top="0"
           left="0"
@@ -179,7 +179,12 @@ const LineWithDot = () => {
           borderRadius="100px"
           backgroundImage="none"
           opacity={1}
-        ></Box>
+          color={"black"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          {props.icon ? props.icon : undefined}
+        </Flex>
       </Box>
     </Flex>
   );
