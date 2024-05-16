@@ -261,7 +261,7 @@ export default function MenuButtons(props: {
                             ))}
                             <StackDivider />
                             <Button
-                              colorScheme={"green"}
+                              variant={"brand"}
                               leftIcon={<FaPlus />}
                               onClick={async () => {
                                 await AccountManager.addAccount(
