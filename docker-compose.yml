@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     network_mode: host
     ports:
-      - "9002:3000"
+      - "8899:3000"
+    env_file: ".env.web"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

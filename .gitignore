@@ -45,3 +45,5 @@ apps/web/a.js
 apps/web/b.js
 
 apps/web/done.json
+
+.env.web
