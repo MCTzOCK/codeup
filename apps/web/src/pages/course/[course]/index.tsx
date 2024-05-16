@@ -35,6 +35,8 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import Milestones from "@codeup/components/landingpage/Milestones";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { useEffect, useState } from "react";
+import redirect from "@codeup/util/dist/userworkflow/redirect";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -65,10 +67,21 @@ export default function Index() {
   >([]);
   const [contentsLoading, setContentsLoading] = React.useState<boolean>(true);
 
+  const [isEnrolled, setEnrolled] = useState<boolean>(false);
+
   const router = useRouter();
 
   const { course: courseName } = router.query;
   const toast = useToast();
+
+  useEffect(() => {
+    redirect({
+      forceAnonymous: false,
+      allowAnonymous: false,
+      redirectToLogin: true,
+      redirectTo: "/course/" + courseName,
+    });
+  });
 
   React.useEffect(() => {
     if (courseName) {
@@ -103,6 +116,13 @@ export default function Index() {
             isClosable: true,
           });
         }
+      });
+
+      REST.Course.getEnrollment({
+        token: AccountManager.getActiveToken(),
+        course: courseName as string,
+      }).then((res) => {
+        setEnrolled(res.payload.enrolled ? true : false);
       });
     }
   }, [courseName]);
@@ -148,8 +168,38 @@ export default function Index() {
                   />
                   <Text mt={4} fontSize={"lg"}>
                     <CHeading size={"lg"}>Beschreibung</CHeading>
-                    <br />
                     {course.description}
+                  </Text>
+                  <Text mt={4} fontSize={"lg"}>
+                    <CHeading size={"lg"}>Status</CHeading>
+                    {isEnrolled ? (
+                      <>
+                        <Badge colorScheme="green">Eingeschrieben</Badge>
+                        <br />
+                        Du kannst deinen Fortschritt nachverfolgen.
+                      </>
+                    ) : (
+                      <>
+                        <Badge colorScheme="red">Nicht eingeschrieben</Badge>
+                        <br />
+                        Du kannst deinen Fortschritt nicht nachverfolgen.
+                        <br />
+                        <Button
+                          variant={"brand"}
+                          mt={2}
+                          onClick={async () => {
+                            await REST.Course.changeEnrollment({
+                              token: AccountManager.getActiveToken(),
+                              course: courseName as string,
+                            });
+
+                            setEnrolled(true);
+                          }}
+                        >
+                          Einschreiben
+                        </Button>
+                      </>
+                    )}
                   </Text>
                 </Box>
                 <Box flex={"100%"}>
