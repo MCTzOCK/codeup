@@ -164,9 +164,14 @@ import {
 } from "./api/Admin";
 
 import {
+  changeEnrollment,
   getCourse,
+  getCourseProgress,
+  getEnrollment,
+  getEnrollments,
   getSection,
   listCourses as listCoursesU,
+  updateCourseProgress,
 } from "./api/Course";
 
 import {
@@ -442,6 +447,11 @@ const REST = {
     getSection,
     getCourse,
     listCourses: listCoursesU,
+    getEnrollments,
+    getEnrollment,
+    changeEnrollment,
+    getCourseProgress,
+    updateCourseProgress,
   },
   Creator: {
     getCourses: getCoursesCreator,

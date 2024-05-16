@@ -34,6 +34,7 @@ import { Quiz } from "@codeup/components/course";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { FaBackward, FaForward } from "react-icons/fa";
+import PopupManager from "../../../global/PopupManager";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -218,7 +219,22 @@ export default function SectionViewer() {
                 />
               ) : null}
               {content.quiz && content.quiz.length > 0 && (
-                <Quiz title={content.displayName} questions={content.quiz} />
+                <Quiz
+                  title={content.displayName}
+                  questions={content.quiz}
+                  successCB={async () => {
+                    await REST.Course.updateCourseProgress({
+                      course: courseQuery,
+                      section: sectionQuery,
+                      token: AccountManager.getActiveToken(),
+                    });
+                    PopupManager.alertAsync({
+                      title: "Abgeschlossen!",
+                      description:
+                        "Du hast diese Lektion erfolgreich abgeschlossen!",
+                    });
+                  }}
+                />
               )}
               <ButtonGroup w={"100%"} mt={"2rem"}>
                 <Button

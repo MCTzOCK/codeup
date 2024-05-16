@@ -28,6 +28,7 @@ import {
   Stack,
   StackDivider,
   Divider,
+  Progress,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -35,6 +36,9 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import Milestones from "@codeup/components/landingpage/Milestones";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { useEffect, useState } from "react";
+import redirect from "@codeup/util/dist/userworkflow/redirect";
+import { FaCheck } from "react-icons/fa";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -64,11 +68,23 @@ export default function Index() {
     }[]
   >([]);
   const [contentsLoading, setContentsLoading] = React.useState<boolean>(true);
+  const [progress, setProgress] = React.useState<string[]>([]);
+
+  const [isEnrolled, setEnrolled] = useState<boolean>(false);
 
   const router = useRouter();
 
   const { course: courseName } = router.query;
   const toast = useToast();
+
+  useEffect(() => {
+    redirect({
+      forceAnonymous: false,
+      allowAnonymous: false,
+      redirectToLogin: true,
+      redirectTo: "/course/" + courseName,
+    });
+  });
 
   React.useEffect(() => {
     if (courseName) {
@@ -102,6 +118,25 @@ export default function Index() {
             duration: 5000,
             isClosable: true,
           });
+        }
+      });
+
+      REST.Course.getEnrollment({
+        token: AccountManager.getActiveToken(),
+        course: courseName as string,
+      }).then(async (res) => {
+        let enrolled = res.payload.enrolled ? true : false;
+        setEnrolled(enrolled);
+
+        if (enrolled) {
+          const rx = await REST.Course.getCourseProgress({
+            token: AccountManager.getActiveToken(),
+            course: courseName as string,
+          });
+
+          if (rx.status === 200) {
+            setProgress(rx.payload.progress);
+          }
         }
       });
     }
@@ -148,15 +183,63 @@ export default function Index() {
                   />
                   <Text mt={4} fontSize={"lg"}>
                     <CHeading size={"lg"}>Beschreibung</CHeading>
-                    <br />
                     {course.description}
                   </Text>
+                  <Text mt={4} fontSize={"lg"}>
+                    <CHeading size={"lg"}>Status</CHeading>
+                    {isEnrolled ? (
+                      <>
+                        <Badge colorScheme="green">Eingeschrieben</Badge>
+                        <br />
+                        Du kannst deinen Fortschritt nachverfolgen. <br />
+                        Eine Lektion wird als abgeschlossen markiert, wenn du
+                        alle Quizfragen richtig beantwortet hast.
+                      </>
+                    ) : (
+                      <>
+                        <Badge colorScheme="red">Nicht eingeschrieben</Badge>
+                        <br />
+                        Du kannst deinen Fortschritt nicht nachverfolgen.
+                        <br />
+                        <Button
+                          variant={"brand"}
+                          mt={2}
+                          onClick={async () => {
+                            await REST.Course.changeEnrollment({
+                              token: AccountManager.getActiveToken(),
+                              course: courseName as string,
+                            });
+
+                            setEnrolled(true);
+                          }}
+                        >
+                          Einschreiben
+                        </Button>
+                      </>
+                    )}
+                  </Text>
+                  {isEnrolled && (
+                    <>
+                      <Text mt={4} fontSize={"lg"}>
+                        <CHeading size={"lg"}>Fortschritt</CHeading>
+                        <br />
+                        <Progress
+                          value={progress.length}
+                          max={contents.length}
+                          colorScheme={"brand"}
+                        />
+                      </Text>
+                    </>
+                  )}
                 </Box>
                 <Box flex={"100%"}>
                   <Milestones
                     milestones={contents.map((content) => {
                       return {
                         title: content.displayName,
+                        lwdIcon: progress.includes(content._id) ? (
+                          <FaCheck />
+                        ) : null,
                         date: new Date(content.createdAt).toLocaleDateString(),
                         description:
                           "Diese Lektion enthält " +
