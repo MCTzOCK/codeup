@@ -11,6 +11,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import Docker from "dockerode";
+import { createHash } from "crypto";
 
 const docker = new Docker();
 
@@ -40,30 +41,48 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     try {
       const container = await docker.createContainer({
+        name: `codeup-rce-${new Date().getTime()}-${user._id}-${createHash(
+          "sha256"
+        )
+          .update(code)
+          .digest("hex")
+          .substring(0, 10)}`,
         Image: "node",
-        Cmd: ["node", "-e", code, "> /dev/stdout"],
+        Cmd: ["node", "-e", code],
         Tty: true,
+        Env: ["NO_COLOR=true"],
         NetworkDisabled: true,
       });
+      await container.start();
+
+      container.attach(
+        { stream: true, stdout: true, stderr: true },
+        (err, stream) => {
+          if (err) {
+            res.status(500).json({
+              status: 500,
+              error: err.message,
+            });
+            return;
+          }
+
+          if (!stream) {
+            res.status(500).json({
+              status: 500,
+              error: "No stream",
+            });
+            return;
+          }
+          res.setHeader("Content-Type", "text/plain");
+          stream.pipe(res);
+        }
+      );
 
       setTimeout(async () => {
         try {
-          const logs = await container.logs({
-            stdout: true,
-            stderr: true,
-          });
-
-          res.status(200).json({
-            status: 200,
-            logs: logs.toString(),
-          });
-
-          await container.kill();
-          await container.remove();
+          await container.remove({ force: true });
         } catch (e) {}
-      }, 1000 * 5);
-
-      await container.start();
+      }, 1000 * 2.5);
     } catch (e: any) {
       res.status(500).json({
         status: 500,
