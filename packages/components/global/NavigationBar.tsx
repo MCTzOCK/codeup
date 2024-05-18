@@ -60,7 +60,7 @@ import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
 
-export default function NavigationBar() {
+export default function NavigationBar(props: { disablePricing?: boolean }) {
   const whatEverRef = React.useRef();
 
   const logout = async () => {
@@ -287,6 +287,7 @@ export default function NavigationBar() {
                 onOpen={onOpen}
                 onMoreMenuOpen={onMoreMenuOpen}
                 onLogoutOpen={logout}
+                disablePricing={props.disablePricing}
               />
             ) : (
               <>
@@ -314,6 +315,7 @@ export default function NavigationBar() {
                           onOpen={onOpen}
                           onMoreMenuOpen={onMoreMenuOpen}
                           onLogoutOpen={logout}
+                          disablePricing={props.disablePricing}
                         />
                       </Flex>
                       <Flex

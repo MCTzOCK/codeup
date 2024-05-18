@@ -38,6 +38,7 @@ export default function NavigationBarMenu(props: {
   onOpen: () => void;
   onMoreMenuOpen: () => void;
   onLogoutOpen: () => void;
+  disablePricing?: boolean;
 }) {
   const { loggedIn } = useLoggedIn();
   const router = useRouter();
@@ -58,6 +59,7 @@ export default function NavigationBarMenu(props: {
         onClick={() => {
           router.push("/pricing");
         }}
+        display={props.disablePricing ? "none" : "initial"}
       >
         Preise
       </Button>
