@@ -81,6 +81,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       setTimeout(async () => {
         try {
           await container.remove({ force: true });
+          if (res.writable)
+            res.end({
+              status: 500,
+              error: "Timeout",
+            });
         } catch (e) {}
       }, 1000 * 2.5);
     } catch (e: any) {
