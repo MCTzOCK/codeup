@@ -21,3 +21,13 @@ export async function getChallenges(
     token,
   });
 }
+
+export async function getCompletedChallenges(
+  token: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/challenges/completed",
+    token,
+  });
+}

@@ -270,7 +270,7 @@ import {
   rcePython,
   rceTypeScript,
 } from "./api/RCE";
-import { getChallenges } from "./api/CodeChallenges";
+import { getChallenges, getCompletedChallenges } from "./api/CodeChallenges";
 
 const REST = {
   Ask: {
@@ -286,6 +286,7 @@ const REST = {
   },
   Challenges: {
     getChallenges,
+    getCompletedChallenges,
   },
   Admin: {
     getErrors,
