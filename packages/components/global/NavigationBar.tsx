@@ -44,6 +44,7 @@ import {
   FaProjectDiagram,
   FaRocket,
   FaSearch,
+  FaTrophy,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
@@ -241,6 +242,13 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
       href: "/ide",
       text: "Verwirkliche deine Projektideen",
       category: "other",
+    },
+    {
+      name: "Challenges",
+      category: "learn",
+      href: "/challenges",
+      text: "Fordere dein Können heraus",
+      icon: <FaTrophy />,
     },
   ];
 

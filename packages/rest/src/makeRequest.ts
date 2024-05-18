@@ -14,6 +14,7 @@ export default async function makeRequest(options: {
   body?: object;
   token?: string;
   headers?: object;
+  returnsRaw?: boolean;
   method:
     | "GET"
     | "POST"
@@ -47,7 +48,13 @@ export default async function makeRequest(options: {
     body: options.body ? JSON.stringify(options.body) : null,
   });
 
-  const payload = await res.json();
+  let payload = null;
+
+  if (!options.returnsRaw) {
+    payload = await res.json();
+  } else {
+    payload = await res.text();
+  }
 
   return {
     status: res.status,
