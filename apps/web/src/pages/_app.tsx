@@ -100,7 +100,11 @@ function App({ Component, pageProps }: AppProps) {
           <CommandPalette />
           <Box minH="100vh" minW="100%">
             <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-            <NavigationBar />
+            <NavigationBar
+              disablePricing={
+                process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+              }
+            />
             <Box
               minH={"96vh"}
               bg={router.pathname.startsWith("/forum") ? "#000" : undefined}

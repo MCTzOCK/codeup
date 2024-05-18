@@ -161,6 +161,9 @@ import {
   getIDEProjects,
   getEditorProjects,
   getErrors,
+  createChallenge,
+  deleteChallenge,
+  updateChallenge,
 } from "./api/Admin";
 
 import {
@@ -260,6 +263,18 @@ import {
   getPostsByUser,
   updateProfile as updateProfileA,
 } from "./api/Ask";
+import {
+  rceGo,
+  rceJava,
+  rceJavaScript,
+  rcePython,
+  rceTypeScript,
+} from "./api/RCE";
+import {
+  finalCheck,
+  getChallenges,
+  getCompletedChallenges,
+} from "./api/CodeChallenges";
 
 const REST = {
   Ask: {
@@ -272,6 +287,11 @@ const REST = {
     getProfile: getProfileA,
     getPostsByUser,
     updateProfile: updateProfileA,
+  },
+  Challenges: {
+    getChallenges,
+    getCompletedChallenges,
+    finalCheck,
   },
   Admin: {
     getErrors,
@@ -333,6 +353,9 @@ const REST = {
     deleteShort,
     getIDEProjects,
     getEditorProjects,
+    createChallenge,
+    deleteChallenge,
+    updateChallenge,
   },
   Blog: {
     getBlog,
@@ -532,6 +555,13 @@ const REST = {
   Payments: {
     createCheckoutLink,
     cancelSubscription,
+  },
+  Rce: {
+    rceJavaScript,
+    rceTypeScript,
+    rcePython,
+    rceGo,
+    rceJava,
   },
 };
 

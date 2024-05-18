@@ -6,7 +6,10 @@ services:
       dockerfile: Dockerfile
     network_mode: host
     ports:
-      - "8899:3000"
+      - "8899:8899"
     env_file: ".env.web"
+    user: "root"
+    privileged: true
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

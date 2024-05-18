@@ -44,6 +44,7 @@ import {
   FaProjectDiagram,
   FaRocket,
   FaSearch,
+  FaTrophy,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
@@ -60,7 +61,7 @@ import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
 
-export default function NavigationBar() {
+export default function NavigationBar(props: { disablePricing?: boolean }) {
   const whatEverRef = React.useRef();
 
   const logout = async () => {
@@ -242,6 +243,13 @@ export default function NavigationBar() {
       text: "Verwirkliche deine Projektideen",
       category: "other",
     },
+    {
+      name: "Challenges",
+      category: "learn",
+      href: "/challenges",
+      text: "Fordere dein Können heraus",
+      icon: <FaTrophy />,
+    },
   ];
 
   const [filteredMoreOptions, setFilteredMoreOptions] =
@@ -287,6 +295,7 @@ export default function NavigationBar() {
                 onOpen={onOpen}
                 onMoreMenuOpen={onMoreMenuOpen}
                 onLogoutOpen={logout}
+                disablePricing={props.disablePricing}
               />
             ) : (
               <>
@@ -314,6 +323,7 @@ export default function NavigationBar() {
                           onOpen={onOpen}
                           onMoreMenuOpen={onMoreMenuOpen}
                           onLogoutOpen={logout}
+                          disablePricing={props.disablePricing}
                         />
                       </Flex>
                       <Flex

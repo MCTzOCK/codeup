@@ -43,6 +43,7 @@ import {
   FaProjectDiagram,
   FaRocket,
   FaSitemap,
+  FaTrophy,
   FaUser,
   FaUsers,
 } from "react-icons/fa";
@@ -267,6 +268,13 @@ export default function AdminLayout(props: { children: ReactNode }) {
                     icon: <BiError />,
                     onClick: () => {
                       router.push("/admin/errors");
+                    },
+                  },
+                  {
+                    title: "Challenges",
+                    icon: <FaTrophy />,
+                    onClick: () => {
+                      router.push("/admin/challenges");
                     },
                   },
                 ]}

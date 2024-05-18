@@ -777,3 +777,56 @@ export async function getErrors(token: string): Promise<IResponse> {
     path: "/api/admin/errors",
   });
 }
+
+export async function createChallenge(options: {
+  token: string;
+  title: string;
+  task: string;
+  difficulty: number;
+  expectedOutput: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "POST",
+    token: options.token,
+    path: "/api/admin/challenges",
+    body: {
+      title: options.title,
+      task: options.task,
+      difficulty: options.difficulty,
+      expectedOutput: options.expectedOutput,
+    },
+  });
+}
+
+export async function deleteChallenge(options: {
+  token: string;
+  id: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "DELETE",
+    token: options.token,
+    path: "/api/admin/challenges?id=" + options.id,
+  });
+}
+
+export async function updateChallenge(options: {
+  token: string;
+  id: string;
+  title: string;
+  task: string;
+  difficulty: number;
+  expectedOutput: string;
+}): Promise<IResponse> {
+  return makeRequest({
+    method: "PUT",
+    token: options.token,
+    path: "/api/admin/challenges",
+    body: {
+      id: options.id,
+      title: options.title,
+      task: options.task,
+      difficulty: options.difficulty,
+      expectedOutput: options.expectedOutput,
+    },
+  });
+}
