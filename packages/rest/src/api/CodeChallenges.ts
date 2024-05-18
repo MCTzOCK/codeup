@@ -31,3 +31,21 @@ export async function getCompletedChallenges(
     token,
   });
 }
+
+export async function finalCheck(
+  token: string,
+  challengeId: string,
+  code: string,
+  language: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/challenges/check",
+    token,
+    body: {
+      challengeId,
+      code,
+      language,
+    },
+  });
+}

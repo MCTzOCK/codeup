@@ -18,7 +18,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     if (!auth) return;
 
-    const completedChallenges = await CompletedUserChallenges.find({
+    const completedChallenges = await CompletedUserChallenges.findOne({
       user: user._id,
     });
 

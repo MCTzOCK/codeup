@@ -72,7 +72,7 @@ export default function Index() {
       return;
     }
 
-    setCompleted(r1.payload.data.map((c: any) => c.challenge));
+    setCompleted(r1.payload.data.challenges);
   };
 
   const router = useRouter();
