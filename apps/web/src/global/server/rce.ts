@@ -110,7 +110,10 @@ export async function rce(
 
     setTimeout(async () => {
       try {
-        await container.remove({ force: true });
+        await container.kill();
+      } catch (e) {}
+      try {
+        await container.remove();
         fs.rmdirSync(path.join(tmpdir(), tempFile), { recursive: true });
       } catch (e) {}
     }, 1000 * options.timeout);
