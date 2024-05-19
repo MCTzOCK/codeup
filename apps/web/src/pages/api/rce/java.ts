@@ -32,7 +32,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   await rce(req, res, {
     timeout: 5,
     code,
-    entrypoint: ["/usr/src/app/r.sh"],
+    entrypoint: ["/bin/sh"],
+    cmd: ["/usr/src/app/r.sh"],
     env: [],
     image: "mctzock/codeup-java-rce:latest",
     tmpfs: tmpfs,
