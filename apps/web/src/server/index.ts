@@ -255,7 +255,7 @@ app
 
               docker
                 .createContainer({
-                  Image: "mctzock/codeup-serverless-runtime",
+                  Image: "rce-sf-runtime:codeup",
                   Env: [
                     "SERVERLESS_METHOD=GET",
                     "SERVERLESS_ENDPOINT=/",

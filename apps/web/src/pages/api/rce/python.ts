@@ -27,7 +27,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     code,
     cmd: ["python", "/usr/src/app/main.py"],
     env: ["NO_COLOR=true"],
-    image: "python:bullseye",
+    image: "rce-python:codeup",
     tmpfs: {
       "main.py": code,
     },
