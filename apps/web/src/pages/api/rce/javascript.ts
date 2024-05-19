@@ -24,7 +24,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     timeout: 2.5,
     cmd: ["node", "/usr/src/app/index.js"],
     env: ["NO_COLOR=true"],
-    image: "node:latest",
+    image: "rce-node:codeup",
     code,
     tmpfs: {
       "index.js": code,

@@ -30,6 +30,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     },
     cmd: ["go", "run", "/usr/src/app/main.go"],
     env: ["NO_COLOR=true"],
-    image: "golang:latest",
+    image: "rce-golang:codeup",
   });
 }

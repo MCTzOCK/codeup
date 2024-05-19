@@ -35,7 +35,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     entrypoint: ["/bin/sh"],
     cmd: ["/usr/src/app/r.sh"],
     env: [],
-    image: "mctzock/codeup-java-rce:latest",
+    image: "rce-java:codeup",
     tmpfs: tmpfs,
   });
 }

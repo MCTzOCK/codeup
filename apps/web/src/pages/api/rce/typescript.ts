@@ -28,7 +28,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     code,
     cmd: ["tsx", "/usr/src/app/index.ts"],
     env: ["NO_COLOR=true"],
-    image: "mctzock/codeup-tsx-rce:latest",
+    image: "rce-tsx:codeup",
     tmpfs: {
       "index.ts": code,
     },
