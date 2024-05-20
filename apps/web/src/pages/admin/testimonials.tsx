@@ -26,6 +26,7 @@ import REST from "@codeup/rest/dist";
 import { FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = React.useState<
@@ -55,8 +56,9 @@ export default function Testimonials() {
         <title>Meinungen - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Box mt={8}></Box>
-        <SuperText>Meinungen</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Meinungen</CHeading>
+        </Box>
         <SimpleGrid
           columns={{ base: 1, md: 2 }}
           placeItems="center"
@@ -95,12 +97,12 @@ export default function Testimonials() {
                 display: "block",
               }}
             >
-              <Text fontWeight="medium" fontSize="sm">
+              <Text fontWeight="medium" fontSize="md">
                 Neue Meinung hinzufügen
               </Text>
               <StackDivider />
               <Button
-                colorScheme={"green"}
+                variant={"brand"}
                 leftIcon={<FaPlus />}
                 onClick={async () => {
                   const name = await PopupManager.promptAsync({
@@ -299,7 +301,7 @@ export default function Testimonials() {
                       Löschen
                     </Button>
                     <Button
-                      colorScheme={"yellow"}
+                      variant={"brand"}
                       leftIcon={<FaPen />}
                       onClick={async () => {
                         const selected = await PopupManager.selectAsync({
