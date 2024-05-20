@@ -31,6 +31,7 @@ import {
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { Box } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Kids() {
   const router = useRouter();
@@ -38,7 +39,9 @@ export default function Kids() {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [roadmaps, setRoadmaps] = React.useState<
     {
-      owner: string;
+      owner: {
+        username: string;
+      };
       _id: string;
       name: string;
       projectIdea: string;
@@ -82,20 +85,19 @@ export default function Kids() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Roadmaps</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Roadmaps"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={roadmaps.map((r) => {
                     return {
                       fields: [
                         {
                           icon: <FaUser />,
-                          text: "Besitzer: " + r.owner,
+                          text: "Besitzer: " + r.owner.username,
                         },
                         {
                           icon: <FaLightbulb />,
@@ -123,93 +125,89 @@ export default function Kids() {
                       ],
                       title: r.name,
                       buttonRows: [
-                        {
-                          buttons: [
-                            {
-                              text: "Öffnen",
-                              icon: <FaEye />,
-                              disabled: false,
-                              colorScheme: "blue",
-                              onClick: () => {
-                                router.push("/roadmap/" + r._id);
-                              },
+                        [
+                          {
+                            text: "Öffnen",
+                            leftIcon: <FaEye />,
+                            disabled: false,
+                            variant: "brand",
+                            onClick: () => {
+                              router.push("/roadmap/" + r._id);
                             },
-                          ],
-                        },
-                        {
-                          buttons: [
-                            {
-                              text: "Löschen",
-                              icon: <FaTrash />,
-                              disabled: false,
-                              colorScheme: "red",
-                              onClick: async () => {
-                                if (
-                                  !(await PopupManager.confirmAsync({
-                                    title: "Löschen",
-                                    question:
-                                      "Willst du die Roadmap wirklich löschen?",
-                                  }))
-                                ) {
-                                  return;
-                                }
+                          },
+                          {
+                            text: "Löschen",
+                            leftIcon: <FaTrash />,
+                            disabled: false,
+                            colorScheme: "red",
+                            onClick: async () => {
+                              if (
+                                !(await PopupManager.confirmAsync({
+                                  title: "Löschen",
+                                  question:
+                                    "Willst du die Roadmap wirklich löschen?",
+                                }))
+                              ) {
+                                return;
+                              }
 
-                                const res = await REST.Roadmap.deleteRoad({
-                                  token: AccountManager.getActiveToken(),
-                                  id: r._id,
+                              const res = await REST.Roadmap.deleteRoad({
+                                token: AccountManager.getActiveToken(),
+                                id: r._id,
+                              });
+
+                              if (res.status !== 200) {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description:
+                                    "Es ist ein Fehler aufgetreten: " +
+                                    res.payload.error,
                                 });
+                                return;
+                              }
 
-                                if (res.status !== 200) {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description:
-                                      "Es ist ein Fehler aufgetreten: " +
-                                      res.payload.error,
-                                  });
-                                  return;
-                                }
-
-                                reload();
-                              },
+                              reload();
                             },
-                            {
-                              text: "Umbenennen",
-                              icon: <FaPen />,
-                              colorScheme: "green",
-                              disabled: false,
-                              onClick: async () => {
-                                const name = await PopupManager.promptAsync({
-                                  title: "Umbenennen",
-                                  helperText:
-                                    "Gib einen neuen Namen für die Roadmap ein",
-                                  inputType: "INPUT",
+                          },
+                        ],
+                        [
+                          {
+                            text: "Umbenennen",
+                            leftIcon: <FaPen />,
+                            variant: "brand",
+                            disabled: false,
+                            onClick: async () => {
+                              const name = await PopupManager.promptAsync({
+                                title: "Umbenennen",
+                                helperText:
+                                  "Gib einen neuen Namen für die Roadmap ein",
+                                inputType: "INPUT",
+                              });
+
+                              if (!name) return;
+
+                              const res = await REST.Roadmap.updateRoad({
+                                token: AccountManager.getActiveToken(),
+                                update: {
+                                  name,
+                                },
+                                id: r._id,
+                              });
+
+                              if (res.status !== 200) {
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description:
+                                    "Es ist ein Fehler aufgetreten: " +
+                                    res.payload.error,
                                 });
+                                return;
+                              }
 
-                                if (!name) return;
-
-                                const res = await REST.Roadmap.updateRoad({
-                                  token: AccountManager.getActiveToken(),
-                                  update: {
-                                    name,
-                                  },
-                                  id: r._id,
-                                });
-
-                                if (res.status !== 200) {
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description:
-                                      "Es ist ein Fehler aufgetreten: " +
-                                      res.payload.error,
-                                  });
-                                  return;
-                                }
-
-                                reload();
-                              },
+                              reload();
                             },
-                          ],
-                        },
+                          },
+                        ],
                       ],
                     };
                   })}
