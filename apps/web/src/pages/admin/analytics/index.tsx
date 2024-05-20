@@ -51,6 +51,7 @@ import { Bar, Pie } from "react-chartjs-2";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import SuperText from "@codeup/components/landingpage/SuperText";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   ChartJS.register(
@@ -190,19 +191,22 @@ export default function Index() {
         <title>Analytics - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Box mt={8}></Box>
         <SuperText>Analytics</SuperText>
         <Grid
-          templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
-          p={"2rem"}
-          gap={"4rem"}
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+          ]}
+          maxW={"100%"}
+          overflow={"hidden"}
+          gap={[0, "4rem"]}
+          p={[0, "2rem"]}
         >
           <GridItem>
-            <Box>
-              <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                <Heading size={"lg"} textAlign={"left"}>
-                  Browsers (%)
-                </Heading>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Browsers (%)</CHeading>
+              <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                 <Pie
                   data={{
                     labels: Object.keys(summary?.browsers || {}),
@@ -235,11 +239,9 @@ export default function Index() {
             </Box>
           </GridItem>
           <GridItem>
-            <Box>
-              <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                <Heading size={"lg"} textAlign={"left"}>
-                  Operating Systems (%)
-                </Heading>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Operating Systems (%)</CHeading>
+              <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                 <Pie
                   data={{
                     labels: Object.keys(summary?.os || {}),
@@ -272,12 +274,10 @@ export default function Index() {
             </Box>
           </GridItem>
           <GridItem>
-            <Box>
-              <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                <Heading size={"lg"} textAlign={"left"}>
-                  Views (%)
-                </Heading>
-                <Text>Total Views: {summary?.totalViews}</Text>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Views (%)</CHeading>
+              <Text>Total Views: {summary?.totalViews}</Text>
+              <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                 <Pie
                   data={{
                     labels: ["Logged in", "Not logged in"],
@@ -305,11 +305,9 @@ export default function Index() {
             </Box>
           </GridItem>
           <GridItem>
-            <Box>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Paths (%)</CHeading>
               <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                <Heading size={"lg"} textAlign={"left"}>
-                  Paths (%)
-                </Heading>
                 <Pie
                   data={{
                     labels: pathsToLabels(summary?.paths),
@@ -341,59 +339,31 @@ export default function Index() {
               </Stack>
             </Box>
           </GridItem>
-        </Grid>
-        <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
-          <Box
-            mt={"8rem"}
-            maxW={["100%", "75%"]}
-            flex={"100%"}
-            maxH={"50vh"}
-            mb={"8rem"}
-          >
-            <HStack gap={6}>
-              <Heading size={"lg"} textAlign={"left"}>
-                Aufrufe
-              </Heading>
-              <Select
-                value={periodOffset}
-                onChange={(e) => {
-                  // @ts-ignore
-                  setPeriodOffset(e.target.value as number);
-                }}
-              >
-                <option value={0}>Heute</option>
-                <option value={7}>Eine Woche</option>
-                <option value={14}>2 Wochen</option>
-                <option value={30}>Ein Monat</option>
-                <option value={90}>3 Monate</option>
-                <option value={180}>6 Monate</option>
-                <option value={365}>Ein Jahr</option>
-              </Select>
-            </HStack>
-
-            <Bar
-              data={{
-                // extract every date from period.start to period.end
-                labels: Array.from(
-                  {
-                    length:
-                      (new Date(period.end).getTime() -
-                        new Date(period.start).getTime()) /
-                      (1000 * 60 * 60 * 24),
-                  },
-                  (_, i) => {
-                    const date = new Date(
-                      new Date(period.start).getTime() + i * 1000 * 60 * 60 * 24
-                    );
-                    return `${date.getDate()}.${
-                      date.getMonth() + 1
-                    }.${date.getFullYear()}`;
-                  }
-                ),
-                datasets: [
-                  {
-                    label: "Aufrufe",
-                    data: Array.from(
+          <GridItem>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <HStack gap={6}>
+                <CHeading size={"lg"}>Aufrufe (Historie)</CHeading>
+                <Select
+                  value={periodOffset}
+                  onChange={(e) => {
+                    // @ts-ignore
+                    setPeriodOffset(e.target.value as number);
+                  }}
+                >
+                  <option value={0}>Heute</option>
+                  <option value={7}>Eine Woche</option>
+                  <option value={14}>2 Wochen</option>
+                  <option value={30}>Ein Monat</option>
+                  <option value={90}>3 Monate</option>
+                  <option value={180}>6 Monate</option>
+                  <option value={365}>Ein Jahr</option>
+                </Select>
+              </HStack>
+              <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
+                <Bar
+                  data={{
+                    // extract every date from period.start to period.end
+                    labels: Array.from(
                       {
                         length:
                           (new Date(period.end).getTime() -
@@ -405,137 +375,157 @@ export default function Index() {
                           new Date(period.start).getTime() +
                             i * 1000 * 60 * 60 * 24
                         );
-
-                        // "YEAR-MONTH-DAY"
-                        const dateString = `${date.getFullYear()}-${
+                        return `${date.getDate()}.${
                           date.getMonth() + 1
-                        }-${date.getDate()}`;
-
-                        const parts = dateString.split("-");
-
-                        if (parts[0].length === 1) {
-                          parts[0] = "0" + parts[0];
-                        }
-
-                        if (parts[1].length === 1) {
-                          parts[1] = "0" + parts[1];
-                        }
-
-                        if (parts[2].length === 1) {
-                          parts[2] = "0" + parts[2];
-                        }
-
-                        return views ? views[parts.join("-")] : 0;
+                        }.${date.getFullYear()}`;
                       }
                     ),
-                    backgroundColor: "rgba(75, 192, 192, 1)",
-                  },
-                ],
-              }}
-            />
-          </Box>
-        </Flex>
-        <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
-          <Box
-            mt={"2rem"}
-            maxW={["100%", "75%"]}
-            flex={"100%"}
-            h={"fit-content"}
-            mb={"8rem"}
-          >
-            <Heading size={"lg"} textAlign={"left"}>
-              Aktive Nutzer in den letzten 24 Stunden
-            </Heading>
-            <TableContainer mt={6}>
-              <Table>
-                <Thead>
-                  <Th>Profilbild</Th>
-                  <Th>Benutername</Th>
-                  <Th>Aufrufe</Th>
-                </Thead>
-                <Tbody>
-                  {summary?.todayActiveUsers.map((user) => (
-                    <Tr
-                      key={user.userId}
-                      _hover={{
-                        backgroundColor: "gray.700",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        router.push(`/admin/analytics/${user.userId}`);
-                      }}
-                    >
-                      <Td>
-                        <Avatar
-                          size={"lg"}
-                          src={`/api/account/${user.username}/picture`}
-                        />
-                      </Td>
-                      <Td>@{user.username}</Td>
-                      <Td>{user.views}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </Box>
-        </Flex>
-        <Flex
-          w={"100%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          direction={"column"}
-          gap={"4rem"}
-          mb={"8rem"}
-        >
-          <Heading size={"lg"} textAlign={"left"}>
-            Daten löschen
-          </Heading>
+                    datasets: [
+                      {
+                        label: "Aufrufe",
+                        data: Array.from(
+                          {
+                            length:
+                              (new Date(period.end).getTime() -
+                                new Date(period.start).getTime()) /
+                              (1000 * 60 * 60 * 24),
+                          },
+                          (_, i) => {
+                            const date = new Date(
+                              new Date(period.start).getTime() +
+                                i * 1000 * 60 * 60 * 24
+                            );
 
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
+                            // "YEAR-MONTH-DAY"
+                            const dateString = `${date.getFullYear()}-${
+                              date.getMonth() + 1
+                            }-${date.getDate()}`;
 
-              const deleteDataPeriodInput = (
-                (e.target as HTMLFormElement).elements.namedItem(
-                  "delete-data-period"
-                ) as HTMLInputElement
-              ).value as unknown as number;
+                            const parts = dateString.split("-");
 
-              REST.Analytics.deleteAnalytics({
-                token: localStorage.getItem("token") as string,
-                periodStart: new Date(
-                  new Date().getTime() -
-                    deleteDataPeriodInput * 24 * 60 * 60 * 1000
-                )
-                  .toISOString()
-                  .split("T")[0],
-                periodEnd: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-                  .toISOString()
-                  .split("T")[0],
-              }).then((res) => {
-                router.reload();
-              });
-            }}
-          >
-            <FormControl id={"delete-period"}>
-              <FormLabel>Zeitraum</FormLabel>
-              <Select name={"delete-data-period"} defaultValue={7}>
-                <option value={0}>Heute</option>
-                <option value={7}>Eine Woche</option>
-                <option value={14}>2 Wochen</option>
-                <option value={30}>Ein Monat</option>
-                <option value={90}>3 Monate</option>
-                <option value={180}>6 Monate</option>
-                <option value={365}>Ein Jahr</option>
-                <option value={420000}>Alles</option>
-              </Select>
-            </FormControl>
-            <Button mt={"1rem"} colorScheme={"red"} type={"submit"}>
-              Analytics löschen
-            </Button>
-          </form>
-        </Flex>
+                            if (parts[0].length === 1) {
+                              parts[0] = "0" + parts[0];
+                            }
+
+                            if (parts[1].length === 1) {
+                              parts[1] = "0" + parts[1];
+                            }
+
+                            if (parts[2].length === 1) {
+                              parts[2] = "0" + parts[2];
+                            }
+
+                            return views ? views[parts.join("-")] : 0;
+                          }
+                        ),
+                        backgroundColor: "rgba(75, 192, 192, 1)",
+                      },
+                    ],
+                  }}
+                />
+              </Stack>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Aktive Nutzer (24h)</CHeading>
+              <Stack
+                w={"100%"}
+                h={"40vh"}
+                alignItems={"center"}
+                overflow={"auto"}
+              >
+                <TableContainer mt={6} w={"100%"}>
+                  <Table>
+                    <Thead>
+                      <Th>Profilbild</Th>
+                      <Th>Benutername</Th>
+                      <Th>Aufrufe</Th>
+                    </Thead>
+                    <Tbody>
+                      {summary?.todayActiveUsers.map((user) => (
+                        <Tr
+                          key={user.userId}
+                          _hover={{
+                            backgroundColor: "gray.700",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            router.push(`/admin/analytics/${user.userId}`);
+                          }}
+                        >
+                          <Td>
+                            <Avatar
+                              size={"lg"}
+                              src={`/api/account/${user.username}/picture`}
+                            />
+                          </Td>
+                          <Td>@{user.username}</Td>
+                          <Td>{user.views}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </Stack>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box bg={"gray.900"} rounded={["none", "lg"]} h={"100%"} p={6}>
+              <CHeading size={"lg"}>Daten löschen</CHeading>
+              <Text>
+                Du kannst die Analylse Daten für einen bestimmten Zeitraum
+                löschen. Diese können allerdings nicht wiederhergestellt werden.
+              </Text>
+
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  const deleteDataPeriodInput = (
+                    (e.target as HTMLFormElement).elements.namedItem(
+                      "delete-data-period"
+                    ) as HTMLInputElement
+                  ).value as unknown as number;
+
+                  REST.Analytics.deleteAnalytics({
+                    token: localStorage.getItem("token") as string,
+                    periodStart: new Date(
+                      new Date().getTime() -
+                        deleteDataPeriodInput * 24 * 60 * 60 * 1000
+                    )
+                      .toISOString()
+                      .split("T")[0],
+                    periodEnd: new Date(
+                      new Date().getTime() + 24 * 60 * 60 * 1000
+                    )
+                      .toISOString()
+                      .split("T")[0],
+                  }).then((res) => {
+                    router.reload();
+                  });
+                }}
+              >
+                <FormControl id={"delete-period"}>
+                  <FormLabel>Zeitraum</FormLabel>
+                  <Select name={"delete-data-period"} defaultValue={7}>
+                    <option value={0}>Heute</option>
+                    <option value={7}>Eine Woche</option>
+                    <option value={14}>2 Wochen</option>
+                    <option value={30}>Ein Monat</option>
+                    <option value={90}>3 Monate</option>
+                    <option value={180}>6 Monate</option>
+                    <option value={365}>Ein Jahr</option>
+                    <option value={420000}>Alles</option>
+                  </Select>
+                </FormControl>
+                <Button mt={"1rem"} colorScheme={"red"} type={"submit"}>
+                  Analytics löschen
+                </Button>
+              </form>
+            </Box>
+          </GridItem>
+        </Grid>
       </AdminLayout>
     </>
   );

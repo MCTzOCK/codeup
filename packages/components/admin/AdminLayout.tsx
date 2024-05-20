@@ -36,6 +36,7 @@ import {
   FaComment,
   FaComments,
   FaFileCode,
+  FaLightbulb,
   FaLink,
   FaNewspaper,
   FaPeopleArrows,
@@ -54,6 +55,7 @@ import Sidebar from "../global/Sidebar";
 import { AiFillDashboard } from "react-icons/ai";
 import { BsPeople, BsCheck2Square } from "react-icons/bs";
 import { BiCodeBlock, BiError } from "react-icons/bi";
+import AppShell from "../global/AppShell";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -106,183 +108,123 @@ export default function AdminLayout(props: { children: ReactNode }) {
       ) : null}
       {userLoaded && error === "" ? (
         <>
-          <Flex
-            w={"100%"}
-            direction={["column", "column", "row"]}
-            minH={"100vh"}
-            h={"fit-content"}
-            bg={"#000"}
+          <AppShell
+            title={"Admin"}
+            sub_pages={[
+              {
+                text: "Dashboard",
+                icon: <AiFillDashboard />,
+                href: "/admin",
+              },
+              {
+                text: "Benutzer",
+                icon: <FaUser />,
+                href: "/admin/users",
+              },
+              {
+                text: "Profile",
+                icon: <FaUsers />,
+                href: "/admin/profiles",
+              },
+              {
+                text: "Analytics",
+                icon: <FaChartBar />,
+                href: "/admin/analytics",
+              },
+              {
+                text: "Nachrichten",
+                icon: <FaComment />,
+                href: "/admin/contacts",
+              },
+              {
+                text: "Zertifikate",
+                icon: <FaCertificate />,
+                href: "/admin/certificates",
+              },
+              {
+                text: "Projekt Ideen",
+                icon: <FaLightbulb />,
+                href: "/admin/project-ideas",
+              },
+              {
+                text: "Blog",
+                icon: <SiWritedotas />,
+                href: "/admin/blog",
+              },
+              {
+                text: "Meinungen",
+                icon: <BsPeople />,
+                href: "/admin/testimonials",
+              },
+              {
+                text: "Organisationen",
+                icon: <FaSitemap />,
+                href: "/admin/orgs",
+              },
+              {
+                text: "Newsletter",
+                icon: <FaNewspaper />,
+                href: "/admin/newsletter",
+              },
+              {
+                text: "Discovery",
+                icon: <BiCodeBlock />,
+                href: "/admin/discovery",
+              },
+              {
+                text: "Flows",
+                icon: <FaProjectDiagram />,
+                href: "/admin/flows",
+              },
+              {
+                text: "Kids",
+                icon: <FaChild />,
+                href: "/admin/kids",
+              },
+              {
+                text: "Roadmaps",
+                icon: <FaRocket />,
+                href: "/admin/roads",
+              },
+              {
+                text: "ToDo",
+                icon: <BsCheck2Square />,
+                href: "/admin/todos",
+              },
+              {
+                text: "Code Snippets",
+                icon: <FaFileCode />,
+                href: "/admin/snippets",
+              },
+              {
+                text: "Shorts",
+                icon: <FaLink />,
+                href: "/admin/shorts",
+              },
+              {
+                text: "IDE",
+                icon: <FaCode />,
+                href: "/admin/ide",
+              },
+              {
+                text: "Editor",
+                icon: <FaCode />,
+                href: "/admin/editor",
+              },
+              {
+                text: "Fehler",
+                icon: <BiError />,
+                href: "/admin/errors",
+              },
+              {
+                text: "Challenges",
+                icon: <FaTrophy />,
+                href: "/admin/challenges",
+              },
+            ]}
           >
-            <Box flex={"10%"}>
-              <Sidebar
-                entries={[
-                  {
-                    title: "Dashboard",
-                    icon: <AiFillDashboard />,
-                    onClick: () => {
-                      router.push("/admin");
-                    },
-                  },
-                  {
-                    title: "Benutzer",
-                    icon: <FaUser />,
-                    onClick: () => {
-                      router.push("/admin/users");
-                    },
-                  },
-                  {
-                    title: "Profile",
-                    icon: <FaUsers />,
-                    onClick: () => {
-                      router.push("/admin/profiles");
-                    },
-                  },
-                  {
-                    title: "Inhalte",
-                    icon: <FaBookOpen />,
-                    onClick: () => {
-                      router.push("/admin/contents/courses");
-                    },
-                  },
-                  {
-                    title: "Analytics",
-                    icon: <FaChartBar />,
-                    onClick: () => {
-                      router.push("/admin/analytics");
-                    },
-                  },
-                  {
-                    title: "Nachrichten",
-                    icon: <FaComment />,
-                    onClick: () => {
-                      router.push("/admin/contacts");
-                    },
-                  },
-                  {
-                    title: "Zertifikate",
-                    icon: <FaCertificate />,
-                    onClick: () => {
-                      router.push("/admin/certificates");
-                    },
-                  },
-                  {
-                    title: "Projekt Ideen",
-                    icon: <FaProjectDiagram />,
-                    onClick: () => {
-                      router.push("/admin/project-ideas");
-                    },
-                  },
-                  {
-                    title: "Blog",
-                    icon: <SiWritedotas />,
-                    onClick: () => {
-                      router.push("/admin/blog");
-                    },
-                  },
-                  {
-                    title: "Meinungen",
-                    icon: <BsPeople />,
-                    onClick: () => {
-                      router.push("/admin/testimonials");
-                    },
-                  },
-                  {
-                    title: "Organisationen",
-                    icon: <FaSitemap />,
-                    onClick: () => {
-                      router.push("/admin/orgs");
-                    },
-                  },
-                  {
-                    title: "Newsletter",
-                    icon: <FaNewspaper />,
-                    onClick: () => {
-                      router.push("/admin/newsletter");
-                    },
-                  },
-                  {
-                    title: "Discovery",
-                    icon: <BiCodeBlock />,
-                    onClick: () => {
-                      router.push("/admin/discovery");
-                    },
-                  },
-                  {
-                    title: "Flows",
-                    icon: <FaProjectDiagram />,
-                    onClick: () => {
-                      router.push("/admin/flows");
-                    },
-                  },
-                  {
-                    title: "Kids",
-                    icon: <FaChild />,
-                    onClick: () => {
-                      router.push("/admin/kids");
-                    },
-                  },
-                  {
-                    title: "Roadmaps",
-                    icon: <FaRocket />,
-                    onClick: () => {
-                      router.push("/admin/roads");
-                    },
-                  },
-                  {
-                    title: "ToDo",
-                    icon: <BsCheck2Square />,
-                    onClick: () => {
-                      router.push("/admin/todos");
-                    },
-                  },
-                  {
-                    title: "Code Snippets",
-                    icon: <FaFileCode />,
-                    onClick: () => {
-                      router.push("/admin/snippets");
-                    },
-                  },
-                  {
-                    title: "Shorts",
-                    icon: <FaLink />,
-                    onClick: () => {
-                      router.push("/admin/shorts");
-                    },
-                  },
-                  {
-                    title: "IDE",
-                    icon: <FaCode />,
-                    onClick: () => {
-                      router.push("/admin/ide");
-                    },
-                  },
-                  {
-                    title: "Editor",
-                    icon: <FaCode />,
-                    onClick: () => {
-                      router.push("/admin/editor");
-                    },
-                  },
-                  {
-                    title: "Fehler",
-                    icon: <BiError />,
-                    onClick: () => {
-                      router.push("/admin/errors");
-                    },
-                  },
-                  {
-                    title: "Challenges",
-                    icon: <FaTrophy />,
-                    onClick: () => {
-                      router.push("/admin/challenges");
-                    },
-                  },
-                ]}
-                title={"Admin"}
-              />
-            </Box>
-            <Box flex={"90%"}>{props.children}</Box>
-          </Flex>
+            {props.children}
+          </AppShell>
         </>
       ) : null}
     </>

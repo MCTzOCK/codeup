@@ -62,6 +62,10 @@ export default async function handleRequest(
 
       const lists = await TodoListModel.find({});
 
+      for (const l of lists) {
+        await l.populate("owner");
+      }
+
       res.status(200).json({
         success: true,
         lists,

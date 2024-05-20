@@ -22,6 +22,7 @@ import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import ListViewer from "@codeup/components/dist/todo/ListViewer";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Todos() {
   const [error, setError] = React.useState<boolean>(false);
@@ -94,21 +95,20 @@ export default function Todos() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Todos</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Todos"}
                   search={{
-                    allow: true,
-                    searchFields: false,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={lists.map((list) => {
                     return {
                       title: list.name,
                       fields: [
                         {
                           icon: <FaUser />,
-                          text: "Besitzer: " + list.owner,
+                          text: "Besitzer: " + (list.owner as any).username,
                         },
                         {
                           icon: <FaCheck />,
@@ -120,54 +120,48 @@ export default function Todos() {
                         },
                       ],
                       buttonRows: [
-                        {
-                          buttons: [
-                            {
-                              text: "Öffnen",
-                              icon: <FaEye />,
-                              colorScheme: "blue",
-                              onClick: () => {
-                                setCurrentList(list);
-                                onOpen();
-                              },
+                        [
+                          {
+                            text: "Öffnen",
+                            leftIcon: <FaEye />,
+                            variant: "brand",
+                            onClick: () => {
+                              setCurrentList(list);
+                              onOpen();
                             },
-                          ],
-                        },
-                        {
-                          buttons: [
-                            {
-                              text: "Löschen",
-                              icon: <FaTrash />,
-                              colorScheme: "red",
-                              onClick: async () => {
-                                if (
-                                  await PopupManager.confirmAsync({
-                                    title: "Liste löschen",
-                                    question:
-                                      "Willst du die Liste wirklich löschen?",
-                                  })
-                                ) {
-                                  const res = await REST.ToDo.deleteList({
-                                    token: AccountManager.getActiveToken(),
-                                    listId: list._id,
-                                  });
+                          },
+                          {
+                            text: "Löschen",
+                            leftIcon: <FaTrash />,
+                            colorScheme: "red",
+                            onClick: async () => {
+                              if (
+                                await PopupManager.confirmAsync({
+                                  title: "Liste löschen",
+                                  question:
+                                    "Willst du die Liste wirklich löschen?",
+                                })
+                              ) {
+                                const res = await REST.ToDo.deleteList({
+                                  token: AccountManager.getActiveToken(),
+                                  listId: list._id,
+                                });
 
-                                  if (res.status === 200) {
-                                    reloadLists();
-                                    return;
-                                  }
-
-                                  PopupManager.alert({
-                                    title: "Fehler",
-                                    description:
-                                      "Die Liste konnte nicht gelöscht werden: " +
-                                      res.payload.error,
-                                  });
+                                if (res.status === 200) {
+                                  reloadLists();
+                                  return;
                                 }
-                              },
+
+                                PopupManager.alert({
+                                  title: "Fehler",
+                                  description:
+                                    "Die Liste konnte nicht gelöscht werden: " +
+                                    res.payload.error,
+                                });
+                              }
                             },
-                          ],
-                        },
+                          },
+                        ],
                       ],
                     };
                   })}

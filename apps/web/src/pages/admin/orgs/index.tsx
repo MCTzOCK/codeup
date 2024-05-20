@@ -26,13 +26,16 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Index() {
   const router = useRouter();
   const [orgs, setOrgs] = React.useState<
     {
       _id: string;
-      owner: string;
+      owner: {
+        username: string;
+      };
       name: string;
       members: string[];
       icon: string;
@@ -75,31 +78,28 @@ export default function Index() {
               </>
             ) : (
               <>
-                <Box mt={8}></Box>
-                <SuperText>Organisationen</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Organisationen"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={orgs.map((org) => {
                     return {
                       title: org.name,
                       buttonRows: [
-                        {
-                          buttons: [
-                            {
-                              text: "Anzeigen",
-                              icon: <FaEye />,
-                              disabled: false,
-                              colorScheme: "blue",
-                              onClick: () => {
-                                router.push("/orgs/" + org.name + "/manage");
-                              },
+                        [
+                          {
+                            text: "Anzeigen",
+                            leftIcon: <FaEye />,
+                            disabled: false,
+                            variant: "brand",
+                            onClick: () => {
+                              router.push("/orgs/" + org.name + "/manage");
                             },
-                          ],
-                        },
+                          },
+                        ],
                       ],
                       fields: [
                         {
@@ -111,7 +111,9 @@ export default function Index() {
                           icon: <FaUsers />,
                         },
                         {
-                          text: "Erstellt am: " + org.createdAt,
+                          text:
+                            "Erstellt am: " +
+                            new Date(org.createdAt).toLocaleString(),
                           icon: <FaClock />,
                         },
                         {
@@ -119,7 +121,7 @@ export default function Index() {
                           icon: <FaMoneyBill />,
                         },
                         {
-                          text: "Besitzer: " + org.owner,
+                          text: "Besitzer: " + org.owner.username,
                           icon: <FaUser />,
                         },
                       ],

@@ -78,7 +78,9 @@ export default function ChallengesPage() {
   return (
     <AdminLayout>
       <Flex p={4} justifyContent={"space-between"} alignItems={"center"}>
-        <CHeading size={"lg"}>Challenges</CHeading>
+        <Box w={"100%"} textAlign={"center"}>
+          <CHeading size={"xl"}>Challenges</CHeading>
+        </Box>
         <Button
           variant={"brand"}
           leftIcon={<FaPlus />}
@@ -89,7 +91,7 @@ export default function ChallengesPage() {
           Neu
         </Button>
       </Flex>
-      <Box p={4}>
+      <Box p={4} maxW={"99vw"} overflow={"auto"}>
         <Input
           placeholder={"Suche..."}
           mb={4}

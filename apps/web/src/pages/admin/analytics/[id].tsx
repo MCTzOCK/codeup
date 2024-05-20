@@ -55,6 +55,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function UserViewer() {
   const [user, setUser] = React.useState<{
@@ -187,7 +188,6 @@ export default function UserViewer() {
   return (
     <>
       <AdminLayout>
-        <Box mt={8}></Box>
         <SuperText>Analytics</SuperText>
         {!loaded || !user ? (
           <>
@@ -198,7 +198,7 @@ export default function UserViewer() {
         ) : (
           <>
             <Box w={"100%"}>
-              <Box m={4} p={4} bg={"black"} borderRadius={"md"}>
+              <Box m={4} p={4}>
                 <Flex justifyContent={"center"} mt={4}>
                   <chakra.img
                     src={user.profilePicture}
@@ -231,7 +231,7 @@ export default function UserViewer() {
                         gap={6}
                         mt={4}
                         p={4}
-                        bg={"gray.800"}
+                        bg={"gray.900"}
                         borderRadius={"md"}
                         w={"50%"}
                       >
@@ -285,11 +285,14 @@ export default function UserViewer() {
                       gap={"4rem"}
                     >
                       <GridItem>
-                        <Box>
-                          <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                            <Heading size={"lg"} textAlign={"left"}>
-                              Browser (%)
-                            </Heading>
+                        <Box
+                          bg={"gray.900"}
+                          rounded={["none", "lg"]}
+                          h={"100%"}
+                          p={6}
+                        >
+                          <CHeading size={"lg"}>Browser (%)</CHeading>
+                          <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                             <Pie
                               data={{
                                 labels: Object.keys(summary?.browsers || {}),
@@ -324,11 +327,14 @@ export default function UserViewer() {
                         </Box>
                       </GridItem>
                       <GridItem>
-                        <Box>
-                          <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                            <Heading size={"lg"} textAlign={"left"}>
-                              Betriebssysteme (%)
-                            </Heading>
+                        <Box
+                          bg={"gray.900"}
+                          rounded={["none", "lg"]}
+                          h={"100%"}
+                          p={6}
+                        >
+                          <CHeading size={"lg"}>Betriebssysteme (%)</CHeading>
+                          <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                             <Pie
                               data={{
                                 labels: Object.keys(summary?.os || {}),
@@ -361,11 +367,14 @@ export default function UserViewer() {
                         </Box>
                       </GridItem>
                       <GridItem>
-                        <Box>
-                          <Stack w={"100%"} h={"40vh"} alignItems={"center"}>
-                            <Heading size={"lg"} textAlign={"left"}>
-                              Seiten (%)
-                            </Heading>
+                        <Box
+                          bg={"gray.900"}
+                          rounded={["none", "lg"]}
+                          h={"100%"}
+                          p={6}
+                        >
+                          <CHeading size={"lg"}>Seiten (%)</CHeading>
+                          <Stack w={"100%"} h={"35vh"} alignItems={"center"}>
                             <Pie
                               data={{
                                 labels: pathsToLabels(summary?.paths),
@@ -397,89 +406,99 @@ export default function UserViewer() {
                           </Stack>
                         </Box>
                       </GridItem>
-                    </Grid>
-                    <Accordion allowToggle mt={8} mb={4}>
-                      <AccordionItem>
-                        <AccordionButton>
-                          <Box flex="1" textAlign="left">
-                            Alle Seitenaufrufe
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel>
-                          <InputGroup>
-                            <InputLeftElement>
-                              <FaSearch />
-                            </InputLeftElement>
-                            <Input
-                              placeholder={"Suche"}
-                              onChange={(e) => {
-                                const filter = e.target.value;
+                      <GridItem>
+                        <Box
+                          bg={"gray.900"}
+                          rounded={["none", "lg"]}
+                          h={"100%"}
+                          p={6}
+                        >
+                          <Accordion allowToggle mt={8} mb={4}>
+                            <AccordionItem>
+                              <AccordionButton>
+                                <Box flex="1" textAlign="left">
+                                  Alle Seitenaufrufe
+                                </Box>
+                                <AccordionIcon />
+                              </AccordionButton>
+                              <AccordionPanel>
+                                <InputGroup>
+                                  <InputLeftElement>
+                                    <FaSearch />
+                                  </InputLeftElement>
+                                  <Input
+                                    placeholder={"Suche"}
+                                    onChange={(e) => {
+                                      const filter = e.target.value;
 
-                                setFilteredAnalytics(
-                                  fullAnalytics.filter((a) => {
-                                    if (filter === "") return true;
-                                    return (
-                                      a.path
-                                        .toLowerCase()
-                                        .includes(filter.toLowerCase()) ||
-                                      a.browser
-                                        .toLowerCase()
-                                        .includes(filter.toLowerCase()) ||
-                                      a.os
-                                        .toLowerCase()
-                                        .includes(filter.toLowerCase())
-                                    );
-                                  })
-                                );
-                              }}
-                            />
-                          </InputGroup>
-                          <TableContainer>
-                            <Table>
-                              <Thead>
-                                <Tr>
-                                  <Th>Zeitpunkt</Th>
-                                  <Th>Seite</Th>
-                                  <Th>Browser</Th>
-                                  <Th>Betriebssystem</Th>
-                                </Tr>
-                              </Thead>
-                              <Tbody>
-                                {filteredAnalytics
-                                  .sort((a, b) => {
-                                    return (
-                                      new Date(b.createdAt).getTime() -
-                                      new Date(a.createdAt).getTime()
-                                    );
-                                  })
-                                  .map((analytics) => {
-                                    return (
-                                      <>
-                                        <Tr>
-                                          <Td>
-                                            {new Date(analytics.createdAt)
-                                              .toLocaleString()
-                                              .replace(", ", " um ") + " Uhr"}
-                                          </Td>
-                                          <Td>
-                                            <code>{analytics.path}</code>
-                                          </Td>
-                                          <Td>{analytics.browser}</Td>
-                                          <Td>{analytics.os}</Td>
-                                        </Tr>
-                                      </>
-                                    );
-                                  })}
-                              </Tbody>
-                              <TableCaption>
-                                {filteredAnalytics.length} Einträge
-                              </TableCaption>
-                            </Table>
-                          </TableContainer>
-                        </AccordionPanel>
-                      </AccordionItem>
-                    </Accordion>
+                                      setFilteredAnalytics(
+                                        fullAnalytics.filter((a) => {
+                                          if (filter === "") return true;
+                                          return (
+                                            a.path
+                                              .toLowerCase()
+                                              .includes(filter.toLowerCase()) ||
+                                            a.browser
+                                              .toLowerCase()
+                                              .includes(filter.toLowerCase()) ||
+                                            a.os
+                                              .toLowerCase()
+                                              .includes(filter.toLowerCase())
+                                          );
+                                        })
+                                      );
+                                    }}
+                                  />
+                                </InputGroup>
+                                <TableContainer>
+                                  <Table>
+                                    <Thead>
+                                      <Tr>
+                                        <Th>Zeitpunkt</Th>
+                                        <Th>Seite</Th>
+                                        <Th>Browser</Th>
+                                        <Th>Betriebssystem</Th>
+                                      </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                      {filteredAnalytics
+                                        .sort((a, b) => {
+                                          return (
+                                            new Date(b.createdAt).getTime() -
+                                            new Date(a.createdAt).getTime()
+                                          );
+                                        })
+                                        .map((analytics) => {
+                                          return (
+                                            <>
+                                              <Tr>
+                                                <Td>
+                                                  {new Date(analytics.createdAt)
+                                                    .toLocaleString()
+                                                    .replace(", ", " um ") +
+                                                    " Uhr"}
+                                                </Td>
+                                                <Td>
+                                                  <code>{analytics.path}</code>
+                                                </Td>
+                                                <Td>{analytics.browser}</Td>
+                                                <Td>{analytics.os}</Td>
+                                              </Tr>
+                                            </>
+                                          );
+                                        })}
+                                    </Tbody>
+                                    <TableCaption>
+                                      {filteredAnalytics.length} Einträge
+                                    </TableCaption>
+                                  </Table>
+                                </TableContainer>
+                              </AccordionPanel>
+                            </AccordionItem>
+                          </Accordion>
+                        </Box>
+                      </GridItem>
+                    </Grid>
                   </>
                 ) : null}
               </Box>

@@ -147,17 +147,15 @@ export default function AdminUserCreator(props: {
             </FormControl>
             <FormControl id="active">
               <FormLabel>Aktiv</FormLabel>
-              <Checkbox name={"active"} defaultChecked>
+              <Checkbox name={"active"} defaultChecked colorScheme={"brand"}>
                 Aktiv
               </Checkbox>
             </FormControl>
 
             <Flex>
-              <Box mr={"auto"}>
-                <Button colorScheme="green" type="submit">
-                  Erstellen
-                </Button>
-              </Box>
+              <Button variant={"brand"} type="submit" w={"100%"}>
+                Erstellen
+              </Button>
             </Flex>
           </Stack>
         </form>

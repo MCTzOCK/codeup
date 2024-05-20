@@ -62,6 +62,10 @@ export default async function handleRequest(
 
       const projects = await CodeUpKidsProjectModel.find({});
 
+      for (const p of projects) {
+        await p.populate("owner");
+      }
+
       res.status(200).json({
         success: true,
         projects,

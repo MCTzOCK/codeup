@@ -86,8 +86,7 @@ export default function SelectPopupComponent(props: {
                 Abbrechen
               </Button>
               <Button
-                colorScheme="red"
-                variant={"outline"}
+                variant={"brand"}
                 onClick={() => {
                   const data = document.getElementById(
                     "input-" + id

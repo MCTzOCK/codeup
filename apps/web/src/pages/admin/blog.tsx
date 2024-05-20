@@ -37,10 +37,19 @@ import {
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import {
+  FaClock,
+  FaEdit,
+  FaFile,
+  FaPlus,
+  FaTags,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import Editor from "@monaco-editor/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Blog() {
   const [blogs, setBlogs] = React.useState<
@@ -146,7 +155,7 @@ export default function Blog() {
                           key={tag}
                           borderRadius={"full"}
                           variant={"solid"}
-                          colorScheme={"green"}
+                          colorScheme={"brand"}
                         >
                           <TagLabel>{tag.toUpperCase()}</TagLabel>
                           <TagCloseButton
@@ -213,6 +222,7 @@ export default function Blog() {
                 >
                   <Button
                     leftIcon={<FaTrash />}
+                    colorScheme={"red"}
                     onClick={() => {
                       REST.Admin.deleteBlog({
                         token: localStorage.getItem("token") as string,
@@ -253,7 +263,7 @@ export default function Blog() {
                     Abbrechen
                   </Button>
                   <Button
-                    colorScheme={"green"}
+                    variant={"brand"}
                     onClick={() => {
                       REST.Admin.updateBlog({
                         token: localStorage.getItem("token") as string,
@@ -287,106 +297,68 @@ export default function Blog() {
               </Stack>
             </CodeUpModal>
 
-            <Box mt={8}></Box>
-            <SuperText>Blog</SuperText>
-            <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
-              <Input
-                w={["75%", "25%"]}
-                placeholder={"Suche"}
-                onChange={(e) => {
-                  setQuery(e.currentTarget.value);
-                }}
-              />
-            </Flex>
-            <Grid
-              templateColumns={[
-                "repeat(1, 1fr)",
-                "repeat(2, 1fr)",
-                "repeat(3, 1fr)",
-              ]}
-              gap={"2rem"}
-              p={8}
-            >
-              <GridItem
-                key={"new"}
-                bg={"gray.900"}
-                p={"1rem"}
-                borderRadius={"0.5rem"}
-                _hover={{
-                  cursor: "pointer",
-                  borderColor: "blue.300",
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-                }}
-                onClick={() => {
-                  REST.Admin.createBlog({
-                    token: localStorage.getItem("token") as string,
-                    title: "Neuer Blog",
-                    content: "Inhalt",
-                    tags: [],
-                  }).then((res) => {
-                    reload();
-                    setCurrentBlog(res.payload.blog);
-                    onOpen();
-                  });
-                }}
-              >
-                <Heading
-                  fontSize={"8xl"}
-                  textAlign={"center"}
-                  color={"blue.300"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  display={"flex"}
-                  h={"100%"}
-                >
-                  <FaPlus />
-                </Heading>
-              </GridItem>
-              {filteredBlogs.map((blog) => (
-                <>
-                  <GridItem
-                    key={blog._id}
-                    bg={"gray.900"}
-                    p={"1rem"}
-                    borderRadius={"0.5rem"}
-                    onClick={() => {
-                      setCurrentBlog(blog);
+            <GridLayoutV2
+              pageTitle={"Blog"}
+              search={{
+                show: true,
+                fields: true,
+              }}
+              topButtons={[
+                {
+                  text: "Neu",
+                  leftIcon: <FaPlus />,
+                  variant: "brand",
+                  onClick: async () => {
+                    REST.Admin.createBlog({
+                      token: localStorage.getItem("token") as string,
+                      title: "Neuer Blog",
+                      content: "Inhalt",
+                      tags: [],
+                    }).then((res) => {
+                      reload();
+                      setCurrentBlog(res.payload.blog);
                       onOpen();
-                    }}
-                    cursor={"pointer"}
-                    _hover={{
-                      shadow: "xl",
-                    }}
-                  >
-                    <Flex alignItems={"center"}>
-                      <Heading size={"lg"}>{blog.title}</Heading>
-                      <Text ml={"auto"}>
-                        {new Date(blog.published_at).toLocaleString()}
-                      </Text>
-                    </Flex>
-                    <Text>
-                      von
-                      <chakra.span color={"blue.300"} ml={2}>
-                        @{blog.authorUsername}
-                      </chakra.span>
-                    </Text>
-                    <HStack mt={4} mb={4} overflow={"scroll"} w={"fit-content"}>
-                      {blog.tags.map((tag) => {
-                        return (
-                          <>
-                            <Tag size={"md"} key={tag} borderRadius={"full"}>
-                              <TagLabel>{tag.toUpperCase()}</TagLabel>
-                            </Tag>
-                          </>
-                        );
-                      })}
-                    </HStack>
-                    <p>{blog.content.substring(0, 200)}</p>
-                  </GridItem>
-                </>
-              ))}
-            </Grid>
+                    });
+                  },
+                },
+              ]}
+              entries={blogs.map((blog) => {
+                return {
+                  title: blog.title,
+                  buttonRows: [
+                    [
+                      {
+                        text: "Bearbeiten",
+                        variant: "brand",
+                        leftIcon: <FaEdit />,
+                        onClick: () => {
+                          setCurrentBlog(blog);
+                          onOpen();
+                        },
+                      },
+                    ],
+                  ],
+                  fields: [
+                    {
+                      text: "Autor: @" + blog.authorUsername,
+                      icon: <FaUser />,
+                    },
+                    {
+                      text: new Date(blog.published_at).toLocaleString(),
+                      icon: <FaClock />,
+                    },
+                    {
+                      text: blog.tags.join(", "),
+                      icon: <FaTags />,
+                    },
+                    {
+                      text: blog.content.substring(0, 50),
+                      icon: <FaFile />,
+                    },
+                  ],
+                };
+              })}
+            />
           </>
         )}
       </AdminLayout>

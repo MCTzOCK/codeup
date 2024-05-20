@@ -47,7 +47,8 @@ import {
   FaCheck,
   FaChild,
   FaCode,
-  FaComment, FaCross,
+  FaComment,
+  FaCross,
   FaLaptopCode,
   FaLink,
   FaNewspaper,
@@ -55,9 +56,10 @@ import {
   FaProjectDiagram,
   FaRocket,
   FaSitemap,
-  FaUser
+  FaUser,
 } from "react-icons/fa";
 import { BiError } from "react-icons/bi";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Index() {
   ChartJS.register(
@@ -154,19 +156,12 @@ export default function Index() {
         <title>Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Flex
-          w={"100%"}
-          minH={"100vh"}
-          h={"fit-content"}
-          direction={"column"}
-          mt={8}
-        >
+        <Flex w={"100%"} minH={"100vh"} h={"fit-content"} direction={"column"}>
           <SuperText>Dashboard</SuperText>
           <Stack>
-            <Heading p={8} pb={0}>
-              Generell
-            </Heading>
-
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Generell</CHeading>
+            </Box>
             <Grid
               templateColumns={[
                 "repeat(1, 1fr)",
@@ -202,11 +197,9 @@ export default function Index() {
                 color={"orange.400"}
               />
             </Grid>
-
-            <Heading p={8} pb={0}>
-              Benutzer
-            </Heading>
-
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Benutzer</CHeading>
+            </Box>
             <Grid
               templateColumns={[
                 "repeat(1, 1fr)",
@@ -239,9 +232,9 @@ export default function Index() {
               />
             </Grid>
 
-            <Heading p={8} pb={0}>
-              Entwicklung
-            </Heading>
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Entwicklung</CHeading>
+            </Box>
 
             <Grid
               templateColumns={[
@@ -293,9 +286,9 @@ export default function Index() {
               />
             </Grid>
 
-            <Heading p={8} pb={0}>
-              Austausch
-            </Heading>
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Austausch</CHeading>
+            </Box>
 
             <Grid
               templateColumns={[
@@ -323,9 +316,9 @@ export default function Index() {
               />
             </Grid>
 
-            <Heading p={8} pb={0}>
-              Planung
-            </Heading>
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Planung</CHeading>
+            </Box>
 
             <Grid
               templateColumns={[
@@ -351,9 +344,9 @@ export default function Index() {
               />
             </Grid>
 
-            <Heading p={8} pb={0}>
-              Lernen
-            </Heading>
+            <Box p={8} pb={0}>
+              <CHeading size={"lg"}>Lernen</CHeading>
+            </Box>
 
             <Grid
               templateColumns={[
@@ -401,28 +394,27 @@ const DashCard = (props: {
   return (
     <>
       <Box
-        h={"100%"}
         w={"100%"}
         boxShadow={"xl"}
-        backgroundColor={props.color}
+        backgroundColor={"gray.900"}
         rounded={"xl"}
         maxW={"600px"}
         minW={"fit-content"}
       >
         <HStack>
-          <Heading size={"2xl"} p={8}>
+          <Heading size={"2xl"} p={8} color={"brand.500"}>
             {props.icon}
           </Heading>
-          <Box borderLeft={"3px dashed black"} pl={8} pt={4} pb={4} pr={4}>
+          <Box pl={8} pt={4} pb={4} pr={4}>
             <Text
               fontSize={"md"}
               textAlign={"left"}
-              color={"gray.600"}
+              color={"gray.200"}
               fontWeight={"extrabold"}
             >
               {props.title.toUpperCase()}
             </Text>
-            <Heading size={"xl"} color={"white"}>
+            <Heading size={"xl"} color={"brand.500"}>
               {props.number}
             </Heading>
 
@@ -431,7 +423,7 @@ const DashCard = (props: {
                 <Text
                   fontSize={"md"}
                   textAlign={"left"}
-                  color={"gray.600"}
+                  color={"gray.200"}
                   fontWeight={"extrabold"}
                 >
                   {props.subtitle}

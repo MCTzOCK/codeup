@@ -62,6 +62,10 @@ export default async function handleRequest(
 
       const roads = await RoadmapModel.find({});
 
+      for (const r of roads) {
+        await r.populate("owner");
+      }
+
       res.status(200).json({
         success: true,
         roads,

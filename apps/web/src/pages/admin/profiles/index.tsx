@@ -25,6 +25,7 @@ import AdminProfileViewer from "@codeup/components/admin/AdminProfileViewer";
 import Head from "next/head";
 import * as React from "react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function AdminProfiles() {
   const [profiles, setProfiles] = useState<any[]>([]);
@@ -81,8 +82,10 @@ export default function AdminProfiles() {
       </Head>
       <AdminLayout>
         <Flex w={"100%"} minH={"100vh"} h="fit-content" direction={"column"}>
-          <Box mt={8}></Box>
-          <SuperText>Profile</SuperText>
+          <Box textAlign={"center"}>
+            <CHeading size={"xl"}>Profile</CHeading>
+          </Box>
+
           <Flex
             w={"100%"}
             h={"100%"}

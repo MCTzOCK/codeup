@@ -188,7 +188,7 @@ export default function UserManagement() {
                         onClick={() => {
                           onOpenViewer();
                         }}
-                        colorScheme={"green"}
+                        variant={"brand"}
                         leftIcon={<FaPlus />}
                       >
                         Neu
@@ -202,7 +202,7 @@ export default function UserManagement() {
                       alignItems={"center"}
                       mt={4}
                     >
-                      <Box w={"100%"}>
+                      <Box w={"100%"} p={2}>
                         <DataTable
                           columns={[
                             "Profilbild",

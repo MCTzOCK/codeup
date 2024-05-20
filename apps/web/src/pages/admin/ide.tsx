@@ -29,6 +29,7 @@ import {
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { Box } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Kids() {
   const router = useRouter();
@@ -85,14 +86,13 @@ export default function Kids() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Legacy Projekte</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Legacy Projekte"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={projects.map((p) => ({
                     title: p.name,
                     fields: [
@@ -115,56 +115,51 @@ export default function Kids() {
                       },
                     ],
                     buttonRows: [
-                      {
-                        buttons: [
-                          {
-                            text: "Öffnen",
-                            onClick: () => {
-                              router.push(`/ide/project/${p._id}`);
-                            },
-                            icon: <FaEye />,
-                            colorScheme: "blue",
-                            disabled: false,
+                      [
+                        {
+                          text: "Öffnen",
+                          onClick: () => {
+                            router.push(`/ide/project/${p._id}`);
                           },
-                        ],
-                      },
-                      {
-                        buttons: [
-                          {
-                            text: "Löschen",
-                            onClick: async () => {
-                              if (
-                                !(await PopupManager.confirmAsync({
-                                  title: "Projekt löschen",
-                                  question:
-                                    "Bist du dir sicher, dass du das Projekt löschen möchtest?",
-                                }))
-                              )
-                                return;
+                          leftIcon: <FaEye />,
+                          variant: "brand",
+                          disabled: false,
+                        },
 
-                              const res = await REST.IDE.deleteProject({
-                                token: AccountManager.getActiveToken(),
-                                projectId: p._id,
+                        {
+                          text: "Löschen",
+                          onClick: async () => {
+                            if (
+                              !(await PopupManager.confirmAsync({
+                                title: "Projekt löschen",
+                                question:
+                                  "Bist du dir sicher, dass du das Projekt löschen möchtest?",
+                              }))
+                            )
+                              return;
+
+                            const res = await REST.IDE.deleteProject({
+                              token: AccountManager.getActiveToken(),
+                              projectId: p._id,
+                            });
+
+                            if (res.status !== 200) {
+                              PopupManager.alertAsync({
+                                title: "Fehler",
+                                description:
+                                  "Es ist ein Fehler aufgetreten: " +
+                                  res.payload.error,
                               });
+                              return;
+                            }
 
-                              if (res.status !== 200) {
-                                PopupManager.alertAsync({
-                                  title: "Fehler",
-                                  description:
-                                    "Es ist ein Fehler aufgetreten: " +
-                                    res.payload.error,
-                                });
-                                return;
-                              }
-
-                              reload();
-                            },
-                            icon: <FaTrash />,
-                            colorScheme: "red",
-                            disabled: false,
+                            reload();
                           },
-                        ],
-                      },
+                          leftIcon: <FaTrash />,
+                          colorScheme: "red",
+                          disabled: false,
+                        },
+                      ],
                     ],
                   }))}
                 />

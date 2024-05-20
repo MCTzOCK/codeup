@@ -39,6 +39,7 @@ import {
 } from "react-icons/fa";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Snippets() {
   const [snippets, setSnippets] = React.useState<
@@ -166,6 +167,7 @@ export default function Snippets() {
                     >
                       <Button
                         leftIcon={<FaTrash />}
+                        colorScheme={"red"}
                         onClick={() => {
                           REST.Snippets.deleteSnippet({
                             token: localStorage.getItem("token") as string,
@@ -207,7 +209,7 @@ export default function Snippets() {
                         Abbrechen
                       </Button>
                       <Button
-                        colorScheme={"green"}
+                        variant={"brand"}
                         onClick={() => {
                           REST.Snippets.updateSnippet({
                             token: localStorage.getItem("token") as string,
@@ -238,15 +240,13 @@ export default function Snippets() {
                     </ButtonGroup>
                   </Stack>
                 </CodeUpModal>
-                <Box mt={6}></Box>
-                <SuperText>Code Snippets</SuperText>
-
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Code Snippets"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={snippets.map((snippet) => {
                     return {
                       title: snippet.title,
@@ -269,36 +269,34 @@ export default function Snippets() {
                         },
                       ],
                       buttonRows: [
-                        {
-                          buttons: [
-                            {
-                              icon: <FaPen />,
-                              text: "Bearbeiten",
-                              colorScheme: "blue",
-                              onClick: async () => {
-                                setCurrentSnippet(snippet);
-                                onOpen();
-                              },
+                        [
+                          {
+                            leftIcon: <FaPen />,
+                            text: "Bearbeiten",
+                            variant: "brand",
+                            onClick: async () => {
+                              setCurrentSnippet(snippet);
+                              onOpen();
                             },
-                            {
-                              icon: <FaCopy />,
-                              text: "Kopieren",
-                              colorScheme: "green",
-                              onClick: async () => {
-                                navigator.clipboard.writeText(snippet.code);
-                                toast({
-                                  title: "Code kopiert",
-                                  description:
-                                    "Der Code wurde erfolgreich kopiert",
-                                  status: "success",
-                                  duration: 1500,
-                                  isClosable: false,
-                                  position: "bottom-right",
-                                });
-                              },
+                          },
+                          {
+                            leftIcon: <FaCopy />,
+                            text: "Kopieren",
+                            variant: "brand",
+                            onClick: async () => {
+                              navigator.clipboard.writeText(snippet.code);
+                              toast({
+                                title: "Code kopiert",
+                                description:
+                                  "Der Code wurde erfolgreich kopiert",
+                                status: "success",
+                                duration: 1500,
+                                isClosable: false,
+                                position: "bottom-right",
+                              });
                             },
-                          ],
-                        },
+                          },
+                        ],
                       ],
                     };
                   })}

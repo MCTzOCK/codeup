@@ -63,6 +63,10 @@ export default async function handleRequest(
 
       const orgs = await OrgModel.find();
 
+      for (const o of orgs) {
+        await o.populate("owner");
+      }
+
       res.status(200).json({
         success: true,
         orgs,

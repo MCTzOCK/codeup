@@ -37,10 +37,12 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { FaPlus } from "react-icons/fa";
+import { FaCheck, FaInfo, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import PopupManager from "../../../global/PopupManager";
 
 export default function Editor() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -111,204 +113,169 @@ export default function Editor() {
         <title>Projektideen - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Flex
-          w={"100%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          direction={"column"}
-        >
-          <Box mt={8}></Box>
-          <SuperText>Projektideen</SuperText>
-          <Input
-            placeholder={"Suche nach Projektideen"}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-            w={"50%"}
-            mt={"2rem"}
-          />
+        <GridLayoutV2
+          pageTitle={"Projektideen"}
+          search={{
+            show: true,
+            fields: true,
+          }}
+          topButtons={[
+            {
+              text: "Neu",
+              leftIcon: <FaPlus />,
+              variant: "brand",
+              onClick: async () => {
+                await PopupManager.alertAsync({
+                  title: "Neue Projektidee",
+                  description: (
+                    <>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
 
-          <Popover>
-            <PopoverTrigger>
-              <Button leftIcon={<FaPlus />} colorScheme={"green"} mt={"2rem"}>
-                Neu
-              </Button>
-            </PopoverTrigger>
-            <Portal>
-              <PopoverContent bgColor={"black"}>
-                <PopoverArrow bgColor={"black"} />
-                <PopoverCloseButton />
-                <PopoverBody>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
+                          const data = new FormData(
+                            e.target as HTMLFormElement
+                          );
 
-                      const data = new FormData(e.target as HTMLFormElement);
+                          const title = data.get("title") as string;
+                          const description = data.get("description") as string;
+                          const exampleDeployedURL = data.get(
+                            "exampleDeployedURL"
+                          ) as string;
+                          const exampleSourceURL = data.get(
+                            "exampleSourceURL"
+                          ) as string;
+                          const level = data.get("level") as string;
 
-                      const title = data.get("title") as string;
-                      const description = data.get("description") as string;
-                      const exampleDeployedURL = data.get(
-                        "exampleDeployedURL"
-                      ) as string;
-                      const exampleSourceURL = data.get(
-                        "exampleSourceURL"
-                      ) as string;
-                      const level = data.get("level") as string;
-
-                      REST.Admin.createProjectIdea({
-                        token: localStorage.getItem("token") as string,
-                        title,
-                        description,
-                        exampleDeployedURL,
-                        exampleSourceURL,
-                        level,
-                      }).then((res) => {
-                        if (res.status === 200) {
-                          toast({
-                            title: "Erfolgreich",
-                            description:
-                              "Die Projekt Idee wurde erfolgreich erstellt!",
-                            status: "success",
-                            duration: 1500,
-                            isClosable: true,
-                            position: "bottom-right",
+                          REST.Admin.createProjectIdea({
+                            token: localStorage.getItem("token") as string,
+                            title,
+                            description,
+                            exampleDeployedURL,
+                            exampleSourceURL,
+                            level,
+                          }).then((res) => {
+                            PopupManager.removeCurrentPopup();
+                            if (res.status === 200) {
+                              toast({
+                                title: "Erfolgreich",
+                                description:
+                                  "Die Projekt Idee wurde erfolgreich erstellt!",
+                                status: "success",
+                                duration: 1500,
+                                isClosable: true,
+                                position: "bottom-right",
+                              });
+                              reload();
+                            } else {
+                              toast({
+                                title: "Fehler",
+                                description:
+                                  "Ein Fehler ist aufgetreten: " +
+                                  res.payload.error,
+                                status: "error",
+                                duration: 1500,
+                                isClosable: true,
+                                position: "bottom-right",
+                              });
+                            }
                           });
-                          reload();
-                        } else {
-                          toast({
-                            title: "Fehler",
-                            description:
-                              "Ein Fehler ist aufgetreten: " +
-                              res.payload.error,
-                            status: "error",
-                            duration: 1500,
-                            isClosable: true,
-                            position: "bottom-right",
-                          });
-                        }
-                      });
-                    }}
-                  >
-                    <FormControl isRequired>
-                      <FormLabel>Titel</FormLabel>
-                      <Input placeholder={"Titel"} name={"title"} />
-                    </FormControl>
-                    <FormControl isRequired mt={4}>
-                      <FormLabel>Beschreibung</FormLabel>
-                      <Textarea
-                        placeholder={"Beschreibung"}
-                        name={"description"}
-                      />
-                    </FormControl>
-                    <FormControl isRequired mt={4}>
-                      <FormLabel>Level</FormLabel>
-                      <Select name={"level"}>
-                        <option value={"easy"}>Einfach</option>
-                        <option value={"medium"}>Mittel</option>
-                        <option value={"hard"}>Schwer</option>
-                      </Select>
-                    </FormControl>
-                    <FormControl mt={4}>
-                      <FormLabel>Beispiel/Vorschau</FormLabel>
-                      <Input
-                        placeholder={"https://codeup.space"}
-                        name={"exampleDeployedURL"}
-                        type={"url"}
-                      />
-                    </FormControl>
-                    <FormControl mt={4}>
-                      <FormLabel>Beispiel/Code</FormLabel>
-                      <Input
-                        placeholder={"https://github.com/MCTzOCK/codeup"}
-                        name={"exampleSourceURL"}
-                        type={"url"}
-                      />
-                    </FormControl>
-                    <ButtonGroup mt={4} w={"100%"}>
-                      <Button
-                        w={"100%"}
-                        leftIcon={<FaPlus />}
-                        type={"submit"}
-                        colorScheme={"green"}
+                        }}
                       >
-                        Erstellen
-                      </Button>
-                    </ButtonGroup>
-                  </form>
-                </PopoverBody>
-              </PopoverContent>
-            </Portal>
-          </Popover>
-        </Flex>
-        <Grid
-          templateColumns={
-            filteredProjectIdeas.length > 0
-              ? [
-                  "repeat(1, 1fr)",
-                  "repeat(2, 1fr)",
-                  "repeat(3, 1fr)",
-                  "repeat(4, 1fr)",
-                  "repeat(5, 1fr)",
-                ]
-              : "repeat(1, 1fr)"
-          }
-          gap={6}
-          p={10}
-        >
-          {filteredProjectIdeas.map((idea) => (
-            <>
-              <Card
-                maxW="sm"
-                h={"100%"}
-                bgColor={"black"}
-                rounded={"xl"}
-                boxShadow={"xl"}
-                p={5}
-                id={"_card_" + idea._id}
-              >
-                <CardBody>
-                  <Stack mt={2} spacing="3">
-                    <Heading size="md">{idea.title}</Heading>
-                    <Badge
-                      w={"100%"}
-                      fontSize={"lg"}
-                      colorScheme={
-                        idea.level === "easy"
-                          ? "green"
-                          : idea.level === "medium"
-                          ? "yellow"
-                          : "red"
-                      }
-                    >
-                      {idea.level === "easy"
-                        ? "Einfach"
-                        : idea.level === "medium"
-                        ? "Mittel"
-                        : "Schwer"}
-                    </Badge>
-                    <Text>{idea.description}</Text>
-                    <Text color={"blue.400"}>
-                      {idea.exampleDeployedURL || ""}
-                    </Text>
-                    <Text color={"blue.400"}>
-                      {idea.exampleSourceURL || ""}
-                    </Text>
-                  </Stack>
-                </CardBody>
-                <CardFooter mt={4}>
-                  <ButtonGroup spacing="2">
-                    <Popover>
-                      <PopoverTrigger>
-                        <Button variant="solid" colorScheme="blue">
-                          Bearbeiten
-                        </Button>
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent bgColor={"black"}>
-                          <PopoverArrow bgColor={"black"} />
-                          <PopoverCloseButton />
-                          <PopoverBody>
+                        <FormControl isRequired>
+                          <FormLabel>Titel</FormLabel>
+                          <Input placeholder={"Titel"} name={"title"} />
+                        </FormControl>
+                        <FormControl isRequired mt={4}>
+                          <FormLabel>Beschreibung</FormLabel>
+                          <Textarea
+                            placeholder={"Beschreibung"}
+                            name={"description"}
+                          />
+                        </FormControl>
+                        <FormControl isRequired mt={4}>
+                          <FormLabel>Level</FormLabel>
+                          <Select name={"level"}>
+                            <option value={"easy"}>Einfach</option>
+                            <option value={"medium"}>Mittel</option>
+                            <option value={"hard"}>Schwer</option>
+                          </Select>
+                        </FormControl>
+                        <FormControl mt={4}>
+                          <FormLabel>Beispiel/Vorschau</FormLabel>
+                          <Input
+                            placeholder={"https://codeup.space"}
+                            name={"exampleDeployedURL"}
+                            type={"url"}
+                          />
+                        </FormControl>
+                        <FormControl mt={4}>
+                          <FormLabel>Beispiel/Code</FormLabel>
+                          <Input
+                            placeholder={"https://github.com/MCTzOCK/codeup"}
+                            name={"exampleSourceURL"}
+                            type={"url"}
+                          />
+                        </FormControl>
+                        <ButtonGroup mt={4} w={"100%"}>
+                          <Button
+                            w={"100%"}
+                            leftIcon={<FaPlus />}
+                            type={"submit"}
+                            variant={"brand"}
+                          >
+                            Erstellen
+                          </Button>
+                        </ButtonGroup>
+                      </form>
+                    </>
+                  ),
+                });
+              },
+            },
+          ]}
+          entries={projectIdeas.map((idea) => {
+            return {
+              title: idea.title,
+              fields: [
+                {
+                  text: "ID: " + idea._id,
+                  icon: <FaInfo />,
+                },
+                {
+                  text:
+                    "Level: " +
+                    (idea.level === "easy"
+                      ? "Einfach"
+                      : idea.level === "medium"
+                      ? "Mittel"
+                      : "Schwer"),
+                  icon: <FaInfo />,
+                },
+                {
+                  text: idea.description,
+                  icon: <FaInfo />,
+                },
+                {
+                  text: "Deployment URL: " + idea.exampleDeployedURL || "K/A",
+                  icon: <FaInfo />,
+                },
+                {
+                  text: "Quellcode-URL: " + idea.exampleSourceURL || "K/A",
+                  icon: <FaInfo />,
+                },
+              ],
+              buttonRows: [
+                [
+                  {
+                    text: "Bearbeiten",
+                    leftIcon: <FaPen />,
+                    variant: "brand",
+                    onClick: async () => {
+                      await PopupManager.alertAsync({
+                        title: "Bearbeiten",
+                        description: (
+                          <>
                             <form
                               onSubmit={async (e) => {
                                 e.preventDefault();
@@ -351,6 +318,8 @@ export default function Editor() {
                                       level,
                                     });
 
+                                  PopupManager.removeCurrentPopup();
+
                                   if (res1.status === 200) {
                                     toast({
                                       title: "Erfolgreich",
@@ -362,10 +331,6 @@ export default function Editor() {
                                       position: "bottom-right",
                                     });
                                     reload();
-                                    document
-                                      .getElementById("_card_" + idea._id)!
-                                      .querySelector("button")!
-                                      .click();
                                   } else {
                                     toast({
                                       title: "Fehler",
@@ -454,72 +419,59 @@ export default function Editor() {
                               <ButtonGroup mt={4} w={"100%"}>
                                 <Button
                                   w={"100%"}
-                                  leftIcon={<FaPlus />}
+                                  leftIcon={<FaCheck />}
                                   type={"submit"}
-                                  colorScheme={"green"}
+                                  variant={"brand"}
                                 >
                                   Abschließen
                                 </Button>
                               </ButtonGroup>
                             </form>
-                          </PopoverBody>
-                        </PopoverContent>
-                      </Portal>
-                    </Popover>
-                    <Button
-                      variant="ghost"
-                      colorScheme="red"
-                      onClick={() => {
-                        REST.Admin.deleteProjectIdea({
-                          token: localStorage.getItem("token") as string,
-                          id: idea._id,
-                        }).then((res) => {
-                          if (res.status === 200) {
-                            toast({
-                              title: "Erfolgreich",
-                              description:
-                                "Die Projekt Idee wurde erfolgreich gelöscht!",
-                              status: "success",
-                              duration: 1500,
-                              isClosable: true,
-                              position: "bottom-right",
-                            });
-                            reload();
-                          } else {
-                            toast({
-                              title: "Fehler",
-                              description:
-                                "Ein Fehler ist aufgetreten: " +
-                                res.payload.error,
-                              status: "error",
-                              duration: 1500,
-                              isClosable: true,
-                              position: "bottom-right",
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </ButtonGroup>
-                </CardFooter>
-              </Card>
-            </>
-          ))}
-          {filteredProjectIdeas.length === 0 ? (
-            <>
-              <Text
-                textAlign={"center"}
-                fontSize={"2xl"}
-                color={"gray.500"}
-                mt={4}
-              >
-                Keine Projekt Ideen gefunden!
-              </Text>
-            </>
-          ) : null}
-        </Grid>
+                          </>
+                        ),
+                      });
+                    },
+                  },
+                  {
+                    text: "Löschen",
+                    leftIcon: <FaTrash />,
+                    colorScheme: "red",
+                    onClick: async () => {
+                      REST.Admin.deleteProjectIdea({
+                        token: localStorage.getItem("token") as string,
+                        id: idea._id,
+                      }).then((res) => {
+                        if (res.status === 200) {
+                          toast({
+                            title: "Erfolgreich",
+                            description:
+                              "Die Projekt Idee wurde erfolgreich gelöscht!",
+                            status: "success",
+                            duration: 1500,
+                            isClosable: true,
+                            position: "bottom-right",
+                          });
+                          reload();
+                        } else {
+                          toast({
+                            title: "Fehler",
+                            description:
+                              "Ein Fehler ist aufgetreten: " +
+                              res.payload.error,
+                            status: "error",
+                            duration: 1500,
+                            isClosable: true,
+                            position: "bottom-right",
+                          });
+                        }
+                      });
+                    },
+                  },
+                ],
+              ],
+            };
+          })}
+        />
       </AdminLayout>
     </>
   );
