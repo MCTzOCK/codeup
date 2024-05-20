@@ -27,6 +27,7 @@ import AdminProfileViewer from "@codeup/components/admin/AdminProfileViewer";
 import Head from "next/head";
 import * as React from "react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -92,8 +93,9 @@ export default function Certificates() {
         <title>Zertifikate - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Box mt={8}></Box>
-        <SuperText>Zertifikate</SuperText>
+        <Box textAlign={"center"}>
+          <CHeading size={"xl"}>Zertifikate</CHeading>
+        </Box>
         <Flex w={"100%"} minH={"100vh"} h="fit-content" direction={"column"}>
           <Flex
             w={"100%"}
