@@ -29,6 +29,7 @@ import {
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { Box } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Kids() {
   const router = useRouter();
@@ -86,14 +87,13 @@ export default function Kids() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Projekte</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Projekte"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={projects.map((p) => ({
                     title: p.name,
                     fields: [
@@ -115,19 +115,17 @@ export default function Kids() {
                       },
                     ],
                     buttonRows: [
-                      {
-                        buttons: [
-                          {
-                            text: "Öffnen",
-                            onClick: () => {
-                              router.push(`/editor/${p._id}`);
-                            },
-                            icon: <FaEye />,
-                            colorScheme: "blue",
-                            disabled: false,
+                      [
+                        {
+                          text: "Öffnen",
+                          onClick: () => {
+                            router.push(`/editor/${p._id}`);
                           },
-                        ],
-                      },
+                          leftIcon: <FaEye />,
+                          variant: "brand",
+                          disabled: false,
+                        },
+                      ],
                     ],
                   }))}
                 />
