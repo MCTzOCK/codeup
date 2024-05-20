@@ -26,12 +26,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import DataTable from "@codeup/components/extra/DataTable";
-import { FaTrash } from "react-icons/fa";
+import { FaEnvelope, FaTrash } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import AdminUserContact from "@codeup/components/admin/AdminUserContact";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Contacts() {
   const [messages, setMessages] = React.useState<
@@ -90,7 +91,7 @@ export default function Contacts() {
       msg.message,
       new Date(msg.createdAt).toLocaleString(),
       <>
-        <ButtonGroup isAttached>
+        <ButtonGroup>
           <IconButton
             aria-label={"delete"}
             icon={<FaTrash />}
@@ -126,12 +127,12 @@ export default function Contacts() {
           />
           <IconButton
             aria-label={"delete"}
-            colorScheme={"blue"}
+            variant={"brand"}
             onClick={() => {
               setSelected(msg.username);
               onOpen();
             }}
-            icon={<FiMail />}
+            icon={<FaEnvelope />}
           />
         </ButtonGroup>
       </>,
@@ -144,9 +145,10 @@ export default function Contacts() {
         <title>Nachrichten - Admin - CodeUp</title>
       </Head>
       <AdminLayout>
-        <Box mt={8}></Box>
-        <SuperText>Nachrichten</SuperText>
-        <Flex justifyContent={"center"} w={"100%"}>
+        <Box textAlign={"center"}>
+          <CHeading>Nachrichten</CHeading>
+        </Box>
+        <Flex justifyContent={"center"} w={"100%"} pt={6}>
           <Box maxW={"75%"} w={"100%"}>
             <DataTable
               columns={[

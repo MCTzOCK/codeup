@@ -79,7 +79,7 @@ export default function AdminUserContact(props: {
           <FormLabel>Nachricht</FormLabel>
           <Textarea placeholder={"Nachricht"} name={"message"} />
         </FormControl>
-        <Button colorScheme={"blue"} mt={"2rem"} type={"submit"}>
+        <Button variant={"brand"} mt={4} type={"submit"} w={"100%"}>
           Senden
         </Button>
       </form>
