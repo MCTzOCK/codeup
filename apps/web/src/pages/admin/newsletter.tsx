@@ -72,15 +72,7 @@ export default function Newsletter() {
                 boxShadow={"xl"}
                 p={4}
               >
-                <Heading
-                  textAlign={"center"}
-                  size={"lg"}
-                  fontWeight={"extrabold"}
-                >
-                  Neuer Newsletter
-                </Heading>
-                <Divider mt={4} />
-                <Input placeholder={"Titel"} mt={4} id={"newsletter-title"} />
+                <Input placeholder={"Titel"} id={"newsletter-title"} />
                 <Textarea
                   w={"100%"}
                   resize={"vertical"}
@@ -91,7 +83,7 @@ export default function Newsletter() {
                 />
                 <Button
                   w={"100%"}
-                  colorScheme={"green"}
+                  variant={"brand"}
                   mt={4}
                   onClick={async () => {
                     const title = (
