@@ -20,11 +20,11 @@ export default function generateJWT(user: any) {
       username: user.username,
       sso: user.sso || false,
       role: user.role || "user",
-      subscription: user.subscription || "FREE"
+      subscription: user.subscription || "FREE",
     },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "3d",
+      expiresIn: "30d",
     }
   );
 }
