@@ -25,7 +25,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaBars } from "react-icons/all";
+import { FaBars } from "react-icons/fa";
 import { CHeading } from "./CHeading";
 
 export default function AppShell(props: {

@@ -38,6 +38,7 @@ import {
   MenuList,
   Progress,
   Spinner,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -71,6 +72,7 @@ import AccountManager from "@codeup/util/src/AccountManager";
 import { useRouter } from "next/router";
 import { FiMail } from "react-icons/fi";
 import AdminUserContact from "./AdminUserContact";
+import { CHeading } from "../global/CHeading";
 
 export default function AdminUserViewer(props: {
   user?: {
@@ -158,9 +160,9 @@ export default function AdminUserViewer(props: {
             <Box ml={4}>
               {!editMode ? (
                 <>
-                  <Heading size={"md"}>
+                  <CHeading size={"md"}>
                     {props.user?.firstName}&nbsp;{props.user?.lastName}
-                  </Heading>
+                  </CHeading>
                   <Text>@{props.user?.username}</Text>
                   <Text>{props.user?.email}</Text>
                 </>
@@ -244,98 +246,100 @@ export default function AdminUserViewer(props: {
                       }
                     }}
                   >
-                    <FormControl>
-                      <FormLabel>Benutzername</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaUser} />
-                        </InputLeftElement>
-                        <Input
-                          disabled
-                          placeholder="Benutzername"
-                          defaultValue={props.user?.username}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Vorname</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaPen} />
-                        </InputLeftElement>
-                        <Input
-                          placeholder="Vorname"
-                          defaultValue={props.user?.firstName}
-                          name={"firstName"}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Nachname</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaPen} />
-                        </InputLeftElement>
-                        <Input
-                          placeholder="Nachname"
-                          defaultValue={props.user?.lastName}
-                          name={"lastName"}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>E-Mail</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaEnvelope} />
-                        </InputLeftElement>
-                        <Input
-                          placeholder="E-Mail"
-                          defaultValue={props.user?.email}
-                          type={"email"}
-                          name={"email"}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Passwort</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaLock} />
-                        </InputLeftElement>
-                        <Input
-                          placeholder="Passwort"
-                          defaultValue={""}
-                          name={"password"}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Rolle</FormLabel>
-                      <InputGroup mb={3}>
-                        <InputLeftElement pointerEvents="none">
-                          <Icon as={FaUserTag} />
-                        </InputLeftElement>
-                        <Input
-                          placeholder="Rolle"
-                          defaultValue={props.user?.role}
-                          name={"role"}
-                        />
-                      </InputGroup>
-                    </FormControl>
-                    <ButtonGroup w={"100%"} justifyContent={"end"}>
-                      <Button
-                        colorScheme={"red"}
-                        onClick={() => {
-                          setEditMode(false);
-                        }}
-                      >
-                        Abbrechen
-                      </Button>
-                      <Button colorScheme={"green"} type={"submit"}>
-                        Speichern
-                      </Button>
-                    </ButtonGroup>
+                    <Stack spacing={2}>
+                      <FormControl>
+                        <FormLabel>Benutzername</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaUser} />
+                          </InputLeftElement>
+                          <Input
+                            disabled
+                            placeholder="Benutzername"
+                            defaultValue={props.user?.username}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Vorname</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaPen} />
+                          </InputLeftElement>
+                          <Input
+                            placeholder="Vorname"
+                            defaultValue={props.user?.firstName}
+                            name={"firstName"}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Nachname</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaPen} />
+                          </InputLeftElement>
+                          <Input
+                            placeholder="Nachname"
+                            defaultValue={props.user?.lastName}
+                            name={"lastName"}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>E-Mail</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaEnvelope} />
+                          </InputLeftElement>
+                          <Input
+                            placeholder="E-Mail"
+                            defaultValue={props.user?.email}
+                            type={"email"}
+                            name={"email"}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Passwort</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaLock} />
+                          </InputLeftElement>
+                          <Input
+                            placeholder="Passwort"
+                            defaultValue={""}
+                            name={"password"}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Rolle</FormLabel>
+                        <InputGroup mb={3}>
+                          <InputLeftElement pointerEvents="none">
+                            <Icon as={FaUserTag} />
+                          </InputLeftElement>
+                          <Input
+                            placeholder="Rolle"
+                            defaultValue={props.user?.role}
+                            name={"role"}
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <ButtonGroup w={"100%"} justifyContent={"end"}>
+                        <Button
+                          onClick={() => {
+                            setEditMode(false);
+                          }}
+                          w={"100%"}
+                        >
+                          Abbrechen
+                        </Button>
+                        <Button variant={"brand"} type={"submit"} w={"100%"}>
+                          Speichern
+                        </Button>
+                      </ButtonGroup>
+                    </Stack>
                   </form>
                 </>
               )}
@@ -344,75 +348,53 @@ export default function AdminUserViewer(props: {
               <Flex ml={"auto"} direction={["column", "row"]} gap={2}>
                 <IconButton
                   aria-label={"message"}
-                  icon={<FiMail />}
-                  colorScheme={"blue"}
+                  icon={<FaEnvelope />}
+                  variant={"brand"}
                   onClick={onOpen}
                 />
                 <IconButton
                   aria-label={"analytics"}
-                  colorScheme={"pink"}
+                  variant={"brand"}
                   icon={<FaChartLine />}
                   onClick={async () => {
                     // @ts-ignore
                     router.push("/admin/analytics/" + props.user._id);
                   }}
                 />
-                <IconButton
-                  colorScheme={"red"}
-                  aria-label={"delete"}
-                  icon={<FaTrash />}
-                  onClick={async () => {
-                    if (
-                      await PopupManager.confirmAsync({
-                        title: "Benutzer löschen",
-                        question:
-                          "Willst du den Benutzer wirklich unwiederruflich löschen?",
-                      })
-                    ) {
-                      const r = await REST.Admin.deleteAccount({
-                        token: localStorage.getItem("token") as string,
-                        username: props.user?.username as string,
-                      });
-
-                      if (r.payload.success) {
-                        const newUsers = props.users.filter(
-                          (user) => user.username !== props.user?.username
-                        );
-
-                        props.setUsers(newUsers);
-                        props.setCurrentUser(null);
-
-                        props.onClose();
-                      } else {
-                        PopupManager.alert({
-                          title: "Fehler",
-                          description: r.payload.error,
-                        });
-                      }
-                    }
-                  }}
-                />
                 {props.user?.active ? (
                   <>
                     <IconButton
-                      aria-label={"login as user"}
-                      icon={<FaLock />}
-                      colorScheme={"blue"}
+                      colorScheme={"red"}
+                      aria-label={"delete"}
+                      icon={<FaTrash />}
                       onClick={async () => {
-                        const jwtRes = await REST.Admin.getUserJWT({
-                          token: localStorage.getItem("token") as string,
-                          username: props.user?.username as string,
-                        });
-
-                        if (jwtRes.status === 200) {
-                          await AccountManager.setActiveToken(
-                            jwtRes.payload.jwt
-                          );
-                        } else {
-                          PopupManager.alert({
-                            title: "Fehler",
-                            description: jwtRes.payload.error,
+                        if (
+                          await PopupManager.confirmAsync({
+                            title: "Benutzer löschen",
+                            question:
+                              "Willst du den Benutzer wirklich unwiederruflich löschen?",
+                          })
+                        ) {
+                          const r = await REST.Admin.deleteAccount({
+                            token: localStorage.getItem("token") as string,
+                            username: props.user?.username as string,
                           });
+
+                          if (r.payload.success) {
+                            const newUsers = props.users.filter(
+                              (user) => user.username !== props.user?.username
+                            );
+
+                            props.setUsers(newUsers);
+                            props.setCurrentUser(null);
+
+                            props.onClose();
+                          } else {
+                            PopupManager.alert({
+                              title: "Fehler",
+                              description: r.payload.error,
+                            });
+                          }
                         }
                       }}
                     />
@@ -486,16 +468,36 @@ export default function AdminUserViewer(props: {
                   </>
                 )}
                 <IconButton
+                  aria-label={"login as user"}
+                  icon={<FaLock />}
+                  variant={"brand"}
+                  onClick={async () => {
+                    const jwtRes = await REST.Admin.getUserJWT({
+                      token: localStorage.getItem("token") as string,
+                      username: props.user?.username as string,
+                    });
+
+                    if (jwtRes.status === 200) {
+                      await AccountManager.setActiveToken(jwtRes.payload.jwt);
+                    } else {
+                      PopupManager.alert({
+                        title: "Fehler",
+                        description: jwtRes.payload.error,
+                      });
+                    }
+                  }}
+                />
+                <IconButton
                   aria-label={"edit"}
                   icon={<FaEdit />}
-                  colorScheme={"orange"}
+                  variant={"brand"}
                   onClick={() => setEditMode(true)}
                 />
               </Flex>
             ) : null}
           </Flex>
           <Box mt={4}>
-            <Heading size={"sm"}>Allgemein</Heading>
+            <CHeading size={"md"}>Allgemein</CHeading>
             <TableContainer>
               <Table variant={"simple"}>
                 <Thead>
@@ -520,7 +522,7 @@ export default function AdminUserViewer(props: {
             </TableContainer>
           </Box>
           <Box mt={4}>
-            <Heading size={"sm"}>Sonstiges</Heading>
+            <CHeading size={"md"}>Sonstiges</CHeading>
             <Table variant={"simple"}>
               <Thead>
                 <Tr>
@@ -550,7 +552,7 @@ export default function AdminUserViewer(props: {
             </Table>
           </Box>
           <Box mt={4}>
-            <Heading size={"sm"}>Analytics</Heading>
+            <CHeading size={"md"}>Analytics</CHeading>
             <Table variant={"simple"}>
               <Thead>
                 <Tr>
