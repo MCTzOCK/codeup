@@ -19,6 +19,7 @@ import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { FaLink, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Shorts() {
   const [loading, setLoading] = React.useState(true);
@@ -65,16 +66,17 @@ export default function Shorts() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Shorts</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Shorts"}
                   search={{
-                    searchFields: true,
-                    allow: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[
+                  topButtons={[
                     {
-                      icon: <FaPlus />,
+                      text: "Neu",
+                      leftIcon: <FaPlus />,
+                      variant: "brand",
                       onClick: async () => {
                         const short = await PopupManager.promptAsync({
                           title: "Short erstellen",
@@ -120,41 +122,39 @@ export default function Shorts() {
                       },
                     ],
                     buttonRows: [
-                      {
-                        buttons: [
-                          {
-                            text: "Löschen",
-                            icon: <FaTrash />,
-                            disabled: false,
-                            colorScheme: "red",
-                            onClick: async () => {
-                              if (
-                                !(await PopupManager.confirmAsync({
-                                  title: "Short löschen",
-                                  question: `Möchtest du den Short https://codeup.space/${s.short} wirklich löschen?`,
-                                }))
-                              )
-                                return;
+                      [
+                        {
+                          text: "Löschen",
+                          leftIcon: <FaTrash />,
+                          disabled: false,
+                          colorScheme: "red",
+                          onClick: async () => {
+                            if (
+                              !(await PopupManager.confirmAsync({
+                                title: "Short löschen",
+                                question: `Möchtest du den Short https://codeup.space/${s.short} wirklich löschen?`,
+                              }))
+                            )
+                              return;
 
-                              const res = await REST.Admin.deleteShort({
-                                token: AccountManager.getActiveToken(),
-                                short: s._id,
+                            const res = await REST.Admin.deleteShort({
+                              token: AccountManager.getActiveToken(),
+                              short: s._id,
+                            });
+
+                            if (res.status === 200) {
+                              reload();
+                            } else {
+                              PopupManager.alert({
+                                title: "Fehler",
+                                description:
+                                  "Beim Löschen des Shorts ist ein Fehler aufgetreten: " +
+                                  res.payload.error,
                               });
-
-                              if (res.status === 200) {
-                                reload();
-                              } else {
-                                PopupManager.alert({
-                                  title: "Fehler",
-                                  description:
-                                    "Beim Löschen des Shorts ist ein Fehler aufgetreten: " +
-                                    res.payload.error,
-                                });
-                              }
-                            },
+                            }
                           },
-                        ],
-                      },
+                        },
+                      ],
                     ],
                   }))}
                 />
