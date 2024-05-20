@@ -66,6 +66,8 @@ import {
   FaGlobe,
   FaSave,
   FaTimes,
+  FaCheckCircle,
+  FaTimesCircle,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
@@ -200,9 +202,9 @@ export default function AdminProfileViewer(props: {
                   <Text mt={4} alignItems={"center"} justifyContent={"center"}>
                     <b>Verifiziert:</b>&nbsp;
                     {props.profile.verified ? (
-                      <Icon as={FaCheckSquare} color={"green.500"} />
+                      <Icon as={FaCheckCircle} color={"brand.500"} />
                     ) : (
-                      <Icon as={FaWindowClose} color={"red.500"} />
+                      <Icon as={FaTimesCircle} color={"red.500"} />
                     )}
                   </Text>
                   <Text mt={4}>
@@ -295,7 +297,7 @@ export default function AdminProfileViewer(props: {
               <ButtonGroup mt={4} spacing={4}>
                 <Button
                   leftIcon={<Icon as={FaEdit} />}
-                  colorScheme={"blue"}
+                  variant={"brand"}
                   onClick={() => {
                     setEditMode(true);
                   }}
@@ -346,7 +348,7 @@ export default function AdminProfileViewer(props: {
                   <ButtonGroup mt={4} spacing={4}>
                     <Button
                       leftIcon={<Icon as={FaSave} />}
-                      colorScheme={"green"}
+                      variant={"brand"}
                       type={"submit"}
                     >
                       Speichern
