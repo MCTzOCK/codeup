@@ -40,9 +40,14 @@ import {
 import { useRouter } from "next/router";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import REST from "@codeup/rest";
+import redirect from "@codeup/util/dist/userworkflow/redirect";
 
 export default function AdminContentsLayout(props: { children: ReactNode }) {
   const router = useRouter();
+
+  useEffect(() => {
+    router.push("/creator/studio");
+  }, []);
 
   const sections: { name: string; url: string; icon: ReactNode }[] = [
     {
