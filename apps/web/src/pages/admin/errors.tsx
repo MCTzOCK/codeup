@@ -35,6 +35,7 @@ import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { FaCheck, FaFilter, FaSearch } from "react-icons/fa";
 import { FiRotateCw } from "react-icons/fi";
+import { CHeading } from "@codeup/components/dist/global/CHeading";
 
 export default function Errors() {
   const [errors, setErrors] = React.useState<
@@ -95,8 +96,9 @@ export default function Errors() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Fehler</SuperText>
+                <Box textAlign={"center"}>
+                  <CHeading size={"xl"}>Fehler</CHeading>
+                </Box>
                 <Box p={6}>
                   <Flex w={"100%"} gap={4} mb={4}>
                     <InputGroup>
