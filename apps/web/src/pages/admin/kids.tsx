@@ -20,6 +20,7 @@ import { FaEye, FaPen, FaPlus, FaTrash, FaUser } from "react-icons/fa";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { Box } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Kids() {
   const router = useRouter();
@@ -30,7 +31,9 @@ export default function Kids() {
       _id: string;
       name: string;
       code: string;
-      owner: string;
+      owner: {
+        username: string;
+      };
     }[]
   >([]);
 
@@ -67,117 +70,106 @@ export default function Kids() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Kids Projekte</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Kids Projekte"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={projects.map((p) => ({
                     title: p.name,
                     fields: [
                       {
-                        text: "Besitzer: " + p.owner,
+                        text: "Besitzer: " + p.owner.username,
                         icon: <FaUser />,
                       },
                     ],
                     buttonRows: [
-                      {
-                        buttons: [
-                          {
-                            text: "Öffnen",
-                            onClick: () => {
-                              router.push(`/kids/${p._id}`);
-                            },
-                            icon: <FaEye />,
-                            colorScheme: "blue",
-                            disabled: false,
+                      [
+                        {
+                          text: "Öffnen",
+                          onClick: () => {
+                            router.push(`/kids/${p._id}`);
                           },
-                        ],
-                      },
-                      {
-                        buttons: [
-                          {
-                            text: "Umbenennen",
-                            onClick: async () => {
-                              const newName = await PopupManager.promptAsync({
-                                title: "Projekt umbenennen",
-                                inputType: "INPUT",
-                                helperText:
-                                  "Gib einen neuen Namen für dein Projekt ein",
-                              });
+                          leftIcon: <FaEye />,
+                          variant: "brand",
+                          disabled: false,
+                        },
+                        {
+                          text: "Umbenennen",
+                          onClick: async () => {
+                            const newName = await PopupManager.promptAsync({
+                              title: "Projekt umbenennen",
+                              inputType: "INPUT",
+                              helperText:
+                                "Gib einen neuen Namen für dein Projekt ein",
+                            });
 
-                              if (!newName) return;
+                            if (!newName) return;
 
-                              const res = await REST.Kids.updateProject({
-                                token: AccountManager.getActiveToken(),
-                                name: newName,
-                                id: p._id,
-                              });
+                            const res = await REST.Kids.updateProject({
+                              token: AccountManager.getActiveToken(),
+                              name: newName,
+                              id: p._id,
+                            });
 
-                              if (res.status !== 200) {
-                                PopupManager.alertAsync({
-                                  title: "Fehler",
-                                  description:
-                                    "Es ist ein Fehler aufgetreten: " +
-                                    res.payload.error,
-                                });
-                                return;
-                              }
-
-                              reload();
-
+                            if (res.status !== 200) {
                               PopupManager.alertAsync({
-                                title: "Projekt umbenannt",
+                                title: "Fehler",
                                 description:
-                                  "Dein Projekt wurde erfolgreich umbenannt.",
+                                  "Es ist ein Fehler aufgetreten: " +
+                                  res.payload.error,
                               });
-                            },
-                            icon: <FaPen />,
-                            colorScheme: "green",
-                            disabled: false,
-                          },
-                        ],
-                      },
-                      {
-                        buttons: [
-                          {
-                            text: "Löschen",
-                            onClick: async () => {
-                              if (
-                                !(await PopupManager.confirmAsync({
-                                  title: "Projekt löschen",
-                                  question:
-                                    "Bist du dir sicher, dass du das Projekt löschen möchtest?",
-                                }))
-                              )
-                                return;
+                              return;
+                            }
 
-                              const res = await REST.Kids.deleteProject({
-                                token: AccountManager.getActiveToken(),
-                                id: p._id,
+                            reload();
+
+                            PopupManager.alertAsync({
+                              title: "Projekt umbenannt",
+                              description:
+                                "Dein Projekt wurde erfolgreich umbenannt.",
+                            });
+                          },
+                          leftIcon: <FaPen />,
+                          variant: "brand",
+                          disabled: false,
+                        },
+                        {
+                          text: "Löschen",
+                          onClick: async () => {
+                            if (
+                              !(await PopupManager.confirmAsync({
+                                title: "Projekt löschen",
+                                question:
+                                  "Bist du dir sicher, dass du das Projekt löschen möchtest?",
+                              }))
+                            )
+                              return;
+
+                            const res = await REST.Kids.deleteProject({
+                              token: AccountManager.getActiveToken(),
+                              id: p._id,
+                            });
+
+                            if (res.status !== 200) {
+                              PopupManager.alertAsync({
+                                title: "Fehler",
+                                description:
+                                  "Es ist ein Fehler aufgetreten: " +
+                                  res.payload.error,
                               });
+                              return;
+                            }
 
-                              if (res.status !== 200) {
-                                PopupManager.alertAsync({
-                                  title: "Fehler",
-                                  description:
-                                    "Es ist ein Fehler aufgetreten: " +
-                                    res.payload.error,
-                                });
-                                return;
-                              }
-
-                              reload();
-                            },
-                            icon: <FaTrash />,
-                            colorScheme: "red",
-                            disabled: false,
+                            reload();
                           },
-                        ],
-                      },
+                          leftIcon: <FaTrash />,
+                          colorScheme: "red",
+                          disabled: false,
+                        },
+                      ],
                     ],
                   }))}
                 />
