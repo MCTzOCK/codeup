@@ -62,6 +62,10 @@ export default async function handleRequest(
 
       const flows = await ToDoProjectModel.find({});
 
+      for (const f of flows) {
+        await f.populate("owner");
+      }
+
       res.status(200).json({
         success: true,
         flows: flows,

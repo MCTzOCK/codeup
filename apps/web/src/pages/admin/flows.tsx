@@ -19,6 +19,7 @@ import { FaEye, FaPlus, FaTrash, FaUser } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { useRouter } from "next/router";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 
 export default function Flows() {
   const [flows, setFlows] = React.useState<any[]>([]);
@@ -60,74 +61,65 @@ export default function Flows() {
               </>
             ) : (
               <>
-                <Box mt={6}></Box>
-                <SuperText>Flows</SuperText>
-                <GridLayout
+                <GridLayoutV2
+                  pageTitle={"Flows"}
                   search={{
-                    allow: true,
-                    searchFields: true,
+                    show: true,
+                    fields: true,
                   }}
-                  specialEntries={[]}
+                  topButtons={[]}
                   entries={flows.map((p) => {
                     return {
                       title: p.name,
                       fields: [
                         {
-                          text: "Besitzer: " + p.owner,
+                          text: "Besitzer: " + p.owner.username,
                           icon: <FaUser />,
                         },
                       ],
                       buttonRows: [
-                        {
-                          buttons: [
-                            {
-                              text: "Öffnen",
-                              icon: <FaEye />,
-                              colorScheme: "blue",
-                              onClick: () => {
-                                router.push("/planning/" + p._id);
-                              },
+                        [
+                          {
+                            text: "Öffnen",
+                            leftIcon: <FaEye />,
+                            variant: "brand",
+                            onClick: () => {
+                              router.push("/planning/" + p._id);
                             },
-                          ],
-                        },
-                        {
-                          buttons: [
-                            {
-                              text: "Löschen",
-                              icon: <FaTrash />,
-                              colorScheme: "red",
-                              onClick: async () => {
-                                REST.ToDo.deleteV2Project({
-                                  token: localStorage.getItem(
-                                    "token"
-                                  ) as string,
-                                  id: p._id,
-                                }).then((res) => {
-                                  if (res.status === 200) {
-                                    toast({
-                                      position: "bottom-right",
-                                      status: "success",
-                                      title: "Erfolgreich",
-                                      description: "Das Projekt wurde gelöscht",
-                                      isClosable: true,
-                                      duration: 1500,
-                                    });
-                                    reload();
-                                  } else {
-                                    toast({
-                                      position: "bottom-right",
-                                      status: "error",
-                                      title: "Fehler",
-                                      description: res.payload.error,
-                                      isClosable: true,
-                                      duration: 1500,
-                                    });
-                                  }
-                                });
-                              },
+                          },
+                          {
+                            text: "Löschen",
+                            leftIcon: <FaTrash />,
+                            colorScheme: "red",
+                            onClick: async () => {
+                              REST.ToDo.deleteV2Project({
+                                token: localStorage.getItem("token") as string,
+                                id: p._id,
+                              }).then((res) => {
+                                if (res.status === 200) {
+                                  toast({
+                                    position: "bottom-right",
+                                    status: "success",
+                                    title: "Erfolgreich",
+                                    description: "Das Projekt wurde gelöscht",
+                                    isClosable: true,
+                                    duration: 1500,
+                                  });
+                                  reload();
+                                } else {
+                                  toast({
+                                    position: "bottom-right",
+                                    status: "error",
+                                    title: "Fehler",
+                                    description: res.payload.error,
+                                    isClosable: true,
+                                    duration: 1500,
+                                  });
+                                }
+                              });
                             },
-                          ],
-                        },
+                          },
+                        ],
                       ],
                     };
                   })}
