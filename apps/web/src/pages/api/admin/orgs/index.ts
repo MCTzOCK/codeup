@@ -65,6 +65,11 @@ export default async function handleRequest(
 
       for (const o of orgs) {
         await o.populate("owner");
+        if (o.owner === null) {
+          o.owner = {
+            username: "Deleted User",
+          };
+        }
       }
 
       res.status(200).json({

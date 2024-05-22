@@ -391,7 +391,9 @@ export default function Profile() {
                   size={"xl"}
                 />
                 <Box ml={4}>
-                  {editMode && userInfo.subscription !== "PRO" ? (
+                  {editMode &&
+                  userInfo.subscription !== "PRO" &&
+                  userInfo.role !== "admin" ? (
                     <>
                       <HStack color={"orange.400"}>
                         <FaCrown />

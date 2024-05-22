@@ -64,6 +64,11 @@ export default async function handleRequest(
 
       for (const r of roads) {
         await r.populate("owner");
+        if (r.owner === null) {
+          r.owner = {
+            username: "Deleted User",
+          };
+        }
       }
 
       res.status(200).json({

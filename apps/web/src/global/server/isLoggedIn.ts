@@ -44,7 +44,7 @@ export async function isLoggedIn(
 
     const user = await UserModel.findById((decoded as any).id);
 
-    if (!user) {
+    if (!user || !user.active) {
       res.status(401).send({
         error: "Not authenticated",
       });

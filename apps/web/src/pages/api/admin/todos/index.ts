@@ -64,6 +64,11 @@ export default async function handleRequest(
 
       for (const l of lists) {
         await l.populate("owner");
+        if (l.owner === null) {
+          l.owner = {
+            username: "Deleted User",
+          };
+        }
       }
 
       res.status(200).json({
