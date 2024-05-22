@@ -275,6 +275,7 @@ import {
   getChallenges,
   getCompletedChallenges,
 } from "./api/CodeChallenges";
+import { myProjects, createProject as createProjectP } from "./api/Projects";
 
 const REST = {
   Ask: {
@@ -421,6 +422,10 @@ const REST = {
     unpublishProject,
     enableDiscovery,
     disableDiscovery,
+  },
+  Projects: {
+    myProjects,
+    createProject: createProjectP,
   },
   Community: {
     search,

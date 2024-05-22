@@ -19,12 +19,20 @@ export async function createProject(options: {
 }): Promise<IResponse> {
   return await makeRequest({
     method: "POST",
-    path: "/projects/create",
+    path: "/api/projects/create",
     token: options.token,
     body: {
       name: options.name,
       projectType: options.projectType,
       modifiers: options.modifiers,
     },
+  });
+}
+
+export async function myProjects(token: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/projects/my",
+    token,
   });
 }
