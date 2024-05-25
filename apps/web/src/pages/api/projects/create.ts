@@ -11,7 +11,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import ProjectModel from "@codeup/util/dist/models/ProjectModel";
+import { Octokit } from "octokit";
 
+const oc = new Octokit({
+  auth: process.env.GITHUB_PAT,
+});
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     const { auth, user } = await isLoggedIn(req, res);
@@ -30,6 +34,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       projectType,
       modifiers,
       users: [user._id],
+    });
+
+    await oc.request("POST /repos/{template_owner}/{template_repo}/generate", {
+      template_owner: "CodeUpProjects",
+      template_repo: "template-" + projectType,
+      owner: "CodeUpProjects",
+      name: project._id,
+      include_all_branches: false,
+      private: true,
     });
 
     res.status(200).json({

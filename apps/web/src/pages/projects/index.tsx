@@ -136,7 +136,14 @@ export default function Projects() {
                   });
                 });
 
-                alert(x);
+                if (!x) return;
+
+                const res = await REST.Projects.createProject({
+                  token: AccountManager.getActiveToken(),
+                  name,
+                  projectType: x as string,
+                  modifiers: ["private"],
+                });
               },
               variant: "brand",
             },
