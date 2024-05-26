@@ -16,13 +16,24 @@ import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
-import { FaHtml5, FaPlus } from "react-icons/fa";
+import {
+  FaClock,
+  FaCode,
+  FaDownload,
+  FaHtml5,
+  FaInfo,
+  FaPlus,
+  FaTrash,
+} from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { useRouter } from "next/router";
 
 export default function Projects() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const router = useRouter();
 
   const [projects, setProjects] = React.useState<IProject[]>([]);
 
@@ -144,11 +155,64 @@ export default function Projects() {
                   projectType: x as string,
                   modifiers: ["private"],
                 });
+
+                await reload();
               },
               variant: "brand",
             },
           ]}
-          entries={[]}
+          entries={projects.map((p) => ({
+            title: p.name,
+            fields: [
+              {
+                icon: <FaCode />,
+                text: "Vorlage: " + p.projectType,
+              },
+              {
+                icon: <FaInfo />,
+                text: "ID: " + p._id,
+              },
+              {
+                icon: <FaClock />,
+                text: "Erstellt: " + new Date(p.createdAt).toLocaleString(),
+              },
+            ],
+            buttonRows: [
+              [
+                {
+                  text: "Öffnen",
+                  onClick: () => {
+                    router.push("/projects/" + p._id);
+                  },
+                  leftIcon: <FaCode />,
+                  variant: "brand",
+                },
+                {
+                  text: "Löschen",
+                  onClick: () => {
+                    alert("Not implemented");
+                  },
+                  leftIcon: <FaTrash />,
+                  colorScheme: "red",
+                },
+              ],
+              [
+                {
+                  text: "Exportieren",
+                  onClick: async () => {
+                    window.open(
+                      "/api/projects/" +
+                        p._id +
+                        "/download?token=" +
+                        AccountManager.getActiveToken()
+                    );
+                  },
+                  leftIcon: <FaDownload />,
+                  variant: "brand",
+                },
+              ],
+            ],
+          }))}
         />
       </Box>
     </>
