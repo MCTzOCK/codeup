@@ -64,6 +64,11 @@ export default async function handleRequest(
 
       for (const f of flows) {
         await f.populate("owner");
+        if (f.owner === null) {
+          f.owner = {
+            username: "Deleted User",
+          };
+        }
       }
 
       res.status(200).json({

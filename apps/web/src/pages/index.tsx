@@ -52,7 +52,8 @@ export default function Home() {
         overflow={"hidden"}
       >
         <img
-          src={"/_static/images/software-developer-6521720_1920.jpg"}
+          // src={"/_static/images/software-developer-6521720_1920.jpg"}
+          src={"/_static/images/sf-developer.jpg"}
           alt={""}
           className={"index-header-image"}
         />

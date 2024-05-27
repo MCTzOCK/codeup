@@ -63,6 +63,15 @@ export default async function handleRequest(
 
       const projects = await IDEProjectModel.find({});
 
+      for (const p of projects) {
+        await p.populate("owner");
+        if (p.owner === null) {
+          p.owner = {
+            username: "Deleted User",
+          };
+        }
+      }
+
       res.status(200).json({
         success: true,
         projects,

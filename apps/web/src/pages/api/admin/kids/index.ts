@@ -64,6 +64,11 @@ export default async function handleRequest(
 
       for (const p of projects) {
         await p.populate("owner");
+        if (p.owner === null) {
+          p.owner = {
+            username: "Deleted User",
+          };
+        }
       }
 
       res.status(200).json({

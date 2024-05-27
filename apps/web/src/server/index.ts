@@ -892,5 +892,4 @@ const handleError = async (e: any) => {
   if (e.message) err.message = e.message;
   if (e.stack) err.stack = e.stack;
   await ErrorModel.create(err);
-  console.log(123);
 };

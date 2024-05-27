@@ -4,6 +4,7 @@ const withTM = require("next-transpile-modules")([
   "@codeup/util",
   "@codeup/hooks",
   "@codeup/rest",
+  "octokit",
 ]);
 
 const withMDX = require("@next/mdx")({
