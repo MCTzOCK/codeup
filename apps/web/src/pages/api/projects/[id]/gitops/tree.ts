@@ -64,46 +64,56 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
-    let paths: string[] = [];
+    type entry = {
+      name: string;
+      type: string;
+      children: entry[];
+    };
 
-    function getAllPaths(dirPath: string, arrayOfFiles: any[]) {
-      let files = fs.readdirSync(dirPath);
+    let tree: entry[] = [];
 
-      arrayOfFiles = arrayOfFiles || [];
-
-      files.forEach(function (file) {
-        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-          arrayOfFiles = getAllPaths(dirPath + "/" + file, arrayOfFiles);
+    const walk = (dir: string, parent: entry) => {
+      const files = fs.readdirSync(dir);
+      const children: entry[] = [];
+      for (const file of files) {
+        if (file === ".git") continue;
+        const stat = fs.statSync(path.join(dir, file));
+        if (stat.isDirectory()) {
+          const entry: entry = {
+            name: file,
+            type: "directory",
+            children: [],
+          };
+          walk(path.join(dir, file), entry);
+          children.push(entry);
         } else {
-          arrayOfFiles.push(path.join(dirPath, "/", file));
+          children.push({
+            name: file,
+            type: "file",
+            children: [],
+          });
         }
-      });
+      }
 
-      return arrayOfFiles;
-    }
+      parent.children = children;
+    };
 
-    paths = getAllPaths(
+    const parent: entry = {
+      name: project.name,
+      type: "directory",
+      children: tree,
+    };
+    walk(
       path.join(process.env.GIT_DATA_HOME as string, project._id.toString()),
-      []
+      parent
     );
 
-    paths = paths.map((p) => {
-      return p
-        .replace(
-          path.join(
-            process.env.GIT_DATA_HOME as string,
-            project._id.toString()
-          ),
-          ""
-        )
-        .replace(/\\/g, "/");
-    });
-
-    paths = paths.filter((p) => !p.startsWith("/.git/"));
-
+    for (const c of parent.children) {
+      tree.push(c);
+    }
     res.status(200).json({
       status: 200,
-      data: paths,
+      data: tree,
     });
   } catch (e: any) {
     res.status(500).json({
