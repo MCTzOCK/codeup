@@ -20,13 +20,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     await mongoConnect();
 
-    if (req.method !== "GET") {
-      return res.status(405).json({
-        status: 405,
-        error: "Method not allowed",
-      });
-    }
-
     if (!req.query.id) {
       return res.status(400).json({
         status: 400,
@@ -81,23 +74,37 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       });
       return;
     }
+    if (req.method === "GET") {
+      const filePath = path.resolve(baseDir, relativePath);
 
-    const filePath = path.resolve(baseDir, relativePath);
+      if (!fs.existsSync(filePath)) {
+        res.status(404).json({
+          status: 404,
+          error: "File not found",
+        });
+        return;
+      }
 
-    if (!fs.existsSync(filePath)) {
-      res.status(404).json({
-        status: 404,
-        error: "File not found",
+      const content = fs.readFileSync(filePath, "utf-8");
+
+      res.status(200).json({
+        status: 200,
+        data: content,
       });
-      return;
+    } else if (req.method === "POST") {
+      const filePath = path.resolve(baseDir, relativePath);
+
+      const content = req.body.content;
+
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+
+      fs.writeFileSync(filePath, content);
+
+      res.status(200).json({
+        status: 200,
+        data: "File saved",
+      });
     }
-
-    const content = fs.readFileSync(filePath, "utf-8");
-
-    res.status(200).json({
-      status: 200,
-      data: content,
-    });
   } catch (e: any) {
     res.status(500).json({
       status: 500,
