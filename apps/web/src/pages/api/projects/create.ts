@@ -11,11 +11,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import ProjectModel from "@codeup/util/dist/models/ProjectModel";
-import { Octokit } from "octokit";
+import simpleGit from "simple-git";
+import * as fs from "fs";
+import * as path from "path";
 
-const oc = new Octokit({
-  auth: process.env.GITHUB_PAT,
-});
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     const { auth, user } = await isLoggedIn(req, res);
@@ -36,14 +35,20 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       users: [user._id],
     });
 
-    await oc.request("POST /repos/{template_owner}/{template_repo}/generate", {
-      template_owner: "CodeUpProjects",
-      template_repo: "template-" + projectType,
-      owner: "CodeUpProjects",
-      name: project._id,
-      include_all_branches: false,
-      private: true,
+    const GIT_HOME = process.env.GIT_DATA_HOME as string;
+
+    fs.mkdirSync(path.join(GIT_HOME, project._id.toString()), {
+      recursive: true,
     });
+
+    const git = simpleGit({
+      baseDir: path.join(GIT_HOME, project._id.toString()),
+    });
+
+    await git.clone(
+      "https://github.com/CodeUpProjects/template-" + projectType + ".git",
+      "."
+    );
 
     res.status(200).json({
       status: 200,

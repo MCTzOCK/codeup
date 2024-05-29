@@ -13,14 +13,11 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import mongoConnect from "@codeup/util/dist/mongo";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import ProjectModel from "@codeup/util/dist/models/ProjectModel";
-import { Octokit } from "octokit";
 import * as fs from "fs";
 import * as path from "path";
 import { tmpdir } from "os";
+import archiver from "archiver";
 
-const oc = new Octokit({
-  auth: process.env.GITHUB_PAT,
-});
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     await mongoConnect();
@@ -39,8 +36,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           res.redirect("/error?error=Invalid Token");
           return;
         }
-
-        await mongoConnect();
 
         const user = await UserModel.findById((decoded as any).id);
 
@@ -66,41 +61,54 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           return;
         }
 
-        const repo = await oc.request(
-          "GET /repos/{owner}/{repo}/zipball/{ref}",
-          {
-            ref: "main",
-            owner: "CodeUpProjects",
-            repo: id as string,
-          }
+        if (
+          !fs.existsSync(
+            path.join(process.env.GIT_DATA_HOME as string, id as string)
+          )
+        ) {
+          res.redirect("/error?error=Project not found");
+        }
+
+        const a = archiver("zip", {
+          zlib: { level: 9 },
+        });
+
+        const name = `${id}-${Math.random().toString(36).substring(7)}.zip`;
+
+        const output = fs.createWriteStream(path.join(tmpdir(), name));
+
+        a.pipe(output);
+
+        a.directory(
+          path.join(process.env.GIT_DATA_HOME as string, id as string),
+          false
         );
 
-        fs.writeFileSync(
-          path.join(tmpdir(), `${id}.zip`),
-          Buffer.from(repo.data as any)
-        );
+        a.on("end", () => {
+          res.writeHead(200, {
+            "Content-Type": "application/zip",
+            "Content-Disposition": `attachment; filename=${id}.zip`,
+          });
 
-        res.writeHead(200, {
-          "Content-Type": "application/zip",
-          "Content-Disposition": `attachment; filename=${id}.zip`,
+          const stream = fs.createReadStream(path.join(tmpdir(), name));
+
+          stream.on("data", (data) => {
+            res.write(data);
+          });
+
+          stream.on("end", () => {
+            res.end();
+            fs.unlinkSync(path.join(tmpdir(), name));
+          });
+
+          stream.on("error", () => {
+            res.redirect(
+              "/error?error=An error occurred while downloading the project"
+            );
+          });
         });
 
-        const stream = fs.createReadStream(path.join(tmpdir(), `${id}.zip`));
-
-        stream.on("data", (data) => {
-          res.write(data);
-        });
-
-        stream.on("end", () => {
-          res.end();
-          fs.unlinkSync(path.join(tmpdir(), `${id}.zip`));
-        });
-
-        stream.on("error", () => {
-          res.redirect(
-            "/error?error=An error occurred while downloading the project"
-          );
-        });
+        a.finalize();
       }
     );
   } catch (e: any) {
