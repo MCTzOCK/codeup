@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import REST from "@codeup/rest/src";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../../global/PopupManager";
+import EditorProjectLayout from "@codeup/components/editorv2/EditorProjectLayout";
 
 export default function Index() {
   useUserLoggedInRedirect({
@@ -48,9 +49,9 @@ export default function Index() {
   }, [router, router.query, router.query.id]);
   return (
     <>
-      <AppShell title={"Projekt"} sub_pages={[]}>
-        <>123</>
-      </AppShell>
+      <EditorProjectLayout project_id={router.query.id as string}>
+        <Box>123</Box>
+      </EditorProjectLayout>
     </>
   );
 }
