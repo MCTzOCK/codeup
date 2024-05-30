@@ -67,3 +67,20 @@ export async function deleteFile(
     },
   });
 }
+
+export async function uploadFile(
+  token: string,
+  id: string,
+  name: string,
+  content: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/static/upload`,
+    token,
+    body: {
+      name,
+      content,
+    },
+  });
+}

@@ -32,7 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import byteSize from "byte-size";
-import { FaTrash } from "react-icons/fa";
+import { FaFileUpload, FaTrash } from "react-icons/fa";
 
 export default function Static() {
   useUserLoggedInRedirect({
@@ -98,6 +98,54 @@ export default function Static() {
                 zugänglich sind. Du solltest deshalb keine sensiblen Daten
                 hochladen.
               </Text>
+              <Button
+                mt={4}
+                variant={"brand"}
+                leftIcon={<FaFileUpload />}
+                onClick={async () => {
+                  const fl = await PopupManager.uploadFileAsync({
+                    title: "Datei hochladen",
+                    helperText:
+                      "Wähle eine Datei aus, die du hochladen möchtest",
+                  });
+
+                  if (!fl || fl.length === 0) return;
+
+                  const file = fl[0];
+
+                  const reader = new FileReader();
+
+                  reader.onload = async () => {
+                    const content = (reader.result as string).split(
+                      ";base64,"
+                    )[1];
+
+                    console.log(content);
+
+                    const x = await REST.Projects.uploadFile(
+                      AccountManager.getActiveToken(),
+                      router.query.id as string,
+                      file.name,
+                      content
+                    );
+
+                    if (x.status === 200) {
+                      await reloadFiles();
+                    } else {
+                      PopupManager.alertAsync({
+                        title: "Fehler",
+                        description:
+                          "Die Datei konnte nicht hochgeladen werden: " +
+                          x.payload.error,
+                      });
+                    }
+                  };
+
+                  reader.readAsDataURL(file);
+                }}
+              >
+                Datei hochladen
+              </Button>
             </Box>
           </Flex>
           <TableContainer>

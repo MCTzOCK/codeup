@@ -281,6 +281,8 @@ import {
   project,
   files,
   deleteFile as deleteFileP,
+  uploadFile as uploadFileP,
+  uploadFile,
 } from "./api/Projects";
 
 const REST = {
@@ -435,6 +437,7 @@ const REST = {
     project,
     files,
     deleteFile: deleteFileP,
+    uploadFile: uploadFileP,
   },
   Community: {
     search,
