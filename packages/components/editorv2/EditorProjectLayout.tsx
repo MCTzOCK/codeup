@@ -13,13 +13,24 @@ import { IProject } from "@codeup/web/src/types/IProject";
 import AppShell from "../global/AppShell";
 import { useEffect } from "react";
 import { useUserLoggedInRedirect } from "@codeup/hooks";
-import { FaCogs, FaFile, FaHome } from "react-icons/fa";
+import {
+  FaBookOpen,
+  FaChartLine,
+  FaCode,
+  FaCogs,
+  FaDatabase,
+  FaFile,
+  FaHome,
+} from "react-icons/fa";
 import { GoProject } from "react-icons/go";
 import { VscIssues } from "react-icons/vsc";
 import {
   FaCodeBranch,
   FaDiagramNext,
   FaDiagramSuccessor,
+  FaFileLines,
+  FaLanguage,
+  FaRotate,
 } from "react-icons/fa6";
 
 export default function EditorProjectLayout(props: {
@@ -69,6 +80,41 @@ export default function EditorProjectLayout(props: {
             text: "Statische Ressourcen",
             icon: <FaFile />,
             href: "/projects/" + props.project_id + "/static",
+          },
+          {
+            text: "Wiki",
+            icon: <FaBookOpen />,
+            href: "/projects/" + props.project_id + "/wiki",
+          },
+          {
+            text: "Datenbanken",
+            icon: <FaDatabase />,
+            href: "/projects/" + props.project_id + "/dbs",
+          },
+          {
+            text: "Statistiken",
+            icon: <FaChartLine />,
+            href: "/projects/" + props.project_id + "/stats",
+          },
+          {
+            text: "Server-Logs",
+            icon: <FaFileLines />,
+            href: "/projects/" + props.project_id + "/srvlogs",
+          },
+          {
+            text: "Profi-Editor",
+            icon: <FaCode />,
+            href: "/projects/" + props.project_id + "/professional/editor",
+          },
+          {
+            text: "Lokalisierung",
+            icon: <FaLanguage />,
+            href: "/projects/" + props.project_id + "/professional/editor",
+          },
+          {
+            text: "CI/CD",
+            icon: <FaRotate />,
+            href: "/projects/" + props.project_id + "/ci-cd",
           },
         ]}
       >

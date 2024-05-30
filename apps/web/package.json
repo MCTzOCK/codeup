@@ -88,6 +88,7 @@
     "jszip": "^3.10.1",
     "markdown-to-jsx": "^7.1.8",
     "mime-types": "^2.1.35",
+    "minio": "^8.0.0",
     "monaco-editor": "^0.33.0",
     "mongoose": "^6.3.5",
     "next": "^12.3.0",
