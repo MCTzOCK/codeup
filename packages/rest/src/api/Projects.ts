@@ -36,3 +36,11 @@ export async function myProjects(token: string): Promise<IResponse> {
     token,
   });
 }
+
+export async function project(token: string, id: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}`,
+    token,
+  });
+}
