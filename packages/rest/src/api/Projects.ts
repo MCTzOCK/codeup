@@ -44,3 +44,26 @@ export async function project(token: string, id: string): Promise<IResponse> {
     token,
   });
 }
+
+export async function files(token: string, id: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/static/files`,
+    token,
+  });
+}
+
+export async function deleteFile(
+  token: string,
+  id: string,
+  fileName: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/static/files`,
+    token,
+    body: {
+      file: fileName,
+    },
+  });
+}
