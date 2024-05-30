@@ -21,6 +21,7 @@ import {
   Box,
   Button,
   Flex,
+  Input,
   Table,
   TableContainer,
   Tbody,
@@ -96,7 +97,7 @@ export default function Static() {
                 Lade statische Dateien, wie Bilder hoch, damit du sie in deinem
                 Projekt verwenden kannst. Bedenke, dass alle Dateien öffentlich
                 zugänglich sind. Du solltest deshalb keine sensiblen Daten
-                hochladen.
+                hochladen. Eine Datei darf bis zu 10MB groß sein.
               </Text>
               <Button
                 mt={4}
@@ -193,6 +194,32 @@ export default function Static() {
                         }}
                       >
                         Löschen
+                      </Button>
+                      <Button
+                        variant={"brand"}
+                        ml={2}
+                        onClick={() => {
+                          PopupManager.alertAsync({
+                            title: "URL",
+                            description: (
+                              <>
+                                <Input
+                                  type={"text"}
+                                  placeholder={"URL"}
+                                  value={
+                                    window.location.origin +
+                                    "/api/s3/" +
+                                    project!._id +
+                                    "/" +
+                                    file.name
+                                  }
+                                />
+                              </>
+                            ),
+                          });
+                        }}
+                      >
+                        URL
                       </Button>
                     </Td>
                   </Tr>
