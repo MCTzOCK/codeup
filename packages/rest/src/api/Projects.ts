@@ -84,3 +84,62 @@ export async function uploadFile(
     },
   });
 }
+
+export async function wikiPages(token: string, id: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/wiki/pages`,
+    token,
+  });
+}
+
+export async function createWikiPage(
+  token: string,
+  id: string,
+  title: string,
+  content: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/wiki/pages`,
+    token,
+    body: {
+      title,
+      content,
+    },
+  });
+}
+
+export async function updateWikiPage(
+  token: string,
+  id: string,
+  page_id: string,
+  title: string,
+  content: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/wiki/pages`,
+    token,
+    body: {
+      title,
+      content,
+      page_id,
+    },
+  });
+}
+
+export async function deleteWikiPage(
+  token: string,
+  id: string,
+  page_id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/wiki/pages`,
+    token,
+    body: {
+      page_id,
+    },
+  });
+}

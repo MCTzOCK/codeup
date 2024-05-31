@@ -283,6 +283,10 @@ import {
   deleteFile as deleteFileP,
   uploadFile as uploadFileP,
   uploadFile,
+  wikiPages,
+  createWikiPage,
+  updateWikiPage,
+  deleteWikiPage,
 } from "./api/Projects";
 
 const REST = {
@@ -438,6 +442,10 @@ const REST = {
     files,
     deleteFile: deleteFileP,
     uploadFile: uploadFileP,
+    wikiPages,
+    createWikiPage,
+    updateWikiPage,
+    deleteWikiPage,
   },
   Community: {
     search,
