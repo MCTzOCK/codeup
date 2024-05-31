@@ -136,7 +136,7 @@ export default function Home() {
         <Testimonials />
         <BrandStats />
         <img
-          src={"/_static/images/mohammad-rahmani-lPKIb8dJ8kw-unsplash.jpg"}
+          src={"/_static/images/software-developer-6521720_1920.jpg"}
           alt={""}
           className={"index-header-image ihi-rot"}
         />

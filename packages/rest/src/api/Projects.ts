@@ -148,3 +148,70 @@ export async function deleteWikiPage(
     },
   });
 }
+
+export async function getIssues(
+  token: string,
+  id: string,
+  issueId?: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/issues` + (issueId ? `?issueId=${issueId}` : ""),
+    token,
+  });
+}
+
+export async function createIssue(
+  token: string,
+  id: string,
+  title: string,
+  description: string,
+  priority: string,
+  status: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/issues`,
+    token,
+    body: {
+      title,
+      description,
+      priority,
+      status,
+    },
+  });
+}
+
+export async function updateIssue(
+  token: string,
+  id: string,
+  issueId: string,
+  title: string,
+  description: string,
+  priority: string,
+  status: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "PUT",
+    path: `/api/projects/${id}/issues?issueId=${issueId}`,
+    token,
+    body: {
+      title,
+      description,
+      priority,
+      status,
+    },
+  });
+}
+
+export async function deleteIssue(
+  token: string,
+  id: string,
+  issueId: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/issues?issueId=${issueId}`,
+    token,
+  });
+}

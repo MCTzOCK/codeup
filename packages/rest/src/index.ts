@@ -287,6 +287,10 @@ import {
   createWikiPage,
   updateWikiPage,
   deleteWikiPage,
+  deleteIssue,
+  updateIssue,
+  createIssue,
+  getIssues,
 } from "./api/Projects";
 
 const REST = {
@@ -446,6 +450,10 @@ const REST = {
     createWikiPage,
     updateWikiPage,
     deleteWikiPage,
+    deleteIssue,
+    updateIssue,
+    createIssue,
+    getIssues,
   },
   Community: {
     search,
