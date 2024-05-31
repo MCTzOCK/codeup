@@ -85,10 +85,15 @@ export async function uploadFile(
   });
 }
 
-export async function wikiPages(token: string, id: string): Promise<IResponse> {
+export async function wikiPages(
+  token: string,
+  id: string,
+  page_id?: string
+): Promise<IResponse> {
   return await makeRequest({
     method: "GET",
-    path: `/api/projects/${id}/wiki/pages`,
+    path:
+      `/api/projects/${id}/wiki/pages` + (page_id ? `?pageId=${page_id}` : ""),
     token,
   });
 }

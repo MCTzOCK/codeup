@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/md/defaultProps.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/projects/[id]/wiki/pages.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki/[pageId].tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/types/IWikiPage.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectWikiPageModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Projects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Projects.ts" afterDir="false" />
@@ -279,6 +282,18 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/packages/rest/src/index.ts</url>
+          <line>426</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
