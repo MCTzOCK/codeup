@@ -163,6 +163,40 @@ export default function Wiki() {
                       },
                     },
                   ],
+                  [
+                    {
+                      text: "Umbenennen",
+                      variant: "brand",
+                      leftIcon: <FaPen />,
+                      onClick: async () => {
+                        const newName = await PopupManager.promptAsync({
+                          title: "Umbenennen",
+                          helperText: "Bitte gib den neuen Namen ein.",
+                        });
+
+                        if (!newName) return;
+                        const res = await REST.Projects.updateWikiPage(
+                          AccountManager.getActiveToken(),
+                          router.query.id as string,
+                          page._id,
+                          newName,
+                          page.content
+                        );
+
+                        if (res.status !== 200) {
+                          await PopupManager.alertAsync({
+                            title: "Fehler",
+                            description:
+                              "Die Seite konnte nicht umbenannt werden: " +
+                              res.payload.error,
+                          });
+                          return;
+                        }
+
+                        await reloadPages();
+                      },
+                    },
+                  ],
                 ],
                 fields: [
                   {
