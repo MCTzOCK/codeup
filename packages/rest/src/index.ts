@@ -275,7 +275,27 @@ import {
   getChallenges,
   getCompletedChallenges,
 } from "./api/CodeChallenges";
-import { myProjects, createProject as createProjectP } from "./api/Projects";
+import {
+  myProjects,
+  createProject as createProjectP,
+  project,
+  files,
+  deleteFile as deleteFileP,
+  uploadFile as uploadFileP,
+  uploadFile,
+  wikiPages,
+  createWikiPage,
+  updateWikiPage,
+  deleteWikiPage,
+  deleteIssue,
+  updateIssue,
+  createIssue,
+  getIssues,
+  deleteFlow,
+  updateFlow,
+  createFlow,
+  getFlows as getFlowsP,
+} from "./api/Projects";
 
 const REST = {
   Ask: {
@@ -426,6 +446,22 @@ const REST = {
   Projects: {
     myProjects,
     createProject: createProjectP,
+    project,
+    files,
+    deleteFile: deleteFileP,
+    uploadFile: uploadFileP,
+    wikiPages,
+    createWikiPage,
+    updateWikiPage,
+    deleteWikiPage,
+    deleteIssue,
+    updateIssue,
+    createIssue,
+    getIssues,
+    deleteFlow,
+    updateFlow,
+    createFlow,
+    getFlows: getFlowsP,
   },
   Community: {
     search,

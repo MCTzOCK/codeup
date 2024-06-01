@@ -88,9 +88,7 @@ export default function AppShell(props: {
                 .map((page) => (
                   <>
                     <Button
-                      variant={
-                        router.pathname === page.href ? "brand" : "ghost"
-                      }
+                      variant={router.asPath === page.href ? "brand" : "ghost"}
                       leftIcon={page.icon}
                       textAlign={"left"}
                       alignItems={"center"}
