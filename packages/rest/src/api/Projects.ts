@@ -215,3 +215,60 @@ export async function deleteIssue(
     token,
   });
 }
+
+export async function getFlows(
+  token: string,
+  id: string,
+  flowId?: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/flows` + (flowId ? `?flowId=${flowId}` : ""),
+    token,
+  });
+}
+
+export async function createFlow(
+  token: string,
+  id: string,
+  name: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/flows`,
+    token,
+    body: {
+      name,
+    },
+  });
+}
+
+export async function updateFlow(
+  token: string,
+  id: string,
+  flowId: string,
+  name: string,
+  saved: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "PUT",
+    path: `/api/projects/${id}/flows?flowId=${flowId}`,
+    token,
+    body: {
+      name,
+      saved,
+    },
+  });
+}
+
+export async function deleteFlow(
+  token: string,
+  id: string,
+  flowId: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/flows?flowId=${flowId}`,
+    token,
+  });
+}

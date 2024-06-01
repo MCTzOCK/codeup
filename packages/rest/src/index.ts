@@ -291,6 +291,10 @@ import {
   updateIssue,
   createIssue,
   getIssues,
+  deleteFlow,
+  updateFlow,
+  createFlow,
+  getFlows as getFlowsP,
 } from "./api/Projects";
 
 const REST = {
@@ -454,6 +458,10 @@ const REST = {
     updateIssue,
     createIssue,
     getIssues,
+    deleteFlow,
+    updateFlow,
+    createFlow,
+    getFlows: getFlowsP,
   },
   Community: {
     search,

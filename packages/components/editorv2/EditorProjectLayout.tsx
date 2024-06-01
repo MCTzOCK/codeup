@@ -64,7 +64,7 @@ export default function EditorProjectLayout(props: {
           {
             text: "Flussdiagramme",
             icon: <FaDiagramSuccessor />,
-            href: "/projects/" + props.project_id + "/issues",
+            href: "/projects/" + props.project_id + "/flows",
           },
           {
             text: "Versionsverwaltung",
