@@ -25,6 +25,7 @@ import {
 import { GoProject } from "react-icons/go";
 import { VscIssues } from "react-icons/vsc";
 import {
+  FaChartSimple,
   FaCodeBranch,
   FaDiagramNext,
   FaDiagramSuccessor,
@@ -104,7 +105,17 @@ export default function EditorProjectLayout(props: {
           {
             text: "Profi-Editor",
             icon: <FaCode />,
-            href: "/projects/" + props.project_id + "/professional/editor",
+            href: "/projects/" + props.project_id + "/editor/professional",
+          },
+          {
+            text: "Einfacher Editor",
+            icon: <FaCode />,
+            href: "/projects/" + props.project_id + "/editor/simple",
+          },
+          {
+            text: "UDM-Diagramme",
+            icon: <FaChartSimple />,
+            href: "/projects/" + props.project_id + "/udm",
           },
           {
             text: "Lokalisierung",
