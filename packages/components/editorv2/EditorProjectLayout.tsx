@@ -120,7 +120,7 @@ export default function EditorProjectLayout(props: {
           {
             text: "Lokalisierung",
             icon: <FaLanguage />,
-            href: "/projects/" + props.project_id + "/professional/editor",
+            href: "/projects/" + props.project_id + "/i18n",
           },
           {
             text: "CI/CD",
