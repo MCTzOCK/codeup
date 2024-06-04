@@ -295,6 +295,12 @@ import {
   updateFlow,
   createFlow,
   getFlows as getFlowsP,
+  getI18nData,
+  i18nAddLanguage,
+  i18nRemoveLanguage,
+  i18nSetDefaultLanguage,
+  i18nSetKey,
+  i18nDeleteKey,
 } from "./api/Projects";
 
 const REST = {
@@ -478,6 +484,12 @@ const REST = {
     getProfileFollowers,
     getProfilePosts,
     toggleFollow,
+    getI18nData,
+    i18nAddLanguage,
+    i18nRemoveLanguage,
+    i18nSetDefaultLanguage,
+    i18nSetKey,
+    i18nDeleteKey,
   },
   Util: {
     makeRequest: makeRequest,

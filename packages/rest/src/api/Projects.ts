@@ -272,3 +272,99 @@ export async function deleteFlow(
     token,
   });
 }
+
+export async function getI18nData(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/i18n`,
+    token,
+  });
+}
+
+export async function i18nAddLanguage(
+  token: string,
+  id: string,
+  language: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/i18n`,
+    token,
+    body: {
+      action: "addLanguage",
+      language,
+    },
+  });
+}
+
+export async function i18nRemoveLanguage(
+  token: string,
+  id: string,
+  language: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/i18n`,
+    token,
+    body: {
+      action: "removeLanguage",
+      language,
+    },
+  });
+}
+
+export async function i18nSetDefaultLanguage(
+  token: string,
+  id: string,
+  language: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/i18n`,
+    token,
+    body: {
+      action: "setDefaultLanguage",
+      language,
+    },
+  });
+}
+
+export async function i18nSetKey(
+  token: string,
+  id: string,
+  language: string,
+  key: string,
+  value: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/i18n`,
+    token,
+    body: {
+      action: "setKey",
+      key,
+      value,
+      language,
+    },
+  });
+}
+
+export async function i18nDeleteKey(
+  token: string,
+  id: string,
+  language: string,
+  key: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/i18n`,
+    token,
+    body: {
+      key,
+      language,
+    },
+  });
+}
