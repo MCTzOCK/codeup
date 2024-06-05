@@ -28,9 +28,17 @@ import {
   HStack,
   ButtonGroup,
   IconButton,
+  Table,
+  Thead,
+  Th,
+  Tbody,
+  Tr,
+  Td,
+  Input,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
-import { FaTrash, FaHammer } from "react-icons/fa";
+import { FaTrash, FaHammer, FaLanguage } from "react-icons/fa";
+import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
 
 export default function I18n() {
   useUserLoggedInRedirect({
@@ -237,6 +245,204 @@ export default function I18n() {
                 </Box>
                 <Box rounded={"md"} p={4} bg={"gray.900"} h={"100%"}>
                   <CHeading size={"lg"}>Übersetzungen</CHeading>
+                  <Button
+                    variant={"brand"}
+                    mt={4}
+                    onClick={async () => {
+                      const key = await PopupManager.promptAsync({
+                        title: "Schlüssel hinzufügen",
+                        helperText: "Bitte gib den Schlüssel ein",
+                      });
+
+                      if (!key) return;
+
+                      for (const l of i18n.languages) {
+                        const res = await REST.Projects.i18nSetKey(
+                          AccountManager.getActiveToken(),
+                          router.query.id as string,
+                          l,
+                          key,
+                          ""
+                        );
+                      }
+
+                      await reloadI18n();
+                    }}
+                  >
+                    Hinzufügen
+                  </Button>
+                  <Table mt={4}>
+                    <Thead>
+                      <Th>Schlüssel</Th>
+                      <Th>Standard</Th>
+                    </Thead>
+                    <Tbody>
+                      {i18n.translations[i18n.defaultLanguage] &&
+                        Object.keys(
+                          i18n.translations[i18n.defaultLanguage]
+                        ).map((t: any) => {
+                          return (
+                            <>
+                              <Tr
+                                _hover={{
+                                  bg: "gray.700",
+                                  cursor: "pointer",
+                                }}
+                                onClick={async () => {
+                                  await PopupManager.alertAsync({
+                                    title: "Übersetzung bearbeiten",
+                                    description: (
+                                      <>
+                                        <form
+                                          onSubmit={async (e) => {
+                                            e.preventDefault();
+
+                                            const fd = new FormData(
+                                              e.target as HTMLFormElement
+                                            );
+
+                                            let res: {
+                                              [key: string]: string;
+                                            } = {};
+
+                                            for (const l of i18n.languages) {
+                                              res[l] = fd.get(
+                                                "t-" + l
+                                              ) as string;
+                                            }
+
+                                            for (const k of Object.keys(res)) {
+                                              const r =
+                                                await REST.Projects.i18nSetKey(
+                                                  AccountManager.getActiveToken(),
+                                                  router.query.id as string,
+                                                  k,
+                                                  t,
+                                                  res[k]
+                                                );
+                                            }
+
+                                            PopupManager.removeCurrentPopup();
+
+                                            await reloadI18n();
+                                          }}
+                                        >
+                                          <Stack spacing={4}>
+                                            {i18n.languages.map((l: string) => {
+                                              return (
+                                                <HStack spacing={2}>
+                                                  <Text size={"lg"}>{l}</Text>
+                                                  <Input
+                                                    size={"lg"}
+                                                    name={"t-" + l}
+                                                    id={"t-" + l}
+                                                    defaultValue={
+                                                      i18n.translations[l]
+                                                        ? i18n.translations[l][
+                                                            t
+                                                          ]
+                                                        : ""
+                                                    }
+                                                  />
+                                                  <IconButton
+                                                    aria-label={
+                                                      "Auto-Translate"
+                                                    }
+                                                    icon={<FaLanguage />}
+                                                    onClick={async () => {
+                                                      const x =
+                                                        await translateOnlineV3(
+                                                          {
+                                                            text: (
+                                                              document.querySelector(
+                                                                "#t-" +
+                                                                  i18n.defaultLanguage
+                                                              ) as HTMLInputElement
+                                                            ).value,
+                                                            from: i18n.defaultLanguage,
+                                                            to: l,
+                                                          }
+                                                        );
+
+                                                      (
+                                                        document.querySelector(
+                                                          "#t-" + l
+                                                        ) as HTMLInputElement
+                                                      ).value = x;
+                                                    }}
+                                                    variant={"brand"}
+                                                    display={
+                                                      i18n.defaultLanguage === l
+                                                        ? "none"
+                                                        : undefined
+                                                    }
+                                                  />
+                                                </HStack>
+                                              );
+                                            })}
+                                            <ButtonGroup w={"100%"}>
+                                              <Button
+                                                variant={"brand"}
+                                                w={"100%"}
+                                                type={"submit"}
+                                              >
+                                                Speichern
+                                              </Button>
+                                              <Button
+                                                colorScheme={"red"}
+                                                w={"100%"}
+                                                onClick={async () => {
+                                                  if (
+                                                    !(await PopupManager.confirmAsync(
+                                                      {
+                                                        title: "Löschen",
+                                                        question:
+                                                          "Möchtest du den Schlüssel wirklich löschen?",
+                                                      }
+                                                    ))
+                                                  )
+                                                    return;
+
+                                                  for (const k of Object.keys(
+                                                    i18n.translations
+                                                  )) {
+                                                    await REST.Projects.i18nDeleteKey(
+                                                      AccountManager.getActiveToken(),
+                                                      router.query.id as string,
+                                                      k,
+                                                      t
+                                                    );
+                                                  }
+
+                                                  PopupManager.removeCurrentPopup();
+
+                                                  await reloadI18n();
+                                                }}
+                                              >
+                                                Löschen
+                                              </Button>
+                                            </ButtonGroup>
+                                          </Stack>
+                                        </form>
+                                      </>
+                                    ),
+                                  });
+                                }}
+                              >
+                                <Td>
+                                  <Text size={"lg"}>{t}</Text>
+                                </Td>
+                                <Td>
+                                  <Text size={"lg"}>
+                                    {i18n.translations[i18n.defaultLanguage][t]}
+                                  </Text>
+                                </Td>
+                              </Tr>
+                            </>
+                          );
+                        })}
+                    </Tbody>
+                  </Table>
                 </Box>
               </Grid>
             </Box>

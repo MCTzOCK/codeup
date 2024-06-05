@@ -359,10 +359,11 @@ export async function i18nDeleteKey(
   key: string
 ): Promise<IResponse> {
   return await makeRequest({
-    method: "DELETE",
+    method: "POST",
     path: `/api/projects/${id}/i18n`,
     token,
     body: {
+      action: "deleteKey",
       key,
       language,
     },
