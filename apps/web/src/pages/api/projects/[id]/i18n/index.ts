@@ -48,7 +48,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           project: project._id,
           defaultLanguage: "de",
           languages: ["de", "en"],
-          translations: {},
+          translations: {
+            de: {
+              "product.name": project.name,
+            },
+          },
         });
       }
 
@@ -100,7 +104,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           return;
         }
 
+        if (i18n.languages.length === 1) {
+          res.status(400).json({
+            status: 400,
+            error: "You can't remove the last language",
+          });
+          return;
+        }
+
         i18n.languages = i18n.languages.filter((l: string) => l !== language);
+
+        if (i18n.defaultLanguage === language) {
+          i18n.defaultLanguage = i18n.languages[0];
+        }
 
         await i18n.save();
 

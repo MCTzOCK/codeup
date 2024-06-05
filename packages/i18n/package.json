@@ -1,0 +1,21 @@
+{
+  "name": "@codeupspace/i18n",
+  "version": "1.0.0",
+  "description": "I18n library for CodeUp Projects",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": {
+    "email": "hello@ben-siebert.de",
+    "name": "Ben Siebert",
+    "url": "https://ben-siebert.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
