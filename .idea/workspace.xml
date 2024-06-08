@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/projects/[id]/uml/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectUMLModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turbo.json" beforeDir="false" afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/api/Projects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/api/Projects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,11 +29,11 @@
         <option value="React Component" />
         <option value="SCSS File" />
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="package.json" />
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>

@@ -113,9 +113,9 @@ export default function EditorProjectLayout(props: {
             href: "/projects/" + props.project_id + "/editor/simple",
           },
           {
-            text: "UDM-Diagramme",
+            text: "UML-Diagramme",
             icon: <FaChartSimple />,
-            href: "/projects/" + props.project_id + "/udm",
+            href: "/projects/" + props.project_id + "/uml",
           },
           {
             text: "Lokalisierung",

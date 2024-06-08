@@ -301,6 +301,10 @@ import {
   i18nSetDefaultLanguage,
   i18nSetKey,
   i18nDeleteKey,
+  deleteUmlDiagram,
+  updateUmlDiagram,
+  createUmlDiagram,
+  umlDiagrams,
 } from "./api/Projects";
 
 const REST = {
@@ -474,6 +478,10 @@ const REST = {
     i18nSetDefaultLanguage,
     i18nSetKey,
     i18nDeleteKey,
+    deleteUmlDiagram,
+    updateUmlDiagram,
+    createUmlDiagram,
+    umlDiagrams,
   },
   Community: {
     search,
