@@ -102,6 +102,7 @@ export default function Projects() {
                         <Grid
                           templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
                           pt={6}
+                          gap={4}
                         >
                           {project_types.map((type) => (
                             <>
