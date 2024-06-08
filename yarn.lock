@@ -1297,6 +1297,11 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@brainstack/diagram@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.npmjs.org/@brainstack/diagram/-/diagram-1.0.16.tgz#674f3dca0ba707a4b09405d7abd5a2b83f574320"
+  integrity sha512-wK/6esvuSYcRVuyfc3gLVXKXDBs4AE89rrLGIYqjuIlSAlHMQysZlv/pmaaKQ9e5PfxH0BvRykbaxy4vZ8VOvA==
+
 "@chakra-ui/accordion@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/accordion/-/accordion-2.0.3.tgz"
@@ -3179,7 +3184,7 @@
   dependencies:
     state-local "^1.0.6"
 
-"@monaco-editor/react@^4.4.5":
+"@monaco-editor/react@4.4.5", "@monaco-editor/react@^4.4.5":
   version "4.4.5"
   resolved "https://registry.npmjs.org/@monaco-editor/react/-/react-4.4.5.tgz"
   integrity sha512-IImtzU7sRc66OOaQVCG+5PFHkSWnnhrUWGBuH6zNmH2h0YgmAhcjHZQc/6MY9JWEbUtVF1WPBMJ9u1XuFbRrVA==
@@ -12626,7 +12631,7 @@ mkdirp-classic@^0.5.2:
   resolved "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz"
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
 
-monaco-editor@^0.33.0:
+monaco-editor@0.33.0, monaco-editor@^0.33.0:
   version "0.33.0"
   resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz"
   integrity sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw==

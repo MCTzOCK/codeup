@@ -78,9 +78,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           return;
         }
 
-        const { umlData } = req.body;
+        const { data } = req.body;
 
-        uml.data = umlData;
+        uml.data = data;
 
         await uml.save();
 

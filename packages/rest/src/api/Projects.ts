@@ -408,7 +408,7 @@ export async function updateUmlDiagram(
   data: string
 ): Promise<IResponse> {
   return await makeRequest({
-    method: "PUT",
+    method: "POST",
     path: `/api/projects/${id}/uml?umlId=${umlId}`,
     token,
     body: {

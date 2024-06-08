@@ -230,7 +230,12 @@ export default function UML() {
                     text: "Öffnen",
                     onClick: () => {
                       router.push(
-                        "/projects/" + router.query.id + "/uml/" + u._id
+                        "/projects/" +
+                          router.query.id +
+                          "/uml/" +
+                          u._id +
+                          "?type=" +
+                          u.type
                       );
                     },
                     leftIcon: <FaEye />,
