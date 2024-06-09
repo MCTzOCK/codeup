@@ -20,6 +20,7 @@ import { uml_language_config, uml_language } from "@codeup/util/src/monaco/uml";
 import { FaPlus } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import UMLImplEditor from "./UMLImplEditor";
+import UMLSeqEditor from "./UMLSeqEditor";
 
 export default function UMLEditor(props: {
   uml: IUMLDiagram;
@@ -107,6 +108,14 @@ export default function UMLEditor(props: {
     return (
       <>
         <UMLImplEditor uml={props.uml} updateUML={props.updateUML} />
+      </>
+    );
+  }
+
+  if (props.uml.type === "seq") {
+    return (
+      <>
+        <UMLSeqEditor uml={props.uml} updateUML={props.updateUML} />
       </>
     );
   }
