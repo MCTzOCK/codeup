@@ -19,6 +19,7 @@ import {
   Image,
   Select,
 } from "@chakra-ui/react";
+import Networking from "@codeup/util/dist/Networking";
 
 export default function UMLPreview(props: { umlData: string }) {
   DiagramModule.setConfig({
@@ -54,7 +55,7 @@ export default function UMLPreview(props: { umlData: string }) {
       <FormControl>
         <FormLabel>Herunterladen</FormLabel>
         <Flex gap={2} direction={["column", "column", "row"]}>
-          {["png", "svg", "txt"].map((type) => (
+          {["png", "svg", "txt", "uml"].map((type) => (
             <>
               <Button
                 variant={"brand"}
@@ -69,6 +70,9 @@ export default function UMLPreview(props: { umlData: string }) {
                       break;
                     case "txt":
                       window.open(DiagramModule.generate_txt(c));
+                      break;
+                    case "uml":
+                      Networking.download("data.uml", c, "text/plain");
                       break;
                   }
                 }}
