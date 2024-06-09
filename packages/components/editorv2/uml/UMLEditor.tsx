@@ -21,6 +21,7 @@ import { FaPlus } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import UMLImplEditor from "./UMLImplEditor";
 import UMLSeqEditor from "./UMLSeqEditor";
+import UMLEREditor from "./UMLEREditor";
 
 export default function UMLEditor(props: {
   uml: IUMLDiagram;
@@ -116,6 +117,14 @@ export default function UMLEditor(props: {
     return (
       <>
         <UMLSeqEditor uml={props.uml} updateUML={props.updateUML} />
+      </>
+    );
+  }
+
+  if (props.uml.type === "er") {
+    return (
+      <>
+        <UMLEREditor uml={props.uml} updateUML={props.updateUML} />
       </>
     );
   }
