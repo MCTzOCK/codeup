@@ -369,3 +369,62 @@ export async function i18nDeleteKey(
     },
   });
 }
+
+export async function umlDiagrams(
+  token: string,
+  id: string,
+  umlId?: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/projects/${id}/uml` + (umlId ? `?umlId=${umlId}` : ""),
+    token,
+  });
+}
+
+export async function createUmlDiagram(
+  token: string,
+  id: string,
+  name: string,
+  data: string,
+  type: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/uml`,
+    token,
+    body: {
+      name,
+      data,
+      type,
+    },
+  });
+}
+
+export async function updateUmlDiagram(
+  token: string,
+  id: string,
+  umlId: string,
+  data: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/projects/${id}/uml?umlId=${umlId}`,
+    token,
+    body: {
+      data,
+    },
+  });
+}
+
+export async function deleteUmlDiagram(
+  token: string,
+  id: string,
+  umlId: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/uml?umlId=${umlId}`,
+    token,
+  });
+}
