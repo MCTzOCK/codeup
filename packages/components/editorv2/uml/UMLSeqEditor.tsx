@@ -43,6 +43,7 @@ export default function UMLSeqEditor(props: {
 
   const updateUML = async () => {
     let content = "@startuml\n";
+    content += "title " + props.uml.name + "\n";
 
     for (const s of seq) {
       content += `${s.from} -> ${s.to}: ${s.message}\n`;

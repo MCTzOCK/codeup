@@ -69,6 +69,7 @@ export default function UMLImplEditor(props: {
 
   const updateUML = async () => {
     let content = "@startuml\n";
+    content += "title " + props.uml.name + "\n";
 
     let refList = "";
 
@@ -81,7 +82,7 @@ export default function UMLImplEditor(props: {
       content += " {\n";
       for (const f of c.fields) {
         if (classes.map((c) => c.name).includes(f.type)) {
-          refList += `${c.name} <-- ${f.type} : ${
+          refList += `${c.name} --> ${f.type} : ${
             f.visibility === "private"
               ? "-"
               : f.visibility === "public"
