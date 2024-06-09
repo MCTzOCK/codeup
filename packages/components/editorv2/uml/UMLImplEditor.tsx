@@ -67,6 +67,63 @@ export default function UMLImplEditor(props: {
     }
   }, [props.uml.data]);
 
+  const updateUML = async () => {
+    let content = "@startuml\n";
+
+    let refList = "";
+
+    for (const c of classes) {
+      content += `${c.type} ${c.name}`;
+      if (c.extends) {
+        content += `<${c.extends}>`;
+        refList += `${c.name} --|> ${c.extends}\n`;
+      }
+      content += " {\n";
+      for (const f of c.fields) {
+        if (classes.map((c) => c.name).includes(f.type)) {
+          refList += `${c.name} <-- ${f.type} : ${
+            f.visibility === "private"
+              ? "-"
+              : f.visibility === "public"
+              ? "+"
+              : "#"
+          } ${f.name}: ${f.type}\n`;
+        } else {
+          content += `${
+            f.visibility === "private"
+              ? "-"
+              : f.visibility === "public"
+              ? "+"
+              : "#"
+          } ${f.name}: ${f.type}\n`;
+        }
+      }
+
+      for (const m of c.methods) {
+        content += `${
+          m.visibility === "private"
+            ? "-"
+            : m.visibility === "public"
+            ? "+"
+            : "#"
+        } ${m.name}(${m.args.map((a) => `${a.name}: ${a.type}`).join(", ")}): ${
+          m.returnType
+        }\n`;
+      }
+
+      content += "}\n";
+    }
+
+    content += refList;
+
+    content += "@enduml";
+
+    props.updateUML({
+      ...props.uml,
+      data: JSON.stringify({ classes, content }),
+    });
+  };
+
   return (
     <>
       <Flex gap={4} direction={"column"}>
@@ -74,10 +131,7 @@ export default function UMLImplEditor(props: {
           <Button
             variant={"brand"}
             onClick={async () => {
-              props.updateUML({
-                ...props.uml,
-                data: JSON.stringify({ classes }),
-              });
+              await updateUML();
             }}
             w={"100%"}
             leftIcon={<FaSave />}
@@ -124,7 +178,27 @@ export default function UMLImplEditor(props: {
             <>
               <Box bg={"gray.900"} rounded={"md"} p={4}>
                 <CHeading size={"md"}>{c.name}</CHeading>
-                <Flex gap={4} alignItems={"center"} mt={4} mb={4}>
+                <Flex
+                  gap={4}
+                  alignItems={"center"}
+                  mt={4}
+                  mb={4}
+                  direction={["column", "column", "row"]}
+                >
+                  <Select
+                    value={c.type}
+                    onChange={(e) => {
+                      const newClasses = [...classes];
+                      newClasses[i].type = e.target.value as any;
+                      setClasses(newClasses);
+                    }}
+                    w={"fit-content"}
+                  >
+                    <option value={"class"}>Klasse</option>
+                    <option value={"interface"}>Interface</option>
+                    <option value={"abstract class"}>Abstrakte Klasse</option>
+                  </Select>
+
                   <Button
                     variant={"brand"}
                     leftIcon={<FaPen />}
@@ -163,6 +237,16 @@ export default function UMLImplEditor(props: {
                     Löschen
                   </Button>
                 </Flex>
+                <Input
+                  value={c.extends}
+                  onChange={(e) => {
+                    const newClasses = [...classes];
+                    newClasses[i].extends = e.target.value;
+                    setClasses(newClasses);
+                  }}
+                  placeholder={"Erweitert von"}
+                  mb={4}
+                />
                 <CHeading size={"sm"}>Attribute</CHeading>
                 <Flex gap={4} alignItems={"center"} mt={4} mb={4}>
                   <Button

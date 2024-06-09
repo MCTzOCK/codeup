@@ -34,7 +34,7 @@ export default function UMLPreview(props: { umlData: string }) {
     );
 
   const [url, setUrl] = React.useState<string>("");
-  const [theme, setTheme] = React.useState<string>("black-knight");
+  const [theme, setTheme] = React.useState<string>("toy");
 
   React.useEffect(() => {
     setUrl(DiagramModule.generate_svg(props.umlData + "\n!theme " + theme));
