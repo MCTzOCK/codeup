@@ -433,12 +433,12 @@ export const GitOps = {
   tree: async (
     token: string,
     id: string,
-    withContent?: boolean
+    withContent?: string
   ): Promise<IResponse> => {
     return await makeRequest({
       method: "GET",
       path: `/api/projects/${id}/gitops/tree${
-        withContent ? "?withContent=true" : ""
+        withContent ? `?withContent=${withContent}` : ""
       }`,
       token,
     });
