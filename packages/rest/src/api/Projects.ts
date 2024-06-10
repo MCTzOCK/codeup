@@ -428,3 +428,61 @@ export async function deleteUmlDiagram(
     token,
   });
 }
+
+export const GitOps = {
+  tree: async (
+    token: string,
+    id: string,
+    withContent?: boolean
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/tree${
+        withContent ? "?withContent=true" : ""
+      }`,
+      token,
+    });
+  },
+  branch: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/branch`,
+      token,
+    });
+  },
+  setBranch: async (
+    token: string,
+    id: string,
+    branch: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/gitops/branch`,
+      token,
+      body: {
+        branch,
+      },
+    });
+  },
+  commit: async (
+    token: string,
+    id: string,
+    message: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/gitops/commit`,
+      token,
+      body: {
+        message,
+      },
+    });
+  },
+  commits: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/commits`,
+      token,
+    });
+  },
+};

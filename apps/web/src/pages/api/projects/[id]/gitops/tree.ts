@@ -68,6 +68,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       name: string;
       type: string;
       children: entry[];
+      content?: any;
     };
 
     let tree: entry[] = [];
@@ -87,10 +88,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           walk(path.join(dir, file), entry);
           children.push(entry);
         } else {
+          let content = "";
+          if (req.query.withContent) {
+            content = fs.readFileSync(path.join(dir, file), "utf-8");
+          }
           children.push({
             name: file,
             type: "file",
             children: [],
+            content,
           });
         }
       }
