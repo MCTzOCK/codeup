@@ -6675,6 +6675,11 @@ ccount@^2.0.0:
   resolved "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
+chakra-ui-contextmenu@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/chakra-ui-contextmenu/-/chakra-ui-contextmenu-1.0.5.tgz#de54ad83c413a62040a06fefd3d73264a580a987"
+  integrity sha512-0pvi2RmNFpaoXPBT8mRDBZ1q6Ic8lE7YIyHBMgx4AubgN7dySww4SlN9g3mKWN3egkBL/ORCmxRfW6AlDeR+Nw==
+
 chakra-ui-steps@^1.8.0:
   version "1.8.0"
   resolved "https://registry.npmjs.org/chakra-ui-steps/-/chakra-ui-steps-1.8.0.tgz"

@@ -71,6 +71,7 @@
     "bson": "^4.6.5",
     "byte-size": "^8.1.0",
     "canvg": "^4.0.1",
+    "chakra-ui-contextmenu": "^1.0.5",
     "chakra-ui-steps": "^1.8.0",
     "chart.js": "4.2.0",
     "cross-env": "^7.0.3",

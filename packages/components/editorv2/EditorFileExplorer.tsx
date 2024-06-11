@@ -17,12 +17,15 @@ import {
   Grid,
   HStack,
   IconButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { CHeading } from "../global/CHeading";
-import { FaFile, FaFolder, FaFolderPlus } from "react-icons/fa";
+import { FaFile, FaFolder, FaFolderPlus, FaPen, FaTrash } from "react-icons/fa";
 import EditorFileExplorerIcon from "./EditorFileExplorerIcon";
+import { ContextMenu } from "chakra-ui-contextmenu";
 
 type entry = {
   name: string;
@@ -114,28 +117,50 @@ export default function EditorFileExplorer(props: {
             })
             .map((entry, index) => {
               return (
-                <Stack
-                  p={2}
-                  gap={2}
-                  cursor={"pointer"}
-                  rounded={"md"}
-                  bg={"gray.800"}
-                  w={"100%"}
-                  onClick={() => {
-                    if (entry.type === "file") {
-                      props.openFile(entry.name);
-                    } else {
-                      setCurrentPath([...currentPath, entry.name]);
-                      setParentEntry(currentEntry);
-                      setCurrentEntry(entry);
-                    }
-                  }}
+                <ContextMenu
+                  renderMenu={() => (
+                    <>
+                      <MenuList bg={"#000"}>
+                        <MenuItem icon={<FaTrash />} color={"red.500"}>
+                          Löschen
+                        </MenuItem>
+                        <MenuItem icon={<FaPen />} color={"brand.500"}>
+                          Umbenennen
+                        </MenuItem>
+                      </MenuList>
+                    </>
+                  )}
                 >
-                  <Flex fontSize={"2xl"} w={"100%"} justifyContent={"center"}>
-                    <EditorFileExplorerIcon entry={entry as any} />
-                  </Flex>
-                  <Text textAlign={"center"}>{entry.name}</Text>
-                </Stack>
+                  {(ref) => (
+                    <Stack
+                      p={2}
+                      gap={2}
+                      cursor={"pointer"}
+                      rounded={"md"}
+                      bg={"gray.800"}
+                      w={"100%"}
+                      ref={ref as any}
+                      onClick={() => {
+                        if (entry.type === "file") {
+                          props.openFile(entry.name);
+                        } else {
+                          setCurrentPath([...currentPath, entry.name]);
+                          setParentEntry(currentEntry);
+                          setCurrentEntry(entry);
+                        }
+                      }}
+                    >
+                      <Flex
+                        fontSize={"2xl"}
+                        w={"100%"}
+                        justifyContent={"center"}
+                      >
+                        <EditorFileExplorerIcon entry={entry as any} />
+                      </Flex>
+                      <Text textAlign={"center"}>{entry.name}</Text>
+                    </Stack>
+                  )}
+                </ContextMenu>
               );
             })}
       </Grid>
