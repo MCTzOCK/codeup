@@ -17,6 +17,7 @@ import {
   Grid,
   HStack,
   IconButton,
+  Input,
   ListIcon,
   ListItem,
   MenuItem,
@@ -61,6 +62,8 @@ export default function EditorFileExplorer(props: {
   const [currentEntry, setCurrentEntry] = React.useState<entry | null>(
     props.fileTree
   );
+
+  const [query, setQuery] = React.useState("");
 
   useEffect(() => {
     if (currentPath.length > 0) {
@@ -146,6 +149,13 @@ export default function EditorFileExplorer(props: {
           </BreadcrumbItem>
         ))}
       </Breadcrumb>
+      <Input
+        placeholder={"Suchen..."}
+        onChange={(e) => {
+          setQuery(e.currentTarget.value);
+        }}
+        value={query}
+      />
       <Grid
         templateColumns={"repeat(auto-fit, minmax(150px, 1fr))"}
         autoColumns={"minmax(0,1fr)"}
@@ -161,6 +171,9 @@ export default function EditorFileExplorer(props: {
               } else {
                 return 0;
               }
+            })
+            .filter((e) => {
+              return e.name.toLowerCase().includes(query.toLowerCase());
             })
             .map((entry, index) => {
               return (
@@ -240,7 +253,9 @@ export default function EditorFileExplorer(props: {
                       ref={ref as any}
                       onClick={() => {
                         if (entry.type === "file") {
-                          props.openFile(entry.name);
+                          props.openFile(
+                            currentPath.concat(entry.name).join("/")
+                          );
                         } else {
                           setCurrentPath([...currentPath, entry.name]);
                           setParentEntry(currentEntry);

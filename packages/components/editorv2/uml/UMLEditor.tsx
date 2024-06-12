@@ -38,8 +38,6 @@ export default function UMLEditor(props: {
   if (props.uml.type === "adv") {
     const monaco = useMonaco();
     const [monacoTheme, setMonacoTheme] = useState("vs-dark");
-    const [monacoLanguage, setMonacoLanguage] = useState("html");
-
     const editorRef = useRef<IStandaloneCodeEditor>();
 
     React.useEffect(() => {

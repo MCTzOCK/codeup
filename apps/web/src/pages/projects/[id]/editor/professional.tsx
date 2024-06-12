@@ -10,7 +10,16 @@
 import * as React from "react";
 import { useUserLoggedInRedirect } from "@codeup/hooks";
 import { useRouter } from "next/router";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import AppShell from "@codeup/components/dist/global/AppShell";
 import { IProject } from "../../../../types/IProject";
 import { useEffect } from "react";
@@ -23,6 +32,8 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import { Stripe } from "stripe";
 import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 import EditorFileExplorer from "@codeup/components/editorv2/EditorFileExplorer";
+import MonacoCodeEditor from "@codeup/components/editorv2/MonacoCodeEditor";
+import SnippetList from "@codeup/components/editorv2/SnippetList";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 export default function Professional() {
@@ -129,6 +140,11 @@ export default function Professional() {
     );
   };
 
+  const [openFile, setOpenFile] = React.useState<string>(
+    ".codeup.no-editor.empty"
+  );
+  const [openFileContent, setOpenFileContent] = React.useState<string>("");
+
   return (
     <>
       <EditorProjectLayout project_id={router.query.id as string}>
@@ -157,106 +173,152 @@ export default function Professional() {
                     borderRadius: "var(--chakra-radii-md)",
                   }}
                 >
-                  <EditorFileExplorer
-                    projectName={project!.name}
-                    fileTree={simpleFileTree}
-                    openFile={(path) => {}}
-                    deleteFile={async (path) => {
-                      if (
-                        path.startsWith(".git") ||
-                        path === "project.codeup.json"
-                      ) {
-                        await PopupManager.alertAsync({
-                          title: "Datei löschen",
-                          description: `Die Datei ${path} kann nicht gelöscht werden`,
-                        });
-                        return;
-                      }
-                      if (
-                        !(await PopupManager.confirmAsync({
-                          title: "Datei löschen",
-                          question: `Möchtest du die Datei ${path} wirklich löschen?`,
-                        }))
-                      )
-                        return;
-
-                      const res = await REST.Projects.Files.delete(
-                        AccountManager.getActiveToken(),
-                        router.query.id as string,
-                        path
-                      );
-
-                      if (res.status === 200) {
-                        await reloadFileTree();
-                      } else {
-                        await PopupManager.alertAsync({
-                          title: "Fehler",
-                          description: res.payload.error,
-                        });
-                      }
+                  <PanelGroup
+                    autoSaveId={"editor-panel-group-left-cs-ex"}
+                    direction={"vertical"}
+                    style={{
+                      gap: "0.75rem",
                     }}
-                    createDirectory={async (path) => {
-                      const res = await REST.Projects.Files.createFolder(
-                        AccountManager.getActiveToken(),
-                        router.query.id as string,
-                        path
-                      );
+                  >
+                    <Panel defaultSize={50} minSize={25} maxSize={70}>
+                      <EditorFileExplorer
+                        projectName={project!.name}
+                        fileTree={simpleFileTree}
+                        openFile={(path) => {
+                          setOpenFile(path);
+                          console.log(path.split("/"));
+                          const content = findEntryByPath(
+                            simpleFileTree,
+                            path.split("/")
+                          )!.content;
+                          console.log(content);
+                          setOpenFileContent(content);
+                        }}
+                        deleteFile={async (path) => {
+                          if (
+                            path.startsWith(".git") ||
+                            path === "project.codeup.json"
+                          ) {
+                            await PopupManager.alertAsync({
+                              title: "Datei löschen",
+                              description: `Die Datei ${path} kann nicht gelöscht werden`,
+                            });
+                            return;
+                          }
+                          if (
+                            !(await PopupManager.confirmAsync({
+                              title: "Datei löschen",
+                              question: `Möchtest du die Datei ${path} wirklich löschen?`,
+                            }))
+                          )
+                            return;
 
-                      if (res.status === 200) {
-                        await reloadFileTree();
-                      } else {
-                        await PopupManager.alertAsync({
-                          title: "Fehler",
-                          description: res.payload.error,
-                        });
-                      }
-                    }}
-                    createFile={async (path) => {
-                      const res = await REST.Projects.Files.setFileContent(
-                        AccountManager.getActiveToken(),
-                        router.query.id as string,
-                        path,
-                        ""
-                      );
+                          const res = await REST.Projects.Files.delete(
+                            AccountManager.getActiveToken(),
+                            router.query.id as string,
+                            path
+                          );
 
-                      if (res.status === 200) {
-                        await reloadFileTree();
-                      } else {
-                        await PopupManager.alertAsync({
-                          title: "Fehler",
-                          description: res.payload.error,
-                        });
-                      }
-                    }}
-                    renameFile={async (path, newName) => {
-                      if (
-                        path.startsWith(".git") ||
-                        path === "project.codeup.json"
-                      ) {
-                        await PopupManager.alertAsync({
-                          title: "Datei umbenennen",
-                          description: `Die Datei ${path} kann nicht umbenannt werden`,
-                        });
-                        return;
-                      }
+                          if (res.status === 200) {
+                            await reloadFileTree();
+                          } else {
+                            await PopupManager.alertAsync({
+                              title: "Fehler",
+                              description: res.payload.error,
+                            });
+                          }
+                        }}
+                        createDirectory={async (path) => {
+                          const res = await REST.Projects.Files.createFolder(
+                            AccountManager.getActiveToken(),
+                            router.query.id as string,
+                            path
+                          );
 
-                      const res = await REST.Projects.Files.rename(
-                        AccountManager.getActiveToken(),
-                        router.query.id as string,
-                        path,
-                        newName
-                      );
+                          if (res.status === 200) {
+                            await reloadFileTree();
+                          } else {
+                            await PopupManager.alertAsync({
+                              title: "Fehler",
+                              description: res.payload.error,
+                            });
+                          }
+                        }}
+                        createFile={async (path) => {
+                          const res = await REST.Projects.Files.setFileContent(
+                            AccountManager.getActiveToken(),
+                            router.query.id as string,
+                            path,
+                            ""
+                          );
 
-                      if (res.status === 200) {
-                        await reloadFileTree();
-                      } else {
-                        await PopupManager.alertAsync({
-                          title: "Fehler",
-                          description: res.payload.error,
-                        });
-                      }
-                    }}
-                  />
+                          if (res.status === 200) {
+                            await reloadFileTree();
+                          } else {
+                            await PopupManager.alertAsync({
+                              title: "Fehler",
+                              description: res.payload.error,
+                            });
+                          }
+                        }}
+                        renameFile={async (path, newName) => {
+                          if (
+                            path.startsWith(".git") ||
+                            path === "project.codeup.json"
+                          ) {
+                            await PopupManager.alertAsync({
+                              title: "Datei umbenennen",
+                              description: `Die Datei ${path} kann nicht umbenannt werden`,
+                            });
+                            return;
+                          }
+
+                          const res = await REST.Projects.Files.rename(
+                            AccountManager.getActiveToken(),
+                            router.query.id as string,
+                            path,
+                            newName
+                          );
+
+                          if (res.status === 200) {
+                            await reloadFileTree();
+                          } else {
+                            await PopupManager.alertAsync({
+                              title: "Fehler",
+                              description: res.payload.error,
+                            });
+                          }
+                        }}
+                      />
+                    </Panel>
+                    <PanelResizeHandle
+                      style={{
+                        cursor: "col-resize",
+                        backgroundColor: "#2C2E33",
+                        border: "1px solid gray.800",
+                        borderRadius: "0.25rem",
+                        width: "100%",
+                      }}
+                    />
+                    <Panel defaultSize={50} minSize={30} maxSize={100}>
+                      <Tabs
+                        variant={"solid-rounded"}
+                        colorScheme={"brand"}
+                        isLazy
+                      >
+                        <TabList>
+                          <Tab>Snippets</Tab>
+                          <Tab>Terminal</Tab>
+                          <Tab>Vorschau</Tab>
+                        </TabList>
+                        <TabPanels>
+                          <TabPanel>
+                            <SnippetList />
+                          </TabPanel>
+                        </TabPanels>
+                      </Tabs>
+                    </Panel>
+                  </PanelGroup>
                 </Panel>
                 <PanelResizeHandle
                   style={{
@@ -268,9 +330,11 @@ export default function Professional() {
                   }}
                 />
                 <Panel defaultSize={75} minSize={30} maxSize={100}>
-                  <Box bg={"#FFAAFF"} rounded={"md"}>
-                    Code
-                  </Box>
+                  <MonacoCodeEditor
+                    fileName={openFile}
+                    content={openFileContent}
+                    updateContent={(v) => {}}
+                  />
                 </Panel>
               </PanelGroup>
             </Flex>
@@ -280,3 +344,16 @@ export default function Professional() {
     </>
   );
 }
+
+type entry = {
+  name: string;
+  type: string;
+  children: entry[];
+  content?: any;
+};
+const findEntryByPath = (entry: entry, path: string[]): entry | null => {
+  if (path.length === 0) return entry;
+  const next = entry.children.find((c) => c.name === path[0]);
+  if (!next) return null;
+  return findEntryByPath(next, path.slice(1));
+};
