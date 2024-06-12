@@ -486,3 +486,68 @@ export const GitOps = {
     });
   },
 };
+
+export const Files = {
+  get: async (token: string, id: string, path: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+    });
+  },
+  setFileContent: async (
+    token: string,
+    id: string,
+    path: string,
+    content: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+      body: {
+        content,
+      },
+    });
+  },
+  delete: async (
+    token: string,
+    id: string,
+    path: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "DELETE",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+    });
+  },
+  createFolder: async (
+    token: string,
+    id: string,
+    path: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+      body: {
+        folder: true,
+      },
+    });
+  },
+  rename: async (
+    token: string,
+    id: string,
+    oldPath: string,
+    newPath: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "PUT",
+      path: `/api/projects/${id}/files/${oldPath}`,
+      token,
+      body: {
+        newName: newPath,
+      },
+    });
+  },
+};

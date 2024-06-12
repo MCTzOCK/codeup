@@ -94,6 +94,16 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     } else if (req.method === "POST") {
       const filePath = path.resolve(baseDir, relativePath);
 
+      if (req.body.folder) {
+        fs.mkdirSync(filePath, { recursive: true });
+        res.status(200).json({
+          status: 200,
+          data: "Folder created",
+        });
+
+        return;
+      }
+
       const content = req.body.content;
 
       fs.mkdirSync(path.dirname(filePath), { recursive: true });
@@ -103,6 +113,66 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       res.status(200).json({
         status: 200,
         data: "File saved",
+      });
+    } else if (req.method === "DELETE") {
+      const filePath = path.resolve(baseDir, relativePath);
+
+      if (!filePath.startsWith(baseDir)) {
+        res.status(403).json({
+          status: 403,
+          error: "You are not allowed to access this file",
+        });
+        return;
+      }
+
+      if (!fs.existsSync(filePath)) {
+        res.status(404).json({
+          status: 404,
+          error: "File not found",
+        });
+        return;
+      }
+
+      if (fs.lstatSync(filePath).isDirectory()) {
+        fs.rmdirSync(filePath, { recursive: true });
+      } else {
+        fs.unlinkSync(filePath);
+      }
+
+      res.status(200).json({
+        status: 200,
+        data: "File deleted",
+      });
+    } else if (req.method === "PUT") {
+      const filePath = path.resolve(baseDir, relativePath);
+      const newFilePath = path.resolve(
+        baseDir,
+        path.join(path.dirname(relativePath), req.body.newName)
+      );
+
+      if (!fs.existsSync(filePath))
+        return res.status(404).json({
+          status: 404,
+          error: "File not found",
+        });
+
+      if (fs.existsSync(newFilePath))
+        return res.status(409).json({
+          status: 409,
+          error: "File already exists",
+        });
+
+      if (!newFilePath.startsWith(baseDir))
+        return res.status(403).json({
+          status: 403,
+          error: "You are not allowed to access this file",
+        });
+
+      fs.renameSync(filePath, newFilePath);
+
+      res.status(200).json({
+        status: 200,
+        data: "File renamed",
       });
     }
   } catch (e: any) {

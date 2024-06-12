@@ -161,11 +161,101 @@ export default function Professional() {
                     projectName={project!.name}
                     fileTree={simpleFileTree}
                     openFile={(path) => {}}
-                    deleteFile={(path) => {}}
-                    createDirectory={(path) => {}}
-                    createFile={(path) => {}}
-                    renameDirectory={(path) => {}}
-                    renameFile={(path) => {}}
+                    deleteFile={async (path) => {
+                      if (
+                        path.startsWith(".git") ||
+                        path === "project.codeup.json"
+                      ) {
+                        await PopupManager.alertAsync({
+                          title: "Datei löschen",
+                          description: `Die Datei ${path} kann nicht gelöscht werden`,
+                        });
+                        return;
+                      }
+                      if (
+                        !(await PopupManager.confirmAsync({
+                          title: "Datei löschen",
+                          question: `Möchtest du die Datei ${path} wirklich löschen?`,
+                        }))
+                      )
+                        return;
+
+                      const res = await REST.Projects.Files.delete(
+                        AccountManager.getActiveToken(),
+                        router.query.id as string,
+                        path
+                      );
+
+                      if (res.status === 200) {
+                        await reloadFileTree();
+                      } else {
+                        await PopupManager.alertAsync({
+                          title: "Fehler",
+                          description: res.payload.error,
+                        });
+                      }
+                    }}
+                    createDirectory={async (path) => {
+                      const res = await REST.Projects.Files.createFolder(
+                        AccountManager.getActiveToken(),
+                        router.query.id as string,
+                        path
+                      );
+
+                      if (res.status === 200) {
+                        await reloadFileTree();
+                      } else {
+                        await PopupManager.alertAsync({
+                          title: "Fehler",
+                          description: res.payload.error,
+                        });
+                      }
+                    }}
+                    createFile={async (path) => {
+                      const res = await REST.Projects.Files.setFileContent(
+                        AccountManager.getActiveToken(),
+                        router.query.id as string,
+                        path,
+                        ""
+                      );
+
+                      if (res.status === 200) {
+                        await reloadFileTree();
+                      } else {
+                        await PopupManager.alertAsync({
+                          title: "Fehler",
+                          description: res.payload.error,
+                        });
+                      }
+                    }}
+                    renameFile={async (path, newName) => {
+                      if (
+                        path.startsWith(".git") ||
+                        path === "project.codeup.json"
+                      ) {
+                        await PopupManager.alertAsync({
+                          title: "Datei umbenennen",
+                          description: `Die Datei ${path} kann nicht umbenannt werden`,
+                        });
+                        return;
+                      }
+
+                      const res = await REST.Projects.Files.rename(
+                        AccountManager.getActiveToken(),
+                        router.query.id as string,
+                        path,
+                        newName
+                      );
+
+                      if (res.status === 200) {
+                        await reloadFileTree();
+                      } else {
+                        await PopupManager.alertAsync({
+                          title: "Fehler",
+                          description: res.payload.error,
+                        });
+                      }
+                    }}
                   />
                 </Panel>
                 <PanelResizeHandle

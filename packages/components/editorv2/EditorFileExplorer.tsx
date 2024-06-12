@@ -17,15 +17,28 @@ import {
   Grid,
   HStack,
   IconButton,
+  ListIcon,
+  ListItem,
   MenuItem,
   MenuList,
   Stack,
   Text,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { CHeading } from "../global/CHeading";
-import { FaFile, FaFolder, FaFolderPlus, FaPen, FaTrash } from "react-icons/fa";
+import {
+  FaFile,
+  FaFolder,
+  FaFolderPlus,
+  FaInfoCircle,
+  FaPen,
+  FaTrash,
+} from "react-icons/fa";
 import EditorFileExplorerIcon from "./EditorFileExplorerIcon";
 import { ContextMenu } from "chakra-ui-contextmenu";
+import PopupManager from "@codeup/web/src/global/PopupManager";
+import byteSize from "byte-size";
+import { useEffect } from "react";
 
 type entry = {
   name: string;
@@ -42,13 +55,21 @@ export default function EditorFileExplorer(props: {
   createDirectory: (path: string) => void;
   openFile: (path: string) => void;
   renameFile: (path: string, newName: string) => void;
-  renameDirectory: (path: string, newName: string) => void;
 }) {
   const [currentPath, setCurrentPath] = React.useState<string[]>([]);
   const [parentEntry, setParentEntry] = React.useState<entry | null>(null);
   const [currentEntry, setCurrentEntry] = React.useState<entry | null>(
     props.fileTree
   );
+
+  useEffect(() => {
+    if (currentPath.length > 0) {
+      setCurrentEntry(findEntryByPath(props.fileTree, currentPath));
+    } else {
+      setCurrentEntry(props.fileTree);
+      setCurrentPath([]);
+    }
+  }, [props.fileTree]);
 
   if (!props.fileTree) return <></>;
 
@@ -59,8 +80,34 @@ export default function EditorFileExplorer(props: {
           Explorer
         </Text>
         <HStack gap={2}>
-          <IconButton aria-label={"Create File"} icon={<FaFile />} />
-          <IconButton aria-label={"Create File"} icon={<FaFolderPlus />} />
+          <IconButton
+            aria-label={"Create File"}
+            icon={<FaFile />}
+            onClick={async () => {
+              const name = await PopupManager.promptAsync({
+                title: "Neue Datei",
+                helperText: "Bitte gib den Namen der neuen Datei ein.",
+              });
+
+              if (!name) return;
+
+              props.createFile(currentPath.concat(name).join("/"));
+            }}
+          />
+          <IconButton
+            aria-label={"Create File"}
+            icon={<FaFolderPlus />}
+            onClick={async () => {
+              const name = await PopupManager.promptAsync({
+                title: "Neuer Ordner",
+                helperText: "Bitte gib den Namen des neuen Ordners ein.",
+              });
+
+              if (!name) return;
+
+              props.createDirectory(currentPath.concat(name).join("/"));
+            }}
+          />
         </HStack>
       </HStack>
       <Breadcrumb>
@@ -121,10 +168,61 @@ export default function EditorFileExplorer(props: {
                   renderMenu={() => (
                     <>
                       <MenuList bg={"#000"}>
-                        <MenuItem icon={<FaTrash />} color={"red.500"}>
+                        <MenuItem
+                          icon={<FaInfoCircle />}
+                          onClick={async () => {
+                            await PopupManager.alertAsync({
+                              title: entry.name,
+                              description: (
+                                <>
+                                  <UnorderedList spacing={2}>
+                                    <ListItem>Name: {entry.name}</ListItem>
+                                    <ListItem>Typ: {entry.type}</ListItem>
+                                    {entry.content && (
+                                      <ListItem>
+                                        Größe:{" "}
+                                        {byteSize(
+                                          entry.content.length
+                                        ).toString()}
+                                      </ListItem>
+                                    )}
+                                  </UnorderedList>
+                                </>
+                              ),
+                            });
+                          }}
+                        >
+                          Informationen
+                        </MenuItem>
+                        <MenuItem
+                          icon={<FaTrash />}
+                          color={"red.500"}
+                          onClick={() => {
+                            props.deleteFile(
+                              currentPath.concat(entry.name).join("/")
+                            );
+                          }}
+                        >
                           Löschen
                         </MenuItem>
-                        <MenuItem icon={<FaPen />} color={"brand.500"}>
+                        <MenuItem
+                          icon={<FaPen />}
+                          color={"brand.500"}
+                          onClick={async () => {
+                            const newName = await PopupManager.promptAsync({
+                              title: "Neuer Name",
+                              helperText:
+                                "Bitte geben Sie den neuen Namen ein. Tipp: Um eine Datei zu verschieben, gib den neuen relativen Pfad ein (z.B. ../public/index.css)",
+                            });
+
+                            if (!newName) return;
+
+                            props.renameFile(
+                              currentPath.concat(entry.name).join("/"),
+                              newName
+                            );
+                          }}
+                        >
                           Umbenennen
                         </MenuItem>
                       </MenuList>
