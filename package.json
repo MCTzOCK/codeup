@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "byte-size": "^8.1.0",
-    "configcat-js-ssr": "^5.5.0"
+    "configcat-js-ssr": "^5.5.0",
+    "docx": "^8.5.0"
   },
   "packageManager": "yarn@1.22.19"
 }

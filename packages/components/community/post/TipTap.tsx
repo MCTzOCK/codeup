@@ -406,7 +406,7 @@ const TipTap = (props: {
       }),
       Color,
     ],
-    content: "<p>Hallo Welt! 🌎️</p>",
+    content: "<p>Hallo Welt!</p>",
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
