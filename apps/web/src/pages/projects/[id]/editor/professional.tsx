@@ -12,6 +12,8 @@ import { useUserLoggedInRedirect } from "@codeup/hooks";
 import { useRouter } from "next/router";
 import {
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   Tab,
   TabList,
@@ -40,6 +42,8 @@ import MonacoCodeEditor from "@codeup/components/editorv2/MonacoCodeEditor";
 import SnippetList from "@codeup/components/editorv2/SnippetList";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import "@xterm/xterm/css/xterm.css";
+import { FaPlay } from "react-icons/fa";
+import { FaSkullCrossbones } from "react-icons/fa6";
 
 export default function Professional() {
   useUserLoggedInRedirect({
@@ -71,6 +75,8 @@ export default function Professional() {
     React.useState<WebContainerProcess | null>(null);
   const [installedDeps, setInstalledDeps] = React.useState<boolean>(false);
   const [devServerURL, setDevServerURL] = React.useState<string>("");
+  const [wr, setWriter] =
+    React.useState<WritableStreamDefaultWriter<string> | null>(null);
 
   const router = useRouter();
 
@@ -144,6 +150,7 @@ export default function Professional() {
       });
       terminal.open(document.getElementById("terminal") as HTMLElement);
       const writer = proc.input.getWriter();
+      setWriter(writer);
       terminal.onData((data) => {
         writer.write(data);
       });
@@ -332,6 +339,37 @@ export default function Professional() {
                         </TabList>
                         <TabPanels>
                           <TabPanel>
+                            <ButtonGroup>
+                              <Button
+                                variant={"brand"}
+                                leftIcon={<FaPlay />}
+                                onClick={() => {
+                                  if (!wr) return;
+                                  const runCommand = JSON.parse(
+                                    (
+                                      findEntryByPath(simpleFileTree, [
+                                        "project.codeup.json",
+                                      ]) as entry
+                                    ).content as string
+                                  ).run;
+                                  wr.write(runCommand + "\n");
+                                }}
+                              >
+                                Starten
+                              </Button>
+
+                              <Button
+                                colorScheme={"red"}
+                                leftIcon={<FaSkullCrossbones />}
+                                onClick={() => {
+                                  if (!wr) return;
+                                  // send ctrl + c
+                                  wr.write("\x03");
+                                }}
+                              >
+                                Stoppen
+                              </Button>
+                            </ButtonGroup>
                             <div
                               id={"terminal"}
                               style={{
@@ -384,6 +422,12 @@ export default function Professional() {
 
                       iframe.src = "";
                       iframe.src = devServerURL;
+                      const res = await REST.Projects.Files.setFileContent(
+                        AccountManager.getActiveToken(),
+                        router.query.id as string,
+                        openFile,
+                        v
+                      );
                     }}
                   />
                 </Panel>

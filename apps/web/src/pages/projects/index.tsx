@@ -27,6 +27,7 @@ import {
 } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useRouter } from "next/router";
+import { RiNextjsFill } from "react-icons/ri";
 
 export default function Projects() {
   useUserLoggedInRedirect({
@@ -66,6 +67,13 @@ export default function Projects() {
         "Ein statisches Projekt (HTML, CSS, JavaScript, keine Server-Logik)",
       icon: <FaHtml5 />,
       identifier: "static",
+    },
+    {
+      name: "Next.js",
+      description:
+        "Eine leere Next.js Anwendung mit TypeScript (inklusive Server-Logik)",
+      icon: <RiNextjsFill />,
+      identifier: "nextjs",
     },
   ];
 
