@@ -27,14 +27,19 @@ import REST from "@codeup/rest/src";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../../../global/PopupManager";
 import EditorProjectLayout from "@codeup/components/editorv2/EditorProjectLayout";
-import { DirectoryNode, FileNode, WebContainer } from "@webcontainer/api";
+import {
+  DirectoryNode,
+  FileNode,
+  WebContainer,
+  WebContainerProcess,
+} from "@webcontainer/api";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
-import { Stripe } from "stripe";
-import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
+import { Terminal } from "@xterm/xterm";
 import EditorFileExplorer from "@codeup/components/editorv2/EditorFileExplorer";
 import MonacoCodeEditor from "@codeup/components/editorv2/MonacoCodeEditor";
 import SnippetList from "@codeup/components/editorv2/SnippetList";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import "@xterm/xterm/css/xterm.css";
 
 export default function Professional() {
   useUserLoggedInRedirect({
@@ -62,6 +67,10 @@ export default function Professional() {
   const [isBootstrapping, setIsBootstrapping] = React.useState<boolean>(false);
   const [terminal, setTerminal] = React.useState<any | null>(null);
   const [terminalData, setTerminalData] = React.useState<string[]>([]);
+  const [terminalProcess, setTerminalProcess] =
+    React.useState<WebContainerProcess | null>(null);
+  const [installedDeps, setInstalledDeps] = React.useState<boolean>(false);
+  const [devServerURL, setDevServerURL] = React.useState<string>("");
 
   const router = useRouter();
 
@@ -99,7 +108,7 @@ export default function Professional() {
         type: "directory",
         children: res.payload.tree,
       });
-      //await bootWebContainer(res.payload.data);
+      await bootWebContainer(res.payload.data);
     } else {
       await PopupManager.alertAsync({
         title: "Fehler",
@@ -116,29 +125,43 @@ export default function Professional() {
 
     await wc.mount(wcpaths);
     setWebContainer(wc);
-    await installDeps(wc);
     setIsBootstrapping(false);
   };
 
-  const installDeps = async (wc: WebContainer) => {
-    if (!wc) return;
-    console.log("Installing dependencies");
+  React.useEffect(() => {
+    if (isBootstrapping || !webContainer) return;
 
-    const installProcess = await wc.spawn("npm", ["install"], {
-      env: {
-        NO_COLOR: true,
-      },
+    webContainer.spawn("jsh").then((proc) => {
+      setTerminalProcess(proc);
+
+      const terminal = new Terminal({
+        convertEol: true,
+        cursorBlink: true,
+        cursorStyle: "block",
+        disableStdin: false,
+        drawBoldTextInBrightColors: true,
+        scrollOnUserInput: true,
+      });
+      terminal.open(document.getElementById("terminal") as HTMLElement);
+      const writer = proc.input.getWriter();
+      terminal.onData((data) => {
+        writer.write(data);
+      });
+      proc.output.pipeTo(
+        new WritableStream({
+          write(data) {
+            terminal.write(data);
+          },
+        })
+      );
+      writer.write("npm install\n");
     });
 
-    installProcess.output.pipeTo(
-      new WritableStream({
-        write(data) {
-          setTerminalData((prev) => [...prev, data]);
-          console.log(data);
-        },
-      })
-    );
-  };
+    webContainer.on("server-ready", (port, url) => {
+      console.log(url);
+      setDevServerURL(url);
+    });
+  }, [isBootstrapping]);
 
   const [openFile, setOpenFile] = React.useState<string>(
     ".codeup.no-editor.empty"
@@ -153,8 +176,7 @@ export default function Professional() {
             <AuthenticateLoadingIndicator text={"Starte WebContainer..."} />
           </>
         )}
-        {webContainer && !isBootstrapping && <></>}
-        {simpleFileTree && (
+        {!isBootstrapping && simpleFileTree && (
           <Box p={6}>
             <Flex bg={"gray.900"} rounded={"md"} p={2}>
               <PanelGroup
@@ -298,22 +320,41 @@ export default function Professional() {
                         border: "1px solid gray.800",
                         borderRadius: "0.25rem",
                         width: "100%",
+                        height: "0.5rem",
                       }}
                     />
                     <Panel defaultSize={50} minSize={30} maxSize={100}>
-                      <Tabs
-                        variant={"solid-rounded"}
-                        colorScheme={"brand"}
-                        isLazy
-                      >
+                      <Tabs variant={"solid-rounded"} colorScheme={"brand"}>
                         <TabList>
-                          <Tab>Snippets</Tab>
                           <Tab>Terminal</Tab>
+                          <Tab>Snippets</Tab>
                           <Tab>Vorschau</Tab>
                         </TabList>
                         <TabPanels>
                           <TabPanel>
+                            <div
+                              id={"terminal"}
+                              style={{
+                                overflow: "auto",
+                                height: "100%",
+                                width: "100%",
+                                backgroundColor: "#141517",
+                              }}
+                            ></div>
+                          </TabPanel>
+                          <TabPanel>
                             <SnippetList />
+                          </TabPanel>
+                          <TabPanel>
+                            <iframe
+                              src={devServerURL}
+                              id={"preview-dev-server-if"}
+                              width={"100%"}
+                              height={"100%"}
+                              style={{
+                                minHeight: "300px",
+                              }}
+                            />
                           </TabPanel>
                         </TabPanels>
                       </Tabs>
@@ -333,7 +374,17 @@ export default function Professional() {
                   <MonacoCodeEditor
                     fileName={openFile}
                     content={openFileContent}
-                    updateContent={(v) => {}}
+                    updateContent={async (v) => {
+                      if (!webContainer) return;
+                      webContainer.fs.writeFile(openFile, v);
+
+                      const iframe = document.querySelector(
+                        "#preview-dev-server-if"
+                      ) as HTMLIFrameElement;
+
+                      iframe.src = "";
+                      iframe.src = devServerURL;
+                    }}
                   />
                 </Panel>
               </PanelGroup>

@@ -74,6 +74,9 @@ export default function MonacoCodeEditor(props: {
   useEffect(() => {
     if (!monaco || !editorRef.current) return;
     editorRef.current.setValue(props.content);
+    editorRef.current?.setModel(
+      monaco.editor.createModel(props.content, language)
+    );
   }, [props.content, props.fileName]);
 
   if (!props.fileName || props.fileName === ".codeup.no-editor.empty") {

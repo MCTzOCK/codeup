@@ -66,6 +66,7 @@
     "@types/ua-parser-js": "^0.7.36",
     "@vercel/og": "^0.0.20",
     "@webcontainer/api": "^1.1.9",
+    "@xterm/xterm": "^5.5.0",
     "archiver": "^7.0.1",
     "blockly": "^9.3.1",
     "bson": "^4.6.5",
