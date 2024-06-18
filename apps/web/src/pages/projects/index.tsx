@@ -28,7 +28,7 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useRouter } from "next/router";
 import { RiNextjsFill } from "react-icons/ri";
-import { SiVite } from "react-icons/si";
+import { SiExpress, SiVite } from "react-icons/si";
 
 export default function Projects() {
   useUserLoggedInRedirect({
@@ -74,6 +74,12 @@ export default function Projects() {
       description: "Eine leere Vite.js (React) App (keine Server-Logik)",
       icon: <SiVite />,
       identifier: "vite-react",
+    },
+    {
+      name: "Express.js",
+      description: "Eine leere Express.js App (ausschließlich Server-Logik)",
+      icon: <SiExpress />,
+      identifier: "express",
     },
   ];
 

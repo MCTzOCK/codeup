@@ -15,6 +15,7 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  Input,
   Tab,
   TabList,
   TabPanel,
@@ -168,7 +169,29 @@ export default function Professional() {
       console.log(url);
       setDevServerURL(url);
     });
+    webContainer.fs.watch("package.json", changeListener);
+    webContainer.fs.watch("package-lock.json", changeListener);
   }, [isBootstrapping]);
+
+  const changeListener = async (
+    event: "rename" | "change",
+    filename: string | Buffer
+  ) => {
+    if (!webContainer) return;
+    if (event === "change") {
+      let content = new TextDecoder().decode(
+        await webContainer.fs.readFile(filename.toString())
+      );
+      const res = await REST.Projects.Files.setFileContent(
+        AccountManager.getActiveToken(),
+        router.query.id as string,
+        filename.toString(),
+        content
+      );
+
+      reloadFileTree();
+    }
+  };
 
   const [openFile, setOpenFile] = React.useState<string>(
     ".codeup.no-editor.empty"
@@ -413,6 +436,15 @@ export default function Professional() {
                             >
                               Maximieren
                             </Button>
+                            <Input
+                              type={"text"}
+                              placeholder={"URL"}
+                              value={devServerURL}
+                              onChange={(e) => {
+                                setDevServerURL(e.currentTarget.value);
+                              }}
+                              mb={2}
+                            />
                             <iframe
                               src={devServerURL}
                               id={"preview-dev-server-if"}
