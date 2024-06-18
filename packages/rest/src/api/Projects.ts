@@ -485,6 +485,13 @@ export const GitOps = {
       token,
     });
   },
+  status: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/status`,
+      token,
+    });
+  },
 };
 
 export const Files = {
