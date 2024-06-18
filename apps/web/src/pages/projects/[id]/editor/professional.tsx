@@ -383,14 +383,46 @@ export default function Professional() {
                           <TabPanel>
                             <SnippetList />
                           </TabPanel>
-                          <TabPanel>
+                          <TabPanel
+                            height={"100%"}
+                            minH={"30vh"}
+                            overflow={"hidden"}
+                          >
+                            <Button
+                              variant={"brand"}
+                              mb={4}
+                              onClick={async () => {
+                                PopupManager.alert({
+                                  title: "Vorschau",
+                                  description: (
+                                    <>
+                                      <iframe
+                                        src={devServerURL}
+                                        id={"preview-dev-server-if"}
+                                        width={"100%"}
+                                        height={"100%"}
+                                        style={{
+                                          minHeight: "90vh",
+                                        }}
+                                      />
+                                    </>
+                                  ),
+                                  customSize: "full",
+                                });
+                              }}
+                            >
+                              Maximieren
+                            </Button>
                             <iframe
                               src={devServerURL}
                               id={"preview-dev-server-if"}
                               width={"100%"}
-                              height={"100%"}
                               style={{
-                                minHeight: "300px",
+                                minHeight: "600px",
+                                maxHeight: "100%",
+                                display: "block",
+                                border: "none",
+                                overflow: "hidden",
                               }}
                             />
                           </TabPanel>
@@ -420,8 +452,9 @@ export default function Professional() {
                         "#preview-dev-server-if"
                       ) as HTMLIFrameElement;
 
+                      let src = iframe.src;
                       iframe.src = "";
-                      iframe.src = devServerURL;
+                      iframe.src = src;
                       const res = await REST.Projects.Files.setFileContent(
                         AccountManager.getActiveToken(),
                         router.query.id as string,

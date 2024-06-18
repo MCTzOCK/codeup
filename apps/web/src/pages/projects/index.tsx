@@ -28,6 +28,7 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useRouter } from "next/router";
 import { RiNextjsFill } from "react-icons/ri";
+import { SiVite } from "react-icons/si";
 
 export default function Projects() {
   useUserLoggedInRedirect({
@@ -69,11 +70,10 @@ export default function Projects() {
       identifier: "static",
     },
     {
-      name: "Next.js",
-      description:
-        "Eine leere Next.js Anwendung mit TypeScript (inklusive Server-Logik)",
-      icon: <RiNextjsFill />,
-      identifier: "nextjs",
+      name: "Vite.js",
+      description: "Eine leere Vite.js (React) App (keine Server-Logik)",
+      icon: <SiVite />,
+      identifier: "vite-react",
     },
   ];
 
