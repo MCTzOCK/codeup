@@ -558,3 +558,34 @@ export const Files = {
     });
   },
 };
+
+export const DB = {
+  getDatabase: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/mysql/databases?action=database`,
+      token,
+    });
+  },
+  getCredentials: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/mysql/databases?action=credentials`,
+      token,
+    });
+  },
+  executeSQL: async (
+    token: string,
+    id: string,
+    sql: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      token,
+      path: `/api/projects/${id}/mysql/databases`,
+      body: {
+        sql,
+      },
+    });
+  },
+};

@@ -307,6 +307,7 @@ import {
   umlDiagrams,
   GitOps,
   Files,
+  DB,
 } from "./api/Projects";
 
 const REST = {
@@ -486,6 +487,7 @@ const REST = {
     umlDiagrams,
     GitOps,
     Files,
+    DB,
   },
   Community: {
     search,
