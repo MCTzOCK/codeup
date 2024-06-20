@@ -18,7 +18,25 @@ import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../../global/PopupManager";
 import EditorProjectLayout from "@codeup/components/dist/editorv2/EditorProjectLayout";
-import { Box, Grid, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  Input,
+  Table,
+  TableContainer,
+  Textarea,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Td,
+  ButtonGroup,
+  IconButton,
+  Stack,
+  HStack,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
@@ -35,6 +53,13 @@ export default function Dbs() {
     host: string;
     port: string;
   } | null>(null);
+
+  const [tables, setTables] = React.useState<
+    {
+      name: string;
+      rows: number;
+    }[]
+  >([]);
 
   const router = useRouter();
 
@@ -74,6 +99,58 @@ export default function Dbs() {
     }
 
     setCredentials(res.payload.data);
+
+    await reloadTables();
+  };
+
+  const reloadTables = async () => {
+    const res = await REST.Projects.DB.executeSQL(
+      AccountManager.getActiveToken(),
+      router.query.id as string,
+      "SHOW TABLES"
+    );
+
+    if (res.status !== 200) {
+      await PopupManager.alertAsync({
+        title: "Fehler",
+        description:
+          "Die Tabellen konnten nicht geladen werden: " + res.payload.error,
+      });
+    }
+
+    let t = [];
+
+    for (const x of res.payload.data) {
+      t.push(x[Object.keys(x)[0]]);
+    }
+
+    let tx: {
+      name: string;
+      rows: number;
+    }[] = [];
+
+    for (const table of t) {
+      const res = await REST.Projects.DB.executeSQL(
+        AccountManager.getActiveToken(),
+        router.query.id as string,
+        `SELECT COUNT(*) as count FROM ${table}`
+      );
+
+      if (res.status !== 200) {
+        await PopupManager.alertAsync({
+          title: "Fehler",
+          description:
+            "Die Tabellen konnten nicht geladen werden: " + res.payload.error,
+        });
+      }
+
+      tx.push({
+        name: table,
+        rows: res.payload.data[0].count,
+      });
+    }
+
+    setTables(tx);
   };
 
   return (
@@ -86,28 +163,142 @@ export default function Dbs() {
               "repeat(2, 1fr)",
               "repeat(3, 1fr)",
             ]}
-            gap={2}
+            gap={4}
             p={4}
           >
-            <Box rounded={"md"} bg={"gray.900"} p={2}>
+            <Box rounded={"md"} bg={"gray.900"} p={4}>
               <CHeading size={"lg"}>Login-Daten</CHeading>
-              <Box mt={2}>
-                <CHeading size={"md"}>Host:</CHeading>
-                <Box>{credentials?.host}</Box>
-                <CHeading size={"md"}>Port:</CHeading>
-                <Box>{credentials?.port}</Box>
-                <CHeading size={"md"}>Username:</CHeading>
-                <Box>{credentials?.username}</Box>
-                <CHeading size={"md"}>Passwort:</CHeading>
-                <Box>{credentials?.password}</Box>
-                <CHeading size={"md"}>Zusammenfassung:</CHeading>
-                <Input
-                  placeholder={"Connection string"}
-                  value={`mysql://${credentials?.username}:${credentials?.password}@${credentials?.host}:${credentials?.port}/${router.query.id}`}
-                  isReadOnly={true}
-                  mt={2}
+              <Stack mt={2} gap={2}>
+                <Box>
+                  <CHeading size={"md"}>Host:</CHeading>
+                  <Box>{credentials?.host}</Box>
+                </Box>
+                <Box>
+                  <CHeading size={"md"}>Port:</CHeading>
+                  <Box>{credentials?.port}</Box>
+                </Box>
+                <Box>
+                  <CHeading size={"md"}>Username:</CHeading>
+                  <Box>{credentials?.username}</Box>
+                </Box>
+                <Box>
+                  <CHeading size={"md"}>Passwort:</CHeading>
+                  <Box>{credentials?.password}</Box>
+                </Box>
+                <Box>
+                  <CHeading size={"md"}>Zusammenfassung:</CHeading>
+                  <Input
+                    placeholder={"Connection string"}
+                    value={`mysql://${credentials?.username}:${credentials?.password}@${credentials?.host}:${credentials?.port}/${router.query.id}`}
+                    mt={2}
+                  />
+                </Box>
+                <Box>
+                  <CHeading size={"md"}>.env-Datei:</CHeading>
+                  <Textarea
+                    value={`DB_HOST=${credentials?.host}
+DB_PORT=${credentials?.port}
+DB_USER=${credentials?.username}
+DB_PASS=${credentials?.password}
+DB_NAME=${router.query.id}`}
+                    height={"fit-content"}
+                    minH={"150px"}
+                  ></Textarea>
+                </Box>
+              </Stack>
+            </Box>
+            <Box rounded={"md"} bg={"gray.900"} p={4}>
+              <HStack justifyContent={"space-between"}>
+                <CHeading size={"lg"}>Tabellen</CHeading>
+                <IconButton
+                  variant={"brand"}
+                  icon={<FaPlus />}
+                  aria-label={"Neue Tabelle"}
+                  onClick={async () => {
+                    await PopupManager.alertAsync({
+                      title: "Neue Tabelle",
+                      description: (
+                        <>
+                          <form
+                            onSubmit={async (e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Stack spacing={4}>
+                              <FormControl>
+                                <FormLabel>Name</FormLabel>
+                                <Input placeholder={"Name"} name={"tbl-name"} />
+                              </FormControl>
+                            </Stack>
+                          </form>
+                        </>
+                      ),
+                    });
+                  }}
                 />
-              </Box>
+              </HStack>
+              <TableContainer>
+                <Table maxW={"100%"}>
+                  <Thead>
+                    <Tr>
+                      <Td>Name</Td>
+                      <Td>Zeilen</Td>
+                      <Td>Aktionen</Td>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {tables.map((t) => {
+                      return (
+                        <Tr>
+                          <Td>{t.name}</Td>
+                          <Td>{t.rows}</Td>
+                          <Td>
+                            <ButtonGroup>
+                              <IconButton
+                                aria-label={"Ansehen"}
+                                icon={<FaEye />}
+                                variant={"brand"}
+                              />
+                              <IconButton
+                                aria-label={"Löschen"}
+                                icon={<FaTrash />}
+                                colorScheme={"red"}
+                                onClick={async () => {
+                                  if (
+                                    !(await PopupManager.confirmAsync({
+                                      title: "Tabelle löschen?",
+                                      question:
+                                        "Willst du die Tabelle wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden!",
+                                    }))
+                                  )
+                                    return;
+
+                                  const res = await REST.Projects.DB.executeSQL(
+                                    AccountManager.getActiveToken(),
+                                    router.query.id as string,
+                                    "DROP TABLE " + t.name
+                                  );
+                                  if (res.status !== 200) {
+                                    await PopupManager.alertAsync({
+                                      title: "Fehler",
+                                      description:
+                                        "Die Tabelle konnte nicht gelöscht werden: " +
+                                        res.payload.error,
+                                    });
+                                    return;
+                                  }
+
+                                  await reloadTables();
+                                }}
+                              />
+                            </ButtonGroup>
+                          </Td>
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </TableContainer>
             </Box>
           </Grid>
         </Box>
