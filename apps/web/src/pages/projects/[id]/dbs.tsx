@@ -37,12 +37,15 @@ import {
   FormControl,
   FormLabel,
   useDisclosure,
+  Button,
+  Text,
 } from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import DBTableCreator from "@codeup/components/editorv2/db/DBTableCreator";
 import SQLExecutor from "@codeup/components/editorv2/db/SQLExecutor";
+import { FaRotateRight } from "react-icons/fa6";
 
 export default function Dbs() {
   useUserLoggedInRedirect({
@@ -216,45 +219,53 @@ DB_NAME=${router.query.id}`}
             <Box rounded={"md"} bg={"gray.900"} p={4}>
               <HStack justifyContent={"space-between"}>
                 <CHeading size={"lg"}>Tabellen</CHeading>
-                <IconButton
-                  variant={"brand"}
-                  icon={<FaPlus />}
-                  aria-label={"Neue Tabelle"}
-                  onClick={async () => {
-                    await PopupManager.alertAsync({
-                      title: "Neue Tabelle",
-                      description: (
-                        <>
-                          <DBTableCreator
-                            callback={async (name, columns) => {
-                              const res = await REST.Projects.DB.executeSQL(
-                                AccountManager.getActiveToken(),
-                                router.query.id as string,
-                                `CREATE TABLE ${name} (${columns
-                                  .map((c) => `${c.name} ${c.type}`)
-                                  .join(", ")},
+                <ButtonGroup>
+                  <IconButton
+                    variant={"brand"}
+                    icon={<FaRotateRight />}
+                    aria-label={"Aktualisieren"}
+                    onClick={reloadTables}
+                  />
+                  <IconButton
+                    variant={"brand"}
+                    icon={<FaPlus />}
+                    aria-label={"Neue Tabelle"}
+                    onClick={async () => {
+                      await PopupManager.alertAsync({
+                        title: "Neue Tabelle",
+                        description: (
+                          <>
+                            <DBTableCreator
+                              callback={async (name, columns) => {
+                                const res = await REST.Projects.DB.executeSQL(
+                                  AccountManager.getActiveToken(),
+                                  router.query.id as string,
+                                  `CREATE TABLE ${name} (${columns
+                                    .map((c) => `${c.name} ${c.type}`)
+                                    .join(", ")},
                                    PRIMARY KEY (ID)
                                   )`
-                              );
+                                );
 
-                              if (res.status !== 200) {
-                                await PopupManager.alertAsync({
-                                  title: "Fehler",
-                                  description:
-                                    "Die Tabelle konnte nicht erstellt werden: " +
-                                    res.payload.error,
-                                });
-                                return;
-                              }
+                                if (res.status !== 200) {
+                                  await PopupManager.alertAsync({
+                                    title: "Fehler",
+                                    description:
+                                      "Die Tabelle konnte nicht erstellt werden: " +
+                                      res.payload.error,
+                                  });
+                                  return;
+                                }
 
-                              await reloadTables();
-                            }}
-                          />
-                        </>
-                      ),
-                    });
-                  }}
-                />
+                                await reloadTables();
+                              }}
+                            />
+                          </>
+                        ),
+                      });
+                    }}
+                  />
+                </ButtonGroup>
               </HStack>
               <TableContainer>
                 <Table maxW={"100%"}>
@@ -322,6 +333,23 @@ DB_NAME=${router.query.id}`}
                   </Tbody>
                 </Table>
               </TableContainer>
+            </Box>
+            <Box rounded={"md"} bg={"gray.900"} p={4}>
+              <CHeading size={"lg"}>SQL-Ausführen</CHeading>
+              <Text>
+                Führe SQL-Abfragen auf der Datenbank aus. Achtung: Dies kann
+                Daten verändern!
+              </Text>
+              <Button
+                mt={4}
+                variant={"brand"}
+                onClick={() => {
+                  setBaseSQL("");
+                  onOpen();
+                }}
+              >
+                SQL-Ausführen
+              </Button>
             </Box>
           </Grid>
         </Box>
