@@ -40,6 +40,7 @@ import {
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import DBTableCreator from "@codeup/components/editorv2/db/DBTableCreator";
 
 export default function Dbs() {
   useUserLoggedInRedirect({
@@ -219,18 +220,31 @@ DB_NAME=${router.query.id}`}
                       title: "Neue Tabelle",
                       description: (
                         <>
-                          <form
-                            onSubmit={async (e) => {
-                              e.preventDefault();
+                          <DBTableCreator
+                            callback={async (name, columns) => {
+                              const res = await REST.Projects.DB.executeSQL(
+                                AccountManager.getActiveToken(),
+                                router.query.id as string,
+                                `CREATE TABLE ${name} (${columns
+                                  .map((c) => `${c.name} ${c.type}`)
+                                  .join(", ")},
+                                   PRIMARY KEY (ID)
+                                  )`
+                              );
+
+                              if (res.status !== 200) {
+                                await PopupManager.alertAsync({
+                                  title: "Fehler",
+                                  description:
+                                    "Die Tabelle konnte nicht erstellt werden: " +
+                                    res.payload.error,
+                                });
+                                return;
+                              }
+
+                              await reloadTables();
                             }}
-                          >
-                            <Stack spacing={4}>
-                              <FormControl>
-                                <FormLabel>Name</FormLabel>
-                                <Input placeholder={"Name"} name={"tbl-name"} />
-                              </FormControl>
-                            </Stack>
-                          </form>
+                          />
                         </>
                       ),
                     });
