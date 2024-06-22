@@ -36,11 +36,13 @@ import {
   HStack,
   FormControl,
   FormLabel,
+  useDisclosure,
 } from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import DBTableCreator from "@codeup/components/editorv2/db/DBTableCreator";
+import SQLExecutor from "@codeup/components/editorv2/db/SQLExecutor";
 
 export default function Dbs() {
   useUserLoggedInRedirect({
@@ -153,6 +155,9 @@ export default function Dbs() {
 
     setTables(tx);
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [baseSQL, setBaseSQL] = React.useState<string>("");
 
   return (
     <>
@@ -272,6 +277,10 @@ DB_NAME=${router.query.id}`}
                                 aria-label={"Ansehen"}
                                 icon={<FaEye />}
                                 variant={"brand"}
+                                onClick={() => {
+                                  setBaseSQL(`SELECT * FROM ${t.name}`);
+                                  onOpen();
+                                }}
                               />
                               <IconButton
                                 aria-label={"Löschen"}
@@ -317,6 +326,12 @@ DB_NAME=${router.query.id}`}
           </Grid>
         </Box>
       </EditorProjectLayout>
+      <SQLExecutor
+        isOpen={isOpen}
+        onClose={onClose}
+        projectId={router.query.id as string}
+        base_sql={baseSQL}
+      />
     </>
   );
 }
