@@ -39,6 +39,9 @@ const disallowed = [
   "privacy.tsx",
   "imprint.tsx",
   ".react-email",
+  ".pdf",
+  ".docx",
+  ".tmp",
 ];
 
 // filter disallowed files

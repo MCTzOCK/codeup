@@ -428,3 +428,202 @@ export async function deleteUmlDiagram(
     token,
   });
 }
+
+export const GitOps = {
+  tree: async (
+    token: string,
+    id: string,
+    withContent?: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/tree${
+        withContent ? `?withContent=${withContent}` : ""
+      }`,
+      token,
+    });
+  },
+  branch: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/branch`,
+      token,
+    });
+  },
+  setBranch: async (
+    token: string,
+    id: string,
+    branch: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/gitops/branch`,
+      token,
+      body: {
+        branch,
+      },
+    });
+  },
+  commit: async (
+    token: string,
+    id: string,
+    message: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/gitops/commit`,
+      token,
+      body: {
+        message,
+      },
+    });
+  },
+  commits: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/commits`,
+      token,
+    });
+  },
+  status: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/gitops/status`,
+      token,
+    });
+  },
+};
+
+export const Files = {
+  get: async (token: string, id: string, path: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+    });
+  },
+  setFileContent: async (
+    token: string,
+    id: string,
+    path: string,
+    content: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+      body: {
+        content,
+      },
+    });
+  },
+  delete: async (
+    token: string,
+    id: string,
+    path: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "DELETE",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+    });
+  },
+  createFolder: async (
+    token: string,
+    id: string,
+    path: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: `/api/projects/${id}/files/${path}`,
+      token,
+      body: {
+        folder: true,
+      },
+    });
+  },
+  rename: async (
+    token: string,
+    id: string,
+    oldPath: string,
+    newPath: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "PUT",
+      path: `/api/projects/${id}/files/${oldPath}`,
+      token,
+      body: {
+        newName: newPath,
+      },
+    });
+  },
+};
+
+export const DB = {
+  getDatabase: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/mysql/databases?action=database`,
+      token,
+    });
+  },
+  getCredentials: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/mysql/databases?action=credentials`,
+      token,
+    });
+  },
+  executeSQL: async (
+    token: string,
+    id: string,
+    sql: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      token,
+      path: `/api/projects/${id}/mysql/databases`,
+      body: {
+        sql,
+      },
+    });
+  },
+};
+
+export const Deployment = {
+  getBuildJobs: async (options: {
+    token: string;
+    id: string;
+    jobId?: string;
+    latest?: boolean;
+  }): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path:
+        "/api/projects/" +
+        options.id +
+        "/deployment/build" +
+        (options.jobId ? `?job_id=${options.jobId}` : "") +
+        (options.latest ? `?latest=true` : ""),
+      token: options.token,
+    });
+  },
+  startBuildJob: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: "/api/projects/" + id + "/deployment/build",
+      token,
+    });
+  },
+  getCurrentDeployment: async (
+    token: string,
+    id: string,
+    logs?: boolean
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/deployment/current${logs ? "?logs=true" : ""}`,
+      token,
+    });
+  },
+};

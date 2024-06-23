@@ -68,6 +68,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       name: string;
       type: string;
       children: entry[];
+      content?: any;
     };
 
     let tree: entry[] = [];
@@ -76,7 +77,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       const files = fs.readdirSync(dir);
       const children: entry[] = [];
       for (const file of files) {
-        if (file === ".git") continue;
+        //if (file === ".git") continue;
         const stat = fs.statSync(path.join(dir, file));
         if (stat.isDirectory()) {
           const entry: entry = {
@@ -87,10 +88,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           walk(path.join(dir, file), entry);
           children.push(entry);
         } else {
+          let content = "";
+          if (req.query.withContent) {
+            content = fs.readFileSync(path.join(dir, file), "utf-8");
+          }
           children.push({
             name: file,
             type: "file",
             children: [],
+            content,
           });
         }
       }
@@ -111,9 +117,42 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     for (const c of parent.children) {
       tree.push(c);
     }
+
+    let x: {
+      [key: string]: any;
+    } = {};
+
+    const createWCStructure = (
+      e: entry
+    ): {
+      [key: string]: any;
+    } => {
+      let result: any = {};
+
+      for (const c of e.children) {
+        if (c.type === "directory") {
+          result[c.name] = {
+            directory: createWCStructure(c),
+          };
+        } else {
+          result[c.name] = {
+            file: {
+              contents: c.content,
+            },
+          };
+        }
+      }
+
+      return result;
+    };
+    if (req.query.withContent && req.query.withContent === "webcontainer") {
+      x = createWCStructure(parent);
+    }
+
     res.status(200).json({
       status: 200,
-      data: tree,
+      tree,
+      data: x,
     });
   } catch (e: any) {
     res.status(500).json({

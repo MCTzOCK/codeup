@@ -29,8 +29,6 @@ import { FaBook, FaCode, FaProjectDiagram } from "react-icons/fa";
 import VideoPlayer from "@codeup/components/global/VideoPlayer";
 
 export default function OldLandingV2() {
-  const spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
-
   const sectionCards = [
     {
       title: "Lernen",

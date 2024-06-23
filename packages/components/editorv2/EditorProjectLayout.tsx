@@ -103,15 +103,15 @@ export default function EditorProjectLayout(props: {
             href: "/projects/" + props.project_id + "/srvlogs",
           },
           {
-            text: "Profi-Editor",
+            text: "Editor",
             icon: <FaCode />,
             href: "/projects/" + props.project_id + "/editor/professional",
-          },
+          } /*
           {
             text: "Einfacher Editor",
             icon: <FaCode />,
             href: "/projects/" + props.project_id + "/editor/simple",
-          },
+          },*/,
           {
             text: "UML-Diagramme",
             icon: <FaChartSimple />,
@@ -121,12 +121,12 @@ export default function EditorProjectLayout(props: {
             text: "Lokalisierung",
             icon: <FaLanguage />,
             href: "/projects/" + props.project_id + "/i18n",
-          },
+          } /*
           {
             text: "CI/CD",
             icon: <FaRotate />,
             href: "/projects/" + props.project_id + "/ci-cd",
-          },
+          },*/,
         ]}
       >
         {props.children}

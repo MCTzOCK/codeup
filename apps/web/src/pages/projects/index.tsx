@@ -27,6 +27,8 @@ import {
 } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useRouter } from "next/router";
+import { RiNextjsFill } from "react-icons/ri";
+import { SiExpress, SiVite } from "react-icons/si";
 
 export default function Projects() {
   useUserLoggedInRedirect({
@@ -66,6 +68,18 @@ export default function Projects() {
         "Ein statisches Projekt (HTML, CSS, JavaScript, keine Server-Logik)",
       icon: <FaHtml5 />,
       identifier: "static",
+    },
+    {
+      name: "Vite.js",
+      description: "Eine leere Vite.js (React) App (keine Server-Logik)",
+      icon: <SiVite />,
+      identifier: "vite-react",
+    },
+    {
+      name: "Express.js",
+      description: "Eine leere Express.js App (ausschließlich Server-Logik)",
+      icon: <SiExpress />,
+      identifier: "express",
     },
   ];
 

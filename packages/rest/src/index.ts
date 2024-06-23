@@ -305,6 +305,10 @@ import {
   updateUmlDiagram,
   createUmlDiagram,
   umlDiagrams,
+  GitOps,
+  Files,
+  DB,
+  Deployment,
 } from "./api/Projects";
 
 const REST = {
@@ -482,6 +486,10 @@ const REST = {
     updateUmlDiagram,
     createUmlDiagram,
     umlDiagrams,
+    GitOps,
+    Files,
+    DB,
+    Deployment,
   },
   Community: {
     search,
