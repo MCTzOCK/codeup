@@ -145,110 +145,111 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                 "Building image for project " + project._id.toString() + "..."
               );
 
-              docker.buildImage(
+              const stream = await docker.buildImage(
                 path.join(
                   process.env.GIT_DATA_HOME as string,
                   project._id.toString() + ".tar"
                 ),
                 {
                   t: project._id.toString(),
-                },
-                async (err, res) => {
-                  if (err) {
-                    console.log(err);
-                    job.setStatus(JobStatus.FAILED);
-                    return;
-                  }
-
-                  const port =
-                    JSON.parse(
-                      fs
-                        .readFileSync(
-                          path.join(
-                            process.env.GIT_DATA_HOME as string,
-                            project._id.toString(),
-                            "project.codeup.json"
-                          )
-                        )
-                        .toString()
-                    ).port || 80;
-
-                  const pb: any = {};
-                  let hostPort = Math.floor(Math.random() * 32000) + 1;
-
-                  pb[port + "/tcp"] = [{ HostPort: hostPort.toString() }];
-
-                  console.log(
-                    "Deploying project " +
-                      project._id.toString() +
-                      " to port " +
-                      hostPort.toString() +
-                      "..."
-                  );
-
-                  job.setStatus(JobStatus.DEPLOYING);
-
-                  const c = await docker.createContainer({
-                    Image: project._id.toString(),
-                    Env: [],
-                    name: project._id.toString(),
-                    HostConfig: {
-                      PortBindings: pb,
-                    },
-                  });
-
-                  await c.start();
-
-                  console.log(
-                    "Started project " +
-                      project._id.toString() +
-                      " on port " +
-                      hostPort.toString() +
-                      "..."
-                  );
-
-                  const nproxy = new NProxyMGR();
-                  await nproxy.getToken();
-
-                  const eId = await nproxy.existsProxy(
-                    `${project._id.toString()}.codeup.space`
-                  );
-
-                  if (eId > -1) {
-                    await nproxy.deleteProxy(eId);
-                  }
-
-                  await nproxy.createProxy({
-                    domain_names: [`${project._id.toString()}.codeup.space`],
-                    forward_scheme: "http",
-                    forward_host: process.env
-                      .NPROXYMGR_REAL_SRV_ENDPOINT as string,
-                    forward_port: hostPort,
-                    allow_websocket_upgrade: true,
-                    access_list_id: "0",
-                    certificate_id: parseInt(
-                      process.env.NPROXYMGR_WD_CERT_ID as string
-                    ),
-                    ssl_forced: true,
-                    meta: { letsencrypt_agree: false, dns_challenge: false },
-                    advanced_config: "",
-                    locations: [],
-                    block_exploits: false,
-                    caching_enabled: false,
-                    http2_support: false,
-                    hsts_enabled: false,
-                    hsts_subdomains: false,
-                  });
-                  console.log(
-                    "Deployed project " +
-                      project._id.toString() +
-                      " to port " +
-                      hostPort.toString() +
-                      "..."
-                  );
-                  job.setStatus(JobStatus.FINISHED);
                 }
               );
+
+              docker.modem.followProgress(stream, async (err, res) => {
+                if (err) {
+                  console.log(err);
+                  job.setStatus(JobStatus.FAILED);
+                  return;
+                }
+
+                const port =
+                  JSON.parse(
+                    fs
+                      .readFileSync(
+                        path.join(
+                          process.env.GIT_DATA_HOME as string,
+                          project._id.toString(),
+                          "project.codeup.json"
+                        )
+                      )
+                      .toString()
+                  ).port || 80;
+
+                const pb: any = {};
+                let hostPort = Math.floor(Math.random() * 32000) + 1;
+
+                pb[port + "/tcp"] = [{ HostPort: hostPort.toString() }];
+
+                console.log(
+                  "Deploying project " +
+                    project._id.toString() +
+                    " to port " +
+                    hostPort.toString() +
+                    "..."
+                );
+
+                job.setStatus(JobStatus.DEPLOYING);
+
+                const c = await docker.createContainer({
+                  Image: project._id.toString(),
+                  Env: [],
+                  name: project._id.toString(),
+                  HostConfig: {
+                    PortBindings: pb,
+                  },
+                });
+
+                await c.start();
+
+                console.log(
+                  "Started project " +
+                    project._id.toString() +
+                    " on port " +
+                    hostPort.toString() +
+                    "..."
+                );
+
+                const nproxy = new NProxyMGR();
+                await nproxy.getToken();
+
+                const eId = await nproxy.existsProxy(
+                  `${project._id.toString()}.codeup.space`
+                );
+
+                if (eId > -1) {
+                  await nproxy.deleteProxy(eId);
+                }
+
+                await nproxy.createProxy({
+                  domain_names: [`${project._id.toString()}.codeup.space`],
+                  forward_scheme: "http",
+                  forward_host: process.env
+                    .NPROXYMGR_REAL_SRV_ENDPOINT as string,
+                  forward_port: hostPort,
+                  allow_websocket_upgrade: true,
+                  access_list_id: "0",
+                  certificate_id: parseInt(
+                    process.env.NPROXYMGR_WD_CERT_ID as string
+                  ),
+                  ssl_forced: true,
+                  meta: { letsencrypt_agree: false, dns_challenge: false },
+                  advanced_config: "",
+                  locations: [],
+                  block_exploits: false,
+                  caching_enabled: false,
+                  http2_support: false,
+                  hsts_enabled: false,
+                  hsts_subdomains: false,
+                });
+                console.log(
+                  "Deployed project " +
+                    project._id.toString() +
+                    " to port " +
+                    hostPort.toString() +
+                    "..."
+                );
+                job.setStatus(JobStatus.FINISHED);
+              });
             });
           })
           .catch((err) => {
