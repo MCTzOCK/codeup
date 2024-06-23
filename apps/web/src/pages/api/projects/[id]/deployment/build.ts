@@ -18,6 +18,7 @@ import path from "path";
 import fs from "fs";
 import * as tar from "tar";
 import { tmpdir } from "node:os";
+import { NProxyMGR } from "../../../../../global/server/nproxymgr";
 
 const docker = new Dockerode();
 
@@ -153,6 +154,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
                   pb[port + "/tcp"] = [{ HostPort: hostPort.toString() }];
 
+                  job.setStatus(JobStatus.DEPLOYING);
+
                   const c = await docker.createContainer({
                     Image: project._id.toString(),
                     Env: [],
@@ -163,6 +166,39 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                   });
 
                   await c.start();
+
+                  const nproxy = new NProxyMGR();
+                  await nproxy.getToken();
+
+                  const eId = await nproxy.existsProxy(
+                    `${project._id.toString()}.codeup.space`
+                  );
+
+                  if (eId > -1) {
+                    await nproxy.deleteProxy(eId);
+                  }
+
+                  await nproxy.createProxy({
+                    domain_names: [`${project._id.toString()}.codeup.space`],
+                    forward_scheme: "http",
+                    forward_host: process.env
+                      .NPROXYMGR_REAL_SRV_ENDPOINT as string,
+                    forward_port: hostPort,
+                    allow_websocket_upgrade: true,
+                    access_list_id: "0",
+                    certificate_id: parseInt(
+                      process.env.NPROXYMGR_WD_CERT_ID as string
+                    ),
+                    ssl_forced: true,
+                    meta: { letsencrypt_agree: false, dns_challenge: false },
+                    advanced_config: "",
+                    locations: [],
+                    block_exploits: false,
+                    caching_enabled: false,
+                    http2_support: false,
+                    hsts_enabled: false,
+                    hsts_subdomains: false,
+                  });
 
                   job.setStatus(JobStatus.FINISHED);
                 }
