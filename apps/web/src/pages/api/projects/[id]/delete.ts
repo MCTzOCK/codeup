@@ -59,7 +59,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     const s3 = getS3();
 
-    s3.removeBucket(project._id.toString());
+    await s3.removeBucket("codeup-project-" + project._id.toString());
 
     docker.listContainers({ all: true }, async (err, containers) => {
       if (err) {
