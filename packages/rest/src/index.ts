@@ -308,6 +308,7 @@ import {
   GitOps,
   Files,
   DB,
+  Deployment,
 } from "./api/Projects";
 
 const REST = {
@@ -488,6 +489,7 @@ const REST = {
     GitOps,
     Files,
     DB,
+    Deployment,
   },
   Community: {
     search,

@@ -589,3 +589,39 @@ export const DB = {
     });
   },
 };
+
+export const Deployment = {
+  getBuildJobs: async (
+    token: string,
+    id: string,
+    jobId?: string
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path:
+        "/api/projects/" +
+        id +
+        "/deployment/build" +
+        (jobId ? `?job_id=${jobId}` : ""),
+      token,
+    });
+  },
+  startBuildJob: async (token: string, id: string): Promise<IResponse> => {
+    return await makeRequest({
+      method: "POST",
+      path: "/api/projects/" + id + "/deployment/build",
+      token,
+    });
+  },
+  getCurrentDeployment: async (
+    token: string,
+    id: string,
+    logs?: boolean
+  ): Promise<IResponse> => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/projects/${id}/deployment/current${logs ? "?logs=true" : ""}`,
+      token,
+    });
+  },
+};
