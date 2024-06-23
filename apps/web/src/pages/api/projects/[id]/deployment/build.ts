@@ -141,6 +141,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                 }
               }
 
+              console.log(
+                "Building image for project " + project._id.toString() + "..."
+              );
+
               docker.buildImage(
                 path.join(
                   process.env.GIT_DATA_HOME as string,
@@ -174,6 +178,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
                   pb[port + "/tcp"] = [{ HostPort: hostPort.toString() }];
 
+                  console.log(
+                    "Deploying project " +
+                      project._id.toString() +
+                      " to port " +
+                      hostPort.toString() +
+                      "..."
+                  );
+
                   job.setStatus(JobStatus.DEPLOYING);
 
                   const c = await docker.createContainer({
@@ -186,6 +198,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                   });
 
                   await c.start();
+
+                  console.log(
+                    "Started project " +
+                      project._id.toString() +
+                      " on port " +
+                      hostPort.toString() +
+                      "..."
+                  );
 
                   const nproxy = new NProxyMGR();
                   await nproxy.getToken();
@@ -219,7 +239,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                     hsts_enabled: false,
                     hsts_subdomains: false,
                   });
-
+                  console.log(
+                    "Deployed project " +
+                      project._id.toString() +
+                      " to port " +
+                      hostPort.toString() +
+                      "..."
+                  );
                   job.setStatus(JobStatus.FINISHED);
                 }
               );
