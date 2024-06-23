@@ -98,7 +98,7 @@ export default function I18n() {
                 <CHeading size={"lg"}>Lokalisierung</CHeading>
                 <Text fontSize={"lg"}>
                   Hier kannst du verschiedene Sprachen für dein Projekt
-                  verwalten. Es werden Sprachkürzel wie &qout;de&qout; oder
+                  verwalten. Es werden Sprachkürzel wie &quot;de&quot; oder
                   &qout;en&qout; verwendet. <br />
                   Um die Sprachen in dein Projekt zu integrieren, kannst du die
                   JavaScript-Bibliothek{" "}
