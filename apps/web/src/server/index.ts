@@ -481,7 +481,10 @@ app
             return;
           }
 
-          if (pathname?.startsWith("/project")) {
+          if (
+            pathname?.startsWith("/project") &&
+            !pathname?.startsWith("/projects")
+          ) {
             // URL Structure : /project/:customName/:path
 
             const customName = pathname.split("/")[2];
