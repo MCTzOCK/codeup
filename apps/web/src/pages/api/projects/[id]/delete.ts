@@ -64,7 +64,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     docker.listContainers({ all: true }, async (err, containers) => {
       if (err) {
         console.log(err);
-        job.setStatus(JobStatus.FAILED);
         return;
       }
 
