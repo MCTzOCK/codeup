@@ -75,7 +75,7 @@ export default function Srvlogs() {
           <Flex justifyContent={"center"}>
             <Box textAlign={"center"} maxW={"500px"}>
               <CHeading size={"lg"}>Server-Logs</CHeading>
-              <Text textAlign={"left"}>
+              <Text textAlign={"center"}>
                 Server-Logs zeigen dir, wie sich dein Projekt verhält und ob es
                 Probleme gibt, die du beheben musst. Server-Logs umfassen immer
                 nur das letzte Deployment.

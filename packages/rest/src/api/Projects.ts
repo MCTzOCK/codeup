@@ -591,19 +591,21 @@ export const DB = {
 };
 
 export const Deployment = {
-  getBuildJobs: async (
-    token: string,
-    id: string,
-    jobId?: string
-  ): Promise<IResponse> => {
+  getBuildJobs: async (options: {
+    token: string;
+    id: string;
+    jobId?: string;
+    latest?: boolean;
+  }): Promise<IResponse> => {
     return await makeRequest({
       method: "GET",
       path:
         "/api/projects/" +
-        id +
+        options.id +
         "/deployment/build" +
-        (jobId ? `?job_id=${jobId}` : ""),
-      token,
+        (options.jobId ? `?job_id=${options.jobId}` : "") +
+        (options.latest ? `?latest=true` : ""),
+      token: options.token,
     });
   },
   startBuildJob: async (token: string, id: string): Promise<IResponse> => {

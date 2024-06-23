@@ -49,29 +49,49 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (req.method === "GET") {
-      const { job_id } = req.query;
-      if (!job_id) {
+      const { job_id, latest } = req.query;
+      if (job_id) {
+        const job = Jobs.getJobByID(job_id as string);
+
+        if (!job) {
+          res.status(404).json({
+            status: 404,
+            error: "Job not found",
+          });
+          return;
+        }
+
         res.status(200).json({
           status: 200,
-          jobs: Jobs.getJobsByNames(project._id.toString()).map((j) => j.id),
+          job,
+        });
+        return;
+      } else if (latest) {
+        const jobs = Jobs.getJobsByNames(project._id.toString());
+
+        if (!jobs) {
+          res.status(404).json({
+            status: 404,
+            error: "Job not found",
+          });
+          return;
+        }
+
+        const latest = jobs.sort(
+          (a, b) => a.startedAt.getTime() - b.startedAt.getTime()
+        );
+
+        res.status(200).json({
+          status: 200,
+          job: latest[0] === undefined ? null : latest[0],
         });
         return;
       }
-
-      const job = Jobs.getJobByID(job_id as string);
-
-      if (!job) {
-        res.status(404).json({
-          status: 404,
-          error: "Job not found",
-        });
-        return;
-      }
-
       res.status(200).json({
         status: 200,
-        job,
+        jobs: Jobs.getJobsByNames(project._id.toString()),
       });
+      return;
     } else if (req.method === "POST") {
       const job = new Job(project._id.toString());
 

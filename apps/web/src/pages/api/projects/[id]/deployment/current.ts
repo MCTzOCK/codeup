@@ -78,6 +78,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             return;
           }
         }
+
+        res.status(404).json({
+          status: 404,
+          error: "Container not found",
+        });
       });
     } else {
       res.status(405).json({
