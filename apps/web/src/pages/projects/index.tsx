@@ -213,10 +213,10 @@ export default function Projects() {
                     )
                       return;
 
-                    const res = await REST.Projects.deleteProject({
-                      token: AccountManager.getActiveToken(),
-                      id: p._id,
-                    });
+                    const res = await REST.Projects.deleteProject(
+                      AccountManager.getActiveToken(),
+                      p._id
+                    );
 
                     if (res.status === 200) {
                       await reload();
