@@ -20,6 +20,7 @@ import ProjectWikiPageModel from "@codeup/util/dist/models/ProjectWikiPageModel"
 import { getS3 } from "../../../../global/getS3";
 import { JobStatus } from "../../../../global/server/jobs";
 import Dockerode from "dockerode";
+import { NProxyMGR } from "../../../../global/server/nproxymgr";
 
 const docker = new Dockerode();
 
@@ -57,10 +58,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const s3 = getS3();
-
-    await s3.removeBucket("codeup-project-" + project._id.toString());
-
     docker.listContainers({ all: true }, async (err, containers) => {
       if (err) {
         console.log(err);
@@ -74,6 +71,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           });
         }
       }
+
+      const nproxy = new NProxyMGR();
+
+      const id = await nproxy.existsProxy(
+        project._id.toString() + ".codeup.space"
+      );
+
+      await nproxy.deleteProxy(id);
 
       await ProjectFlowModel.deleteMany({ project: project._id });
       await ProjectI18nModel.deleteMany({ project: project._id });
