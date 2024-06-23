@@ -19,6 +19,9 @@ import ProjectUMLModel from "@codeup/util/dist/models/ProjectUMLModel";
 import ProjectWikiPageModel from "@codeup/util/dist/models/ProjectWikiPageModel";
 import { getS3 } from "../../../../global/getS3";
 import { JobStatus } from "../../../../global/server/jobs";
+import Dockerode from "dockerode";
+
+const docker = new Dockerode();
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
