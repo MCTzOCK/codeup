@@ -429,6 +429,17 @@ export async function deleteUmlDiagram(
   });
 }
 
+export async function deleteProject(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/projects/${id}/delete`,
+    token,
+  });
+}
+
 export const GitOps = {
   tree: async (
     token: string,

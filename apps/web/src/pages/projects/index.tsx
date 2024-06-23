@@ -204,8 +204,28 @@ export default function Projects() {
                 },
                 {
                   text: "Löschen",
-                  onClick: () => {
-                    alert("Not implemented");
+                  onClick: async () => {
+                    if (
+                      !(await PopupManager.confirmAsync({
+                        title: "Projekt löschen",
+                        question: "Möchten Sie das Projekt wirklich löschen?",
+                      }))
+                    )
+                      return;
+
+                    const res = await REST.Projects.deleteProject({
+                      token: AccountManager.getActiveToken(),
+                      id: p._id,
+                    });
+
+                    if (res.status === 200) {
+                      await reload();
+                    } else {
+                      await PopupManager.alertAsync({
+                        title: "Fehler",
+                        description: res.payload.error,
+                      });
+                    }
                   },
                   leftIcon: <FaTrash />,
                   colorScheme: "red",

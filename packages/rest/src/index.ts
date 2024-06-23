@@ -309,6 +309,7 @@ import {
   Files,
   DB,
   Deployment,
+  deleteProject as deleteProjectE,
 } from "./api/Projects";
 
 const REST = {
@@ -490,6 +491,7 @@ const REST = {
     Files,
     DB,
     Deployment,
+    deleteProject: deleteProjectE,
   },
   Community: {
     search,

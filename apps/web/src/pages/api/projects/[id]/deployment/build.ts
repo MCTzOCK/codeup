@@ -196,6 +196,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                   name: project._id.toString(),
                   HostConfig: {
                     PortBindings: pb,
+                    RestartPolicy: {
+                      Name: "unless-stopped",
+                    },
                   },
                 });
 
