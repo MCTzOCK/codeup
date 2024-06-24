@@ -23,7 +23,7 @@ import Networking from "@codeup/util/dist/Networking";
 
 export default function UMLPreview(props: { umlData: string }) {
   DiagramModule.setConfig({
-    baseUrl: process.env.NEXT_PUBLIC_PLANTUML_ENDPOINT,
+    baseUrl: "https://uml.ben-siebert.com",
   });
 
   if (!props.umlData)
