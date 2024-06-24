@@ -90,6 +90,7 @@ export default function UMLPreview(props: { umlData: string }) {
         bg={"#FFF"}
         mt={4}
         rounded={"xl"}
+        crossOrigin={""}
       />
     </>
   );
