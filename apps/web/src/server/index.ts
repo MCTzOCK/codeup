@@ -94,10 +94,13 @@ app
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("X-Served-By", "CodeUp");
-        res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-        res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
 
         const { pathname } = parsedUrl;
+
+        if (pathname?.startsWith("/projects")) {
+          res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+        }
 
         const customDomain = req.headers.host!.includes(":")
           ? req.headers.host!.split(":")[0]

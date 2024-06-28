@@ -9,6 +9,14 @@
  */
 import { IResponse } from "./types/IResponse";
 
+export class RESTAPI {
+  public static path_prefix = "";
+
+  public static setPathPrefix(prefix: string) {
+    this.path_prefix = prefix;
+  }
+}
+
 export default async function makeRequest(options: {
   path: string;
   body?: object;
@@ -42,7 +50,7 @@ export default async function makeRequest(options: {
     });
   }
 
-  const res = await fetch(options.path, {
+  const res = await fetch(RESTAPI.path_prefix + options.path, {
     method: options.method,
     headers,
     body: options.body ? JSON.stringify(options.body) : null,
