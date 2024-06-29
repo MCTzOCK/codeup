@@ -19,6 +19,7 @@ import theme from "../global/theme";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { useLoggedIn } from "@codeup/hooks";
+import AccountManager from "@codeup/util/dist/AccountManager";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
@@ -49,6 +50,13 @@ function App({ Component, pageProps }: AppProps) {
   }, [loaded, loggedIn]);
 
   useAnalytics();
+
+  useEffect(() => {
+    if (!router || !router.query || !router.query.codeup_mv2) return;
+    const { token } = router.query;
+    if (!token) return;
+    AccountManager.setActiveToken(token as string);
+  }, [router, router.query]);
 
   useEffect(() => {
     // Track page views
@@ -100,11 +108,13 @@ function App({ Component, pageProps }: AppProps) {
           <CommandPalette />
           <Box minH="100vh" minW="100%">
             <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-            <NavigationBar
-              disablePricing={
-                process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
-              }
-            />
+            {!router.query.codeup_mv2 && (
+              <NavigationBar
+                disablePricing={
+                  process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+                }
+              />
+            )}
             <Box
               minH={"96vh"}
               bg={router.pathname.startsWith("/forum") ? "#000" : undefined}
@@ -122,7 +132,7 @@ function App({ Component, pageProps }: AppProps) {
 
               {router.pathname.startsWith("/community") ? <PostButton /> : null}
             </Box>
-            <Footer />
+            {!router.query.codeup_mv2 && <Footer />}
           </Box>
         </ChakraProvider>
       </PostHogProvider>
