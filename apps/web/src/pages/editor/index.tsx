@@ -33,7 +33,7 @@ import PopupManager from "../../global/PopupManager";
 import JSZip from "jszip";
 import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
-import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 
 export default function Editor() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();

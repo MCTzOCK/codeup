@@ -95,7 +95,7 @@ export default function GridLayoutV2(props: IProps) {
       </Flex>
       {props.search.show && (
         <Flex justifyContent={"center"} mt={4} p={4}>
-          <FormControl maxW={["100%", "100%", "25%"]}>
+          <FormControl maxW={["100%", "100%", "50%"]}>
             <InputGroup>
               <InputLeftElement>
                 <FaSearch />
@@ -111,17 +111,19 @@ export default function GridLayoutV2(props: IProps) {
           </FormControl>
         </Flex>
       )}
-      <Flex justifyContent={"center"}>
+      <Flex>
         <Grid
           templateColumns={[
             "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
             "repeat(2, 1fr)",
             "repeat(3, 1fr)",
           ]}
           gap={6}
           p={4}
           mt={"2rem"}
-          maxW={["100%", "50%", "50%"]}
+          maxW={["100%", "100%", "50%"]}
           w={"100%"}
         >
           {props.entries
