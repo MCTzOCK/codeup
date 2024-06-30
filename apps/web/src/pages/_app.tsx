@@ -38,6 +38,7 @@ if (typeof window !== "undefined") {
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { loggedIn, userInfo, loaded } = useLoggedIn();
+  const [usingMv2, setUsingMv2] = React.useState(false);
 
   useEffect(() => {
     if (loaded && loggedIn) {
@@ -52,10 +53,23 @@ function App({ Component, pageProps }: AppProps) {
   useAnalytics();
 
   useEffect(() => {
-    if (!router || !router.query || !router.query.codeup_mv2) return;
-    const { token } = router.query;
-    if (!token) return;
-    AccountManager.setActiveToken(token as string);
+    if (!router || !router.query) return;
+    if (router.query.codeup_mv2) {
+      localStorage.setItem("using_codeup_mv2", "true");
+      setUsingMv2(true);
+
+      const { token } = router.query;
+      if (!token) return;
+      AccountManager.setActiveToken(token as string);
+    } else {
+      if (
+        ![null, undefined, ""].includes(
+          localStorage.getItem("using_codeup_mv2")
+        )
+      ) {
+        setUsingMv2(true);
+      }
+    }
   }, [router, router.query]);
 
   useEffect(() => {
@@ -108,7 +122,7 @@ function App({ Component, pageProps }: AppProps) {
           <CommandPalette />
           <Box minH="100vh" minW="100%">
             <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-            {!router.query.codeup_mv2 && (
+            {!usingMv2 && (
               <NavigationBar
                 disablePricing={
                   process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
@@ -132,7 +146,7 @@ function App({ Component, pageProps }: AppProps) {
 
               {router.pathname.startsWith("/community") ? <PostButton /> : null}
             </Box>
-            {!router.query.codeup_mv2 && <Footer />}
+            {!usingMv2 && <Footer />}
           </Box>
         </ChakraProvider>
       </PostHogProvider>
