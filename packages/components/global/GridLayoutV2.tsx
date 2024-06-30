@@ -121,7 +121,7 @@ export default function GridLayoutV2(props: IProps) {
           gap={6}
           p={4}
           mt={"2rem"}
-          maxW={["100%", "100%", "50%"]}
+          maxW={["100%", "50%", "50%"]}
           w={"100%"}
         >
           {props.entries
