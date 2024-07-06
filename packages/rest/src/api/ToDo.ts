@@ -174,3 +174,104 @@ export async function updateV2Project(options: {
     },
   });
 }
+
+export const V2 = {
+  async getMyLists(token: string): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/my",
+      token: token,
+      method: "GET",
+    });
+  },
+  async getList(token: string, id: string): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/my?id=" + id,
+      token: token,
+      method: "GET",
+    });
+  },
+  async createList(token: string, name: string): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/my",
+      token: token,
+      method: "POST",
+      body: {
+        name,
+      },
+    });
+  },
+  async deleteList(token: string, id: string): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/my?id=" + id,
+      method: "DELETE",
+      token: token,
+    });
+  },
+  async renameList(
+    token: string,
+    id: string,
+    name: string
+  ): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/my?id=" + id,
+      method: "PUT",
+      token: token,
+      body: {
+        name,
+      },
+    });
+  },
+  async getListItems(token: string, id: string): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/items?id=" + id,
+      token: token,
+      method: "GET",
+    });
+  },
+  async createListItem(
+    token: string,
+    id: string,
+    name: string,
+    description: string
+  ): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/items?id=" + id,
+      token: token,
+      method: "POST",
+      body: {
+        name,
+        description,
+      },
+    });
+  },
+  async updateListItem(
+    token: string,
+    id: string,
+    itemId: string,
+    name: string,
+    description: string,
+    done: boolean
+  ): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/items?id=" + id + "&itemId=" + itemId,
+      token: token,
+      method: "PUT",
+      body: {
+        name,
+        description,
+        done,
+      },
+    });
+  },
+  async deleteListItem(
+    token: string,
+    id: string,
+    itemId: string
+  ): Promise<IResponse> {
+    return await makeRequest({
+      path: "/api/todov2/items?id=" + id + "&itemId=" + itemId,
+      token: token,
+      method: "DELETE",
+    });
+  },
+};

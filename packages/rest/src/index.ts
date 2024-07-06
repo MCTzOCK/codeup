@@ -38,6 +38,7 @@ import {
   toggleItemFinish,
   updateItem,
   updateV2Project,
+  V2,
 } from "./api/ToDo";
 import {
   addContributor,
@@ -430,6 +431,7 @@ const REST = {
     getV2Projects,
     deleteV2Project,
     updateV2Project,
+    V2,
   },
   IDE: {
     getProjectPermissions,
