@@ -54,7 +54,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
       for await (const l of lists) {
         returnLists.push({
-          ...l,
+          ...l._doc,
           items: await ToDoListV2ItemModel.find({ list: l._id }),
         });
       }
