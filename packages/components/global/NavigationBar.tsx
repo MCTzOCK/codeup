@@ -209,10 +209,17 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
       category: "develop",
     },
     {
-      name: "Todo",
+      name: "Todo (veraltet)",
       icon: <BsCheck2Square />,
       text: "Plane Projekte mit einfachen To-Do Listen",
       href: "/todo",
+      category: "other",
+    },
+    {
+      name: "Tasks",
+      icon: <BsCheck2Square />,
+      text: "Plane Projekte mit einfachen To-Do Listen",
+      href: "/tasks",
       category: "plan",
     },
     {
