@@ -252,7 +252,8 @@ export default function Quiz(props: {
               <Progress
                 size="sm"
                 value={(currentQuestion / props.questions.length) * 100}
-                colorScheme={"brand"}
+                variant={"brand"}
+                rounded={"md"}
               />
 
               <Text fontSize={"1.5rem"} mt={"1rem"}>

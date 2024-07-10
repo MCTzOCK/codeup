@@ -14,11 +14,13 @@ import { useUserLoggedInRedirect } from "@codeup/hooks";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
-import { Box } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import { FaCube } from "react-icons/fa6";
 import { useRouter } from "next/router";
+import TaskListViewer from "@codeup/components/tasks/TaskListViewer";
+import Head from "next/head";
 
 export default function Tasks() {
   const router = useRouter();
@@ -55,7 +57,36 @@ export default function Tasks() {
 
     setLists(res.payload.lists);
     setLoading(false);
+
+    if (currentList) {
+      const newList = res.payload.lists.find(
+        (l: any) => l._id === currentList._id
+      );
+      if (newList) {
+        setCurrentList(newList);
+      }
+    }
   };
+
+  const [currentList, setCurrentList] = React.useState<
+    | {
+        _id: string;
+        name: string;
+        owner: string;
+        createdAt: string;
+        items: {
+          createdAt: string;
+          _id: string;
+          name: string;
+          done: boolean;
+          description: string;
+          list: string;
+        }[];
+      }
+    | undefined
+  >(undefined);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (loading) {
     return (
@@ -67,6 +98,9 @@ export default function Tasks() {
 
   return (
     <>
+      <Head>
+        <title>Tasks - CodeUp</title>
+      </Head>
       <Box w={"100%"} bg={"#000"} minH={"100vh"} h={"fit-content"}>
         <GridLayoutV2
           pageTitle={"Aufgaben"}
@@ -126,7 +160,8 @@ export default function Tasks() {
                     variant: "brand",
                     leftIcon: <FaEye />,
                     onClick: () => {
-                      router.push("/tasks/" + l._id);
+                      setCurrentList(l);
+                      onOpen();
                     },
                   },
                   {
@@ -166,6 +201,13 @@ export default function Tasks() {
           })}
         />
       </Box>
+      <TaskListViewer
+        onClose={onClose}
+        onOpen={onOpen}
+        isOpen={isOpen}
+        list={currentList}
+        reloadLists={reloadLists}
+      />
     </>
   );
 }

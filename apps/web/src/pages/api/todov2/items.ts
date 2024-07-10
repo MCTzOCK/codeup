@@ -102,7 +102,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
       if (name) item.name = name;
       if (description) item.description = description;
-      if (done) item.done = done;
+      if (done !== undefined && done !== null) item.done = done;
 
       await item.save();
 

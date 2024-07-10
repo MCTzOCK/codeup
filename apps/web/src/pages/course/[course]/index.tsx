@@ -226,7 +226,8 @@ export default function Index() {
                         <Progress
                           value={progress.length}
                           max={contents.length}
-                          colorScheme={"brand"}
+                          variant={"brand"}
+                          rounded={"md"}
                         />
                       </Text>
                     </>

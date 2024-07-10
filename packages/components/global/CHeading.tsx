@@ -16,7 +16,9 @@ import { Heading as ChakraHeading } from "@chakra-ui/react";
 export function CHeading(props: {
   children: React.ReactNode | string;
   size?: string;
+  [key: string]: any;
 }) {
+  const { ...rest } = props;
   return (
     <ChakraHeading
       as={"h1"}
@@ -25,6 +27,7 @@ export function CHeading(props: {
       letterSpacing={-2}
       fontFamily={"Jetbrains Mono ExtraBold"}
       color={"brand.500"}
+      {...rest}
     >
       {props.children}
     </ChakraHeading>
