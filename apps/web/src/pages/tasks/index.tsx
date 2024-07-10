@@ -56,6 +56,15 @@ export default function Tasks() {
 
     setLists(res.payload.lists);
     setLoading(false);
+
+    if (currentList) {
+      const newList = res.payload.lists.find(
+        (l: any) => l._id === currentList._id
+      );
+      if (newList) {
+        setCurrentList(newList);
+      }
+    }
   };
 
   const [currentList, setCurrentList] = React.useState<
