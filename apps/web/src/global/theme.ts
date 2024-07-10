@@ -131,6 +131,15 @@ const theme = extendTheme({
         focusBorderColor: "brand.500",
       },
     },
+    Progress: {
+      variants: {
+        brand: {
+          filledTrack: {
+            bg: "brand.500",
+          },
+        },
+      },
+    },
   },
   styles: {
     global: (props: any) => ({

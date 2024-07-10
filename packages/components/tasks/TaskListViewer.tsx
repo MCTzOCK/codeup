@@ -18,12 +18,16 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   HStack,
   IconButton,
   Input,
+  Progress,
+  ProgressLabel,
   Stack,
   Text,
   Textarea,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import {
@@ -68,6 +72,30 @@ export default function TaskListViewer(props: {
         isOpen={props.isOpen}
         title={props.list.name}
       >
+        <Progress
+          variant={"brand"}
+          mb={4}
+          title={
+            "Fortschritt: " +
+            (
+              (props.list.items.filter((i) => i.done).length /
+                props.list.items.length) *
+              100
+            ).toFixed(2) +
+            "%"
+          }
+          max={props.list.items.length}
+          value={props.list.items.filter((i) => i.done).length}
+          size={"lg"}
+          rounded={"md"}
+        />
+        <CHeading size={"sm"} textAlign={"center"}>
+          {(
+            (props.list.items.filter((i) => i.done).length /
+              props.list.items.length) *
+            100
+          ).toFixed(2) + "%"}
+        </CHeading>
         <Button
           leftIcon={<FaPlus />}
           variant={"brand"}
