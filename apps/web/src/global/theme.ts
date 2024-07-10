@@ -136,6 +136,7 @@ const theme = extendTheme({
         brand: {
           filledTrack: {
             bg: "brand.500",
+            rounded: "md",
           },
         },
       },
