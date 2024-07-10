@@ -20,6 +20,7 @@ import { FaClock, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import { FaCube } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import TaskListViewer from "@codeup/components/tasks/TaskListViewer";
+import Head from "next/head";
 
 export default function Tasks() {
   const router = useRouter();
@@ -97,6 +98,9 @@ export default function Tasks() {
 
   return (
     <>
+      <Head>
+        <title>Tasks - CodeUp</title>
+      </Head>
       <Box w={"100%"} bg={"#000"} minH={"100vh"} h={"fit-content"}>
         <GridLayoutV2
           pageTitle={"Aufgaben"}
