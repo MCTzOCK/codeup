@@ -29,7 +29,7 @@ import {
 import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
-import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { CHeading } from "@codeup/components/global/CHeading";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -151,9 +151,9 @@ export default function CertViewer() {
             <>
               {steps[currentStep].step_type === "MULTIPLE_CHOICE" && (
                 <>
-                  <Heading as="h1" size="2xl" mt={8} textAlign={"center"}>
+                  <CHeading size="xl" mt={2} textAlign={"center"}>
                     {steps[currentStep].multiple_choice.question}
-                  </Heading>
+                  </CHeading>
                   <Stack mt={8}>
                     {steps[currentStep].multiple_choice.answers.map(
                       (a: any, i: any) => {
@@ -171,7 +171,7 @@ export default function CertViewer() {
                                 ]);
                                 setCurrentStep(currentStep + 1);
                               }}
-                              rounded={"none"}
+                              rounded={"md"}
                             >
                               {a.answer}
                             </Button>
@@ -184,9 +184,9 @@ export default function CertViewer() {
               )}
               {steps[currentStep].step_type === "TEXT" && (
                 <>
-                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                  <CHeading size={"xl"} textAlign={"center"} mt={8}>
                     {steps[currentStep].step_title}
-                  </Heading>
+                  </CHeading>
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -222,7 +222,7 @@ export default function CertViewer() {
                       </>
                     ))}
                     <ButtonGroup w={"100%"} mt={8}>
-                      <Button w={"100%"} colorScheme={"blue"} type={"submit"}>
+                      <Button w={"100%"} variant={"brand"} type={"submit"}>
                         Weiter
                       </Button>
                     </ButtonGroup>
@@ -232,9 +232,9 @@ export default function CertViewer() {
 
               {steps[currentStep].step_type === "CODE_CHECK" && (
                 <>
-                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                  <CHeading size={"xl"} textAlign={"center"} mt={8}>
                     {steps[currentStep].step_title}
-                  </Heading>
+                  </CHeading>
                   <Flex
                     direction={"column"}
                     w={"100%"}
@@ -245,7 +245,9 @@ export default function CertViewer() {
                   >
                     <Box flex={"100%"}>
                       <Stack>
-                        <Heading>Ist der folgende Code richtig?</Heading>
+                        <CHeading size={"lg"}>
+                          Ist der folgende Code richtig?
+                        </CHeading>
                         <Image
                           src={steps[currentStep].code_check?.screenshot}
                           alt="Code Screenshot"
@@ -295,9 +297,9 @@ export default function CertViewer() {
               )}
               {steps[currentStep].step_type === "CODE_COMPARE" && (
                 <>
-                  <Heading size={"2xl"} textAlign={"center"} mt={8}>
+                  <CHeading size={"xl"} textAlign={"center"}>
                     {steps[currentStep].step_title}
-                  </Heading>
+                  </CHeading>
                   <Flex
                     direction={"column"}
                     w={"100%"}
@@ -308,23 +310,23 @@ export default function CertViewer() {
                   >
                     <Box flex={"100%"}>
                       <Stack>
-                        <Heading>
-                          Welcher der Codes bringt die gewünschte Ausgabe?
-                        </Heading>
+                        <CHeading size={"lg"}>
+                          Welcher Code bringt die gewünschte Ausgabe?
+                        </CHeading>
                         <Image
                           src={steps[currentStep].code_compare?.output}
                           alt="Output Image"
                         />
                       </Stack>
                       <Stack>
-                        <Heading>Code 1</Heading>
+                        <CHeading size={"lg"}>Code 1</CHeading>
                         <Image
                           src={
                             steps[currentStep].code_compare?.code_a.screenshot
                           }
                           alt="Code 1 Screenshot"
                         />
-                        <Heading>Code 2</Heading>
+                        <CHeading size={"lg"}>Code 2</CHeading>
                         <Image
                           src={
                             steps[currentStep].code_compare?.code_b.screenshot
