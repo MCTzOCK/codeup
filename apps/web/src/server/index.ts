@@ -106,12 +106,15 @@ app
           ? req.headers.host!.split(":")[0]
           : req.headers.host;
 
-        if (customDomain === "cdn.codeup.space") {
+        if (
+          customDomain === "cdn.codeup.space" ||
+          customDomain === "cdn.codeup.local"
+        ) {
           const client = getS3();
 
           client.presignedGetObject(
             "codeup-cdn",
-            pathname!.split("/").slice(2).join("/"),
+            pathname!.split("/").slice(1).join("/"),
             (err, url) => {
               if (err) {
                 res.statusCode = 404;
