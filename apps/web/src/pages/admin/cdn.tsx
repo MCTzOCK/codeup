@@ -32,15 +32,20 @@ import {
   IconButton,
   CircularProgress,
   Heading,
+  MenuList,
+  MenuItem,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import { FaFolder, FaUpload } from "react-icons/fa6";
-import { FaFile, FaSync } from "react-icons/fa";
+import { FaFile, FaInfoCircle, FaPen, FaSync, FaTrash } from "react-icons/fa";
 import byteSize from "byte-size";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import { ContextMenu } from "chakra-ui-contextmenu";
 
 type IEntry = {
   name: string;
@@ -302,36 +307,107 @@ export default function Cdn() {
                         return 0;
                       })
                       .map((object) => (
-                        <Tr
-                          key={object.name}
-                          _hover={{
-                            bg: "gray.700",
-                          }}
-                          cursor={"pointer"}
-                          onClick={() => {
-                            if (object.children.length > 0) {
-                              setCurrentPath([...currentPath, object.name]);
+                        <ContextMenu
+                          renderMenu={() => {
+                            if (object.children.length !== 0) {
+                              return <></>;
                             }
+
+                            return (
+                              <>
+                                <MenuList bg={"#000"}>
+                                  <MenuItem
+                                    icon={<FaTrash />}
+                                    color={"red.500"}
+                                    onClick={async () => {
+                                      if (
+                                        !(await PopupManager.confirmAsync({
+                                          title: "Löschen",
+                                          question:
+                                            "Möchtest du die Datei wirklich löschen?",
+                                        }))
+                                      )
+                                        return;
+
+                                      const res = await REST.Admin.CDN.delete({
+                                        token: AccountManager.getActiveToken(),
+                                        name:
+                                          currentPath.join("/") +
+                                          "/" +
+                                          object.name,
+                                      });
+
+                                      if (res.status !== 200) {
+                                        await PopupManager.alertAsync({
+                                          title: "Fehler",
+                                          description:
+                                            "Datei konnte nicht gelöscht werden: " +
+                                            res.payload.error,
+                                        });
+
+                                        return;
+                                      }
+
+                                      await PopupManager.alertAsync({
+                                        title: "Erfolg",
+                                        description:
+                                          "Datei wurde erfolgreich gelöscht.",
+                                      });
+
+                                      await reloadObjects();
+                                    }}
+                                  >
+                                    Löschen
+                                  </MenuItem>
+                                </MenuList>
+                              </>
+                            );
                           }}
                         >
-                          <Td>
-                            {object.children.length === 0 ? (
-                              <FaFile />
-                            ) : (
-                              <chakra.span color={"brand.500"}>
-                                <FaFolder />
-                              </chakra.span>
-                            )}
-                          </Td>
-                          <Td>{object.name}</Td>
-                          <Td>{byteSize(object.size).toString()}</Td>
-                          <Td>
-                            {object.lastModified === ""
-                              ? object.lastModified
-                              : new Date(object.lastModified).toLocaleString()}
-                          </Td>
-                          <Td>{object.etag}</Td>
-                        </Tr>
+                          {(ref) => (
+                            <Tr
+                              key={object.name}
+                              ref={ref as any}
+                              _hover={{
+                                bg: "gray.700",
+                              }}
+                              cursor={"pointer"}
+                              onClick={() => {
+                                if (object.children.length > 0) {
+                                  setCurrentPath([...currentPath, object.name]);
+                                } else {
+                                  window.open(
+                                    "https://cdn.codeup.space/" +
+                                      currentPath.join("/") +
+                                      "/" +
+                                      object.name,
+                                    "_blank"
+                                  );
+                                }
+                              }}
+                            >
+                              <Td>
+                                {object.children.length === 0 ? (
+                                  <FaFile />
+                                ) : (
+                                  <chakra.span color={"brand.500"}>
+                                    <FaFolder />
+                                  </chakra.span>
+                                )}
+                              </Td>
+                              <Td>{object.name}</Td>
+                              <Td>{byteSize(object.size).toString()}</Td>
+                              <Td>
+                                {object.lastModified === ""
+                                  ? object.lastModified
+                                  : new Date(
+                                      object.lastModified
+                                    ).toLocaleString()}
+                              </Td>
+                              <Td>{object.etag}</Td>
+                            </Tr>
+                          )}
+                        </ContextMenu>
                       ))}
                   </Tbody>
                 </Table>
