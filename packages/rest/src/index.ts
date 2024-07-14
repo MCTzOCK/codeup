@@ -165,6 +165,7 @@ import {
   createChallenge,
   deleteChallenge,
   updateChallenge,
+  CDN,
 } from "./api/Admin";
 
 import {
@@ -331,6 +332,7 @@ const REST = {
     finalCheck,
   },
   Admin: {
+    CDN,
     getErrors,
     listAccounts,
     updateAccount,

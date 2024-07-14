@@ -56,6 +56,7 @@ import { AiFillDashboard } from "react-icons/ai";
 import { BsPeople, BsCheck2Square } from "react-icons/bs";
 import { BiCodeBlock, BiError } from "react-icons/bi";
 import AppShell from "../global/AppShell";
+import { FaNetworkWired } from "react-icons/fa6";
 
 export default function AdminLayout(props: { children: ReactNode }) {
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
@@ -115,6 +116,11 @@ export default function AdminLayout(props: { children: ReactNode }) {
                 text: "Dashboard",
                 icon: <AiFillDashboard />,
                 href: "/admin",
+              },
+              {
+                text: "CDN",
+                icon: <FaNetworkWired />,
+                href: "/admin/cdn",
               },
               {
                 text: "Benutzer",
