@@ -167,6 +167,13 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
       category: "develop",
     },
     {
+      name: "Dev-Suite",
+      icon: <BiCodeAlt />,
+      href: "/projects",
+      text: "Verwirkliche deine Projektideen mit dem fortschrittlichsten Editor",
+      category: "develop",
+    },
+    {
       name: "CodeUp Kids",
       icon: <FaChild />,
       href: "/kids",
