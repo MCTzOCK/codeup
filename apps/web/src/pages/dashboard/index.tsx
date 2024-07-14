@@ -95,7 +95,7 @@ export default function Dashboard() {
 
         setProjectEntries(x as any);
       });
-      REST.ToDo.getMyLists(localStorage.getItem("token") as string).then(
+      REST.ToDo.V2.getMyLists(localStorage.getItem("token") as string).then(
         (res) => {
           let x = [];
           for (const list of res.payload.lists) {
@@ -103,8 +103,8 @@ export default function Dashboard() {
               title: list.name,
               href: "/todo",
               description:
-                list.tasks.length > 0
-                  ? "Noch " + list.tasks.length + " Aufgaben"
+                list.items.length > 0
+                  ? "Noch " + list.items.length + " Aufgaben"
                   : "Alle Aufgaben erledigt",
             });
           }

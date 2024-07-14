@@ -171,6 +171,7 @@ export default function Professional() {
     });
     webContainer.fs.watch("package.json", changeListener);
     webContainer.fs.watch("package-lock.json", changeListener);
+    //webContainer.fs.watch("/", { recursive: true }, changeListener);
   }, [isBootstrapping]);
 
   const changeListener = async (
@@ -179,6 +180,7 @@ export default function Professional() {
   ) => {
     if (!webContainer) return;
     if (event === "change") {
+      if (filename.includes("node_modules")) return;
       let content = new TextDecoder().decode(
         await webContainer.fs.readFile(filename.toString())
       );
