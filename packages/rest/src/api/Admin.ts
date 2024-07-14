@@ -830,3 +830,38 @@ export async function updateChallenge(options: {
     },
   });
 }
+
+export const CDN = {
+  async list(token: string): Promise<IResponse> {
+    return makeRequest({
+      method: "GET",
+      token,
+      path: "/api/admin/cdn/files",
+    });
+  },
+  async upload(options: {
+    token: string;
+    name: string;
+    file: string;
+  }): Promise<IResponse> {
+    return makeRequest({
+      method: "POST",
+      token: options.token,
+      path: "/api/admin/cdn/upload",
+      body: {
+        name: options.name,
+        file: options.file,
+      },
+    });
+  },
+  async delete(options: { token: string; name: string }): Promise<IResponse> {
+    return makeRequest({
+      method: "POST",
+      token: options.token,
+      path: "/api/admin/cdn/delete",
+      body: {
+        name: options.name,
+      },
+    });
+  },
+};
