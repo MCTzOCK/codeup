@@ -106,6 +106,28 @@ app
           ? req.headers.host!.split(":")[0]
           : req.headers.host;
 
+        if (customDomain === "cdn.codeup.space") {
+          const client = getS3();
+
+          client.presignedGetObject(
+            "codeup-cdn",
+            pathname!.split("/").slice(2).join("/"),
+            (err, url) => {
+              if (err) {
+                res.statusCode = 404;
+                res.write("Not Found");
+                res.end();
+                return;
+              }
+              res.writeHead(302, {
+                Location: url,
+              });
+              res.end();
+            }
+          );
+          return;
+        }
+
         if (customDomain!.split(".").length > 2) {
           const project = await EditorProjectModel.findOne({
             customDomain,
