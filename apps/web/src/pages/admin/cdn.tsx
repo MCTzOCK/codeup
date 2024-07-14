@@ -206,13 +206,25 @@ export default function Cdn() {
                           "Wähle die Datei aus, die du im aktuellen Verzeichnis des CDN hochladen möchtest.",
                       });
 
+                      const path = await PopupManager.promptAsync({
+                        title: "Pfad",
+                        helperText:
+                          "Wenn du die Datei an einem anderen Pfad hochladen möchtest, gib ihn hier ein. (Neue Pfade werden erstellt)",
+                      });
+
                       if (!files || !files.item(0)) return;
 
                       const file = files.item(0)!;
 
                       if (!file) return;
 
-                      const name = currentPath.join("/") + "/" + file.name;
+                      let name = "";
+
+                      if (path) {
+                        name = path + "/" + file.name;
+                      } else {
+                        name = currentPath.join("/") + "/" + file.name;
+                      }
                       const reader = new FileReader();
 
                       reader.onload = async () => {
