@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/GridLayoutV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/GridLayoutV2.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +27,8 @@
         <option value="package.json" />
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>

@@ -119,6 +119,7 @@ export default function GridLayoutV2(props: IProps) {
             "repeat(2, 1fr)",
             "repeat(2, 1fr)",
             "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
           ]}
           gap={6}
           p={4}
