@@ -68,6 +68,16 @@ export default function Tasks() {
     }
   };
 
+  React.useEffect(() => {
+    if (router.query.list_id) {
+      const list = lists.find((l) => l._id === router.query.list_id);
+      if (list) {
+        setCurrentList(list);
+        onOpen();
+      }
+    }
+  }, [lists, router, router.query, router.query.list_id]);
+
   const [currentList, setCurrentList] = React.useState<
     | {
         _id: string;

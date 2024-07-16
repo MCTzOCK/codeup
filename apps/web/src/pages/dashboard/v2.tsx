@@ -25,6 +25,7 @@ import {
 import { CHeading } from "@codeup/components/global/CHeading";
 import DV2SCourses from "@codeup/components/dashboard/DV2SCourses";
 import DV2SCertificates from "@codeup/components/dashboard/DV2SCertificates";
+import DV2STasks from "@codeup/components/dashboard/DV2STasks";
 import {
   useLoggedIn,
   useUserInfo,
@@ -53,8 +54,8 @@ export default function DashboardV2() {
             "repeat(1, 1fr)",
             "repeat(2, 1fr)",
           ]}
-          gap={6}
-          p={6}
+          gap={12}
+          p={[6, 12]}
         >
           <Box bg={"gray.900"} rounded={"md"} p={4}>
             <CHeading size={"lg"}>Willkommen {userInfo.firstName}!</CHeading>
@@ -117,6 +118,9 @@ export default function DashboardV2() {
           </Box>
           <Box bg={"gray.900"} rounded={"md"} p={4}>
             <DV2SCertificates />
+          </Box>
+          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
+            <DV2STasks />
           </Box>
         </Grid>
       </Flex>
