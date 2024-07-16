@@ -23,6 +23,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
+import DV2SCourses from "@codeup/components/dashboard/DV2SCourses";
 import {
   useLoggedIn,
   useUserInfo,
@@ -111,7 +112,7 @@ export default function DashboardV2() {
             </Stack>
           </Box>
           <Box bg={"gray.900"} rounded={"md"} p={4}>
-            <CHeading size={"lg"}>Dashboard v2</CHeading>
+            <DV2SCourses />
           </Box>
         </Grid>
       </Flex>
