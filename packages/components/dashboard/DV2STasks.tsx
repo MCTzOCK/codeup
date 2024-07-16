@@ -53,7 +53,7 @@ export default function DV2STasks() {
       return;
     }
 
-    //setLists(res.payload.lists);
+    setLists(res.payload.lists);
   };
 
   if (error) {
