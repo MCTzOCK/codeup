@@ -12,7 +12,7 @@ import * as React from "react";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { Button, Flex, Grid, Image, Progress, Text } from "@chakra-ui/react";
-import { FaEye } from "react-icons/fa";
+import { FaExternalLinkAlt, FaEye } from "react-icons/fa";
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 
@@ -159,6 +159,27 @@ export default function DV2SCourses() {
               );
             })}
           </Grid>
+          {courses.length === 0 && (
+            <Flex
+              justifyContent={"center"}
+              p={4}
+              direction={"column"}
+              gap={4}
+              mt={-4}
+            >
+              <Text>Du hast dich noch in keine Kurse eingeschrieben.</Text>
+              <Button
+                variant={"brand"}
+                leftIcon={<FaExternalLinkAlt />}
+                w={"fit-content"}
+                onClick={() => {
+                  router.push("/course");
+                }}
+              >
+                Kurse
+              </Button>
+            </Flex>
+          )}
         </>
       )}
     </>

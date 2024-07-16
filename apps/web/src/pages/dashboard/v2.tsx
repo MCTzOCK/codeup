@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
 import DV2SCourses from "@codeup/components/dashboard/DV2SCourses";
+import DV2SCertificates from "@codeup/components/dashboard/DV2SCertificates";
 import {
   useLoggedIn,
   useUserInfo,
@@ -113,6 +114,9 @@ export default function DashboardV2() {
           </Box>
           <Box bg={"gray.900"} rounded={"md"} p={4}>
             <DV2SCourses />
+          </Box>
+          <Box bg={"gray.900"} rounded={"md"} p={4}>
+            <DV2SCertificates />
           </Box>
         </Grid>
       </Flex>
