@@ -12,7 +12,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
-import { Button, Flex, Grid, Text } from "@chakra-ui/react";
+import { Button, Flex, Grid, Image, Progress, Text } from "@chakra-ui/react";
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -88,24 +88,29 @@ export default function DV2SCertificates() {
                     router.push(`/user-cert/${cert._id}`);
                   }}
                 >
-                  <CHeading size={"md"}>{cert.courseObj.name}</CHeading>
                   <Flex direction={"row"} mt={2}>
-                    <img
+                    <Image
                       src={cert.courseObj.splashImage}
                       alt={cert.courseObj.name}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                      }}
+                      width={["75%", "100%"]}
+                      maxW={"150px"}
+                      maxHeight={"150px"}
+                      objectFit={"cover"}
+                      rounded={"md"}
                     />
                     <Flex direction={"column"} ml={4} justifyContent={"center"}>
-                      <CHeading size={"lg"}>{cert.name}</CHeading>
+                      <CHeading size={"md"}>{cert.courseObj.name}</CHeading>
                       <CHeading size={"md"}>
                         {new Date(cert.date).toLocaleString()}
                       </CHeading>
-                      <CHeading size={"md"}>{cert.percentage}%</CHeading>
+                      <Progress
+                        value={cert.percentage}
+                        variant={"brand"}
+                        mt={2}
+                        max={100}
+                        rounded={"md"}
+                      />
+                      <Text>Du hast {cert.percentage}% erhalten!</Text>
                     </Flex>
                   </Flex>
                 </Flex>
