@@ -18,6 +18,7 @@ import {
   Flex,
   Grid,
   HStack,
+  IconButton,
   Stack,
   Text,
   VStack,
@@ -33,6 +34,7 @@ import {
 } from "@codeup/hooks";
 import router from "next/router";
 import { FaCogs } from "react-icons/fa";
+import { FaPalette } from "react-icons/fa6";
 
 export default function DashboardV2() {
   useUserLoggedInRedirect({
@@ -58,7 +60,17 @@ export default function DashboardV2() {
           p={[6, 12]}
         >
           <Box bg={"gray.900"} rounded={"md"} p={4}>
-            <CHeading size={"lg"}>Willkommen {userInfo.firstName}!</CHeading>
+            <Flex justifyContent={"space-between"}>
+              <CHeading size={"lg"}>Willkommen {userInfo.firstName}!</CHeading>
+              <IconButton
+                aria-label={"Customize"}
+                icon={<FaPalette />}
+                onClick={async () => {
+                  // TODO: Implement Dashboard Customization (Layout, Cards shown, etc.)
+                }}
+                variant={"brand"}
+              />
+            </Flex>
             <Stack spacing={4} pt={6}>
               <HStack gap={4}>
                 <Avatar
