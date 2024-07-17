@@ -40,10 +40,10 @@ export default function DV2SKids() {
   const [error, setError] = React.useState<string>("");
 
   React.useEffect(() => {
-    reloadLists();
+    reloadKids();
   }, []);
 
-  const reloadLists = async () => {
+  const reloadKids = async () => {
     const res = await REST.Kids.getProjects(AccountManager.getActiveToken());
 
     if (res.status !== 200) {
