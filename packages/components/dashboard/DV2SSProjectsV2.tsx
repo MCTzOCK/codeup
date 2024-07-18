@@ -15,6 +15,7 @@ import { Badge, Box, Flex, Grid, Text } from "@chakra-ui/react";
 import router from "next/router";
 import { CHeading } from "../global/CHeading";
 import byteSize from "byte-size";
+import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 
 export default function DV2SSProjectsV2() {
   const [projects, setProjects] = React.useState<
@@ -35,6 +36,7 @@ export default function DV2SSProjectsV2() {
   >([]);
 
   const [error, setError] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     reloadProjects();
@@ -45,6 +47,8 @@ export default function DV2SSProjectsV2() {
       AccountManager.getActiveToken()
     );
 
+    setLoading(false);
+
     if (res.status !== 200) {
       setError("Fehler beim Laden der Projekte: " + res.payload.error);
       return;
@@ -53,6 +57,12 @@ export default function DV2SSProjectsV2() {
     setProjects(res.payload.projects);
   };
 
+  if (loading)
+    return (
+      <>
+        <AuthenticateLoadingIndicator inline={true} text={"Laden"} />
+      </>
+    );
   return (
     <>
       {error && (
@@ -104,7 +114,7 @@ export default function DV2SSProjectsV2() {
               p={4}
               cursor={"pointer"}
               onClick={() => {
-                router.push("/ide");
+                router.push("/editor");
               }}
             >
               Du hast noch kein Projekt erstellt! Klicke um ein neues Projekt zu

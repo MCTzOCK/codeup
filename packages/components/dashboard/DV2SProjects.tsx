@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import DV2SSProjectsV1 from "./DV2SSProjectsV1";
 import DV2SSProjectsV2 from "./DV2SSProjectsV2";
+import DV2SSProjectsV3 from "./DV2SSProjectsV3";
 
 export default function DV2SProjects() {
   return (
@@ -61,6 +62,9 @@ export default function DV2SProjects() {
           </TabPanel>
           <TabPanel>
             <DV2SSProjectsV2 />
+          </TabPanel>
+          <TabPanel>
+            <DV2SSProjectsV3 />
           </TabPanel>
         </TabPanels>
       </Tabs>

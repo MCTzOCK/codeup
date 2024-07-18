@@ -15,6 +15,7 @@ import { Badge, Box, Flex, Grid, Text } from "@chakra-ui/react";
 import { CHeading } from "../global/CHeading";
 import byteSize from "byte-size";
 import router from "next/router";
+import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 
 export default function DV2SSProjectsV1() {
   const [projects, setProjects] = React.useState<
@@ -40,6 +41,7 @@ export default function DV2SSProjectsV1() {
   >([]);
 
   const [error, setError] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     reloadProjects();
@@ -52,6 +54,8 @@ export default function DV2SSProjectsV1() {
       withStats: true,
     });
 
+    setLoading(false);
+
     if (res.status !== 200) {
       setError("Fehler beim Laden der Projekte: " + res.payload.error);
       return;
@@ -59,6 +63,13 @@ export default function DV2SSProjectsV1() {
 
     setProjects(res.payload.projects);
   };
+
+  if (loading)
+    return (
+      <>
+        <AuthenticateLoadingIndicator inline={true} text={"Laden"} />
+      </>
+    );
 
   return (
     <>
