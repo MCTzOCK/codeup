@@ -57,7 +57,7 @@ export default function DV2SSProjectsV1() {
       return;
     }
 
-    //3wsa  setProjects(res.payload.projects);
+    setProjects(res.payload.projects);
   };
 
   return (

@@ -21,6 +21,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import DV2SSProjectsV1 from "./DV2SSProjectsV1";
+import DV2SSProjectsV2 from "./DV2SSProjectsV2";
 
 export default function DV2SProjects() {
   return (
@@ -57,6 +58,9 @@ export default function DV2SProjects() {
         <TabPanels>
           <TabPanel>
             <DV2SSProjectsV1 />
+          </TabPanel>
+          <TabPanel>
+            <DV2SSProjectsV2 />
           </TabPanel>
         </TabPanels>
       </Tabs>
