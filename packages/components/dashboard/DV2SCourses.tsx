@@ -140,7 +140,8 @@ export default function DV2SCourses() {
                         rounded={"md"}
                       />
                       <Text textAlign={"center"}>
-                        Du hast diesen Kurs zu {course.progress}% abgeschlossen.
+                        Du hast diesen Kurs zu {course.progress.toFixed(2)}%
+                        abgeschlossen.
                       </Text>
                       <Flex mt={2}>
                         <Button
