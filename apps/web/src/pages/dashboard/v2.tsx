@@ -29,6 +29,7 @@ import DV2SCertificates from "@codeup/components/dashboard/DV2SCertificates";
 import DV2STasks from "@codeup/components/dashboard/DV2STasks";
 import DV2SKids from "@codeup/components/dashboard/DV2SKids";
 import DV2SFlows from "@codeup/components/dashboard/DV2SFlows";
+import DV2SSnippets from "@codeup/components/dashboard/DV2SSnippets";
 import {
   useLoggedIn,
   useUserInfo,
@@ -141,6 +142,9 @@ export default function DashboardV2() {
           </Box>
           <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
             <DV2SFlows />
+          </Box>
+          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
+            <DV2SSnippets />
           </Box>
         </Grid>
       </Flex>

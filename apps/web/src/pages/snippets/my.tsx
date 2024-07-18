@@ -52,6 +52,7 @@ import GridLayout from "@codeup/components/global/GridLayout";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
+import router from "next/router";
 
 export default function MySnippetViewer() {
   const { loggedIn, loaded, userInfo } = useLoggedIn();
@@ -123,6 +124,19 @@ export default function MySnippetViewer() {
     createdAt: string;
     username: string;
   } | null>(null);
+
+  React.useEffect(() => {
+    if (snippets.length > 0) {
+      if (router && router.query && router.query.sid) {
+        const snip = snippets.find((s) => s._id === router.query.sid);
+        if (snip) {
+          setCurrentSnippet(snip);
+          onOpen();
+        }
+      }
+    }
+  }, [snippets, router, router.query, router.query.sid]);
+
   return (
     <>
       {loggedIn && loaded ? (

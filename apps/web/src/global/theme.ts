@@ -141,6 +141,14 @@ const theme = extendTheme({
         },
       },
     },
+    Badge: {
+      variants: {
+        brand: {
+          bg: "brand.500",
+          color: "black",
+        },
+      },
+    },
   },
   styles: {
     global: (props: any) => ({
