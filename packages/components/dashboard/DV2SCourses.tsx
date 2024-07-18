@@ -46,7 +46,7 @@ export default function DV2SCourses() {
     for await (const x of res.payload.enrollments) {
       const rx = await REST.Course.getCourseProgress({
         token: AccountManager.getActiveToken(),
-        course: x.course.name,
+        course: x.course.friendlyName,
       });
 
       if (rx.status !== 200) {

@@ -79,7 +79,9 @@ export default function DV2SFlows() {
           </Thead>
           <Tbody>
             {projects.map((project) => {
-              const s = JSON.parse(project.saved);
+              const s = JSON.parse(
+                project.saved || '{"nodes": [], "edges": []}'
+              );
               const nodes = s.nodes.length;
               const edges = s.edges.length;
 
