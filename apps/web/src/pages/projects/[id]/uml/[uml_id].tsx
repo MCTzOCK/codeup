@@ -105,7 +105,7 @@ export default function UMLViewer() {
               <Box textAlign={"center"}>
                 <CHeading size={"lg"}>{uml.name}</CHeading>
               </Box>
-              <Tabs variant={"solid-rounded"} colorScheme={"brand"} p={4}>
+              <Tabs variant={"brand"} colorScheme={"brand"} p={4}>
                 <TabList w={"fit-content"} gap={4}>
                   <Tab>
                     <HStack gap={2} alignItems={"center"}>

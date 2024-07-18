@@ -356,7 +356,7 @@ export default function Professional() {
                       }}
                     />
                     <Panel defaultSize={50} minSize={30} maxSize={100}>
-                      <Tabs variant={"solid-rounded"} colorScheme={"brand"}>
+                      <Tabs variant={"brand"} colorScheme={"brand"}>
                         <TabList>
                           <Tab>Terminal</Tab>
                           <Tab>Snippets</Tab>

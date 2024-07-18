@@ -273,7 +273,7 @@ export default function Dashboard() {
                 <StackDivider />
                 <Tabs
                   w={"100%"}
-                  variant={"enclosed-colored"}
+                  variant={"brand"}
                   isFitted
                   colorScheme={"brand"}
                 >

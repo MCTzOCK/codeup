@@ -150,6 +150,9 @@ const theme = extendTheme({
       },
     },
     Tabs: {
+      defaultProps: {
+        variant: "brand",
+      },
       variants: {
         brand: {
           tab: {
