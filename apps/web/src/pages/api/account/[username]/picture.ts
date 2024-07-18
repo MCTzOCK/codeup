@@ -23,8 +23,14 @@ export default async function handleRequest(
     const user = await UserModel.findOne({ username: req.query.username });
 
     if (user) {
-      res.setHeader("Content-Type", "image/svg+xml");
-      res.status(200).send(user.profilePicture);
+      if (user.profilePicture.startsWith("<svg")) {
+        res.setHeader("Content-Type", "image/svg+xml");
+        res.status(200).send(user.profilePicture);
+      } else if (user.profilePicture.match(/https?:\/\/.*/)) {
+        res.redirect(user.profilePicture);
+      } else {
+        throw new Error("Invalid profile picture");
+      }
     } else {
       throw new Error("User not found");
     }
