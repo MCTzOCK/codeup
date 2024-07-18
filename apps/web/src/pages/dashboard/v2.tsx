@@ -15,12 +15,20 @@ import {
   Box,
   Button,
   chakra,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   Grid,
   HStack,
   IconButton,
   Stack,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
@@ -37,8 +45,13 @@ import {
   useUserLoggedInRedirect,
 } from "@codeup/hooks";
 import router from "next/router";
-import { FaCogs } from "react-icons/fa";
+import { FaCogs, FaSave } from "react-icons/fa";
 import { FaPalette } from "react-icons/fa6";
+import REST from "@codeup/rest/dist";
+import AccountManager from "@codeup/util/dist/AccountManager";
+import { ReactElement } from "react";
+import PopupManager from "../../global/PopupManager";
+import { Reorder } from "framer-motion";
 
 export default function DashboardV2() {
   useUserLoggedInRedirect({
@@ -46,6 +59,53 @@ export default function DashboardV2() {
   });
 
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const [config, setConfig] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    reloadConfig();
+  }, []);
+
+  const reloadConfig = async () => {
+    const res = await REST.Account.getDashboardConfig(
+      AccountManager.getActiveToken()
+    );
+
+    if (res.status !== 200) {
+      return;
+    }
+
+    setConfig(res.payload.config.sections);
+    setCurrentSections(res.payload.config.sections);
+  };
+
+  const sections: {
+    [key: string]: ReactElement;
+  } = {
+    "codeup.courses": <DV2SCourses />,
+    "codeup.certificates": <DV2SCertificates />,
+    "codeup.todos": <DV2STasks />,
+    "codeup.kids": <DV2SKids />,
+    "codeup.flows": <DV2SFlows />,
+    "codeup.snippets": <DV2SSnippets />,
+    "codeup.projects": <DV2SProjects />,
+  };
+
+  const sectionNames: {
+    [key: string]: string;
+  } = {
+    "codeup.courses": "Kurse",
+    "codeup.certificates": "Zertifikate",
+    "codeup.todos": "Aufgaben",
+    "codeup.kids": "CodeUp-Kids",
+    "codeup.flows": "Flows",
+    "codeup.snippets": "Snippets",
+    "codeup.projects": "Projekte",
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [currentSections, setCurrentSections] = React.useState<string[]>([]);
 
   return (
     <>
@@ -69,8 +129,8 @@ export default function DashboardV2() {
               <IconButton
                 aria-label={"Customize"}
                 icon={<FaPalette />}
-                onClick={async () => {
-                  // TODO: Implement Dashboard Customization (Layout, Cards shown, etc.)
+                onClick={() => {
+                  onOpen();
                 }}
                 variant={"brand"}
               />
@@ -129,29 +189,95 @@ export default function DashboardV2() {
               </Button>
             </Stack>
           </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4}>
-            <DV2SCourses />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4}>
-            <DV2SCertificates />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
-            <DV2STasks />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
-            <DV2SKids />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
-            <DV2SFlows />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
-            <DV2SSnippets />
-          </Box>
-          <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
-            <DV2SProjects />
-          </Box>
+          {config.map((section) => {
+            return (
+              <>
+                <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
+                  {sections[section] || (
+                    <Text>
+                      Das Segment <i>{section}</i> wird noch nicht unterstützt!
+                    </Text>
+                  )}
+                </Box>
+              </>
+            );
+          })}
         </Grid>
       </Flex>
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        size={["full", "full", "lg"]}
+        placement={"left"}
+      >
+        <DrawerOverlay />
+        <DrawerContent bg={"black"}>
+          <DrawerCloseButton />
+          <DrawerHeader>
+            <CHeading size={"lg"}>Dashboard anpassen</CHeading>
+          </DrawerHeader>
+          <DrawerBody>
+            <Reorder.Group
+              as={"div"}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+                flexDirection: "column",
+              }}
+              axis={"y"}
+              values={currentSections}
+              onReorder={setCurrentSections}
+            >
+              {currentSections.map((s) => (
+                <Reorder.Item
+                  key={s}
+                  value={s}
+                  as={"div"}
+                  style={{
+                    listStyle: "none",
+                    fontSize: "1.5rem",
+                    fontWeight: "700",
+                    display: "flex",
+                    border: "2px solid #F7DE1F",
+                    cursor: "grab",
+                    padding: 20,
+                    borderRadius: "var(--chakra-radii-md)",
+                  }}
+                >
+                  {sectionNames[s]}
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
+          </DrawerBody>
+          <DrawerFooter>
+            <Button
+              leftIcon={<FaSave />}
+              variant={"brand"}
+              onClick={async () => {
+                const res = await REST.Account.setDashboardConfig(
+                  AccountManager.getActiveToken(),
+                  currentSections
+                );
+
+                if (res.status !== 200) {
+                  await PopupManager.alertAsync({
+                    title: "Fehler",
+                    description:
+                      "Die Konfiguration konnte nicht gespeichert werden: " +
+                      res.payload.error,
+                  });
+                  return;
+                }
+                onClose();
+                reloadConfig();
+              }}
+            >
+              Speichern
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
