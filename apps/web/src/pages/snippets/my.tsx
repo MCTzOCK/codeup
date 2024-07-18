@@ -52,9 +52,10 @@ import GridLayout from "@codeup/components/global/GridLayout";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
-import router from "next/router";
+import { useRouter } from "next/router";
 
 export default function MySnippetViewer() {
+  const router = useRouter();
   const { loggedIn, loaded, userInfo } = useLoggedIn();
 
   const [snippets, setSnippets] = React.useState<
