@@ -82,7 +82,7 @@ export default function DV2SSnippets() {
               return (
                 <Flex
                   key={snippet._id}
-                  bg={"gray.800"}
+                  bg={"gray.700"}
                   rounded={"md"}
                   p={4}
                   direction={"column"}

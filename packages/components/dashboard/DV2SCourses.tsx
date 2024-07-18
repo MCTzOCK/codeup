@@ -101,7 +101,7 @@ export default function DV2SCourses() {
           >
             {courses.map((course) => {
               return (
-                <Flex bg={"gray.800"} rounded={"md"} p={4} key={course.name}>
+                <Flex bg={"gray.700"} rounded={"md"} p={4} key={course.name}>
                   <Flex
                     direction={"column"}
                     w={"100%"}

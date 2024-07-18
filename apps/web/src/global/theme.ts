@@ -149,6 +149,20 @@ const theme = extendTheme({
         },
       },
     },
+    Tabs: {
+      variants: {
+        brand: {
+          tab: {
+            borderRadius: "md",
+            fontWeight: "bold",
+            _selected: {
+              color: "black",
+              bg: "brand.500",
+            },
+          },
+        },
+      },
+    },
   },
   styles: {
     global: (props: any) => ({

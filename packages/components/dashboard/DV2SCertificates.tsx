@@ -79,7 +79,7 @@ export default function DV2SCertificates() {
               return (
                 <Flex
                   key={cert._id}
-                  bg={"gray.800"}
+                  bg={"gray.700"}
                   rounded={"md"}
                   p={4}
                   direction={"column"}
