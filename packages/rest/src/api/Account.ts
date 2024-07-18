@@ -169,3 +169,25 @@ export async function getUserByName(name: string): Promise<IResponse> {
     method: "GET",
   });
 }
+
+export async function getDashboardConfig(token: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/dashboard",
+    method: "GET",
+    token: token,
+  });
+}
+
+export async function setDashboardConfig(
+  token: string,
+  sections: string[]
+): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/dashboard",
+    method: "POST",
+    token: token,
+    body: {
+      sections: sections,
+    },
+  });
+}
