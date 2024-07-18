@@ -45,7 +45,7 @@ import {
   useUserLoggedInRedirect,
 } from "@codeup/hooks";
 import router from "next/router";
-import { FaCogs, FaSave } from "react-icons/fa";
+import { FaCogs, FaPlus, FaSave, FaTrash } from "react-icons/fa";
 import { FaPalette } from "react-icons/fa6";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
@@ -217,6 +217,42 @@ export default function DashboardV2() {
             <CHeading size={"lg"}>Dashboard anpassen</CHeading>
           </DrawerHeader>
           <DrawerBody>
+            {currentSections.length !== Object.keys(sections).length && (
+              <Box mb={4}>
+                <Button
+                  leftIcon={<FaPlus />}
+                  variant={"brand"}
+                  onClick={async () => {
+                    let choices: string[] = [];
+
+                    for (const key in sectionNames) {
+                      if (!currentSections.includes(key)) {
+                        choices.push(sectionNames[key]);
+                      }
+                    }
+
+                    const selection = await PopupManager.selectAsync({
+                      title: "Segment hinzufügen",
+                      helperText:
+                        "Wähle ein Segment aus, das du hinzufügen möchtest.",
+                      choices: choices,
+                    });
+
+                    if (!selection) return;
+
+                    const key = Object.keys(sectionNames).find(
+                      (k) => sectionNames[k] === selection
+                    );
+
+                    if (!key) return;
+
+                    setCurrentSections([...currentSections, key]);
+                  }}
+                >
+                  Hinzufügen
+                </Button>
+              </Box>
+            )}
             <Reorder.Group
               as={"div"}
               style={{
@@ -243,9 +279,29 @@ export default function DashboardV2() {
                     cursor: "grab",
                     padding: 20,
                     borderRadius: "var(--chakra-radii-md)",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {sectionNames[s]}
+                  <Text>{sectionNames[s]}</Text>
+                  <IconButton
+                    aria-label={"Remove"}
+                    icon={<FaTrash />}
+                    colorScheme={"red"}
+                    onClick={async () => {
+                      if (
+                        !(await PopupManager.confirmAsync({
+                          title: "Segment entfernen",
+                          question:
+                            "Möchtest du das Segment wirklich entfernen?",
+                        }))
+                      )
+                        return;
+
+                      setCurrentSections(
+                        currentSections.filter((c) => c !== s)
+                      );
+                    }}
+                  />
                 </Reorder.Item>
               ))}
             </Reorder.Group>
