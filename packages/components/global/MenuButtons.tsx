@@ -290,7 +290,7 @@ export default function MenuButtons(props: {
                   <MenuItem icon={<FaSitemap />}>Organisationen</MenuItem>
                 </Link>
                 <MenuDivider />
-                <Link href={"/dashboard"}>
+                <Link href={"/dashboard/v2"}>
                   <MenuItem>Dashboard</MenuItem>
                 </Link>
                 <Link href={"/account/settings"}>
