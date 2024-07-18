@@ -101,7 +101,7 @@ const Footer = () => {
                 <CustomLink href={"/course"}>Kurse</CustomLink>
                 <CustomLink href={"/discovery"}>Discovery</CustomLink>
                 <CustomLink href={"/creator/studio"}>Creator Panel</CustomLink>
-                <CustomLink href={"/dashboard"}>Dashboard</CustomLink>
+                <CustomLink href={"/dashboard/v2"}>Dashboard</CustomLink>
                 <CustomLink href={"/snippets/my"}>Code Snippets</CustomLink>
               </VStack>
             </VStack>
