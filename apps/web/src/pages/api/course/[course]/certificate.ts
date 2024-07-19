@@ -16,6 +16,8 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import ObtainedCertificateModel from "@codeup/util/src/models/ObtainedCertificateModel";
 import { verify } from "jsonwebtoken";
 import puppeteer from "puppeteer";
+import { addXP, getLevelProgress } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -202,6 +204,26 @@ export default async function handleRequest(
           obtainedCertificate: true,
           obtainedCertificateId: cert_id,
         });
+
+        if (percentage === 100) {
+          const current = await getLevelProgress(user._id);
+
+          if (
+            current.transactions.find(
+              (t) =>
+                t.reason ===
+                `Zertifikat mit 100 % abschließen (zum ersten Mal) [${courseObject._id}]`
+            )
+          ) {
+            return;
+          }
+
+          addXP(
+            user._id,
+            actionMap["Zertifikat mit 100 % abschließen (zum ersten Mal)"],
+            `Zertifikat mit 100 % abschließen (zum ersten Mal) [${courseObject._id}]`
+          );
+        }
       } else {
         if (alreadyObtained) {
           await alreadyObtained.remove();

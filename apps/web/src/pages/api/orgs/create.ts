@@ -12,6 +12,8 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import OrgModel from "@codeup/util/src/models/OrgModel";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -68,6 +70,11 @@ export default async function handleRequest(
               success: true,
               org,
             });
+            addXP(
+              user._id,
+              actionMap["Organisation erstellen"],
+              "Organisation erstellen"
+            );
           } catch (e: any) {
             res.status(400).json({
               success: false,

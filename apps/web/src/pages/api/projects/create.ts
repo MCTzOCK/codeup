@@ -15,6 +15,8 @@ import simpleGit from "simple-git";
 import * as fs from "fs";
 import * as path from "path";
 import { getS3 } from "../../../global/getS3";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -62,6 +64,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       data: project,
       s3_bucket: "codeup-project-" + project._id.toString(),
     });
+    addXP(
+      user._id,
+      actionMap["Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"],
+      "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"
+    );
   } catch (e: any) {
     console.log(e);
     res.status(500).json({

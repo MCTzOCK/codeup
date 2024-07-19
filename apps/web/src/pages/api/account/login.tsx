@@ -18,6 +18,8 @@ import { authenticator } from "otplib";
 import { render } from "@react-email/render";
 import LoginEmail from "@codeup/components/emails/Login";
 import Stripe from "stripe";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -83,13 +85,15 @@ export default async function handleRequest(
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-      apiVersion: "2022-11-15"
+      apiVersion: "2022-11-15",
     });
 
-    if(user.stripeSubscriptionId && user.stripeSubscriptionId !== "") {
-      const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+    if (user.stripeSubscriptionId && user.stripeSubscriptionId !== "") {
+      const subscription = await stripe.subscriptions.retrieve(
+        user.stripeSubscriptionId
+      );
       console.log(subscription);
-      if(subscription.status !== "active") {
+      if (subscription.status !== "active") {
         user.subscription = "FREE";
         user.stripeSubscriptionId = "";
         await user.save();
@@ -97,7 +101,7 @@ export default async function handleRequest(
     }
 
     if (!user.twoFactorEnabled) {
-      await sendMail(user.email, user.firstName);
+      await sendMail(user.email, user.firstName, user._id);
       res.status(200).json({
         error: null,
         token: generateJWT(user),
@@ -115,7 +119,7 @@ export default async function handleRequest(
         user.twoFactorCode = null;
         await user.save();
 
-        await sendMail(user.email, user.firstName);
+        await sendMail(user.email, user.firstName, user._id);
 
         res.status(200).json({
           success: true,
@@ -142,11 +146,13 @@ export default async function handleRequest(
   }
 }
 
-const sendMail = async (email: string, firstName: string) => {
+const sendMail = async (email: string, firstName: string, userId: string) => {
   await sendMailV2({
     to: email,
     subject: "Angemeldet",
     html: await render(<LoginEmail firstName={firstName} />),
     text: "",
   });
+
+  addXP(userId, actionMap["Einloggen"], "Einloggen");
 };

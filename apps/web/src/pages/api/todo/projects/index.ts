@@ -13,6 +13,8 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import ToDoProjectModel from "@codeup/util/src/models/ToDoProjectModel";
 import CodeSnippet from "@codeup/util/dist/models/CodeSnippet";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -124,6 +126,8 @@ export default async function handleRequest(
             res.status(200).json({
               project: newProject,
             });
+
+            addXP(user._id, actionMap["Flow erstellen"], "Flow erstellen");
 
             return;
           }

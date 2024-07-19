@@ -12,6 +12,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import ToDoListV2Model from "@codeup/util/dist/models/ToDoListV2Model";
 import ToDoListV2ItemModel from "@codeup/util/dist/models/ToDoListV2ItemModel";
+import { addXP, getLevelProgress } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -77,6 +79,30 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       res.status(200).json({
         item: newItem,
       });
+
+      const itemCount = await ToDoListV2ItemModel.countDocuments({
+        list: list._id,
+      });
+
+      if (itemCount == 5) {
+        const p = await getLevelProgress(user._id);
+        if (
+          p.transactions.find(
+            (t) =>
+              t.reason ===
+              `Mind. 5 Einträge zu einer ToDo-Liste hinzufügen (nur neue Tasks-App) [${list._id}]`
+          )
+        ) {
+          return;
+        }
+        addXP(
+          user._id,
+          actionMap[
+            "Mind. 5 Einträge zu einer ToDo-Liste hinzufügen (nur neue Tasks-App)"
+          ],
+          `Mind. 5 Einträge zu einer ToDo-Liste hinzufügen (nur neue Tasks-App) [${list._id}]`
+        );
+      }
 
       return;
     } else if (req.method === "PUT") {

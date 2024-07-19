@@ -13,6 +13,8 @@ import Channel from "./Channel";
 import SocketRegistry from "../SocketRegistry";
 import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
 import { v4 } from "uuid";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default class EditorProjectCreateChannel extends Channel {
   constructor(socket: Socket, channelName: string) {
@@ -60,6 +62,13 @@ export default class EditorProjectCreateChannel extends Channel {
           project,
           success: true,
         });
+        addXP(
+          SocketRegistry.loggedIn[this.socket.id].id,
+          actionMap[
+            "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"
+          ],
+          "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"
+        );
       } else {
         this.emit({
           error: "Not authenticated",

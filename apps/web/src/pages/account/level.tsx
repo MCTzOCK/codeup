@@ -29,66 +29,15 @@ import {
   Tr,
   Text,
 } from "@chakra-ui/react";
+import { actionMap } from "../../global/levels";
 
 export default function Level() {
-  const actions: { name: string; xp: number }[] = [
-    {
-      name: "Einloggen",
-      xp: 1,
-    },
-    {
-      name: "Einfache Code Challenge lösen (zum ersten Mal)",
-      xp: 5,
-    },
-    {
-      name: "Mittlere Code Challenge lösen (zum ersten Mal)",
-      xp: 7,
-    },
-    {
-      name: "Schwere Code Challenge lösen (zum ersten Mal)",
-      xp: 10,
-    },
-    {
-      name: "Zertifikat mit 100 % abschließen (zum ersten Mal)",
-      xp: 25,
-    },
-    {
-      name: "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)",
-      xp: 2,
-    },
-    {
-      name: "Code-Snippet erstellen",
-      xp: 1,
-    },
-    {
-      name: "ToDo-Liste erstellen",
-      xp: 1,
-    },
-    {
-      name: "Mind. 5 Einträge zu einer ToDo-Liste hinzufügen (nur neue Tasks-App)",
-      xp: 2,
-    },
-    {
-      name: "Flow Erstellen",
-      xp: 1,
-    },
-    {
-      name: "Forum-Post erstellen",
-      xp: 4,
-    },
-    {
-      name: "Organisation erstellen",
-      xp: 1,
-    },
-    {
-      name: "Mind. 5 Mitglieder zu einer Organisation hinzufügen",
-      xp: 10,
-    },
-  ];
-
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const [actions, setActions] = React.useState<typeof actionMap>(actionMap);
+
   const [levelError, setLevelError] = React.useState<string | null>(null);
 
   const [levelProgress, setLevelProgress] = React.useState<{
@@ -220,13 +169,13 @@ export default function Level() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {actions
-                    .sort((a, b) => a.xp - b.xp)
+                  {Object.keys(actions)
+                    .sort((a, b) => (actions as any)[a] - (actions as any)[b])
                     .map((action, i) => (
-                      <Tr key={action.name}>
+                      <Tr key={(actions as any)[action as any]}>
                         <Td>#{i + 1}</Td>
-                        <Td>{action.name}</Td>
-                        <Td>{action.xp}</Td>
+                        <Td>{action}</Td>
+                        <Td>{(actions as any)[action as any]}</Td>
                       </Tr>
                     ))}
                 </Tbody>

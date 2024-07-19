@@ -12,6 +12,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import ToDoListV2Model from "@codeup/util/dist/models/ToDoListV2Model";
 import ToDoListV2ItemModel from "@codeup/util/dist/models/ToDoListV2ItemModel";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -81,6 +83,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       res.status(200).json({
         list,
       });
+
+      addXP(
+        user._id,
+        actionMap["ToDo-Liste erstellen"],
+        "ToDo-Liste erstellen"
+      );
     } else if (req.method === "DELETE") {
       const { id } = req.query;
 

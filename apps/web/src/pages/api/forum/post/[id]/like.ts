@@ -12,6 +12,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { decode, verify } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import ForumPostModel from "@codeup/util/src/models/ForumPostModel";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../../../global/levels";
 
 export default async function handler(
   req: NextApiRequest,
@@ -68,10 +70,13 @@ export default async function handler(
       return;
     }
 
+    let i = -1;
+
     if (post.likes.includes(user._id)) {
       post.likes.splice(post.likes.indexOf(user._id), 1);
     } else {
       post.likes.push(user._id);
+      i = 1;
     }
 
     await post.save();
@@ -79,6 +84,10 @@ export default async function handler(
     res.status(200).json({
       post,
     });
+
+    if (i === 1) {
+      addXP(user._id, actionMap["Forum-Post liken"], "Forum-Post liken");
+    }
   } catch (e) {
     res.status(500).json({
       error: e,

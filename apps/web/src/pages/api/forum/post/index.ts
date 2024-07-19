@@ -14,6 +14,8 @@ import UserModel from "@codeup/util/src/models/UserModel";
 import ForumPostModel from "@codeup/util/src/models/ForumPostModel";
 import ogs from "open-graph-scraper";
 import updateForumBadges from "@codeup/util/src/updateForumBadges";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../../global/levels";
 
 export default async function handler(
   req: NextApiRequest,
@@ -88,6 +90,11 @@ export default async function handler(
         post,
       });
       await updateForumBadges(user.username);
+      addXP(
+        user._id,
+        actionMap["Forum-Post erstellen"],
+        "Forum-Post erstellen"
+      );
       return;
     }
 
@@ -105,6 +112,7 @@ export default async function handler(
     });
 
     await updateForumBadges(user.username);
+    addXP(user._id, actionMap["Forum-Post erstellen"], "Forum-Post erstellen");
   } catch (e) {
     res.status(500).json({
       error: e,

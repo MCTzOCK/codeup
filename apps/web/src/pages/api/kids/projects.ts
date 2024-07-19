@@ -13,6 +13,8 @@ import mongoConnect from "@codeup/util/dist/mongo";
 import CodeUpKidsProjectModel from "@codeup/util/src/models/CodeUpKidsProjectModel";
 import UserModel from "@codeup/util/dist/models/UserModel";
 import jwt from "jsonwebtoken";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -123,6 +125,13 @@ export default async function handleRequest(
         project,
         success: true,
       });
+      addXP(
+        user._id,
+        actionMap[
+          "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"
+        ],
+        "Projekt erstellen (CodeUp-Kids, IDE, Editor oder Dev-Suite)"
+      );
       return;
     }
 

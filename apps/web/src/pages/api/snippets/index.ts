@@ -14,6 +14,8 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import CodeSnippet from "@codeup/util/src/models/CodeSnippet";
 import CodeUpKidsProjectModel from "@codeup/util/dist/models/CodeUpKidsProjectModel";
+import { addXP } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -119,6 +121,12 @@ export default async function handleRequest(
         });
 
         res.status(200).json({ snippet });
+
+        addXP(
+          user._id,
+          actionMap["Code-Snippet erstellen"],
+          "Code-Snippet erstellen"
+        );
       } else if (req.method === "DELETE") {
         if (req.query.id) {
           const snippet = await CodeSnippet.findById(req.query.id);

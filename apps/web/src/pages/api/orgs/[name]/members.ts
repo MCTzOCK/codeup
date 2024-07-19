@@ -13,6 +13,8 @@ import mongoConnect from "@codeup/util/src/mongo";
 import jwt from "jsonwebtoken";
 import UserModel from "@codeup/util/src/models/UserModel";
 import OrgModel from "@codeup/util/src/models/OrgModel";
+import { addXP, getLevelProgress } from "@codeup/util/dist/userworkflow/xp";
+import { actionMap } from "../../../../global/levels";
 
 export default async function handleRequest(
   req: NextApiRequest,
@@ -150,6 +152,25 @@ export default async function handleRequest(
             res.status(200).json({
               success: true,
             });
+
+            if (org.members.length === 5) {
+              const current = await getLevelProgress(user._id);
+              if (
+                current.transactions.find(
+                  (t) =>
+                    t.reason ===
+                    `Mind. 5 Mitglieder zu einer Organisation hinzufügen [${org._id}]`
+                )
+              ) {
+                return;
+              }
+
+              addXP(
+                user._id,
+                actionMap["Organisation erstellen"],
+                `Mind. 5 Mitglieder zu einer Organisation hinzufügen [${org._id}]`
+              );
+            }
           } catch (e) {
             res.status(400).json({
               success: false,
