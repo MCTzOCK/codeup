@@ -110,7 +110,7 @@ export default function Level() {
                 max={levelProgress ? levelProgress.xpNeeded : 1}
                 variant={"brand"}
                 rounded={"md"}
-                flex={1}
+                w={"100%"}
               />
             </Flex>
             <Text fontSize={"lg"}>
