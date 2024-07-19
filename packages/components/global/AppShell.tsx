@@ -34,7 +34,8 @@ export default function AppShell(props: {
   sub_pages: {
     text: string;
     icon: any;
-    href: string;
+    href?: string;
+    onClick?: () => void;
   }[];
 }) {
   const router = useRouter();
@@ -88,13 +89,23 @@ export default function AppShell(props: {
                 .map((page) => (
                   <>
                     <Button
-                      variant={router.asPath === page.href ? "brand" : "ghost"}
+                      variant={
+                        router.asPath === (page.href || "codeup.undefined")
+                          ? "brand"
+                          : "ghost"
+                      }
                       leftIcon={page.icon}
                       textAlign={"left"}
                       alignItems={"center"}
                       justifyContent={"flex-start"}
                       size={"lg"}
-                      onClick={() => router.push(page.href)}
+                      onClick={() => {
+                        if (page.href) {
+                          router.push(page.href);
+                        } else if (page.onClick) {
+                          page.onClick();
+                        }
+                      }}
                     >
                       {page.text}
                     </Button>

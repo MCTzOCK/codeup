@@ -9,22 +9,20 @@
  */
 import { useEffect } from "react";
 import useUserInfo from "./useUserInfo";
+import { useLoggedIn } from "./useLoggedIn";
 
 export default function useUserLoggedInRedirect(options: {
   allowAnonymous?: boolean;
   redirectTo?: string;
   redirectToLogin?: boolean;
 }) {
-  const userInfo = useUserInfo();
+  const { loaded, loggedIn } = useLoggedIn();
 
   useEffect(() => {
-    if (userInfo.id !== "") {
-      return;
-    }
+    if (!loaded) return;
 
-    if (options.redirectToLogin) {
-      window.location.href =
-        "/account/login?redirect=" + encodeURIComponent(window.location.href);
+    if (!loggedIn && !options.allowAnonymous) {
+      window.location.href = "/#login";
     }
-  }, [userInfo]);
+  }, [loaded, loggedIn]);
 }
