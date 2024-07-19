@@ -54,7 +54,14 @@ export function useLoggedIn(): {
 
                 if (r.status === 200) {
                   setLoggedIn(true);
-                  setUserInfo(r.payload.data);
+                  if (process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true") {
+                    setUserInfo({
+                      ...r.payload.data,
+                      subscription: "PRO",
+                    });
+                  } else {
+                    setUserInfo(r.payload.data);
+                  }
                 } else {
                   setLoggedIn(false);
                 }
@@ -63,7 +70,14 @@ export function useLoggedIn(): {
 
               token = newToken;
               setLoggedIn(true);
-              setUserInfo(res.payload.data);
+              if (process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true") {
+                setUserInfo({
+                  ...res.payload.data,
+                  subscription: "PRO",
+                });
+              } else {
+                setUserInfo(res.payload.data);
+              }
             } else {
               token = null;
               setLoggedIn(false);
