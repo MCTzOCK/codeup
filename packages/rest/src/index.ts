@@ -13,6 +13,7 @@ import {
   createTestAccount,
   deleteAccount,
   getDashboardConfig,
+  getLevelProgress,
   getUserById,
   getUserByName,
   login,
@@ -422,6 +423,7 @@ const REST = {
     getUserByName,
     getDashboardConfig,
     setDashboardConfig,
+    getLevelProgress,
   },
   ToDo: {
     getMyLists,

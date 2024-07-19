@@ -79,6 +79,11 @@ export const getLevelProgress = async (
   level: number;
   xp: number;
   xpNeeded: number;
+  transactions: {
+    xp: number;
+    reason: string;
+    createdAt: Date;
+  }[];
 }> => {
   try {
     const userXpMod = await UserXPModel.findOne({ user: userId });
@@ -88,6 +93,7 @@ export const getLevelProgress = async (
         level: userXpMod.level,
         xp: userXpMod.xp,
         xpNeeded: (userXpMod.level + 1) ** 3,
+        transactions: userXpMod.transactions,
       };
     }
 
@@ -95,12 +101,14 @@ export const getLevelProgress = async (
       level: 0,
       xp: 0,
       xpNeeded: 1,
+      transactions: [],
     };
   } catch {
     return {
       level: 0,
       xp: 0,
       xpNeeded: 1,
+      transactions: [],
     };
   }
 };

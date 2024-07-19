@@ -191,3 +191,11 @@ export async function setDashboardConfig(
     },
   });
 }
+
+export async function getLevelProgress(token: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/account/xp/current",
+    method: "GET",
+    token: token,
+  });
+}

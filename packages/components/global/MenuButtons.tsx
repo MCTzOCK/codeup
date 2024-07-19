@@ -26,6 +26,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Progress,
   Stack,
   StackDivider,
   Text,
@@ -57,6 +58,35 @@ export default function MenuButtons(props: {
 }) {
   const { loggedIn, userInfo } = useLoggedIn();
   const router = useRouter();
+
+  const [levelError, setLevelError] = React.useState<string | null>(null);
+
+  const [levelProgress, setLevelProgress] = React.useState<{
+    level: number;
+    xp: number;
+    xpNeeded: number;
+    transactions: {
+      xp: number;
+      reason: string;
+      createdAt: Date;
+    }[];
+  } | null>(null);
+
+  const reloadLevel = async () => {
+    const res = await REST.Account.getLevelProgress(
+      AccountManager.getActiveToken()
+    );
+
+    if (res.status === 200) {
+      setLevelProgress(res.payload.data);
+    } else {
+      setLevelError(res.payload.error);
+    }
+  };
+
+  React.useEffect(() => {
+    reloadLevel();
+  }, []);
 
   return (
     <>
@@ -110,6 +140,35 @@ export default function MenuButtons(props: {
                     <Badge colorScheme={"brand"}>PRO</Badge>
                   ) : null}
                 </Center>
+                <MenuDivider />
+                {levelProgress ? (
+                  <>
+                    <MenuItem w={"100%"} as={"a"} href={"/account/level"}>
+                      <Box w={"100%"}>
+                        <Text textAlign={"center"} fontWeight={"bold"}>
+                          Level {levelProgress.level}
+                        </Text>
+                        <Progress
+                          rounded={"md"}
+                          value={levelProgress.xp}
+                          max={levelProgress.xpNeeded}
+                          variant={"brand"}
+                        />
+                        <Text textAlign={"center"}>
+                          {levelProgress.xp} / {levelProgress.xpNeeded} XP
+                        </Text>
+                      </Box>
+                    </MenuItem>
+                  </>
+                ) : (
+                  <>
+                    {levelError ? (
+                      <Text textAlign={"center"}>{levelError}</Text>
+                    ) : (
+                      <Text textAlign={"center"}>Level wird geladen...</Text>
+                    )}
+                  </>
+                )}
                 <MenuDivider />
                 {userInfo.subscription === "FREE" && userInfo.role !== "admin" && (
                   <MenuItem
