@@ -184,7 +184,7 @@ export default function Level() {
                     new Date(a.createdAt).getTime()
                 )
                 .map((t, i) => (
-                  <Box key={i} bg={"#333"} p={2} rounded={"md"} mt={2}>
+                  <Box key={i} bg={"gray.500"} p={2} rounded={"md"} mt={2}>
                     <Text>
                       <chakra.b color={"brand.500"}>{t.xp}</chakra.b> XP durch{" "}
                       <chakra.b color={"brand.500"}>{t.reason}</chakra.b> am{" "}
