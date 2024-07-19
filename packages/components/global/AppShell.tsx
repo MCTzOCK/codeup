@@ -36,6 +36,7 @@ export default function AppShell(props: {
     icon: any;
     href?: string;
     onClick?: () => void;
+    top?: boolean;
   }[];
 }) {
   const router = useRouter();
@@ -86,6 +87,7 @@ export default function AppShell(props: {
                   page.text.toLowerCase().includes(query.toLowerCase())
                 )
                 .sort((a, b) => a.text.localeCompare(b.text))
+                .sort((a, b) => (a.top ? -1 : 1))
                 .map((page) => (
                   <>
                     <Button

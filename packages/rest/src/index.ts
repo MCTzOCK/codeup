@@ -316,6 +316,12 @@ import {
   Deployment,
   deleteProject as deleteProjectE,
 } from "./api/Projects";
+import {
+  createCompletion,
+  deleteAIChat,
+  getAIChats,
+  getAIQuota,
+} from "./api/AI";
 
 const REST = {
   Ask: {
@@ -405,6 +411,12 @@ const REST = {
   },
   Landingpage: {
     getTestimonials,
+  },
+  AI: {
+    createCompletion,
+    deleteAIChat,
+    getAIChats,
+    getAIQuota,
   },
   Account: {
     register,

@@ -133,7 +133,24 @@ export const defaultMdOpts = {
       component: Code,
       props: {
         fontSize: "lg",
+        overflowX: "auto",
       },
+    },
+    pre: {
+      component: (props: any) => (
+        <>
+          <pre
+            style={{
+              padding: "16px",
+              borderRadius: "8px",
+              overflowX: "auto",
+            }}
+          >
+            {props.children}
+          </pre>
+        </>
+      ),
+      props: {},
     },
   },
 };
