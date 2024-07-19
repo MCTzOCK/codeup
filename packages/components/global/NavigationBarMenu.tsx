@@ -32,6 +32,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import { FaCaretDown, FaDollarSign, FaSearch } from "react-icons/fa";
 import DividerWithText from "./DividerWithText";
 import { useRouter } from "next/router";
+import { FaRobot } from "react-icons/fa6";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -153,12 +154,23 @@ export default function NavigationBarMenu(props: {
       <Button
         variant={"ghost"}
         size={"lg"}
+        display={"none"}
         onClick={() => {
           window.dispatchEvent(new CustomEvent("codeup::open_search"));
         }}
-        display={["none", "initial"]}
+        //display={["none", "initial"]}
       >
         Suche
+      </Button>
+      <Button
+        variant={"ghost"}
+        size={"lg"}
+        onClick={() => {
+          router.push("/ai");
+        }}
+        leftIcon={<FaRobot />}
+      >
+        AI-Assistent
       </Button>
     </>
   );
