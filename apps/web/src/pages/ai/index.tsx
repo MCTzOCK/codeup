@@ -47,6 +47,13 @@ export default function Index() {
     allowAnonymous: false,
   });
 
+  const [quota, setQuota] = React.useState<{
+    _id: string;
+    user: string;
+    available: number;
+    resetsAt: string;
+  } | null>(null);
+
   const { userInfo } = useLoggedIn();
 
   const [loading, setLoading] = React.useState(false);
@@ -76,9 +83,56 @@ export default function Index() {
     }
   };
 
+  const reloadQuota = async () => {
+    const res = await REST.AI.getAIQuota(AccountManager.getActiveToken());
+    if (res.status !== 200) {
+      await PopupManager.alertAsync({
+        title: "Fehler",
+        description:
+          "Die KI-Quota konnte nicht geladen werden: " + res.payload.error,
+      });
+      return;
+    }
+
+    setQuota(res.payload.data);
+  };
+
   React.useEffect(() => {
     reloadChats();
+    reloadQuota();
   }, []);
+
+  const createMessage = async (msg: string) => {
+    setLoading(true);
+
+    const res = await REST.AI.createCompletion({
+      message: msg,
+      token: AccountManager.getActiveToken(),
+      id: currentChat ? currentChat._id : undefined,
+    });
+
+    if (res.status !== 200) {
+      setLoading(false);
+      await PopupManager.alertAsync({
+        title: "Fehler",
+        description:
+          "Die Anfrage konnte nicht abgeschickt werden: " + res.payload.error,
+      });
+      return;
+    }
+
+    if (!currentChat) {
+      setCurrentChat(res.payload.data);
+    }
+
+    await reloadChats();
+    await reloadQuota();
+
+    (document.querySelector("input[name=message]") as HTMLInputElement).value =
+      "";
+
+    setLoading(false);
+  };
 
   React.useEffect(() => {
     const e = document.getElementById("ai-chat-ctn") as HTMLDivElement;
@@ -190,6 +244,9 @@ export default function Index() {
                     borderColor={"brand.500"}
                     p={2}
                     cursor={"pointer"}
+                    onClick={() => {
+                      createMessage("Gib mir eine Projektidee!");
+                    }}
                   >
                     <Text fontWeight={"bold"}>Gib mir eine Projektidee!</Text>
                   </Box>
@@ -199,6 +256,9 @@ export default function Index() {
                     borderColor={"brand.500"}
                     p={2}
                     cursor={"pointer"}
+                    onClick={() => {
+                      createMessage("Was ist React?");
+                    }}
                   >
                     <Text fontWeight={"bold"}>Was ist React?</Text>
                   </Box>
@@ -208,6 +268,9 @@ export default function Index() {
                     borderColor={"brand.500"}
                     p={2}
                     cursor={"pointer"}
+                    onClick={() => {
+                      createMessage("Gib mir die Definition einer REST-API.");
+                    }}
                   >
                     <Text fontWeight={"bold"}>
                       Gib mir die Definition einer REST-API.
@@ -219,6 +282,11 @@ export default function Index() {
                     borderColor={"brand.500"}
                     p={2}
                     cursor={"pointer"}
+                    onClick={() => {
+                      createMessage(
+                        "Welche Eigenschaften hat ein Algorithmus?"
+                      );
+                    }}
                   >
                     <Text fontWeight={"bold"}>
                       Welche Eigenschaften hat ein Algorithmus?
@@ -235,37 +303,7 @@ export default function Index() {
 
                     if (!msg) return;
 
-                    setLoading(true);
-
-                    const res = await REST.AI.createCompletion({
-                      message: msg,
-                      token: AccountManager.getActiveToken(),
-                      id: currentChat ? currentChat._id : undefined,
-                    });
-
-                    if (res.status !== 200) {
-                      await PopupManager.alertAsync({
-                        title: "Fehler",
-                        description:
-                          "Die Anfrage konnte nicht abgeschickt werden: " +
-                          res.payload.error,
-                      });
-                      return;
-                    }
-
-                    if (!currentChat) {
-                      setCurrentChat(res.payload.data);
-                    }
-
-                    await reloadChats();
-
-                    (
-                      document.querySelector(
-                        "input[name=message]"
-                      ) as HTMLInputElement
-                    ).value = "";
-
-                    setLoading(false);
+                    createMessage(msg);
                   }}
                   style={{
                     width: "100%",
@@ -290,6 +328,15 @@ export default function Index() {
                     />
                   </HStack>
                 </form>
+                <Text fontSize={"sm"} color={"gray.400"}>
+                  {quota
+                    ? `Du hast noch ${
+                        quota.available
+                      } Anfragen übrig. Du bekommst am ${new Date(
+                        quota.resetsAt
+                      ).toLocaleString()} 10 weitere Anfragen!`
+                    : "Lade..."}
+                </Text>
               </VStack>
             </Box>
           </Flex>

@@ -12,6 +12,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import UserAIChatModel from "@codeup/util/dist/models/UserAIChatModel";
 import OpenAI from "openai";
+import UserAIQuotaModel from "@codeup/util/dist/models/UserAIQuotaModel";
+import moment from "moment/moment";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY as string,
@@ -70,6 +72,16 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           return;
         }
 
+        if (user.role !== "admin") {
+          if (!(await checkQuota(user._id))) {
+            res.status(400).json({
+              status: 400,
+              error: "No quota available",
+            });
+            return;
+          }
+        }
+
         const response = await openai.chat.completions.create({
           model: "gpt-4o-mini",
           messages: [
@@ -108,6 +120,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         });
 
         return;
+      }
+      if (user.role !== "admin") {
+        if (!(await checkQuota(user._id))) {
+          res.status(400).json({
+            status: 400,
+            error: "No quota available",
+          });
+          return;
+        }
       }
 
       const chat = await UserAIChatModel.create({
@@ -165,3 +186,38 @@ const defaultMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       "Dein Name ist 'CodeUp-Assistent' und du bist dafür da, mir bei Fragen rund um die Softwareentwicklung zu helfen. Versuche möglichst einfach zu antworten!",
   },
 ];
+
+async function checkQuota(userId: string): Promise<boolean> {
+  const quota = await UserAIQuotaModel.findOne({
+    user: userId,
+  });
+
+  if (!quota) {
+    const resetsAt = moment().add(1, "day").startOf("day").toDate();
+    await UserAIQuotaModel.create({
+      user: userId,
+      resetsAt: resetsAt,
+      available: 19,
+    });
+    return true;
+  }
+
+  if (quota.available <= 0) {
+    if (new Date(quota.resetsAt).getTime() < new Date().getTime()) {
+      if (new Date(quota.lastReset).getDate() !== new Date().getDate()) {
+        quota.available = 19;
+        quota.lastReset = new Date();
+        quota.resetsAt = moment().add(1, "day").startOf("day").toDate();
+        await quota.save();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  quota.available -= 1;
+  await quota.save();
+
+  return true;
+}

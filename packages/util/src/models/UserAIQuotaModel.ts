@@ -31,6 +31,11 @@ const UserAIQuotaModel = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  lastReset: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
 });
 
 export default mongoose.models?.UserAIQuota ||
