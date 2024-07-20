@@ -161,7 +161,11 @@ export default function Index() {
                     rounded={"md"}
                     p={2}
                     onClick={() => {
-                      router.push(page.href);
+                      if (page.href.endsWith("/editor/professional")) {
+                        window.location.assign(page.href);
+                      } else {
+                        router.push(page.href);
+                      }
                     }}
                     cursor={"pointer"}
                   >

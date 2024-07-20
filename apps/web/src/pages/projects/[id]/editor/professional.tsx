@@ -101,7 +101,7 @@ export default function Professional() {
     });
   }, [router, router.query, router.query.id]);
 
-  const reloadFileTree = async () => {
+  const reloadFileTree = async (updateExistingWC?: boolean) => {
     const res = await REST.Projects.GitOps.tree(
       AccountManager.getActiveToken(),
       router.query.id as string,
@@ -115,7 +115,13 @@ export default function Professional() {
         type: "directory",
         children: res.payload.tree,
       });
-      await bootWebContainer(res.payload.data);
+      if (!updateExistingWC) {
+        await bootWebContainer(res.payload.data);
+      } else {
+        if (webContainer) {
+          await webContainer.mount(res.payload.data);
+        }
+      }
     } else {
       await PopupManager.alertAsync({
         title: "Fehler",
@@ -169,8 +175,11 @@ export default function Professional() {
       console.log(url);
       setDevServerURL(url);
     });
-    webContainer.fs.watch("package.json", changeListener);
-    webContainer.fs.watch("package-lock.json", changeListener);
+    /*webContainer.fs.watch("package.json", changeListener);
+    webContainer.fs.watch("package-lock.json", changeListener);*/
+    webContainer.fs.watch("/", (event, filename) => {
+      changeListener(event, filename);
+    });
     //webContainer.fs.watch("/", { recursive: true }, changeListener);
   }, [isBootstrapping]);
 
@@ -191,7 +200,7 @@ export default function Professional() {
         content
       );
 
-      reloadFileTree();
+      await reloadFileTree();
     }
   };
 
