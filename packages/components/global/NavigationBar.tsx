@@ -404,7 +404,13 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
             />
           </InputGroup>
         </Box>
-        <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} gap={6}>
+        <Grid
+          templateColumns={[
+            "repeat(auto-fit, minmax(300px, 1fr))",
+            "repeat(auto-fit, minmax(700px, 1fr))",
+          ]}
+          gap={6}
+        >
           <GridItem
             borderStyle={"dashed"}
             borderRadius={"6px"}
