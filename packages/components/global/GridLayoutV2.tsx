@@ -113,18 +113,13 @@ export default function GridLayoutV2(props: IProps) {
       )}
       <Flex>
         <Grid
-          templateColumns={[
-            "repeat(1, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-            "repeat(4, 1fr)",
-          ]}
+          templateColumns={"repeat(auto-fit, minmax(300px, 1fr));"}
           gap={6}
           p={4}
+          paddingRight={[4, 4, 24]}
+          paddingLeft={[4, 4, 24]}
           mt={"2rem"}
-          maxW={["100%", "100%", "50%"]}
+          //maxW={["100%", "100%", "50%"]}
           w={"100%"}
         >
           {props.entries

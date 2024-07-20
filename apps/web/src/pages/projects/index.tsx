@@ -15,7 +15,7 @@ import { IProject } from "../../types/IProject";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
-import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 import {
   FaClock,
   FaCode,
