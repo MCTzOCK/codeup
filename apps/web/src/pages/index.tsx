@@ -110,7 +110,7 @@ export default function Home() {
                   color={"black"}
                   onClick={() => {
                     if (loggedIn) {
-                      router.push("/dashboard");
+                      router.push("/dashboard/v2");
                     } else {
                       window.dispatchEvent(
                         new CustomEvent("codeup::open_login")
