@@ -227,252 +227,226 @@ export default function Professional() {
                   gap: "0.75rem",
                 }}
               >
-                <Panel
-                  defaultSize={25}
-                  minSize={25}
-                  maxSize={70}
-                  style={{
-                    padding: "var(--chakra-space-2)",
-                    borderRadius: "var(--chakra-radii-md)",
-                  }}
-                >
-                  <PanelGroup
-                    autoSaveId={"editor-panel-group-left-cs-ex"}
-                    direction={"vertical"}
-                    style={{
-                      gap: "0.75rem",
-                    }}
-                  >
-                    <Panel defaultSize={50} minSize={25} maxSize={70}>
-                      <EditorFileExplorer
-                        projectName={project!.name}
-                        fileTree={simpleFileTree}
-                        openFile={(path) => {
-                          setOpenFile(path);
-                          console.log(path.split("/"));
-                          const content = findEntryByPath(
-                            simpleFileTree,
-                            path.split("/")
-                          )!.content;
-                          console.log(content);
-                          setOpenFileContent(content);
-                        }}
-                        deleteFile={async (path) => {
-                          if (
-                            path.startsWith(".git") ||
-                            path === "project.codeup.json"
-                          ) {
-                            await PopupManager.alertAsync({
-                              title: "Datei löschen",
-                              description: `Die Datei ${path} kann nicht gelöscht werden`,
-                            });
-                            return;
-                          }
-                          if (
-                            !(await PopupManager.confirmAsync({
-                              title: "Datei löschen",
-                              question: `Möchtest du die Datei ${path} wirklich löschen?`,
-                            }))
-                          )
-                            return;
+                <Panel defaultSize={25} minSize={25} maxSize={75}>
+                  <Tabs variant={"brand"} colorScheme={"brand"}>
+                    <TabList>
+                      <Tab>Explorer</Tab>
+                      <Tab>Terminal</Tab>
+                      <Tab>Snippets</Tab>
+                      <Tab>Vorschau</Tab>
+                    </TabList>
+                    <TabPanels>
+                      <TabPanel>
+                        <EditorFileExplorer
+                          projectName={project!.name}
+                          fileTree={simpleFileTree}
+                          openFile={(path) => {
+                            setOpenFile(path);
+                            console.log(path.split("/"));
+                            const content = findEntryByPath(
+                              simpleFileTree,
+                              path.split("/")
+                            )!.content;
+                            console.log(content);
+                            setOpenFileContent(content);
+                          }}
+                          deleteFile={async (path) => {
+                            if (
+                              path.startsWith(".git") ||
+                              path === "project.codeup.json"
+                            ) {
+                              await PopupManager.alertAsync({
+                                title: "Datei löschen",
+                                description: `Die Datei ${path} kann nicht gelöscht werden`,
+                              });
+                              return;
+                            }
+                            if (
+                              !(await PopupManager.confirmAsync({
+                                title: "Datei löschen",
+                                question: `Möchtest du die Datei ${path} wirklich löschen?`,
+                              }))
+                            )
+                              return;
 
-                          const res = await REST.Projects.Files.delete(
-                            AccountManager.getActiveToken(),
-                            router.query.id as string,
-                            path
-                          );
+                            const res = await REST.Projects.Files.delete(
+                              AccountManager.getActiveToken(),
+                              router.query.id as string,
+                              path
+                            );
 
-                          if (res.status === 200) {
-                            await reloadFileTree();
-                          } else {
-                            await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description: res.payload.error,
-                            });
-                          }
-                        }}
-                        createDirectory={async (path) => {
-                          const res = await REST.Projects.Files.createFolder(
-                            AccountManager.getActiveToken(),
-                            router.query.id as string,
-                            path
-                          );
+                            if (res.status === 200) {
+                              await reloadFileTree();
+                            } else {
+                              await PopupManager.alertAsync({
+                                title: "Fehler",
+                                description: res.payload.error,
+                              });
+                            }
+                          }}
+                          createDirectory={async (path) => {
+                            const res = await REST.Projects.Files.createFolder(
+                              AccountManager.getActiveToken(),
+                              router.query.id as string,
+                              path
+                            );
 
-                          if (res.status === 200) {
-                            await reloadFileTree();
-                          } else {
-                            await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description: res.payload.error,
-                            });
-                          }
-                        }}
-                        createFile={async (path) => {
-                          const res = await REST.Projects.Files.setFileContent(
-                            AccountManager.getActiveToken(),
-                            router.query.id as string,
-                            path,
-                            ""
-                          );
+                            if (res.status === 200) {
+                              await reloadFileTree();
+                            } else {
+                              await PopupManager.alertAsync({
+                                title: "Fehler",
+                                description: res.payload.error,
+                              });
+                            }
+                          }}
+                          createFile={async (path) => {
+                            const res =
+                              await REST.Projects.Files.setFileContent(
+                                AccountManager.getActiveToken(),
+                                router.query.id as string,
+                                path,
+                                ""
+                              );
 
-                          if (res.status === 200) {
-                            await reloadFileTree();
-                          } else {
-                            await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description: res.payload.error,
-                            });
-                          }
-                        }}
-                        renameFile={async (path, newName) => {
-                          if (
-                            path.startsWith(".git") ||
-                            path === "project.codeup.json"
-                          ) {
-                            await PopupManager.alertAsync({
-                              title: "Datei umbenennen",
-                              description: `Die Datei ${path} kann nicht umbenannt werden`,
-                            });
-                            return;
-                          }
+                            if (res.status === 200) {
+                              await reloadFileTree();
+                            } else {
+                              await PopupManager.alertAsync({
+                                title: "Fehler",
+                                description: res.payload.error,
+                              });
+                            }
+                          }}
+                          renameFile={async (path, newName) => {
+                            if (
+                              path.startsWith(".git") ||
+                              path === "project.codeup.json"
+                            ) {
+                              await PopupManager.alertAsync({
+                                title: "Datei umbenennen",
+                                description: `Die Datei ${path} kann nicht umbenannt werden`,
+                              });
+                              return;
+                            }
 
-                          const res = await REST.Projects.Files.rename(
-                            AccountManager.getActiveToken(),
-                            router.query.id as string,
-                            path,
-                            newName
-                          );
+                            const res = await REST.Projects.Files.rename(
+                              AccountManager.getActiveToken(),
+                              router.query.id as string,
+                              path,
+                              newName
+                            );
 
-                          if (res.status === 200) {
-                            await reloadFileTree();
-                          } else {
-                            await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description: res.payload.error,
-                            });
-                          }
-                        }}
-                      />
-                    </Panel>
-                    <PanelResizeHandle
-                      style={{
-                        cursor: "col-resize",
-                        backgroundColor: "#2C2E33",
-                        border: "1px solid gray.800",
-                        borderRadius: "0.25rem",
-                        width: "100%",
-                        height: "0.5rem",
-                      }}
-                    />
-                    <Panel defaultSize={50} minSize={30} maxSize={100}>
-                      <Tabs variant={"brand"} colorScheme={"brand"}>
-                        <TabList>
-                          <Tab>Terminal</Tab>
-                          <Tab>Snippets</Tab>
-                          <Tab>Vorschau</Tab>
-                        </TabList>
-                        <TabPanels>
-                          <TabPanel>
-                            <ButtonGroup>
-                              <Button
-                                variant={"brand"}
-                                leftIcon={<FaPlay />}
-                                onClick={() => {
-                                  if (!wr) return;
-                                  const runCommand = JSON.parse(
-                                    (
-                                      findEntryByPath(simpleFileTree, [
-                                        "project.codeup.json",
-                                      ]) as entry
-                                    ).content as string
-                                  ).run;
-                                  wr.write(runCommand + "\n");
-                                }}
-                              >
-                                Starten
-                              </Button>
-
-                              <Button
-                                colorScheme={"red"}
-                                leftIcon={<FaSkullCrossbones />}
-                                onClick={() => {
-                                  if (!wr) return;
-                                  // send ctrl + c
-                                  wr.write("\x03");
-                                }}
-                              >
-                                Stoppen
-                              </Button>
-                            </ButtonGroup>
-                            <div
-                              id={"terminal"}
-                              style={{
-                                overflow: "auto",
-                                height: "100%",
-                                width: "100%",
-                                backgroundColor: "#141517",
-                              }}
-                            ></div>
-                          </TabPanel>
-                          <TabPanel>
-                            <SnippetList />
-                          </TabPanel>
-                          <TabPanel
-                            height={"100%"}
-                            minH={"30vh"}
-                            overflow={"hidden"}
+                            if (res.status === 200) {
+                              await reloadFileTree();
+                            } else {
+                              await PopupManager.alertAsync({
+                                title: "Fehler",
+                                description: res.payload.error,
+                              });
+                            }
+                          }}
+                        />
+                      </TabPanel>
+                      <TabPanel>
+                        <ButtonGroup mb={4}>
+                          <Button
+                            variant={"brand"}
+                            leftIcon={<FaPlay />}
+                            onClick={() => {
+                              if (!wr) return;
+                              const runCommand = JSON.parse(
+                                (
+                                  findEntryByPath(simpleFileTree, [
+                                    "project.codeup.json",
+                                  ]) as entry
+                                ).content as string
+                              ).run;
+                              wr.write(runCommand + "\n");
+                            }}
                           >
-                            <Button
-                              variant={"brand"}
-                              mb={4}
-                              onClick={async () => {
-                                PopupManager.alert({
-                                  title: "Vorschau",
-                                  description: (
-                                    <>
-                                      <iframe
-                                        src={devServerURL}
-                                        id={"preview-dev-server-if"}
-                                        width={"100%"}
-                                        height={"100%"}
-                                        style={{
-                                          minHeight: "90vh",
-                                        }}
-                                      />
-                                    </>
-                                  ),
-                                  customSize: "full",
-                                });
-                              }}
-                            >
-                              Maximieren
-                            </Button>
-                            <Input
-                              type={"text"}
-                              placeholder={"URL"}
-                              value={devServerURL}
-                              onChange={(e) => {
-                                setDevServerURL(e.currentTarget.value);
-                              }}
-                              mb={2}
-                            />
-                            <iframe
-                              src={devServerURL}
-                              id={"preview-dev-server-if"}
-                              width={"100%"}
-                              style={{
-                                minHeight: "600px",
-                                maxHeight: "100%",
-                                display: "block",
-                                border: "none",
-                                overflow: "hidden",
-                              }}
-                            />
-                          </TabPanel>
-                        </TabPanels>
-                      </Tabs>
-                    </Panel>
-                  </PanelGroup>
+                            Starten
+                          </Button>
+
+                          <Button
+                            colorScheme={"red"}
+                            leftIcon={<FaSkullCrossbones />}
+                            onClick={() => {
+                              if (!wr) return;
+                              // send ctrl + c
+                              wr.write("\x03");
+                            }}
+                          >
+                            Stoppen
+                          </Button>
+                        </ButtonGroup>
+                        <div
+                          id={"terminal"}
+                          style={{
+                            overflow: "auto",
+                            height: "100%",
+                            width: "100%",
+                            backgroundColor: "#141517",
+                          }}
+                        ></div>
+                      </TabPanel>
+                      <TabPanel>
+                        <SnippetList />
+                      </TabPanel>
+                      <TabPanel
+                        height={"100%"}
+                        minH={"30vh"}
+                        overflow={"hidden"}
+                      >
+                        <Button
+                          variant={"brand"}
+                          mb={4}
+                          onClick={async () => {
+                            PopupManager.alert({
+                              title: "Vorschau",
+                              description: (
+                                <>
+                                  <iframe
+                                    src={devServerURL}
+                                    id={"preview-dev-server-if"}
+                                    width={"100%"}
+                                    height={"100%"}
+                                    style={{
+                                      minHeight: "90vh",
+                                    }}
+                                  />
+                                </>
+                              ),
+                              customSize: "full",
+                            });
+                          }}
+                        >
+                          Maximieren
+                        </Button>
+                        <Input
+                          type={"text"}
+                          placeholder={"URL"}
+                          value={devServerURL}
+                          onChange={(e) => {
+                            setDevServerURL(e.currentTarget.value);
+                          }}
+                          mb={2}
+                        />
+                        <iframe
+                          src={devServerURL}
+                          id={"preview-dev-server-if"}
+                          width={"100%"}
+                          style={{
+                            minHeight: "600px",
+                            maxHeight: "100%",
+                            display: "block",
+                            border: "none",
+                            overflow: "hidden",
+                          }}
+                        />
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
                 </Panel>
                 <PanelResizeHandle
                   style={{
