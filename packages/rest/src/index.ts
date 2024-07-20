@@ -14,10 +14,12 @@ import {
   deleteAccount,
   getDashboardConfig,
   getLevelProgress,
+  getSessionID,
   getUserById,
   getUserByName,
   login,
   loginWithUsername,
+  postSession,
   register,
   reset,
   resetConfirm,
@@ -169,6 +171,7 @@ import {
   deleteChallenge,
   updateChallenge,
   CDN,
+  SessionReplay,
 } from "./api/Admin";
 
 import {
@@ -341,6 +344,7 @@ const REST = {
     finalCheck,
   },
   Admin: {
+    SessionReplay,
     CDN,
     getErrors,
     listAccounts,
@@ -419,6 +423,8 @@ const REST = {
     getAIQuota,
   },
   Account: {
+    postSession,
+    getSessionID,
     register,
     login,
     loginWithUsername,

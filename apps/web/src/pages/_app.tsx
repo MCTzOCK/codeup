@@ -3,7 +3,7 @@ import "../styles/tiptap.css";
 import "reactflow/dist/style.css";
 import type { AppProps } from "next/app";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { CommunityNavigationBar } from "@codeup/components/community";
@@ -16,11 +16,10 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import REST from "@codeup/rest";
 import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
 import theme from "../global/theme";
-import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
 import { useLoggedIn } from "@codeup/hooks";
 import AccountManager from "@codeup/util/dist/AccountManager";
-
+import Tracker from "../special-components/Tracker";
+/*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
   // @ts-ignore
@@ -33,20 +32,23 @@ if (typeof window !== "undefined") {
     },
     autocapture: true,
   });
-}
+}*/
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const [usingMv2, setUsingMv2] = React.useState(false);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (loaded && loggedIn) {
+      /*
       posthog?.identify(userInfo.email, {
         name: userInfo.firstName + " " + userInfo.lastName,
         email: userInfo.email,
         username: userInfo.username,
-      });
+      });*/
     }
   }, [loaded, loggedIn]);
 
@@ -74,7 +76,9 @@ function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // Track page views
-    const handleRouteChange = () => posthog?.capture("$pageview");
+    const handleRouteChange = () => {
+      //posthog?.capture("$pageview");
+    };
     router.events.on("routeChangeComplete", handleRouteChange);
 
     return () => {
@@ -117,7 +121,7 @@ function App({ Component, pageProps }: AppProps) {
           cardType: "summary_large_image",
         }}
       />
-      <PostHogProvider client={posthog}>
+      <Tracker>
         <ChakraProvider theme={theme}>
           <CommandPalette />
           <Box minH="100vh" minW="100%">
@@ -149,7 +153,7 @@ function App({ Component, pageProps }: AppProps) {
             {!usingMv2 && <Footer />}
           </Box>
         </ChakraProvider>
-      </PostHogProvider>
+      </Tracker>
     </>
   );
 }

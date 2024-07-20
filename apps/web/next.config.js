@@ -6,6 +6,7 @@ const withTM = require("next-transpile-modules")([
   "@codeup/rest",
   "octokit",
   "@webcontainer/api",
+  "rrweb",
 ]);
 
 const withMDX = require("@next/mdx")({

@@ -865,3 +865,27 @@ export const CDN = {
     });
   },
 };
+
+export const SessionReplay = {
+  async list(token: string): Promise<IResponse> {
+    return makeRequest({
+      method: "GET",
+      token,
+      path: "/api/admin/session-replay/sessions",
+    });
+  },
+  async get(token: string, id: string): Promise<IResponse> {
+    return makeRequest({
+      method: "GET",
+      token,
+      path: `/api/admin/session-replay/sessions?id=${id}`,
+    });
+  },
+  async byUser(token: string, id: string): Promise<IResponse> {
+    return makeRequest({
+      method: "GET",
+      token,
+      path: `/api/admin/session-replay/sessions?filter=${id}`,
+    });
+  },
+};

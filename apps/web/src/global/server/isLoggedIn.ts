@@ -14,15 +14,18 @@ import jwt from "jsonwebtoken";
 
 export async function isLoggedIn(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  ignoreAnon = false
 ): Promise<{
   auth: boolean;
   user?: any;
 }> {
   if (!req.headers["x-jwt"]) {
-    res.status(401).send({
-      error: "Not authenticated",
-    });
+    if (!ignoreAnon) {
+      res.status(401).send({
+        error: "Not authenticated",
+      });
+    }
     return {
       auth: false,
     };
@@ -34,9 +37,11 @@ export async function isLoggedIn(
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
     if (!decoded) {
-      res.status(401).send({
-        error: "Not authenticated",
-      });
+      if (!ignoreAnon) {
+        res.status(401).send({
+          error: "Not authenticated",
+        });
+      }
       return {
         auth: false,
       };
@@ -45,9 +50,11 @@ export async function isLoggedIn(
     const user = await UserModel.findById((decoded as any).id);
 
     if (!user || !user.active) {
-      res.status(401).send({
-        error: "Not authenticated",
-      });
+      if (!ignoreAnon) {
+        res.status(401).send({
+          error: "Not authenticated",
+        });
+      }
       return {
         auth: false,
       };
@@ -59,9 +66,11 @@ export async function isLoggedIn(
     };
   } catch (e: any) {
     console.log(e);
-    res.status(401).send({
-      error: "Not authenticated",
-    });
+    if (!ignoreAnon) {
+      res.status(401).send({
+        error: "Not authenticated",
+      });
+    }
     return {
       auth: false,
     };

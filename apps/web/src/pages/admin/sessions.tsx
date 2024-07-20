@@ -1,0 +1,170 @@
+/**
+ * apps/web/src/pages/admin/sessions.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 20.07.2024
+ *
+ */
+
+import * as React from "react";
+import { useUserLoggedInRedirect } from "@codeup/hooks";
+import AdminLayout from "@codeup/components/dist/admin/AdminLayout";
+import REST from "@codeup/rest/dist";
+import AccountManager from "@codeup/util/dist/AccountManager";
+import PopupManager from "../../global/PopupManager";
+import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { FaClock, FaEnvelope, FaEye } from "react-icons/fa";
+import { FaFirefoxBrowser, FaInternetExplorer } from "react-icons/fa6";
+import { useDisclosure } from "@chakra-ui/react";
+import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
+import * as rrwebPlayer from "rrweb-player";
+import "rrweb-player/dist/style.css";
+import Head from "next/head";
+
+export default function Sessions() {
+  useUserLoggedInRedirect({
+    allowAnonymous: false,
+  });
+
+  const [sessions, setSessions] = React.useState<
+    {
+      _id: string;
+      events: any[];
+      userAgent: string;
+      createdAt: string;
+      sessionStarted: string;
+      user: {
+        _id: string;
+        username: string;
+        email: string;
+        role: string;
+        profilePicture: string;
+      };
+    }[]
+  >([]);
+
+  const reloadSessions = async () => {
+    const res = await REST.Admin.SessionReplay.list(
+      AccountManager.getActiveToken()
+    );
+
+    if (res.status !== 200) {
+      await PopupManager.alertAsync({
+        title: "Fehler",
+        description:
+          "Replays konnten nicht geladen werden: " + res.payload.error,
+      });
+      return;
+    }
+
+    setSessions(res.payload.sessions);
+  };
+
+  React.useEffect(() => {
+    reloadSessions();
+  }, []);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Head>
+        <title>Replay - CodeUp</title>
+      </Head>
+      <AdminLayout>
+        <GridLayoutV2
+          pageTitle={"Replay"}
+          search={{
+            show: true,
+            fields: true,
+          }}
+          topButtons={[]}
+          entries={sessions
+            .sort((a, b) => {
+              return (
+                new Date(b.sessionStarted).getTime() -
+                new Date(a.sessionStarted).getTime()
+              );
+            })
+            .map((session) => {
+              return {
+                title: session.user ? session.user.username : "Anonymous",
+                fields: [
+                  {
+                    text: new Date(session.sessionStarted).toLocaleString(),
+                    icon: <FaClock />,
+                  },
+                  {
+                    text: session.userAgent,
+                  },
+                  {
+                    text: session.user
+                      ? session.user.email
+                      : "anon@anonymous.org",
+                    icon: <FaEnvelope />,
+                  },
+                ],
+                buttonRows: [
+                  [
+                    {
+                      text: "Ansehen",
+                      onClick: async () => {
+                        const res = await REST.Admin.SessionReplay.get(
+                          AccountManager.getActiveToken(),
+                          session._id
+                        );
+
+                        if (res.status !== 200) {
+                          await PopupManager.alertAsync({
+                            title: "Fehler",
+                            description:
+                              "Replay konnte nicht geladen werden: " +
+                              res.payload.error,
+                          });
+                          return;
+                        }
+
+                        onOpen();
+
+                        setTimeout(() => {
+                          const e = document.querySelector(
+                            "#rrweb-replayer-div"
+                          ) as HTMLDivElement;
+
+                          console.log(e);
+
+                          const player = new rrwebPlayer.default({
+                            target: document.getElementById(
+                              "rrweb-replayer-div"
+                            ) as HTMLDivElement,
+                            props: {
+                              events: res.payload.session.events as any,
+                              autoPlay: true,
+                              skipInactive: false,
+                            },
+                          });
+                        }, 500);
+                      },
+                      leftIcon: <FaEye />,
+                      variant: "brand",
+                    },
+                  ],
+                ],
+              };
+            })}
+        />
+        <CodeUpModal
+          onOpen={onOpen}
+          onClose={onClose}
+          isOpen={isOpen}
+          title={"Replay"}
+          customSize={"full"}
+        >
+          <div id={"rrweb-replayer-div"}></div>
+        </CodeUpModal>
+      </AdminLayout>
+    </>
+  );
+}

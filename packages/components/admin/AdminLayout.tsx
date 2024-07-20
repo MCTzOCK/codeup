@@ -41,6 +41,7 @@ import {
   FaNewspaper,
   FaPeopleArrows,
   FaPeopleCarry,
+  FaPlayCircle,
   FaProjectDiagram,
   FaRocket,
   FaSitemap,
@@ -226,6 +227,11 @@ export default function AdminLayout(props: { children: ReactNode }) {
                 text: "Challenges",
                 icon: <FaTrophy />,
                 href: "/admin/challenges",
+              },
+              {
+                text: "Replay",
+                icon: <FaPlayCircle />,
+                href: "/admin/sessions",
               },
             ]}
           >

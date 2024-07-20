@@ -199,3 +199,27 @@ export async function getLevelProgress(token: string): Promise<IResponse> {
     token: token,
   });
 }
+
+export async function getSessionID(token?: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/session-replay/get-session-id",
+    method: "GET",
+    token: token,
+  });
+}
+
+export async function postSession(opts: {
+  token?: string;
+  session: string;
+  events: any[];
+}): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/session-replay/post-session",
+    method: "POST",
+    token: opts.token,
+    body: {
+      session: opts.session,
+      events: opts.events,
+    },
+  });
+}
