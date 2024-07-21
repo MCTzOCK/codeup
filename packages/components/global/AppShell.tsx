@@ -83,11 +83,38 @@ export default function AppShell(props: {
                 onChange={(e) => setQuery(e.target.value)}
               />
               {props.sub_pages
-                .filter((page) =>
-                  page.text.toLowerCase().includes(query.toLowerCase())
+                .filter((page) => page.top)
+                .sort((a, b) => a.text.localeCompare(b.text))
+                .map((page) => (
+                  <Button
+                    variant={
+                      router.asPath === (page.href || "codeup.undefined")
+                        ? "brand"
+                        : "ghost"
+                    }
+                    leftIcon={page.icon}
+                    textAlign={"left"}
+                    alignItems={"center"}
+                    justifyContent={"flex-start"}
+                    size={"lg"}
+                    onClick={() => {
+                      if (page.href) {
+                        router.push(page.href);
+                      } else if (page.onClick) {
+                        page.onClick();
+                      }
+                    }}
+                  >
+                    {page.text}
+                  </Button>
+                ))}
+              {props.sub_pages
+                .filter(
+                  (page) =>
+                    page.text.toLowerCase().includes(query.toLowerCase()) &&
+                    !page.top
                 )
                 .sort((a, b) => a.text.localeCompare(b.text))
-                .sort((a, b) => (a.top ? -1 : 1))
                 .map((page) => (
                   <>
                     <Button
