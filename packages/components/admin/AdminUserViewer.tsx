@@ -63,6 +63,7 @@ import {
   FaUserShield,
   FaUserTag,
   FaChartLine,
+  FaPlayCircle,
 } from "react-icons/fa";
 import { useEffect } from "react";
 import REST from "@codeup/rest";
@@ -599,6 +600,20 @@ export default function AdminUserViewer(props: {
                 </Tr>
               </Tbody>
             </Table>
+          </Box>
+          <Box mt={4}>
+            <CHeading size={"md"}>Replays</CHeading>
+            <Button
+              leftIcon={<FaPlayCircle />}
+              variant={"brand"}
+              mt={2}
+              onClick={() => {
+                // @ts-ignore
+                router.push("/admin/sessions?filter=" + props.user._id);
+              }}
+            >
+              Replays anzeigen
+            </Button>
           </Box>
         </Box>
       </CodeUpModal>

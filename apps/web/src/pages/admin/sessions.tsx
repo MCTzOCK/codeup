@@ -21,11 +21,14 @@ import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import * as rrwebPlayer from "rrweb-player";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Sessions() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const router = useRouter();
 
   const [sessions, setSessions] = React.useState<
     {
@@ -62,9 +65,33 @@ export default function Sessions() {
     setSessions(res.payload.sessions);
   };
 
+  const reloadFilterSessions = async (filter: string) => {
+    const res = await REST.Admin.SessionReplay.byUser(
+      AccountManager.getActiveToken(),
+      filter
+    );
+
+    if (res.status !== 200) {
+      await PopupManager.alertAsync({
+        title: "Fehler",
+        description:
+          "Replays konnten nicht geladen werden: " + res.payload.error,
+      });
+      return;
+    }
+
+    setSessions(res.payload.sessions);
+  };
+
   React.useEffect(() => {
-    reloadSessions();
-  }, []);
+    if (router) {
+      if (router.query && router.query.filter) {
+        reloadFilterSessions(router.query.filter as string);
+      } else {
+        reloadSessions();
+      }
+    }
+  }, [router]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
