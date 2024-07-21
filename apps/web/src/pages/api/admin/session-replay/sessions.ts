@@ -51,28 +51,39 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         user: req.query.filter,
       });
 
+      let sx: any[] = [];
+
       for (const session of sessions) {
         await session.populate("user");
-        session.events = [];
+        sx.push({
+          ...session.toJSON(),
+          events: [],
+          eventsCount: session.events.length,
+        });
       }
 
       res.status(200).json({
         status: 200,
-        sessions,
+        sessions: sx,
       });
       return;
     }
 
     const sessions = await SessionReplayModel.find({});
 
+    let sx: any[] = [];
     for (const session of sessions) {
       await session.populate("user");
-      session.events = [];
+      sx.push({
+        ...session.toJSON(),
+        events: [],
+        eventsCount: session.events.length,
+      });
     }
 
     res.status(200).json({
       status: 200,
-      sessions,
+      sessions: sx,
     });
     return;
   } catch (e: any) {

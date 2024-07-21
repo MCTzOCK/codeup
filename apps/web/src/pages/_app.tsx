@@ -19,6 +19,7 @@ import theme from "../global/theme";
 import { useLoggedIn } from "@codeup/hooks";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import Tracker from "../special-components/Tracker";
+import "../styles/rrweb.custom.css";
 /*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {

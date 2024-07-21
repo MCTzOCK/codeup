@@ -16,11 +16,10 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEnvelope, FaEye } from "react-icons/fa";
-import { FaFirefoxBrowser, FaInternetExplorer } from "react-icons/fa6";
-import { useDisclosure } from "@chakra-ui/react";
+import { FaBox, FaFirefoxBrowser, FaInternetExplorer } from "react-icons/fa6";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import * as rrwebPlayer from "rrweb-player";
-import "rrweb-player/dist/style.css";
 import Head from "next/head";
 
 export default function Sessions() {
@@ -35,6 +34,7 @@ export default function Sessions() {
       userAgent: string;
       createdAt: string;
       sessionStarted: string;
+      eventsCount: number;
       user: {
         _id: string;
         username: string;
@@ -105,11 +105,16 @@ export default function Sessions() {
                       : "anon@anonymous.org",
                     icon: <FaEnvelope />,
                   },
+                  {
+                    text: session.eventsCount + " Events",
+                    icon: <FaBox />,
+                  },
                 ],
                 buttonRows: [
                   [
                     {
                       text: "Ansehen",
+                      disabled: session.eventsCount === 0,
                       onClick: async () => {
                         const res = await REST.Admin.SessionReplay.get(
                           AccountManager.getActiveToken(),
@@ -132,8 +137,6 @@ export default function Sessions() {
                           const e = document.querySelector(
                             "#rrweb-replayer-div"
                           ) as HTMLDivElement;
-
-                          console.log(e);
 
                           const player = new rrwebPlayer.default({
                             target: document.getElementById(
@@ -162,7 +165,19 @@ export default function Sessions() {
           title={"Replay"}
           customSize={"full"}
         >
-          <div id={"rrweb-replayer-div"}></div>
+          <Flex
+            w={"100%"}
+            h={"100%"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <div
+              id={"rrweb-replayer-div"}
+              style={{
+                backgroundColor: "#000",
+              }}
+            ></div>
+          </Flex>
         </CodeUpModal>
       </AdminLayout>
     </>
