@@ -43,7 +43,7 @@ import MonacoCodeEditor from "@codeup/components/editorv2/MonacoCodeEditor";
 import SnippetList from "@codeup/components/editorv2/SnippetList";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import "@xterm/xterm/css/xterm.css";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaSave } from "react-icons/fa";
 import { FaSkullCrossbones } from "react-icons/fa6";
 
 export default function Professional() {
@@ -208,6 +208,7 @@ export default function Professional() {
     ".codeup.no-editor.empty"
   );
   const [openFileContent, setOpenFileContent] = React.useState<string>("");
+  const [openFileContent2, setOpenFileContent2] = React.useState<string>("");
 
   return (
     <>
@@ -458,12 +459,13 @@ export default function Professional() {
                   }}
                 />
                 <Panel defaultSize={75} minSize={30} maxSize={100}>
-                  <MonacoCodeEditor
-                    fileName={openFile}
-                    content={openFileContent}
-                    updateContent={async (v) => {
+                  <Button
+                    variant={"brand"}
+                    mb={4}
+                    leftIcon={<FaSave />}
+                    onClick={async () => {
                       if (!webContainer) return;
-                      webContainer.fs.writeFile(openFile, v);
+                      webContainer.fs.writeFile(openFile, openFileContent2);
 
                       const iframe = document.querySelector(
                         "#preview-dev-server-if"
@@ -476,8 +478,17 @@ export default function Professional() {
                         AccountManager.getActiveToken(),
                         router.query.id as string,
                         openFile,
-                        v
+                        openFileContent2
                       );
+                    }}
+                  >
+                    Speichern
+                  </Button>
+                  <MonacoCodeEditor
+                    fileName={openFile}
+                    content={openFileContent}
+                    updateContent={async (v) => {
+                      setOpenFileContent2(v);
                     }}
                   />
                 </Panel>

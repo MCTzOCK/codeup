@@ -16,7 +16,12 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEnvelope, FaEye } from "react-icons/fa";
-import { FaBox, FaFirefoxBrowser, FaInternetExplorer } from "react-icons/fa6";
+import {
+  FaBox,
+  FaFirefoxBrowser,
+  FaInternetExplorer,
+  FaRotate,
+} from "react-icons/fa6";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import * as rrwebPlayer from "rrweb-player";
