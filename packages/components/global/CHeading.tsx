@@ -15,7 +15,7 @@ import { Heading as ChakraHeading } from "@chakra-ui/react";
 // ...rest
 export function CHeading(props: {
   children: React.ReactNode | string;
-  size?: string;
+  size?: string | any[] | any;
   [key: string]: any;
 }) {
   const { ...rest } = props;

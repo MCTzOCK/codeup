@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/_static/fonts/Geist-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/_static/images/lpv4/courses.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/home.v4.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/styles/Home.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/global/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/styles/globals.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/components/global/CHeading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/CHeading.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/landingpagev2/Testimonials.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/landingpagev2/Testimonials.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,13 +27,13 @@
         <option value="com.haulmont.rcb.index" />
         <option value="com.haulmont.rcb.useInitial" />
         <option value="React Component" />
-        <option value="SCSS File" />
         <option value="tsconfig.json" />
         <option value="JavaScript File" />
         <option value="package.json" />
         <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+        <option value="SCSS File" />
       </list>
     </option>
   </component>
@@ -97,7 +95,7 @@
     "javascript.nodejs.core.library.typings.version": "20.10.8",
     "last.edited.regexp": "",
     "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/web/public/_static/fonts",
-    "list.type.of.created.stylesheet": "CSS",
+    "list.type.of.created.stylesheet": "SCSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -135,11 +133,11 @@
       <recent name="$PROJECT_DIR$/packages/components/emails" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\lpv4" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images\showcase" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src\blockly" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\.github" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build (1)">

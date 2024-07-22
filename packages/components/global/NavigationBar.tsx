@@ -277,7 +277,12 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
         isOpen={isUserAuthOpen}
       />
       <Box w={"100%"} bg={"transparent"} padding={"1.2rem"}>
-        <Flex direction={"row"} alignItems={"center"} justifyContent={"center"}>
+        <Flex
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          paddingInline={[0, 0, 24]}
+        >
           <Heading flex={"flex-start"} textAlign={["center", "left"]}>
             <Link href={"/"}>
               <ChakraLink
