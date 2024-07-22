@@ -24,8 +24,8 @@ export function CHeading(props: {
       as={"h1"}
       size={(props.size as any) || "2xl"}
       fontWeight={900}
-      letterSpacing={-2}
-      fontFamily={"Jetbrains Mono ExtraBold"}
+      //letterSpacing={-2}
+      fontFamily={"Geist Black"}
       color={"brand.500"}
       {...rest}
     >

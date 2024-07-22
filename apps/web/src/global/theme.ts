@@ -166,6 +166,14 @@ const theme = extendTheme({
         },
       },
     },
+    Heading: {
+      defaultProps: {
+        fontFamily: "Geist Black",
+      },
+    },
+  },
+  fonts: {
+    heading: "'Geist Black', sans-serif",
   },
   styles: {
     global: (props: any) => ({

@@ -3,13 +3,19 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.20.1/css/grapes.min.css");
 
 @font-face {
+  font-family: "Geist Black";
+  src: url("/_static/fonts/Geist-Black.ttf") format("truetype");
+}
+
+@font-face {
   font-family: ARCADE;
   src: url(ARCADE_R.TTF);
 }
 
 @font-face {
   font-family: "Jetbrains Mono ExtraBold";
-  src: url("JetBrainsMono-ExtraBold.woff2") format("woff2");
+//  src: url("JetBrainsMono-ExtraBold.woff2") format("woff2");
+  src: url("/_static/fonts/Geist-Black.ttf") format("truetype");
 }
 
 /* Global Styles */

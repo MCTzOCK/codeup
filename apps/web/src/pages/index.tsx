@@ -78,8 +78,9 @@ export default function Home() {
                 as={"h3"}
                 fontSize={["2xl", "3xl", "4xl"]}
                 color={"gray.300"}
+                fontFamily={"Geist Black"}
                 fontWeight={1000}
-                letterSpacing={-2}
+                //letterSpacing={-2}
               >
                 CodeUp
               </Heading>
@@ -87,8 +88,7 @@ export default function Home() {
                 as={"h1"}
                 fontSize={["4xl", "5xl", "8xl"]}
                 fontWeight={900}
-                letterSpacing={-2}
-                fontFamily={"Jetbrains Mono ExtraBold"}
+                //fontFamily={"Jetbrains Mono ExtraBold"}
                 color={"brand.500"}
               >
                 Programmieren lernen

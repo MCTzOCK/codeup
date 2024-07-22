@@ -81,8 +81,6 @@ export default function Testimonials() {
         <Heading
           color={"brand.500"}
           textAlign={"center"}
-          fontFamily={"Jetbrains Mono ExtraBold"}
-          letterSpacing={-2}
           fontSize={["2xl", "4xl", "5xl"]}
         >
           Was Unsere Kunden Sagen
