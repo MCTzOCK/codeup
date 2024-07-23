@@ -12,6 +12,7 @@ import * as React from "react";
 import {
   Avatar,
   Box,
+  chakra,
   Flex,
   Grid,
   Heading,
@@ -20,8 +21,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest/dist";
+import { useLoggedIn } from "@codeup/hooks";
 
 export default function TestimonialsV2() {
+  const { userInfo, loggedIn } = useLoggedIn();
+
   const [tests, setTests] = React.useState<
     {
       _id: string;
@@ -105,6 +109,7 @@ export default function TestimonialsV2() {
                   bg={"gray.700"}
                   w={"100%"}
                   h={"fit-content"}
+                  minH={"100%"}
                 >
                   <Image
                     src={t.image}
@@ -129,6 +134,47 @@ export default function TestimonialsV2() {
                   </Text>
                 </VStack>
               ))}
+              <VStack
+                p={4}
+                rounded={"3xl"}
+                bg={"gray.700"}
+                w={"100%"}
+                h={"fit-content"}
+                minH={"100%"}
+                border={"5px dashed"}
+                borderColor={"brand.500"}
+              >
+                <Image
+                  src={`/api/account/${
+                    userInfo.username || "undefined"
+                  }/picture`}
+                  alt={loggedIn ? userInfo.username : "Unbekannt"}
+                  rounded={"3xl"}
+                  objectFit={"cover"}
+                  h={"15vh"}
+                />
+                <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
+                  Wir freuen uns über dein Feedback! Wenn du auch hier auf der
+                  Homepage erscheinen möchtest, schreib uns einfach eine E-Mail.
+                </Text>
+                <Text
+                  color={"brand.500"}
+                  fontSize={"md"}
+                  fontWeight={"bold"}
+                  textAlign={"center"}
+                >
+                  Und du?
+                </Text>
+                <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
+                  Schreib uns eine E-Mail an{" "}
+                  <chakra.a
+                    href={"mailto:ben@codeup.space"}
+                    color={"brand.500"}
+                  >
+                    ben@codeup.space
+                  </chakra.a>
+                </Text>
+              </VStack>
             </Grid>
           </Flex>
         )}
