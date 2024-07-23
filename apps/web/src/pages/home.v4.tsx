@@ -20,6 +20,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
+import TestimonialsV2 from "@codeup/components/lpv4/TestimonialsV2";
 import { useLoggedIn } from "@codeup/hooks";
 import router from "next/router";
 import { FaCheck, FaStar } from "react-icons/fa";
@@ -240,6 +241,9 @@ export default function HomeV4() {
           </Flex>
         </Box>
       </Flex>
+      <Box mt={16}></Box>
+      <TestimonialsV2 />
+      <Box mb={16}></Box>
     </>
   );
 }

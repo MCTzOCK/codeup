@@ -183,6 +183,7 @@ const theme = extendTheme({
   },
   fonts: {
     heading: "'Geist Black', sans-serif",
+    body: "'Inter', sans-serif",
   },
   styles: {
     global: (props: any) => ({

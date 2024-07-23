@@ -538,6 +538,7 @@ export default function Testimonials() {
                                   r.statusText,
                               });
                             }
+                            break;
                           }
                           default: {
                             PopupManager.alert({
