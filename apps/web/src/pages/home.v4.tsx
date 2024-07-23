@@ -134,17 +134,17 @@ export default function HomeV4() {
         justifyContent={"center"}
       >
         {[
+          "git",
+          "mysql",
+          "css",
+          "html",
           "typescript",
           "javascript",
-          "css",
-          "git",
-          "go",
-          "html",
-          "java",
-          "mysql",
           "nodejs",
-          "python",
           "react",
+          "java",
+          "python",
+          "go",
         ].map((item) => (
           <Image
             src={`/_static/vectors/languages/${item}.svg`}
@@ -167,7 +167,7 @@ export default function HomeV4() {
         <Box
           p={6}
           rounded={"3xl"}
-          bg={"gray.600"}
+          bg={"gray.700"}
           w={{
             base: "100%",
             sm: "90%",
@@ -189,7 +189,7 @@ export default function HomeV4() {
                 alignItems={"center"}
                 w={"fit-content"}
                 rounded={"full"}
-                bg={"gray.800"}
+                bg={"gray.900"}
                 paddingInline={2}
                 paddingBlock={1}
               >
@@ -230,7 +230,7 @@ export default function HomeV4() {
                 Ausprobieren
               </Button>
             </Box>
-            <Box flex={1.1}>
+            <Box flex={1.1} pt={4}>
               <Image
                 zIndex={2}
                 src={"/_static/images/lpv4/editor.png"}
