@@ -10,10 +10,20 @@
 
 import * as React from "react";
 import styles from "../styles/Home.module.scss";
-import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  chakra,
+  Flex,
+  HStack,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/global/CHeading";
 import { useLoggedIn } from "@codeup/hooks";
 import router from "next/router";
+import { FaCheck, FaStar } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa6";
 
 export default function HomeV4() {
   const { loggedIn, loaded } = useLoggedIn();
@@ -142,6 +152,93 @@ export default function HomeV4() {
             className={styles.programming_icon}
           />
         ))}
+      </Flex>
+      <Flex
+        paddingInline={{
+          base: 2,
+          lg: 24,
+        }}
+        className={styles.programming_sc}
+        gap={6}
+        justifyContent={"center"}
+        mt={16}
+        w={"100%"}
+      >
+        <Box
+          p={6}
+          rounded={"3xl"}
+          bg={"gray.600"}
+          w={{
+            base: "100%",
+            sm: "90%",
+            xl: "60%",
+          }}
+          minH={"20vh"}
+          h={"fit-content" + ""}
+        >
+          <Flex
+            direction={{
+              base: "column",
+              sm: "column",
+              lg: "row",
+            }}
+          >
+            <Box flex={1}>
+              <HStack
+                spacing={2}
+                alignItems={"center"}
+                w={"fit-content"}
+                rounded={"full"}
+                bg={"gray.800"}
+                paddingInline={2}
+                paddingBlock={1}
+              >
+                <chakra.span color={"brand.500"} fontSize={"xx-small"}>
+                  <FaCircle />
+                </chakra.span>
+                <Text fontWeight={900}>NEU</Text>
+              </HStack>
+              <CHeading
+                size={"xl"}
+                color={"white"}
+                fontFamily={"Inter"}
+                wordBreak={"break-word"}
+                fontWeight={600}
+                lineHeight={1.3}
+                mt={4}
+              >
+                Der beste Editor für alle Entwickler.
+              </CHeading>
+              <Text color={"gray.200"} fontSize={"md"} mt={4}>
+                Mit unserem neuen Editor kannst du jetzt noch schneller und
+                einfacher programmieren. Er unterstützt dich nicht nur bei der
+                eigentlichen Entwicklung, sondern auch bei der Planung und
+                Veröffentlichung deiner Projekte.
+              </Text>
+              <Button
+                variant={"brand"}
+                mt={4}
+                size={"md"}
+                onClick={() => {
+                  if (loggedIn) {
+                    router.push("/projects");
+                  } else {
+                    window.dispatchEvent(new CustomEvent("codeup::open_login"));
+                  }
+                }}
+              >
+                Ausprobieren
+              </Button>
+            </Box>
+            <Box flex={1.1}>
+              <Image
+                zIndex={2}
+                src={"/_static/images/lpv4/editor.png"}
+                className={styles.editor_image}
+              />
+            </Box>
+          </Flex>
+        </Box>
       </Flex>
     </>
   );

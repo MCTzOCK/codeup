@@ -39,3 +39,8 @@
 .programming_icon {
   filter: grayscale(1);
 }
+
+
+.editor_image {
+  transform: perspective(1000px) rotateY(0deg) rotateX(5deg) rotateZ(10deg) scale(0.9);
+}
