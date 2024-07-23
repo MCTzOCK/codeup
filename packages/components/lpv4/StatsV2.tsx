@@ -125,7 +125,7 @@ export default function StatsV2() {
             {statData.map((data) => (
               <HStack
                 key={data.id}
-                bg={"gray.600"}
+                bg={"gray.700"}
                 p={5}
                 rounded={"3xl"}
                 textAlign={"center"}
