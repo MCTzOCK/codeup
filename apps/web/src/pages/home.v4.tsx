@@ -15,6 +15,7 @@ import {
   Button,
   chakra,
   Flex,
+  Heading,
   HStack,
   Image,
   Text,
@@ -243,15 +244,52 @@ export default function HomeV4() {
           </Flex>
         </Box>
       </Flex>
-      <Box mt={16}></Box>
+      <Box mt={16} />
       <TestimonialsV2 />
-      <Box mt={24}></Box>
+      <Box mt={24} />
       <StatsV2 />
-      <Box mt={24}></Box>
+      <Box mt={24} />
       <AwardsV4 />
-      <Box mt={24}></Box>
+      <Box mt={24} />
       <OffersV4 />
-      <Box mb={16}></Box>
+      <Box mt={24} />
+      <Flex
+        alignItems={"center"}
+        justifyContent={"center"}
+        direction={"column"}
+      >
+        <Heading
+          size={"xl"}
+          color={"white"}
+          fontFamily={"Inter"}
+          wordBreak={"break-word"}
+          fontWeight={600}
+          lineHeight={1.3}
+          mt={4}
+          p={2}
+          textAlign={"center"}
+        >
+          Konnten wir dich überzeugen?
+        </Heading>
+        <Text color={"gray.200"} fontSize={"lg"} textAlign={"center"}>
+          Dann leg jetzt einfach gratis los und werde Teil der CodeUp Community!
+        </Text>
+        <Button
+          variant={"brand"}
+          mt={4}
+          size={"lg"}
+          onClick={() => {
+            if (loggedIn) {
+              router.push("/dashboard/v2");
+            } else {
+              window.dispatchEvent(new CustomEvent("codeup::open_login"));
+            }
+          }}
+        >
+          {loggedIn ? "Zum Dashboard" : "Jetzt loslegen!"}
+        </Button>
+      </Flex>
+      <Box mb={16} />
     </>
   );
 }
