@@ -47,6 +47,10 @@ if (process.env.DISABLE_PAYMENTS === "true") {
   // @ts-ignore
   process.env.DISABLE_PAYMENTS = true;
 }
+
+// @ts-ignore
+process.env.DISABLE_PAYMENTS = true;
+
 app
   .prepare()
   .then(async () => {

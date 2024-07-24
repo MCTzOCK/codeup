@@ -130,7 +130,8 @@ function App({ Component, pageProps }: AppProps) {
             {!usingMv2 && (
               <NavigationBar
                 disablePricing={
-                  process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+                  //process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+                  true
                 }
               />
             )}

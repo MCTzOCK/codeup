@@ -54,7 +54,10 @@ export function useLoggedIn(): {
 
                 if (r.status === 200) {
                   setLoggedIn(true);
-                  if (process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true") {
+                  if (
+                    true
+                    // process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+                  ) {
                     setUserInfo({
                       ...r.payload.data,
                       subscription: "PRO",
@@ -70,7 +73,10 @@ export function useLoggedIn(): {
 
               token = newToken;
               setLoggedIn(true);
-              if (process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true") {
+              if (
+                true
+                // process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+              ) {
                 setUserInfo({
                   ...res.payload.data,
                   subscription: "PRO",
