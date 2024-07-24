@@ -61,7 +61,10 @@ import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
 
-export default function NavigationBar(props: { disablePricing?: boolean }) {
+export default function NavigationBar(props: {
+  disablePricing?: boolean;
+  transparent?: boolean;
+}) {
   const whatEverRef = React.useRef();
 
   const logout = async () => {
@@ -276,7 +279,11 @@ export default function NavigationBar(props: { disablePricing?: boolean }) {
         onClose={onUserAuthClose}
         isOpen={isUserAuthOpen}
       />
-      <Box w={"100%"} bg={"transparent"} padding={"1.2rem"}>
+      <Box
+        w={"100%"}
+        bg={props.transparent ? "transparent" : "#000"}
+        padding={"1.2rem"}
+      >
         <Flex
           direction={"row"}
           alignItems={"center"}

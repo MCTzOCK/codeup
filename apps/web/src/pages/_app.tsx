@@ -133,6 +133,9 @@ function App({ Component, pageProps }: AppProps) {
                   //process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
                   true
                 }
+                transparent={["/", "/home.v4"].includes(
+                  router.pathname as string
+                )}
               />
             )}
             <Box
@@ -152,7 +155,13 @@ function App({ Component, pageProps }: AppProps) {
 
               {router.pathname.startsWith("/community") ? <PostButton /> : null}
             </Box>
-            {!usingMv2 && <Footer />}
+            {!usingMv2 && (
+              <Footer
+                transparent={["/", "/home.v4"].includes(
+                  router.pathname as string
+                )}
+              />
+            )}
           </Box>
         </ChakraProvider>
       </Tracker>

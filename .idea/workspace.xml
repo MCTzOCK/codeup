@@ -7,8 +7,8 @@
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useLoggedIn.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

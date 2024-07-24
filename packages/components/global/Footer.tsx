@@ -34,9 +34,12 @@ import {
 } from "react-icons/fa";
 import Newsletter from "./Newsletter";
 
-const Footer = () => {
+const Footer = (props: { transparent?: boolean }) => {
   return (
-    <Box w={"100%"} backgroundColor={"black"}>
+    <Box
+      w={"100%"}
+      backgroundColor={props.transparent ? "transparent" : "#000"}
+    >
       <Box p={{ base: 5, md: 8 }} maxW="7xl" marginInline="auto">
         <Stack
           spacing={{ base: 8, md: 0 }}
