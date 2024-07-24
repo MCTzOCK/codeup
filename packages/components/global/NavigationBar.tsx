@@ -60,11 +60,14 @@ import PopupManager from "@codeup/web/src/global/PopupManager";
 import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function NavigationBar(props: {
   disablePricing?: boolean;
   transparent?: boolean;
 }) {
+  const { t } = useTranslation("base");
+
   const whatEverRef = React.useRef();
 
   const logout = async () => {
@@ -305,7 +308,7 @@ export default function NavigationBar(props: {
                   fontWeight={"extrabold"}
                   ml={4}
                 >
-                  CodeUp
+                  {t("product.name")}
                 </Text>
               </ChakraLink>
             </Link>

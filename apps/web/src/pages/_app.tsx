@@ -20,6 +20,7 @@ import { useLoggedIn } from "@codeup/hooks";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import Tracker from "../special-components/Tracker";
 import "../styles/rrweb.custom.css";
+import { appWithTranslation } from "next-i18next";
 /*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
@@ -169,4 +170,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default appWithTranslation(App);

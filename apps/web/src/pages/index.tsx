@@ -32,10 +32,14 @@ import OverviewSection from "@codeup/components/landingpage/OverviewSection";
 import BrandStats from "@codeup/components/landingpagev2/BrandStats";
 import Testimonials from "@codeup/components/landingpagev2/Testimonials";
 import Milestones from "@codeup/components/landingpagev2/Milestones";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export default function Home() {
   const { loggedIn } = useLoggedIn();
   const router = useRouter();
+
+  const { t, i18n } = useTranslation("home");
 
   const { scrollYProgress } = useScroll();
 
@@ -206,4 +210,12 @@ export default function Home() {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "de", ["base", "home"])),
+    },
+  };
 }
