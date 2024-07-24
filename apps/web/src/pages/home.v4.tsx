@@ -28,12 +28,16 @@ import OffersV4 from "@codeup/components/lpv4/OffersV4";
 import { useLoggedIn } from "@codeup/hooks";
 import router from "next/router";
 import { FaCircle } from "react-icons/fa6";
+import Head from "next/head";
 
 export default function HomeV4() {
   const { loggedIn, loaded } = useLoggedIn();
 
   return (
     <>
+      <Head>
+        <title>CodeUp - Einfach Programmieren lernen</title>
+      </Head>
       <Box position={"absolute"} w={"100%"} h={"100vh"} zIndex={-1} top={0}>
         <Box
           className={styles.grid}
