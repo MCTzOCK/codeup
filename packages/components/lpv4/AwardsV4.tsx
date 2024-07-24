@@ -107,7 +107,7 @@ export default function AwardsV4() {
           fontWeight={600}
           lineHeight={1.3}
           mt={4}
-          p={2}
+          p={4}
           textAlign={"center"}
         >
           Unsere Erfolge sprechen für sich.

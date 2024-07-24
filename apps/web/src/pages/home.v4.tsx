@@ -23,9 +23,9 @@ import { CHeading } from "@codeup/components/global/CHeading";
 import TestimonialsV2 from "@codeup/components/lpv4/TestimonialsV2";
 import StatsV2 from "@codeup/components/lpv4/StatsV2";
 import AwardsV4 from "@codeup/components/lpv4/AwardsV4";
+import OffersV4 from "@codeup/components/lpv4/OffersV4";
 import { useLoggedIn } from "@codeup/hooks";
 import router from "next/router";
-import { FaCheck, FaStar } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa6";
 
 export default function HomeV4() {
@@ -249,6 +249,8 @@ export default function HomeV4() {
       <StatsV2 />
       <Box mt={24}></Box>
       <AwardsV4 />
+      <Box mt={24}></Box>
+      <OffersV4 />
       <Box mb={16}></Box>
     </>
   );
