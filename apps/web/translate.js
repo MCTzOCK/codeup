@@ -41,6 +41,18 @@ console.log("Found " + keyNumber + " keys to translate");
   for await (const l of languages) {
     console.log("Translating language " + l + "...");
     const files = fs.readdirSync(path.join(__dirname, "public", "locales", l));
+
+    for (const f of baseFiles) {
+      if (!files.includes(f)) {
+        console.log("File " + f + " not found in language " + l);
+        fs.writeFileSync(
+          path.join(__dirname, "public", "locales", l, f),
+          JSON.stringify({}, null, 2)
+        );
+        files.push(f);
+      }
+    }
+
     for await (const f of files) {
       if (!baseLanguage[f]) {
         console.log("File " + f + " not found in base language");
