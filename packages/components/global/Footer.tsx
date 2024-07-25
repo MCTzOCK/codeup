@@ -21,6 +21,10 @@ import {
   Image,
   Link,
   LinkProps,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
   VStack,
@@ -34,9 +38,29 @@ import {
 } from "react-icons/fa";
 import Newsletter from "./Newsletter";
 import { useTranslation } from "next-i18next";
+import { FaChevronDown } from "react-icons/fa6";
+import ReactCountryFlag from "react-country-flag";
+import { useRouter } from "next/router";
 
 const Footer = (props: { transparent?: boolean }) => {
-  const { t } = useTranslation(["base", "navbar", "footer"]);
+  const { t, i18n } = useTranslation(["base", "navbar", "footer"]);
+  const router = useRouter();
+
+  const languages: {
+    [key: string]: {
+      cc: string;
+      display: string;
+    };
+  } = {
+    de: {
+      cc: "DE",
+      display: "Deutsch",
+    },
+    en: {
+      cc: "GB",
+      display: "English",
+    },
+  };
 
   return (
     <Box
@@ -191,6 +215,46 @@ const Footer = (props: { transparent?: boolean }) => {
             </Link>
           </Stack>
           <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<FaChevronDown />}>
+                <ReactCountryFlag
+                  countryCode={languages[i18n.language].cc}
+                  svg
+                  style={{
+                    fontSize: "1.5em",
+                  }}
+                />
+              </MenuButton>
+              <MenuList bg={"#000"}>
+                {Object.keys(languages).map((lang) => (
+                  <MenuItem
+                    key={lang}
+                    onClick={() => {
+                      const { pathname, query, asPath } = router;
+                      router
+                        .push({ pathname, query }, asPath, {
+                          locale: lang,
+                        })
+                        .then(() => {
+                          window.location.reload();
+                        });
+                    }}
+                    color={"white"}
+                  >
+                    <HStack spacing={4}>
+                      <ReactCountryFlag
+                        countryCode={languages[lang].cc}
+                        svg
+                        style={{
+                          fontSize: "1.5em",
+                        }}
+                      />
+                      <Text>{languages[lang].display}</Text>
+                    </HStack>
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
             <IconButton
               aria-label={"Twitter"}
               as={Link}
