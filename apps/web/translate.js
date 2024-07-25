@@ -29,6 +29,14 @@ for (const f of baseFiles) {
   baseLanguage[f] = JSON.parse(data.toString());
 }
 
+let keyNumber = 0;
+
+for (const f of baseFiles) {
+  keyNumber += Object.keys(baseLanguage[f]).length;
+}
+
+console.log("Found " + keyNumber + " keys to translate");
+
 (async () => {
   for await (const l of languages) {
     console.log("Translating language " + l + "...");
