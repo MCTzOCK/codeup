@@ -51,5 +51,7 @@
   "account.level.loading": "Level is loading...",
   "account.upgrade": "Upgrade to PRO",
   "account.switch.add": "Add account",
-  "account.admin.disclaimer": "You're an admin. You can use all functions and access the admin page."
+  "account.admin.disclaimer": "You're an admin. You can use all functions and access the admin page.",
+  "account.logout.confirm": "Logout",
+  "account.logout.confirm.text": "Do you really want to logout?"
 }

@@ -73,8 +73,8 @@ export default function NavigationBar(props: {
   const logout = async () => {
     if (
       await PopupManager.confirmAsync({
-        title: "Abmelden",
-        question: "Willst du dich wirklich abmelden?",
+        title: t("account.logout.confirm", { ns: "navbar" }),
+        question: t("account.logout.confirm.text", { ns: "navbar" }),
       })
     ) {
       localStorage.removeItem("token");

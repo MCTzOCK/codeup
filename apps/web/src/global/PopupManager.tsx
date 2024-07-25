@@ -26,6 +26,24 @@ import { ReactNode } from "react";
 import { FaFile } from "react-icons/fa";
 
 export default class PopupManager {
+  public static __raw_get_translated_key(key: string): string {
+    const j = document.getElementById("__NEXT_DATA__") as HTMLScriptElement;
+    const parsed = JSON.parse(j.innerHTML);
+
+    const currentLanguage = parsed.locale;
+
+    if (
+      parsed.props.pageProps._nextI18Next.initialI18nStore[currentLanguage]
+        .popupmanager[key]
+    ) {
+      return parsed.props.pageProps._nextI18Next.initialI18nStore[
+        currentLanguage
+      ].popupmanager[key];
+    }
+
+    return key;
+  }
+
   public static prompt(options: {
     title: string;
     helperText: string;

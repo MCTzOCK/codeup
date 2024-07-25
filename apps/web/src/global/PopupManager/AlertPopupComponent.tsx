@@ -19,7 +19,7 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import PopupManager from "../PopupManager";
 
 export default function AlertPopupComponent(props: {
   title: string | undefined;
@@ -31,8 +31,6 @@ export default function AlertPopupComponent(props: {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,
   });
-
-  const { t } = useTranslation("popupmanager");
 
   const whatEverRef = React.useRef();
 
@@ -52,7 +50,9 @@ export default function AlertPopupComponent(props: {
         <AlertDialogOverlay bg="blackAlpha.300" backdropFilter="blur(10px)">
           <AlertDialogContent bg={"black"}>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {props.title ? props.title : t("alert")}
+              {props.title
+                ? props.title
+                : PopupManager.__raw_get_translated_key("alert")}
             </AlertDialogHeader>
 
             <AlertDialogBody>{props.description}</AlertDialogBody>
@@ -66,7 +66,7 @@ export default function AlertPopupComponent(props: {
                 }}
                 ml={3}
               >
-                {t("close")}
+                {PopupManager.__raw_get_translated_key("close")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -1,5 +1,5 @@
 {
-  "alert.default.title": "Meldung",
+  "alert": "Meldung",
   "close": "Schließen",
   "confirm.yes": "Ja",
   "confirm.no": "Nein",

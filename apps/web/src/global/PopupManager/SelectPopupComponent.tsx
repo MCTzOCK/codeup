@@ -28,7 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
 import { useId, useRef } from "react";
-import { useTranslation } from "next-i18next";
+import PopupManager from "../PopupManager";
 
 export default function SelectPopupComponent(props: {
   title: string;
@@ -42,7 +42,6 @@ export default function SelectPopupComponent(props: {
   });
 
   const whatEverRef = useRef();
-  const { t } = useTranslation("popupmanager");
   const id = useId();
 
   return (
@@ -65,10 +64,14 @@ export default function SelectPopupComponent(props: {
 
             <AlertDialogBody>
               <FormControl isRequired>
-                <FormLabel>{t("prompt.input")}</FormLabel>
+                <FormLabel>
+                  {PopupManager.__raw_get_translated_key("prompt.input")}
+                </FormLabel>
                 <Select
                   id={"input-" + id}
-                  placeholder={t("select.choose.option")}
+                  placeholder={PopupManager.__raw_get_translated_key(
+                    "select.choose.option"
+                  )}
                 >
                   {props.choices.map((c, i) => {
                     return <option key={i}>{c}</option>;
@@ -87,7 +90,7 @@ export default function SelectPopupComponent(props: {
                 // @ts-ignore
                 ref={whatEverRef}
               >
-                {t("cancel")}
+                {PopupManager.__raw_get_translated_key("cancel")}
               </Button>
               <Button
                 variant={"brand"}
@@ -102,7 +105,7 @@ export default function SelectPopupComponent(props: {
                 }}
                 ml={3}
               >
-                {t("confirm")}
+                {PopupManager.__raw_get_translated_key("confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -19,7 +19,7 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import PopupManager from "../PopupManager";
 
 export default function ConfirmPopupComponent(props: {
   title: string;
@@ -31,9 +31,7 @@ export default function ConfirmPopupComponent(props: {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,
   });
-  const { t } = useTranslation("popupmanager");
   const whatEverRef = React.useRef();
-
   return (
     <>
       <AlertDialog
@@ -64,7 +62,7 @@ export default function ConfirmPopupComponent(props: {
                 // @ts-ignore
                 ref={whatEverRef}
               >
-                {t("confirm.no")}
+                {PopupManager.__raw_get_translated_key("confirm.no")}
               </Button>
               <Button
                 variant="brand"
@@ -75,7 +73,7 @@ export default function ConfirmPopupComponent(props: {
                 }}
                 ml={3}
               >
-                {t("confirm.yes")}
+                {PopupManager.__raw_get_translated_key("confirm.yes")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

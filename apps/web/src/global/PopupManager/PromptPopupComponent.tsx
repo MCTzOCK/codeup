@@ -28,7 +28,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
-import { useTranslation } from "next-i18next";
+import PopupManager from "../PopupManager";
 
 export default function PromptPopupComponent(props: {
   title: string;
@@ -40,7 +40,6 @@ export default function PromptPopupComponent(props: {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,
   });
-  const { t } = useTranslation("popupmanager");
 
   const whatEverRef = useRef();
 
@@ -66,18 +65,27 @@ export default function PromptPopupComponent(props: {
 
             <AlertDialogBody>
               <FormControl isRequired>
-                <FormLabel>{t("prompt.input")}</FormLabel>
+                <FormLabel>
+                  {PopupManager.__raw_get_translated_key("prompt.input")}
+                </FormLabel>
                 {props.inputType === "INPUT" ? (
                   <InputGroup>
                     <InputLeftElement>
                       <FaPen />
                     </InputLeftElement>
-                    <Input id={"input-" + id} placeholder={t("prompt.input")} />
+                    <Input
+                      id={"input-" + id}
+                      placeholder={PopupManager.__raw_get_translated_key(
+                        "prompt.input"
+                      )}
+                    />
                   </InputGroup>
                 ) : (
                   <Textarea
                     id={"input-" + id}
-                    placeholder={t("prompt.input")}
+                    placeholder={PopupManager.__raw_get_translated_key(
+                      "prompt.input"
+                    )}
                   />
                 )}
                 <FormHelperText>{props.helperText}</FormHelperText>
@@ -93,7 +101,7 @@ export default function PromptPopupComponent(props: {
                 // @ts-ignore
                 ref={whatEverRef}
               >
-                {t("cancel")}
+                {PopupManager.__raw_get_translated_key("cancel")}
               </Button>
               <Button
                 variant={"brand"}
@@ -108,7 +116,7 @@ export default function PromptPopupComponent(props: {
                 }}
                 ml={3}
               >
-                {t("confirm")}
+                {PopupManager.__raw_get_translated_key("confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
