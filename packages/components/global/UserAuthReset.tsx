@@ -25,6 +25,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
+import { useTranslation } from "next-i18next";
 
 export default function UserAuthReset() {
   const [alertVisible, setAlertVisible] = React.useState(false);
@@ -39,6 +40,8 @@ export default function UserAuthReset() {
   const [loading, setLoading] = React.useState(false);
 
   const [forceDisable, setForceDisable] = React.useState(false);
+
+  const { t } = useTranslation("auth");
 
   return (
     <>
@@ -55,8 +58,7 @@ export default function UserAuthReset() {
           direction={"column"}
         >
           <Text textAlign={"center"} mt={".4rem"}>
-            Wenn du dein Passwort vergessen hast, kannst du unten deine E-Mail
-            Adresse eingeben und wir schicken dir einen Link zum Zurücksetzen.
+            {t("reset.text")}
           </Text>
         </Flex>
         <form
@@ -82,8 +84,8 @@ export default function UserAuthReset() {
           }}
         >
           <FormControl isInvalid={emailInvalid}>
-            <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
-            <Input id={"email"} placeholder={"E-Mail"} onChange={(e) => {}} />
+            <FormLabel htmlFor={"email"}>{t("email")}</FormLabel>
+            <Input id={"email"} placeholder={t("email")} onChange={(e) => {}} />
             <FormErrorMessage>{emailError}</FormErrorMessage>
           </FormControl>
           <Button
@@ -94,7 +96,7 @@ export default function UserAuthReset() {
             w={"100%"}
             mt={"2rem"}
           >
-            Link erhalten
+            {t("reset.get.link")}
           </Button>
         </form>
       </Flex>

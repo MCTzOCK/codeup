@@ -17,6 +17,7 @@ export const sProp = async (locale: string, ns: string[]) => {
         "navbar",
         "footer",
         "popupmanager",
+        "auth",
         ...ns,
       ])),
     },
