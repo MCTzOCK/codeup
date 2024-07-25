@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { CHeading } from "./CHeading";
+import { useTranslation } from "next-i18next";
 
 interface IButton {
   colorScheme?: string;
@@ -59,6 +60,9 @@ interface IProps {
 
 export default function GridLayoutV2(props: IProps) {
   const [query, setQuery] = React.useState("");
+
+  const { t } = useTranslation("base");
+
   return (
     <>
       <Flex
@@ -101,7 +105,7 @@ export default function GridLayoutV2(props: IProps) {
                 <FaSearch />
               </InputLeftElement>
               <Input
-                placeholder={"Suche"}
+                placeholder={t("control.search")}
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
