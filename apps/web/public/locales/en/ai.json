@@ -13,6 +13,6 @@
   "message": "Message",
   "quota.msg.1": "You still have",
   "quota.msg.2": "Questions left. You get 10 more requests on the ",
-  "quota.msg.3": "",
+  "quota.msg.3": "10 more requests!",
   "quota.loading": "Loading..."
 }

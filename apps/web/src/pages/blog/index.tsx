@@ -29,6 +29,10 @@ import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
+import Head from "next/head";
 
 export default function Blogs() {
   const [blogs, setBlogs] = React.useState<
@@ -47,12 +51,41 @@ export default function Blogs() {
   const toast = useToast();
   const [error, setError] = React.useState(false);
   const [query, setQuery] = React.useState("");
+  const { t } = useTranslation("blog");
 
   React.useEffect(() => {
-    REST.Blog.getBlogsB().then((res) => {
+    REST.Blog.getBlogsB().then(async (res) => {
       if (res.status === 200) {
-        setBlogs(res.payload.blogs);
-        setFilteredBlogs(res.payload.blogs);
+        let b = res.payload.blogs;
+
+        if (router.locale === "de") {
+          setBlogs(res.payload.blogs);
+          setFilteredBlogs(res.payload.blogs);
+        } else {
+          const rb: any[] = [];
+
+          for await (const x of b) {
+            const nTitle = await translateOnlineV3({
+              text: x.title,
+              to: router.locale as string,
+              from: "de",
+            });
+            const nContent = await translateOnlineV3({
+              text: x.content,
+              to: router.locale as string,
+              from: "de",
+            });
+
+            rb.push({
+              ...x,
+              title: nTitle,
+              content: nContent,
+            });
+          }
+
+          setBlogs(rb);
+          setFilteredBlogs(rb);
+        }
       } else {
         setError(true);
       }
@@ -76,19 +109,22 @@ export default function Blogs() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {error ? (
         <>
-          <ErrorComponent description={"Blogs konnten nicht geladen werden."} />
+          <ErrorComponent description={t("error.loading")} />
         </>
       ) : (
         <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
           <Box p={6} textAlign={"center"}>
-            <CHeading size={"4xl"}>Blog</CHeading>
+            <CHeading size={"2xl"}>{t("title")}</CHeading>
           </Box>
           <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
             <Input
               w={["75%", "25%"]}
-              placeholder={"Suche"}
+              placeholder={t("base:control.search")}
               onChange={(e) => {
                 setQuery(e.currentTarget.value);
               }}
@@ -153,4 +189,10 @@ export default function Blogs() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["blog"])),
+  };
 }

@@ -34,11 +34,17 @@ import { useRouter } from "next/router";
 import REST from "@codeup/rest";
 import Markdown from "markdown-to-jsx";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function BlogViewer() {
   const [status, setStatus] = React.useState<"loading" | "error" | "success">(
     "loading"
   );
+
+  const { t } = useTranslation("blog");
+
   const [blog, setBlog] = React.useState<{
     _id: string;
     title: string;
@@ -107,10 +113,30 @@ export default function BlogViewer() {
     const id = router.query.id;
 
     if (id) {
-      REST.Blog.getBlog(id as string).then((res) => {
+      REST.Blog.getBlog(id as string).then(async (res) => {
         if (res.status === 200) {
-          setBlog(res.payload.blog);
-          setStatus("success");
+          if (router.locale === "de") {
+            setBlog(res.payload.blog);
+            setStatus("success");
+          } else {
+            const nTitle = await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: res.payload.blog.title,
+            });
+            const nContent = await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: res.payload.blog.content,
+            });
+
+            setBlog({
+              ...res.payload.blog,
+              title: nTitle,
+              content: nContent,
+            });
+            setStatus("success");
+          }
         } else {
           setStatus("error");
         }
@@ -130,9 +156,9 @@ export default function BlogViewer() {
             direction={"column"}
             bg={"#000"}
           >
-            <CircularProgress size={"80px"} isIndeterminate color="red.300" />
+            <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
             <Heading size={"lg"} mt={4}>
-              Laden...
+              {t("loading")}
             </Heading>
           </Flex>
         </>
@@ -140,7 +166,7 @@ export default function BlogViewer() {
         <>
           {status === "error" ? (
             <>
-              <ErrorComponent description={"Ein Fehler ist aufgetreten!"} />
+              <ErrorComponent description={t("error")} />
             </>
           ) : (
             <>
@@ -313,4 +339,17 @@ export default function BlogViewer() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["blog"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
