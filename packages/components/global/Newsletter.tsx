@@ -16,9 +16,12 @@ import { subscribed } from "@codeup/rest/dist/api/Newsletter";
 import { Button, ButtonGroup, Heading, Stack, Text } from "@chakra-ui/react";
 import { FaNewspaper } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import { useTranslation } from "next-i18next";
 
 export default function Newsletter() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const { t } = useTranslation(["base", "navbar", "footer"]);
 
   const [subscribed, setSubscribed] = React.useState(false);
 
@@ -49,10 +52,10 @@ export default function Newsletter() {
           alignItems={"center"}
         >
           <FaNewspaper />
-          Newsletter
+          {t("newsletter", { ns: "footer" })}
         </Heading>
         <Text color={"gray.300"} fontSize={"md"}>
-          Erhalte regelmäßig Updates zu CodeUp und den neusten Projekten.
+          {t("newsletter.text", { ns: "footer" })}
         </Text>
         {loggedIn ? (
           <>
@@ -68,21 +71,22 @@ export default function Newsletter() {
                     if (res.status === 200) {
                       setSubscribed(false);
                       await PopupManager.alertAsync({
-                        title: "Abgemeldet",
-                        description:
-                          "Du wurdest erfolgreich vom Newsletter abgemeldet.",
+                        title: t("newsletter.unsubscribed", { ns: "footer" }),
+                        description: t("newsletter.unsubscribed.text", {
+                          ns: "footer",
+                        }),
                       });
                     } else {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("control.error", { ns: "base" }),
                         description:
-                          "Beim abmelden ist ein Fehler aufgetreten: " +
+                          t("newsletter.unsubscribed.error", { ns: "footer" }) +
                           res.payload.error,
                       });
                     }
                   }}
                 >
-                  Abmelden
+                  {t("newsletter.unsubscribe", { ns: "footer" })}
                 </Button>
               </>
             ) : (
@@ -97,21 +101,22 @@ export default function Newsletter() {
                     if (res.status === 200) {
                       setSubscribed(true);
                       await PopupManager.alertAsync({
-                        title: "Angemeldet",
-                        description:
-                          "Du wurdest erfolgreich beim Newsletter angemeldet.",
+                        title: t("newsletter.subscribed", { ns: "footer" }),
+                        description: t("newsletter.subscribed.text", {
+                          ns: "footer",
+                        }),
                       });
                     } else {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("control.error", { ns: "base" }),
                         description:
-                          "Beim anmelden ist ein Fehler aufgetreten: " +
+                          t("newsletter.subscribed.error", { ns: "footer" }) +
                           res.payload.error,
                       });
                     }
                   }}
                 >
-                  Anmelden
+                  {t("newsletter.subscribe", { ns: "footer" })}
                 </Button>
               </>
             )}
@@ -134,7 +139,7 @@ export default function Newsletter() {
                 window.dispatchEvent(new CustomEvent("codeup::open_login"));
               }}
             >
-              Zum Abonieren anmelden
+              {t("newsletter.login.to.subscribe", { ns: "footer" })}
             </Button>
           </>
         )}

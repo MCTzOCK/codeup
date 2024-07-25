@@ -219,6 +219,7 @@ export async function getStaticProps({ locale }: { locale: string }) {
         "base",
         "navbar",
         "home",
+        "footer",
       ])),
     },
   };
