@@ -30,6 +30,8 @@ import DividerWithText from "@codeup/components/dist/global/DividerWithText";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Contact() {
   const [disableButton, setDisableButton] = React.useState(false);
@@ -40,10 +42,12 @@ export default function Contact() {
 
   const toast = useToast();
 
+  const { t } = useTranslation("contact");
+
   return (
     <>
       <Head>
-        <title>Kontakt - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex
         align="center"
@@ -62,7 +66,7 @@ export default function Contact() {
           rounded="xl"
           shadow={["none", "xl"]}
         >
-          <CHeading size={"2xl"}>Kontakt</CHeading>
+          <CHeading size={"2xl"}>{t("title")}</CHeading>
 
           <form
             onSubmit={async (e) => {
@@ -92,8 +96,8 @@ export default function Contact() {
 
               if (r.status === 200) {
                 toast({
-                  title: "Nachricht gesendet",
-                  description: "Wir werden uns schnellstmöglich bei dir melden",
+                  title: t("message.send"),
+                  description: t("message.send.text"),
                   status: "success",
                   duration: 5000,
                   isClosable: true,
@@ -102,9 +106,8 @@ export default function Contact() {
                 setDisableButton(true);
               } else {
                 toast({
-                  title: "Fehler",
-                  description:
-                    "Es ist ein Fehler aufgetreten, versuche es später eneut oder wende dich per E-Mail unter hello@ben-siebert.de an uns",
+                  title: t("base:control.error"),
+                  description: t("error.text"),
                   status: "error",
                   duration: 5000,
                   isClosable: true,
@@ -115,36 +118,36 @@ export default function Contact() {
           >
             <Stack spacing={4}>
               <FormControl id="category" isRequired>
-                <FormLabel>Kategorie</FormLabel>
+                <FormLabel>{t("category")}</FormLabel>
                 <Select name={"category"}>
-                  <option value="sonstiges">Sonstiges</option>
-                  <option value="fehler">Fehler melden</option>
-                  <option value="feature">Funktion beantragen</option>
+                  <option value="sonstiges">{t("cat.other")}</option>
+                  <option value="fehler">{t("cat.bug")}</option>
+                  <option value="feature">{t("cat.feature")}</option>
                   <option
                     value="creator"
                     selected={router.query.creator !== undefined}
                   >
-                    Creator Bewerbung
+                    {t("cat.creator")}
                   </option>
                 </Select>
               </FormControl>
               <FormControl id="title" isRequired>
-                <FormLabel>Titel</FormLabel>
-                <Input name={"title"} placeholder={"Titel"} />
+                <FormLabel>{t("f.title")}</FormLabel>
+                <Input name={"title"} placeholder={t("f.title")} />
               </FormControl>
               <FormControl id="message" isRequired>
-                <FormLabel>Nachricht</FormLabel>
-                <Textarea name={"message"} placeholder={"Nachricht ..."} />
+                <FormLabel>{t("message")}</FormLabel>
+                <Textarea name={"message"} placeholder={t("message")} />
               </FormControl>
               <Button type="submit" variant={"brand"} disabled={disableButton}>
-                {loggedIn ? "Absenden" : "Anmelden zum Senden"}
+                {loggedIn ? t("send") : t("send.login")}
               </Button>
             </Stack>
           </form>
-          <DividerWithText text={"ODER"} />
+          <DividerWithText text={t("base:or")} />
           <Text textAlign={"center"}>
-            Schreibe uns eine E-Mail an&nbsp;
-            <Link color={"brand.500"} href="mailto:hello@ben-siebert.de">
+            {t("email.to")}
+            <Link pl={3} color={"brand.500"} href="mailto:hello@ben-siebert.de">
               hello@ben-siebert.de
             </Link>
           </Text>
@@ -152,4 +155,10 @@ export default function Contact() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["contact"])),
+  };
 }
