@@ -39,5 +39,17 @@
   "products.legacy.ide.text": "Realize your project ideas",
   "products.challenges": "Challenges",
   "products.challenges.text": "Challenge your skills",
-  "products": "Offers"
+  "products": "Offers",
+  "products.legal": "Legal",
+  "account.switch": "Switch account",
+  "account.organisations": "Organisations",
+  "account.dashboard": "Dashboard",
+  "account.settings": "Settings",
+  "account.logout": "Logout",
+  "account.level": "Level",
+  "account.login": "Registration",
+  "account.level.loading": "Level is loading...",
+  "account.upgrade": "Upgrade to PRO",
+  "account.switch.add": "Add account",
+  "account.admin.disclaimer": "You're an admin. You can use all functions and access the admin page."
 }

@@ -5,6 +5,7 @@
   "products": "Angebote",
   "products.blog": "Blog",
   "products.creator": "Creator",
+  "products.legal": "Rechtliches",
   "products.legal.imprint": "Impressum",
   "products.legal.privacy": "Datenschutz",
   "products.ai": "AI-Assistent",
@@ -39,5 +40,16 @@
   "products.legacy.ide": "IDE (veraltet)",
   "products.legacy.ide.text": "Verwirkliche deine Projektideen",
   "products.challenges": "Challenges",
-  "products.challenges.text": "Fordere dein Können heraus"
+  "products.challenges.text": "Fordere dein Können heraus",
+  "account.switch": "Account wechseln",
+  "account.organisations": "Organisationen",
+  "account.dashboard": "Dashboard",
+  "account.settings": "Einstellungen",
+  "account.logout": "Abmelden",
+  "account.level": "Level",
+  "account.login": "Anmelden",
+  "account.level.loading": "Level wird geladen...",
+  "account.upgrade": "Upgrade auf PRO",
+  "account.switch.add": "Hinzufügen",
+  "account.admin.disclaimer": "Du bist al Admin angemeldet. Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen. Nutze deine Berechtigungen nicht aus und verhalte dich fair."
 }

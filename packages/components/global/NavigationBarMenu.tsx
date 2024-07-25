@@ -124,7 +124,10 @@ export default function NavigationBarMenu(props: {
                   {t("products.creator", { ns: "navbar" })}
                 </Text>
               </Link>
-              <DividerWithText text={"Rechtliches"} color={"gray.400"} />
+              <DividerWithText
+                text={t("products.legal", { ns: "navbar" })}
+                color={"gray.400"}
+              />
               <Link href={"/legal/imprint"} onClick={props.onClose}>
                 <Text
                   fontSize={"xl"}
@@ -134,7 +137,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  {t("imprint", { ns: "navbar" })}
+                  {t("products.legal.imprint", { ns: "navbar" })}
                 </Text>
               </Link>
               <Link href={"/legal/privacy"} onClick={props.onClose}>

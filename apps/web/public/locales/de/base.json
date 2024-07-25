@@ -5,5 +5,7 @@
   "categories.develop": "Entwickeln",
   "categories.communicate": "Austauschen",
   "categories.planning": "Planen",
-  "categories.other": "Anderes"
+  "categories.other": "Anderes",
+  "control.error": "Fehler",
+  "control.error.request": "Es ist ein Fehler aufgetreten: "
 }

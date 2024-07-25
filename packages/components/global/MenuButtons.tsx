@@ -50,12 +50,14 @@ import PopupManager from "@codeup/web/src/global/PopupManager";
 import { HiSwitchHorizontal } from "react-icons/hi";
 import AccountManager from "@codeup/util/src/AccountManager";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function MenuButtons(props: {
   onClose: () => void;
   onUserAuthOpen: () => void;
   onLogoutOpen: () => void;
 }) {
+  const { t } = useTranslation(["base", "navbar"]);
   const { loggedIn, userInfo } = useLoggedIn();
   const router = useRouter();
 
@@ -99,7 +101,7 @@ export default function MenuButtons(props: {
             }}
             variant={"brand"}
           >
-            Anmelden
+            {t("account.login", { ns: "navbar" })}
           </Button>
         </>
       ) : null}
@@ -146,7 +148,8 @@ export default function MenuButtons(props: {
                     <MenuItem w={"100%"} as={"a"} href={"/account/level"}>
                       <Box w={"100%"}>
                         <Text textAlign={"center"} fontWeight={"bold"}>
-                          Level {levelProgress.level}
+                          {t("account.level", { ns: "navbar" })}{" "}
+                          {levelProgress.level}
                         </Text>
                         <Progress
                           rounded={"md"}
@@ -165,7 +168,9 @@ export default function MenuButtons(props: {
                     {levelError ? (
                       <Text textAlign={"center"}>{levelError}</Text>
                     ) : (
-                      <Text textAlign={"center"}>Level wird geladen...</Text>
+                      <Text textAlign={"center"}>
+                        {t("account.level.loading", { ns: "navbar" })}
+                      </Text>
                     )}
                   </>
                 )}
@@ -181,10 +186,9 @@ export default function MenuButtons(props: {
                         window.location.href = res.payload.url;
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("control.error"),
                           description:
-                            "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
-                            res.payload.error,
+                            t("control.error.request") + res.payload.error,
                         });
                       }
                     }}
@@ -192,7 +196,7 @@ export default function MenuButtons(props: {
                     fontWeight={"bold"}
                     icon={<FaCrown />}
                   >
-                    Upgrade auf PRO
+                    {t("account.upgrade", { ns: "navbar" })}
                   </MenuItem>
                 )}
                 <MenuItem
@@ -203,7 +207,7 @@ export default function MenuButtons(props: {
                   color={"blue.300"}
                   fontWeight={"bold"}
                 >
-                  Creator
+                  {t("products.creator", { ns: "navbar" })}
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem
@@ -297,7 +301,7 @@ export default function MenuButtons(props: {
                     };
 
                     PopupManager.alert({
-                      title: "Account wechseln",
+                      title: t("account.switch", { ns: "navbar" }),
                       description: (
                         <>
                           <Stack w={"100%"}>
@@ -335,7 +339,7 @@ export default function MenuButtons(props: {
                                 );
                               }}
                             >
-                              Hinzufügen
+                              {t("account.switch.add", { ns: "navbar" })}
                             </Button>
                           </Stack>
                         </>
@@ -343,17 +347,21 @@ export default function MenuButtons(props: {
                     });
                   }}
                 >
-                  Account wechseln
+                  {t("account.switch", { ns: "navbar" })}
                 </MenuItem>
                 <Link href={"/orgs"}>
-                  <MenuItem icon={<FaSitemap />}>Organisationen</MenuItem>
+                  <MenuItem icon={<FaSitemap />}>
+                    {t("account.organisations", { ns: "navbar" })}
+                  </MenuItem>
                 </Link>
                 <MenuDivider />
                 <Link href={"/dashboard/v2"}>
-                  <MenuItem>Dashboard</MenuItem>
+                  <MenuItem>
+                    {t("account.dashboard", { ns: "navbar" })}
+                  </MenuItem>
                 </Link>
                 <Link href={"/account/settings"}>
-                  <MenuItem>Einstellungen</MenuItem>
+                  <MenuItem>{t("account.settings", { ns: "navbar" })}</MenuItem>
                 </Link>
                 <MenuItem
                   color={"red.300"}
@@ -361,18 +369,12 @@ export default function MenuButtons(props: {
                     props.onLogoutOpen();
                   }}
                 >
-                  Abmelden
+                  {t("account.logout", { ns: "navbar" })}
                 </MenuItem>
               </MenuList>
             </Menu>
             {userInfo.role === "admin" ? (
-              <Tooltip
-                label={`
-                Du bist als Admin angemeldet.
-                Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen.
-                Nutze deine Berechtigungen nicht aus und verhalte dich fair.
-                `}
-              >
+              <Tooltip label={t("account.admin.disclaimer", { ns: "navbar" })}>
                 <Avatar
                   size={"md"}
                   backgroundColor={"red.200"}
@@ -387,47 +389,6 @@ export default function MenuButtons(props: {
           </HStack>
         </>
       ) : null}
-    </>
-  );
-
-  return (
-    <>
-      {!loggedIn ? (
-        <>
-          <Button
-            variant={"solid"}
-            onClick={() => {
-              props.onClose();
-              props.onUserAuthOpen();
-            }}
-            colorScheme={"whatsapp"}
-          >
-            Anmelden
-          </Button>
-        </>
-      ) : (
-        <>
-          <Link href={"/dashboard"}>
-            <Button
-              variant={"solid"}
-              colorScheme={"blue"}
-              onClick={props.onClose}
-            >
-              Dashboard
-            </Button>
-          </Link>
-          <Button
-            variant={"solid"}
-            colorScheme={"red"}
-            onClick={() => {
-              props.onClose();
-              props.onLogoutOpen();
-            }}
-          >
-            Abmelden
-          </Button>
-        </>
-      )}
     </>
   );
 }

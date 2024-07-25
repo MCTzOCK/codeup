@@ -420,11 +420,16 @@ export default function NavigationBar(props: {
           </InputGroup>
         </Box>
         <Grid
-          templateColumns={[
-            "repeat(auto-fit, minmax(300px, 1fr))",
-            "repeat(auto-fit, minmax(700px, 1fr))",
-          ]}
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            sm: "repeat(1, 1fr)",
+            lg: "repeat(2, 1fr)",
+          }}
           gap={6}
+          m={{
+            base: -4,
+            lg: 0,
+          }}
         >
           <GridItem
             borderStyle={"dashed"}
@@ -447,7 +452,11 @@ export default function NavigationBar(props: {
               </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -487,7 +496,11 @@ export default function NavigationBar(props: {
               </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -527,7 +540,11 @@ export default function NavigationBar(props: {
               </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -566,7 +583,11 @@ export default function NavigationBar(props: {
               </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -606,7 +627,11 @@ export default function NavigationBar(props: {
               </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions

@@ -5,5 +5,7 @@
   "categories.develop": "Developing",
   "categories.communicate": "Exchanges",
   "categories.planning": "Plans",
-  "categories.other": "Other"
+  "categories.other": "Other",
+  "control.error": "Error",
+  "control.error.request": "An error occurred:"
 }
