@@ -1,0 +1,18 @@
+{
+  "error.loading": "The AI chats could not be loaded: ",
+  "error.loading.quota": "The AI-Quota could not be loaded: ",
+  "error.sending.request": "The request could not be sent: ",
+  "new.chat": "New chat",
+  "title": "AI assistant",
+  "doc.title": "AI Assistant - CodeUp",
+  "placeholder.text": "Select a chat or start a new one by sending a message!",
+  "templates.project.idea": "Give me a project idea!",
+  "templates.react": "What is React?",
+  "templates.rest": "Give me the definition of an REST API.",
+  "templates.algo": "What properties does an algorithm have?",
+  "message": "Message",
+  "quota.msg.1": "You still have",
+  "quota.msg.2": "Questions left. You get 10 more requests on the ",
+  "quota.msg.3": "",
+  "quota.loading": "Loading..."
+}

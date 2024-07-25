@@ -33,11 +33,15 @@ import { default as redirect } from "@codeup/util/src/userworkflow/redirect";
 import REST from "@codeup/rest";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Token() {
   const router = useRouter();
 
   const { token } = router.query;
+
+  const { t } = useTranslation("reset-password");
 
   const [loading, setLoading] = React.useState(false);
   const [alertVisible, setAlertVisible] = React.useState(false);
@@ -83,7 +87,7 @@ export default function Token() {
   return (
     <>
       <Head>
-        <title>Passwort zutücksetzen - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       {alertVisible ? (
         <Alert status={alertType} variant={"top-accent"}>
@@ -113,9 +117,9 @@ export default function Token() {
               justifyContent={"center"}
               direction={"column"}
             >
-              <CHeading size={"xl"}>Passwort zurücksetzen</CHeading>
+              <CHeading size={"xl"}>{t("title")}</CHeading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Gib ein neues Passwort ein.
+                {t("text")}
               </Text>
             </Flex>
             <form
@@ -143,11 +147,11 @@ export default function Token() {
               }}
             >
               <FormControl isInvalid={passwordInvalid}>
-                <FormLabel htmlFor={"password"}>Passwort</FormLabel>
+                <FormLabel htmlFor={"password"}>{t("password")}</FormLabel>
                 <InputGroup>
                   <Input
                     id={"password"}
-                    placeholder={"Passwort"}
+                    placeholder={t("password")}
                     disabled={disabled || loading}
                     type={passwordVisible ? "text" : "password"}
                     onChange={(e) => {
@@ -172,11 +176,7 @@ export default function Token() {
                     {passwordVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
                   </InputRightElement>
                 </InputGroup>
-                <FormErrorMessage>
-                  Bitte gib ein Passwort ein, welches aus mindestens 8
-                  Buchstaben, einen Großbuchstaben, einen Kleinbuchstaben eine
-                  Ziffer und ein Sonderzeichen besteht.
-                </FormErrorMessage>
+                <FormErrorMessage>{t("password.criteria")}</FormErrorMessage>
               </FormControl>
               <Button
                 variant={"brand"}
@@ -186,7 +186,7 @@ export default function Token() {
                 w={"100%"}
                 mt={"2rem"}
               >
-                Passwort zurücksetzen
+                {t("password.reset")}
               </Button>
             </form>
           </Flex>
@@ -194,4 +194,17 @@ export default function Token() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["reset-password"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

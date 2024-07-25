@@ -1,0 +1,18 @@
+{
+  "error.loading": "Die KI-Chats konnten nicht geladen werden: ",
+  "error.loading.quota": "Die KI-Quota konnte nicht geladen werden: ",
+  "error.sending.request": "Die Anfrage konnte nicht gesendet werden: ",
+  "new.chat": "Neuer Chat",
+  "title": "KI-Assistent",
+  "doc.title": "KI-Assistent - CodeUp",
+  "placeholder.text": "Wählen einen Chat aus, oder starte einen neuen, indem du eine Nachricht schreibst!",
+  "templates.project.idea": "Gib mir eine Projektidee!",
+  "templates.react": "Was ist React?",
+  "templates.rest": "Gib mir die Definition einer REST-API.",
+  "templates.algo": "Welche Eigenschaften hat ein Algorithmus?",
+  "message": "Nachricht",
+  "quota.msg.1": "Du hast noch",
+  "quota.msg.2": "Anfragen übrig. Du bekommst am",
+  "quota.msg.3": "10 weitere Anfragen!",
+  "quota.loading": "Laden..."
+}
