@@ -34,6 +34,7 @@ import Testimonials from "@codeup/components/landingpagev2/Testimonials";
 import Milestones from "@codeup/components/landingpagev2/Milestones";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { sProp } from "../global/i18nstaticProps";
 
 export default function Home() {
   const { loggedIn } = useLoggedIn();
@@ -214,13 +215,6 @@ export default function Home() {
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "de", [
-        "base",
-        "navbar",
-        "home",
-        "footer",
-      ])),
-    },
+    ...(await sProp(locale, ["home"])),
   };
 }

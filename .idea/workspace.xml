@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/popupmanager.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/en/popupmanager.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/i18nstaticProps.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager/AlertPopupComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/AlertPopupComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager/ConfirmPopupComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/ConfirmPopupComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager/PromptPopupComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/PromptPopupComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager/SelectPopupComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager/SelectPopupComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/components/global/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/MenuButtons.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +32,11 @@
         <option value="React Component" />
         <option value="tsconfig.json" />
         <option value="package.json" />
-        <option value="TypeScript File" />
         <option value="CSS File" />
         <option value="SCSS File" />
         <option value="TypeScript JSX File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>

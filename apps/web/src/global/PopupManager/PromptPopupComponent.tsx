@@ -28,6 +28,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function PromptPopupComponent(props: {
   title: string;
@@ -39,6 +40,7 @@ export default function PromptPopupComponent(props: {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,
   });
+  const { t } = useTranslation("popupmanager");
 
   const whatEverRef = useRef();
 
@@ -64,16 +66,19 @@ export default function PromptPopupComponent(props: {
 
             <AlertDialogBody>
               <FormControl isRequired>
-                <FormLabel>Eingabe</FormLabel>
+                <FormLabel>{t("prompt.input")}</FormLabel>
                 {props.inputType === "INPUT" ? (
                   <InputGroup>
                     <InputLeftElement>
                       <FaPen />
                     </InputLeftElement>
-                    <Input id={"input-" + id} placeholder={"Eingabe"} />
+                    <Input id={"input-" + id} placeholder={t("prompt.input")} />
                   </InputGroup>
                 ) : (
-                  <Textarea id={"input-" + id} placeholder={"Eingabe"} />
+                  <Textarea
+                    id={"input-" + id}
+                    placeholder={t("prompt.input")}
+                  />
                 )}
                 <FormHelperText>{props.helperText}</FormHelperText>
               </FormControl>
@@ -88,7 +93,7 @@ export default function PromptPopupComponent(props: {
                 // @ts-ignore
                 ref={whatEverRef}
               >
-                Abbrechen
+                {t("cancel")}
               </Button>
               <Button
                 variant={"brand"}
@@ -103,7 +108,7 @@ export default function PromptPopupComponent(props: {
                 }}
                 ml={3}
               >
-                Bestätigen
+                {t("confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

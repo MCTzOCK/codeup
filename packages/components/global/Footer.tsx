@@ -218,7 +218,11 @@ const Footer = (props: { transparent?: boolean }) => {
             <Menu>
               <MenuButton as={Button} rightIcon={<FaChevronDown />}>
                 <ReactCountryFlag
-                  countryCode={languages[i18n.language].cc}
+                  countryCode={
+                    i18n && i18n.language && languages[i18n.language]
+                      ? languages[i18n.language].cc
+                      : "DE"
+                  }
                   svg
                   style={{
                     fontSize: "1.5em",

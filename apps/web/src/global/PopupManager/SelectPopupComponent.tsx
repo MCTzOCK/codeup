@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
 import { useId, useRef } from "react";
+import { useTranslation } from "next-i18next";
 
 export default function SelectPopupComponent(props: {
   title: string;
@@ -41,7 +42,7 @@ export default function SelectPopupComponent(props: {
   });
 
   const whatEverRef = useRef();
-
+  const { t } = useTranslation("popupmanager");
   const id = useId();
 
   return (
@@ -64,8 +65,11 @@ export default function SelectPopupComponent(props: {
 
             <AlertDialogBody>
               <FormControl isRequired>
-                <FormLabel>Eingabe</FormLabel>
-                <Select id={"input-" + id} placeholder="Wähle eine Option">
+                <FormLabel>{t("prompt.input")}</FormLabel>
+                <Select
+                  id={"input-" + id}
+                  placeholder={t("select.choose.option")}
+                >
                   {props.choices.map((c, i) => {
                     return <option key={i}>{c}</option>;
                   })}
@@ -83,7 +87,7 @@ export default function SelectPopupComponent(props: {
                 // @ts-ignore
                 ref={whatEverRef}
               >
-                Abbrechen
+                {t("cancel")}
               </Button>
               <Button
                 variant={"brand"}
@@ -98,7 +102,7 @@ export default function SelectPopupComponent(props: {
                 }}
                 ml={3}
               >
-                Bestätigen
+                {t("confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
