@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { FaUser, FaVideo } from "react-icons/fa";
 import { FaBox, FaSchool } from "react-icons/fa6";
+import { useTranslation } from "next-i18next";
 
 interface StatData {
   id: number;
@@ -29,6 +30,8 @@ interface StatData {
   score: string | ReactNode;
 }
 export default function StatsV2() {
+  const { t } = useTranslation("home");
+
   const [statData, setStatData] = React.useState<StatData[]>([]);
   useEffect(() => {
     fetch("/api/stats").then((res) => {
@@ -36,22 +39,22 @@ export default function StatsV2() {
         setStatData([
           {
             id: 1,
-            label: "Benutzer",
+            label: t("stats.users"),
             score: data.users,
           },
           {
             id: 2,
-            label: "Projekte",
+            label: t("stats.projects"),
             score: data.projects,
           },
           {
             id: 3,
-            label: "Lektionen",
+            label: t("stats.lessons"),
             score: data.lessons,
           },
           {
             id: 4,
-            label: "Organisationen",
+            label: t("stats.orgs"),
             score: data.orgs,
           },
         ]);
@@ -104,11 +107,10 @@ export default function StatsV2() {
                 fontWeight={600}
                 lineHeight={1.3}
               >
-                CodeUp in Zahlen.
+                {t("stats.title")}
               </Heading>
               <Text color={"gray.200"} fontSize={"lg"}>
-                Seit der Veröffentlichung von CodeUp haben wir eine Menge
-                erreicht. Hier sind einige Zahlen, die uns stolz machen.
+                {t("stats.text")}
               </Text>
             </Flex>
           </Box>
@@ -132,15 +134,15 @@ export default function StatsV2() {
                 justifyContent={"space-between"}
               >
                 <chakra.span fontSize={"4xl"} color={"brand.500"}>
-                  {data.label === "Benutzer" ? (
+                  {data.label === t("stats.users") ? (
                     <>
                       <FaUser />
                     </>
-                  ) : data.label === "Projekte" ? (
+                  ) : data.label === t("stats.projects") ? (
                     <>
                       <FaBox />
                     </>
-                  ) : data.label === "Lektionen" ? (
+                  ) : data.label === t("stats.lessons") ? (
                     <>
                       <FaVideo />
                     </>

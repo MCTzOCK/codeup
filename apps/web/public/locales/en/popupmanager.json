@@ -6,5 +6,6 @@
   "prompt.input": "Input",
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "select.choose.option": "Select an option"
+  "select.choose.option": "Select an option",
+  "alert": "Report"
 }

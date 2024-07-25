@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import { FaMessage, FaRobot } from "react-icons/fa6";
 import router from "next/router";
+import { useTranslation } from "next-i18next";
 
 interface Offer {
   icon: React.ReactNode;
@@ -32,73 +33,72 @@ interface Offer {
 }
 
 export default function OffersV4() {
+  const { t } = useTranslation("home");
   const offers: Offer[] = [
     {
       icon: <FaBookOpen />,
-      title: "Kurse",
-      description: "Videokurse zu den wichtigsten Themen für dich!",
+      title: t("functions.courses"),
+      description: t("functions.courses.description"),
       href: "/course",
     },
     {
       icon: <FaCheck />,
-      title: "Zertifikate",
-      description: "Zertifikate und Abschlüsse um dein Wissen zu bestätigen!",
+      title: t("functions.certificates"),
+      description: t("functions.certificates.description"),
       href: "/certificates",
     },
     {
       icon: <FaTrophy />,
-      title: "Challenges",
-      description: "Teste dein Wissen in spannenden Challenges!",
+      title: t("functions.challenges"),
+      description: t("functions.challenges.description"),
       href: "/challenges",
     },
     {
       icon: <FaCode />,
-      title: "Editor",
-      description: "Setze deine Projekte in die Tat um!",
+      title: t("functions.editor"),
+      description: t("functions.editor.description"),
       href: "/projects",
     },
     {
       icon: <FaCheckSquare />,
-      title: "ToDos",
-      description: "Plane deine Projekte bis ins kleinste Detail.",
+      title: t("functions.todo"),
+      description: t("functions.todo.description"),
       href: "/tasks",
     },
     {
       icon: <FaFileCode />,
-      title: "Snippets",
-      description: "Speichere hilfreiche Snippets.",
+      title: t("functions.snippets"),
+      description: t("functions.snippets.description"),
       href: "/tasks",
     },
     {
       icon: <FaLightbulb />,
-      title: "Ideen",
-      description: "Erhalte Ideen für interessante Projekte!",
+      title: t("functions.ideas"),
+      description: t("functions.ideas.description"),
       href: "/ideas",
     },
     {
       icon: <FaProjectDiagram />,
-      title: "Flows",
-      description: "Visualisiere Abläufe innerhalb deiner Apps.",
+      title: t("functions.flows"),
+      description: t("functions.flows.description"),
       href: "/planning",
     },
     {
       icon: <FaMessage />,
-      title: "Forum",
-      description:
-        "Tausche dich mit anderen Entwicklern aus und erhalte Hilfe!",
+      title: t("functions.forum"),
+      description: t("functions.forum.description"),
       href: "/forum",
     },
     {
       icon: <FaRobot />,
-      title: "KI-Assistent",
-      description: "Bitte unseren KI-Assistenten um Hilfe!",
+      title: t("functions.ai"),
+      description: t("functions.ai.description"),
       href: "/ai",
     },
     {
       icon: <FaBoxes />,
-      title: "Dashboard",
-      description:
-        "Behalte den Überblick über deinen Lernprozess und deine Projekte.",
+      title: t("functions.dashboard"),
+      description: t("functions.dashboard.description"),
       href: "/dashboard/v2",
     },
   ];
@@ -116,7 +116,7 @@ export default function OffersV4() {
           color={"gray.200"}
           fontSize={"lg"}
         >
-          Voller Funktionen
+          {t("functions")}
         </Text>
         <Heading
           size={"xl"}
@@ -129,7 +129,7 @@ export default function OffersV4() {
           p={2}
           textAlign={"center"}
         >
-          Für dein bestes Erlebnis.
+          {t("functions.title")}
         </Heading>
       </Flex>
       <Flex
