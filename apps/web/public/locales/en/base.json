@@ -1,3 +1,9 @@
 {
-  "product.name": "CodeUp2"
+  "product.name": "CodeUp",
+  "control.search": "Search",
+  "categories.learn": "Learning",
+  "categories.develop": "Developing",
+  "categories.communicate": "Exchanges",
+  "categories.planning": "Plans",
+  "categories.other": "Other"
 }
