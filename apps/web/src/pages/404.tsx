@@ -14,18 +14,28 @@ import Link from "next/link";
 import Image from "next/image";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
+import { sProp } from "../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function NotFound() {
+  const { t } = useTranslation("404");
+
   return (
     <>
       <Head>
-        <title>Seite nicht gefunden - CodeUp</title>
+        <title>{t("404.doc.title")}</title>
       </Head>
       <ErrorComponent
-        description={"Die angeforderte Seite konnte nicht gefunden werden."}
-        title={"Seite nicht gefunden"}
+        description={t("404.description")}
+        title={t("404.title")}
         image={"/_static/vectors/error/404_v2.svg"}
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["404"])),
+  };
 }

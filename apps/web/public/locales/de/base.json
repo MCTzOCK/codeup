@@ -7,5 +7,6 @@
   "categories.planning": "Planen",
   "categories.other": "Anderes",
   "control.error": "Fehler",
-  "control.error.request": "Es ist ein Fehler aufgetreten: "
+  "control.error.request": "Es ist ein Fehler aufgetreten: ",
+  "home": "Home"
 }

@@ -13,20 +13,28 @@ import { Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
+import { sProp } from "../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function NotFound() {
+  const { t } = useTranslation("500");
+
   return (
     <>
       <Head>
-        <title>Interner Server Fehler - CodeUp</title>
+        <title>{t("500.doc.title")}</title>
       </Head>
       <ErrorComponent
-        description={
-          "Die Seite kann aufgrund eines Fehlers nicht angezeigt werden."
-        }
-        title={"Interner Server Fehler"}
+        description={t("500.description")}
+        title={t("500.title")}
         image={"/_static/vectors/error/500_v2.svg"}
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["500"])),
+  };
 }
