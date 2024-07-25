@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/user-cert.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/tasks.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/creator.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/creator.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/legal/imprint.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/legal/imprint.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/legal/privacy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/legal/privacy.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/user-cert/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/user-cert/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/user-cert.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/user-cert.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/tasks/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/tasks/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/tasks/TaskListViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/tasks/TaskListViewer.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

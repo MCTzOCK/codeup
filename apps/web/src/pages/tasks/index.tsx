@@ -21,9 +21,12 @@ import { FaCube } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import TaskListViewer from "@codeup/components/tasks/TaskListViewer";
 import Head from "next/head";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Tasks() {
   const router = useRouter();
+  const { t } = useTranslation("tasks");
   const [lists, setLists] = React.useState<
     {
       _id: string;
@@ -48,9 +51,8 @@ export default function Tasks() {
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "ToDo-Listen konnten nicht geladen werden: " + res.payload.error,
+        title: t("base:error"),
+        description: t("error.loading") + res.payload.error,
       });
       return;
     }
@@ -101,7 +103,7 @@ export default function Tasks() {
   if (loading) {
     return (
       <>
-        <AuthenticateLoadingIndicator text={"Laden..."} />
+        <AuthenticateLoadingIndicator text={t("loading")} />
       </>
     );
   }
@@ -109,11 +111,11 @@ export default function Tasks() {
   return (
     <>
       <Head>
-        <title>Tasks - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Box w={"100%"} bg={"#000"} minH={"100vh"} h={"fit-content"}>
         <GridLayoutV2
-          pageTitle={"Aufgaben"}
+          pageTitle={t("glv2.page.title")}
           search={{
             show: true,
             fields: true,
@@ -124,8 +126,8 @@ export default function Tasks() {
               leftIcon: <FaPlus />,
               onClick: async () => {
                 const name = await PopupManager.promptAsync({
-                  title: "Neue Liste",
-                  helperText: "Bitte gib den Namen der neuen Liste ein",
+                  title: t("new.list"),
+                  helperText: t("new.list.name"),
                 });
 
                 if (!name) return;
@@ -137,17 +139,15 @@ export default function Tasks() {
 
                 if (res.status !== 200) {
                   await PopupManager.alertAsync({
-                    title: "Fehler",
-                    description:
-                      "Die Liste konnte nicht erstellt werden: " +
-                      res.payload.error,
+                    title: t("base:error"),
+                    description: t("new.list.error") + res.payload.error,
                   });
                   return;
                 }
 
                 await reloadLists();
               },
-              text: "Neu",
+              text: t("new"),
             },
           ]}
           entries={lists.map((l) => {
@@ -160,13 +160,13 @@ export default function Tasks() {
                 },
                 {
                   icon: <FaCube />,
-                  text: l.items.length + " Einträge",
+                  text: l.items.length + " " + t("items"),
                 },
               ],
               buttonRows: [
                 [
                   {
-                    text: "Öffnen",
+                    text: t("open"),
                     variant: "brand",
                     leftIcon: <FaEye />,
                     onClick: () => {
@@ -175,14 +175,14 @@ export default function Tasks() {
                     },
                   },
                   {
-                    text: "Löschen",
+                    text: t("delete"),
                     colorScheme: "red",
                     leftIcon: <FaTrash />,
                     onClick: async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Löschen",
-                          question: "Möchtest du die Liste wirklich löschen?",
+                          title: t("delete"),
+                          question: t("delete.confirm"),
                         }))
                       )
                         return;
@@ -194,10 +194,8 @@ export default function Tasks() {
 
                       if (res.status !== 200) {
                         await PopupManager.alertAsync({
-                          title: "Fehler",
-                          description:
-                            "Die Liste konnte nicht gelöscht werden: " +
-                            res.payload.error,
+                          title: t("base:error"),
+                          description: t("delete.error") + res.payload.error,
                         });
                         return;
                       }
@@ -220,4 +218,10 @@ export default function Tasks() {
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["tasks"])),
+  };
 }
