@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import * as React from "react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function About() {
   const [appInfo, setAppInfo] = useState<{
@@ -143,10 +145,12 @@ export default function About() {
     }
   }, []);
 
+  const { t } = useTranslation("about");
+
   return (
     <>
       <Head>
-        <title>Über CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Box bg={"#000"} pb={"4rem"} pt={"4rem"}>
         <Flex
@@ -156,46 +160,39 @@ export default function About() {
           textAlign={"center"}
           paddingInline={["1rem", "30%"]}
         >
-          <CHeading size={"2xl"}>Über CodeUp</CHeading>
+          <CHeading size={"2xl"}>{t("title")}</CHeading>
 
           <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-            CodeUp ist eine Platform, die dir mittels <b>interaktiven Kursen</b>
-            , einer <b>fortschrittlichen Entwicklungsumgebung</b>, einer&nbsp;
-            <b>Community</b> aus Gleichgesinnten und erfahrenen Entwicklern
-            hilft, dich in der Welt der Programmierung zurechtzufinden. CodeUp
-            wurde von Ben Siebert für Jugend forscht 2023 entwickelt. Im Mai
-            2024 wurde das Projekt wieder aufgenommen und wird vorraussichtlich
-            auch an Jugend forscht 2025 teilnehmen.
+            {t("intro")}
           </Heading>
 
-          <CHeading size={"xl"}>Statistiken</CHeading>
+          <CHeading size={"xl"}>{t("stats")}</CHeading>
 
           {local && (
             <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-              Du siehst diese Seite lokal. Daher sind keine Statistiken
-              verfügbar.
+              {t("local")}
             </Heading>
           )}
 
           {appInfo && (
             <SimpleGrid columns={2} spacing={10}>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Commits: {appInfo.git.commits}
+                {t("commits")}: {appInfo.git.commits}
               </Heading>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Branch: {appInfo.git.branch}
+                {t("branch")}: {appInfo.git.branch}
               </Heading>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Commit: {appInfo.git.commit}
+                {t("commit")}: {appInfo.git.commit}
               </Heading>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Letzte Änderung: {appInfo.git.lastCommitMessage}
+                {t("last.change")}: {appInfo.git.lastCommitMessage}
               </Heading>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Zeilen: {appInfo.app.totalLines}
+                {t("lines")}: {appInfo.app.totalLines}
               </Heading>
               <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-                Verwendete Pakete: {appInfo.packages.count}
+                {t("used.packages")}: {appInfo.packages.count}
               </Heading>
             </SimpleGrid>
           )}
@@ -209,7 +206,7 @@ export default function About() {
           paddingInline={[0, "30%"]}
         >
           <Heading size={"xl"} fontFamily={"monospace"} color={"gray.200"}>
-            Verwendete Technologien
+            {t("used.technologies")}
           </Heading>
 
           <SimpleGrid columns={[2, 4]} spacing="40px">
@@ -341,18 +338,17 @@ export default function About() {
           </SimpleGrid>
 
           <Box mt={4}></Box>
-          <CHeading>Alle Pakete</CHeading>
+          <CHeading>{t("all.packages")}</CHeading>
 
           {appInfo && (
             <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-              Insgesamt verwenden wir {appInfo.packages.count} Pakete
+              {t("all.packages.info")} {appInfo.packages.packages.length}
             </Heading>
           )}
 
           {local && (
             <Heading size={"md"} fontFamily={"monospace"} color={"gray.200"}>
-              Du siehst diese Seite lokal. Daher werden die Pakete nicht
-              angezeigt.
+              {t("local")}
             </Heading>
           )}
 
@@ -375,12 +371,12 @@ export default function About() {
           {appInfo && appInfo.packages.packages.length > showingPackages ? (
             <>
               <Link
-                color={"blue.400"}
+                color={"brand.500"}
                 onClick={() => {
                   setShowingPackages(showingPackages + 12);
                 }}
               >
-                Weitere Pakete anzeigen...
+                {t("packages.show.more")}
               </Link>
             </>
           ) : null}
@@ -410,6 +406,7 @@ function TechListItem(props: { name: string; icon: string }) {
 }
 
 function PackageListItem(props: { name: string; version: string }) {
+  const { t } = useTranslation("about");
   return (
     <>
       <Box p={5} shadow={"md"} rounded={"md"} bg={"black"} color={"gray.200"}>
@@ -417,7 +414,7 @@ function PackageListItem(props: { name: string; version: string }) {
           {props.name}
         </Heading>
         <Text mt={2} fontSize={"sm"}>
-          Version: {props.version}
+          {t("version")}: {props.version}
         </Text>
         <Link
           href={"https://www.npmjs.com/package/" + props.name}
@@ -430,4 +427,10 @@ function PackageListItem(props: { name: string; version: string }) {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["about"])),
+  };
 }

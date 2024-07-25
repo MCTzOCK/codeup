@@ -51,7 +51,7 @@
   "account.level.loading": "Level wird geladen...",
   "account.upgrade": "Upgrade auf PRO",
   "account.switch.add": "Hinzufügen",
-  "account.admin.disclaimer": "Du bist al Admin angemeldet. Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen. Nutze deine Berechtigungen nicht aus und verhalte dich fair.",
+  "account.admin.disclaimer": "Du bist als Admin angemeldet. Du kannst alle Funktionen nutzen und auf die Admin-Seite zugreifen. Nutze deine Berechtigungen nicht aus und verhalte dich fair.",
   "account.logout.confirm": "Abmelden",
   "account.logout.confirm.text": "Möchtest du dich wirklich abmelden?"
 }

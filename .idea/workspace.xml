@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/auth.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/about.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/codeup.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/base.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/base.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/i18nstaticProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/i18nstaticProps.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/DividerWithText.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/DividerWithText.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/UserAuthAction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/UserAuthAction.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/UserAuthLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/UserAuthLogin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/UserAuthRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/UserAuthRegister.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/UserAuthReset.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/UserAuthReset.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/navbar.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/navbar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/auth.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/auth.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/navbar.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/navbar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/codeup/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/codeup/about.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
