@@ -1,0 +1,18 @@
+{
+  "doc.title": "Discovery - CodeUp",
+  "error.text": "An error occurred!",
+  "title": "Discovery",
+  "author": "Author",
+  "stars": "Stars",
+  "description": "Description",
+  "open": "Open",
+  "stars.add": "Add a star",
+  "stars.remove": "Remove star",
+  "success": "Successful",
+  "success.text": "Your action has been successfully executed!",
+  "error.desc": "An error occurred",
+  "comment": "Comment",
+  "comment.subj": "Comment",
+  "comment.subj.helper": "Enter your comment. Watch your choice of words!",
+  "comment.added": "Your comment has been added successfully!"
+}
