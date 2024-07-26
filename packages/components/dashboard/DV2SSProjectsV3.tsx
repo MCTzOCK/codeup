@@ -16,8 +16,10 @@ import router from "next/router";
 import { CHeading } from "../global/CHeading";
 import byteSize from "byte-size";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SSProjectsV3() {
+  const { t } = useTranslation("dashboard");
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -42,7 +44,7 @@ export default function DV2SSProjectsV3() {
     setLoading(false);
 
     if (res.status !== 200) {
-      setError("Fehler beim Laden der Projekte: " + res.payload.error);
+      setError(t("projects.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -88,7 +90,9 @@ export default function DV2SSProjectsV3() {
             <Text fontSize={"md"}>
               {new Date(project.createdAt).toLocaleString()}
             </Text>
-            <Text fontSize={"md"}>{project.users.length} Mitwirkende</Text>
+            <Text fontSize={"md"}>
+              {project.users.length} {t("projects.contributors")}
+            </Text>
             <Badge mt={2} variant={"brand"}>
               {project.projectType}
             </Badge>
@@ -108,8 +112,7 @@ export default function DV2SSProjectsV3() {
                 router.push("/projects");
               }}
             >
-              Du hast noch kein Projekt erstellt! Klicke um ein neues Projekt zu
-              erstellen.
+              {t("projects.no.entries")}
             </Box>
           </>
         )}

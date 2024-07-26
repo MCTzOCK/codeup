@@ -24,8 +24,10 @@ import {
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SSnippets() {
+  const { t } = useTranslation("dashboard");
   const [snippets, setSnippets] = React.useState<
     {
       _id: string;
@@ -49,7 +51,7 @@ export default function DV2SSnippets() {
     );
 
     if (res.status !== 200) {
-      setError("Snippets konnten nicht geladen werden: " + res.payload.error);
+      setError(t("snippets.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -67,7 +69,7 @@ export default function DV2SSnippets() {
       ) : (
         <>
           <CHeading size={"lg"} mb={4}>
-            Deine Snippets
+            {t("snippets.title")}
           </CHeading>
           <Grid
             templateColumns={[
@@ -98,7 +100,7 @@ export default function DV2SSnippets() {
                         {new Date(snippet.createdAt).toLocaleString()}
                       </Text>
                       <Text fontSize={"lg"}>
-                        {snippet.code.split("\n").length} Zeilen Code
+                        {snippet.code.split("\n").length} {t("snippets.lines")}
                       </Text>
                       <Badge variant={"brand"} mt={1.5} w={"fit-content"}>
                         {snippet.language}
@@ -117,7 +119,7 @@ export default function DV2SSnippets() {
               gap={4}
               mt={-4}
             >
-              <Text>Du hast noch keine Snippets erstellt.</Text>
+              <Text>{t("snippets.no.entries")}</Text>
               <Button
                 variant={"brand"}
                 leftIcon={<FaExternalLinkAlt />}
@@ -126,7 +128,7 @@ export default function DV2SSnippets() {
                   router.push("/snippets/my");
                 }}
               >
-                Snippets
+                {t("snippets")}
               </Button>
             </Flex>
           )}

@@ -16,8 +16,10 @@ import { CHeading } from "../global/CHeading";
 import byteSize from "byte-size";
 import router from "next/router";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SSProjectsV1() {
+  const { t } = useTranslation("dashboard");
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -57,7 +59,7 @@ export default function DV2SSProjectsV1() {
     setLoading(false);
 
     if (res.status !== 200) {
-      setError("Fehler beim Laden der Projekte: " + res.payload.error);
+      setError(t("projects.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -67,7 +69,7 @@ export default function DV2SSProjectsV1() {
   if (loading)
     return (
       <>
-        <AuthenticateLoadingIndicator inline={true} text={"Laden"} />
+        <AuthenticateLoadingIndicator inline={true} text={t("loading")} />
       </>
     );
 
@@ -105,15 +107,17 @@ export default function DV2SSProjectsV1() {
             <Text fontSize={"md"}>
               {new Date(project.created_at).toLocaleString()}
             </Text>
-            <Text fontSize={"md"}>{project.stats.total_files} Dateien</Text>
             <Text fontSize={"md"}>
-              {project.stats.total_contributors} Mitwirkende
+              {project.stats.total_files} {t("projects.files")}
+            </Text>
+            <Text fontSize={"md"}>
+              {project.stats.total_contributors} {t("projects.contributors")}
             </Text>
             <Text fontSize={"md"}>
               {byteSize(project.stats.total_size).toString()}
             </Text>
             <Badge mt={2} variant={"brand"}>
-              {project.published ? "Veröffentlicht" : "Privat"}
+              {project.published ? t("projects.public") : t("projects.private")}
             </Badge>
           </Box>
         ))}

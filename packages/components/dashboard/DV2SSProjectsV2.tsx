@@ -16,8 +16,10 @@ import router from "next/router";
 import { CHeading } from "../global/CHeading";
 import byteSize from "byte-size";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SSProjectsV2() {
+  const { t } = useTranslation("dashboard");
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -50,7 +52,7 @@ export default function DV2SSProjectsV2() {
     setLoading(false);
 
     if (res.status !== 200) {
-      setError("Fehler beim Laden der Projekte: " + res.payload.error);
+      setError(t("projects.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -60,7 +62,7 @@ export default function DV2SSProjectsV2() {
   if (loading)
     return (
       <>
-        <AuthenticateLoadingIndicator inline={true} text={"Laden"} />
+        <AuthenticateLoadingIndicator inline={true} text={t("loading")} />
       </>
     );
   return (
@@ -96,10 +98,10 @@ export default function DV2SSProjectsV2() {
               {new Date(project.created_at).toLocaleString()}
             </Text>
             <Text fontSize={"md"}>
-              {project.contributors.length} Mitwirkende
+              {project.contributors.length} {t("projects.contributors")}
             </Text>
             <Badge mt={2} variant={"brand"}>
-              {project.discovery ? "Veröffentlicht" : "Privat"}
+              {project.discovery ? t("projects.public") : t("projects.private")}
             </Badge>
           </Box>
         ))}
@@ -117,8 +119,7 @@ export default function DV2SSProjectsV2() {
                 router.push("/editor");
               }}
             >
-              Du hast noch kein Projekt erstellt! Klicke um ein neues Projekt zu
-              erstellen.
+              {t("projects.no.entries")}
             </Box>
           </>
         )}

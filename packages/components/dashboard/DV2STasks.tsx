@@ -27,8 +27,11 @@ import {
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaPlus } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function DV2STasks() {
+  const { t } = useTranslation("dashboard");
+
   const [lists, setLists] = React.useState<
     {
       _id: string;
@@ -49,7 +52,7 @@ export default function DV2STasks() {
     const res = await REST.ToDo.V2.getMyLists(AccountManager.getActiveToken());
 
     if (res.status !== 200) {
-      setError("Listen konnten nicht geladen werden: " + res.payload.error);
+      setError(t("lists.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -69,16 +72,16 @@ export default function DV2STasks() {
   return (
     <>
       <CHeading size={"lg"} mb={4}>
-        Deine ToDos
+        {t("lists.title")}
       </CHeading>
       <TableContainer>
         <Table maxW={"100%"}>
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Erstellt</Th>
-              <Th>Einträge</Th>
-              <Th>Fortschritt</Th>
+              <Th>{t("lists.name")}</Th>
+              <Th>{t("lists.created")}</Th>
+              <Th>{t("lists.items")}</Th>
+              <Th>{t("lists.progress")}</Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -116,7 +119,7 @@ export default function DV2STasks() {
             {lists.length === 0 && (
               <>
                 <Tr>
-                  <Td colSpan={4}>Keine Einträge gefunden.</Td>
+                  <Td colSpan={4}>{t("lists.not.entries")}</Td>
                   <Td>
                     <Button
                       variant={"brand"}
@@ -125,7 +128,7 @@ export default function DV2STasks() {
                         router.push("/tasks");
                       }}
                     >
-                      Neue Liste
+                      {t("new.list")}
                     </Button>
                   </Td>
                 </Tr>

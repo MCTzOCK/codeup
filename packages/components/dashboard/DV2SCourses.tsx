@@ -143,7 +143,8 @@ export default function DV2SCourses() {
                         rounded={"md"}
                       />
                       <Text textAlign={"center"}>
-                        {t("courses.progress.0")} {course.progress.toFixed(2)}%
+                        {t("courses.progress.0")} {course.progress.toFixed(2)}
+                        %&nbsp;
                         {t("courses.progress.1")}.
                       </Text>
                       <Flex mt={2}>
@@ -154,7 +155,7 @@ export default function DV2SCourses() {
                           }}
                           leftIcon={<FaEye />}
                         >
-                          Öffnen
+                          {t("open")}
                         </Button>
                       </Flex>
                     </Flex>

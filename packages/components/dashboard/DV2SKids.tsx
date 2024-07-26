@@ -26,8 +26,11 @@ import {
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaPlus } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SKids() {
+  const { t } = useTranslation("dashboard");
+
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -47,9 +50,7 @@ export default function DV2SKids() {
     const res = await REST.Kids.getProjects(AccountManager.getActiveToken());
 
     if (res.status !== 200) {
-      setError(
-        "Kids-Projekte konnten nicht geladen werden: " + res.payload.error
-      );
+      setError(t("kids.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -69,14 +70,14 @@ export default function DV2SKids() {
   return (
     <>
       <CHeading size={"lg"} mb={4}>
-        CodeUp-Kids
+        {t("kids.title")}
       </CHeading>
       <TableContainer>
         <Table maxW={"100%"}>
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Blöcke</Th>
+              <Th>{t("kids.name")}</Th>
+              <Th>{t("kids.blocks")}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -96,7 +97,7 @@ export default function DV2SKids() {
                 >
                   <Td>{project.name}</Td>
                   <Td>
-                    {blocks} {blocks === 1 ? "Block" : "Blöcke"}
+                    {blocks} {blocks === 1 ? t("kids.block") : t("kids.blocks")}
                   </Td>
                 </Tr>
               );
@@ -104,7 +105,7 @@ export default function DV2SKids() {
             {projects.length === 0 && (
               <>
                 <Tr>
-                  <Td>Keine Einträge gefunden.</Td>
+                  <Td>{t("kids.no.entries")}</Td>
                   <Td>
                     <Button
                       variant={"brand"}
@@ -113,7 +114,7 @@ export default function DV2SKids() {
                         router.push("/kids");
                       }}
                     >
-                      Neues Kids Projekt
+                      {t("kids.new")}
                     </Button>
                   </Td>
                 </Tr>
