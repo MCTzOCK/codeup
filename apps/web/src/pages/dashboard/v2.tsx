@@ -52,11 +52,15 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import { ReactElement } from "react";
 import PopupManager from "../../global/PopupManager";
 import { Reorder } from "framer-motion";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function DashboardV2() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("dashboard");
 
   const { userInfo, loggedIn, loaded } = useLoggedIn();
 
@@ -94,13 +98,13 @@ export default function DashboardV2() {
   const sectionNames: {
     [key: string]: string;
   } = {
-    "codeup.courses": "Kurse",
-    "codeup.certificates": "Zertifikate",
-    "codeup.todos": "Aufgaben",
-    "codeup.kids": "CodeUp-Kids",
-    "codeup.flows": "Flows",
-    "codeup.snippets": "Snippets",
-    "codeup.projects": "Projekte",
+    "codeup.courses": t("sections.courses"),
+    "codeup.certificates": t("sections.certificates"),
+    "codeup.todos": t("sections.todos"),
+    "codeup.kids": t("sections.kids"),
+    "codeup.flows": t("sections.flows"),
+    "codeup.snippets": t("sections.snippets"),
+    "codeup.projects": t("sections.projects"),
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -110,7 +114,7 @@ export default function DashboardV2() {
   return (
     <>
       <Head>
-        <title>Dashboard - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex direction={"column"} bg={"#000"} h={"fit-content"} minH={"100vh"}>
         <Grid
@@ -125,7 +129,9 @@ export default function DashboardV2() {
         >
           <Box bg={"gray.900"} rounded={"md"} p={4}>
             <Flex justifyContent={"space-between"}>
-              <CHeading size={"lg"}>Willkommen {userInfo.firstName}!</CHeading>
+              <CHeading size={"lg"}>
+                {t("welcome")} {userInfo.firstName}!
+              </CHeading>
               <IconButton
                 aria-label={"Customize"}
                 icon={<FaPalette />}
@@ -154,7 +160,7 @@ export default function DashboardV2() {
               </HStack>
               <Text color={"gray.200"}>{userInfo.email}</Text>
               <Text>
-                Du verfügt über die Rolle{" "}
+                {t("welcome.role")}{" "}
                 {userInfo.role === "admin" ? (
                   <chakra.span color={"red.500"} fontWeight={"bold"}>
                     ADMIN
@@ -164,15 +170,15 @@ export default function DashboardV2() {
                     Creator
                   </chakra.span>
                 ) : (
-                  <chakra.span fontWeight={"bold"}>Nutzer</chakra.span>
+                  <chakra.span fontWeight={"bold"}>{t("user")}</chakra.span>
                 )}{" "}
-                und das Abonnement{" "}
+                {t("welcome.subscription")}{" "}
                 {userInfo.subscription === "PRO" ? (
                   <chakra.span color={"brand.500"} fontWeight={"bold"}>
                     PRO
                   </chakra.span>
                 ) : (
-                  <chakra.span fontWeight={"bold"}>Kostenlos</chakra.span>
+                  <chakra.span fontWeight={"bold"}>{t("free")}</chakra.span>
                 )}
                 .
               </Text>
@@ -185,7 +191,7 @@ export default function DashboardV2() {
                 leftIcon={<FaCogs />}
                 w={"fit-content"}
               >
-                Account verwalten
+                {t("account.manage")}
               </Button>
             </Stack>
           </Box>
@@ -195,7 +201,8 @@ export default function DashboardV2() {
                 <Box bg={"gray.900"} rounded={"md"} p={4} overflow={"scroll"}>
                   {sections[section] || (
                     <Text>
-                      Das Segment <i>{section}</i> wird noch nicht unterstützt!
+                      {t("the.segment")} <i>{section}</i>{" "}
+                      {t("segment.not.supported")}
                     </Text>
                   )}
                 </Box>
@@ -214,7 +221,7 @@ export default function DashboardV2() {
         <DrawerContent bg={"black"}>
           <DrawerCloseButton />
           <DrawerHeader>
-            <CHeading size={"lg"}>Dashboard anpassen</CHeading>
+            <CHeading size={"lg"}>{t("customize.title")}</CHeading>
           </DrawerHeader>
           <DrawerBody>
             {currentSections.length !== Object.keys(sections).length && (
@@ -232,9 +239,8 @@ export default function DashboardV2() {
                     }
 
                     const selection = await PopupManager.selectAsync({
-                      title: "Segment hinzufügen",
-                      helperText:
-                        "Wähle ein Segment aus, das du hinzufügen möchtest.",
+                      title: t("customize.add.segment.title"),
+                      helperText: t("customize.add.segment.helper"),
                       choices: choices,
                     });
 
@@ -249,7 +255,7 @@ export default function DashboardV2() {
                     setCurrentSections([...currentSections, key]);
                   }}
                 >
-                  Hinzufügen
+                  {t("add")}
                 </Button>
               </Box>
             )}
@@ -290,9 +296,8 @@ export default function DashboardV2() {
                     onClick={async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Segment entfernen",
-                          question:
-                            "Möchtest du das Segment wirklich entfernen?",
+                          title: t("customize.remove.segment.title"),
+                          question: t("customize.remove.segment.helper"),
                         }))
                       )
                         return;
@@ -318,10 +323,9 @@ export default function DashboardV2() {
 
                 if (res.status !== 200) {
                   await PopupManager.alertAsync({
-                    title: "Fehler",
+                    title: t("base:control.error"),
                     description:
-                      "Die Konfiguration konnte nicht gespeichert werden: " +
-                      res.payload.error,
+                      t("customize.error") + ": " + res.payload.error,
                   });
                   return;
                 }
@@ -329,11 +333,17 @@ export default function DashboardV2() {
                 reloadConfig();
               }}
             >
-              Speichern
+              {t("save")}
             </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["dashboard"])),
+  };
 }

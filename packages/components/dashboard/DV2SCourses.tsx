@@ -15,6 +15,7 @@ import { Button, Flex, Grid, Image, Progress, Text } from "@chakra-ui/react";
 import { FaExternalLinkAlt, FaEye } from "react-icons/fa";
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SCourses() {
   const [courses, setCourses] = React.useState<
@@ -25,6 +26,8 @@ export default function DV2SCourses() {
       href: string;
     }[]
   >([]);
+  const { t } = useTranslation("dashboard");
+
   const [error, setError] = React.useState<string>("");
 
   React.useEffect(() => {
@@ -37,7 +40,7 @@ export default function DV2SCourses() {
     });
 
     if (res.status !== 200) {
-      setError("Kurse konnten nicht geladen werden: " + res.payload.error);
+      setError(t("courses.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -50,7 +53,7 @@ export default function DV2SCourses() {
       });
 
       if (rx.status !== 200) {
-        setError("Kurse konnten nicht geladen werden: " + rx.payload.error);
+        setError(t("courses.loading.error") + ": " + rx.payload.error);
         return;
       }
 
@@ -88,7 +91,7 @@ export default function DV2SCourses() {
       ) : (
         <>
           <CHeading size={"lg"} mb={4}>
-            Deine Kurse
+            {t("your.courses")}
           </CHeading>
           <Grid
             templateColumns={[
@@ -140,8 +143,8 @@ export default function DV2SCourses() {
                         rounded={"md"}
                       />
                       <Text textAlign={"center"}>
-                        Du hast diesen Kurs zu {course.progress.toFixed(2)}%
-                        abgeschlossen.
+                        {t("courses.progress.0")} {course.progress.toFixed(2)}%
+                        {t("courses.progress.1")}.
                       </Text>
                       <Flex mt={2}>
                         <Button
@@ -168,7 +171,7 @@ export default function DV2SCourses() {
               gap={4}
               mt={-4}
             >
-              <Text>Du hast dich noch in keine Kurse eingeschrieben.</Text>
+              <Text>{t("no.courses")}</Text>
               <Button
                 variant={"brand"}
                 leftIcon={<FaExternalLinkAlt />}
@@ -177,7 +180,7 @@ export default function DV2SCourses() {
                   router.push("/course");
                 }}
               >
-                Kurse
+                {t("courses")}
               </Button>
             </Flex>
           )}
