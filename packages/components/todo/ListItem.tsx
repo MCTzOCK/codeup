@@ -26,6 +26,7 @@ import REST from "@codeup/rest";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import { BiRename } from "react-icons/bi";
+import { useTranslation } from "next-i18next";
 
 export default function ListItem(props: {
   name: string;
@@ -41,6 +42,8 @@ export default function ListItem(props: {
 
   const [name, setName] = React.useState(props.name);
   const [description, setDescription] = React.useState(props.description);
+
+  const { t } = useTranslation("todo");
 
   return (
     <>
@@ -96,8 +99,8 @@ export default function ListItem(props: {
               icon={<BiRename />}
               onClick={async () => {
                 const newName = await PopupManager.promptAsync({
-                  title: "Gib einen neuen Namen ein",
-                  helperText: "Der neue Name der Aufgabe",
+                  title: t("tasks.rename"),
+                  helperText: t("tasks.rename.helper"),
                 });
 
                 if (!newName) return;
@@ -120,9 +123,8 @@ export default function ListItem(props: {
                     position: "top",
                     variant: "solid",
                     status: "error",
-                    title: "Fehler",
-                    description:
-                      "Beim Ändern des Namens ist ein Fehler aufgetreten.",
+                    title: t("base:control.error"),
+                    description: t("tasks.rename.error"),
                   });
                 }
               }}
@@ -134,8 +136,8 @@ export default function ListItem(props: {
               icon={<FaPen />}
               onClick={async () => {
                 const newDesc = await PopupManager.promptAsync({
-                  title: "Gib eine neue Beschreibung ein",
-                  helperText: "Der Inhalt der Aufgabe",
+                  title: t("tasks.description.change"),
+                  helperText: t("tasks.description.change.helper"),
                   inputType: "TEXTAREA",
                 });
 
@@ -159,9 +161,8 @@ export default function ListItem(props: {
                     position: "top",
                     variant: "solid",
                     status: "error",
-                    title: "Fehler",
-                    description:
-                      "Beim Ändern der Beschreibung ist ein Fehler aufgetreten.",
+                    title: t("base:control.error"),
+                    description: t("tasks.description.change.error"),
                   });
                 }
               }}
@@ -190,8 +191,8 @@ export default function ListItem(props: {
                     position: "top",
                     variant: "solid",
                     status: "success",
-                    title: "Erfolgreich",
-                    description: "Die Aufgabe wurde gelöscht",
+                    title: t("success"),
+                    description: t("tasks.deleted"),
                     isClosable: true,
                     duration: 6000,
                   });
@@ -200,7 +201,7 @@ export default function ListItem(props: {
                     position: "top",
                     variant: "solid",
                     status: "error",
-                    title: "Fehler",
+                    title: t("base:control.error"),
                     description: res.payload.error,
                     isClosable: true,
                     duration: 6000,

@@ -46,6 +46,7 @@ import { FaPlus } from "react-icons/fa";
 import ListItem from "./ListItem";
 import REST from "@codeup/rest";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import { useTranslation } from "next-i18next";
 
 export default function ListViewer(props: {
   isOpen: boolean;
@@ -64,6 +65,8 @@ export default function ListViewer(props: {
   reloadLists: () => void;
 }) {
   const toast = useToast();
+
+  const { t } = useTranslation("todo");
 
   if (!props.currentList) {
     return <></>;
@@ -86,7 +89,7 @@ export default function ListViewer(props: {
             <Flex w={"100%"} p={"2rem"} direction={"column"} gap={"2rem"}>
               <Flex w={"100%"} alignItems={"center"}>
                 <Box flex={"90%"}>
-                  <Heading fontSize={"3xl"}>Aufgaben</Heading>
+                  <Heading fontSize={"3xl"}>{t("tasks")}</Heading>
                 </Box>
 
                 <IconButton
@@ -95,14 +98,14 @@ export default function ListViewer(props: {
                   icon={<FaPlus />}
                   onClick={async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Neue Aufgabe",
-                      helperText: "Gib die neue Aufgabe ein",
+                      title: t("tasks.new"),
+                      helperText: t("tasks.new.enter"),
                     });
 
                     if (!name) return;
                     const description = await PopupManager.promptAsync({
-                      title: "Neue Aufgabe",
-                      helperText: "Gib eine Beschreibung der Liste ein",
+                      title: t("tasks.new"),
+                      helperText: t("tasks.new.description"),
                       inputType: "TEXTAREA",
                     });
 
@@ -138,8 +141,8 @@ export default function ListViewer(props: {
                         position: "top",
                         variant: "solid",
                         status: "success",
-                        title: "Erfolgreich",
-                        description: "Die Aufgabe wurde erstellt",
+                        title: t("success"),
+                        description: t("tasks.created"),
                         isClosable: true,
                         duration: 6000,
                       });
@@ -148,7 +151,7 @@ export default function ListViewer(props: {
                         position: "top",
                         variant: "solid",
                         status: "error",
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description: res.payload.error,
                         isClosable: true,
                         duration: 6000,
@@ -174,7 +177,7 @@ export default function ListViewer(props: {
               })}
               {props.currentList.tasks.length === 0 ? (
                 <Text textAlign={"center"} color={"red.300"} fontSize={"lg"}>
-                  Keine Aufgaben vorhanden
+                  {t("tasks.none")}
                 </Text>
               ) : (
                 <></>
