@@ -26,7 +26,7 @@
   "courses.loading.error": "Courses could not be loaded",
   "your.courses": "Your courses",
   "courses.progress.0": "You have this course completed to",
-  "courses.progress.1": "",
+  "courses.progress.1": "completed",
   "no.courses": "You haven't joined any courses yet",
   "courses": "Courses",
   "open": "Open",

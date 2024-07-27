@@ -1,0 +1,6 @@
+{
+  "doc.title": "Login Fehlgeschlagen - CodeUp",
+  "alert.title": "Fehler beim Anmelden!",
+  "loading": "Laden...",
+  "error.no.token": "Kein Token erhalten."
+}
