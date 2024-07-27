@@ -7,7 +7,6 @@
  * Created At: 18.09.2022
  *
  */
-
 import * as React from "react";
 import {
   Button,
@@ -33,6 +32,7 @@ import { FaCaretDown, FaDollarSign, FaSearch } from "react-icons/fa";
 import DividerWithText from "./DividerWithText";
 import { useRouter } from "next/router";
 import { FaRobot } from "react-icons/fa6";
+import { useTranslation } from "next-i18next";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -41,6 +41,8 @@ export default function NavigationBarMenu(props: {
   onLogoutOpen: () => void;
   disablePricing?: boolean;
 }) {
+  const { t } = useTranslation(["base", "navbar"]);
+
   const { loggedIn } = useLoggedIn();
   const router = useRouter();
 
@@ -52,7 +54,7 @@ export default function NavigationBarMenu(props: {
         rightIcon={<AiFillCaretDown />}
         onClick={props.onMoreMenuOpen}
       >
-        Angebote
+        {t("products", { ns: "navbar" })}
       </Button>
       <Button
         variant={"ghost"}
@@ -62,12 +64,12 @@ export default function NavigationBarMenu(props: {
         }}
         display={props.disablePricing ? "none" : "initial"}
       >
-        Preise
+        {t("pricing", { ns: "navbar" })}
       </Button>
       <Popover>
         <PopoverTrigger>
           <Button variant={"ghost"} size={"lg"} rightIcon={<FaCaretDown />}>
-            CodeUp
+            {t("product.name", { ns: "base" })}
           </Button>
         </PopoverTrigger>
         <PopoverContent bg={"black"}>
@@ -83,7 +85,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Über Uns
+                  {t("about.us", { ns: "navbar" })}
                 </Text>
               </Link>
               <Link href={"/codeup/contact"} onClick={props.onClose}>
@@ -95,7 +97,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Kontakt
+                  {t("contact", { ns: "navbar" })}
                 </Text>
               </Link>
               <Link href={"/blog"} onClick={props.onClose}>
@@ -107,7 +109,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Blog
+                  {t("products.blog", { ns: "navbar" })}
                 </Text>
               </Link>
               <Link href={"/creator"} onClick={props.onClose}>
@@ -119,10 +121,13 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Creator
+                  {t("products.creator", { ns: "navbar" })}
                 </Text>
               </Link>
-              <DividerWithText text={"Rechtliches"} color={"gray.400"} />
+              <DividerWithText
+                text={t("products.legal", { ns: "navbar" })}
+                color={"gray.400"}
+              />
               <Link href={"/legal/imprint"} onClick={props.onClose}>
                 <Text
                   fontSize={"xl"}
@@ -132,7 +137,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Impressum
+                  {t("products.legal.imprint", { ns: "navbar" })}
                 </Text>
               </Link>
               <Link href={"/legal/privacy"} onClick={props.onClose}>
@@ -144,7 +149,7 @@ export default function NavigationBarMenu(props: {
                   }}
                   rounded={"lg"}
                 >
-                  Datenschutzerklärung
+                  {t("products.legal.privacy", { ns: "navbar" })}
                 </Text>
               </Link>
             </Stack>
@@ -160,7 +165,7 @@ export default function NavigationBarMenu(props: {
         }}
         //display={["none", "initial"]}
       >
-        Suche
+        {t("control.search", { ns: "base" })}
       </Button>
       <Button
         variant={"ghost"}
@@ -170,7 +175,7 @@ export default function NavigationBarMenu(props: {
         }}
         leftIcon={<FaRobot />}
       >
-        AI-Assistent
+        {t("products.ai", { ns: "navbar" })}
       </Button>
     </>
   );

@@ -1,0 +1,18 @@
+{
+  "doc.title": "About CodeUp",
+  "title": "About CodeUp",
+  "intro": "CodeUp is a platform that helps you find yourself in the world of programming through interactive courses, an advanced development environment, a community of like-minded and experienced developers. CodeUp was developed by Ben Siebert for Jugend forscht 2023. In May 2024, the project was reopened and will presumably also participate in Jugend forscht 2025.",
+  "local": "You see this page locally. Therefore, no statistics are available.",
+  "stats": "Statistics",
+  "commits": "Commits",
+  "branch": "Branch",
+  "commit": "Commit",
+  "last.change": "Last amendment",
+  "lines": "Lines",
+  "used.packages": "Packages used",
+  "used.technologies": "Used technologies",
+  "all.packages": "All packages",
+  "all.packages.info": "Total number of packages used:",
+  "packages.show.more": "Show more packages...",
+  "version": "Version"
+}

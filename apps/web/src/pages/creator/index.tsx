@@ -24,6 +24,9 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import REST from "@codeup/rest/dist";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Index() {
   const router = useRouter();
@@ -42,8 +45,13 @@ export default function Index() {
     });
   }, []);
 
+  const { t } = useTranslation("creator");
+
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <Box bg={"#000"}>
         <Flex w={"100%"} minH={"100vh"} h={"fit-content"} bg={"#000"}>
           <Flex
@@ -69,7 +77,7 @@ export default function Index() {
                   fontWeight={1000}
                   letterSpacing={-2}
                 >
-                  CodeUp for Creators
+                  {t("subtitle")}
                 </Heading>
                 <Heading
                   as={"h1"}
@@ -79,18 +87,18 @@ export default function Index() {
                   fontFamily={"Jetbrains Mono ExtraBold"}
                   color={"brand.500"}
                 >
-                  Creator Platform
+                  {t("title")}
                 </Heading>
                 <Text fontWeight={100} fontSize={["xl", "2xl", "4xl"]}>
-                  Erstelle interaktive Videokurse.
+                  {t("s0")}
                   <br />
-                  Teile dein Wissen mit der Community.
+                  {t("s1")}
                   <br />
-                  Baue eigene Zertifikate für deine Kurse.
+                  {t("s2")}
                   <br />
-                  Nutze die besten Werkzeuge.
+                  {t("s3")}
                   <br />
-                  Erhalte Unterstützung von CodeUp.
+                  {t("s4")}
                 </Text>
                 <ButtonGroup spacing={4} mt={2}>
                   <Button
@@ -103,7 +111,7 @@ export default function Index() {
                       router.push("/codeup/contact?creator=true");
                     }}
                   >
-                    Bewerben
+                    {t("apply")}
                   </Button>
                   <Button
                     rounded={"md"}
@@ -113,7 +121,7 @@ export default function Index() {
                       router.push("/creator/studio");
                     }}
                   >
-                    Studio
+                    {t("studio")}
                   </Button>
                 </ButtonGroup>
               </Flex>
@@ -140,7 +148,7 @@ export default function Index() {
         </Flex>
         <Box h={"fit-content"}>
           <Box textAlign={"center"}>
-            <CHeading>Creator Network</CHeading>
+            <CHeading>{t("creator.network")}</CHeading>
           </Box>
           <Flex alignItems={"center"} justifyContent={"center"}>
             <Grid
@@ -173,7 +181,7 @@ export default function Index() {
                     @{creator._id}
                   </Text>
                   <Text fontWeight={"bold"} fontSize={"xl"} color={"brand.500"}>
-                    {creator.count} Kurse
+                    {creator.count} {t("courses")}
                   </Text>
                 </Box>
               ))}
@@ -183,4 +191,10 @@ export default function Index() {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator"])),
+  };
 }

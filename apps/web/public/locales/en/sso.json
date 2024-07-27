@@ -1,0 +1,6 @@
+{
+  "doc.title": "Login failed - CodeUp",
+  "alert.title": "Error when logging in!",
+  "loading": "Loading...",
+  "error.no.token": "No token was found."
+}

@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/snippets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/NavigationBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/sso.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/sso.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/snippets/my.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/snippets/my.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +25,11 @@
         <option value="com.haulmont.rcb.useInitial" />
         <option value="React Component" />
         <option value="tsconfig.json" />
-        <option value="JavaScript File" />
         <option value="package.json" />
-        <option value="TypeScript File" />
         <option value="CSS File" />
         <option value="SCSS File" />
+        <option value="JavaScript File" />
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
@@ -87,11 +87,11 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/i18next&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.10.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.10.8&quot;,
     &quot;last.edited.regexp&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/web/public/_static/images/logos&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/web/public/locales/en&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -123,11 +123,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\locales\en" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\logos" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\fonts" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\packages\chat-ui" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\packages\components\dashboard" />
-      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\lpv4" />

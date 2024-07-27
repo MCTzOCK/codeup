@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useLoggedIn } from "@codeup/hooks";
+import { useLoggedIn, useUserLoggedInRedirect } from "@codeup/hooks";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import {
   Box,
@@ -53,10 +53,19 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 import { useRouter } from "next/router";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function MySnippetViewer() {
   const router = useRouter();
+
+  useUserLoggedInRedirect({
+    allowAnonymous: false,
+  });
+
   const { loggedIn, loaded, userInfo } = useLoggedIn();
+  const { t } = useTranslation("snippets");
 
   const [snippets, setSnippets] = React.useState<
     {
@@ -140,21 +149,24 @@ export default function MySnippetViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {loggedIn && loaded ? (
         <>
           <CodeUpModal
             onOpen={onOpen}
             onClose={onClose}
             isOpen={isOpen}
-            title={currentSnippet?.title || "Neues Snippet"}
+            title={currentSnippet?.title || t("snippet.new")}
             noCloseButton
           >
             <Stack spacing={4}>
               <FormControl>
-                <FormLabel>Titel</FormLabel>
+                <FormLabel>{t("snippet.new.title")}</FormLabel>
                 <Input
                   type={"text"}
-                  placeholder={"Titel des Snippets"}
+                  placeholder={t("snippet.new.title.placeholder")}
                   value={currentSnippet?.title}
                   onChange={(e) => {
                     if (currentSnippet) {
@@ -167,10 +179,10 @@ export default function MySnippetViewer() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Sprache</FormLabel>
+                <FormLabel>{t("snippet.new.language")}</FormLabel>
                 <Input
                   type={"text"}
-                  placeholder={"Sprache des Snippets"}
+                  placeholder={t("snippet.new.language.placeholder")}
                   value={currentSnippet?.language}
                   onChange={(e) => {
                     if (currentSnippet) {
@@ -183,7 +195,7 @@ export default function MySnippetViewer() {
                 />
               </FormControl>
               <FormControl data-color-mode={"dark"}>
-                <FormLabel>Code</FormLabel>
+                <FormLabel>{t("snippet.new.code")}</FormLabel>
                 <Editor
                   height={"50vh"}
                   language={currentSnippet?.language || "javascript"}
@@ -213,8 +225,8 @@ export default function MySnippetViewer() {
                     }).then((res) => {
                       if (res.status === 200) {
                         toast({
-                          title: "Snippet gelöscht",
-                          description: "Das Snippet wurde erfolgreich gelöscht",
+                          title: t("snippet.deleted"),
+                          description: t("snippet.deleted.text"),
                           status: "success",
                           duration: 1500,
                           isClosable: false,
@@ -224,7 +236,7 @@ export default function MySnippetViewer() {
                         onClose();
                       } else {
                         toast({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description: res.payload.error,
                           status: "error",
                           duration: 1500,
@@ -235,7 +247,7 @@ export default function MySnippetViewer() {
                     });
                   }}
                 >
-                  Löschen
+                  {t("delete")}
                 </Button>
                 <Button
                   colorScheme={"red"}
@@ -243,7 +255,7 @@ export default function MySnippetViewer() {
                     onClose();
                   }}
                 >
-                  Abbrechen
+                  {t("cancel")}
                 </Button>
                 <Button
                   colorScheme={"green"}
@@ -261,7 +273,7 @@ export default function MySnippetViewer() {
                         setCurrentSnippet(null);
                       } else {
                         toast({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description: res.payload.error,
                           status: "error",
                           duration: 1500,
@@ -272,7 +284,7 @@ export default function MySnippetViewer() {
                     });
                   }}
                 >
-                  Speichern
+                  {t("save")}
                 </Button>
               </ButtonGroup>
             </Stack>
@@ -303,7 +315,7 @@ export default function MySnippetViewer() {
                   buttonRows: [
                     [
                       {
-                        text: "Bearbeiten",
+                        text: t("edit"),
                         onClick: async () => {
                           setCurrentSnippet(snippet);
                           onOpen();
@@ -313,13 +325,13 @@ export default function MySnippetViewer() {
                       },
                       {
                         leftIcon: <FaCopy />,
-                        text: "Kopieren",
+                        text: t("copy"),
                         colorScheme: "green",
                         onClick: async () => {
                           await navigator.clipboard.writeText(snippet.code);
                           toast({
-                            title: "Code kopiert",
-                            description: "Der Code wurde erfolgreich kopiert",
+                            title: t("copied"),
+                            description: t("copied.text"),
                             status: "success",
                             duration: 1500,
                             isClosable: false,
@@ -334,11 +346,11 @@ export default function MySnippetViewer() {
               topButtons={[
                 {
                   variant: "brand",
-                  text: "Neu",
+                  text: t("new"),
                   leftIcon: <FaPlus />,
                   onClick: () => {
                     REST.Snippets.createSnippet({
-                      title: "Neues Snippet",
+                      title: t("snippet.new"),
                       code: 'console.log("Hello World")',
                       language: "javascript",
                       token: localStorage.getItem("token") as string,
@@ -349,7 +361,7 @@ export default function MySnippetViewer() {
                         setCurrentSnippet(res.payload.snippet);
                       } else {
                         toast({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description: res.payload.error,
                           status: "error",
                           duration: 1500,
@@ -361,7 +373,7 @@ export default function MySnippetViewer() {
                   },
                 },
               ]}
-              pageTitle={"CodeSnippets"}
+              pageTitle={t("title")}
             />
           </Box>
         </>
@@ -369,21 +381,13 @@ export default function MySnippetViewer() {
         <>
           {loaded && !loggedIn ? (
             <>
-              <ErrorComponent
-                description={
-                  "Du musst eingeloggt sein, um diese Seite zu sehen."
-                }
-              />
+              <ErrorComponent description={t("loggedin.error")} />
             </>
           ) : (
             <>
               {error ? (
                 <>
-                  <ErrorComponent
-                    description={
-                      "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut."
-                    }
-                  />
+                  <ErrorComponent description={t("other.error")} />
                 </>
               ) : (
                 <>
@@ -396,4 +400,10 @@ export default function MySnippetViewer() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["snippets"])),
+  };
 }

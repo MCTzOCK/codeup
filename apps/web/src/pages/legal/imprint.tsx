@@ -26,6 +26,7 @@ import Head from "next/head";
 import makeRequest from "@codeup/rest/dist/makeRequest";
 import DividerWithText from "@codeup/components/dist/global/DividerWithText";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Imprint() {
   return (
@@ -93,4 +94,10 @@ export default function Imprint() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

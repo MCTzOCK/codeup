@@ -22,12 +22,15 @@ import {
   InputGroup,
   InputRightElement,
   Link as ChakraLink,
+  ListItem,
   Text,
+  UnorderedList,
 } from "@chakra-ui/react";
 import REST from "@codeup/rest";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import checkPassword from "@codeup/util/src/checkPassword";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 export default function UserAuthRegister() {
   const [usernameInvalid, setUsernameInvalid] = React.useState(false);
@@ -56,6 +59,8 @@ export default function UserAuthRegister() {
   >("error");
 
   const [loading, setLoading] = React.useState(false);
+
+  const { t } = useTranslation("auth");
 
   return (
     <>
@@ -130,10 +135,10 @@ export default function UserAuthRegister() {
         >
           <Flex direction={"column"} gap={"2rem"}>
             <FormControl isInvalid={usernameInvalid}>
-              <FormLabel htmlFor={"username"}>Benutzername</FormLabel>
+              <FormLabel htmlFor={"username"}>{t("username")}</FormLabel>
               <Input
                 id={"username"}
-                placeholder={"Benutzername"}
+                placeholder={t("username")}
                 onChange={async (e) => {
                   const res = await REST.Account.checkUsername(e.target.value);
 
@@ -145,16 +150,14 @@ export default function UserAuthRegister() {
                   }
                 }}
               />
-              <FormErrorMessage>
-                Dieser Benutzername ist nicht verfügbar.
-              </FormErrorMessage>
+              <FormErrorMessage>{t("username.na")}</FormErrorMessage>
             </FormControl>
             <Flex direction={"row"} gap={"2rem"}>
               <FormControl isInvalid={firstNameInvalid}>
-                <FormLabel htmlFor={"firstName"}>Vorname</FormLabel>
+                <FormLabel htmlFor={"firstName"}>{t("firstname")}</FormLabel>
                 <Input
                   id={"firstName"}
-                  placeholder={"Vorname"}
+                  placeholder={t("firstname")}
                   onChange={(e) => {
                     if (e.target.value.length > 0) {
                       setFirstNameInvalid(false);
@@ -164,15 +167,13 @@ export default function UserAuthRegister() {
                     }
                   }}
                 />
-                <FormErrorMessage>
-                  Bitte gib deinen Vorname ein.
-                </FormErrorMessage>
+                <FormErrorMessage>{t("enter.firstname")}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={lastNameInvalid}>
-                <FormLabel htmlFor={"lastName"}>Nachname</FormLabel>
+                <FormLabel htmlFor={"lastName"}>{t("lastname")}</FormLabel>
                 <Input
                   id={"lastName"}
-                  placeholder={"Nachname"}
+                  placeholder={t("lastname")}
                   onChange={(e) => {
                     if (e.target.value.length > 0) {
                       setLastNameInvalid(false);
@@ -182,16 +183,14 @@ export default function UserAuthRegister() {
                     }
                   }}
                 />
-                <FormErrorMessage>
-                  Bitte gib deinen Nachname ein.
-                </FormErrorMessage>
+                <FormErrorMessage>{t("enter.lastname")}</FormErrorMessage>
               </FormControl>
             </Flex>
             <FormControl isInvalid={emailInvalid}>
-              <FormLabel htmlFor={"email"}>E-Mail</FormLabel>
+              <FormLabel htmlFor={"email"}>{t("email")}</FormLabel>
               <Input
                 id={"email"}
-                placeholder={"E-Mail"}
+                placeholder={t("email")}
                 onChange={(e) => {
                   if (
                     e.target.value.match(
@@ -205,16 +204,14 @@ export default function UserAuthRegister() {
                   }
                 }}
               />
-              <FormErrorMessage>
-                Bitte verwende eine echte E-Mail.
-              </FormErrorMessage>
+              <FormErrorMessage>{t("enter.email")}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={passwordInvalid}>
-              <FormLabel htmlFor={"password"}>Passwort</FormLabel>
+              <FormLabel htmlFor={"password"}>{t("password")}</FormLabel>
               <InputGroup>
                 <Input
                   id={"password"}
-                  placeholder={"Passwort"}
+                  placeholder={t("password")}
                   type={passwordVisible ? "text" : "password"}
                   onChange={(e) => {
                     if (
@@ -237,20 +234,16 @@ export default function UserAuthRegister() {
                   {passwordVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>
-                Bitte gib ein Passwort ein, welches aus mindestens 8 Buchstaben,
-                einen Großbuchstaben, einen Kleinbuchstaben eine Ziffer und ein
-                Sonderzeichen besteht.
-              </FormErrorMessage>
+              <FormErrorMessage>{t("password.requirement")}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={passwordConfirmInvalid}>
               <FormLabel htmlFor={"passwordConfirm"}>
-                Passwort bestätigen
+                {t("password.confirm")}
               </FormLabel>
               <InputGroup>
                 <Input
                   id={"passwordConfirm"}
-                  placeholder={"Passwort bestätigen"}
+                  placeholder={t("password.confirm")}
                   type={passwordConfirmVisible ? "text" : "password"}
                   onChange={(e) => {
                     if (e.target.value === password) {
@@ -274,24 +267,26 @@ export default function UserAuthRegister() {
                   )}
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>
-                Die Passwörter stimmen nicht überein.
-              </FormErrorMessage>
+              <FormErrorMessage>{t("passwords.not.match")}</FormErrorMessage>
             </FormControl>
             <Button variant={"brand"} type={"submit"} isLoading={loading}>
-              Registrieren
+              {t("register")}
             </Button>
           </Flex>
-          <Text textAlign={"center"} mt={"1rem"}>
-            Wenn auf &apos;Registrieren&apos; klickst, stimmt du der&nbsp;
-            <ChakraLink
-              href={"/legal/privacy"}
-              color={"brand.500"}
-              target={"_blank"}
-            >
-              Datenschutzerklärung
-            </ChakraLink>
-            &nbsp;zu
+          <Text mt={"1rem"}>
+            {t("register.disclaimer")}
+            <UnorderedList>
+              <ListItem>
+                <ChakraLink
+                  href={"/legal/privacy"}
+                  color={"brand.500"}
+                  target={"_blank"}
+                  textAlign={"left"}
+                >
+                  {t("documents.privacy")}
+                </ChakraLink>
+              </ListItem>
+            </UnorderedList>
           </Text>
         </form>
       </Flex>

@@ -60,18 +60,21 @@ import PopupManager from "@codeup/web/src/global/PopupManager";
 import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function NavigationBar(props: {
   disablePricing?: boolean;
   transparent?: boolean;
 }) {
+  const { t } = useTranslation(["base", "navbar"]);
+
   const whatEverRef = React.useRef();
 
   const logout = async () => {
     if (
       await PopupManager.confirmAsync({
-        title: "Abmelden",
-        question: "Willst du dich wirklich abmelden?",
+        title: t("account.logout.confirm", { ns: "navbar" }),
+        question: t("account.logout.confirm.text", { ns: "navbar" }),
       })
     ) {
       localStorage.removeItem("token");
@@ -156,115 +159,115 @@ export default function NavigationBar(props: {
     category: string;
   }[] = [
     {
-      name: "Forum",
+      name: t("products.forum", { ns: "navbar" }),
       icon: <FaComment />,
-      text: "Unterhalte dich mit anderen Entwicklern",
+      text: t("products.forum.text", { ns: "navbar" }),
       href: "/forum",
       category: "communicate",
     },
     {
-      name: "Editor",
+      name: t("products.editor", { ns: "navbar" }),
       icon: <BiCodeAlt />,
       href: "/editor",
-      text: "Verwirkliche deine Projektideen",
+      text: t("products.editor.text", { ns: "navbar" }),
       category: "develop",
     },
     {
-      name: "Dev-Suite",
+      name: t("products.devsuite", { ns: "navbar" }),
       icon: <BiCodeAlt />,
       href: "/projects",
-      text: "Verwirkliche deine Projektideen mit dem fortschrittlichsten Editor",
+      text: t("products.devsuite.text", { ns: "navbar" }),
       category: "develop",
     },
     {
-      name: "CodeUp Kids",
+      name: t("products.kids", { ns: "navbar" }),
       icon: <FaChild />,
       href: "/kids",
-      text: "Blockbasierte Programmierung mit CodeUp Kids",
+      text: t("products.kids.text", { ns: "navbar" }),
       category: "develop",
     },
     {
-      name: "Discovery",
+      name: t("products.discovery", { ns: "navbar" }),
       icon: <BiCodeBlock />,
-      text: "Sieh dir Projekte an, die von anderen Entwicklern veröffentlicht wurden.",
+      text: t("products.discovery.text", { ns: "navbar" }),
       href: "/discovery",
       category: "communicate",
     },
     {
-      name: "InCode",
+      name: t("products.incode", { ns: "navbar" }),
       icon: <InCodeIcon />,
-      text: "Originale Dokumentation der InCode Programmiersprache",
+      text: t("products.incode.text", { ns: "navbar" }),
       href: "/redirect?url=https://incode.codeup.space/docs/intro",
       category: "other",
     },
     {
-      name: "Kurse",
+      name: t("products.courses", { ns: "navbar" }),
       icon: <FaBook />,
-      text: "Lerne neue Programmiersprachen und Technologien",
+      text: t("products.courses.text", { ns: "navbar" }),
       href: "/course",
       category: "learn",
     },
     {
-      name: "Zertifikate",
+      name: t("products.certificates", { ns: "navbar" }),
       icon: <TbCertificate />,
-      text: "Erhalte Zertifikate für absolvierte Kurse",
+      text: t("products.certificates.text", { ns: "navbar" }),
       href: "/certificates",
       category: "learn",
     },
     {
-      name: "Projektideen",
+      name: t("products.ideas", { ns: "navbar" }),
       icon: <HiLightBulb />,
-      text: "Finde Inspirationen für neue Projekte",
+      text: t("products.ideas.text", { ns: "navbar" }),
       href: "/ideas",
       category: "develop",
     },
     {
-      name: "Todo (veraltet)",
+      name: t("products.legacy.todo", { ns: "navbar" }),
       icon: <BsCheck2Square />,
-      text: "Plane Projekte mit einfachen To-Do Listen",
+      text: t("products.legacy.todo.text", { ns: "navbar" }),
       href: "/todo",
       category: "other",
     },
     {
-      name: "Tasks",
+      name: t("products.tasks", { ns: "navbar" }),
       icon: <BsCheck2Square />,
-      text: "Plane Projekte mit einfachen To-Do Listen",
+      text: t("products.tasks.text", { ns: "navbar" }),
       href: "/tasks",
       category: "plan",
     },
     {
-      name: "Flows",
+      name: t("products.flows", { ns: "navbar" }),
       icon: <FaProjectDiagram />,
-      text: "Plane Projekte mit komplexen Flussdiagrammen",
+      text: t("products.flows.text", { ns: "navbar" }),
       href: "/planning",
       category: "plan",
     },
     {
-      name: "Code Snippets",
+      name: t("products.snippets", { ns: "navbar" }),
       icon: <FaFileCode />,
-      text: "Speicher Code Snippets für spätere Verwendung",
+      text: t("products.snippets.text", { ns: "navbar" }),
       href: "/snippets/my",
       category: "develop",
     },
     {
-      name: "Roadmap",
+      name: t("products.roadmap", { ns: "navbar" }),
       icon: <FaRocket />,
       href: "/roadmap",
-      text: "Behalte den Überblick über deinen Entwicklungsprozess",
+      text: t("products.roadmap.text", { ns: "navbar" }),
       category: "other",
     },
     {
-      name: "IDE (veraltet)",
+      name: t("products.legacy.ide", { ns: "navbar" }),
       icon: <BiCodeAlt />,
       href: "/ide",
-      text: "Verwirkliche deine Projektideen",
+      text: t("products.legacy.ide.text", { ns: "navbar" }),
       category: "other",
     },
     {
-      name: "Challenges",
+      name: t("products.challenges", { ns: "navbar" }),
       category: "learn",
       href: "/challenges",
-      text: "Fordere dein Können heraus",
+      text: t("products.challenges.text", { ns: "navbar" }),
       icon: <FaTrophy />,
     },
   ];
@@ -305,7 +308,7 @@ export default function NavigationBar(props: {
                   fontWeight={"extrabold"}
                   ml={4}
                 >
-                  CodeUp
+                  {t("product.name")}
                 </Text>
               </ChakraLink>
             </Link>
@@ -340,7 +343,7 @@ export default function NavigationBar(props: {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>CodeUp</DrawerHeader>
+                    <DrawerHeader>{t("product.name")}</DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>
@@ -391,7 +394,7 @@ export default function NavigationBar(props: {
         onOpen={onMoreMenuOpen}
         onClose={onMoreMenuClose}
         isOpen={isMoreMenuOpen}
-        title={"Angebote"}
+        title={t("products", { ns: "navbar" })}
         customSize={["full"]}
       >
         <Box mb={8} backgroundColor={"black"} shadow={"2xl"}>
@@ -400,7 +403,7 @@ export default function NavigationBar(props: {
               <FaSearch />
             </InputLeftElement>
             <Input
-              placeholder={"Suchbegriff eingeben"}
+              placeholder={t("control.search", { ns: "base" })}
               onChange={(event) => {
                 const searchTerm = event.target.value.toLowerCase() as string;
 
@@ -417,11 +420,16 @@ export default function NavigationBar(props: {
           </InputGroup>
         </Box>
         <Grid
-          templateColumns={[
-            "repeat(auto-fit, minmax(300px, 1fr))",
-            "repeat(auto-fit, minmax(700px, 1fr))",
-          ]}
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            sm: "repeat(1, 1fr)",
+            lg: "repeat(2, 1fr)",
+          }}
           gap={6}
+          m={{
+            base: -4,
+            lg: 0,
+          }}
         >
           <GridItem
             borderStyle={"dashed"}
@@ -439,10 +447,16 @@ export default function NavigationBar(props: {
             }
           >
             <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>Lernen</CHeading>
+              <CHeading size={"xl"}>
+                {t("categories.learn", { ns: "base" })}
+              </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -477,10 +491,16 @@ export default function NavigationBar(props: {
             }
           >
             <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>Entwickeln</CHeading>
+              <CHeading size={"xl"}>
+                {t("categories.develop", { ns: "base" })}
+              </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -515,10 +535,16 @@ export default function NavigationBar(props: {
             }
           >
             <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>Austauschen</CHeading>
+              <CHeading size={"xl"}>
+                {t("categories.communicate", { ns: "base" })}
+              </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -552,10 +578,16 @@ export default function NavigationBar(props: {
             }
           >
             <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>Planen</CHeading>
+              <CHeading size={"xl"}>
+                {t("categories.planning", { ns: "base" })}
+              </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions
@@ -590,10 +622,16 @@ export default function NavigationBar(props: {
             }
           >
             <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>Anderes</CHeading>
+              <CHeading size={"xl"}>
+                {t("categories.other", { ns: "base" })}
+              </CHeading>
             </Box>
             <Grid
-              templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                lg: "repeat(2, 1fr)",
+              }}
               gap={6}
             >
               {filteredMoreOptions

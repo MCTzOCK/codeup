@@ -21,6 +21,10 @@ import {
   Image,
   Link,
   LinkProps,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
   VStack,
@@ -33,8 +37,31 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import Newsletter from "./Newsletter";
+import { useTranslation } from "next-i18next";
+import { FaChevronDown } from "react-icons/fa6";
+import ReactCountryFlag from "react-country-flag";
+import { useRouter } from "next/router";
 
 const Footer = (props: { transparent?: boolean }) => {
+  const { t, i18n } = useTranslation(["base", "navbar", "footer"]);
+  const router = useRouter();
+
+  const languages: {
+    [key: string]: {
+      cc: string;
+      display: string;
+    };
+  } = {
+    de: {
+      cc: "DE",
+      display: "Deutsch",
+    },
+    en: {
+      cc: "GB",
+      display: "English",
+    },
+  };
+
   return (
     <Box
       w={"100%"}
@@ -53,11 +80,12 @@ const Footer = (props: { transparent?: boolean }) => {
               fontSize={"4xl"}
               fontFamily="ARCADE"
               color={"brand.500"}
+              textTransform={"uppercase"}
             >
-              CODEUP
+              {t("product.name", { ns: "base" })}
             </Heading>
             <Text mt={2} color="white" fontSize="md">
-              Made with ❤ and ☕ by Ben Siebert
+              {t("made.by", { ns: "footer" })}
             </Text>
           </Box>
           <Newsletter />
@@ -69,26 +97,46 @@ const Footer = (props: { transparent?: boolean }) => {
           >
             <VStack spacing={4} alignItems="flex-start">
               <Text fontSize="md" fontWeight="bold">
-                Über
+                {t("about", { ns: "footer" })}
               </Text>
               <VStack spacing={2} alignItems="flex-start" color="white">
-                <CustomLink href={"/codeup/about"}>Über CodeUp</CustomLink>
-                <CustomLink href={"/codeup/contact"}>Kontakt</CustomLink>
-                <CustomLink href={"/codeup/blog"}>Blog</CustomLink>
-                <CustomLink href={"/legal/imprint"}>Impressum</CustomLink>
-                <CustomLink href={"/legal/privacy"}>Datenschutz</CustomLink>
+                <CustomLink href={"/codeup/about"}>
+                  {t("about.codeup", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/codeup/contact"}>
+                  {t("about.contact", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/codeup/blog"}>
+                  {t("about.blog", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/legal/imprint"}>
+                  {t("about.imprint", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/legal/privacy"}>
+                  {t("about.privacy", { ns: "footer" })}
+                </CustomLink>
               </VStack>
             </VStack>
             <VStack spacing={4} alignItems="flex-start">
               <Text fontSize="md" fontWeight="bold">
-                Weitere Angebote
+                {t("other", { ns: "footer" })}
               </Text>
               <VStack spacing={2} alignItems="flex-start" color="white">
-                <CustomLink href={"/forum"}>Forum</CustomLink>
-                <CustomLink href={"/editor"}>Editor</CustomLink>
-                <CustomLink href={"/todo"}>ToDos</CustomLink>
-                <CustomLink href={"/planning"}>Flowcharts</CustomLink>
-                <CustomLink href={"/certificates"}>Zertifikate</CustomLink>
+                <CustomLink href={"/forum"}>
+                  {t("other.forum", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/editor"}>
+                  {t("other.editor", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/tasks"}>
+                  {t("other.todo", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/planning"}>
+                  {t("other.flows", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/certificates"}>
+                  {t("other.certificates", { ns: "footer" })}
+                </CustomLink>
               </VStack>
             </VStack>
             <VStack spacing={4} alignItems="flex-start">
@@ -98,14 +146,24 @@ const Footer = (props: { transparent?: boolean }) => {
                 color={"transparent"}
                 userSelect={"none"}
               >
-                Weitere Angebote
+                {t("other", { ns: "footer" })}
               </Text>
               <VStack spacing={2} alignItems="flex-start" color="white">
-                <CustomLink href={"/course"}>Kurse</CustomLink>
-                <CustomLink href={"/discovery"}>Discovery</CustomLink>
-                <CustomLink href={"/creator/studio"}>Creator Panel</CustomLink>
-                <CustomLink href={"/dashboard/v2"}>Dashboard</CustomLink>
-                <CustomLink href={"/snippets/my"}>Code Snippets</CustomLink>
+                <CustomLink href={"/course"}>
+                  {t("other.courses", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/discovery"}>
+                  {t("other.discovery", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/creator/studio"}>
+                  {t("other.creator", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/dashboard/v2"}>
+                  {t("other.dashboard", { ns: "footer" })}
+                </CustomLink>
+                <CustomLink href={"/snippets/my"}>
+                  {t("other.snippets", { ns: "footer" })}
+                </CustomLink>
               </VStack>
             </VStack>
           </HStack>
@@ -119,7 +177,8 @@ const Footer = (props: { transparent?: boolean }) => {
           justifyContent="space-between"
         >
           <Text fontSize="md">
-            Copyright &copy;&nbsp;{new Date().getFullYear()}&nbsp;
+            {t("copyright", { ns: "footer" })} &copy;&nbsp;
+            {new Date().getFullYear()}&nbsp;
             <Link
               href="https://ben-siebert.de"
               _hover={{ textDecoration: "underline" }}
@@ -129,7 +188,7 @@ const Footer = (props: { transparent?: boolean }) => {
             </Link>
           </Text>
           <Stack spacing={2} direction={{ base: "column", md: "row" }} gap={4}>
-            <Text fontSize="md">Ausgezeichnet durch:</Text>
+            <Text fontSize="md">{t("awarded.by", { ns: "footer" })}</Text>
             <Link
               isExternal
               href={
@@ -156,6 +215,50 @@ const Footer = (props: { transparent?: boolean }) => {
             </Link>
           </Stack>
           <Stack spacing={2} direction={{ base: "column", md: "row" }}>
+            <Menu>
+              <MenuButton as={Button} rightIcon={<FaChevronDown />}>
+                <ReactCountryFlag
+                  countryCode={
+                    i18n && i18n.language && languages[i18n.language]
+                      ? languages[i18n.language].cc
+                      : "DE"
+                  }
+                  svg
+                  style={{
+                    fontSize: "1.5em",
+                  }}
+                />
+              </MenuButton>
+              <MenuList bg={"#000"}>
+                {Object.keys(languages).map((lang) => (
+                  <MenuItem
+                    key={lang}
+                    onClick={() => {
+                      const { pathname, query, asPath } = router;
+                      router
+                        .push({ pathname, query }, asPath, {
+                          locale: lang,
+                        })
+                        .then(() => {
+                          window.location.reload();
+                        });
+                    }}
+                    color={"white"}
+                  >
+                    <HStack spacing={4}>
+                      <ReactCountryFlag
+                        countryCode={languages[lang].cc}
+                        svg
+                        style={{
+                          fontSize: "1.5em",
+                        }}
+                      />
+                      <Text>{languages[lang].display}</Text>
+                    </HStack>
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
             <IconButton
               aria-label={"Twitter"}
               as={Link}

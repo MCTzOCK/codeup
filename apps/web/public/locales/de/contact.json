@@ -1,0 +1,17 @@
+{
+  "doc.title": "Kontakt - CodeUp",
+  "title": "Kontakt",
+  "message.send": "Nachricht gesendet",
+  "message.send.text": "Wir werden uns schnellstmöglich bei dir melden",
+  "error.text": "Es ist ein Fehler aufgetreten, versuche es später erneut oder wende dich per E-Mail unter hello@ben-siebert.de an uns",
+  "category": "Kategorie",
+  "cat.other": "Sonstiges",
+  "cat.bug": "Fehler melden",
+  "cat.feature": "Feature vorschlagen",
+  "cat.creator": "Creator Bewerbung",
+  "f.title": "Titel",
+  "message": "Nachricht",
+  "send": "Absenden",
+  "send.login": "Anmelden zum Senden",
+  "email.to": "Schreibe uns eine E-Mail an: "
+}

@@ -12,20 +12,30 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
+import { sProp } from "../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Error() {
   const router = useRouter();
 
+  const { t } = useTranslation("error");
+
   return (
     <>
       <Head>
-        <title>Fehler - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <ErrorComponent
         description={router.query.error as string}
-        title={"Fehler"}
+        title={t("title")}
         image={"/_static/vectors/error/500_v2.svg"}
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["error"])),
+  };
 }

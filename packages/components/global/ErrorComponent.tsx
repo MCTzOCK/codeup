@@ -19,12 +19,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function ErrorComponent(props: {
   title?: string;
   description: string;
   image?: string;
 }) {
+  const { t } = useTranslation("base");
+
   const router = useRouter();
   return (
     <>
@@ -64,7 +67,7 @@ export default function ErrorComponent(props: {
               router.push("/");
             }}
           >
-            Home
+            {t("home")}
           </Button>
         </Flex>
         <Image

@@ -13,9 +13,13 @@ import { useRouter } from "next/router";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Head from "next/head";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Callback() {
   const router = useRouter();
+
+  const { t } = useTranslation("sso");
 
   useEffect(() => {
     if (window) {
@@ -27,7 +31,7 @@ export default function Callback() {
         localStorage.setItem("token", params.token);
         router.push("/");
       } else {
-        router.push("/error?error=Kein Token erhalten.");
+        router.push(`/error?error=${t("error.no.token")}`);
       }
     }
   }, []);
@@ -35,7 +39,7 @@ export default function Callback() {
   return (
     <>
       <Head>
-        <title>Laden...</title>
+        <title>{t("loading")}</title>
       </Head>
       <Flex
         alignItems={"center"}
@@ -48,4 +52,10 @@ export default function Callback() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["sso"])),
+  };
 }

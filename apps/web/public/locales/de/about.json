@@ -1,0 +1,18 @@
+{
+  "doc.title": "Über CodeUp",
+  "title": "Über CodeUp",
+  "intro": "CodeUp ist eine Platform, die dir mittels interaktiven Kursen, einer fortschrittlichen Entwicklungsumgebung, einer Community aus Gleichgesinnten und erfahrenen Entwicklern hilft, dich in der Welt der Programmierung zurechtzufinden. CodeUp wurde von Ben Siebert für Jugend forscht 2023 entwickelt. Im Mai 2024 wurde das Projekt wieder aufgenommen und wird vorraussichtlich auch an Jugend forscht 2025 teilnehmen.",
+  "local": "Du siehst diese Seite lokal. Daher sind keine Statistiken verfügbar.",
+  "commits": "Commits",
+  "stats": "Statistiken",
+  "branch": "Branch",
+  "commit": "Commit",
+  "last.change": "Letzte Änderung",
+  "lines": "Zeilen",
+  "used.packages": "Verwendete Pakete",
+  "used.technologies": "Verwendete Technologien",
+  "all.packages": "Alle Pakete",
+  "all.packages.info": "Gesamte Anzahl der verwendeten Pakete:",
+  "packages.show.more": "Weitere Pakete anzeigen...",
+  "version": "Version"
+}

@@ -21,9 +21,13 @@ import PopupManager from "../../global/PopupManager";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+
+  const { t } = useTranslation("discovery");
 
   const [projects, setProjects] = React.useState<
     {
@@ -53,19 +57,19 @@ export default function Discovery() {
   return (
     <>
       <Head>
-        <title>Discovery - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       {error ? (
         <>
           <ErrorComponent
-            description={"Ein Fehler ist aufgetreten!"}
-            title={"Fehler"}
+            description={t("error.text")}
+            title={t("base:control.error")}
           />
         </>
       ) : (
         <Box bg={"#000"} minH={"100vh"} h={"fit-content"}>
           <GridLayoutV2
-            pageTitle={"Discovery"}
+            pageTitle={t("title")}
             search={{
               show: true,
               fields: true,
@@ -77,16 +81,17 @@ export default function Discovery() {
                 fields: [
                   {
                     icon: <FaUser />,
-                    text: "Autor: @" + p.author,
+                    text: t("author") + ": @" + p.author,
                   },
                   {
                     icon: <FaStar />,
-                    text: "Sterne: " + p.stars.length,
+                    text: t("stars") + ": " + p.stars.length,
                   },
                   {
                     icon: <FaInfo />,
                     text:
-                      "Beschreibung: " +
+                      t("description") +
+                      ": " +
                       p.description.substring(0, 100) +
                       "...",
                   },
@@ -94,7 +99,7 @@ export default function Discovery() {
                 buttonRows: [
                   [
                     {
-                      text: "Ansehen",
+                      text: t("open"),
                       leftIcon: <FaEye />,
                       variant: "brand",
                       onClick: () => {
@@ -103,8 +108,8 @@ export default function Discovery() {
                     },
                     {
                       text: p.stars.includes(userInfo.id)
-                        ? "Stern entfernen"
-                        : "Stern hinzufügen",
+                        ? t("stars.remove")
+                        : t("stars.add"),
                       leftIcon: <FaStar />,
                       variant: "brand",
                       disabled: !loggedIn,
@@ -128,16 +133,14 @@ export default function Discovery() {
                             })
                           );
                           PopupManager.alert({
-                            title: "Erfolgreich",
-                            description:
-                              "Deine Aktion wurde erfolgreich ausgeführt!",
+                            title: t("success"),
+                            description: t("success.text"),
                           });
                         } else {
                           PopupManager.alert({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Ein Fehler ist aufgetreten: " +
-                              res.payload.error,
+                              t("error.desc") + ": " + res.payload.error,
                           });
                         }
                       },
@@ -145,14 +148,13 @@ export default function Discovery() {
                   ],
                   [
                     {
-                      text: "Kommentieren",
+                      text: t("comment"),
                       leftIcon: <FaComment />,
                       variant: "brand",
                       onClick: async () => {
                         const comment = await PopupManager.promptAsync({
-                          title: "Kommentar",
-                          helperText:
-                            "Gib deinen Kommentar ein. Achte dabei auf deine Wortwahl!",
+                          title: t("comment.subj"),
+                          helperText: t("comment.subj.helper"),
                           inputType: "TEXTAREA",
                         });
 
@@ -166,17 +168,16 @@ export default function Discovery() {
 
                         if (res.status === 200) {
                           PopupManager.alert({
-                            title: "Erfolgreich",
-                            description:
-                              "Dein Kommentar wurde erfolgreich hinzugefügt!",
+                            title: t("success"),
+                            description: t("comment.added"),
                           });
                           return;
                         }
 
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description:
-                            "Ein Fehler ist aufgetreten: " + res.payload.error,
+                            t("error.desc") + ": " + res.payload.error,
                         });
                       },
                       disabled: !loggedIn,
@@ -190,4 +191,10 @@ export default function Discovery() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["discovery"])),
+  };
 }

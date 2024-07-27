@@ -29,6 +29,8 @@ import REST from "@codeup/rest";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function CertViewer() {
   const router = useRouter();
@@ -54,10 +56,12 @@ export default function CertViewer() {
     }
   }, [id]);
 
+  const { t } = useTranslation("user-cert");
+
   return (
     <>
       <Head>
-        <title>Zertifikat - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       {loading ? (
         <>
@@ -80,9 +84,7 @@ export default function CertViewer() {
         <>
           {notFound ? (
             <>
-              <ErrorComponent
-                description={"Das Zertifikat konnte nicht gefunden werden!"}
-              />
+              <ErrorComponent description={t("error.not.found")} />
             </>
           ) : (
             <>
@@ -176,36 +178,36 @@ export default function CertViewer() {
                       </HStack>
                       <Divider />
                       <Stack pt={"2rem"}>
-                        <CHeading size={"lg"}>Zertifikat</CHeading>
+                        <CHeading size={"lg"}>{t("certificate")}</CHeading>
                         <Text fontSize={"3xl"} color={"gray.400"}>
                           <chakra.span color={"brand.500"}>
                             {_rawResponse?.obtainedCertificate?.name}
                           </chakra.span>
                           &nbsp;(@
-                          {_rawResponse?.obtainedCertificate?.username}) hat den
-                          Kurs &quot;
+                          {_rawResponse?.obtainedCertificate?.username}){" "}
+                          {t("s0")} &quot;
                           <chakra.span color={"brand.500"}>
                             {_rawResponse?.course?.name}
                           </chakra.span>
-                          &quot; am&nbsp;
+                          &quot; {t("s1")}&nbsp;
                           {new Date(
                             _rawResponse?.obtainedCertificate?.date
                           ).toLocaleString()}
-                          &nbsp;mit&nbsp;
+                          &nbsp;{t("s2")}&nbsp;
                           <chakra.span color={"brand.500"}>
                             {_rawResponse?.obtainedCertificate?.percentage}
                           </chakra.span>
-                          % erfolgreich bestanden.
+                          % {t("s3")}
                         </Text>
                         <Divider />
                         <Text fontSize={"xl"} color={"gray.400"}>
-                          Dieses Zertifikat wurde von&nbsp;@
+                          {t("cert.issued")}&nbsp;@
                           <chakra.span color={"brand.500"}>
                             {_rawResponse?.course?.creator}
                           </chakra.span>
-                          &nbsp;im Namen von&nbsp;
+                          &nbsp;{t("cert.issued.name")}&nbsp;
                           <chakra.span color={"brand.500"}>CodeUp</chakra.span>
-                          &nbsp;ausgestellt.
+                          &nbsp;{t("cert.issued.l")}&nbsp;
                         </Text>
                       </Stack>
                     </Stack>
@@ -229,4 +231,17 @@ export default function CertViewer() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["user-cert"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

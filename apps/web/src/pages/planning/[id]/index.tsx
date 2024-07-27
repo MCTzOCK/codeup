@@ -42,11 +42,15 @@ import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
 
   const router = useRouter();
+
+  const { t } = useTranslation("flows");
 
   useEffect(() => {
     if (!loggedIn && loaded) {
@@ -118,7 +122,7 @@ export default function Index() {
         if (!p.saved || p.saved === "") {
           savedNodes.push({
             id: `1`,
-            data: { label: "Hauptknoten" },
+            data: { label: t("nodes.default") },
             position: {
               x: 100,
               y: 100,
@@ -139,10 +143,8 @@ export default function Index() {
         setEdges(savedEdges);
       } else {
         toast({
-          title: "Fehler",
-          description:
-            "Beim Laden des Projekts ist ein Fehler aufgetreten: " +
-            res.payload.message,
+          title: t("base:control.error"),
+          description: t("error.loading.single") + " " + res.payload.message,
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -155,7 +157,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Projektplanung - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex
         maxH={"100vh"}
@@ -199,9 +201,9 @@ export default function Index() {
           <Stack gap={6}>
             <Heading textAlign="center" size={"xl"}>
               {currentEdge !== null
-                ? "Verbindung"
+                ? t("edge")
                 : currentNode !== null
-                ? "Knoten"
+                ? t("node")
                 : ""}
             </Heading>
             <ButtonGroup w={"100%"}>
@@ -218,7 +220,7 @@ export default function Index() {
                     ...nodes,
                     {
                       id: `${nodes.length + 1}`,
-                      data: { label: "Neuer Knoten" },
+                      data: { label: t("nodes.default.new") },
                       position: {
                         x: randomNumber(0, 400),
                         y: randomNumber(0, 400),
@@ -232,7 +234,7 @@ export default function Index() {
                   ]);
                 }}
               >
-                Neuer Knoten
+                {t("nodes.default.new")}
               </Button>
             </ButtonGroup>
 
@@ -248,7 +250,7 @@ export default function Index() {
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Animiert
+                      {t("edges.animated")}
                     </Heading>
                     <Select
                       flex={"50%"}
@@ -265,16 +267,16 @@ export default function Index() {
                       fontSize={"xl"}
                     >
                       <option value={"true"} selected={currentEdge.animated}>
-                        Ja
+                        {t("yes")}
                       </option>
                       <option value={"false"} selected={!currentEdge.animated}>
-                        Nein
+                        {t("no")}
                       </option>
                     </Select>
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Text
+                      {t("text")}
                     </Heading>
                     <Input
                       flex={"50%"}
@@ -293,7 +295,7 @@ export default function Index() {
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Typ
+                      {t("type")}
                     </Heading>
                     <Select
                       flex={"50%"}
@@ -313,13 +315,13 @@ export default function Index() {
                         value={"default"}
                         selected={currentEdge.type === "default"}
                       >
-                        Standard
+                        {t("default")}
                       </option>
                       <option
                         value={"smoothstep"}
                         selected={currentEdge.type === "smoothstep"}
                       >
-                        Schritt
+                        {t("step")}
                       </option>
                     </Select>
                   </Flex>
@@ -335,7 +337,7 @@ export default function Index() {
                         );
                       }}
                     >
-                      Löschen
+                      {t("delete")}
                     </Button>
                   </ButtonGroup>
                 </Stack>
@@ -352,7 +354,7 @@ export default function Index() {
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Text
+                      {t("text")}
                     </Heading>
                     <Input
                       fontSize={"xl"}
@@ -372,7 +374,7 @@ export default function Index() {
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Typ
+                      {t("type")}
                     </Heading>
                     <Select
                       flex={"50%"}
@@ -392,25 +394,25 @@ export default function Index() {
                         value={"default"}
                         selected={currentNode.type === "default"}
                       >
-                        Standard
+                        {t("default")}
                       </option>
                       <option
                         value={"input"}
                         selected={currentNode.type === "input"}
                       >
-                        Eingang
+                        {t("input")}
                       </option>
                       <option
                         value={"output"}
                         selected={currentNode.type === "output"}
                       >
-                        Ausgang
+                        {t("output")}
                       </option>
                     </Select>
                   </Flex>
                   <Flex w={"100%"} justifyContent={"space-between"}>
                     <Heading size={"lg"} flex={"50%"}>
-                      Farbe
+                      {t("color")}
                     </Heading>
                     <Input
                       flex={"50%"}
@@ -444,7 +446,7 @@ export default function Index() {
                         );
                       }}
                     >
-                      Löschen
+                      {t("delete")}
                     </Button>
                   </ButtonGroup>
                 </Stack>
@@ -454,4 +456,17 @@ export default function Index() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["flows"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

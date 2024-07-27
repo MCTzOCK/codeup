@@ -58,10 +58,13 @@ import PopupManager from "../../global/PopupManager";
 import { IoWarning } from "react-icons/io5";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Settings() {
   const router = useRouter();
   const { userInfo, loggedIn, loaded } = useLoggedIn();
+  const { t } = useTranslation("account");
 
   useEffect(() => {
     if (loaded && !loggedIn) {
@@ -90,12 +93,12 @@ export default function Settings() {
   return (
     <>
       <Head>
-        <title>Einstellungen - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
 
       <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
         <Flex pt={6} pb={6} w={"100%"} justifyContent={"center"}>
-          <CHeading size={"xl"}>Konto Einstellungen</CHeading>
+          <CHeading size={"xl"}>{t("title")}</CHeading>
         </Flex>
 
         <Flex alignItems={"center"} justifyContent={"center"}>
@@ -108,10 +111,10 @@ export default function Settings() {
           >
             <Stack gap={2}>
               <FormControl>
-                <FormLabel>Vorname</FormLabel>
+                <FormLabel>{t("name.first")}</FormLabel>
                 <Input
                   id={"sett.firstname"}
-                  placeholder={"Vorname"}
+                  placeholder={t("name.first")}
                   defaultValue={userInfo.firstName}
                 />
               </FormControl>
@@ -135,26 +138,26 @@ export default function Settings() {
                   if (res.payload.success) {
                     localStorage.setItem("token", res.payload.newToken);
                     PopupManager.alert({
-                      title: "Erfolgreich",
-                      description: "Dein Vorname wurde erfolgreich geändert!",
+                      title: t("success"),
+                      description: t("success.name.first"),
                     });
                   } else {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("control.error", { ns: "base" }),
                       description: res.payload.message,
                     });
                   }
                 }}
               >
-                Speichern
+                {t("save")}
               </Button>
             </Stack>
             <Stack gap={2} mt={2}>
               <FormControl>
-                <FormLabel>Nachname</FormLabel>
+                <FormLabel>{t("name.last")}</FormLabel>
                 <Input
                   id={"sett.lastname"}
-                  placeholder={"Nachname"}
+                  placeholder={t("name.last")}
                   defaultValue={userInfo.lastName}
                 />
               </FormControl>
@@ -176,26 +179,26 @@ export default function Settings() {
                   if (res.payload.success) {
                     localStorage.setItem("token", res.payload.newToken);
                     PopupManager.alert({
-                      title: "Erfolgreich",
-                      description: "Dein Nachname wurde erfolgreich geändert!",
+                      title: t("success"),
+                      description: t("success.name.last"),
                     });
                   } else {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("control.error", { ns: "base" }),
                       description: res.payload.message,
                     });
                   }
                 }}
               >
-                Speichern
+                {t("save")}
               </Button>
             </Stack>
             <Stack gap={2} mt={2}>
               <FormControl>
-                <FormLabel>E-Mail</FormLabel>
+                <FormLabel>{t("email")}</FormLabel>
                 <Input
                   id={"sett.email"}
-                  placeholder={"E-Mail"}
+                  placeholder={t("email")}
                   defaultValue={userInfo.email}
                 />
               </FormControl>
@@ -211,8 +214,8 @@ export default function Settings() {
                     )
                   ) {
                     PopupManager.alert({
-                      title: "Fehler",
-                      description: "Die E-Mail Adresse ist ungültig!",
+                      title: t("control.error", { ns: "base" }),
+                      description: t("failed.email"),
                     });
                     return;
                   }
@@ -226,24 +229,23 @@ export default function Settings() {
                   if (res.payload.success) {
                     localStorage.setItem("token", res.payload.newToken);
                     PopupManager.alert({
-                      title: "Erfolgreich",
-                      description:
-                        "Überprüfe dein Postfach, um deine neue E-Mail Adresse zu bestätigen!",
+                      title: t("success"),
+                      description: t("success.email"),
                     });
                   } else {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("control.error", { ns: "base" }),
                       description: res.payload.message,
                     });
                   }
                 }}
               >
-                Speichern
+                {t("save")}
               </Button>
             </Stack>
             <Stack gap={2} mt={2}>
               <FormControl>
-                <FormLabel>Zwei Faktor Authentifizierung</FormLabel>
+                <FormLabel>{t("2fa")}</FormLabel>
                 <Button
                   w={"100%"}
                   variant={"brand"}
@@ -265,17 +267,14 @@ export default function Settings() {
                         localStorage.setItem("token", res.payload.newToken);
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
-                          description:
-                            "Zwei Faktor Authentifizierung fehlgeschlagen: " +
-                            res.payload.error,
+                          title: t("control.error", { ns: "base" }),
+                          description: t("2fa.failed") + res.payload.error,
                         });
                       }
                     } else {
                       const code = await PopupManager.promptAsync({
-                        title: "Zwei Faktor Authentifizierung deaktivieren",
-                        helperText:
-                          "Bitte gebe den Code aus deiner Authentifizierungs App ein",
+                        title: t("2fa.disable"),
+                        helperText: t("2fa.disable.text"),
                       });
 
                       const res = await REST.Account.update2FA({
@@ -287,16 +286,13 @@ export default function Settings() {
                       if (res.status === 200) {
                         localStorage.setItem("token", res.payload.newToken);
                         PopupManager.alert({
-                          title: "Erfolgreich",
-                          description:
-                            "Zwei Faktor Authentifizierung erfolgreich deaktiviert!",
+                          title: t("success"),
+                          description: t("2fa.disabled"),
                         });
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
-                          description:
-                            "Zwei Faktor Authentifizierung fehlgeschlagen: " +
-                            res.payload.error,
+                          title: t("control.error", { ns: "base" }),
+                          description: t("2fa.failed") + res.payload.error,
                         });
                       }
                     }
@@ -304,36 +300,36 @@ export default function Settings() {
                 >
                   {
                     // @ts-ignore
-                    userInfo.twoFactorEnabled ? "Deaktivieren" : "Aktivieren"
+                    userInfo.twoFactorEnabled ? t("deactivate") : t("activate")
                   }
                 </Button>
               </FormControl>
             </Stack>
             <Stack gap={2} mt={2}>
               <FormControl>
-                <FormLabel>Passwort</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <Button
                   w={"100%"}
                   variant={"brand"}
                   onClick={async () => {
                     const newPassword = await PopupManager.promptAsync({
-                      title: "Passwort ändern",
-                      helperText: "Bitte gebe dein neues Passwort ein",
+                      title: t("password.change"),
+                      helperText: t("password.change.text"),
                     });
 
                     if (!newPassword) return;
 
                     const newPasswordRepeat = await PopupManager.promptAsync({
-                      title: "Passwort ändern",
-                      helperText: "Bitte wiederhole dein neues Passwort",
+                      title: t("password.change"),
+                      helperText: t("password.change.repeat"),
                     });
 
                     if (!newPasswordRepeat) return;
 
                     if (newPassword !== newPasswordRepeat) {
                       PopupManager.alert({
-                        title: "Fehler",
-                        description: "Die Passwörter stimmen nicht überein!",
+                        title: t("control.error", { ns: "base" }),
+                        description: t("password.change.failed"),
                       });
                       return;
                     }
@@ -346,21 +342,20 @@ export default function Settings() {
 
                     if (res.status === 200) {
                       PopupManager.alert({
-                        title: "Erfolgreich",
-                        description: "Passwort erfolgreich geändert!",
+                        title: t("success"),
+                        description: t("password.change.success"),
                       });
                       return;
                     }
 
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("control.error", { ns: "base" }),
                       description:
-                        "Passwort konnte nicht geändert werden: " +
-                        res.payload.error,
+                        t("password.change.failed.unknown") + res.payload.error,
                     });
                   }}
                 >
-                  Passwort ändern
+                  {t("password.change")}
                 </Button>
               </FormControl>
             </Stack>
@@ -368,7 +363,10 @@ export default function Settings() {
               <FormControl>
                 <FormLabel>
                   CodeUp PRO (
-                  {userInfo.subscription === "PRO" ? "Aktiv" : "Inaktiv"})
+                  {userInfo.subscription === "PRO"
+                    ? t("active")
+                    : t("inactive")}
+                  )
                 </FormLabel>
                 <Button
                   w={"100%"}
@@ -377,9 +375,8 @@ export default function Settings() {
                     if (userInfo.subscription === "PRO") {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Kündigen",
-                          question:
-                            "Willst du CodeUp PRO wirklich kündigen und all deine Vorteile verlieren?",
+                          title: t("cancel"),
+                          question: t("cancel.confirm"),
                         }))
                       ) {
                         return;
@@ -390,16 +387,14 @@ export default function Settings() {
                       );
                       if (res.status === 200) {
                         await PopupManager.alertAsync({
-                          title: "Erfolgreich",
-                          description: "CodeUp PRO erfolgreich gekündigt!",
+                          title: t("success"),
+                          description: t("cancel.success"),
                         });
                         AccountManager.overrideActiveToken(res.payload.jwt);
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
-                          description:
-                            "Es ist ein Fehler aufgetreten. Bitte kontaktiere den Support mit dieser Fehlermeldung: " +
-                            res.payload.error,
+                          title: t("control.error", { ns: "base" }),
+                          description: t("cancel.failed") + res.payload.error,
                         });
                       }
                     } else {
@@ -411,9 +406,9 @@ export default function Settings() {
                         window.location.href = res.payload.url;
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("control.error", { ns: "base" }),
                           description:
-                            "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut: " +
+                            t("control.error.request", { ns: "base" }) +
                             res.payload.error,
                         });
                       }
@@ -422,27 +417,25 @@ export default function Settings() {
                 >
                   {
                     // @ts-ignore
-                    userInfo.subscription === "PRO" ? "Kündigen" : "Aktivieren"
+                    userInfo.subscription === "PRO"
+                      ? t("cancel")
+                      : t("activate")
                   }
                 </Button>
               </FormControl>
             </Stack>
             <Stack gap={2} mt={2}>
               <FormControl>
-                <FormLabel>Konto löschen</FormLabel>
-                <Text>
-                  Diese Aktion kann unter keinen Umständen rückgängig gemacht
-                  werden!
-                </Text>
+                <FormLabel>{t("account.delete")}</FormLabel>
+                <Text>{t("account.delete.text")}</Text>
                 <Button
                   w={"100%"}
                   colorScheme={"red"}
                   onClick={async () => {
                     if (
                       !(await PopupManager.confirmAsync({
-                        title: "Konto löschen",
-                        question:
-                          "Bist du dir sicher, dass du dein Konto löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!",
+                        title: t("account.delete"),
+                        question: t("account.delete.confirm"),
                       }))
                     )
                       return;
@@ -456,8 +449,9 @@ export default function Settings() {
 
                     await router.push("/");
                   }}
+                  textTransform={"uppercase"}
                 >
-                  KONTO LÖSCHEN
+                  {t("account.delete")}
                 </Button>
               </FormControl>
             </Stack>
@@ -469,12 +463,10 @@ export default function Settings() {
         onOpen={on2FASuccessOpen}
         onClose={on2FASuccessClose}
         isOpen={is2FASuccessOpen}
-        title={"2-Faktor-Authentifizierung"}
+        title={t("2fa")}
       >
         <Text mb={"2rem"} fontSize={"lg"}>
-          Scanne den folgenden QR-Code mit deiner Authentifizierungs-App, um die
-          2-Faktor-Authentifizierung zu aktivieren. Wenn du noch keine
-          Authentifizierungs-App hast, empfehlen wir dir{" "}
+          {t("2fa.modal.text")}{" "}
           <Link href={"https://authy.com/"} isExternal color={"blue.400"}>
             Authy
           </Link>
@@ -485,4 +477,10 @@ export default function Settings() {
       </CodeUpModal>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["account"])),
+  };
 }

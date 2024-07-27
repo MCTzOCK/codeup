@@ -17,20 +17,30 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Error() {
   const router = useRouter();
 
+  const { t } = useTranslation("sso");
+
   return (
     <>
       <Head>
-        <title>Login Fehlgeschlagen - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Alert status="error">
         <AlertIcon />
-        <AlertTitle>Fehler beim Anmelden!</AlertTitle>
+        <AlertTitle>{t("alert.title")}</AlertTitle>
         <AlertDescription>{router.query.error}</AlertDescription>
       </Alert>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["sso"])),
+  };
 }

@@ -31,6 +31,9 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
 import Markdown from "markdown-to-jsx";
 import { defaultMdOpts } from "../../global/md/defaultProps";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 type IChat = {
   _id: string;
@@ -62,14 +65,15 @@ export default function Index() {
 
   const [currentChat, setCurrentChat] = React.useState<IChat | null>(null);
 
+  const { t } = useTranslation("ai");
+
   const reloadChats = async () => {
     const res = await REST.AI.getAIChats(AccountManager.getActiveToken());
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die KI-Chats konnten nicht geladen werden: " + res.payload.error,
+        title: t("control.error", { ns: "base" }),
+        description: t("error.loading") + res.payload.error,
       });
       return;
     }
@@ -87,9 +91,8 @@ export default function Index() {
     const res = await REST.AI.getAIQuota(AccountManager.getActiveToken());
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die KI-Quota konnte nicht geladen werden: " + res.payload.error,
+        title: t("control.error", { ns: "base" }),
+        description: t("error.loading.quota") + res.payload.error,
       });
       return;
     }
@@ -114,9 +117,8 @@ export default function Index() {
     if (res.status !== 200) {
       setLoading(false);
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Anfrage konnte nicht abgeschickt werden: " + res.payload.error,
+        title: t("control.error", { ns: "base" }),
+        description: t("error.sending.request") + res.payload.error,
       });
       return;
     }
@@ -142,6 +144,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <AppShell
         title={"Chats"}
         sub_pages={[
@@ -149,7 +154,7 @@ export default function Index() {
             onClick: () => {
               setCurrentChat(null);
             },
-            text: "Neuer Chat",
+            text: t("new.chat"),
             icon: <FaPlus />,
             top: true,
           },
@@ -165,7 +170,7 @@ export default function Index() {
         <Flex justifyContent={"center"} h={"100vh"} w={"100%"}>
           <Flex w={["100%", "100%", "60%"]} minH={"100vh"} direction={"column"}>
             <CHeading size={"xl"} textAlign={"center"} flex={0.05}>
-              KI-Assistent
+              {t("title")}
             </CHeading>
             <Box
               w={"100%"}
@@ -225,8 +230,7 @@ export default function Index() {
               ) : (
                 <>
                   <Text fontSize={"lg"} textAlign={"center"} p={4}>
-                    Wähle einen Chat aus oder starte einen neuen, indem du eine
-                    Nachricht schreibst!
+                    {t("placeholder.text")}
                   </Text>
                 </>
               )}
@@ -245,35 +249,11 @@ export default function Index() {
                     p={2}
                     cursor={"pointer"}
                     onClick={() => {
-                      createMessage("Gib mir eine Projektidee!");
-                    }}
-                  >
-                    <Text fontWeight={"bold"}>Gib mir eine Projektidee!</Text>
-                  </Box>
-                  <Box
-                    rounded={"md"}
-                    borderWidth={2}
-                    borderColor={"brand.500"}
-                    p={2}
-                    cursor={"pointer"}
-                    onClick={() => {
-                      createMessage("Was ist React?");
-                    }}
-                  >
-                    <Text fontWeight={"bold"}>Was ist React?</Text>
-                  </Box>
-                  <Box
-                    rounded={"md"}
-                    borderWidth={2}
-                    borderColor={"brand.500"}
-                    p={2}
-                    cursor={"pointer"}
-                    onClick={() => {
-                      createMessage("Gib mir die Definition einer REST-API.");
+                      createMessage(t("templates.project.idea"));
                     }}
                   >
                     <Text fontWeight={"bold"}>
-                      Gib mir die Definition einer REST-API.
+                      {t("templates.project.idea")}
                     </Text>
                   </Box>
                   <Box
@@ -283,14 +263,34 @@ export default function Index() {
                     p={2}
                     cursor={"pointer"}
                     onClick={() => {
-                      createMessage(
-                        "Welche Eigenschaften hat ein Algorithmus?"
-                      );
+                      createMessage(t("templates.react"));
                     }}
                   >
-                    <Text fontWeight={"bold"}>
-                      Welche Eigenschaften hat ein Algorithmus?
-                    </Text>
+                    <Text fontWeight={"bold"}>{t("templates.react")}</Text>
+                  </Box>
+                  <Box
+                    rounded={"md"}
+                    borderWidth={2}
+                    borderColor={"brand.500"}
+                    p={2}
+                    cursor={"pointer"}
+                    onClick={() => {
+                      createMessage(t("templates.rest"));
+                    }}
+                  >
+                    <Text fontWeight={"bold"}>{t("templates.rest")}</Text>
+                  </Box>
+                  <Box
+                    rounded={"md"}
+                    borderWidth={2}
+                    borderColor={"brand.500"}
+                    p={2}
+                    cursor={"pointer"}
+                    onClick={() => {
+                      createMessage(t("templates.algo"));
+                    }}
+                  >
+                    <Text fontWeight={"bold"}>{t("templates.algo")}</Text>
                   </Box>
                 </Grid>
                 <form
@@ -314,7 +314,7 @@ export default function Index() {
                 >
                   <HStack w={["100%", "75%"]} gap={2}>
                     <Input
-                      placeholder={"Nachricht"}
+                      placeholder={t("message")}
                       flex={1}
                       variant={"filled"}
                       name={"message"}
@@ -330,12 +330,12 @@ export default function Index() {
                 </form>
                 <Text fontSize={"sm"} color={"gray.400"}>
                   {quota
-                    ? `Du hast noch ${
-                        quota.available
-                      } Anfragen übrig. Du bekommst am ${new Date(
-                        quota.resetsAt
-                      ).toLocaleString()} 10 weitere Anfragen!`
-                    : "Lade..."}
+                    ? `${t("quota.msg.1")} ${quota.available} ${t(
+                        "quota.msg.2"
+                      )} ${new Date(quota.resetsAt).toLocaleString()} ${t(
+                        "quota.msg.3"
+                      )}`
+                    : t("quota.loading")}
                 </Text>
               </VStack>
             </Box>
@@ -344,4 +344,10 @@ export default function Index() {
       </AppShell>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["ai"])),
+  };
 }

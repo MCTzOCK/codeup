@@ -54,10 +54,13 @@ import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
 import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("todo");
 
   const [lists, setLists] = React.useState<
     {
@@ -105,7 +108,7 @@ export default function Index() {
         position: "top",
         variant: "solid",
         status: "error",
-        title: "Fehler",
+        title: t("base:control.error"),
         description: res.payload.error,
         isClosable: true,
         duration: 6000,
@@ -127,10 +130,10 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>ToDo - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Heading size={"xl"} textAlign={"center"} mt={"2rem"}>
-        Aufgabenplanung - ToDo
+        {t("title")}
       </Heading>
       <GridLayout
         search={{
@@ -142,8 +145,8 @@ export default function Index() {
             icon: <FaPlus />,
             onClick: async () => {
               const name = await PopupManager.promptAsync({
-                title: "Neue Liste",
-                helperText: "Gib den Namen der Liste ein",
+                title: t("new.list"),
+                helperText: t("new.list.name"),
               });
 
               if (!name) return;
@@ -158,8 +161,8 @@ export default function Index() {
                   position: "top",
                   variant: "solid",
                   status: "success",
-                  title: "Erfolgreich",
-                  description: "Die Liste wurde erstellt",
+                  title: t("success"),
+                  description: t("success.created"),
                   isClosable: true,
                   duration: 6000,
                 });
@@ -168,7 +171,7 @@ export default function Index() {
                   position: "top",
                   variant: "solid",
                   status: "error",
-                  title: "Fehler",
+                  title: t("base:control.error"),
                   description: res.payload.error,
                   isClosable: true,
                   duration: 6000,
@@ -184,7 +187,8 @@ export default function Index() {
               {
                 icon: <FaCheck />,
                 text:
-                  "Erledigt: " +
+                  t("items.finished") +
+                  " " +
                   list.tasks.filter((task) => task.finished).length +
                   "/" +
                   list.tasks.length,
@@ -194,7 +198,7 @@ export default function Index() {
               {
                 buttons: [
                   {
-                    text: "Öffnen",
+                    text: t("list.open"),
                     icon: <FaEye />,
                     colorScheme: "blue",
                     onClick: () => {
@@ -207,14 +211,14 @@ export default function Index() {
               {
                 buttons: [
                   {
-                    text: "Löschen",
+                    text: t("list.delete"),
                     icon: <FaTrash />,
                     colorScheme: "red",
                     onClick: async () => {
                       if (
                         await PopupManager.confirmAsync({
-                          title: "Liste löschen",
-                          question: "Willst du die Liste wirklich löschen?",
+                          title: t("list.delete.p.title"),
+                          question: t("list.delete.p.text"),
                         })
                       ) {
                         const res = await REST.ToDo.deleteList({
@@ -228,10 +232,9 @@ export default function Index() {
                         }
 
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description:
-                            "Die Liste konnte nicht gelöscht werden: " +
-                            res.payload.error,
+                            t("list.delete.error") + " " + res.payload.error,
                         });
                       }
                     },
@@ -251,4 +254,10 @@ export default function Index() {
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["todo"])),
+  };
 }

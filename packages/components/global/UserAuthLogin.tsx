@@ -30,6 +30,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import REST from "@codeup/rest";
 import { IResponse } from "@codeup/rest/src/types/IResponse";
 import AccountManager, { Account } from "@codeup/util/src/AccountManager";
+import { useTranslation } from "next-i18next";
 
 export default function UserAuthLogin(props: { onClose: () => void }) {
   const [email, setEmail] = React.useState("");
@@ -46,6 +47,7 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
   >("error");
 
   const [_2fa, set2fa] = React.useState(false);
+  const { t } = useTranslation("auth");
 
   return (
     <>
@@ -107,22 +109,22 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
             <Flex direction={"column"} gap={"2rem"}>
               <FormControl>
                 <FormLabel htmlFor={"email"}>
-                  E-Mail oder Benutzername
+                  {t("login.email.or.username")}
                 </FormLabel>
                 <Input
                   id={"email"}
-                  placeholder={"E-Mail oder Benutzername"}
+                  placeholder={t("login.email.or.username")}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor={"password"}>Passwort</FormLabel>
+                <FormLabel htmlFor={"password"}>{t("password")}</FormLabel>
                 <InputGroup>
                   <Input
                     id={"password"}
-                    placeholder={"Passwort"}
+                    placeholder={t("password")}
                     type={passwordVisible ? "text" : "password"}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -144,7 +146,7 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
                 isLoading={btnDisabled}
                 disabled={btnDisabled}
               >
-                Login
+                {t("login")}
               </Button>
             </Flex>
           </form>
@@ -158,10 +160,10 @@ export default function UserAuthLogin(props: { onClose: () => void }) {
               direction={"column"}
             >
               <Heading size={"xl"} textAlign={"center"}>
-                2 Faktor Authentifizierung
+                {t("2fa")}
               </Heading>
               <Text textAlign={"center"} mt={".4rem"}>
-                Bitte gib den Code aus deiner Authentifizierungs-App ein.
+                {t("2fa.code")}
               </Text>
             </Flex>
             <HStack alignItems={"center"} justifyContent={"center"}>

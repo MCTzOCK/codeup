@@ -16,8 +16,11 @@ import { Button, Flex, Grid, Image, Progress, Text } from "@chakra-ui/react";
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SCertificates() {
+  const { t } = useTranslation("dashboard");
+
   const [certificates, setCertificates] = React.useState<
     {
       _id: string;
@@ -44,9 +47,7 @@ export default function DV2SCertificates() {
     );
 
     if (res.status !== 200) {
-      setError(
-        "Zertifikate konnten nicht geladen werden: " + res.payload.error
-      );
+      setError(t("certificates.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -64,7 +65,7 @@ export default function DV2SCertificates() {
       ) : (
         <>
           <CHeading size={"lg"} mb={4}>
-            Deine Zertifikate
+            {t("certificates.title")}
           </CHeading>
           <Grid
             templateColumns={[
@@ -110,7 +111,9 @@ export default function DV2SCertificates() {
                         max={100}
                         rounded={"md"}
                       />
-                      <Text>Du hast {cert.percentage}% erhalten!</Text>
+                      <Text>
+                        {t("certificates.result")}: {cert.percentage}%
+                      </Text>
                     </Flex>
                   </Flex>
                 </Flex>
@@ -125,7 +128,7 @@ export default function DV2SCertificates() {
               gap={4}
               mt={-4}
             >
-              <Text>Du hast noch keine Zertifikate erhalten.</Text>
+              <Text>{t("no.certificates")}</Text>
               <Button
                 variant={"brand"}
                 leftIcon={<FaExternalLinkAlt />}
@@ -134,7 +137,7 @@ export default function DV2SCertificates() {
                   router.push("/certificates");
                 }}
               >
-                Zertifikate
+                {t("certificates")}
               </Button>
             </Flex>
           )}

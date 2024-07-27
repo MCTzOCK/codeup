@@ -11,6 +11,8 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { sProp } from "../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Redirect() {
   const router = useRouter();
@@ -25,11 +27,19 @@ export default function Redirect() {
     }
   }, [url]);
 
+  const { t } = useTranslation("redirect");
+
   return (
     <>
       <Head>
-        <title>Weiterleiten...</title>
+        <title>{t("redirect")}</title>
       </Head>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["redirect"])),
+  };
 }

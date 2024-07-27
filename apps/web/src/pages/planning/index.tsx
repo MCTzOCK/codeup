@@ -38,10 +38,13 @@ import { FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import byteSize from "byte-size";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
   const router = useRouter();
+  const { t } = useTranslation("flows");
 
   const [projects, setProjects] = React.useState<any[]>([]);
 
@@ -63,10 +66,8 @@ export default function Index() {
           setProjects(res.payload.projects);
         } else {
           toast({
-            title: "Fehler",
-            description:
-              "Beim Laden der Projekte ist ein Fehler aufgetreten: " +
-              res.payload.error,
+            title: t("base:control.error"),
+            description: t("error.loading") + " " + res.payload.error,
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -80,24 +81,24 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Projektplanung - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Box h={"fit-content"} minH={"100vh"} bg={"#000"}>
         <GridLayoutV2
-          pageTitle={"Projekte"}
+          pageTitle={t("title")}
           search={{
             show: true,
             fields: true,
           }}
           topButtons={[
             {
-              text: "Neu",
+              text: t("new"),
               leftIcon: <FaPlus />,
               variant: "brand",
               onClick: async () => {
                 const name = await PopupManager.promptAsync({
-                  title: "Neues Projekt",
-                  helperText: "Gib den Namen des Projektes ein",
+                  title: t("new.project"),
+                  helperText: t("new.project.name"),
                 });
 
                 if (!name) return;
@@ -111,8 +112,8 @@ export default function Index() {
                   toast({
                     position: "bottom-right",
                     status: "success",
-                    title: "Erfolgreich",
-                    description: "Das Projekt wurde erstellt",
+                    title: t("success"),
+                    description: t("success.created"),
                     isClosable: true,
                     duration: 1500,
                   });
@@ -120,7 +121,7 @@ export default function Index() {
                   toast({
                     position: "bottom-right",
                     status: "error",
-                    title: "Fehler",
+                    title: t("base:control.error"),
                     description: res.payload.error,
                     isClosable: true,
                     duration: 1500,
@@ -135,14 +136,13 @@ export default function Index() {
               fields: [
                 {
                   text:
-                    "Gespeicherte Daten: " +
-                    byteSize(p.saved.length).toString(),
+                    t("saved.data") + " " + byteSize(p.saved.length).toString(),
                 },
               ],
               buttonRows: [
                 [
                   {
-                    text: "Öffnen",
+                    text: t("open"),
                     leftIcon: <FaEye />,
                     variant: "brand",
                     onClick: () => {
@@ -150,7 +150,7 @@ export default function Index() {
                     },
                   },
                   {
-                    text: "Löschen",
+                    text: t("delete"),
                     leftIcon: <FaTrash />,
                     colorScheme: "red",
                     onClick: async () => {
@@ -162,8 +162,8 @@ export default function Index() {
                           toast({
                             position: "bottom-right",
                             status: "success",
-                            title: "Erfolgreich",
-                            description: "Das Projekt wurde gelöscht",
+                            title: t("success"),
+                            description: t("success.deleted"),
                             isClosable: true,
                             duration: 1500,
                           });
@@ -172,7 +172,7 @@ export default function Index() {
                           toast({
                             position: "bottom-right",
                             status: "error",
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description: res.payload.error,
                             isClosable: true,
                             duration: 1500,
@@ -187,109 +187,12 @@ export default function Index() {
           })}
         />
       </Box>
-      <Heading size="2xl" textAlign={"center"} mt={"2rem"}>
-        Projekte
-      </Heading>
-      <GridLayout
-        search={{
-          allow: true,
-          searchFields: true,
-        }}
-        specialEntries={[
-          {
-            icon: <FaPlus />,
-            onClick: async () => {
-              const name = await PopupManager.promptAsync({
-                title: "Neues Projekt",
-                helperText: "Gib den Namen des Projektes ein",
-              });
-
-              if (!name) return;
-
-              const res = await REST.ToDo.createV2Project({
-                token: localStorage.getItem("token") as string,
-                name: name,
-              });
-              if (res.status === 200) {
-                reload();
-                toast({
-                  position: "bottom-right",
-                  status: "success",
-                  title: "Erfolgreich",
-                  description: "Das Projekt wurde erstellt",
-                  isClosable: true,
-                  duration: 1500,
-                });
-              } else {
-                toast({
-                  position: "bottom-right",
-                  status: "error",
-                  title: "Fehler",
-                  description: res.payload.error,
-                  isClosable: true,
-                  duration: 1500,
-                });
-              }
-            },
-          },
-        ]}
-        entries={projects.map((p) => {
-          return {
-            title: p.name,
-            fields: [],
-            buttonRows: [
-              {
-                buttons: [
-                  {
-                    text: "Öffnen",
-                    icon: <FaEye />,
-                    colorScheme: "blue",
-                    onClick: () => {
-                      router.push("/planning/" + p._id);
-                    },
-                  },
-                ],
-              },
-              {
-                buttons: [
-                  {
-                    text: "Löschen",
-                    icon: <FaTrash />,
-                    colorScheme: "red",
-                    onClick: async () => {
-                      REST.ToDo.deleteV2Project({
-                        token: localStorage.getItem("token") as string,
-                        id: p._id,
-                      }).then((res) => {
-                        if (res.status === 200) {
-                          toast({
-                            position: "bottom-right",
-                            status: "success",
-                            title: "Erfolgreich",
-                            description: "Das Projekt wurde gelöscht",
-                            isClosable: true,
-                            duration: 1500,
-                          });
-                          reload();
-                        } else {
-                          toast({
-                            position: "bottom-right",
-                            status: "error",
-                            title: "Fehler",
-                            description: res.payload.error,
-                            isClosable: true,
-                            duration: 1500,
-                          });
-                        }
-                      });
-                    },
-                  },
-                ],
-              },
-            ],
-          };
-        })}
-      />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["flows"])),
+  };
 }

@@ -41,6 +41,9 @@ import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function Viewer() {
   const [projectIdeas, setProjectIdeas] = React.useState<
@@ -53,6 +56,8 @@ export default function Viewer() {
       level: string;
     }[]
   >([]);
+
+  const { t } = useTranslation("ideas");
 
   const [filteredProjectIdeas, setFilteredProjectIdeas] = React.useState<
     {
@@ -69,14 +74,37 @@ export default function Viewer() {
   const router = useRouter();
 
   const reload = () => {
-    REST.Ideas.getProjectIdeas().then((res) => {
+    REST.Ideas.getProjectIdeas().then(async (res) => {
       if (res.status === 200) {
-        setProjectIdeas(res.payload.ideas);
-        setFilteredProjectIdeas(res.payload.ideas);
+        if (router.locale === "de") {
+          setProjectIdeas(res.payload.ideas);
+          setFilteredProjectIdeas(res.payload.ideas);
+        } else {
+          let pI: any[] = [];
+
+          for await (const i of res.payload.ideas) {
+            pI.push({
+              ...i,
+              title: await translateOnlineV3({
+                text: i.title,
+                to: "en",
+                from: "de",
+              }),
+              description: await translateOnlineV3({
+                text: i.description,
+                to: "en",
+                from: "de",
+              }),
+            });
+          }
+
+          setProjectIdeas(pI);
+          setFilteredProjectIdeas(pI);
+        }
       } else {
         toast({
-          title: "Fehler",
-          description: "Ein Fehler ist aufgetreten: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("error.text") + ": " + res.payload.error,
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -103,7 +131,7 @@ export default function Viewer() {
   return (
     <>
       <Head>
-        <title>Projektideen - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Box bg={"#000"} h={"fit-content"} minH={"100vh"}>
         <Flex
@@ -114,10 +142,10 @@ export default function Viewer() {
           direction={"column"}
         >
           <Box textAlign={"center"} pt={4}>
-            <CHeading size={"2xl"}>Projektideen</CHeading>
+            <CHeading size={"2xl"}>{t("title")}</CHeading>
           </Box>
           <Input
-            placeholder={"Suche nach Projektideen"}
+            placeholder={t("search")}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -167,10 +195,10 @@ export default function Viewer() {
                       }
                     >
                       {idea.level === "easy"
-                        ? "Einfach"
+                        ? t("idea.easy")
                         : idea.level === "medium"
-                        ? "Mittel"
-                        : "Schwer"}
+                        ? t("idea.medium")
+                        : t("idea.hard")}
                     </Badge>
                     <Text>{idea.description}</Text>
                   </Stack>
@@ -181,13 +209,12 @@ export default function Viewer() {
                     idea.exampleDeployedURL !== "" ? (
                       <>
                         <Button
-                          colorScheme="blue"
-                          variant={"solid"}
+                          variant={"brand"}
                           onClick={() => {
                             window.open(idea.exampleDeployedURL, "_blank");
                           }}
                         >
-                          Beispiel
+                          {t("example")}
                         </Button>
                       </>
                     ) : null}
@@ -195,12 +222,12 @@ export default function Viewer() {
                       <>
                         <Button
                           variant="ghost"
-                          colorScheme="blue"
+                          colorScheme="brand"
                           onClick={() => {
                             window.open(idea.exampleSourceURL, "_blank");
                           }}
                         >
-                          Source Code
+                          {t("code")}
                         </Button>
                       </>
                     ) : null}
@@ -217,7 +244,7 @@ export default function Viewer() {
                 color={"gray.500"}
                 mt={4}
               >
-                Keine Projekt Ideen gefunden!
+                {t("no.ideas.found")}
               </Text>
             </>
           ) : null}
@@ -225,4 +252,10 @@ export default function Viewer() {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["ideas"])),
+  };
 }

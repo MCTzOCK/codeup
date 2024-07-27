@@ -41,6 +41,7 @@ import {
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { useTranslation } from "next-i18next";
 
 export default function TaskListViewer(props: {
   isOpen: boolean;
@@ -62,6 +63,7 @@ export default function TaskListViewer(props: {
   };
   reloadLists: () => void;
 }) {
+  const { t } = useTranslation("tasks");
   if (!props.list) return <></>;
 
   return (
@@ -76,7 +78,8 @@ export default function TaskListViewer(props: {
           variant={"brand"}
           mb={4}
           title={
-            "Fortschritt: " +
+            t("progress") +
+            ": " +
             (
               (props.list.items.filter((i) => i.done).length /
                 props.list.items.length) *
@@ -102,17 +105,16 @@ export default function TaskListViewer(props: {
           onClick={async () => {
             if (!props.list) return;
             const name = await PopupManager.promptAsync({
-              title: "Neue Aufgabe",
-              helperText: "Bitte gib den Namen der neuen Aufgabe ein!",
+              title: t("new.task"),
+              helperText: t("new.task.name"),
             });
 
             if (!name) return;
 
             const description = await PopupManager.promptAsync({
-              title: "Neue Aufgabe",
+              title: t("new.task"),
               inputType: "TEXTAREA",
-              helperText:
-                "Bitte gib eine Beschreibung für die neue Aufgabe ein!",
+              helperText: t("new.task.description"),
             });
 
             if (!description) return;
@@ -126,8 +128,8 @@ export default function TaskListViewer(props: {
 
             if (res.status !== 200) {
               await PopupManager.alertAsync({
-                title: "Fehler",
-                description: "Es ist ein Fehler aufgetreten.",
+                title: t("base:control.error"),
+                description: t("base:control.error.request"),
               });
               return;
             }
@@ -135,10 +137,10 @@ export default function TaskListViewer(props: {
             props.reloadLists();
           }}
         >
-          Neue Aufgabe
+          {t("new.task")}
         </Button>
         <Box p={2}>
-          <CHeading size={"md"}>Zu erledigen</CHeading>
+          <CHeading size={"md"}>{t("tasks.todo")}</CHeading>
           <Stack pt={2} pb={2}>
             {props.list.items
               .filter((item) => !item.done)
@@ -164,7 +166,7 @@ export default function TaskListViewer(props: {
                         variant={"brand"}
                         onClick={async () => {
                           await PopupManager.alertAsync({
-                            title: "Aufgabe bearbeiten",
+                            title: t("tasks.edit"),
                             description: (
                               <>
                                 <form
@@ -190,9 +192,8 @@ export default function TaskListViewer(props: {
 
                                     if (res.status !== 200) {
                                       await PopupManager.alertAsync({
-                                        title: "Fehler",
-                                        description:
-                                          "Die Aufgabe konnte nicht bearbeitet werden.",
+                                        title: t("base:control.error"),
+                                        description: t("tasks.edit.error"),
                                       });
                                       return;
                                     }
@@ -204,28 +205,28 @@ export default function TaskListViewer(props: {
                                 >
                                   <Stack gap={2}>
                                     <FormControl isRequired>
-                                      <FormLabel>Name</FormLabel>
+                                      <FormLabel>{t("tasks.name")}</FormLabel>
                                       <Input
                                         type={"text"}
                                         defaultValue={item.name}
-                                        placeholder={"Name"}
+                                        placeholder={t("tasks.name")}
                                         name={"name"}
                                       />
                                       <FormHelperText>
-                                        Ein Name, der die Aufgabe bestmöglich
-                                        beschreibt.
+                                        {t("tasks.name.text")}
                                       </FormHelperText>
                                     </FormControl>
                                     <FormControl isRequired>
-                                      <FormLabel>Beschreibung</FormLabel>
+                                      <FormLabel>
+                                        {t("tasks.description")}
+                                      </FormLabel>
                                       <Textarea
                                         defaultValue={item.description}
-                                        placeholder={"Beschreibung"}
+                                        placeholder={t("tasks.description")}
                                         name={"description"}
                                       />
                                       <FormHelperText>
-                                        Eine möglichst genaue Beschreibung der
-                                        Aufgabe.
+                                        {t("tasks.description.text")}
                                       </FormHelperText>
                                     </FormControl>
                                     <Button
@@ -233,7 +234,7 @@ export default function TaskListViewer(props: {
                                       type={"submit"}
                                       leftIcon={<FaSave />}
                                     >
-                                      Speichern
+                                      {t("tasks.save")}
                                     </Button>
                                   </Stack>
                                 </form>
@@ -259,9 +260,8 @@ export default function TaskListViewer(props: {
 
                           if (res.status !== 200) {
                             await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description:
-                                "Die Aufgabe konnte nicht als erledigt markiert werden.",
+                              title: t("base:control.error"),
+                              description: t("tasks.mark.finish.error"),
                             });
                             return;
                           }
@@ -277,9 +277,8 @@ export default function TaskListViewer(props: {
                           if (!props.list) return;
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Aufgabe Löschen?",
-                              question:
-                                "Willst du diese Aufgabe wirklich löschen?",
+                              title: t("tasks.delete"),
+                              question: t("tasks.delete.confirm"),
                             }))
                           )
                             return;
@@ -292,10 +291,9 @@ export default function TaskListViewer(props: {
 
                           if (res.status !== 200) {
                             await PopupManager.alertAsync({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Die Aufgabe konnte nicht gelöscht werden: " +
-                                res.payload.error,
+                                t("tasks.delete.error") + res.payload.error,
                             });
                             return;
                           }
@@ -310,12 +308,12 @@ export default function TaskListViewer(props: {
           </Stack>
           {props.list.items.filter((item) => !item.done).length === 0 && (
             <>
-              <Text>Es gibt keine offenen Aufgaben in dieser Liste.</Text>
+              <Text>{t("tasks.no.open")}</Text>
             </>
           )}
         </Box>
         <Box p={2}>
-          <CHeading size={"md"}>Erledigt</CHeading>
+          <CHeading size={"md"}>{t("tasks.finished")}</CHeading>
           <Stack pt={2} pb={2}>
             {props.list.items
               .filter((item) => item.done)
@@ -341,7 +339,7 @@ export default function TaskListViewer(props: {
                         variant={"brand"}
                         onClick={async () => {
                           await PopupManager.alertAsync({
-                            title: "Aufgabe bearbeiten",
+                            title: t("tasks.edit"),
                             description: (
                               <>
                                 <form
@@ -367,9 +365,8 @@ export default function TaskListViewer(props: {
 
                                     if (res.status !== 200) {
                                       await PopupManager.alertAsync({
-                                        title: "Fehler",
-                                        description:
-                                          "Die Aufgabe konnte nicht bearbeitet werden.",
+                                        title: t("base:control.error"),
+                                        description: t("tasks.edit.error"),
                                       });
                                       return;
                                     }
@@ -381,28 +378,28 @@ export default function TaskListViewer(props: {
                                 >
                                   <Stack gap={2}>
                                     <FormControl isRequired>
-                                      <FormLabel>Name</FormLabel>
+                                      <FormLabel>{t("tasks.name")}</FormLabel>
                                       <Input
                                         type={"text"}
                                         defaultValue={item.name}
-                                        placeholder={"Name"}
+                                        placeholder={t("tasks.name")}
                                         name={"name"}
                                       />
                                       <FormHelperText>
-                                        Ein Name, der die Aufgabe bestmöglich
-                                        beschreibt.
+                                        {t("tasks.name.text")}
                                       </FormHelperText>
                                     </FormControl>
                                     <FormControl isRequired>
-                                      <FormLabel>Beschreibung</FormLabel>
+                                      <FormLabel>
+                                        {t("tasks.description")}
+                                      </FormLabel>
                                       <Textarea
                                         defaultValue={item.description}
-                                        placeholder={"Beschreibung"}
+                                        placeholder={t("tasks.description")}
                                         name={"description"}
                                       />
                                       <FormHelperText>
-                                        Eine möglichst genaue Beschreibung der
-                                        Aufgabe.
+                                        {t("tasks.description.text")}
                                       </FormHelperText>
                                     </FormControl>
                                     <Button
@@ -410,7 +407,7 @@ export default function TaskListViewer(props: {
                                       type={"submit"}
                                       leftIcon={<FaSave />}
                                     >
-                                      Speichern
+                                      {t("tasks.save")}
                                     </Button>
                                   </Stack>
                                 </form>
@@ -436,9 +433,8 @@ export default function TaskListViewer(props: {
 
                           if (res.status !== 200) {
                             await PopupManager.alertAsync({
-                              title: "Fehler",
-                              description:
-                                "Die Aufgabe konnte nicht als offen markiert werden.",
+                              title: t("base:control.error"),
+                              description: t("tasks.mark.unfinish.error"),
                             });
                             return;
                           }
@@ -454,9 +450,8 @@ export default function TaskListViewer(props: {
                           if (!props.list) return;
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Aufgabe Löschen?",
-                              question:
-                                "Willst du diese Aufgabe wirklich löschen?",
+                              title: t("tasks.delete"),
+                              question: t("tasks.delete.confirm"),
                             }))
                           )
                             return;
@@ -469,10 +464,9 @@ export default function TaskListViewer(props: {
 
                           if (res.status !== 200) {
                             await PopupManager.alertAsync({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Die Aufgabe konnte nicht gelöscht werden: " +
-                                res.payload.error,
+                                t("tasks.delete.error") + res.payload.error,
                             });
                             return;
                           }
@@ -487,9 +481,7 @@ export default function TaskListViewer(props: {
           </Stack>
           {props.list.items.filter((item) => item.done).length === 0 && (
             <>
-              <Text>
-                Es gibt keine abgeschlossenen Aufgaben in dieser Liste.
-              </Text>
+              <Text>{t("tasks.no.finished")}</Text>
             </>
           )}
         </Box>

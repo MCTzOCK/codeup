@@ -23,30 +23,26 @@ import {
 import DV2SSProjectsV1 from "./DV2SSProjectsV1";
 import DV2SSProjectsV2 from "./DV2SSProjectsV2";
 import DV2SSProjectsV3 from "./DV2SSProjectsV3";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SProjects() {
+  const { t } = useTranslation("dashboard");
   return (
     <>
       <CHeading size={"lg"} mb={4}>
-        Deine Projekte
+        {t("projects.title")}
       </CHeading>
       <Text fontSize={"md"} pb={4}>
-        Seit der Entstehung von CodeUp wurde besonders der Editor immer
-        weiterentwickelt, sodass du heute die Auswahl zwischen den drei
-        Versionen hast:
+        {t("projects.text")}
         <UnorderedList>
           <ListItem>
-            <b>v1:</b> Der ursprüngliche Editor, welcher nur Frontend-Projekte
-            unterstützt.
+            <b>v1:</b> {t("projects.v1")}
           </ListItem>
           <ListItem>
-            <b>v2:</b> Eine weiterentwickelte Version, welche neben Frontend-
-            auch Backend-Projekte unterstützt.
+            <b>v2:</b> {t("projects.v2")}
           </ListItem>
           <ListItem>
-            <b>v3:</b> Die aktuell fortschrittlichste Version des CodeUp
-            Editors, welcher neben der eigentlichen Programmierung auch
-            zusätzliche Werkzeuge bietet!
+            <b>v3:</b> {t("projects.v3")}
           </ListItem>
         </UnorderedList>
       </Text>

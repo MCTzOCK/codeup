@@ -22,9 +22,13 @@ import {
 } from "@chakra-ui/react";
 import REST from "@codeup/rest/dist";
 import { useLoggedIn } from "@codeup/hooks";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { translateOnlineV3 } from "@codeup/web/src/global/i18n/onlineTranslateV3";
 
 export default function TestimonialsV2() {
   const { userInfo, loggedIn } = useLoggedIn();
+  const router = useRouter();
 
   const [tests, setTests] = React.useState<
     {
@@ -41,13 +45,35 @@ export default function TestimonialsV2() {
     const res = await REST.Landingpage.getTestimonials();
 
     if (res.status === 200) {
-      setTests(res.payload as any[]);
+      const pl = res.payload as any[];
+      if (router.locale === "de") {
+        setTests(pl);
+      } else {
+        let nPl: any = [];
+        for await (const p of pl) {
+          const translated = await translateOnlineV3({
+            from: "de",
+            to: router.locale as string,
+            text: p.content,
+          });
+
+          nPl.push({
+            ...p,
+            content: translated,
+          });
+        }
+
+        setTests(nPl);
+      }
     }
   };
 
+  const { t } = useTranslation("home");
+
   React.useEffect(() => {
+    if (!router || !router.locale) return;
     reloadTests();
-  }, []);
+  }, [router, router.locale]);
 
   return (
     <>
@@ -62,7 +88,7 @@ export default function TestimonialsV2() {
           color={"gray.200"}
           fontSize={"lg"}
         >
-          Unsere Kunden
+          {t("testimonials.our.customers")}
         </Text>
         <Heading
           size={"xl"}
@@ -75,7 +101,7 @@ export default function TestimonialsV2() {
           p={2}
           textAlign={"center"}
         >
-          Das sagen unsere Mitglieder.
+          {t("testimonials.our.customers.title")}
         </Heading>
 
         {tests.length !== 0 && (
@@ -101,9 +127,9 @@ export default function TestimonialsV2() {
                 xl: "60%",
               }}
             >
-              {tests.map((t) => (
+              {tests.map((ta) => (
                 <VStack
-                  key={t._id}
+                  key={ta._id}
                   p={4}
                   rounded={"3xl"}
                   bg={"gray.700"}
@@ -112,14 +138,14 @@ export default function TestimonialsV2() {
                   minH={"100%"}
                 >
                   <Image
-                    src={t.image}
-                    alt={t.name}
+                    src={ta.image}
+                    alt={ta.name}
                     rounded={"3xl"}
                     objectFit={"cover"}
                     h={"15vh"}
                   />
                   <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
-                    {t.content}
+                    {ta.content}
                   </Text>
                   <Text
                     color={"brand.500"}
@@ -127,10 +153,10 @@ export default function TestimonialsV2() {
                     fontWeight={"bold"}
                     textAlign={"center"}
                   >
-                    {t.name}
+                    {ta.name}
                   </Text>
                   <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
-                    {t.position} bei {t.company}
+                    {ta.position} {t("testimonials.working.at")} {ta.company}
                   </Text>
                 </VStack>
               ))}
@@ -154,8 +180,7 @@ export default function TestimonialsV2() {
                   h={"15vh"}
                 />
                 <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
-                  Wir freuen uns über dein Feedback! Wenn du auch hier auf der
-                  Homepage erscheinen möchtest, schreib uns einfach eine E-Mail.
+                  {t("testimonials.new.text")}
                 </Text>
                 <Text
                   color={"brand.500"}
@@ -163,10 +188,10 @@ export default function TestimonialsV2() {
                   fontWeight={"bold"}
                   textAlign={"center"}
                 >
-                  Und du?
+                  {t("testimonials.new")}
                 </Text>
                 <Text color={"gray.200"} fontSize={"sm"} textAlign={"center"}>
-                  Schreib uns eine E-Mail an{" "}
+                  {t("testimonials.new.write.email")}{" "}
                   <chakra.a
                     href={"mailto:ben@codeup.space"}
                     color={"brand.500"}

@@ -25,8 +25,10 @@ import {
 import { CHeading } from "../global/CHeading";
 import router from "next/router";
 import { FaPlus } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function DV2SFlows() {
+  const { t } = useTranslation("dashboard");
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -46,7 +48,7 @@ export default function DV2SFlows() {
     const res = await REST.ToDo.getV2Projects(AccountManager.getActiveToken());
 
     if (res.status !== 200) {
-      setError("Flows konnten nicht geladen werden: " + res.payload.error);
+      setError(t("flows.loading.error") + ": " + res.payload.error);
       return;
     }
 
@@ -66,15 +68,15 @@ export default function DV2SFlows() {
   return (
     <>
       <CHeading size={"lg"} mb={4}>
-        Flows
+        {t("flows.title")}
       </CHeading>
       <TableContainer>
         <Table maxW={"100%"}>
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Knoten</Th>
-              <Th>Kanten</Th>
+              <Th>{t("flows.name")}</Th>
+              <Th>{t("flows.nodes")}</Th>
+              <Th>{t("flows.edges")}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -97,9 +99,11 @@ export default function DV2SFlows() {
                   }}
                 >
                   <Td>{project.name}</Td>
-                  <Td>{nodes} Knoten</Td>
                   <Td>
-                    {edges} {edges === 1 ? "Kante" : "Kanten"}
+                    {nodes} {t("flows.nodes")}
+                  </Td>
+                  <Td>
+                    {edges} {edges === 1 ? t("flows.edge") : t("flows.edges")}
                   </Td>
                 </Tr>
               );
@@ -107,7 +111,7 @@ export default function DV2SFlows() {
             {projects.length === 0 && (
               <>
                 <Tr>
-                  <Td>Keine Einträge gefunden.</Td>
+                  <Td>{t("flows.no.entries")}</Td>
                   <Td>
                     <Button
                       variant={"brand"}
@@ -116,7 +120,7 @@ export default function DV2SFlows() {
                         router.push("/planning");
                       }}
                     >
-                      Neuer Flow
+                      {t("flows.new")}
                     </Button>
                   </Td>
                 </Tr>

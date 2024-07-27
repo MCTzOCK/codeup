@@ -24,12 +24,19 @@ import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import REST from "@codeup/rest";
 import { CHeading } from "@codeup/components/global/CHeading";
 import PopupManager from "../global/PopupManager";
+import { sProp } from "../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Try() {
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("try");
 
   return (
     <>
+      <Head>
+        <title>{t("title")}</title>
+      </Head>
       <Flex
         direction="column"
         align="center"
@@ -49,19 +56,19 @@ export default function Try() {
             p={5}
           >
             <CardHeader>
-              <CHeading size="xl">CodeUp Testen</CHeading>
+              <CHeading size="xl">{t("title")}</CHeading>
             </CardHeader>
             <CardBody mt={"2rem"}>
-              <Text>
-                Teste CodeUp ganz ohne deine Daten zu hinterlassen. Diese
-                Funktion ist nicht für die langfristige Nutzung gedacht.
-              </Text>
+              <Text>{t("text")}</Text>
               <Text mt={2}>
-                <chakra.span color={"red.400"} fontWeight={"bold"}>
-                  ACHTUNG!
+                <chakra.span
+                  color={"red.400"}
+                  fontWeight={"bold"}
+                  textTransform={"uppercase"}
+                >
+                  {t("warning")}
                 </chakra.span>
-                &nbsp;Test-Konten werden regelmäßig gelöscht und können nicht
-                wiederhergestellt werden.
+                &nbsp;{t("warning.text")}
               </Text>
             </CardBody>
             <CardFooter mt={"2rem"}>
@@ -82,15 +89,16 @@ export default function Try() {
                       window.location.assign("/account/settings");
                     } else {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("control.error", { ns: "base" }),
                         description:
-                          "Es ist ein Fehler aufgetreten: " + r.payload.error,
+                          t("control.error.request", { ns: "base" }) +
+                          r.payload.error,
                       });
                     }
                   }}
                   isLoading={loading}
                 >
-                  Testen
+                  {t("cta")}
                 </Button>
               </ButtonGroup>
             </CardFooter>
@@ -99,4 +107,10 @@ export default function Try() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["try"])),
+  };
 }

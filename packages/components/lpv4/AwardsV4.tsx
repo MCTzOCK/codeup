@@ -13,6 +13,7 @@ import { Flex, Heading, Text, Image, Box } from "@chakra-ui/react";
 import useMeasure from "react-use-measure";
 import { animate, useMotionValue, motion } from "framer-motion";
 import { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 const jufoLogo = "/_static/images/logos/jufo-stern.svg";
 const stLogo = "/_static/images/logos/startup_teens_logo.jpeg";
@@ -65,6 +66,8 @@ export default function AwardsV4() {
     },
   ]);
 
+  const { t } = useTranslation(["home", "dates"]);
+
   const [ref, { width }] = useMeasure();
 
   const xTranslation = useMotionValue(0);
@@ -97,7 +100,7 @@ export default function AwardsV4() {
           color={"gray.200"}
           fontSize={"lg"}
         >
-          Unsere Auszeichnungen
+          {t("awards", { ns: "home" })}
         </Text>
         <Heading
           size={"xl"}
@@ -110,7 +113,7 @@ export default function AwardsV4() {
           p={4}
           textAlign={"center"}
         >
-          Unsere Erfolge sprechen für sich.
+          {t("awards.title", { ns: "home" })}
         </Heading>
       </Flex>
       <Box w={"100%"}>

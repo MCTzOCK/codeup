@@ -39,6 +39,7 @@ import CodeUpModal from "../codeup/CodeUpModal";
 import UserAuthSSO from "./UserAuthSSO";
 import { useEffect } from "react";
 import DividerWithText from "./DividerWithText";
+import { useTranslation } from "next-i18next";
 
 export default function UserAuthAction(props: {
   onOpen: () => void;
@@ -53,19 +54,21 @@ export default function UserAuthAction(props: {
     };
   });
 
+  const { t } = useTranslation("auth");
+
   return (
     <>
       <CodeUpModal
         onOpen={props.onOpen}
         onClose={props.onClose}
         isOpen={props.isOpen}
-        title={"Anmelden"}
+        title={t("title")}
       >
         <Tabs isFitted variant={"brand"} colorScheme={"brand"} flex={"50%"}>
           <TabList>
-            <Tab>Registrieren</Tab>
-            <Tab>Anmelden</Tab>
-            <Tab>Passwort Zurücksetzen</Tab>
+            <Tab>{t("register")}</Tab>
+            <Tab>{t("login")}</Tab>
+            <Tab>{t("reset")}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
