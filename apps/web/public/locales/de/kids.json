@@ -1,0 +1,23 @@
+{
+  "doc.title": "Kids - CodeUp",
+  "title": "CodeUp Kids",
+  "open": "Öffnen",
+  "rename": "Umbenennen",
+  "rename.p.title": "Project umbenennen",
+  "rename.p.helper": "Gib einen neuen Namen für dein Projekt ein",
+  "renamed": "Projekt umbenannt",
+  "renamed.text": "Dein Projekt wurde erfolgreich umbenannt.",
+  "delete": "Löschen",
+  "delete.p.title": "Projekt löschen",
+  "delete.p.helper": "Bist du sicher, dass du dieses Projekt löschen möchtest?",
+  "new": "Neu",
+  "new.p.title": "Neues Projekt",
+  "new.p.helper": "Gib einen Namen für dein neues Projekt ein",
+  "playground.doc.title": "Playground - CodeUp",
+  "playground.run": "Ausführen",
+  "playground.code": "Code",
+  "playground.translation.error": "Auf Grund der internen Struktur von CodeUp Kids, ist aktuell keine Übersetzung der Blöcke möglich. Diese sind nur in Deutsch verfügbar. Wir arbeiten an einer Lösung.",
+  "successful": "Erfolgreich",
+  "successful.saved": "Das Projekt wurde erfolgreich gespeichert.",
+  "save": "Speichern"
+}

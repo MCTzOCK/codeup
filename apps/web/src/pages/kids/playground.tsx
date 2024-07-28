@@ -9,16 +9,25 @@
  */
 
 import * as React from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
 //import { BlocklyCompiler } from "@codeup/incode-blockly/dist/blockly/BlocklyCompiler";
 import { FaCode, FaPlay } from "react-icons/fa";
 import * as InCode from "@codeup/incode-compiler/dist";
 import PopupManager from "../../global/PopupManager";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Playground() {
+  const { t } = useTranslation("kids");
+  const router = useRouter();
   return (
     <>
+      <Head>
+        <title>{t("playground.doc.title")}</title>
+      </Head>
       <Flex
         w={"100%"}
         minH={"100vh"}
@@ -54,7 +63,7 @@ export default function Playground() {
             ml={[8, 0]}
             variant={"brand"}
           >
-            Ausführen
+            {t("playground.run")}
           </Button>
           <Button
             variant={"brand"}
@@ -82,8 +91,13 @@ export default function Playground() {
               });
             }}
           >
-            Code
+            {t("playground.code")}
           </Button>
+          {router.locale !== "de" && (
+            <>
+              <Text mt={[0, 8]}>{t("playground.translation.error")}</Text>
+            </>
+          )}
         </Box>
         <Box flex={"100%"}>
           <iframe
@@ -99,4 +113,10 @@ export default function Playground() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["kids"])),
+  };
 }

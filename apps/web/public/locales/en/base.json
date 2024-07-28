@@ -7,7 +7,7 @@
   "categories.planning": "Plans",
   "categories.other": "Other",
   "control.error": "Error",
-  "control.error.request": "An error occurred:",
+  "control.error.request": "An error occurred: ",
   "home": "Home",
   "or": "or"
 }

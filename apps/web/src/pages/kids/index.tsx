@@ -20,10 +20,14 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import { Box } from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function KidsDashboard() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
   const router = useRouter();
+  const { t } = useTranslation("kids");
   const [projects, setProjects] = React.useState<
     {
       _id: string;
@@ -48,8 +52,8 @@ export default function KidsDashboard() {
     REST.Kids.getProjects(AccountManager.getActiveToken()).then((res) => {
       if (res.status !== 200) {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description: "Es ist ein Fehler aufgetreten: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("control.error.request") + res.payload.error,
         });
         return;
       }
@@ -60,6 +64,9 @@ export default function KidsDashboard() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {!loggedIn ? (
         <>
           <AuthenticateLoadingIndicator />
@@ -68,7 +75,7 @@ export default function KidsDashboard() {
         <>
           <Box pt={4} pb={4} bg={"#000"} h={"fit-content"} minH={"100vh"}>
             <GridLayoutV2
-              pageTitle={"CodeUp Kids"}
+              pageTitle={t("title")}
               entries={projects.map((p) => ({
                 title: p.name,
                 fields: [
@@ -80,7 +87,7 @@ export default function KidsDashboard() {
                 buttonRows: [
                   [
                     {
-                      text: "Öffnen",
+                      text: t("open"),
                       leftIcon: <FaEye />,
                       onClick: () => {
                         router.push(`/kids/${p._id}`);
@@ -88,13 +95,12 @@ export default function KidsDashboard() {
                       variant: "brand",
                     },
                     {
-                      text: "Umbenennen",
+                      text: t("rename"),
                       onClick: async () => {
                         const newName = await PopupManager.promptAsync({
-                          title: "Projekt umbenennen",
+                          title: t("rename.p.title"),
                           inputType: "INPUT",
-                          helperText:
-                            "Gib einen neuen Namen für dein Projekt ein",
+                          helperText: t("rename.p.helper"),
                         });
 
                         if (!newName) return;
@@ -107,9 +113,9 @@ export default function KidsDashboard() {
 
                         if (res.status !== 200) {
                           PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Es ist ein Fehler aufgetreten: " +
+                              t("base:control.error.request") +
                               res.payload.error,
                           });
                           return;
@@ -118,9 +124,8 @@ export default function KidsDashboard() {
                         reload();
 
                         PopupManager.alertAsync({
-                          title: "Projekt umbenannt",
-                          description:
-                            "Dein Projekt wurde erfolgreich umbenannt.",
+                          title: t("renamed"),
+                          description: t("renamed.text"),
                         });
                       },
                       leftIcon: <FaPen />,
@@ -129,13 +134,12 @@ export default function KidsDashboard() {
                   ],
                   [
                     {
-                      text: "Löschen",
+                      text: t("delete"),
                       onClick: async () => {
                         if (
                           !(await PopupManager.confirmAsync({
-                            title: "Projekt löschen",
-                            question:
-                              "Bist du dir sicher, dass du das Projekt löschen möchtest?",
+                            title: t("delete.p.title"),
+                            question: t("delete.p.helper"),
                           }))
                         )
                           return;
@@ -147,9 +151,9 @@ export default function KidsDashboard() {
 
                         if (res.status !== 200) {
                           PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Es ist ein Fehler aufgetreten: " +
+                              t("base:control.error.request") +
                               res.payload.error,
                           });
                           return;
@@ -165,14 +169,14 @@ export default function KidsDashboard() {
               }))}
               topButtons={[
                 {
-                  text: "Neu",
+                  text: t("new"),
                   leftIcon: <FaPlus />,
                   variant: "brand",
                   onClick: async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Neues Projekt",
+                      title: t("new.p.title"),
                       inputType: "INPUT",
-                      helperText: "Gib einen Namen für dein Projekt ein",
+                      helperText: t("new.p.helper"),
                     });
 
                     if (!name) return;
@@ -183,9 +187,9 @@ export default function KidsDashboard() {
                     });
                     if (res.status !== 200) {
                       PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                          t("base:control.error.request") + res.payload.error,
                       });
                       return;
                     }
@@ -200,185 +204,14 @@ export default function KidsDashboard() {
               }}
             />
           </Box>
-
-          <SuperText>CodeUp Kids</SuperText>
-          <GridLayout
-            search={{
-              allow: true,
-              searchFields: true,
-            }}
-            specialEntries={[
-              {
-                icon: <FaPlus />,
-                onClick: async () => {
-                  const name = await PopupManager.promptAsync({
-                    title: "Neues Projekt",
-                    inputType: "INPUT",
-                    helperText: "Gib einen Namen für dein Projekt ein",
-                  });
-
-                  if (!name) return;
-
-                  const res = await REST.Kids.createProject({
-                    name,
-                    token: AccountManager.getActiveToken(),
-                  });
-                  if (res.status !== 200) {
-                    PopupManager.alertAsync({
-                      title: "Fehler",
-                      description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
-                    });
-                    return;
-                  }
-
-                  reload();
-                },
-              },
-            ]}
-            entries={projects.map((p) => ({
-              title: p.name,
-              fields: [],
-              buttonRows: [
-                {
-                  buttons: [
-                    {
-                      text: "Öffnen",
-                      onClick: () => {
-                        router.push(`/kids/${p._id}`);
-                      },
-                      icon: <FaEye />,
-                      colorScheme: "blue",
-                      disabled: false,
-                    },
-                    {
-                      text: "Umbenennen",
-                      onClick: async () => {
-                        const newName = await PopupManager.promptAsync({
-                          title: "Projekt umbenennen",
-                          inputType: "INPUT",
-                          helperText:
-                            "Gib einen neuen Namen für dein Projekt ein",
-                        });
-
-                        if (!newName) return;
-
-                        const res = await REST.Kids.updateProject({
-                          token: AccountManager.getActiveToken(),
-                          name: newName,
-                          id: p._id,
-                        });
-
-                        if (res.status !== 200) {
-                          PopupManager.alertAsync({
-                            title: "Fehler",
-                            description:
-                              "Es ist ein Fehler aufgetreten: " +
-                              res.payload.error,
-                          });
-                          return;
-                        }
-
-                        reload();
-
-                        PopupManager.alertAsync({
-                          title: "Projekt umbenannt",
-                          description:
-                            "Dein Projekt wurde erfolgreich umbenannt.",
-                        });
-                      },
-                      icon: <FaPen />,
-                      colorScheme: "green",
-                      disabled: false,
-                    },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      text: "Umbenennen",
-                      onClick: async () => {
-                        const newName = await PopupManager.promptAsync({
-                          title: "Projekt umbenennen",
-                          inputType: "INPUT",
-                          helperText:
-                            "Gib einen neuen Namen für dein Projekt ein",
-                        });
-
-                        if (!newName) return;
-
-                        const res = await REST.Kids.updateProject({
-                          token: AccountManager.getActiveToken(),
-                          name: newName,
-                          id: p._id,
-                        });
-
-                        if (res.status !== 200) {
-                          PopupManager.alertAsync({
-                            title: "Fehler",
-                            description:
-                              "Es ist ein Fehler aufgetreten: " +
-                              res.payload.error,
-                          });
-                          return;
-                        }
-
-                        reload();
-
-                        PopupManager.alertAsync({
-                          title: "Projekt umbenannt",
-                          description:
-                            "Dein Projekt wurde erfolgreich umbenannt.",
-                        });
-                      },
-                      icon: <FaPen />,
-                      colorScheme: "green",
-                      disabled: false,
-                    },
-                  ],
-                },
-                {
-                  buttons: [
-                    {
-                      text: "Löschen",
-                      onClick: async () => {
-                        if (
-                          !(await PopupManager.confirmAsync({
-                            title: "Projekt löschen",
-                            question:
-                              "Bist du dir sicher, dass du das Projekt löschen möchtest?",
-                          }))
-                        )
-                          return;
-
-                        const res = await REST.Kids.deleteProject({
-                          token: AccountManager.getActiveToken(),
-                          id: p._id,
-                        });
-
-                        if (res.status !== 200) {
-                          PopupManager.alertAsync({
-                            title: "Fehler",
-                            description:
-                              "Es ist ein Fehler aufgetreten: " +
-                              res.payload.error,
-                          });
-                          return;
-                        }
-
-                        reload();
-                      },
-                      icon: <FaTrash />,
-                      colorScheme: "red",
-                      disabled: false,
-                    },
-                  ],
-                },
-              ],
-            }))}
-          />
         </>
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["kids"])),
+  };
 }
