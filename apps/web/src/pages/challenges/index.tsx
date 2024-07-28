@@ -28,6 +28,10 @@ import REST from "@codeup/rest";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function Index() {
   const [challenges, setChallenges] = React.useState<
@@ -62,7 +66,27 @@ export default function Index() {
       return;
     }
 
-    setChallenges(r0.payload.challenges);
+    if (router.locale === "de") {
+      setChallenges(r0.payload.challenges);
+    } else {
+      const c0: any[] = [];
+      for await (const c of r0.payload.challenges) {
+        c0.push({
+          ...c,
+          title: await translateOnlineV3({
+            text: c.title,
+            from: "de",
+            to: router.locale as string,
+          }),
+          task: await translateOnlineV3({
+            text: c.task,
+            from: "de",
+            to: router.locale as string,
+          }),
+        });
+      }
+      setChallenges(c0);
+    }
 
     const r1 = await REST.Challenges.getCompletedChallenges(
       AccountManager.getActiveToken()
@@ -79,11 +103,16 @@ export default function Index() {
 
   const [showCompleted, setShowCompleted] = React.useState<boolean>(false);
 
+  const { t } = useTranslation("challenges");
+
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <Box w={"100%"} h={"fit-content"} minH={"100vh"} bg={"#000"} p={4}>
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Challenges</CHeading>
+          <CHeading size={"xl"}>{t("page.title")}</CHeading>
           <Button
             mt={3}
             variant={"brand"}
@@ -91,17 +120,17 @@ export default function Index() {
               setShowCompleted(!showCompleted);
             }}
           >
-            Abgeschlossene {showCompleted ? "verstecken" : "anzeigen"}
+            {showCompleted ? t("hide.done") : t("show.done")}
           </Button>
         </Box>
         <Box p={4}>
           <TableContainer>
             <Table variant={"simple"}>
               <Thead>
-                <Th>Abgeschlossen</Th>
-                <Th>Titel</Th>
-                <Th>Schwierigkeit</Th>
-                <Th>Aufgabe</Th>
+                <Th>{t("done")}</Th>
+                <Th>{t("title")}</Th>
+                <Th>{t("difficulty")}</Th>
+                <Th>{t("task")}</Th>
               </Thead>
               <Tbody>
                 {challenges
@@ -138,10 +167,10 @@ export default function Index() {
                             }
                           >
                             {c.difficulty === 1
-                              ? "Leicht"
+                              ? t("diff.easy")
                               : c.difficulty === 2
-                              ? "Mittel"
-                              : "Schwer"}
+                              ? t("diff.medium")
+                              : t("diff.hard")}
                           </Td>
                           <Td>{c.task.substring(0, 100)}...</Td>
                         </Tr>
@@ -155,4 +184,10 @@ export default function Index() {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["challenges"])),
+  };
 }

@@ -1,0 +1,23 @@
+{
+  "doc.title": "Challenges - CodeUp",
+  "show.done": "Abgeschlossene anzeigen",
+  "hide.done": "Abgeschlossene verstecken",
+  "done": "Abgeschlossen",
+  "title": "Titel",
+  "difficulty": "Schwierigkeit",
+  "task": "Aufgabe",
+  "diff.easy": "Leicht",
+  "diff.medium": "Mittel",
+  "diff.hard": "Schwer",
+  "page.title": "Challenges",
+  "error.loading.challenge": "Die Challenge konnte nicht geladen werden!",
+  "execute": "Ausführen",
+  "complete.challenge": "Challenge abschließen",
+  "complete.challenge.question": "Möchtest du die Challenge wirklich abschließen?",
+  "completed.challenge": "Challenge abgeschlossen",
+  "completed.challenge.message": "Herzlichen Glückwunsch! Du hast die Challenge erfolgreich abgeschlossen.",
+  "completed.challenge.failed": "Deine Lösung war leider nicht korrekt!",
+  "submit": "Abschicken",
+  "output": "Ausgabe",
+  "output.loading":"Lade Ausgabe"
+}

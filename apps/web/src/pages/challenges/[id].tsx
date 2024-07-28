@@ -33,8 +33,13 @@ import { FaCheck, FaPlay } from "react-icons/fa";
 import { IResponse } from "@codeup/rest/dist/types/IResponse";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import PopupManager from "../../global/PopupManager";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function ChallengeViewer() {
+  const { t } = useTranslation("challenges");
   const [challenge, setChallenge] = React.useState<{
     _id: string;
     title: string;
@@ -58,11 +63,27 @@ export default function ChallengeViewer() {
     REST.Challenges.getChallenges(
       AccountManager.getActiveToken(),
       router.query.id as string
-    ).then((r) => {
+    ).then(async (r) => {
       if (r.status === 200) {
-        setChallenge(r.payload.challenge);
+        if (router.locale === "de") {
+          setChallenge(r.payload.challenge);
+        } else {
+          setChallenge({
+            ...r.payload.challenge,
+            title: await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: r.payload.challenge.title,
+            }),
+            task: await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: r.payload.challenge.task,
+            }),
+          });
+        }
       } else {
-        router.push("/error?error=Die Challenge konnte nicht geladen werden");
+        router.push(`/error?error=${t("error.loading.challenge")}`);
       }
     });
   }, [router.query.id]);
@@ -106,11 +127,14 @@ export default function ChallengeViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <Box w={"100%"} h={"fit-content"} minH={"100vh"} bg={"#000"} p={4}>
         {challenge ? (
           <>
             <Box bg={"gray.900"} rounded={"xl"} p={4} maxW={"500px"}>
-              <CHeading size={"lg"}>Aufgabe</CHeading>
+              <CHeading size={"lg"}>{t("task")}</CHeading>
               <Text>{challenge.task}</Text>
             </Box>
             <Box
@@ -186,7 +210,7 @@ export default function ChallengeViewer() {
                     }
                   }}
                 >
-                  Ausführen
+                  {t("execute")}
                 </Button>
                 <Button
                   variant={"brand"}
@@ -194,9 +218,8 @@ export default function ChallengeViewer() {
                   onClick={async () => {
                     if (
                       !(await PopupManager.confirmAsync({
-                        title: "Challenge abschließen",
-                        question:
-                          "Möchtest du deine Lösung wirklich überprüfen?",
+                        title: t("complete.challenge"),
+                        question: t("complete.challenge.question"),
                       }))
                     )
                       return;
@@ -210,20 +233,19 @@ export default function ChallengeViewer() {
 
                     if (res.status === 200) {
                       await PopupManager.alertAsync({
-                        title: "Challenge abgeschlossen",
-                        description:
-                          "Deine Lösung wurde erfolgreich überprüft und du hast die Challenge abgeschlossen.",
+                        title: t("completed.challenge"),
+                        description: t("completed.challenge.description"),
                       });
                       router.push("/challenges");
                     } else {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
-                        description: "Deine Lösung war leider nicht korrekt!",
+                        title: t("base:control.error"),
+                        description: t("completed.challenge.failed"),
                       });
                     }
                   }}
                 >
-                  Abschicken
+                  {t("submit")}
                 </Button>
               </Flex>
               <Editor
@@ -253,10 +275,10 @@ export default function ChallengeViewer() {
         onOpen={onOpen}
         onClose={onClose}
         isOpen={isOpen}
-        title={"Ausgabe"}
+        title={t("output")}
       >
         {resultLoading ? (
-          <AuthenticateLoadingIndicator text={"Lade Ausgabe"} />
+          <AuthenticateLoadingIndicator text={t("output.loading")} />
         ) : (
           <>
             {result &&
@@ -273,4 +295,17 @@ export default function ChallengeViewer() {
       </CodeUpModal>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["challenges"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
