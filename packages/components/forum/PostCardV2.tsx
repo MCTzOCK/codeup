@@ -44,6 +44,7 @@ import REST from "@codeup/rest";
 import { useEffect, useId } from "react";
 import { useRouter } from "next/router";
 import { FiDownload, FiFile } from "react-icons/fi";
+import { useTranslation } from "next-i18next";
 
 export default function PostCardV2(props: {
   post: {
@@ -65,6 +66,7 @@ export default function PostCardV2(props: {
   const toast = useToast();
 
   const post_ta_id = useId();
+  const { t } = useTranslation("forum");
 
   const [isFullScreen, setIsFullScreen] = React.useState(false);
 
@@ -131,7 +133,7 @@ export default function PostCardV2(props: {
       </Flex>
       {props.post.parent !== null ? (
         <Badge colorScheme={"pink"} mt={2}>
-          Antwort
+          {t("answer")}
         </Badge>
       ) : null}
 
@@ -235,9 +237,8 @@ export default function PostCardV2(props: {
               props.reloadPosts();
             } else {
               toast({
-                title: "Fehler",
-                description:
-                  "Beim Liken des Beitrags ist ein Fehler aufgetreten.",
+                title: t("base:control.error"),
+                description: t("like.post.error"),
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -247,7 +248,7 @@ export default function PostCardV2(props: {
           }}
           alignItems={"center"}
         >{`${props.post.likes.length} ${
-          props.post.likes.length === 1 ? "Like" : "Likes"
+          props.post.likes.length === 1 ? t("like") : t("likes")
         }
         `}</Button>
 
@@ -260,14 +261,14 @@ export default function PostCardV2(props: {
                 leftIcon={<FaComment />}
                 disabled={!isFullScreen}
               >
-                Antworten
+                {t("answer.verb")}
               </Button>
             </PopoverTrigger>
             <PopoverContent bg={"black"} textAlign={"left"}>
               <PopoverArrow bg={"black"} />
-              <PopoverHeader>Antworten</PopoverHeader>
+              <PopoverHeader>{t("answer.verb")}</PopoverHeader>
               <PopoverBody>
-                <Textarea id={post_ta_id} placeholder={"Inhalt"} />
+                <Textarea id={post_ta_id} placeholder={t("content")} />
               </PopoverBody>
               <PopoverFooter>
                 <Button
@@ -288,9 +289,8 @@ export default function PostCardV2(props: {
                       content.value = "";
                     } else {
                       toast({
-                        title: "Fehler",
-                        description:
-                          "Der Beitrag konnte nicht veröffentlicht werden",
+                        title: t("base:control.error"),
+                        description: t("post.upload.error"),
                         status: "error",
                         duration: 5000,
                         isClosable: true,
@@ -299,7 +299,7 @@ export default function PostCardV2(props: {
                     }
                   }}
                 >
-                  Veröffentlichen
+                  {t("post.publish")}
                 </Button>
               </PopoverFooter>
             </PopoverContent>
@@ -320,8 +320,8 @@ export default function PostCardV2(props: {
 
               if (res.status === 200) {
                 toast({
-                  title: "Post gelöscht",
-                  description: "Der Post wurde erfolgreich gelöscht!",
+                  title: t("post.deleted"),
+                  description: t("post.deleted.text"),
                   status: "success",
                   duration: 5000,
                   isClosable: true,
@@ -329,9 +329,8 @@ export default function PostCardV2(props: {
                 props.reloadPosts();
               } else {
                 toast({
-                  title: "Fehler",
-                  description:
-                    "Beim Löschen des Beitrags ist ein Fehler aufgetreten.",
+                  title: t("base:control.error"),
+                  description: t("post.deleted.failed"),
                   status: "error",
                   duration: 5000,
                   isClosable: true,

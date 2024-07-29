@@ -15,12 +15,15 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import REST from "@codeup/rest/src/index";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "../../global/PopupManager";
-import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Textarea } from "@chakra-ui/react";
 import BlocklyEditor from "@codeup/incode-blockly/dist/BlocklyEditor";
 import { BlocklyCompiler } from "@codeup/util/dist/blockly/blockly/BlocklyCompiler";
 import { FaCode, FaPlay, FaSave } from "react-icons/fa";
 import Blockly from "blockly";
 import * as InCode from "@codeup/incode-compiler";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function ProjectViewer() {
   const [project, setProject] = React.useState<{
@@ -29,6 +32,8 @@ export default function ProjectViewer() {
     code: string;
     owner: string;
   }>();
+
+  const { t } = useTranslation("kids");
 
   const { loggedIn, loaded, userInfo } = useLoggedIn();
 
@@ -49,8 +54,8 @@ export default function ProjectViewer() {
     }).then((res) => {
       if (res.status !== 200) {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description: "Es ist ein Fehler aufgetreten: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("base:control.error.request") + res.payload.error,
         });
         return;
       }
@@ -61,6 +66,9 @@ export default function ProjectViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {!loaded || !project || !project.code ? (
         <>
           <AuthenticateLoadingIndicator />
@@ -100,7 +108,7 @@ export default function ProjectViewer() {
                 ml={[8, 0]}
                 variant={"brand"}
               >
-                Ausführen
+                {t("playground.run")}
               </Button>
               <Button
                 onClick={async () => {
@@ -113,16 +121,16 @@ export default function ProjectViewer() {
 
                   if (res.status !== 200) {
                     PopupManager.alertAsync({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
 
                   PopupManager.alertAsync({
-                    title: "Erfolgreich",
-                    description: "Das Projekt wurde erfolgreich gespeichert!",
+                    title: t("successful"),
+                    description: t("successful.saved"),
                   });
                 }}
                 leftIcon={<FaSave />}
@@ -130,7 +138,7 @@ export default function ProjectViewer() {
                 ml={[8, 0]}
                 variant={"brand"}
               >
-                Speichern
+                {t("save")}
               </Button>
               <Button
                 variant={"brand"}
@@ -158,8 +166,13 @@ export default function ProjectViewer() {
                   });
                 }}
               >
-                Code
+                {t("playground.code")}
               </Button>
+              {router.locale !== "de" && (
+                <>
+                  <Text mt={[0, 8]}>{t("playground.translation.error")}</Text>
+                </>
+              )}
             </Box>
             <Box flex={"100%"}>
               <iframe
@@ -177,4 +190,17 @@ export default function ProjectViewer() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["kids"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -11,10 +11,17 @@
 import * as React from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import { FaCheck } from "react-icons/fa";
+import { sProp } from "../../../global/i18nstaticProps";
+import Head from "next/head";
+import { useTranslation } from "next-i18next";
 
 export default function ThankYou() {
+  const { t } = useTranslation("payment");
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <Flex
         w={"100%"}
         h={"100vh"}
@@ -26,10 +33,16 @@ export default function ThankYou() {
         <Heading fontSize={"16rem"} color={"brand.500"}>
           <FaCheck />
         </Heading>
-        <Heading fontSize={["2rem", "4rem", "5rem"]} color={"brand.500"} p={4}>
-          Vielen Dank für deinen Kauf
+        <Heading fontSize={["2rem", "4rem", "4rem"]} color={"brand.500"} p={4}>
+          {t("message")}
         </Heading>
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["payment"])),
+  };
 }

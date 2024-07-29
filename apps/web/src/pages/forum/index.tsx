@@ -29,9 +29,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
+
+  const { t } = useTranslation("forum");
 
   const [hasProfile, setHasProfile] = React.useState(false);
   const [profiles, setProfiles] = React.useState<
@@ -95,7 +99,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Forum - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       {!hasProfile ? (
         <>
@@ -108,11 +112,8 @@ export default function Index() {
               borderRadius={"md"}
               boxShadow={"md"}
             >
-              <CHeading size={"lg"}>Profil erstellen</CHeading>
-              <Text mt={4}>
-                Du hast noch kein Profil erstellt. Erstelle jetzt dein Profil
-                und werde Teil der Community!
-              </Text>
+              <CHeading size={"lg"}>{t("profile.create.title")}</CHeading>
+              <Text mt={4}>{t("profile.create.text")}</Text>
               <ButtonGroup w={"100%"} justifyContent={"flex-end"}>
                 <Button
                   mt={4}
@@ -127,8 +128,8 @@ export default function Index() {
                       setHasProfile(true);
 
                       toast({
-                        title: "Profil erstellt",
-                        description: "Dein Profil wurde erfolgreich erstellt!",
+                        title: t("profile.created"),
+                        description: t("profile.created.text"),
                         duration: 5000,
                         isClosable: true,
                         position: "top",
@@ -136,9 +137,8 @@ export default function Index() {
                       });
                     } else {
                       toast({
-                        title: "Fehler",
-                        description:
-                          "Dein Profil konnte nicht erstellt werden!",
+                        title: t("base:control.error"),
+                        description: t("profile.created.error"),
                         duration: 5000,
                         isClosable: true,
                         position: "top",
@@ -147,7 +147,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  Profil erstellen
+                  {t("profile.create.title")}
                 </Button>
               </ButtonGroup>
             </Box>
@@ -155,7 +155,15 @@ export default function Index() {
         </>
       ) : (
         <>
-          <Flex w={"100%"} direction={["column", "row"]} gap={"2rem"} p={4}>
+          <Flex
+            w={"100%"}
+            direction={{
+              base: "column",
+              lg: "row",
+            }}
+            gap={"2rem"}
+            p={4}
+          >
             <Flex flex={"100%"} justifyContent={"center"} mt={[0, "2rem"]}>
               <Box
                 w={"100%"}
@@ -165,13 +173,11 @@ export default function Index() {
                 borderRadius={"md"}
                 boxShadow={"md"}
               >
-                <CHeading size={"lg"}>Öffentliche Profile</CHeading>
-                <Text mt={4}>
-                  Hier findest du alle öffentlichen Profile der Community.
-                </Text>
+                <CHeading size={"lg"}>{t("profiles.public")}</CHeading>
+                <Text mt={4}>{t("profiles.public.text")}</Text>
                 <Input
                   mt={4}
-                  placeholder={"Profil suchen..."}
+                  placeholder={t("profiles.search")}
                   onChange={(e) => {
                     setProfileQuery(e.target.value);
                   }}
@@ -255,11 +261,11 @@ export default function Index() {
                 borderRadius={"md"}
                 boxShadow={"md"}
               >
-                <CHeading size={"lg"}>Beiträge</CHeading>
-                <Text mt={4}>Hier findest du alle Beiträge.</Text>
+                <CHeading size={"lg"}>{t("posts")}</CHeading>
+                <Text mt={4}>{t("posts.text")}</Text>
                 <Input
                   mt={4}
-                  placeholder={"Beiträge suchen..."}
+                  placeholder={t("posts.search")}
                   onChange={(e) => {
                     setPostQuery(e.target.value);
                   }}
@@ -288,4 +294,9 @@ export default function Index() {
       )}
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["forum"])),
+  };
 }

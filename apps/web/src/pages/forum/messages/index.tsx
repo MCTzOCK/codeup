@@ -45,6 +45,8 @@ import { useLoggedIn, useUserInfo } from "@codeup/hooks";
 import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function MessageView() {
   const [chats, setChats] = useState<
@@ -57,6 +59,7 @@ export default function MessageView() {
       }[];
     }[]
   >([]);
+  const { t } = useTranslation("forum");
 
   const { userInfo, loggedIn, loaded: loadedUserInfo } = useLoggedIn();
 
@@ -102,7 +105,7 @@ export default function MessageView() {
   return (
     <>
       <Head>
-        <title>Direktnachrichten - CodeUp</title>
+        <title>{t("messages.doc.title")}</title>
       </Head>
       <Flex direction={"row"} w={"100%"} h={"80vh"}>
         <Box flex={["100%", "25%"]} shadow={"xl"}>
@@ -114,7 +117,7 @@ export default function MessageView() {
             overflow={"auto"}
           >
             <Box textAlign={"center"} mt={4}>
-              <CHeading size={"lg"}>Chats</CHeading>
+              <CHeading size={"lg"}>{t("chats")}</CHeading>
             </Box>
             <Divider mt={4} />
             {!loaded ? (
@@ -145,19 +148,19 @@ export default function MessageView() {
                           leftIcon={<FaPlus />}
                           w={"80%"}
                         >
-                          Neuer Chat
+                          {t("chats.new")}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent bg={"black"}>
                         <PopoverArrow bg={"black"} />
                         <PopoverCloseButton />
-                        <PopoverHeader>Neuer Chat</PopoverHeader>
+                        <PopoverHeader>{t("chats.new")}</PopoverHeader>
                         <PopoverBody>
                           <InputGroup>
                             <InputLeftAddon>@</InputLeftAddon>
                             <Input
                               id={"forum_msg-new-chat"}
-                              placeholder={"Benutzername"}
+                              placeholder={t("username")}
                             />
                           </InputGroup>
                         </PopoverBody>
@@ -180,9 +183,8 @@ export default function MessageView() {
                                 setActiveChat(r.payload.chat._id);
                               } else {
                                 toast({
-                                  title: "Fehler",
-                                  description:
-                                    "Der Chat konnte nicht erstellt werden.",
+                                  title: t("base:control.error"),
+                                  description: t("chat.created.error"),
                                   status: "error",
                                   duration: 5000,
                                   isClosable: true,
@@ -193,7 +195,7 @@ export default function MessageView() {
                               onClose();
                             }}
                           >
-                            Erstellen
+                            {t("create")}
                           </Button>
                         </PopoverFooter>
                       </PopoverContent>
@@ -241,7 +243,7 @@ export default function MessageView() {
             overflow={"auto"}
           >
             <Box pt={4} textAlign={"center"}>
-              <CHeading size={"lg"}>Chat</CHeading>
+              <CHeading size={"lg"}>{t("chat")}</CHeading>
             </Box>
             <Divider mt={4} />
             {activeChat ? (
@@ -255,7 +257,7 @@ export default function MessageView() {
                 justifyContent={"center"}
                 mt={4}
               >
-                <Text>Wähle einen Chat aus</Text>
+                <Text>{t("chat.select")}</Text>
               </Flex>
             )}
           </Flex>
@@ -263,4 +265,10 @@ export default function MessageView() {
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["forum"])),
+  };
 }

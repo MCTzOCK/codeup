@@ -26,11 +26,14 @@ import { useLoggedIn } from "@codeup/hooks";
 import DeferredPostCardV2 from "@codeup/components/forum/DeferredPostCardV2";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function PostView() {
   const router = useRouter();
 
   const { id } = router.query;
+  const { t } = useTranslation("forum");
 
   const [post, setPost] = useState<any>(null);
   const [comments, setComments] = useState<any[]>([]);
@@ -60,7 +63,7 @@ export default function PostView() {
   return (
     <>
       <Head>
-        <title>Forum Beitrag - CodeUp</title>
+        <title>{t("post.doc.title")}</title>
       </Head>
       {!post ? (
         <Flex
@@ -86,13 +89,12 @@ export default function PostView() {
             >
               <DeferredPostCardV2 post={post} reloadPosts={reloadPosts} />
               <Divider mb={4} />
-              <CHeading size={"lg"}>Kommentare</CHeading>
+              <CHeading size={"lg"}>{t("comments")}</CHeading>
 
               {post.parent !== null ? (
                 <>
                   <Text mt={4} color={"gray.400"}>
-                    Dieser Beitrag ist ein Kommentar auf einen anderen Beitrag.
-                    Deshalb kann unter diesem Beitrag nicht kommentiert werden!
+                    {t("comments.disabled.parent")}
                   </Text>
                   <Divider mt={4} />
                   <Button
@@ -102,7 +104,7 @@ export default function PostView() {
                       router.push("/forum/post/" + post.parent);
                     }}
                   >
-                    Original Beitrag aufrufen
+                    {t("post.open.original")}
                   </Button>
                 </>
               ) : null}
@@ -118,7 +120,7 @@ export default function PostView() {
                     );
                   })}
                   {comments.length === 0 ? (
-                    <Text>Keine Kommentare vorhanden</Text>
+                    <Text>{t("no.comments")}</Text>
                   ) : null}
                 </>
               ) : null}
@@ -128,4 +130,16 @@ export default function PostView() {
       ) : null}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["forum"])),
+  };
+}
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
