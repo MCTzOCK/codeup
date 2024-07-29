@@ -33,8 +33,10 @@ import { useEffect, useState } from "react";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function ForumNavigationBar() {
+  const { t } = useTranslation("forum");
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -65,7 +67,7 @@ export default function ForumNavigationBar() {
             onClose();
           }}
         >
-          Home
+          {t("navbar.home")}
         </Button>
         {loggedIn && hasProfile ? (
           <>
@@ -77,7 +79,7 @@ export default function ForumNavigationBar() {
                 onClose();
               }}
             >
-              Mein Profil
+              {t("navbar.my.profile")}
             </Button>
           </>
         ) : null}
@@ -91,7 +93,7 @@ export default function ForumNavigationBar() {
                 onClose();
               }}
             >
-              Nachrichten
+              {t("navbar.messages")}
             </Button>
           </>
         ) : null}
@@ -109,7 +111,7 @@ export default function ForumNavigationBar() {
                 router.push("/forum");
               }}
             >
-              Forum
+              {t("navbar.forum")}
             </ChakraLink>
           </CHeading>
           <Flex justifyContent={"right"} flex={"100%"} alignItems={"right"}>
@@ -132,7 +134,7 @@ export default function ForumNavigationBar() {
                   <DrawerOverlay />
                   <DrawerContent bg={"black"}>
                     <DrawerCloseButton />
-                    <DrawerHeader>CodeUp | Forum</DrawerHeader>
+                    <DrawerHeader>{t("navbar.drawer.header")}</DrawerHeader>
 
                     <DrawerBody>
                       <Flex w={"100%"} direction={"column"}>

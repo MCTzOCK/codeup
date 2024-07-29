@@ -28,6 +28,7 @@ import {
 import { FiDownload, FiFile, FiMessageSquare, FiSend } from "react-icons/fi";
 import { useLoggedIn } from "@codeup/hooks";
 import { FaFile, FaImage, FaPlus, FaVideo } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function ChatViewV2(props: {
   chatId: string;
@@ -43,6 +44,7 @@ export default function ChatViewV2(props: {
   >([]);
 
   const toast = useToast();
+  const { t } = useTranslation("forum");
 
   const reloadMessages = () => {
     REST.Forum.getChatMessagesV2({
@@ -53,8 +55,8 @@ export default function ChatViewV2(props: {
         setMessages(r.payload.messages);
       } else {
         toast({
-          title: "Fehler",
-          description: "Beim Laden der Nachrichten ist ein Fehler aufgetreten.",
+          title: t("base:control.error"),
+          description: t("chat.messages.loading.error"),
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -117,8 +119,8 @@ export default function ChatViewV2(props: {
         });
       } else {
         toast({
-          title: "Fehler",
-          description: "Beim Hochladen ist ein Fehler aufgetreten.",
+          title: t("base:control.error"),
+          description: t("chat.messages.upload.error"),
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -278,9 +280,8 @@ export default function ChatViewV2(props: {
                   setMessages(r.payload.messages);
                 } else {
                   toast({
-                    title: "Fehler",
-                    description:
-                      "Beim Senden der Nachricht ist ein Fehler aufgetreten.",
+                    title: t("base:control.error"),
+                    description: t("chat.messages.sending.error"),
                     status: "error",
                     duration: 5000,
                     isClosable: true,
@@ -309,7 +310,7 @@ export default function ChatViewV2(props: {
                       });
                     }}
                   >
-                    Bild
+                    {t("post.media.image")}
                   </MenuItem>
                   <MenuItem
                     icon={<FaVideo />}
@@ -321,7 +322,7 @@ export default function ChatViewV2(props: {
                       });
                     }}
                   >
-                    Video
+                    {t("post.media.video")}
                   </MenuItem>
                   <MenuItem
                     icon={<FaFile />}
@@ -333,13 +334,17 @@ export default function ChatViewV2(props: {
                       });
                     }}
                   >
-                    Datei
+                    {t("post.media.file")}
                   </MenuItem>
                 </MenuList>
               </Menu>
-              <Input type={"text"} placeholder={"Nachricht"} name={"message"} />
+              <Input
+                type={"text"}
+                placeholder={t("chat.message")}
+                name={"message"}
+              />
               <Button leftIcon={<FiSend />} type={"submit"} variant={"brand"}>
-                Senden
+                {t("chat.messages.send")}
               </Button>
             </Flex>
           </form>

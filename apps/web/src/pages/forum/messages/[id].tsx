@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import ChatViewV2 from "@codeup/components/forum/ChatViewV2";
 import { useEffect } from "react";
 import Head from "next/head";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function MessageView() {
   const router = useRouter();
@@ -22,15 +24,28 @@ export default function MessageView() {
   useEffect(() => {
     console.log(id);
   }, [id]);
+  const { t } = useTranslation("forum");
 
   return (
     <>
       <Head>
-        <title>Direktnachrichten - CodeUp</title>
+        <title>{t("messages.doc.title")}</title>
       </Head>
       {id ? (
         <ChatViewV2 chatId={id as string} setActiveChat={() => {}} />
       ) : null}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["forum"])),
+  };
+}
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

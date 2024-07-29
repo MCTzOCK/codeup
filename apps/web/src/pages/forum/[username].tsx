@@ -69,6 +69,8 @@ import PostCardV2 from "@codeup/components/forum/PostCardV2";
 import Head from "next/head";
 import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Profile() {
   const router = useRouter();
@@ -81,6 +83,8 @@ export default function Profile() {
     onClose: onDeleteProfileClose,
   } = useDisclosure();
   const whatEverRef = React.useRef();
+
+  const { t } = useTranslation("forum");
 
   const [profile, setProfile] = useState<{
     _id: string;
@@ -197,8 +201,8 @@ export default function Profile() {
           setPosts(res.payload.posts);
         } else {
           toast({
-            title: "Fehler",
-            description: "Beim Laden der Beiträge ist ein Fehler aufgetreten.",
+            title: t("base:control.error"),
+            description: t("profile.error.loading.posts"),
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -248,8 +252,8 @@ export default function Profile() {
           reloadPosts();
         } else {
           toast({
-            title: "Fehler",
-            description: "Beim Hochladen ist ein Fehler aufgetreten.",
+            title: t("base:control.error"),
+            description: t("profile.error.upload.media"),
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -258,8 +262,8 @@ export default function Profile() {
         }
       } else {
         toast({
-          title: "Fehler",
-          description: "Beim Hochladen ist ein Fehler aufgetreten.",
+          title: t("base:control.error"),
+          description: t("profile.error.upload.media"),
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -305,7 +309,7 @@ export default function Profile() {
                     zIndex={editMode ? -1 : 1}
                   >
                     <IconButton
-                      aria-label={"Nachricht schreiben"}
+                      aria-label={"send message"}
                       icon={<FaEnvelope />}
                       onClick={async () => {
                         const r = await REST.Forum.createChatV2({
@@ -319,9 +323,8 @@ export default function Profile() {
                           );
                         } else {
                           toast({
-                            title: "Fehler",
-                            description:
-                              "Beim Erstellen des Chats ist ein Fehler aufgetreten.",
+                            title: t("base:control.error"),
+                            description: t("profile.error.create.chat"),
                             status: "error",
                             duration: 9000,
                             isClosable: true,
@@ -355,15 +358,14 @@ export default function Profile() {
                             setEditMode(true);
                           }}
                         >
-                          Bearbeiten
+                          {t("profile.edit")}
                         </MenuItem>
                         <MenuItem
                           onClick={async () => {
                             if (
                               await PopupManager.confirmAsync({
-                                title: "Profil löschen",
-                                question:
-                                  "Bist du dir sicher, dass du dein Profil löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+                                title: t("profile.delete"),
+                                question: t("profile.delete.text"),
                               })
                             )
                               if (profile) {
@@ -377,7 +379,7 @@ export default function Profile() {
                             router.push("/forum");
                           }}
                         >
-                          Löschen
+                          {t("delete")}
                         </MenuItem>
                       </MenuList>
                     </Menu>
@@ -398,7 +400,7 @@ export default function Profile() {
                       <HStack color={"orange.400"}>
                         <FaCrown />
                         <Text>
-                          Personalisiere dein Profil mit <b>CodeUp PRO</b>
+                          {t("profile.customize.pro")} <b>CodeUp PRO</b>
                         </Text>
                       </HStack>
                     </>
@@ -408,7 +410,7 @@ export default function Profile() {
                       <Input
                         type={"text"}
                         id={"edit-display_name"}
-                        placeholder={"Anzeigename"}
+                        placeholder={t("profile.display.name")}
                         defaultValue={profile.displayName}
                         onChange={(e) => {}}
                         disabled={userInfo.subscription !== "PRO"}
@@ -444,7 +446,9 @@ export default function Profile() {
                         // @ts-ignore
                         profile.badges.map((b: string) => (
                           <>
-                            <Tooltip label={"Der Benuter ist ein " + b}>
+                            <Tooltip
+                              label={t("profile.badges.user.is") + " " + b}
+                            >
                               <Image
                                 src={
                                   "/_static/vectors/forum/badges/" + b + ".svg"
@@ -472,7 +476,7 @@ export default function Profile() {
                         <Input
                           type={"text"}
                           id={"edit-website"}
-                          placeholder={"Webseite"}
+                          placeholder={t("profile.website")}
                           defaultValue={profile.website}
                           disabled={userInfo.subscription !== "PRO"}
                         />
@@ -492,7 +496,7 @@ export default function Profile() {
                           alignItems={"center"}
                         >
                           <FaGlobe />
-                          Webseite
+                          {t("profile.website")}
                         </ListItem>
                       </Link>
                     </>
@@ -506,7 +510,7 @@ export default function Profile() {
                         <Input
                           type={"text"}
                           id={"edit-location"}
-                          placeholder={"Ort"}
+                          placeholder={t("profile.location")}
                           defaultValue={profile.location}
                           disabled={userInfo.subscription !== "PRO"}
                         />
@@ -534,7 +538,7 @@ export default function Profile() {
                     alignItems={"center"}
                   >
                     <FaBirthdayCake />
-                    Mitglied seit:&nbsp;
+                    {t("profile.member.since")}:&nbsp;
                     {new Date(profile.createdAt).toLocaleDateString()}
                   </ListItem>
                 </UnorderedList>
@@ -599,20 +603,18 @@ export default function Profile() {
                                 if (res.status === 200) {
                                   reloadProfile();
                                   toast({
-                                    title: "Erfolgreich",
+                                    title: t("success"),
                                     position: "top-right",
-                                    description:
-                                      "Deine Änderungen wurden gespeichert",
+                                    description: t("profile.update.success"),
                                     status: "success",
                                     duration: 1500,
                                     variant: "solid",
                                   });
                                 } else {
                                   toast({
-                                    title: "Fehler",
+                                    title: t("base:control.error"),
                                     position: "top-right",
-                                    description:
-                                      "Deine Änderungen konnten nicht gespeichert werden",
+                                    description: t("profile.update.error"),
                                     status: "error",
                                     duration: 1500,
                                     variant: "solid",
@@ -628,12 +630,12 @@ export default function Profile() {
                               />
                               <Text>{cert.course.name}</Text>
                               <Text>
-                                Aktuell angezeigt:&nbsp;
+                                {t("profile.cert.currently.show")}:&nbsp;
                                 {profile.certificates.find(
                                   (c) => c._id === cert._id
                                 )
-                                  ? "Ja"
-                                  : "Nein"}
+                                  ? t("yes")
+                                  : t("no")}
                               </Text>
                             </Stack>
                           </GridItem>
@@ -643,7 +645,7 @@ export default function Profile() {
                   </>
                 ) : (
                   <>
-                    <Heading size={"md"}>Zertifikate</Heading>
+                    <Heading size={"md"}>{t("profile.certs")}</Heading>
                     <Grid
                       templateColumns={[
                         "repeat(1, 1fr)",
@@ -689,7 +691,7 @@ export default function Profile() {
                         setEditMode(false);
                       }}
                     >
-                      Abbrechen
+                      {t("cancel")}
                     </Button>
                     <Button
                       variant={"brand"}
@@ -724,7 +726,10 @@ export default function Profile() {
                               : website.value,
                           location:
                             location.value === "" ? "CodeUp" : location.value,
-                          bio: bio.value === "" ? "CodeUp Benutzer" : bio.value,
+                          bio:
+                            bio.value === ""
+                              ? t("profile.bio.default")
+                              : bio.value,
                         };
 
                         const r = await REST.Forum.modifyProfileV2({
@@ -754,7 +759,7 @@ export default function Profile() {
                           setEditMode(false);
                         } else {
                           toast({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description: r.payload.message,
                             status: "error",
                             duration: 5000,
@@ -764,7 +769,7 @@ export default function Profile() {
                         }
                       }}
                     >
-                      Speichern
+                      {t("save")}
                     </Button>
                   </ButtonGroup>
                 </Box>
@@ -772,7 +777,7 @@ export default function Profile() {
               <Box mt={8}>
                 <Flex w={"100%"} alignItems={"center"}>
                   <Heading size={"lg"} flex={"100%"}>
-                    Beiträge
+                    {t("posts")}
                   </Heading>
                   {profile.username === userInfo.username ? (
                     <>
@@ -780,15 +785,15 @@ export default function Profile() {
                         <Stack>
                           <Popover>
                             <PopoverTrigger>
-                              <Button variant={"brand"}>Beitrag</Button>
+                              <Button variant={"brand"}>{t("post")}</Button>
                             </PopoverTrigger>
                             <PopoverContent bg={"black"} textAlign={"left"}>
                               <PopoverArrow bg={"black"} />
-                              <PopoverHeader>Neuer Beitrag</PopoverHeader>
+                              <PopoverHeader>{t("post.new")}</PopoverHeader>
                               <PopoverBody>
                                 <Textarea
                                   id={"new-post_text"}
-                                  placeholder={"Inhalt"}
+                                  placeholder={t("content")}
                                 />
                               </PopoverBody>
                               <PopoverFooter>
@@ -811,9 +816,8 @@ export default function Profile() {
                                       content.value = "";
                                     } else {
                                       toast({
-                                        title: "Fehler",
-                                        description:
-                                          "Der Beitrag konnte nicht veröffentlicht werden",
+                                        title: t("base:control.error"),
+                                        description: t("post.upload.error"),
                                         status: "error",
                                         duration: 5000,
                                         isClosable: true,
@@ -822,14 +826,14 @@ export default function Profile() {
                                     }
                                   }}
                                 >
-                                  Veröffentlichen
+                                  {t("post.publish")}
                                 </Button>
                               </PopoverFooter>
                             </PopoverContent>
                           </Popover>
                           <Menu>
                             <MenuButton as={Button} variant={"brand"}>
-                              Medium
+                              {t("post.media")}
                             </MenuButton>
                             <MenuList>
                               <MenuItem
@@ -842,7 +846,7 @@ export default function Profile() {
                                   });
                                 }}
                               >
-                                Bild
+                                {t("post.media.image")}
                               </MenuItem>
                               <MenuItem
                                 icon={<FaVideo />}
@@ -854,7 +858,7 @@ export default function Profile() {
                                   });
                                 }}
                               >
-                                Video
+                                {t("post.media.video")}
                               </MenuItem>
                               <MenuItem
                                 icon={<FaFile />}
@@ -866,7 +870,7 @@ export default function Profile() {
                                   });
                                 }}
                               >
-                                Datei
+                                {t("post.media.file")}
                               </MenuItem>
                             </MenuList>
                           </Menu>
@@ -877,7 +881,7 @@ export default function Profile() {
                 </Flex>
                 <Box mt={4}>
                   {posts.length === 0 ? (
-                    <Text>Keine Beiträge vorhanden</Text>
+                    <Text>{t("no.posts")}</Text>
                   ) : (
                     <>
                       {posts.map((post) => {
@@ -904,4 +908,15 @@ export default function Profile() {
       ) : null}
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["forum"])),
+  };
+}
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
