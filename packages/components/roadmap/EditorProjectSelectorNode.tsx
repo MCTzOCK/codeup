@@ -40,6 +40,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function EditorProjectSelectorNode({
   data,
@@ -48,6 +49,7 @@ export default function EditorProjectSelectorNode({
   data: string;
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("roadmap");
   const onChange = useCallback((evt: any) => {}, []);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
@@ -102,7 +104,7 @@ export default function EditorProjectSelectorNode({
           isConnectable={isConnectable}
         />
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Projekt</CHeading>
+          <CHeading size={"xl"}>{t("roadmap.blocks.projects")}</CHeading>
         </Box>
         {loaded ? (
           <>
@@ -110,7 +112,7 @@ export default function EditorProjectSelectorNode({
               <AutoComplete
                 suggestWhenEmpty
                 openOnFocus
-                emptyState={"Keine Projekte gefunden"}
+                emptyState={t("roadmap.blocks.projects.no")}
                 onChange={async (v: string) => {
                   if (v === "") return;
 
@@ -136,9 +138,9 @@ export default function EditorProjectSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -151,7 +153,7 @@ export default function EditorProjectSelectorNode({
               >
                 <AutoCompleteInput
                   variant={"filled"}
-                  placeholder={"Projekt verbinden"}
+                  placeholder={t("roadmap.blocks.projects.add")}
                   id={"todo_ac_input"}
                   w={"100%"}
                 />
@@ -202,15 +204,15 @@ export default function EditorProjectSelectorNode({
                   </Stack>
                   <IconButton
                     flex={"10%"}
-                    aria-label={"Projekt entfernen"}
+                    aria-label={t("roadmap.blocks.projects.remove")}
                     icon={<FaTrash />}
                     colorScheme={"red"}
                     variant={"ghost"}
                     onClick={async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Projekt entfernen",
-                          question: "Möchtest du das Projekt entfernen?",
+                          title: t("roadmap.blocks.projects.remove"),
+                          question: t("roadmap.blocks.projects.remove.confirm"),
                         }))
                       ) {
                         return;
@@ -226,10 +228,9 @@ export default function EditorProjectSelectorNode({
 
                       if (res.status !== 200) {
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description:
-                            "Es ist ein Fehler aufgetreten: " +
-                            res.payload.error,
+                            t("base:control.error.request") + res.payload.error,
                         });
                         return;
                       }
@@ -247,7 +248,10 @@ export default function EditorProjectSelectorNode({
           </>
         ) : (
           <>
-            <AuthenticateLoadingIndicator text={"Lade Projekte..."} inline />
+            <AuthenticateLoadingIndicator
+              text={t("roadmap.blocks.projects.loading")}
+              inline
+            />
           </>
         )}
       </Box>

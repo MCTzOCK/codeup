@@ -37,6 +37,7 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function CourseSelectorNode({
   data,
@@ -45,6 +46,7 @@ export default function CourseSelectorNode({
   data: string[];
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("roadmap");
   const onChange = useCallback((evt: any) => {}, []);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -88,7 +90,7 @@ export default function CourseSelectorNode({
       <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
         <Handle type={"target"} position={Position.Left} />
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Kurse</CHeading>
+          <CHeading size={"xl"}>{t("roadmap.blocks.courses")}</CHeading>
         </Box>
         {loaded ? (
           <>
@@ -96,7 +98,7 @@ export default function CourseSelectorNode({
               <AutoComplete
                 suggestWhenEmpty
                 openOnFocus
-                emptyState={"Keine Kurse gefunden"}
+                emptyState={t("roadmap.blocks.courses.no")}
                 onChange={async (v: string) => {
                   if (v === "") return;
 
@@ -120,9 +122,9 @@ export default function CourseSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -132,7 +134,7 @@ export default function CourseSelectorNode({
               >
                 <AutoCompleteInput
                   variant={"filled"}
-                  placeholder={"Kurs hinzufügen"}
+                  placeholder={t("roadmap.blocks.courses.add")}
                   id={"course_ac_input"}
                   w={"100%"}
                 />
@@ -152,7 +154,9 @@ export default function CourseSelectorNode({
                             <Image w={20} src={a.splashImage} mr={4} />
                             <Stack>
                               <Heading size={"md"}>{a.name}</Heading>
-                              <Text>von @{a.creator}</Text>
+                              <Text>
+                                {t("from")} @{a.creator}
+                              </Text>
                             </Stack>
                           </AutoCompleteItem>
                         </>
@@ -185,11 +189,13 @@ export default function CourseSelectorNode({
                       <Image w={20} src={c.splashImage} mr={4} flex={"20%"} />
                       <Stack flex={"70%"}>
                         <Heading size={"md"}>{c.name}</Heading>
-                        <Text>von @{c.creator}</Text>
+                        <Text>
+                          {t("from")} @{c.creator}
+                        </Text>
                       </Stack>
                       <IconButton
                         flex={"10%"}
-                        aria-label={"Kurs entfernen"}
+                        aria-label={t("roadmap.blocks.courses.remove")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         variant={"ghost"}
@@ -206,9 +212,9 @@ export default function CourseSelectorNode({
 
                           if (res.status !== 200) {
                             PopupManager.alert({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Es ist ein Fehler aufgetreten: " +
+                                t("base:control.error.request") +
                                 res.payload.error,
                             });
                             return;
@@ -226,7 +232,10 @@ export default function CourseSelectorNode({
             </Stack>
           </>
         ) : (
-          <AuthenticateLoadingIndicator text={"Lade Kurse..."} inline={true} />
+          <AuthenticateLoadingIndicator
+            text={t("roadmap.blocks.courses.loading")}
+            inline={true}
+          />
         )}
         <Handle type={"source"} position={Position.Right} />
       </Box>

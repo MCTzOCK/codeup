@@ -30,8 +30,13 @@ import {
 } from "react-icons/fa";
 import { Box } from "@chakra-ui/react";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Index() {
+  const { t } = useTranslation("roadmap");
+
   const { loggedIn, loaded, userInfo } = useLoggedIn();
   const [roadmaps, setRoadmaps] = React.useState<
     {
@@ -60,8 +65,8 @@ export default function Index() {
     REST.Roadmap.getMyRoads(AccountManager.getActiveToken()).then((res) => {
       if (res.status !== 200) {
         PopupManager.alert({
-          title: "Fehler",
-          description: "Es ist ein Fehler aufgetreten: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("base:control.error.request") + res.payload.error,
         });
       } else {
         setRoadmaps(res.payload.roadmaps);
@@ -71,6 +76,9 @@ export default function Index() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {!loaded ? (
         <>
           <AuthenticateLoadingIndicator />
@@ -79,7 +87,7 @@ export default function Index() {
         <>
           <Box bg={"#000"} minH={"100vh"} h={"fit-content"}>
             <GridLayoutV2
-              pageTitle={"Roadmaps"}
+              pageTitle={t("title")}
               search={{
                 show: true,
                 fields: true,
@@ -87,12 +95,12 @@ export default function Index() {
               topButtons={[
                 {
                   variant: "brand",
-                  text: "Neu",
+                  text: t("new"),
                   leftIcon: <FaPlus />,
                   onClick: async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Neue Roadmap",
-                      helperText: "Gib einen Namen für die Roadmap ein",
+                      title: t("roadmap.new"),
+                      helperText: t("roadmap.new.name"),
                       inputType: "INPUT",
                     });
 
@@ -105,9 +113,9 @@ export default function Index() {
 
                     if (res.status !== 200) {
                       PopupManager.alert({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                          t("base:control.error.request") + res.payload.error,
                       });
                       return;
                     }
@@ -121,32 +129,41 @@ export default function Index() {
                   fields: [
                     {
                       icon: <FaLightbulb />,
-                      text: "Idee Verlinkt: " + (r.projectIdea ? "Ja" : "Nein"),
+                      text:
+                        t("roadmap.linked.idea") +
+                        ": " +
+                        (r.projectIdea ? t("yes") : t("no")),
                     },
                     {
                       icon: <FaCode />,
                       text:
-                        "Projekt Verlinkt: " +
-                        (r.linkedProject ? "Ja" : "Nein"),
+                        t("roadmap.linked.project") +
+                        ": " +
+                        (r.linkedProject ? t("yes") : t("no")),
                     },
                     {
                       icon: <FaBookOpen />,
-                      text: "Kurse Verlinkt: " + r.linkedCourses.length,
+                      text:
+                        t("roadmap.linked.courses") +
+                        ": " +
+                        r.linkedCourses.length,
                     },
                     {
                       icon: <FaProjectDiagram />,
-                      text: "Flows Verlinkt: " + r.linkedFlows.length,
+                      text:
+                        t("roadmap.linked.flows") + ": " + r.linkedFlows.length,
                     },
                     {
                       icon: <FaCheck />,
-                      text: "Todos Verlinkt: " + r.linkedTodos.length,
+                      text:
+                        t("roadmap.linked.todos") + ": " + r.linkedTodos.length,
                     },
                   ],
                   title: r.name,
                   buttonRows: [
                     [
                       {
-                        text: "Öffnen",
+                        text: t("open"),
                         leftIcon: <FaEye />,
                         disabled: false,
                         variant: "brand",
@@ -157,16 +174,15 @@ export default function Index() {
                     ],
                     [
                       {
-                        text: "Löschen",
+                        text: t("delete"),
                         leftIcon: <FaTrash />,
                         disabled: false,
                         colorScheme: "red",
                         onClick: async () => {
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Löschen",
-                              question:
-                                "Willst du die Roadmap wirklich löschen?",
+                              title: t("delete"),
+                              question: t("delete.confirm"),
                             }))
                           ) {
                             return;
@@ -179,9 +195,9 @@ export default function Index() {
 
                           if (res.status !== 200) {
                             PopupManager.alert({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Es ist ein Fehler aufgetreten: " +
+                                t("base:control.error.request") +
                                 res.payload.error,
                             });
                             return;
@@ -191,15 +207,14 @@ export default function Index() {
                         },
                       },
                       {
-                        text: "Umbenennen",
+                        text: t("rename"),
                         leftIcon: <FaPen />,
                         variant: "brand",
                         disabled: false,
                         onClick: async () => {
                           const name = await PopupManager.promptAsync({
-                            title: "Umbenennen",
-                            helperText:
-                              "Gib einen neuen Namen für die Roadmap ein",
+                            title: t("rename"),
+                            helperText: t("rename.name"),
                             inputType: "INPUT",
                           });
 
@@ -215,9 +230,9 @@ export default function Index() {
 
                           if (res.status !== 200) {
                             PopupManager.alert({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Es ist ein Fehler aufgetreten: " +
+                                t("base:control.error.request") +
                                 res.payload.error,
                             });
                             return;
@@ -236,4 +251,10 @@ export default function Index() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["roadmap"])),
+  };
 }
