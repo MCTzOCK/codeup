@@ -20,6 +20,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function PreviewModal(props: {
   project: string | undefined;
@@ -28,6 +29,8 @@ export default function PreviewModal(props: {
   onOpen: () => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation("ide");
+
   const onClose = () => {
     props.onClose();
   };
@@ -38,7 +41,7 @@ export default function PreviewModal(props: {
         <Modal isOpen={props.isOpen} onClose={onClose} size={"full"}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Vorschau</ModalHeader>
+            <ModalHeader>{t("preview")}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <iframe
@@ -66,7 +69,7 @@ export default function PreviewModal(props: {
                   );
                 }}
               >
-                In neuem Tab öffnen
+                {t("preview.open.in.new.tab")}
               </Button>
 
               <Button
@@ -94,7 +97,7 @@ export default function PreviewModal(props: {
                   }
                 }}
               >
-                Vollbild
+                {t("preview.fullscreen")}
               </Button>
             </ModalFooter>
           </ModalContent>

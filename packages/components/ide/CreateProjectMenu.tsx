@@ -45,6 +45,7 @@ import { FiRotateCcw } from "react-icons/fi";
 import TemplatePicker from "./TemplatePicker";
 import { useRouter } from "next/router";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function CreateProjectMenu() {
   const toast = useToast();
@@ -53,6 +54,7 @@ export default function CreateProjectMenu() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [section, setSection] = useState("menu");
+  const { t } = useTranslation("ide");
 
   function Card(props: {
     icon: any;
@@ -139,7 +141,7 @@ export default function CreateProjectMenu() {
           rounded={"xl"}
         >
           <Box textAlign={"center"}>
-            <CHeading size={"xl"}>Projekt erstellen</CHeading>
+            <CHeading size={"xl"}>{t("projects.create")}</CHeading>
           </Box>
           <Divider mt={"1.2rem"} />
           {section === "menu" ? (
@@ -152,12 +154,12 @@ export default function CreateProjectMenu() {
                 >
                   <Card
                     icon={<FaPlus />}
-                    title={"Leeres Projekt"}
+                    title={t("projects.empty")}
                     section={"empty"}
                   />
                   <Card
                     icon={<FaFileImport />}
-                    title={"Importieren"}
+                    title={t("projects.import")}
                     onClick={async () => {
                       const element = document.getElementById(
                         importFileInputId
@@ -188,9 +190,10 @@ export default function CreateProjectMenu() {
                                     variant: "solid",
                                     isClosable: true,
                                     duration: 3000,
-                                    title: "Fehler",
-                                    description:
-                                      "Die Datei-Version (codeUp.version) ist nicht 1.0. Die Datei kann nicht gelesen werden.",
+                                    title: t("base:control.error"),
+                                    description: t(
+                                      "projects.import.error.file.version"
+                                    ),
                                   });
                                   return;
                                 }
@@ -202,9 +205,10 @@ export default function CreateProjectMenu() {
                                     variant: "solid",
                                     isClosable: true,
                                     duration: 3000,
-                                    title: "Fehler",
-                                    description:
-                                      "Die Datei beinhaltet keine Projekt Daten.",
+                                    title: t("base:control.error"),
+                                    description: t(
+                                      "projects.import.error.file.empty"
+                                    ),
                                   });
                                   return;
                                 }
@@ -263,9 +267,10 @@ export default function CreateProjectMenu() {
                                   variant: "solid",
                                   isClosable: true,
                                   duration: 3000,
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description:
-                                    "Die Datei konnte nicht gelesen werden: " +
+                                    t("projects.import.error.file.read") +
+                                    ": " +
                                     e.message,
                                 });
                               }
@@ -277,7 +282,7 @@ export default function CreateProjectMenu() {
                   />
                   <Card
                     icon={<HiTemplate />}
-                    title={"Vorlage"}
+                    title={t("projects.template")}
                     section={"templates"}
                   />
                 </Flex>
@@ -300,8 +305,8 @@ export default function CreateProjectMenu() {
 
                   if (res.status === 200) {
                     toast({
-                      title: "Erfolgreich",
-                      description: "Das Projekt wurde erstellt",
+                      title: t("success"),
+                      description: t("project.created"),
                       status: "success",
                       variant: "solid",
                       position: "top",
@@ -312,7 +317,7 @@ export default function CreateProjectMenu() {
                   } else {
                     setLoading(false);
                     toast({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description: res.payload.error,
                       status: "error",
                       variant: "solid",
@@ -324,7 +329,7 @@ export default function CreateProjectMenu() {
                 id={"c_form"}
               >
                 <FormControl mt={"2rem"} isRequired>
-                  <FormLabel>Projekt Name</FormLabel>
+                  <FormLabel>{t("project.name")}</FormLabel>
                   <InputGroup>
                     <InputLeftAddon>
                       <BiRename />
@@ -333,12 +338,12 @@ export default function CreateProjectMenu() {
                       disabled={loading}
                       type={"text"}
                       id={nameId}
-                      placeholder={"Projekt Name"}
+                      placeholder={t("project.name")}
                     />
                   </InputGroup>
                 </FormControl>
                 <Text mt={"1.2rem"}>
-                  Wie wäre es mit&nbsp;
+                  {t("project.name.suggestion")}&nbsp;
                   <Link
                     color={"brand.500"}
                     onClick={() => {
@@ -352,7 +357,7 @@ export default function CreateProjectMenu() {
                   >
                     {suggestedProjectName}
                   </Link>
-                  <Tooltip label={"Neuer Vorschlag"} hasArrow>
+                  <Tooltip label={t("project.name.suggestion.new")} hasArrow>
                     <IconButton
                       ml={".6rem"}
                       aria-label={"regenerate"}
@@ -371,7 +376,7 @@ export default function CreateProjectMenu() {
                     type={"submit"}
                     variant={"brand"}
                   >
-                    Erstellen
+                    {t("project.create")}
                   </Button>
                 </FormControl>
               </form>
@@ -395,14 +400,15 @@ export default function CreateProjectMenu() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {importFinished ? "Import abgeschlossen" : "Importieren"}
+            {importFinished
+              ? t("project.import.finished")
+              : t("projects.import")}
           </ModalHeader>
           <ModalBody>
             {importFinished ? (
               <>
                 <Text color={"gray.400"}>
-                  Der Import wurde abgeschlossen! Du kannst das Projekt nun
-                  bearbeiten.
+                  {t("project.import.finished.text")}
                 </Text>
                 <Stack direction={"column"} mt={"2rem"} gap={".4rem"}>
                   <Button
@@ -416,7 +422,7 @@ export default function CreateProjectMenu() {
                       );
                     }}
                   >
-                    Bearbeiten
+                    {t("edit")}
                   </Button>
                   <Button
                     variant={"outline"}
@@ -425,7 +431,7 @@ export default function CreateProjectMenu() {
                       onImportClose();
                     }}
                   >
-                    Später
+                    {t("later")}
                   </Button>
                 </Stack>
               </>
@@ -440,7 +446,8 @@ export default function CreateProjectMenu() {
                   hasStripe
                 />
                 <Text color={"gray.500"}>
-                  Importiere Datei <code>{importProgressCurrent}</code>
+                  {t("project.import.current.file")}{" "}
+                  <code>{importProgressCurrent}</code>
                 </Text>
               </>
             )}

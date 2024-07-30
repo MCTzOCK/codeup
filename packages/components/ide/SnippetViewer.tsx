@@ -33,11 +33,14 @@ import {
 import REST from "@codeup/rest";
 import { FaCopy, FaSearch } from "react-icons/fa";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function SnippetViewer(props: {
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const { t } = useTranslation("snippets-viewer");
+
   const [snippets, setSnippets] = React.useState<
     {
       _id: string;
@@ -80,7 +83,7 @@ export default function SnippetViewer(props: {
         <DrawerOverlay />
         <DrawerContent bgColor={"gray.900"}>
           <DrawerCloseButton />
-          <DrawerHeader>Code Snippets</DrawerHeader>
+          <DrawerHeader>{t("snippets")}</DrawerHeader>
 
           <DrawerBody>
             <Flex
@@ -94,7 +97,7 @@ export default function SnippetViewer(props: {
                   <FaSearch />
                 </InputLeftElement>
                 <Input
-                  placeholder={"Suche"}
+                  placeholder={t("search")}
                   onChange={(e) => {
                     setQuery(e.currentTarget.value);
                   }}
@@ -142,9 +145,8 @@ export default function SnippetViewer(props: {
                             try {
                               navigator.clipboard.writeText(snippet.code);
                               toast({
-                                title: "Code kopiert",
-                                description:
-                                  "Der Code wurde erfolgreich kopiert",
+                                title: t("code.copied"),
+                                description: t("code.copied.text"),
                                 status: "success",
                                 duration: 1500,
                                 isClosable: false,
@@ -152,9 +154,8 @@ export default function SnippetViewer(props: {
                               });
                             } catch (e) {
                               toast({
-                                title: "Fehler",
-                                description:
-                                  "Der Code konnte nicht kopiert werden. Eventuell wird dein Browser nicht unterstützt.",
+                                title: t("base:control.error"),
+                                description: t("code.copied.error"),
                                 status: "error",
                                 duration: 1500,
                                 isClosable: false,
@@ -163,7 +164,7 @@ export default function SnippetViewer(props: {
                             }
                           }}
                         >
-                          Kopieren
+                          {t("copy")}
                         </Button>
                       </ButtonGroup>
                     </GridItem>
@@ -174,7 +175,7 @@ export default function SnippetViewer(props: {
 
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={props.onClose}>
-              Schließen
+              {t("close")}
             </Button>
           </DrawerFooter>
         </DrawerContent>

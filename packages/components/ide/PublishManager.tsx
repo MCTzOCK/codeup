@@ -51,6 +51,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCogs, FaPlus, FaTrash } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
+import { useTranslation } from "next-i18next";
 
 export default function PublishManager(props: {
   projectId?: string;
@@ -76,6 +77,8 @@ export default function PublishManager(props: {
     discoveryDescription: string;
   } | null>(null);
 
+  const { t } = useTranslation("ide");
+
   const toast = useToast();
 
   useEffect(() => {
@@ -88,8 +91,8 @@ export default function PublishManager(props: {
           setProject(res.payload.project);
         } else {
           toast({
-            title: "Fehler",
-            description: "Das Projekt konnte nicht geladen werden.",
+            title: t("base:control.error"),
+            description: t("project.loading.error"),
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -110,16 +113,12 @@ export default function PublishManager(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Veröffentlichung verwalten</ModalHeader>
+          <ModalHeader>{t("project.manage.publish")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {project && !project.published ? (
               <>
-                <Text>
-                  Du kannst dein Projekt veröffentlichen, um es anderen
-                  Benutzern zugänglich zu machen. Du kannst auch andere Benutzer
-                  hinzufügen, die an deinem Projekt mitarbeiten können.
-                </Text>
+                <Text>{t("project.publish.text")}</Text>
                 <Divider my={4} />
                 <form
                   onSubmit={(e) => {
@@ -136,8 +135,8 @@ export default function PublishManager(props: {
                     }).then((res) => {
                       if (res.status === 200) {
                         toast({
-                          title: "Erfolg",
-                          description: "Das Projekt wurde veröffentlicht.",
+                          title: t("success"),
+                          description: t("project.published"),
                           status: "success",
                           duration: 1500,
                           isClosable: true,
@@ -150,8 +149,8 @@ export default function PublishManager(props: {
                       } else {
                         if (res.status === 700) {
                           toast({
-                            title: "Fehler",
-                            description: "Dieser Name ist bereits vergeben.",
+                            title: t("base:control.error"),
+                            description: t("project.publish.error.name"),
                             status: "error",
                             duration: 1500,
                             isClosable: true,
@@ -159,9 +158,8 @@ export default function PublishManager(props: {
                           });
                         } else {
                           toast({
-                            title: "Fehler",
-                            description:
-                              "Das Projekt konnte nicht veröffentlicht werden.",
+                            title: t("base:control.error"),
+                            description: t("project.publish.error"),
                             status: "error",
                             duration: 1500,
                             isClosable: true,
@@ -174,7 +172,7 @@ export default function PublishManager(props: {
                 >
                   <SimpleGrid columns={[1, 2]} spacing={4}>
                     <FormControl isRequired>
-                      <FormLabel>Projektname</FormLabel>
+                      <FormLabel>{t("project.name")}</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           https://codeup.space/project/
@@ -192,9 +190,9 @@ export default function PublishManager(props: {
                       </InputGroup>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Veröffentlichen</FormLabel>
+                      <FormLabel>{t("publish")}</FormLabel>
                       <Button colorScheme={"green"} type={"submit"}>
-                        Veröffentlichen
+                        {t("publish")}
                       </Button>
                     </FormControl>
                   </SimpleGrid>
@@ -202,11 +200,7 @@ export default function PublishManager(props: {
               </>
             ) : (
               <>
-                <Text>
-                  Dein Projekt ist veröffentlicht. Du kannst es jederzeit
-                  verstecken, indem du auf &quot;Verstecken&quot; klickst.
-                  Außerdem kannst du die URL des Projektes ändern.
-                </Text>
+                <Text>{t("projcet.published.text")}</Text>
                 <Divider my={4} />
                 <form
                   onSubmit={(e) => {
@@ -223,8 +217,8 @@ export default function PublishManager(props: {
                     }).then((res) => {
                       if (res.status === 200) {
                         toast({
-                          title: "Erfolg",
-                          description: "Das Projekt wurde veröffentlicht.",
+                          title: t("success"),
+                          description: t("project.published"),
                           status: "success",
                           duration: 1500,
                           isClosable: true,
@@ -238,8 +232,8 @@ export default function PublishManager(props: {
                       } else {
                         if (res.status === 700) {
                           toast({
-                            title: "Fehler",
-                            description: "Dieser Name ist bereits vergeben.",
+                            title: t("base:control.error"),
+                            description: t("project.publish.error.name"),
                             status: "error",
                             duration: 1500,
                             isClosable: true,
@@ -247,9 +241,8 @@ export default function PublishManager(props: {
                           });
                         } else {
                           toast({
-                            title: "Fehler",
-                            description:
-                              "Das Projekt konnte nicht veröffentlicht werden.",
+                            title: t("base:control.error"),
+                            description: t("project.publish.error"),
                             status: "error",
                             duration: 1500,
                             isClosable: true,
@@ -262,7 +255,7 @@ export default function PublishManager(props: {
                 >
                   <SimpleGrid columns={[1, 2]} spacing={4}>
                     <FormControl isRequired>
-                      <FormLabel>Projektname</FormLabel>
+                      <FormLabel>{t("project.name")}</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           https://codeup.space/project/
@@ -281,13 +274,13 @@ export default function PublishManager(props: {
                       </InputGroup>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Veröffentlichen</FormLabel>
+                      <FormLabel>{t("publish")}</FormLabel>
                       <Button colorScheme={"green"} type={"submit"}>
-                        Übernehmen
+                        {t("accept")}
                       </Button>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Teilen</FormLabel>
+                      <FormLabel>{t("share")}</FormLabel>
                       <Button
                         colorScheme={"blue"}
                         onClick={() => {
@@ -297,9 +290,8 @@ export default function PublishManager(props: {
                             );
 
                             toast({
-                              title: "Erfolg",
-                              description:
-                                "Die URL wurde in die Zwischenablage kopiert.",
+                              title: t("success"),
+                              description: t("share.copied"),
                               status: "success",
                               duration: 1500,
                               isClosable: true,
@@ -307,9 +299,8 @@ export default function PublishManager(props: {
                             });
                           } else {
                             toast({
-                              title: "Fehler",
-                              description:
-                                "Dieser Browser unterstützt das Teilen nicht.",
+                              title: t("base:control.error"),
+                              description: t("share.error"),
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -318,12 +309,12 @@ export default function PublishManager(props: {
                           }
                         }}
                       >
-                        URL kopieren
+                        {t("share.copy.url")}
                       </Button>
                     </FormControl>
 
                     <FormControl>
-                      <FormLabel>Verstecken</FormLabel>
+                      <FormLabel>{t("hide")}</FormLabel>
                       <Button
                         colorScheme={"red"}
                         onClick={() => {
@@ -334,8 +325,8 @@ export default function PublishManager(props: {
                           }).then((res) => {
                             if (res.status === 200) {
                               toast({
-                                title: "Erfolg",
-                                description: "Das Projekt wurde versteckt.",
+                                title: t("success"),
+                                description: t("hidden"),
                                 status: "success",
                                 duration: 1500,
                                 isClosable: true,
@@ -348,9 +339,8 @@ export default function PublishManager(props: {
                               });
                             } else {
                               toast({
-                                title: "Fehler",
-                                description:
-                                  "Das Projekt konnte nicht versteckt werden.",
+                                title: t("base:control.error"),
+                                description: t("hide.error"),
                                 status: "error",
                                 duration: 1500,
                                 isClosable: true,
@@ -360,17 +350,14 @@ export default function PublishManager(props: {
                           });
                         }}
                       >
-                        Verstecken
+                        {t("hide")}
                       </Button>
                     </FormControl>
                   </SimpleGrid>
                 </form>
                 <Divider my={4} />
-                <Heading size={"md"}>Entdeckungszentrale</Heading>
-                <Text>
-                  Du kannst dein Projekt in der Entdeckungszentrale
-                  veröffentlichen, damit andere es finden können.
-                </Text>
+                <Heading size={"md"}>{t("discovery")}</Heading>
+                <Text>{t("discovery.text")}</Text>
                 <SimpleGrid columns={[1, 2]} spacing={4} mt={4}>
                   {!project?.discovery ? (
                     <>
@@ -386,9 +373,8 @@ export default function PublishManager(props: {
 
                           if (description.length < 50) {
                             toast({
-                              title: "Fehler",
-                              description:
-                                "Die Beschreibung ist zu kurz. Sie muss mindestens 50 Zeichen lang sein.",
+                              title: t("base:control.error"),
+                              description: t("discovery.error.description"),
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -405,9 +391,8 @@ export default function PublishManager(props: {
 
                           if (r.status === 200) {
                             toast({
-                              title: "Erfolg",
-                              description:
-                                "Das Projekt wurde in der Entdeckungszentrale veröffentlicht.",
+                              title: t("success"),
+                              description: t("discovery.success"),
                               status: "success",
                               duration: 1500,
                               isClosable: true,
@@ -421,9 +406,8 @@ export default function PublishManager(props: {
                             } as any);
                           } else {
                             toast({
-                              title: "Fehler",
-                              description:
-                                "Das Projekt konnte nicht in der Entdeckungszentrale veröffentlicht werden.",
+                              title: t("base:control.error"),
+                              description: t("discovery.error"),
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -436,11 +420,11 @@ export default function PublishManager(props: {
                           <FormControl isRequired mb={2}>
                             <Textarea
                               name={"description"}
-                              placeholder={"Beschreibung"}
+                              placeholder={t("description")}
                             />
                           </FormControl>
                           <Button colorScheme={"green"} type={"submit"}>
-                            Veröffentlichen
+                            {t("publish")}
                           </Button>
                         </Box>
                       </form>
@@ -457,9 +441,8 @@ export default function PublishManager(props: {
 
                           if (r.status === 200) {
                             toast({
-                              title: "Erfolg",
-                              description:
-                                "Das Projekt wurde aus der Entdeckungszentrale entfernt.",
+                              title: t("success"),
+                              description: t("discovery.remove.success"),
                               status: "success",
                               duration: 1500,
                               isClosable: true,
@@ -473,9 +456,8 @@ export default function PublishManager(props: {
                             });
                           } else {
                             toast({
-                              title: "Fehler",
-                              description:
-                                "Das Projekt konnte nicht aus der Entdeckungszentrale entfernt werden.",
+                              title: t("base:control.error"),
+                              description: t("discovery.remove.error"),
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -484,7 +466,7 @@ export default function PublishManager(props: {
                           }
                         }}
                       >
-                        Verstecken
+                        {t("hide")}
                       </Button>
                     </>
                   )}
@@ -495,7 +477,7 @@ export default function PublishManager(props: {
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={props.onClose}>
-              Schließen
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>

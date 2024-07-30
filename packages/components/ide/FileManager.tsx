@@ -61,6 +61,7 @@ import { BiRename } from "react-icons/bi";
 import { lookup } from "mime-types";
 import { useHover, useLoggedIn } from "@codeup/hooks";
 import InCodeIcon from "../icons/InCodeIcon";
+import { useTranslation } from "next-i18next";
 
 export default function FileManager(props: {
   onFileMenuClose: () => void;
@@ -89,6 +90,7 @@ export default function FileManager(props: {
   editorRef: any;
   monaco: any;
 }) {
+  const { t } = useTranslation("ide");
   const toast = useToast();
 
   const LANGUAGES: {
@@ -164,7 +166,7 @@ export default function FileManager(props: {
         <DrawerOverlay />
         <DrawerContent bgColor={"gray.900"}>
           <DrawerCloseButton />
-          <DrawerHeader>Dateien</DrawerHeader>
+          <DrawerHeader>{t("files")}</DrawerHeader>
 
           <DrawerBody>
             <Flex direction={"column"} w="100%">
@@ -178,7 +180,7 @@ export default function FileManager(props: {
                         <Popover>
                           <PopoverTrigger>
                             <IconButton
-                              aria-label="Neue Datei"
+                              aria-label={t("file.new")}
                               size="lg"
                               fontSize={"2xl"}
                               icon={<FiFilePlus />}
@@ -188,7 +190,7 @@ export default function FileManager(props: {
                           <PopoverContent bgColor="black">
                             <PopoverArrow bgColor="black" />
                             <PopoverCloseButton />
-                            <PopoverHeader>Neue Datei</PopoverHeader>
+                            <PopoverHeader>{t("file.new")}</PopoverHeader>
                             <PopoverBody>
                               <form
                                 onSubmit={async (e) => {
@@ -219,9 +221,8 @@ export default function FileManager(props: {
                                       status: "error",
                                       variant: "solid",
                                       position: "top",
-                                      title: "Fehler",
-                                      description:
-                                        "Diese Datei existiert bereits.",
+                                      title: t("base:control.error"),
+                                      description: t("file.exists"),
                                       isClosable: true,
                                       duration: 4000,
                                     });
@@ -258,7 +259,7 @@ export default function FileManager(props: {
                                       status: "error",
                                       variant: "solid",
                                       position: "top",
-                                      title: "Fehler",
+                                      title: t("base:control.error"),
                                       description: res.payload.error,
                                       isClosable: true,
                                       duration: 4000,
@@ -267,31 +268,31 @@ export default function FileManager(props: {
                                 }}
                               >
                                 <FormControl isRequired>
-                                  <FormLabel>Pfad</FormLabel>
+                                  <FormLabel>{t("path")}</FormLabel>
                                   <Input
                                     type="text"
                                     name="newfilepath"
                                     id="newfilepath"
-                                    placeholder="Pfad"
+                                    placeholder={t("path")}
                                   />
                                 </FormControl>
                                 <FormControl isRequired mt={".6rem"}>
-                                  <FormLabel>Dateiendung</FormLabel>
+                                  <FormLabel>{t("file.extension")}</FormLabel>
                                   <Select name="nf_extension" id="nf_extension">
                                     <FileExtensionOptions />
                                   </Select>
                                 </FormControl>
                                 <Button type="submit" mt=".6rem">
-                                  Erstellen
+                                  {t("create")}
                                 </Button>
                               </form>
                             </PopoverBody>
                           </PopoverContent>
                         </Popover>
                       </ButtonGroup>
-                      <Tooltip label={"Datei hochladen"} hasArrow>
+                      <Tooltip label={t("upload.file")} hasArrow>
                         <IconButton
-                          aria-label="Datei hochladen"
+                          aria-label={t("upload.file")}
                           size="lg"
                           fontSize={"2xl"}
                           icon={<FiUpload />}
@@ -406,10 +407,7 @@ export default function FileManager(props: {
                   </AccordionItem>
                 </Accordion>
                 {(props.project?.files?.length as number) < 1 ? (
-                  <>
-                    Dieses Projekt beinhaltet keine Dateien. Erstelle die erste
-                    Datei über die Schaltfläche oben rechts.
-                  </>
+                  <>{t("no.file")}</>
                 ) : null}
               </Flex>
             </Flex>
@@ -417,7 +415,7 @@ export default function FileManager(props: {
 
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={props.onFileMenuClose}>
-              Schließen
+              {t("close")}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -591,6 +589,8 @@ function FileEntry(props: {
   const [hoverRef, isHovering] = useHover();
   const toast = useToast();
 
+  const { t } = useTranslation("ide");
+
   return (
     <>
       <Flex
@@ -646,7 +646,7 @@ function FileEntry(props: {
                 <Popover>
                   <PopoverTrigger>
                     <IconButton
-                      aria-label="Löschen"
+                      aria-label={t("delete")}
                       size="lg"
                       fontSize={"xl"}
                       icon={<FiTrash2 />}
@@ -656,14 +656,10 @@ function FileEntry(props: {
                   <PopoverContent bgColor={"black"}>
                     <PopoverArrow bgColor={"black"} />
                     <PopoverCloseButton />
-                    <PopoverHeader>Datei Löschen</PopoverHeader>
+                    <PopoverHeader>{t("file.delete")}</PopoverHeader>
                     <PopoverBody>
                       <Stack>
-                        <Text>
-                          Bist du dir sicher, dass du die Datei&nbsp;
-                          <code>{props.structure.fullPath}</code>&nbsp;
-                          <b>UNWIEDERFLICH</b> löschen möchtest?
-                        </Text>
+                        <Text>{t("file.delete.confirm")}</Text>
                         <Button
                           variant="solid"
                           colorScheme="red"
@@ -671,9 +667,8 @@ function FileEntry(props: {
                           onClick={async () => {
                             if (props.project.files.length === 1) {
                               toast({
-                                title: "Fehler",
-                                description:
-                                  "Du kannst die letzte Datei nicht löschen.",
+                                title: t("base:control.error"),
+                                description: t("file.delete.error.last"),
                                 status: "error",
                                 duration: 1500,
                                 isClosable: true,
@@ -702,7 +697,7 @@ function FileEntry(props: {
                             props.setProject(rPro.payload.project);
                           }}
                         >
-                          Löschen
+                          {t("delete")}
                         </Button>
                       </Stack>
                     </PopoverBody>
@@ -711,18 +706,18 @@ function FileEntry(props: {
                 <Popover>
                   <PopoverTrigger>
                     <IconButton
-                      aria-label="Umbenennen"
+                      aria-label={t("rename")}
                       size="lg"
                       fontSize={"xl"}
                       icon={<BiRename />}
                       variant="ghost"
-                      title={"Umbenennen/Verschieben"}
+                      title={t("rename.move")}
                     />
                   </PopoverTrigger>
                   <PopoverContent bgColor={"black"}>
                     <PopoverArrow bgColor={"black"} />
                     <PopoverCloseButton />
-                    <PopoverHeader>Datei umbenennen</PopoverHeader>
+                    <PopoverHeader>{t("file.rename")}</PopoverHeader>
                     <PopoverBody>
                       <form
                         onSubmit={async (e) => {
@@ -757,7 +752,9 @@ function FileEntry(props: {
                             content:
                               props.structure.contents.length > 0
                                 ? props.structure.contents
-                                : "Pfad: " + props.structure.fullPath,
+                                : t("file.rename") +
+                                  ": " +
+                                  props.structure.fullPath,
                             projectId: props.project?._id as string,
                           });
 
@@ -771,7 +768,7 @@ function FileEntry(props: {
                       >
                         <Stack>
                           <FormControl>
-                            <FormLabel>Neuer Pfad</FormLabel>
+                            <FormLabel>{t("path.new")}</FormLabel>
                             <Input
                               type={"text"}
                               defaultValue={
@@ -785,13 +782,13 @@ function FileEntry(props: {
                             />
                           </FormControl>
                           <FormControl isRequired mt={".6rem"}>
-                            <FormLabel>Dateiendung</FormLabel>
+                            <FormLabel>{t("file.extension")}</FormLabel>
                             <Select name={"rf_extension"} id={"rf_extension"}>
                               <FileExtensionOptions />
                             </Select>
                           </FormControl>
                           <Button mt={".6rem"} type={"submit"}>
-                            Umbenennen
+                            {t("rename")}
                           </Button>
                         </Stack>
                       </form>
@@ -800,9 +797,9 @@ function FileEntry(props: {
                 </Popover>
               </>
             ) : null}
-            <Tooltip label={"Herunterladen"} hasArrow>
+            <Tooltip label={t("download")} hasArrow>
               <IconButton
-                aria-label="Datei herunterladen"
+                aria-label={t("file.download")}
                 size="lg"
                 fontSize={"2xl"}
                 icon={<FiDownload />}
@@ -865,23 +862,24 @@ function FileEntry(props: {
 }
 
 function FileExtensionOptions() {
+  const { t } = useTranslation("ide");
   return (
     <>
-      <option disabled={true}>All-In-One</option>
-      <option value={".ic"}>InCode</option>
-      <option disabled={true}>Struktur</option>
-      <option value={".html"}>HTML</option>
-      <option disabled={true}>Aussehen</option>
-      <option value={".css"}>CSS</option>
-      <option value={".scss"}>SCSS</option>
-      <option value={".sass"}>Sass</option>
-      <option disabled={true}>Logik</option>
-      <option value={".js"}>JavaScript</option>
-      <option value={".ts"}>TypeScript</option>
-      <option disabled={true}>Anderes</option>
-      <option value={".txt"}>Text</option>
-      <option value={".json"}>JSON</option>
-      <option value={".xml"}>XML</option>
+      <option disabled={true}>{t("file.ext.all.in.one")}</option>
+      <option value={".ic"}>{t("file.ext.incode")}</option>
+      <option disabled={true}>{t("file.ext.structure")}</option>
+      <option value={".html"}>{t("file.ext.html")}</option>
+      <option disabled={true}>{t("file.ext.design")}</option>
+      <option value={".css"}>{t("file.ext.css")}</option>
+      <option value={".scss"}>{t("file.ext.scss")}</option>
+      <option value={".sass"}>{t("file.ext.sass")}</option>
+      <option disabled={true}>{t("file.ext.logic")}</option>
+      <option value={".js"}>{t("file.ext.js")}</option>
+      <option value={".ts"}>{t("file.ext.ts")}</option>
+      <option disabled={true}>{t("file.ext.other")}</option>
+      <option value={".txt"}>{t("file.ext.text")}</option>
+      <option value={".json"}>{t("file.ext.json")}</option>
+      <option value={".xml"}>{t("file.ext.xml")}</option>
     </>
   );
 }

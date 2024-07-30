@@ -89,10 +89,13 @@ import {
 import FileManager from "@codeup/components/ide/FileManager";
 import PublishManager from "@codeup/components/ide/PublishManager";
 import Head from "next/head";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("ide");
   const [firstLoad, setFirstLoad] = useState(true);
 
   const LANGUAGES: {
@@ -580,8 +583,8 @@ export default function Index() {
         status: "success",
         variant: "solid",
         position: "top",
-        title: "Erfolgreich",
-        description: "Die Datei wurde erfolgreich gespeichert",
+        title: t("success"),
+        description: t("project.file.saved"),
         isClosable: true,
         duration: 4000,
       });
@@ -590,7 +593,7 @@ export default function Index() {
         status: "error",
         variant: "solid",
         position: "top",
-        title: "Fehler",
+        title: t("base:control.error"),
         description: res.payload.error,
         isClosable: true,
         duration: 4000,
@@ -606,14 +609,14 @@ export default function Index() {
             ? currentFile.path.split("/")[
                 currentFile.path.split("/").length - 1
               ]
-            : "Neue Datei"}
+            : t("file.new")}
           &nbsp;-&nbsp;Editor - CodeUp
         </title>
       </Head>
       {errorAlert.show ? (
         <Alert status="error" variant={"top-accent"}>
           <AlertIcon />
-          <AlertTitle>Fehler!</AlertTitle>
+          <AlertTitle>{t("base:control.error")}</AlertTitle>
           <AlertDescription>{errorAlert.error}</AlertDescription>
         </Alert>
       ) : (
@@ -635,7 +638,7 @@ export default function Index() {
               shadow={"2xl"}
             >
               <Flex direction={"column"} h={"100%"}>
-                <Tooltip label={"Dateien"} placement={"right"} hasArrow>
+                <Tooltip label={t("files")} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
                     variant="ghost"
@@ -670,7 +673,8 @@ export default function Index() {
                             await REST.IDE.createProject({
                               token: localStorage.getItem("token") as string,
                               name:
-                                "Fork von " +
+                                t("fork.by") +
+                                " " +
                                 projectTemplateRequest.payload.project.name,
                             });
 
@@ -695,7 +699,7 @@ export default function Index() {
                               status: "error",
                               variant: "solid",
                               position: "top",
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description: projectTemplateRequest.payload.error,
                               isClosable: true,
                               duration: 4000,
@@ -706,7 +710,7 @@ export default function Index() {
                             status: "error",
                             variant: "solid",
                             position: "top",
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description: projectTemplateRequest.payload.error,
                             isClosable: true,
                             duration: 4000,
@@ -718,7 +722,11 @@ export default function Index() {
                 ) : null}
                 {permissions.includes("WRITE") ||
                 permissions.includes("OWNER") ? (
-                  <Tooltip label={"Code Snippets"} placement={"right"} hasArrow>
+                  <Tooltip
+                    label={t("code.snippets")}
+                    placement={"right"}
+                    hasArrow
+                  >
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -734,7 +742,11 @@ export default function Index() {
                 ) : null}
                 {permissions.includes("MANAGE-CONTRIBUTORS") ||
                 permissions.includes("OWNER") ? (
-                  <Tooltip label={"Mitwirkende"} placement={"right"} hasArrow>
+                  <Tooltip
+                    label={t("contributors")}
+                    placement={"right"}
+                    hasArrow
+                  >
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -750,11 +762,7 @@ export default function Index() {
                 ) : null}
                 {permissions.includes("PUBLISH") ||
                 permissions.includes("OWNER") ? (
-                  <Tooltip
-                    label={"Veröffentlichen"}
-                    placement={"right"}
-                    hasArrow
-                  >
+                  <Tooltip label={t("publish")} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -772,7 +780,7 @@ export default function Index() {
                 !settingsOpen &&
                 (currentFile.path.toLowerCase().endsWith(".html") ||
                   currentFile.path.toLowerCase().endsWith(".ic")) ? (
-                  <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
+                  <Tooltip label={t("preview")} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -790,7 +798,11 @@ export default function Index() {
                     />
                   </Tooltip>
                 ) : null}
-                <Tooltip label={"Tastenkürzel"} placement={"right"} hasArrow>
+                <Tooltip
+                  label={t("keyboard.shortcuts")}
+                  placement={"right"}
+                  hasArrow
+                >
                   <IconButton
                     aria-label={""}
                     variant="ghost"
@@ -803,7 +815,7 @@ export default function Index() {
                     }}
                   />
                 </Tooltip>
-                <Tooltip label={"Einstellungen"} placement={"right"} hasArrow>
+                <Tooltip label={t("settings")} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
                     variant="ghost"
@@ -832,7 +844,7 @@ export default function Index() {
                     }}
                   />
                 </Tooltip>
-                <Tooltip label={"Hautpmenü"} placement={"right"} hasArrow>
+                <Tooltip label={t("main.menu")} placement={"right"} hasArrow>
                   <IconButton
                     aria-label={""}
                     variant="ghost"
@@ -867,12 +879,14 @@ export default function Index() {
                 {settingsOpen ? (
                   <>
                     <Heading size={"lg"} textAlign={"center"}>
-                      Einstellungen
+                      {t("settings")}
                     </Heading>
                     <Box maxH={"85vh"} h={"100%"} overflow={"auto"}>
                       <Flex direction={"column"}>
                         <Box padding={"2rem"} maxW={["100%", "25%"]}>
-                          <Heading size={"md"}>Schriftgröße</Heading>
+                          <Heading size={"md"}>
+                            {t("settings.font.size")}
+                          </Heading>
                           <NumberInput
                             defaultValue={editorOptions.fontSize}
                             mt={"1.2rem"}
@@ -912,7 +926,7 @@ export default function Index() {
                                 save();
                               }}
                             >
-                              Speichern
+                              {t("save")}
                             </Button>
                           </ButtonGroup>
                         </Box>
@@ -949,9 +963,10 @@ export default function Index() {
                             onClick={() => onFileMenuOpen()}
                             cursor="pointer"
                           >
-                            Öffne eine Datei
+                            {t("open.file")}
                           </Text>
-                          , damit du diese bearbeiten/lesen kannst.
+                          &nbsp;
+                          {t("open.file.0")}
                         </Center>
                       </>
                     )}
@@ -1001,4 +1016,17 @@ export default function Index() {
       )}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["ide"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
