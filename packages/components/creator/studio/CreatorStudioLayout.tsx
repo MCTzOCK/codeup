@@ -15,8 +15,10 @@ import ErrorComponent from "../../global/ErrorComponent";
 import AuthenticateLoadingIndicator from "../../admin/AuthenticateLoadingIndicator";
 import { useRouter } from "next/router";
 import { Box } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function CreatorStudioLayout(props: { children: ReactNode }) {
+  const { t } = useTranslation("creator-studio");
   const { loggedIn, userInfo, loaded: userLoaded } = useLoggedIn();
 
   const [error, setError] = useState("");
@@ -27,7 +29,7 @@ export default function CreatorStudioLayout(props: { children: ReactNode }) {
     if (!userLoaded) return;
 
     if (!loggedIn) {
-      setError("Du bist nicht dazu berechtigt diese Seite zu sehen!");
+      setError(t("error.auth"));
       return;
     }
 
@@ -43,10 +45,7 @@ export default function CreatorStudioLayout(props: { children: ReactNode }) {
     <>
       {error !== "" ? (
         <>
-          <ErrorComponent
-            description={error}
-            title={"Authentifizierungsfehler"}
-          />
+          <ErrorComponent description={error} title={t("error.auth.noun")} />
         </>
       ) : null}
       {!userLoaded && error === "" ? (

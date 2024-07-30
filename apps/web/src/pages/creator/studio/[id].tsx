@@ -39,14 +39,18 @@ import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudio
 import course from "../../api/course/[course]";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Head from "next/head";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTransform } from "framer-motion";
+import { useTranslation } from "next-i18next";
 
 export default function CourseViewer() {
   const router = useRouter();
 
   const { id } = router.query;
+  const { t } = useTranslation("creator-studio");
 
   const [courseName, setCourseName] = React.useState<string[]>([
-    "Inhalte Laden...",
+    t("loading.contents"),
   ]);
 
   const [_rawCourseObject, _setRawCourseObject] = React.useState<any>(null);
@@ -86,7 +90,7 @@ export default function CourseViewer() {
             _setRawCourseObject(course);
           } else {
             console.error(res);
-            alert("Fehler beim Laden der Inhalte. Details siehe Konsole.");
+            alert(t("loading.contents.error"));
           }
         }
       );
@@ -129,8 +133,8 @@ export default function CourseViewer() {
       } else {
         console.error(res);
         toast({
-          title: "Fehler beim Laden der Inhalte",
-          description: "Details siehe Konsole",
+          title: t("loading.contents.error.title"),
+          description: t("loading.contents.error.details"),
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -146,12 +150,12 @@ export default function CourseViewer() {
   return (
     <>
       <Head>
-        <title>Kurs Editor - Creator Studio - CodeUp</title>
+        <title>{t("course.editor.doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Flex p={"2rem"} gap={6} alignItems={"center"}>
           <IconButton
-            aria-label={"Zurück"}
+            aria-label={t("back")}
             onClick={() => router.push("/creator/studio")}
             icon={<FaHome />}
           />
@@ -165,15 +169,13 @@ export default function CourseViewer() {
               router.push("/creator/studio/create/content/" + id);
             }}
           >
-            Neu
+            {t("new")}
           </Button>
         </Flex>
         {contents.length === 0 ? (
           <ErrorComponent
-            description={
-              "Keine Inhalte vorhanden. Erstelle Inhalte, damit sie hier angezeigt werden."
-            }
-            title={"Keine Inhalte vorhanden"}
+            description={t("course.no.contents")}
+            title={t("course.no.contents.title")}
           />
         ) : null}
         <Flex alignItems={"center"} p={6} w={"100%"} justifyContent={"center"}>
@@ -272,7 +274,9 @@ export default function CourseViewer() {
                                                   ) {
                                                     if (
                                                       confirm(
-                                                        "Kurs veröffentlichen, um Benutzeransicht zu sehen?"
+                                                        t(
+                                                          "publish.course.to.see.user.view"
+                                                        )
                                                       )
                                                     ) {
                                                       REST.Creator.updateCourse(
@@ -295,10 +299,14 @@ export default function CourseViewer() {
                                                           );
                                                         } else {
                                                           toast({
-                                                            title:
-                                                              "Fehler beim Veröffentlichen",
+                                                            title: t(
+                                                              "publish.course.error"
+                                                            ),
                                                             description:
-                                                              "Veröffentlichen fehlgeschlagen: " +
+                                                              t(
+                                                                "publish.course.error.text"
+                                                              ) +
+                                                              ": " +
                                                               res.payload.error,
                                                             status: "error",
                                                             duration: 1500,
@@ -316,7 +324,7 @@ export default function CourseViewer() {
                                                   );
                                                 }}
                                               >
-                                                Benutzeransicht
+                                                {t("course.user.view")}
                                               </Button>
                                               <HStack>
                                                 <Button
@@ -329,7 +337,7 @@ export default function CourseViewer() {
                                                     );
                                                   }}
                                                 >
-                                                  Bearbeiten
+                                                  {t("edit")}
                                                 </Button>
                                                 <Button
                                                   w={"100%"}
@@ -341,7 +349,7 @@ export default function CourseViewer() {
                                                     );
                                                   }}
                                                 >
-                                                  Inhalt Bearbeiten
+                                                  {t("edit.content")}
                                                 </Button>
                                               </HStack>
                                               <Button
@@ -351,7 +359,9 @@ export default function CourseViewer() {
                                                 onClick={async () => {
                                                   if (
                                                     !confirm(
-                                                      "Willst du den Inhalt wirklich löschen?"
+                                                      t(
+                                                        "delete.content.confirm"
+                                                      )
                                                     )
                                                   ) {
                                                     return;
@@ -371,9 +381,11 @@ export default function CourseViewer() {
                                                   if (res.status === 200) {
                                                     reloadContents();
                                                     toast({
-                                                      title: "Inhalt gelöscht",
-                                                      description:
-                                                        "Der Inhalt wurde erfolgreich gelöscht.",
+                                                      title:
+                                                        t("deleted.content"),
+                                                      description: t(
+                                                        "deleted.content.text"
+                                                      ),
                                                       status: "success",
                                                       duration: 1500,
                                                       isClosable: true,
@@ -382,10 +394,12 @@ export default function CourseViewer() {
                                                   } else {
                                                     console.error(res);
                                                     toast({
-                                                      title:
-                                                        "Fehler beim Löschen",
-                                                      description:
-                                                        "Der Inhalt konnte nicht gelöscht werden. Details siehe Konsole.",
+                                                      title: t(
+                                                        "deleted.content.error"
+                                                      ),
+                                                      description: t(
+                                                        "deleted.content.error.text"
+                                                      ),
                                                       status: "error",
                                                       duration: 1500,
                                                       isClosable: true,
@@ -394,7 +408,7 @@ export default function CourseViewer() {
                                                   }
                                                 }}
                                               >
-                                                Löschen
+                                                {t("delete")}
                                               </Button>
                                             </Stack>
                                           </Box>
@@ -402,7 +416,7 @@ export default function CourseViewer() {
                                         <Text
                                           fontSize={"sm"}
                                           color={"gray.400"}
-                                        >{`Erstellt am: ${new Date(
+                                        >{`${t("created.at")}: ${new Date(
                                           content.createdAt
                                         )
                                           .toLocaleString()
@@ -428,4 +442,17 @@ export default function CourseViewer() {
       </CreatorStudioLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

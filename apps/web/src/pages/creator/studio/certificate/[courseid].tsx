@@ -58,9 +58,12 @@ import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function CertificateEditor() {
   const router = useRouter();
+  const { t: tx } = useTranslation("creator-studio");
 
   const [course, setCourse] = React.useState<{
     _id: string;
@@ -88,9 +91,8 @@ export default function CertificateEditor() {
           setCourse(res.payload.course);
         } else {
           toast({
-            title: "Error",
-            description:
-              "Der Kurs konnte nicht geladen werden. Denke daran ihn zuerst zu veröffentlichen.",
+            title: tx("base:control.error"),
+            description: tx("certs.loading.error.course"),
             status: "error",
             duration: 5000,
             isClosable: true,
@@ -189,8 +191,8 @@ export default function CertificateEditor() {
               setSteps(res0.payload.certificate.steps);
             } else {
               toast({
-                title: "Error",
-                description: "Das Zertifikat konnte nicht erstellt werden.",
+                title: tx("base:control.error"),
+                description: tx("certs.create.error"),
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -215,11 +217,11 @@ export default function CertificateEditor() {
   return (
     <>
       <Head>
-        <title>Zerifikat Editor - Creator Studio - CodeUp</title>
+        <title>{tx("certs.doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading size={"xl"}>Zertifikatseditor</CHeading>
+          <CHeading size={"xl"}>{tx("certs.title")}</CHeading>
         </Box>
 
         <Stack w={"100%"} alignItems={"center"} justifyContent={"center"}>
@@ -231,7 +233,7 @@ export default function CertificateEditor() {
               direction={"column"}
             >
               <FormControl maxW={"50%"} mt={8}>
-                <FormLabel>Mindestpunktzahl (in %)</FormLabel>
+                <FormLabel>{tx("lowest.percentage")}</FormLabel>
                 <Box pt={6} pb={2}>
                   <Slider
                     aria-label="slider-ex-6"
@@ -269,7 +271,7 @@ export default function CertificateEditor() {
 
               <Box w={"100%"}>
                 <Heading size={"lg"} textAlign={"center"} mt={8}>
-                  Schritte
+                  {tx("certs.steps")}
                 </Heading>
 
                 {steps.length === 0 ? (
@@ -292,7 +294,7 @@ export default function CertificateEditor() {
                         textAlign={"center"}
                         color={"gray.200"}
                       >
-                        Es wurden noch keine Schritte hinzugefügt.
+                        {tx("certs.no.steps")}
                       </Heading>
                     </Flex>
                   </Box>
@@ -366,13 +368,15 @@ export default function CertificateEditor() {
                                           >
                                             {step.step_type ===
                                             "MULTIPLE_CHOICE"
-                                              ? "Multiple Choice"
+                                              ? tx(
+                                                  "certs.steps.multiple.choice"
+                                                )
                                               : step.step_type === "TEXT"
-                                              ? "Text"
+                                              ? tx("certs.steps.text")
                                               : step.step_type ===
                                                 "CODE_COMPARE"
-                                              ? "Code Vergleich"
-                                              : "Code Check"}
+                                              ? tx("certs.steps.code.compare")
+                                              : tx("certs.steps.code.check")}
                                           </Badge>
                                           <Flex
                                             w={"100%"}
@@ -389,7 +393,9 @@ export default function CertificateEditor() {
                                               {step.step_title}
                                             </Heading>
                                             <IconButton
-                                              aria-label="Delete Step"
+                                              aria-label={tx(
+                                                "certs.steps.delete"
+                                              )}
                                               icon={<FaTrash />}
                                               colorScheme="red"
                                               onClick={() => {
@@ -414,7 +420,9 @@ export default function CertificateEditor() {
                                                 }
                                               >
                                                 <FormControl>
-                                                  <FormLabel>Frage</FormLabel>
+                                                  <FormLabel>
+                                                    {tx("certs.question")}
+                                                  </FormLabel>
                                                   <Input
                                                     defaultValue={
                                                       step.multiple_choice
@@ -457,7 +465,8 @@ export default function CertificateEditor() {
                                                     <>
                                                       <FormControl>
                                                         <FormLabel>
-                                                          Antwort {index + 1}
+                                                          {tx("certs.answer")}{" "}
+                                                          {index + 1}
                                                         </FormLabel>
                                                         <Input
                                                           defaultValue={
@@ -501,8 +510,9 @@ export default function CertificateEditor() {
                                                       </FormControl>
                                                       <FormControl>
                                                         <FormLabel>
-                                                          Ist die Antwort
-                                                          richtig?
+                                                          {tx(
+                                                            "certs.answer.correct"
+                                                          )}
                                                         </FormLabel>
                                                         <Switch
                                                           isChecked={
@@ -570,8 +580,12 @@ export default function CertificateEditor() {
                                                       <FormControl mt={1}>
                                                         <FormLabel>
                                                           {t.type === "INPUT"
-                                                            ? "Eingabefeld"
-                                                            : "Text"}
+                                                            ? tx(
+                                                                "certs.steps.text.input.field"
+                                                              )
+                                                            : tx(
+                                                                "certs.steps.text.input.text"
+                                                              )}
                                                         </FormLabel>
                                                         <Input
                                                           defaultValue={t.value}
@@ -608,7 +622,9 @@ export default function CertificateEditor() {
                                                       </FormControl>
                                                       <FormControl mt={1}>
                                                         <FormLabel>
-                                                          Eingabefeld
+                                                          {tx(
+                                                            "certs.steps.text.input.field"
+                                                          )}
                                                         </FormLabel>
                                                         <Switch
                                                           colorScheme={"brand"}
@@ -648,7 +664,7 @@ export default function CertificateEditor() {
                                                       </FormControl>
                                                       <FormControl mt={1}>
                                                         <FormLabel>
-                                                          Aktion
+                                                          {tx("action")}
                                                         </FormLabel>
                                                         <Button
                                                           colorScheme="red"
@@ -673,7 +689,7 @@ export default function CertificateEditor() {
                                                             );
                                                           }}
                                                         >
-                                                          Löschen
+                                                          {tx("delete")}
                                                         </Button>
                                                       </FormControl>
                                                     </>
@@ -709,7 +725,7 @@ export default function CertificateEditor() {
                                                       );
                                                     }}
                                                   >
-                                                    Hinzufügen
+                                                    {tx("add")}
                                                   </Button>
                                                 </Grid>
                                               </Box>
@@ -783,7 +799,7 @@ export default function CertificateEditor() {
                                                       step.code_compare?.code_a
                                                         .screenshot
                                                     }
-                                                    alt="Code A"
+                                                    alt={tx("code.a")}
                                                     _hover={{
                                                       opacity: 0.5,
                                                     }}
@@ -829,7 +845,7 @@ export default function CertificateEditor() {
                                                       step.code_compare?.code_b
                                                         .screenshot
                                                     }
-                                                    alt="Code B"
+                                                    alt={tx("code.b")}
                                                     _hover={{
                                                       opacity: 0.5,
                                                     }}
@@ -916,7 +932,7 @@ export default function CertificateEditor() {
                                                         );
                                                       }}
                                                     >
-                                                      Richtig:&nbsp;
+                                                      {tx("correct")}:&nbsp;
                                                       {step.code_compare?.code_a
                                                         .correct
                                                         ? "A"
@@ -943,7 +959,7 @@ export default function CertificateEditor() {
                                                       step.code_check
                                                         ?.screenshot
                                                     }
-                                                    alt="Code"
+                                                    alt={tx("code")}
                                                     _hover={{
                                                       opacity: 0.5,
                                                     }}
@@ -1018,8 +1034,8 @@ export default function CertificateEditor() {
                                                       }}
                                                     >
                                                       {step.code_check?.correct
-                                                        ? "Richtig"
-                                                        : "Falsch"}
+                                                        ? tx("correct")
+                                                        : tx("wrong")}
                                                     </Button>
                                                   </ButtonGroup>
                                                 </Box>
@@ -1044,7 +1060,7 @@ export default function CertificateEditor() {
                   onOpen={onOpen}
                   onClose={onClose}
                   isOpen={isOpen}
-                  title={"Code Block Erstellen"}
+                  title={tx("create.code.block")}
                   customSize={["6xl"]}
                 >
                   <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
@@ -1054,7 +1070,7 @@ export default function CertificateEditor() {
                           <FaCode />
                         </InputLeftElement>
                         <Input
-                          placeholder={"Programmiersprache eingeben..."}
+                          placeholder={tx("code.block.enter.language")}
                           w={"100%"}
                           id={"codeup-code-block-language"}
                         />
@@ -1078,7 +1094,7 @@ export default function CertificateEditor() {
                             );
                           }}
                         >
-                          Erstellen
+                          {tx("create")}
                         </Button>
                       </InputGroup>
                     )}
@@ -1122,7 +1138,7 @@ export default function CertificateEditor() {
                             setMonacoEditorLanguage(null);
                           }}
                         >
-                          Sprache wechseln
+                          {tx("code.block.change.language")}
                         </Button>
                         <Button
                           variant={"brand"}
@@ -1143,7 +1159,7 @@ export default function CertificateEditor() {
                             onClose();
                           }}
                         >
-                          Screenshots erstellen
+                          {tx("code.block.create.screenshots")}
                         </Button>
                       </ButtonGroup>
                     )}
@@ -1184,7 +1200,7 @@ export default function CertificateEditor() {
                   <PopoverContent bgColor={"black"}>
                     <PopoverArrow bgColor={"black"} />
                     <PopoverCloseButton />
-                    <PopoverHeader>Neuer Schritt</PopoverHeader>
+                    <PopoverHeader>{tx("new.step")}</PopoverHeader>
                     <PopoverBody>
                       <form
                         onSubmit={(e) => {
@@ -1211,18 +1227,26 @@ export default function CertificateEditor() {
                             case "MULTIPLE_CHOICE":
                               step = new Builders.MultipleChoiceBuilder()
                                 .setTitle(title)
-                                .setQuestion("Frage")
-                                .addAnswer("Antwort 1", true)
-                                .addAnswer("Antwort 2", false)
-                                .addAnswer("Antwort 3", false)
-                                .addAnswer("Antwort 4", false)
+                                .setQuestion(tx("certs.question"))
+                                .addAnswer(`${tx("certs.answer")} 1`, true)
+                                .addAnswer(`${tx("certs.answer")} 2`, false)
+                                .addAnswer(`${tx("certs.answer")} 3`, false)
+                                .addAnswer(`${tx("certs.answer")} 4`, false)
                                 .build();
                               break;
                             case "TEXT":
                               step = new Builders.TextBuilder()
                                 .setTitle(title)
-                                .addText("Text " + randomInt(1000, 9999))
-                                .addInput("Eingabe " + randomInt(1000, 9999))
+                                .addText(
+                                  tx("certs.steps.text.input.text") +
+                                    " " +
+                                    randomInt(1000, 9999)
+                                )
+                                .addInput(
+                                  tx("certs.steps.text.input.field") +
+                                    " " +
+                                    randomInt(1000, 9999)
+                                )
                                 .build();
 
                               // @ts-ignore
@@ -1234,16 +1258,16 @@ export default function CertificateEditor() {
                             case "CODE_COMPARE":
                               step = new Builders.CodeCompareBuilder()
                                 .setTitle(title)
-                                .setCodeA("Code A", true)
-                                .setCodeB("Code B", false)
-                                .setOutput("Ausgabe")
+                                .setCodeA(tx("code.a"), true)
+                                .setCodeB(tx("code.b"), false)
+                                .setOutput(tx("output"))
                                 .build();
                               break;
                             case "CODE_CHECK":
                               step = new Builders.CodeCheckBuilder()
                                 .setTitle(title)
-                                .setCodeA("Code A", true)
-                                .setCodeB("Code B", false)
+                                .setCodeA(tx("code.a"), true)
+                                .setCodeB(tx("code.b"), false)
                                 .build();
                               break;
                             default:
@@ -1259,24 +1283,26 @@ export default function CertificateEditor() {
                       >
                         <Stack spacing={4}>
                           <FormControl isRequired>
-                            <FormLabel>Titel</FormLabel>
+                            <FormLabel>{tx("title")}</FormLabel>
                             <Input name={"step_title"} placeholder={"Titel"} />
                           </FormControl>
                           <FormControl isRequired>
-                            <FormLabel>Typ</FormLabel>
+                            <FormLabel>{tx("type")}</FormLabel>
                             <Select name={"new_step_step_type"}>
                               <option value="MULTIPLE_CHOICE">
-                                Multiple Choice
+                                {tx("certs.steps.multiple.choice")}
                               </option>
                               <option value="TEXT">Text</option>
                               <option value="CODE_COMPARE">
-                                Code Vergleich
+                                {tx("certs.steps.code.compare")}
                               </option>
-                              <option value="CODE_CHECK">Code Check</option>
+                              <option value="CODE_CHECK">
+                                {tx("certs.steps.code.check")}
+                              </option>
                             </Select>
                           </FormControl>
                           <Button variant={"brand"} type={"submit"}>
-                            Hinzufügen
+                            {tx("add")}
                           </Button>
                         </Stack>
                       </form>
@@ -1294,4 +1320,17 @@ export default function CertificateEditor() {
 
 function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

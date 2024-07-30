@@ -44,6 +44,8 @@ import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 import PopupManager from "../../../global/PopupManager";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
@@ -53,6 +55,8 @@ export default function Index() {
     onClose: onCourseEditorClose,
     isOpen: isCourseEditorOpen,
   } = useDisclosure();
+
+  const { t } = useTranslation("creator-studio");
 
   const [courses, setCourses] = React.useState<
     {
@@ -93,9 +97,8 @@ export default function Index() {
           setCourses(res.payload.courses);
         } else {
           toast({
-            title: "Fehler",
-            description:
-              "Kurse konnten nicht geladen werden: " + res.payload.error,
+            title: t("base:control.error"),
+            description: t("error.loading.courses") + ": " + res.payload.error,
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -111,7 +114,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Creator Studio - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Flex
@@ -129,7 +132,7 @@ export default function Index() {
             }}
             topButtons={[
               {
-                text: "Neu",
+                text: t("new"),
                 leftIcon: <FaPlus />,
                 variant: "brand",
                 onClick: async () => {
@@ -153,16 +156,16 @@ export default function Index() {
                       ),
                     text:
                       course.available === "public"
-                        ? "Öffentlich"
+                        ? t("public")
                         : course.available === "private"
-                        ? "Privat"
-                        : "Organisation",
+                        ? t("private")
+                        : t("organisation"),
                   },
                 ],
                 buttonRows: [
                   [
                     {
-                      text: "Bearbeiten",
+                      text: t("edit"),
                       variant: "brand",
                       leftIcon: <FaPen />,
                       onClick: async () => {
@@ -171,14 +174,14 @@ export default function Index() {
                       },
                     },
                     {
-                      text: "Löschen",
+                      text: t("delete"),
                       colorScheme: "red",
                       leftIcon: <FaTrash />,
                       onClick: async () => {
                         if (
                           await PopupManager.confirmAsync({
-                            title: "Kurs löschen",
-                            question: "Willst du diesen Kurs wirklich löschen?",
+                            title: t("delete.course"),
+                            question: t("delete.course.confirm"),
                           })
                         ) {
                           const res = await REST.Creator.deleteCourse({
@@ -188,9 +191,8 @@ export default function Index() {
 
                           if (res.status === 200) {
                             toast({
-                              title: "Kurs gelöscht",
-                              description:
-                                "Der Kurs wurde erfolgreich gelöscht",
+                              title: t("deleted.course"),
+                              description: t("deleted.course.text"),
                               status: "success",
                               duration: 1500,
                               isClosable: true,
@@ -201,9 +203,11 @@ export default function Index() {
                             );
                           } else {
                             toast({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Löschen fehlgeschlagen: " + res.payload.error,
+                                t("deleted.course.error") +
+                                ": " +
+                                res.payload.error,
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -215,7 +219,7 @@ export default function Index() {
                   ],
                   [
                     {
-                      text: "Lektionen",
+                      text: t("sections"),
                       variant: "brand",
                       leftIcon: <FaEye />,
                       onClick: () => {
@@ -223,7 +227,7 @@ export default function Index() {
                       },
                     },
                     {
-                      text: "Zertifikat",
+                      text: t("certificate"),
                       variant: "brand",
                       leftIcon: <FaCertificate />,
                       onClick: () => {
@@ -249,7 +253,7 @@ export default function Index() {
                   fontWeight={"normal"}
                   textAlign={"center"}
                 >
-                  Keine Kurse gefunden
+                  {t("no.courses")}
                 </Heading>
               </>
             )}
@@ -261,7 +265,7 @@ export default function Index() {
                 fontWeight={"normal"}
                 textAlign={"center"}
               >
-                Du hast noch keine Kurse erstellt
+                {t("no.courses.created")}
               </Heading>
             </>
           )}
@@ -276,4 +280,9 @@ export default function Index() {
       />
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
 }
