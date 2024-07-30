@@ -35,6 +35,7 @@ import {
   FaTrash,
   FaUsers,
 } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function GridLayout(props: {
   search?: {
@@ -64,6 +65,8 @@ export default function GridLayout(props: {
 }) {
   const [query, setQuery] = React.useState<string>("");
 
+  const { t } = useTranslation("base");
+
   return (
     <>
       {props.search?.allow && (
@@ -74,7 +77,7 @@ export default function GridLayout(props: {
                 <FaSearch />
               </InputLeftElement>
               <Input
-                placeholder={"Suche"}
+                placeholder={t("control.search")}
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
