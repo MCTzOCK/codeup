@@ -21,10 +21,13 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import { useTranslation } from "next-i18next";
 
 export default function DBTableCreator(props: {
   callback: (name: string, columns: { name: string; type: string }[]) => void;
 }) {
+  const { t } = useTranslation("projects");
+
   const [columns, setColumns] = React.useState<
     { name: string; type: string }[]
   >([]);
@@ -47,18 +50,18 @@ export default function DBTableCreator(props: {
       >
         <Stack spacing={4}>
           <FormControl isRequired>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>{t("name")}</FormLabel>
             <Input
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
-              placeholder={"Name"}
+              placeholder={t("name")}
             />
-            <FormHelperText>Der Name der Tabelle</FormHelperText>
+            <FormHelperText>{t("db.table.name.of")}</FormHelperText>
           </FormControl>
           <FormControl isRequired>
-            <FormLabel>Spalten</FormLabel>
+            <FormLabel>{t("db.table.columns")}</FormLabel>
             <Stack spacing={4} direction={"row"} p={2}>
               <Input value={"ID"} isDisabled />
               <Input value={"INT NOT NULL AUTO_INCREMENT"} isDisabled />
@@ -74,7 +77,7 @@ export default function DBTableCreator(props: {
                       )
                     );
                   }}
-                  placeholder={"Name"}
+                  placeholder={t("name")}
                 />
                 <Select
                   value={col.type}
@@ -85,7 +88,7 @@ export default function DBTableCreator(props: {
                       )
                     );
                   }}
-                  placeholder={"Type"}
+                  placeholder={t("type")}
                 >
                   <option value={"int"}>Integer</option>
                   <option value={"decimal"}>Decimal</option>
@@ -93,7 +96,7 @@ export default function DBTableCreator(props: {
                   <option value={"date"}>Date</option>
                 </Select>
                 <IconButton
-                  aria-label={"Löschen"}
+                  aria-label={t("delete")}
                   icon={<FaTrash />}
                   colorScheme={"red"}
                   onClick={() => {
@@ -102,7 +105,7 @@ export default function DBTableCreator(props: {
                 />
               </Stack>
             ))}
-            <FormHelperText>Die Spalten der Tabelle</FormHelperText>
+            <FormHelperText>{t("db.tables.columns.of")}</FormHelperText>
           </FormControl>
           <Button
             variant={"brand"}
@@ -111,10 +114,10 @@ export default function DBTableCreator(props: {
             }}
             leftIcon={<FaPlus />}
           >
-            Spalte hinzufügen
+            {t("db.tables.columns.add")}
           </Button>
           <Button type={"submit"} variant={"brand"}>
-            Erstellen
+            {t("create")}
           </Button>
         </Stack>
       </form>

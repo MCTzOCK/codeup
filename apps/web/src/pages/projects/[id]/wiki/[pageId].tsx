@@ -22,11 +22,16 @@ import { Box, Flex, IconButton, Link, Textarea } from "@chakra-ui/react";
 import { FaPen, FaSave } from "react-icons/fa";
 import Markdown from "markdown-to-jsx";
 import { defaultMdOpts } from "../../../../global/md/defaultProps";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function PageViewer() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
 
@@ -44,9 +49,8 @@ export default function PageViewer() {
         reloadPage();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -63,9 +67,8 @@ export default function PageViewer() {
 
     if (res.status !== 200) {
       PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Seite konnte nicht empfangen werden: " + res.payload.error,
+        title: t("base:control.error"),
+        description: t("wiki.error.loading.page") + ": " + res.payload.error,
       });
       return;
     }
@@ -81,6 +84,9 @@ export default function PageViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("wiki.page.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Flex
           w={"100%"}
@@ -95,7 +101,7 @@ export default function PageViewer() {
                 color={"brand.500"}
                 href={"/projects/" + project._id + "/wiki"}
               >
-                Zurück
+                {t("back")}
               </Link>
               <IconButton
                 aria-label={"Edit"}
@@ -121,9 +127,10 @@ export default function PageViewer() {
 
                     if (res.status !== 200) {
                       PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Die Seite konnte nicht gespeichert werden: " +
+                          t("wiki.page.saving.error") +
+                          ": " +
                           res.payload.error,
                       });
                       return;
@@ -143,7 +150,7 @@ export default function PageViewer() {
               <>
                 <Textarea
                   minH={"300px"}
-                  placeholder={"Seiteninhalt eingeben"}
+                  placeholder={t("wiki.page.enter.content")}
                   defaultValue={page?.content || ""}
                   id={"proj_wiki-page-content-edit"}
                 />
@@ -154,4 +161,17 @@ export default function PageViewer() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

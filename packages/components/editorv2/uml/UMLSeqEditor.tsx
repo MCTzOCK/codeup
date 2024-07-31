@@ -22,11 +22,13 @@ import {
 } from "@chakra-ui/react";
 import { CHeading } from "../../global/CHeading";
 import { FaPlus, FaSave, FaTrash } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function UMLSeqEditor(props: {
   uml: IUMLDiagram;
   updateUML: (uml: IUMLDiagram) => void;
 }) {
+  const { t } = useTranslation("projects");
   const [seq, setSeq] = React.useState<
     {
       from: string;
@@ -64,7 +66,7 @@ export default function UMLSeqEditor(props: {
         gap={4}
       >
         <Box bg={"gray.900"} rounded={"md"} p={4}>
-          <CHeading size={"lg"}>Sequenz</CHeading>
+          <CHeading size={"lg"}>{t("uml.seq.title")}</CHeading>
 
           <Stack maxW={"200px"} gap={2}>
             <Button
@@ -75,7 +77,7 @@ export default function UMLSeqEditor(props: {
                 await updateUML();
               }}
             >
-              Speichern
+              {t("save")}
             </Button>
             <Button
               variant={"brand"}
@@ -85,7 +87,7 @@ export default function UMLSeqEditor(props: {
                 setSeq([...seq, { from: "", to: "", message: "" }])
               }
             >
-              Schritt Hinzufügen
+              {t("uml.seq.add.step")}
             </Button>
           </Stack>
 
@@ -94,7 +96,7 @@ export default function UMLSeqEditor(props: {
               <>
                 <HStack>
                   <Input
-                    placeholder={"Von"}
+                    placeholder={t("uml.seq.by")}
                     value={s.from}
                     onChange={(e) => {
                       seq[i].from = e.target.value;
@@ -102,7 +104,7 @@ export default function UMLSeqEditor(props: {
                     }}
                   />
                   <Input
-                    placeholder={"Nach"}
+                    placeholder={t("uml.seq.to")}
                     value={s.to}
                     onChange={(e) => {
                       seq[i].to = e.target.value;
@@ -110,7 +112,7 @@ export default function UMLSeqEditor(props: {
                     }}
                   />
                   <Input
-                    placeholder={"Nachricht"}
+                    placeholder={t("uml.seq.message")}
                     value={s.message}
                     onChange={(e) => {
                       seq[i].message = e.target.value;
@@ -118,7 +120,7 @@ export default function UMLSeqEditor(props: {
                     }}
                   />
                   <IconButton
-                    aria-label={"Löschen"}
+                    aria-label={t("delete")}
                     colorScheme={"red"}
                     icon={<FaTrash />}
                     onClick={() => {

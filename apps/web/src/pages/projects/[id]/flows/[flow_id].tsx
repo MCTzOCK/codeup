@@ -47,11 +47,16 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import IssueNode from "@codeup/components/projectflows/IssueNode";
 import { VscIssues } from "react-icons/vsc";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function ProjectFlowViewer() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("flows");
 
   const nodeTypes = useMemo(
     () => ({
@@ -77,9 +82,9 @@ export default function ProjectFlowViewer() {
         reloadFlow();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
+          title: t("base:control.error"),
           description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+            t("projects:project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -94,10 +99,9 @@ export default function ProjectFlowViewer() {
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
+        title: t("base:control.error"),
         description:
-          "Die Flussdiagramme konnten nicht geladen werden: " +
-          res.payload.error,
+          t("projects:loading.flow.error") + ": " + res.payload.error,
       });
       return;
     }
@@ -182,6 +186,9 @@ export default function ProjectFlowViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("projects:flow.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Flex
           maxH={"95vh"}
@@ -228,9 +235,9 @@ export default function ProjectFlowViewer() {
             <Stack gap={6}>
               <Heading textAlign="center" size={"xl"}>
                 {currentEdge !== null
-                  ? "Verbindung"
+                  ? t("edge")
                   : currentNode !== null
-                  ? "Knoten"
+                  ? t("node")
                   : ""}
               </Heading>
               <ButtonGroup w={"100%"}>
@@ -247,7 +254,7 @@ export default function ProjectFlowViewer() {
                       ...nodes,
                       {
                         id: `${nodes.length + 1}`,
-                        data: { label: "Neuer Knoten" },
+                        data: { label: t("nodes.default.new") },
                         position: {
                           x: randomNumber(0, 400),
                           y: randomNumber(0, 400),
@@ -262,7 +269,7 @@ export default function ProjectFlowViewer() {
                     ]);
                   }}
                 >
-                  Neuer Knoten
+                  {t("nodes.default.new")}
                 </Button>
               </ButtonGroup>
               <Button
@@ -277,7 +284,7 @@ export default function ProjectFlowViewer() {
                   ).payload.issues;
 
                   await PopupManager.alertAsync({
-                    title: "Problem hinzufügen",
+                    title: t("projects:flows.add.issue"),
                     description: (
                       <>
                         <Stack gap={4}>
@@ -323,8 +330,8 @@ export default function ProjectFlowViewer() {
                                 <CHeading size={"lg"}>{issue.title}</CHeading>
                                 <Text>
                                   {issue.status === "open"
-                                    ? "Offen"
-                                    : "Geschlossen"}
+                                    ? t("projects:flows.issue.open")
+                                    : t("projects:flows.issue.closed")}
                                 </Text>
                                 <Text>{issue.description}</Text>
                               </Box>
@@ -336,7 +343,7 @@ export default function ProjectFlowViewer() {
                   });
                 }}
               >
-                Problem hinzufügen
+                {t("projects:flows.add.issue")}
               </Button>
 
               {currentEdge !== null &&
@@ -351,7 +358,7 @@ export default function ProjectFlowViewer() {
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Animiert
+                        {t("edges.animated")}
                       </Heading>
                       <Select
                         flex={"50%"}
@@ -368,19 +375,19 @@ export default function ProjectFlowViewer() {
                         fontSize={"xl"}
                       >
                         <option value={"true"} selected={currentEdge.animated}>
-                          Ja
+                          {t("yes")}
                         </option>
                         <option
                           value={"false"}
                           selected={!currentEdge.animated}
                         >
-                          Nein
+                          {t("no")}
                         </option>
                       </Select>
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Text
+                        {t("text")}
                       </Heading>
                       <Input
                         flex={"50%"}
@@ -399,7 +406,7 @@ export default function ProjectFlowViewer() {
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Typ
+                        {t("type")}
                       </Heading>
                       <Select
                         flex={"50%"}
@@ -419,13 +426,13 @@ export default function ProjectFlowViewer() {
                           value={"default"}
                           selected={currentEdge.type === "default"}
                         >
-                          Standard
+                          {t("default")}
                         </option>
                         <option
                           value={"smoothstep"}
                           selected={currentEdge.type === "smoothstep"}
                         >
-                          Schritt
+                          {t("step")}
                         </option>
                       </Select>
                     </Flex>
@@ -441,7 +448,7 @@ export default function ProjectFlowViewer() {
                           );
                         }}
                       >
-                        Löschen
+                        {t("delete")}
                       </Button>
                     </ButtonGroup>
                   </Stack>
@@ -458,7 +465,7 @@ export default function ProjectFlowViewer() {
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Text
+                        {t("text")}
                       </Heading>
                       <Input
                         fontSize={"xl"}
@@ -478,7 +485,7 @@ export default function ProjectFlowViewer() {
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Typ
+                        {t("type")}
                       </Heading>
                       <Select
                         flex={"50%"}
@@ -498,25 +505,25 @@ export default function ProjectFlowViewer() {
                           value={"default"}
                           selected={currentNode.type === "default"}
                         >
-                          Standard
+                          {t("default")}
                         </option>
                         <option
                           value={"input"}
                           selected={currentNode.type === "input"}
                         >
-                          Eingang
+                          {t("input")}
                         </option>
                         <option
                           value={"output"}
                           selected={currentNode.type === "output"}
                         >
-                          Ausgang
+                          {t("output")}
                         </option>
                       </Select>
                     </Flex>
                     <Flex w={"100%"} justifyContent={"space-between"}>
                       <Heading size={"lg"} flex={"50%"}>
-                        Farbe
+                        {t("color")}
                       </Heading>
                       <Input
                         flex={"50%"}
@@ -550,7 +557,7 @@ export default function ProjectFlowViewer() {
                           );
                         }}
                       >
-                        Löschen
+                        {t("delete")}
                       </Button>
                     </ButtonGroup>
                   </Stack>
@@ -561,4 +568,17 @@ export default function ProjectFlowViewer() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects", "flows"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -22,15 +22,18 @@ import PopupManager from "@codeup/web/src/global/PopupManager";
 import UMLImplEditor from "./UMLImplEditor";
 import UMLSeqEditor from "./UMLSeqEditor";
 import UMLEREditor from "./UMLEREditor";
+import { useTranslation } from "next-i18next";
 
 export default function UMLEditor(props: {
   uml: IUMLDiagram;
   updateUML: (uml: IUMLDiagram) => void;
 }) {
+  const { t } = useTranslation("projects");
+
   if (!props.uml) {
     return (
       <>
-        <AuthenticateLoadingIndicator text={"Lade UML Diagramm..."} />
+        <AuthenticateLoadingIndicator text={t("uml.loading")} />
       </>
     );
   }
@@ -129,7 +132,7 @@ export default function UMLEditor(props: {
 
   return (
     <>
-      <Text>Dieser Diagrammtyp wird aktuell nicht unterstützt!</Text>
+      <Text>{t("uml.invalid.type")}</Text>
     </>
   );
 }

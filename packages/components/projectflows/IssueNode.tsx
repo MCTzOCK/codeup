@@ -26,6 +26,7 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import { Handle, Position } from "reactflow";
 import { IIssue } from "@codeup/web/src/types/IIssue";
+import { useTranslation } from "next-i18next";
 
 export default function IssueNode({
   data,
@@ -34,6 +35,7 @@ export default function IssueNode({
   data: string;
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("projects");
   const onChange = useCallback((evt: any) => {}, []);
 
   const router = useRouter();
@@ -70,10 +72,10 @@ export default function IssueNode({
           isConnectable={isConnectable}
         />
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Problem</CHeading>
+          <CHeading size={"xl"}>{t("issue")}</CHeading>
         </Box>
         <Box>
-          <Text>{issue?.description || "Lade Problem..."}</Text>
+          <Text>{issue?.description || t("issue.loading")}</Text>
         </Box>
         <Handle
           type={"source"}

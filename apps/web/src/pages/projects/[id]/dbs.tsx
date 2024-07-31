@@ -46,11 +46,16 @@ import { CHeading } from "@codeup/components/dist/global/CHeading";
 import DBTableCreator from "@codeup/components/editorv2/db/DBTableCreator";
 import SQLExecutor from "@codeup/components/editorv2/db/SQLExecutor";
 import { FaRotateRight } from "react-icons/fa6";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Dbs() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t: ty } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [credentials, setCredentials] = React.useState<{
@@ -81,9 +86,8 @@ export default function Dbs() {
         reloadCreds();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: ty("base:control.error"),
+          description: ty("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -97,10 +101,8 @@ export default function Dbs() {
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Datenbank-Credentials konnten nicht geladen werden: " +
-          res.payload.error,
+        title: ty("base:control.error"),
+        description: ty("db.loading.crets.error") + ": " + res.payload.error,
       });
     }
 
@@ -118,9 +120,8 @@ export default function Dbs() {
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Tabellen konnten nicht geladen werden: " + res.payload.error,
+        title: ty("base:control.error"),
+        description: ty("db.loading.tables.error") + ": " + res.payload.error,
       });
     }
 
@@ -144,9 +145,8 @@ export default function Dbs() {
 
       if (res.status !== 200) {
         await PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Die Tabellen konnten nicht geladen werden: " + res.payload.error,
+          title: ty("base:control.error"),
+          description: ty("db.loading.tables.error") + ": " + res.payload.error,
         });
       }
 
@@ -164,6 +164,9 @@ export default function Dbs() {
 
   return (
     <>
+      <Head>
+        <title>{ty("db.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <Grid
@@ -176,34 +179,34 @@ export default function Dbs() {
             p={4}
           >
             <Box rounded={"md"} bg={"gray.900"} p={4}>
-              <CHeading size={"lg"}>Login-Daten</CHeading>
+              <CHeading size={"lg"}>{ty("db.login.data")}</CHeading>
               <Stack mt={2} gap={2}>
                 <Box>
-                  <CHeading size={"md"}>Host:</CHeading>
+                  <CHeading size={"md"}>{ty("db.host")}:</CHeading>
                   <Box>{credentials?.host}</Box>
                 </Box>
                 <Box>
-                  <CHeading size={"md"}>Port:</CHeading>
+                  <CHeading size={"md"}>{ty("db.port")}:</CHeading>
                   <Box>{credentials?.port}</Box>
                 </Box>
                 <Box>
-                  <CHeading size={"md"}>Username:</CHeading>
+                  <CHeading size={"md"}>{ty("db.username")}:</CHeading>
                   <Box>{credentials?.username}</Box>
                 </Box>
                 <Box>
-                  <CHeading size={"md"}>Passwort:</CHeading>
+                  <CHeading size={"md"}>{ty("db.password")}:</CHeading>
                   <Box>{credentials?.password}</Box>
                 </Box>
                 <Box>
-                  <CHeading size={"md"}>Zusammenfassung:</CHeading>
+                  <CHeading size={"md"}>{ty("db.crets.summary")}:</CHeading>
                   <Input
-                    placeholder={"Connection string"}
+                    placeholder={ty("db.crets.connection.string")}
                     value={`mysql://${credentials?.username}:${credentials?.password}@${credentials?.host}:${credentials?.port}/${router.query.id}`}
                     mt={2}
                   />
                 </Box>
                 <Box>
-                  <CHeading size={"md"}>.env-Datei:</CHeading>
+                  <CHeading size={"md"}>{ty("db.crets.env.file")}:</CHeading>
                   <Textarea
                     value={`DB_HOST=${credentials?.host}
 DB_PORT=${credentials?.port}
@@ -218,21 +221,21 @@ DB_NAME=${router.query.id}`}
             </Box>
             <Box rounded={"md"} bg={"gray.900"} p={4}>
               <HStack justifyContent={"space-between"}>
-                <CHeading size={"lg"}>Tabellen</CHeading>
+                <CHeading size={"lg"}>{ty("db.tables")}</CHeading>
                 <ButtonGroup>
                   <IconButton
                     variant={"brand"}
                     icon={<FaRotateRight />}
-                    aria-label={"Aktualisieren"}
+                    aria-label={ty("refresh")}
                     onClick={reloadTables}
                   />
                   <IconButton
                     variant={"brand"}
                     icon={<FaPlus />}
-                    aria-label={"Neue Tabelle"}
+                    aria-label={ty("db.tables.new")}
                     onClick={async () => {
                       await PopupManager.alertAsync({
-                        title: "Neue Tabelle",
+                        title: ty("db.tables.new"),
                         description: (
                           <>
                             <DBTableCreator
@@ -249,9 +252,10 @@ DB_NAME=${router.query.id}`}
 
                                 if (res.status !== 200) {
                                   await PopupManager.alertAsync({
-                                    title: "Fehler",
+                                    title: ty("base:control.error"),
                                     description:
-                                      "Die Tabelle konnte nicht erstellt werden: " +
+                                      ty("db.tables.new.error") +
+                                      ": " +
                                       res.payload.error,
                                   });
                                   return;
@@ -271,9 +275,9 @@ DB_NAME=${router.query.id}`}
                 <Table maxW={"100%"}>
                   <Thead>
                     <Tr>
-                      <Td>Name</Td>
-                      <Td>Zeilen</Td>
-                      <Td>Aktionen</Td>
+                      <Td>{ty("name")}</Td>
+                      <Td>{ty("rows")}</Td>
+                      <Td>{ty("actions")}</Td>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -285,7 +289,7 @@ DB_NAME=${router.query.id}`}
                           <Td>
                             <ButtonGroup>
                               <IconButton
-                                aria-label={"Ansehen"}
+                                aria-label={ty("look.at")}
                                 icon={<FaEye />}
                                 variant={"brand"}
                                 onClick={() => {
@@ -294,15 +298,14 @@ DB_NAME=${router.query.id}`}
                                 }}
                               />
                               <IconButton
-                                aria-label={"Löschen"}
+                                aria-label={ty("delete")}
                                 icon={<FaTrash />}
                                 colorScheme={"red"}
                                 onClick={async () => {
                                   if (
                                     !(await PopupManager.confirmAsync({
-                                      title: "Tabelle löschen?",
-                                      question:
-                                        "Willst du die Tabelle wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden!",
+                                      title: ty("db.tables.delete"),
+                                      question: ty("db.tables.delete.confirm"),
                                     }))
                                   )
                                     return;
@@ -314,9 +317,10 @@ DB_NAME=${router.query.id}`}
                                   );
                                   if (res.status !== 200) {
                                     await PopupManager.alertAsync({
-                                      title: "Fehler",
+                                      title: ty("base:control.error"),
                                       description:
-                                        "Die Tabelle konnte nicht gelöscht werden: " +
+                                        ty("db.tables.delete.error") +
+                                        ": " +
                                         res.payload.error,
                                     });
                                     return;
@@ -335,11 +339,8 @@ DB_NAME=${router.query.id}`}
               </TableContainer>
             </Box>
             <Box rounded={"md"} bg={"gray.900"} p={4}>
-              <CHeading size={"lg"}>SQL-Ausführen</CHeading>
-              <Text>
-                Führe SQL-Abfragen auf der Datenbank aus. Achtung: Dies kann
-                Daten verändern!
-              </Text>
+              <CHeading size={"lg"}>{ty("db.run.sql")}</CHeading>
+              <Text>{ty("db.run.sql.text")}</Text>
               <Button
                 mt={4}
                 variant={"brand"}
@@ -348,7 +349,7 @@ DB_NAME=${router.query.id}`}
                   onOpen();
                 }}
               >
-                SQL-Ausführen
+                {ty("db.run.sql")}
               </Button>
             </Box>
           </Grid>
@@ -362,4 +363,17 @@ DB_NAME=${router.query.id}`}
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
