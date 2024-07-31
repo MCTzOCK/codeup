@@ -129,11 +129,6 @@ export default function Index() {
                 href: "/projects/" + project?._id + "/dbs",
               },
               {
-                text: "Statistiken",
-                icon: <FaChartLine />,
-                href: "/projects/" + project?._id + "/stats",
-              },
-              {
                 text: "Server-Logs",
                 icon: <FaFileLines />,
                 href: "/projects/" + project?._id + "/srvlogs",

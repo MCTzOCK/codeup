@@ -5,26 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/editor.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/creator-studio.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/creator-studio.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/contributors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/contributors.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/deployment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/deployment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/discovery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/discovery.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/export.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/pages/[page_id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/[page_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/[page_id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/serverless/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/staticassets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/[project_id]/staticassets.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/editor/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/admin/AuthenticateLoadingIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/admin/AuthenticateLoadingIndicator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/CollaboratorManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/CollaboratorManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/CollaboratorManagerBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/CollaboratorManagerBody.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPageSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPageSidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorPreviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorPreviewModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/EditorProjectLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editor/PageResourceManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/editor.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/editor.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
