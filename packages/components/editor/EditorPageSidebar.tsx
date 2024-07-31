@@ -31,6 +31,7 @@ import { Socket } from "socket.io-client";
 import PageResourceManager from "./PageResourceManager";
 import { PreviewModal, SnippetViewer } from "../ide";
 import EditorPreviewModal from "./EditorPreviewModal";
+import { useTranslation } from "next-i18next";
 
 export default function EditorPageSidebar(props: {
   page: {
@@ -68,6 +69,8 @@ export default function EditorPageSidebar(props: {
     onClose: onPRClose,
   } = useDisclosure();
 
+  const { t } = useTranslation("editor");
+
   return (
     <>
       <Box p={"2rem"} w={"100%"} h={"100%"} rounded={"xl"}>
@@ -89,7 +92,7 @@ export default function EditorPageSidebar(props: {
                 }}
               />
             </Tooltip>
-            <Tooltip label={"Resourcen"} placement={"right"} hasArrow>
+            <Tooltip label={t("page.resources")} placement={"right"} hasArrow>
               <IconButton
                 aria-label={""}
                 variant="ghost"
@@ -101,7 +104,7 @@ export default function EditorPageSidebar(props: {
                 onClick={onRMOpen}
               />
             </Tooltip>
-            <Tooltip label={"Snippets"} placement={"right"} hasArrow>
+            <Tooltip label={t("page.snippets")} placement={"right"} hasArrow>
               <IconButton
                 aria-label={""}
                 variant="ghost"
@@ -114,7 +117,7 @@ export default function EditorPageSidebar(props: {
               />
             </Tooltip>
 
-            <Tooltip label={"Vorschau"} placement={"right"} hasArrow>
+            <Tooltip label={t("page.preview")} placement={"right"} hasArrow>
               <IconButton
                 aria-label={""}
                 variant="ghost"
@@ -126,7 +129,7 @@ export default function EditorPageSidebar(props: {
                 onClick={onPROpen}
               />
             </Tooltip>
-            <Tooltip label={"Übersicht"} placement={"right"} hasArrow>
+            <Tooltip label={t("page.overview")} placement={"right"} hasArrow>
               <IconButton
                 aria-label={""}
                 variant="ghost"

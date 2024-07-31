@@ -40,6 +40,7 @@ import { ContextMenu } from "chakra-ui-contextmenu";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import byteSize from "byte-size";
 import { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 type entry = {
   name: string;
@@ -57,6 +58,8 @@ export default function EditorFileExplorer(props: {
   openFile: (path: string) => void;
   renameFile: (path: string, newName: string) => void;
 }) {
+  const { t } = useTranslation("projects");
+
   const [currentPath, setCurrentPath] = React.useState<string[]>([]);
   const [parentEntry, setParentEntry] = React.useState<entry | null>(null);
   const [currentEntry, setCurrentEntry] = React.useState<entry | null>(
@@ -80,16 +83,16 @@ export default function EditorFileExplorer(props: {
     <Stack gap={2}>
       <HStack justifyContent={"space-between"} gap={2}>
         <Text fontWeight={700} color={"brand.500"} fontSize={"lg"}>
-          Explorer
+          {t("project.p.explorer")}
         </Text>
         <HStack gap={2}>
           <IconButton
-            aria-label={"Create File"}
+            aria-label={t("project.file.create")}
             icon={<FaFile />}
             onClick={async () => {
               const name = await PopupManager.promptAsync({
-                title: "Neue Datei",
-                helperText: "Bitte gib den Namen der neuen Datei ein.",
+                title: t("project.file.create"),
+                helperText: t("project.file.create.name"),
               });
 
               if (!name) return;
@@ -98,12 +101,12 @@ export default function EditorFileExplorer(props: {
             }}
           />
           <IconButton
-            aria-label={"Create File"}
+            aria-label={t("project.folder.create")}
             icon={<FaFolderPlus />}
             onClick={async () => {
               const name = await PopupManager.promptAsync({
-                title: "Neuer Ordner",
-                helperText: "Bitte gib den Namen des neuen Ordners ein.",
+                title: t("project.folder.create"),
+                helperText: t("project.folder.create.name"),
               });
 
               if (!name) return;
@@ -150,7 +153,7 @@ export default function EditorFileExplorer(props: {
         ))}
       </Breadcrumb>
       <Input
-        placeholder={"Suchen..."}
+        placeholder={`${t("base:control.search")}...`}
         onChange={(e) => {
           setQuery(e.currentTarget.value);
         }}
@@ -189,11 +192,15 @@ export default function EditorFileExplorer(props: {
                               description: (
                                 <>
                                   <UnorderedList spacing={2}>
-                                    <ListItem>Name: {entry.name}</ListItem>
-                                    <ListItem>Typ: {entry.type}</ListItem>
+                                    <ListItem>
+                                      {t("name")}: {entry.name}
+                                    </ListItem>
+                                    <ListItem>
+                                      {t("type")}: {entry.type}
+                                    </ListItem>
                                     {entry.content && (
                                       <ListItem>
-                                        Größe:{" "}
+                                        {t("size")}:{" "}
                                         {byteSize(
                                           entry.content.length
                                         ).toString()}
@@ -205,7 +212,7 @@ export default function EditorFileExplorer(props: {
                             });
                           }}
                         >
-                          Informationen
+                          {t("information")}
                         </MenuItem>
                         <MenuItem
                           icon={<FaTrash />}
@@ -216,16 +223,15 @@ export default function EditorFileExplorer(props: {
                             );
                           }}
                         >
-                          Löschen
+                          {t("delete")}
                         </MenuItem>
                         <MenuItem
                           icon={<FaPen />}
                           color={"brand.500"}
                           onClick={async () => {
                             const newName = await PopupManager.promptAsync({
-                              title: "Neuer Name",
-                              helperText:
-                                "Bitte geben Sie den neuen Namen ein. Tipp: Um eine Datei zu verschieben, gib den neuen relativen Pfad ein (z.B. ../public/index.css)",
+                              title: t("project.rename.new.name"),
+                              helperText: t("project.rename.new.helper"),
                             });
 
                             if (!newName) return;
@@ -236,7 +242,7 @@ export default function EditorFileExplorer(props: {
                             );
                           }}
                         >
-                          Umbenennen
+                          {t("rename")}
                         </MenuItem>
                       </MenuList>
                     </>

@@ -57,8 +57,12 @@ import ToDoSelectorNode from "@codeup/components/roadmap/ToDoSelectorNode";
 import FlowSelectorNode from "@codeup/components/roadmap/FlowSelectorNode";
 import EditorProjectSelectorNode from "@codeup/components/roadmap/EditorProjectSelectorNode";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import Head from "next/head";
+import { useTranslation } from "next-i18next";
 
 export default function RoadmapViewer() {
+  const { t } = useTranslation("roadmap");
   const nodeTypes = useMemo(
     () => ({
       courseSelector: CourseSelectorNode,
@@ -269,6 +273,9 @@ export default function RoadmapViewer() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       {!loggedIn ? (
         <>
           <AuthenticateLoadingIndicator />
@@ -278,10 +285,12 @@ export default function RoadmapViewer() {
           {roadmap ? (
             <Box pt={4} bg={"#000"} minH={"100vh"} h={"fit-content"}>
               <Box textAlign={"center"}>
-                <CHeading>Deine Roadmap: {roadmap.name}</CHeading>
+                <CHeading>
+                  {t("your.roadmap")}: {roadmap.name}
+                </CHeading>
               </Box>
               <Text fontSize={"xl"} textAlign={"center"} mb={6}>
-                Von der Idee zum Projekt
+                {t("from.idea.to.project")}
               </Text>
               <Box h={"100vh"} w={"100%"}>
                 <ReactFlow
@@ -313,11 +322,23 @@ export default function RoadmapViewer() {
             </Box>
           ) : (
             <>
-              <AuthenticateLoadingIndicator text={"Lade Roadmap..."} />
+              <AuthenticateLoadingIndicator text={t("roadmap.loading")} />
             </>
           )}
         </>
       )}
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["roadmap"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

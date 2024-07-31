@@ -24,9 +24,24 @@ import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
 import * as React from "react";
 import { ReactNode } from "react";
 import { FaFile } from "react-icons/fa";
+import router from "next/router";
 
 export default class PopupManager {
+  public static __raw_translated_fields: {
+    [key: string]: string;
+  } = {};
+
+  public static async __reload_raw_translated(): Promise<void> {
+    const res = await fetch("/locales/" + router.locale + "/popupmanager.json");
+    const json = await res.json();
+    if (json) {
+      this.__raw_translated_fields = json;
+    }
+  }
+
   public static __raw_get_translated_key(key: string): string {
+    return this.__raw_translated_fields[key] || key;
+
     const j = document.getElementById("__NEXT_DATA__") as HTMLScriptElement;
     const parsed = JSON.parse(j.innerHTML);
 

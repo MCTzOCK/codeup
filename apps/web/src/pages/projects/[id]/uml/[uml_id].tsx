@@ -36,11 +36,16 @@ import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { FaCode, FaEye } from "react-icons/fa";
 import UMLEditor from "@codeup/components/editorv2/uml/UMLEditor";
 import UMLPreview from "@codeup/components/editorv2/uml/UMLPreview";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function UMLViewer() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [uml, setUml] = React.useState<IUMLDiagram | null>(null);
@@ -58,9 +63,8 @@ export default function UMLViewer() {
         setProject(res.payload.project);
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -83,20 +87,21 @@ export default function UMLViewer() {
       setUml(res.payload.uml);
     } else {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Das UML-Diagramm konnte nicht empfangen werden: " +
-          res.payload.error,
+        title: t("base:control.error"),
+        description: t("uml.loading.error") + ": " + res.payload.error,
       });
     }
   };
 
   return (
     <>
+      <Head>
+        <title>{t("uml.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         {!uml && (
           <>
-            <AuthenticateLoadingIndicator text={"Lade UML-Diagramm"} />
+            <AuthenticateLoadingIndicator text={t("uml.loading")} />
           </>
         )}
         {uml && (
@@ -110,13 +115,13 @@ export default function UMLViewer() {
                   <Tab>
                     <HStack gap={2} alignItems={"center"}>
                       <FaCode />
-                      <Text>Code</Text>
+                      <Text>{t("uml.tab.code")}</Text>
                     </HStack>
                   </Tab>
                   <Tab>
                     <HStack gap={2} alignItems={"center"}>
                       <FaEye />
-                      <Text>Vorschau</Text>
+                      <Text>{t("uml.tab.preview")}</Text>
                     </HStack>
                   </Tab>
                 </TabList>
@@ -151,4 +156,17 @@ export default function UMLViewer() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

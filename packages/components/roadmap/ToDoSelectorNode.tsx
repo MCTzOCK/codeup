@@ -41,6 +41,7 @@ import {
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import ListViewer from "../todo/ListViewer";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function ToDoSelectorNode({
   data,
@@ -49,6 +50,7 @@ export default function ToDoSelectorNode({
   data: string[];
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("roadmap");
   const onChange = useCallback((evt: any) => {}, []);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -133,7 +135,7 @@ export default function ToDoSelectorNode({
           isConnectable={isConnectable}
         />
         <Box textAlign={"center"}>
-          <CHeading>ToDo-Listen</CHeading>
+          <CHeading>{t("roadmap.blocks.todo")}</CHeading>
         </Box>
         {loaded ? (
           <>
@@ -143,9 +145,9 @@ export default function ToDoSelectorNode({
                 leftIcon={<FaPlus />}
                 onClick={async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neue Liste",
+                    title: t("roadmap.blocks.todo.new.list"),
                     inputType: "INPUT",
-                    helperText: "Gib einen Namen für die neue Liste ein",
+                    helperText: t("roadmap.blocks.todo.new.list.name"),
                   });
 
                   if (!name) return;
@@ -157,9 +159,9 @@ export default function ToDoSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -167,14 +169,14 @@ export default function ToDoSelectorNode({
                   reload();
                 }}
               >
-                Neue Liste
+                {t("roadmap.blocks.todo.new.list")}
               </Button>
             </Stack>
             <FormControl mb={2} mt={6} w={"100%"}>
               <AutoComplete
                 suggestWhenEmpty
                 openOnFocus
-                emptyState={"Keine Listen gefunden"}
+                emptyState={t("roadmap.blocks.todo.no.lists")}
                 onChange={async (v: string) => {
                   if (v === "") return;
 
@@ -198,9 +200,9 @@ export default function ToDoSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -216,7 +218,7 @@ export default function ToDoSelectorNode({
               >
                 <AutoCompleteInput
                   variant={"filled"}
-                  placeholder={"Liste hinzufügen"}
+                  placeholder={t("roadmap.blocks.todo.add")}
                   id={"todo_ac_input"}
                   w={"100%"}
                 />
@@ -270,16 +272,15 @@ export default function ToDoSelectorNode({
                       </Stack>
                       <IconButton
                         flex={"10%"}
-                        aria-label={"Liste entfernen"}
+                        aria-label={t("roadmap.blocks.todo.remove")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         variant={"ghost"}
                         onClick={async () => {
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Liste entfernen",
-                              question:
-                                "Möchtest du die Liste wirklich entfernen?",
+                              title: t("roadmap.blocks.todo.remove"),
+                              question: t("roadmap.blocks.todo.remove.confirm"),
                             }))
                           ) {
                             return;
@@ -295,9 +296,9 @@ export default function ToDoSelectorNode({
 
                           if (res.status !== 200) {
                             PopupManager.alert({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Es ist ein Fehler aufgetreten: " +
+                                t("base:control.error.request") +
                                 res.payload.error,
                             });
                             return;
@@ -315,7 +316,10 @@ export default function ToDoSelectorNode({
             </Stack>
           </>
         ) : (
-          <AuthenticateLoadingIndicator text={"Lade Listen..."} inline={true} />
+          <AuthenticateLoadingIndicator
+            text={t("roadmap.blocks.todo.loading")}
+            inline={true}
+          />
         )}
         <Handle
           type={"source"}

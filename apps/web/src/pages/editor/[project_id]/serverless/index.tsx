@@ -40,9 +40,12 @@ import {
 import PopupManager from "../../../../global/PopupManager";
 import Head from "next/head";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function ProjectfunctionsViewer() {
   const router = useRouter();
+  const { t } = useTranslation("editor");
 
   const { loggedIn, loaded, userInfo } = useLoggedIn();
 
@@ -83,7 +86,7 @@ export default function ProjectfunctionsViewer() {
                 setFunctions(data.functions);
               } else {
                 PopupManager.alert({
-                  title: "Fehler",
+                  title: t("base:control.error"),
                   description: data.error,
                 });
               }
@@ -109,25 +112,24 @@ export default function ProjectfunctionsViewer() {
   return (
     <>
       <Head>
-        <title>Serverless - Editor - CodeUp</title>
+        <title>{t("funcs.doc.title")}</title>
       </Head>
       <EditorProjectLayout>
         <GridLayoutV2
-          pageTitle={"Serverless"}
+          pageTitle={t("funcs.title")}
           search={{
             show: true,
             fields: true,
           }}
           topButtons={[
             {
-              text: "Neu",
+              text: t("new"),
               leftIcon: <FaPlus />,
               variant: "brand",
               onClick: async () => {
                 const url = await PopupManager.promptAsync({
-                  title: "Neue Funktion",
-                  helperText:
-                    "Gib die URL der Funktion an. (z.B. account/login)",
+                  title: t("new.function"),
+                  helperText: t("new.function.url"),
                 });
 
                 if (reactSocket) {
@@ -149,7 +151,7 @@ export default function ProjectfunctionsViewer() {
                         ]);
                       } else {
                         PopupManager.alert({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description: data.error as string,
                         });
                       }
@@ -173,12 +175,12 @@ export default function ProjectfunctionsViewer() {
                   {
                     colorScheme: "red",
                     leftIcon: <FaTrash />,
-                    text: "Löschen",
+                    text: t("delete"),
                     onClick: async () => {
                       if (
                         await PopupManager.confirmAsync({
-                          title: "Seite löschen",
-                          question: "Möchtest du diese Seite wirklich löschen?",
+                          title: t("delete.function"),
+                          question: t("delete.function.confirm"),
                         })
                       ) {
                         if (reactSocket) {
@@ -191,7 +193,7 @@ export default function ProjectfunctionsViewer() {
                                 );
                               } else {
                                 PopupManager.alert({
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description: data.error as string,
                                 });
                               }
@@ -211,11 +213,11 @@ export default function ProjectfunctionsViewer() {
                   {
                     variant: "brand",
                     leftIcon: <FaLink />,
-                    text: "URL Ändern",
+                    text: t("function.change.url"),
                     onClick: async () => {
                       let newUrl = await PopupManager.promptAsync({
-                        title: "Seite bearbeiten",
-                        helperText: "Gib die neue URL der Seite ein.",
+                        title: t("function.edit"),
+                        helperText: t("function.edit.url"),
                       });
 
                       if (newUrl) {
@@ -240,7 +242,7 @@ export default function ProjectfunctionsViewer() {
                                 );
                               } else {
                                 PopupManager.alert({
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description: data.error as string,
                                 });
                               }
@@ -257,7 +259,7 @@ export default function ProjectfunctionsViewer() {
                     },
                   },
                   {
-                    text: "Bearbeiten",
+                    text: t("edit"),
                     variant: "brand",
                     leftIcon: <FaEdit />,
                     onClick: () => {
@@ -274,4 +276,17 @@ export default function ProjectfunctionsViewer() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

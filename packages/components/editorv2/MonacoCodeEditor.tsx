@@ -14,12 +14,14 @@ import { editor } from "monaco-editor";
 import IStandaloneThemeData = editor.IStandaloneThemeData;
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Editor, { useMonaco } from "@monaco-editor/react";
+import { useTranslation } from "next-i18next";
 
 export default function MonacoCodeEditor(props: {
   fileName: string;
   content: string;
   updateContent: (v: string) => void;
 }) {
+  const { t } = useTranslation("projects");
   const [language, setLanguage] = useState<string>("javascript");
   const [monacoTheme, setMonacoTheme] = useState<string>("vs-dark");
   const editorRef = useRef<IStandaloneCodeEditor>();
@@ -90,7 +92,7 @@ export default function MonacoCodeEditor(props: {
             height: "90vh",
           }}
         >
-          <h1>Keine Datei ausgewählt</h1>
+          <h1>{t("monaco.no.file")}</h1>
         </div>
       </>
     );

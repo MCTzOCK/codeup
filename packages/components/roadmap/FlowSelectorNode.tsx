@@ -41,6 +41,7 @@ import {
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
 import ListViewer from "../todo/ListViewer";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function FlowSelectorNode({
   data,
@@ -49,6 +50,7 @@ export default function FlowSelectorNode({
   data: string[];
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("roadmap");
   const onChange = useCallback((evt: any) => {}, []);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -92,7 +94,7 @@ export default function FlowSelectorNode({
           isConnectable={isConnectable}
         />
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Flows</CHeading>
+          <CHeading size={"xl"}>{t("roadmap.blocks.flows")}</CHeading>
         </Box>
         {loaded ? (
           <>
@@ -102,9 +104,9 @@ export default function FlowSelectorNode({
                 leftIcon={<FaPlus />}
                 onClick={async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neuer Flow",
+                    title: t("roadmap.blocks.flows.new"),
                     inputType: "INPUT",
-                    helperText: "Gib einen Namen für den neuen Flow ein",
+                    helperText: t("roadmap.blocks.flows.new.name"),
                   });
 
                   if (!name) return;
@@ -116,9 +118,9 @@ export default function FlowSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -126,14 +128,14 @@ export default function FlowSelectorNode({
                   reload();
                 }}
               >
-                Neuer Flow
+                {t("roadmap.blocks.flows.new")}
               </Button>
             </Stack>
             <FormControl mb={2} mt={6} w={"100%"}>
               <AutoComplete
                 suggestWhenEmpty
                 openOnFocus
-                emptyState={"Keine Flows gefunden"}
+                emptyState={t("roadmap.blocks.flows.no")}
                 onChange={async (v: string) => {
                   if (v === "") return;
 
@@ -157,9 +159,9 @@ export default function FlowSelectorNode({
 
                   if (res.status !== 200) {
                     PopupManager.alert({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                     });
                     return;
                   }
@@ -173,7 +175,7 @@ export default function FlowSelectorNode({
               >
                 <AutoCompleteInput
                   variant={"filled"}
-                  placeholder={"Flow hinzufügen"}
+                  placeholder={t("roadmap.blocks.flows.add")}
                   id={"course_ac_input"}
                   w={"100%"}
                 />
@@ -226,16 +228,17 @@ export default function FlowSelectorNode({
                       </Stack>
                       <IconButton
                         flex={"10%"}
-                        aria-label={"Flow entfernen"}
+                        aria-label={t("roadmap.blocks.flows.remove")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         variant={"ghost"}
                         onClick={async () => {
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Flow entfernen",
-                              question:
-                                "Möchtest du den Flow wirklich entfernen?",
+                              title: t("roadmap.blocks.flows.remove"),
+                              question: t(
+                                "roadmap.blocks.flows.remove.confirm"
+                              ),
                             }))
                           ) {
                             return;
@@ -251,9 +254,9 @@ export default function FlowSelectorNode({
 
                           if (res.status !== 200) {
                             PopupManager.alert({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Es ist ein Fehler aufgetreten: " +
+                                t("base:control.error.request") +
                                 res.payload.error,
                             });
                             return;
@@ -271,7 +274,10 @@ export default function FlowSelectorNode({
             </Stack>
           </>
         ) : (
-          <AuthenticateLoadingIndicator text={"Lade Flows..."} inline={true} />
+          <AuthenticateLoadingIndicator
+            text={t("roadmap.blocks.flows.loading")}
+            inline={true}
+          />
         )}
         <Handle
           type={"source"}

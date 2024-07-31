@@ -54,7 +54,7 @@ export default function ErrorComponent(props: {
             color={"brand.500"}
             w={"100%"}
           >
-            {props.title || "Fehler"}
+            {props.title || t("base:control.error")}
           </Heading>
           <Heading size={"lg"} fontFamily={"Jetbrains Mono ExtraBold"}>
             {props.description}

@@ -30,11 +30,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { actionMap } from "../../global/levels";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Level() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("levels");
 
   const [actions, setActions] = React.useState<typeof actionMap>(actionMap);
 
@@ -69,11 +73,11 @@ export default function Level() {
   return (
     <>
       <Head>
-        <title>Level - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Box bg={"#000"} h={"fit-content"} minH={"100vh"} p={2}>
         <CHeading size={"xl"} textAlign={"center"}>
-          Level
+          {t("level")}
         </CHeading>
         <Flex justifyContent={"center"} mt={4} mb={8}>
           <Box
@@ -83,20 +87,15 @@ export default function Level() {
             p={4}
             w={["100%", "90%", "60%"]}
           >
-            <Text fontSize={"lg"}>
-              Dein Level gibt Auskunft über deinen Fortschritt auf CodeUp. Du
-              erhältst XP durch viele Aktionen (siehe unten) und steigst so auf.
-              Ein Abstieg ist nicht möglich, also keine Sorge, wenn du mal eine
-              Weile nicht aktiv bist! &#128522;
-            </Text>
+            <Text fontSize={"lg"}>{t("level.text")}</Text>
             <Text
               fontSize={"xl"}
               mt={4}
               fontWeight={"bold"}
               color={"brand.500"}
             >
-              Dein aktuelles Level:{" "}
-              {levelProgress ? levelProgress.level : "Lade..."}
+              {t("level.current")}:{" "}
+              {levelProgress ? levelProgress.level : t("level.loading")}
             </Text>
             <Flex
               gap={4}
@@ -104,7 +103,7 @@ export default function Level() {
               flexDirection={["column", "column", "row"]}
               maxW={["100%", "100%", "40%"]}
             >
-              <Text fontSize={"lg"}>Aktueller Fortschritt:</Text>
+              <Text fontSize={"lg"}>{t("current.progress")}:</Text>
               <Progress
                 value={levelProgress ? levelProgress.xp : 0}
                 max={levelProgress ? levelProgress.xpNeeded : 1}
@@ -123,7 +122,7 @@ export default function Level() {
               fontWeight={"bold"}
               color={"brand.500"}
             >
-              Letzte Aktionen:
+              {t("last.actions")}:
             </Text>
             {levelProgress ? (
               levelProgress.transactions
@@ -132,22 +131,25 @@ export default function Level() {
                     new Date(b.createdAt).getTime() -
                     new Date(a.createdAt).getTime()
                 )
-                .map((t, i) => (
+                .map((a, i) => (
                   <Box key={i} bg={"gray.500"} p={2} rounded={"md"} mt={2}>
                     <Text>
-                      <chakra.b color={"brand.500"}>{t.xp}</chakra.b> XP durch{" "}
-                      <chakra.b color={"brand.500"}>{t.reason}</chakra.b> am{" "}
-                      {new Date(t.createdAt).toLocaleString()}
+                      <chakra.b color={"brand.500"}>{a.xp}</chakra.b> XP{" "}
+                      {t("from")}{" "}
+                      <chakra.b color={"brand.500"}>
+                        {t(a.reason.replace(/\[(.*?)\]/g, "").trim() as any)}
+                      </chakra.b>{" "}
+                      {t("at")} {new Date(a.createdAt).toLocaleString()}
                     </Text>
                   </Box>
                 ))
             ) : (
-              <Text>Lade...</Text>
+              <Text>{t("level.loading")}</Text>
             )}
             {levelProgress ? (
               levelProgress.transactions.length === 0 ? (
                 <Text fontSize={"lg"} mt={2}>
-                  Noch keine Aktionen durchgeführt.
+                  {t("no.actions")}
                 </Text>
               ) : null
             ) : null}
@@ -157,14 +159,14 @@ export default function Level() {
               fontWeight={"bold"}
               color={"brand.500"}
             >
-              Mögliche Aktionen:
+              {t("possible.actions")}:
             </Text>
             <TableContainer>
               <Table>
                 <Thead>
                   <Tr>
                     <Th>#</Th>
-                    <Th>Aktion</Th>
+                    <Th>{t("action")}</Th>
                     <Th>XP</Th>
                   </Tr>
                 </Thead>
@@ -174,7 +176,7 @@ export default function Level() {
                     .map((action, i) => (
                       <Tr key={(actions as any)[action as any]}>
                         <Td>#{i + 1}</Td>
-                        <Td>{action}</Td>
+                        <Td>{t(action as any)}</Td>
                         <Td>{(actions as any)[action as any]}</Td>
                       </Tr>
                     ))}
@@ -186,4 +188,9 @@ export default function Level() {
       </Box>
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["levels"])),
+  };
 }

@@ -32,11 +32,16 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { FaCube, FaHardDrive } from "react-icons/fa6";
 import byteSize from "byte-size";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function UML() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [umls, setUmls] = React.useState<any[]>([]);
@@ -55,9 +60,8 @@ export default function UML() {
         reloadUmls();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -73,10 +77,8 @@ export default function UML() {
       setUmls(res.payload.umls);
     } else {
       PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die UML-Diagramme konnten nicht empfangen werden: " +
-          res.payload.error,
+        title: t("base:control.error"),
+        description: t("umls.loading.error") + ": " + res.payload.error,
       });
     }
   };
@@ -88,30 +90,26 @@ export default function UML() {
     identifier: string;
   }[] = [
     {
-      name: "Implementation",
-      description:
-        "Ein Implementationsdiagramm in dem Klassen und Methoden dargestellt werden.",
+      name: t("umls.type.impl"),
+      description: t("umls.type.impl.text"),
       icon: <FaCube />,
       identifier: "impl",
     },
     {
-      name: "ER-Diagramm",
-      description:
-        "Ein ER-Diagramm zur Darstellung von Entitäten und Beziehungen.",
+      name: t("umls.type.er"),
+      description: t("umls.type.er.text"),
       icon: <FaSitemap />,
       identifier: "er",
     },
     {
-      name: "Sequenz",
-      description:
-        "Ein Sequenzdiagramm zur Darstellung von Abläufen und Methodenaufrufen.",
+      name: t("umls.type.seq"),
+      description: t("umls.type.seq.text"),
       icon: <FaExchangeAlt />,
       identifier: "seq",
     },
     {
-      name: "Erweitert",
-      description:
-        "Ein erweitertes UML-Diagramm für Profis. (Nicht empfohlen für Anfänger)",
+      name: t("umls.type.adv"),
+      description: t("umls.type.adv.text"),
       icon: <FaCode />,
       identifier: "adv",
     },
@@ -119,32 +117,35 @@ export default function UML() {
 
   return (
     <>
+      <Head>
+        <title>{t("umls.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <GridLayoutV2
-            pageTitle={"UML-Diagramme"}
+            pageTitle={t("umls.title")}
             search={{
               show: true,
               fields: true,
             }}
             topButtons={[
               {
-                text: "Neu",
+                text: t("new"),
                 variant: "brand",
                 onClick: async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neues Diagramm",
-                    helperText: "Bitte gib den Namen des neuen Diagramms ein.",
+                    title: t("umls.new"),
+                    helperText: t("umls.new.name"),
                   });
 
                   if (!name) return;
 
                   const x = await new Promise(async (resolve) => {
                     await PopupManager.alertAsync({
-                      title: "Neues Diagramm",
+                      title: t("umls.new.type"),
                       description: (
                         <>
-                          <Text>Bitte wählen den Typ des Diagramms aus.</Text>
+                          <Text>{t("umls.new.choose.type")}</Text>
                           <Grid
                             templateColumns={[
                               "repeat(1, 1fr)",
@@ -209,10 +210,9 @@ export default function UML() {
 
                   if (res.status !== 200) {
                     await PopupManager.alertAsync({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Das Diagramm konnte nicht erstellt werden: " +
-                        res.payload.error,
+                        t("umls.new.error") + ": " + res.payload.error,
                     });
                     return;
                   }
@@ -227,7 +227,7 @@ export default function UML() {
               buttonRows: [
                 [
                   {
-                    text: "Öffnen",
+                    text: t("open"),
                     onClick: () => {
                       router.push(
                         "/projects/" +
@@ -242,13 +242,12 @@ export default function UML() {
                     variant: "brand",
                   },
                   {
-                    text: "Löschen",
+                    text: t("delete"),
                     onClick: async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Löschen",
-                          question:
-                            "Möchtest du das Diagramm wirklich löschen?",
+                          title: t("delete"),
+                          question: t("umls.delete.confirm"),
                         }))
                       )
                         return;
@@ -261,10 +260,9 @@ export default function UML() {
 
                       if (res.status !== 200) {
                         await PopupManager.alertAsync({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description:
-                            "Das Diagramm konnte nicht gelöscht werden: " +
-                            res.payload.error,
+                            t("umls.delete.error") + ": " + res.payload.error,
                         });
                         return;
                       }
@@ -279,20 +277,25 @@ export default function UML() {
               fields: [
                 {
                   text:
-                    "Erstellt am: " + new Date(u.createdAt).toLocaleString(),
+                    t("umls.created") +
+                    ": " +
+                    new Date(u.createdAt).toLocaleString(),
                   icon: <FaClock />,
                 },
                 {
                   text:
-                    "Typ: " +
+                    t("type") +
+                    ": " +
                     (uml_types.find((t) => t.identifier === u.type)?.name ??
-                      "Unbekannt"),
+                      t("type.other")),
                   icon: uml_types.find((t) => t.identifier === u.type)
                     ?.icon ?? <FaHtml5 />,
                 },
                 {
                   text:
-                    "Gespeicherte Daten: " + byteSize(u.data.length).toString(),
+                    t("umls.saved.data") +
+                    ": " +
+                    byteSize(u.data.length).toString(),
                   icon: <FaHardDrive />,
                 },
               ],
@@ -302,4 +305,17 @@ export default function UML() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

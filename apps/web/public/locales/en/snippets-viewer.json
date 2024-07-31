@@ -1,0 +1,9 @@
+{
+  "snippets": "Code Snippets",
+  "search": "Search",
+  "code.copied": "Code copied",
+  "code.copied.text": "The code was successfully copied",
+  "code.copied.error": "The code could not be copied. Your browser may not be supported.",
+  "copy": "Copy",
+  "close": "Close"
+}

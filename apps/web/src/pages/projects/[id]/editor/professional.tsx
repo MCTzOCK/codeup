@@ -45,11 +45,15 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import "@xterm/xterm/css/xterm.css";
 import { FaPlay, FaSave } from "react-icons/fa";
 import { FaSkullCrossbones } from "react-icons/fa6";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Professional() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   type entry = {
     name: string;
@@ -93,9 +97,8 @@ export default function Professional() {
         reloadFileTree();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: `${t("project.loading.error")}: ${res.payload.error}`,
         });
       }
     });
@@ -124,8 +127,8 @@ export default function Professional() {
       }
     } else {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description: "Das Dateisystem konnte nicht geladen werden",
+        title: t("base:control.error"),
+        description: t("project.loading.fs.error"),
       });
     }
   };
@@ -215,7 +218,7 @@ export default function Professional() {
       <EditorProjectLayout project_id={router.query.id as string}>
         {isBootstrapping && (
           <>
-            <AuthenticateLoadingIndicator text={"Starte WebContainer..."} />
+            <AuthenticateLoadingIndicator text={t("project.booting.wc")} />
           </>
         )}
         {!isBootstrapping && simpleFileTree && (
@@ -231,10 +234,10 @@ export default function Professional() {
                 <Panel defaultSize={25} minSize={25} maxSize={75}>
                   <Tabs variant={"brand"} colorScheme={"brand"}>
                     <TabList>
-                      <Tab>Explorer</Tab>
-                      <Tab>Terminal</Tab>
-                      <Tab>Snippets</Tab>
-                      <Tab>Vorschau</Tab>
+                      <Tab>{t("project.p.explorer")}</Tab>
+                      <Tab>{t("project.p.terminal")}</Tab>
+                      <Tab>{t("project.p.snippets")}</Tab>
+                      <Tab>{t("project.p.preview")}</Tab>
                     </TabList>
                     <TabPanels>
                       <TabPanel>
@@ -257,15 +260,15 @@ export default function Professional() {
                               path === "project.codeup.json"
                             ) {
                               await PopupManager.alertAsync({
-                                title: "Datei löschen",
-                                description: `Die Datei ${path} kann nicht gelöscht werden`,
+                                title: t("project.file.delete"),
+                                description: t("project.file.delete.error"),
                               });
                               return;
                             }
                             if (
                               !(await PopupManager.confirmAsync({
-                                title: "Datei löschen",
-                                question: `Möchtest du die Datei ${path} wirklich löschen?`,
+                                title: t("project.file.delete"),
+                                question: t("project.file.delete.confirm"),
                               }))
                             )
                               return;
@@ -280,7 +283,7 @@ export default function Professional() {
                               await reloadFileTree();
                             } else {
                               await PopupManager.alertAsync({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: res.payload.error,
                               });
                             }
@@ -296,7 +299,7 @@ export default function Professional() {
                               await reloadFileTree();
                             } else {
                               await PopupManager.alertAsync({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: res.payload.error,
                               });
                             }
@@ -314,7 +317,7 @@ export default function Professional() {
                               await reloadFileTree();
                             } else {
                               await PopupManager.alertAsync({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: res.payload.error,
                               });
                             }
@@ -325,8 +328,8 @@ export default function Professional() {
                               path === "project.codeup.json"
                             ) {
                               await PopupManager.alertAsync({
-                                title: "Datei umbenennen",
-                                description: `Die Datei ${path} kann nicht umbenannt werden`,
+                                title: t("project.file.rename"),
+                                description: t("project.file.rename.error"),
                               });
                               return;
                             }
@@ -342,7 +345,7 @@ export default function Professional() {
                               await reloadFileTree();
                             } else {
                               await PopupManager.alertAsync({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: res.payload.error,
                               });
                             }
@@ -366,7 +369,7 @@ export default function Professional() {
                               wr.write(runCommand + "\n");
                             }}
                           >
-                            Starten
+                            {t("wc.start")}
                           </Button>
 
                           <Button
@@ -378,7 +381,7 @@ export default function Professional() {
                               wr.write("\x03");
                             }}
                           >
-                            Stoppen
+                            {t("wc.stop")}
                           </Button>
                         </ButtonGroup>
                         <div
@@ -404,7 +407,7 @@ export default function Professional() {
                           mb={4}
                           onClick={async () => {
                             PopupManager.alert({
-                              title: "Vorschau",
+                              title: t("project.p.preview"),
                               description: (
                                 <>
                                   <iframe
@@ -422,7 +425,7 @@ export default function Professional() {
                             });
                           }}
                         >
-                          Maximieren
+                          {t("preview.maximize")}
                         </Button>
                         <Input
                           type={"text"}
@@ -482,7 +485,7 @@ export default function Professional() {
                       );
                     }}
                   >
-                    Speichern
+                    {t("save")}
                   </Button>
                   <MonacoCodeEditor
                     fileName={openFile}
@@ -513,3 +516,16 @@ const findEntryByPath = (entry: entry, path: string[]): entry | null => {
   if (!next) return null;
   return findEntryByPath(next, path.slice(1));
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}

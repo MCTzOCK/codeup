@@ -25,8 +25,10 @@ import {
 } from "@chakra-ui/react";
 import { FaCopy, FaSearch } from "react-icons/fa";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function SnippetList() {
+  const { t } = useTranslation("projects");
   const [snippets, setSnippets] = React.useState<
     {
       _id: string;
@@ -61,7 +63,7 @@ export default function SnippetList() {
             <FaSearch />
           </InputLeftElement>
           <Input
-            placeholder={"Suche"}
+            placeholder={t("base:control.search")}
             onChange={(e) => {
               setQuery(e.currentTarget.value);
             }}
@@ -111,7 +113,7 @@ export default function SnippetList() {
                       } catch (e) {}
                     }}
                   >
-                    Kopieren
+                    {t("copy")}
                   </Button>
                 </ButtonGroup>
               </GridItem>

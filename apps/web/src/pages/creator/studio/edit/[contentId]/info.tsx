@@ -31,11 +31,14 @@ import { FaPen } from "react-icons/fa";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Info() {
   const router = useRouter();
 
   const { contentId } = router.query;
+  const { t } = useTranslation("creator-studio");
 
   const [content, setContent] = React.useState<{
     _id: string;
@@ -76,8 +79,8 @@ export default function Info() {
           setQuiz(res.payload.content.quiz);
         } else {
           toast({
-            title: "Fehler",
-            description: "Fehler beim Laden: " + res.payload.error,
+            title: t("base:control.error"),
+            description: t("error.loading") + ": " + res.payload.error,
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -91,11 +94,11 @@ export default function Info() {
   return (
     <>
       <Head>
-        <title>Inhalt Editor - Creator Studio - CodeUp</title>
+        <title>{t("edit.content.doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Box textAlign={"center"} pt={"2rem"}>
-          <CHeading size={"xl"}>Bearbeiten</CHeading>
+          <CHeading size={"xl"}>{t("edit")}</CHeading>
         </Box>
         {content ? (
           <>
@@ -109,7 +112,7 @@ export default function Info() {
               <Flex flexDir="column" width={["100", "35%"]}>
                 <Stack spacing={4} width={"100%"}>
                   <FormControl id="displayName">
-                    <FormLabel>Anzeigename</FormLabel>
+                    <FormLabel>{t("display.name")}</FormLabel>
                     <InputGroup>
                       <InputLeftElement>
                         <FaPen />
@@ -117,12 +120,12 @@ export default function Info() {
                       <Input
                         name={"displayName"}
                         defaultValue={content.displayName}
-                        placeholder={"Name"}
+                        placeholder={t("display.name")}
                       />
                     </InputGroup>
                   </FormControl>
                   <FormControl id="url">
-                    <FormLabel>URL</FormLabel>
+                    <FormLabel>{t("url")}</FormLabel>
                     <InputGroup>
                       <InputLeftElement>
                         <FaPen />
@@ -130,12 +133,12 @@ export default function Info() {
                       <Input
                         name={"url"}
                         defaultValue={content.url}
-                        placeholder={"URL"}
+                        placeholder={t("url")}
                       />
                     </InputGroup>
                   </FormControl>
                   <FormControl id="url">
-                    <FormLabel>Video-URL</FormLabel>
+                    <FormLabel>{t("video.url")}</FormLabel>
                     <InputGroup>
                       <InputLeftElement>
                         <FaPen />
@@ -143,7 +146,7 @@ export default function Info() {
                       <Input
                         name={"video-url"}
                         defaultValue={content.videoUrl}
-                        placeholder={"Video-URL"}
+                        placeholder={t("video.url")}
                       />
                     </InputGroup>
                   </FormControl>
@@ -166,7 +169,7 @@ export default function Info() {
                     router.back();
                   }}
                 >
-                  Abbrechen
+                  {t("cancel")}
                 </Button>
                 <Button
                   size={"lg"}
@@ -197,9 +200,9 @@ export default function Info() {
                       router.back();
                     } else {
                       toast({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Fehler beim Speichern: " + res.payload.error,
+                          t("error.saving") + ": " + res.payload.error,
                         status: "error",
                         duration: 1500,
                         isClosable: true,
@@ -208,7 +211,7 @@ export default function Info() {
                     }
                   }}
                 >
-                  Speichern
+                  {t("save")}
                 </Button>
               </ButtonGroup>
             </Flex>
@@ -217,4 +220,17 @@ export default function Info() {
       </CreatorStudioLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -34,11 +34,13 @@ import PopupManager from "@codeup/web/src/global/PopupManager";
 import { CHeading } from "../../global/CHeading";
 import DividerWithText from "../../global/DividerWithText";
 import DividerWithTextV2 from "../../global/DividerWithTextV2";
+import { useTranslation } from "next-i18next";
 
 export default function UMLImplEditor(props: {
   uml: IUMLDiagram;
   updateUML: (uml: IUMLDiagram) => void;
 }) {
+  const { t } = useTranslation("projects");
   const [classes, setClasses] = useState<
     {
       name: string;
@@ -137,7 +139,7 @@ export default function UMLImplEditor(props: {
             w={"100%"}
             leftIcon={<FaSave />}
           >
-            Speichern
+            {t("save")}
           </Button>
           <Button
             variant={"brand"}
@@ -145,8 +147,8 @@ export default function UMLImplEditor(props: {
             w={"100%"}
             onClick={async () => {
               const name = await PopupManager.promptAsync({
-                title: "Klasse hinzufügen",
-                helperText: "Bitte gib den Namen der Klasse ein.",
+                title: t("uml.imp.add.class"),
+                helperText: t("uml.imp.add.class.name"),
               });
 
               if (!name) return;
@@ -164,7 +166,7 @@ export default function UMLImplEditor(props: {
               ]);
             }}
           >
-            Klasse hinzufügen
+            {t("uml.imp.add.class")}
           </Button>
         </Stack>
         <Grid
@@ -195,9 +197,13 @@ export default function UMLImplEditor(props: {
                     }}
                     w={"fit-content"}
                   >
-                    <option value={"class"}>Klasse</option>
-                    <option value={"interface"}>Interface</option>
-                    <option value={"abstract class"}>Abstrakte Klasse</option>
+                    <option value={"class"}>{t("uml.imp.class")}</option>
+                    <option value={"interface"}>
+                      {t("uml.imp.interface")}
+                    </option>
+                    <option value={"abstract class"}>
+                      {t("uml.imp.abstract")}
+                    </option>
                   </Select>
 
                   <Button
@@ -205,8 +211,8 @@ export default function UMLImplEditor(props: {
                     leftIcon={<FaPen />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Klasse umbenennen",
-                        helperText: "Bitte gib den neuen Namen der Klasse ein.",
+                        title: t("uml.imp.rename.class"),
+                        helperText: t("uml.imp.rename.class.name"),
                       });
 
                       if (!name) return;
@@ -216,7 +222,7 @@ export default function UMLImplEditor(props: {
                       setClasses(newClasses);
                     }}
                   >
-                    Umbenennen
+                    {t("rename")}
                   </Button>
                   <Button
                     colorScheme={"red"}
@@ -224,9 +230,8 @@ export default function UMLImplEditor(props: {
                     onClick={async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Klasse löschen",
-                          question:
-                            "Möchtest du diese Klasse wirklich löschen?",
+                          title: t("uml.imp.delete.class"),
+                          question: t("uml.imp.delete.class.confirm"),
                         }))
                       )
                         return;
@@ -235,7 +240,7 @@ export default function UMLImplEditor(props: {
                       setClasses(newClasses);
                     }}
                   >
-                    Löschen
+                    {t("delete")}
                   </Button>
                 </Flex>
                 <Input
@@ -245,7 +250,7 @@ export default function UMLImplEditor(props: {
                     newClasses[i].extends = e.target.value;
                     setClasses(newClasses);
                   }}
-                  placeholder={"Erweitert von"}
+                  placeholder={t("uml.imp.extended.by")}
                   mb={4}
                 />
                 <CHeading size={"sm"}>Attribute</CHeading>
@@ -255,8 +260,8 @@ export default function UMLImplEditor(props: {
                     leftIcon={<FaPlus />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Attribut hinzufügen",
-                        helperText: "Bitte gib den Namen des Attributs ein.",
+                        title: t("uml.imp.add.attribute"),
+                        helperText: t("uml.imp.add.attribute.name"),
                       });
 
                       if (!name) return;
@@ -270,24 +275,22 @@ export default function UMLImplEditor(props: {
                       setClasses(newClasses);
                     }}
                   >
-                    Attribut hinzufügen
+                    {t("uml.imp.add.attribute")}
                   </Button>
                   <Button
                     variant={"brand"}
                     leftIcon={<FaPlus />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Bezugsobjekt hinzufügen",
-                        helperText:
-                          "Bitte gib den Namen des Bezugsobjekts ein.",
+                        title: t("uml.imp.add.relationship"),
+                        helperText: t("uml.imp.add.relationship.name"),
                       });
 
                       if (!name) return;
 
                       const c = await PopupManager.selectAsync({
-                        title: "Klasse auswählen",
-                        helperText:
-                          "Wähle die Klasse aus, die referenziert werden soll.",
+                        title: t("uml.imp.choose.class"),
+                        helperText: t("uml.imp.choose.class.relation"),
                         choices: classes.map((c) => c.name),
                       });
 
@@ -302,7 +305,7 @@ export default function UMLImplEditor(props: {
                       setClasses(newClasses);
                     }}
                   >
-                    Bezugsobjekt hinzufügen
+                    {t("uml.imp.add.relationship")}
                   </Button>
                 </Flex>
                 <Stack mt={4} mb={4} gap={4}>
@@ -317,7 +320,7 @@ export default function UMLImplEditor(props: {
                           ].name = e.target.value;
                           setClasses(newClasses);
                         }}
-                        placeholder={"Name"}
+                        placeholder={t("name")}
                       />
                       <Input
                         value={f.type}
@@ -345,7 +348,7 @@ export default function UMLImplEditor(props: {
                         <option value={"protected"}>protected</option>
                       </Select>
                       <IconButton
-                        aria-label={"Löschen"}
+                        aria-label={t("delete")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         onClick={() => {
@@ -360,15 +363,15 @@ export default function UMLImplEditor(props: {
                     </HStack>
                   ))}
                 </Stack>
-                <CHeading size={"sm"}>Methoden</CHeading>
+                <CHeading size={"sm"}>{t("uml.imp.methods")}</CHeading>
                 <Flex gap={4} alignItems={"center"} mt={4} mb={4}>
                   <Button
                     variant={"brand"}
                     leftIcon={<FaPlus />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Methode hinzufügen",
-                        helperText: "Bitte gib den Namen der Methode ein.",
+                        title: t("uml.imp.add.method"),
+                        helperText: t("uml.imp.add.method.name"),
                       });
 
                       if (!name) return;
@@ -385,7 +388,7 @@ export default function UMLImplEditor(props: {
                       setClasses(newClasses);
                     }}
                   >
-                    Methode hinzufügen
+                    {t("uml.imp.add.method")}
                   </Button>
                 </Flex>
                 <Stack mt={4} mb={4} gap={4}>
@@ -402,7 +405,7 @@ export default function UMLImplEditor(props: {
                             ].name = e.target.value;
                             setClasses(newClasses);
                           }}
-                          placeholder={"Name"}
+                          placeholder={t("name")}
                         />
                         <Input
                           value={m.returnType}
@@ -430,7 +433,7 @@ export default function UMLImplEditor(props: {
                           <option value={"protected"}>protected</option>
                         </Select>
                         <IconButton
-                          aria-label={"Löschen"}
+                          aria-label={t("delete")}
                           icon={<FaTrash />}
                           colorScheme={"red"}
                           onClick={() => {
@@ -443,14 +446,13 @@ export default function UMLImplEditor(props: {
                           }}
                         />
                         <IconButton
-                          aria-label={"Argument hinzufügen"}
+                          aria-label={t("uml.imp.add.method.argument")}
                           icon={<FaPlus />}
                           variant={"brand"}
                           onClick={async () => {
                             const name = await PopupManager.promptAsync({
-                              title: "Argument hinzufügen",
-                              helperText:
-                                "Bitte gib den Namen des Arguments ein.",
+                              title: t("uml.imp.add.method.argument"),
+                              helperText: t("uml.imp.add.method.argument.name"),
                             });
 
                             if (!name) return;
@@ -467,7 +469,7 @@ export default function UMLImplEditor(props: {
                         />
                       </HStack>
                       <DividerWithTextV2
-                        text={"Argumente"}
+                        text={t("uml.imp.arguments")}
                         color={"gray.300"}
                       />
                       <Stack mt={4} mb={4} gap={4}>
@@ -486,7 +488,7 @@ export default function UMLImplEditor(props: {
                                 ].name = e.target.value;
                                 setClasses(newClasses);
                               }}
-                              placeholder={"Name"}
+                              placeholder={t("name")}
                             />
                             <Input
                               value={a.type}
@@ -504,7 +506,7 @@ export default function UMLImplEditor(props: {
                               placeholder={"String"}
                             />
                             <IconButton
-                              aria-label={"Löschen"}
+                              aria-label={t("delete")}
                               icon={<FaTrash />}
                               colorScheme={"red"}
                               onClick={() => {

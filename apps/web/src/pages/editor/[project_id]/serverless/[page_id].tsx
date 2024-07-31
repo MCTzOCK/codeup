@@ -30,6 +30,8 @@ import PageResourceManager from "@codeup/components/dist/editor/PageResourceMana
 import { SnippetViewer } from "@codeup/components/dist/ide";
 import EditorPreviewModal from "@codeup/components/dist/editor/EditorPreviewModal";
 import Head from "next/head";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function FunctionEditor() {
   const router = useRouter();
@@ -44,6 +46,8 @@ export default function FunctionEditor() {
     path: string;
     code: string;
   }>();
+
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -70,7 +74,7 @@ export default function FunctionEditor() {
                 setFunc(data.function);
               } else {
                 PopupManager.alertAsync({
-                  title: "Fehler",
+                  title: t("base:control.error"),
                   description: data.error,
                 }).then(() => {
                   router.push("/editor");
@@ -81,7 +85,7 @@ export default function FunctionEditor() {
             socket.on("editor:projects:functions:content:set", (data: any) => {
               if (!data.success) {
                 PopupManager.alert({
-                  title: "Speichern fehlgeschlagen",
+                  title: t("saving.failed"),
                   description: data.error,
                 });
               }
@@ -135,7 +139,7 @@ export default function FunctionEditor() {
     return (
       <>
         <Head>
-          <title>Funktion - Editor - CodeUp</title>
+          <title>{t("func.doc.title")}</title>
         </Head>
         <Flex
           w={"100%"}
@@ -153,7 +157,7 @@ export default function FunctionEditor() {
                 rounded={"xl"}
               >
                 <Flex direction={"column"} h={"100%"}>
-                  <Tooltip label={"Snippets"} placement={"right"} hasArrow>
+                  <Tooltip label={t("snippets")} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -166,7 +170,7 @@ export default function FunctionEditor() {
                     />
                   </Tooltip>
 
-                  <Tooltip label={"Übersicht"} placement={"right"} hasArrow>
+                  <Tooltip label={t("overview")} placement={"right"} hasArrow>
                     <IconButton
                       aria-label={""}
                       variant="ghost"
@@ -229,4 +233,17 @@ export default function FunctionEditor() {
   } else {
     return <AuthenticateLoadingIndicator />;
   }
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -33,8 +33,10 @@ import { FaPlus, FaStar } from "react-icons/fa";
 import { useLoggedIn } from "@codeup/hooks";
 import TemplateImporter from "./TemplateImporter";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function TemplatePicker() {
+  const { t: tx } = useTranslation("ide");
   const [templates, setTemplates] = useState<
     {
       _id: string;
@@ -93,7 +95,7 @@ export default function TemplatePicker() {
           {loaded && templates.length === 0 ? (
             <>
               <Text textAlign={"center"} mt={"1.2rem"}>
-                Es wurden noch keine Vorlagen veröffentlicht!
+                {tx("no.templates.published")}
               </Text>
             </>
           ) : null}
@@ -104,7 +106,7 @@ export default function TemplatePicker() {
                 onChange={(e) => {
                   setTerm(e.target.value.toLowerCase().trim());
                 }}
-                placeholder={"Suchen..."}
+                placeholder={tx("search")}
                 mt={"1.2rem"}
               />
               <SimpleGrid
@@ -181,7 +183,7 @@ export default function TemplatePicker() {
                               alignItems={"center"}
                               justifyContent={"center"}
                             >
-                              {t.uses} mal verwendet
+                              {t.uses} {tx("template.used")}
                             </Flex>
                             <Text>{t.description}</Text>
                             <Button
@@ -192,7 +194,7 @@ export default function TemplatePicker() {
                                 setImporting(true);
                               }}
                             >
-                              Verwenden
+                              {tx("use")}
                             </Button>
                             <Popover>
                               <PopoverTrigger>
@@ -204,12 +206,14 @@ export default function TemplatePicker() {
                                   }
                                   leftIcon={<FaStar />}
                                 >
-                                  Bewerten
+                                  {tx("rate")}
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent bgColor={"black"}>
                                 <PopoverArrow bgColor={"black"} />
-                                <PopoverHeader>Vorlage Bewerten</PopoverHeader>
+                                <PopoverHeader>
+                                  {tx("rate.template")}
+                                </PopoverHeader>
                                 <PopoverBody>
                                   <Button
                                     m=".4rem"

@@ -22,11 +22,14 @@ import { editor, Position } from "monaco-editor";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function PageEditor() {
   const router = useRouter();
 
   const { loggedIn, loaded, userInfo } = useLoggedIn();
+  const { t } = useTranslation("editor");
 
   const [reactSocket, setReactSocket] = React.useState<Socket>();
   let socket: Socket | null = null;
@@ -98,7 +101,7 @@ export default function PageEditor() {
                 }
               } else {
                 PopupManager.alertAsync({
-                  title: "Fehler",
+                  title: t("base:control.error"),
                   description: data.error,
                 }).then(() => {
                   router.push("/editor");
@@ -109,7 +112,7 @@ export default function PageEditor() {
             socket.on("editor:projects:page:content:set", (data: any) => {
               if (!data.success) {
                 PopupManager.alert({
-                  title: "Speichern fehlgeschlagen",
+                  title: t("saving.failed"),
                   description: data.error,
                 });
               }
@@ -189,7 +192,7 @@ export default function PageEditor() {
     return (
       <>
         <Head>
-          <title>Seite - Editor - CodeUp</title>
+          <title>{t("page.doc.title")}</title>
         </Head>
         <Flex
           w={"100%"}
@@ -218,8 +221,8 @@ export default function PageEditor() {
               <Box bg={"black"} p={4}>
                 <CHeading size={"xl"}>
                   {currentResource === "codeup.main_resource"
-                    ? "Hauptwebseite (" + page.url + ")"
-                    : "Resource (" + currentResource + ")"}
+                    ? t("page.main") + " (" + page.url + ")"
+                    : t("page.resource") + " (" + currentResource + ")"}
                 </CHeading>
               </Box>
 
@@ -286,4 +289,17 @@ export default function PageEditor() {
   } else {
     return <AuthenticateLoadingIndicator />;
   }
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

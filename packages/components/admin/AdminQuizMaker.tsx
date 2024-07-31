@@ -25,6 +25,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function AdminQuizMaker(props: {
   quizQuestions: {
@@ -47,6 +48,7 @@ export default function AdminQuizMaker(props: {
   >;
 }) {
   const [newQuestion, setNewQuestion] = useState<string>("");
+  const { t } = useTranslation("creator-studio");
 
   const quizQuestions = props.quizQuestions;
   const setQuizQuestions = props.setQuizQuestions;
@@ -54,15 +56,15 @@ export default function AdminQuizMaker(props: {
   return (
     <>
       <Heading size={"md"} mt={"2rem"}>
-        Quiz
+        {t("quiz")}
       </Heading>
       <TableContainer mt={"2rem"}>
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Frage</Th>
-              <Th>Antworten</Th>
-              <Th>Aktion</Th>
+              <Th>{t("question")}</Th>
+              <Th>{t("answers")}</Th>
+              <Th>{t("action")}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -71,7 +73,7 @@ export default function AdminQuizMaker(props: {
                 <Td>
                   {question.question}
                   <IconButton
-                    aria-label={"Löschen"}
+                    aria-label={t("delete")}
                     icon={<FaTrash />}
                     ml={"1rem"}
                     colorScheme={"red"}
@@ -123,7 +125,7 @@ export default function AdminQuizMaker(props: {
                           );
                         }}
                       >
-                        {answer.correct ? "Richtig" : "Falsch"}
+                        {answer.correct ? t("correct") : t("wrong")}
                       </Button>
                     </Box>
                   ))}
@@ -134,7 +136,7 @@ export default function AdminQuizMaker(props: {
               <Td>
                 <Input
                   type={"text"}
-                  placeholder={"Frage"}
+                  placeholder={t("question")}
                   id={"new-question-input"}
                   onChange={(e) => {
                     setNewQuestion(e.target.value as string);
@@ -179,7 +181,7 @@ export default function AdminQuizMaker(props: {
                     ).value = "";
                   }}
                 >
-                  Erstellen
+                  {t("create")}
                 </Button>
               </Td>
               <Td></Td>

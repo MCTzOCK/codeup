@@ -24,6 +24,8 @@ import CreateProjectMenu from "@codeup/components/ide/CreateProjectMenu";
 import OpenProjectMenu from "@codeup/components/ide/OpenProjectMenu";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Index() {
   useEffect(() => {
@@ -34,6 +36,8 @@ export default function Index() {
       redirectTo: "/ide",
     });
   });
+
+  const { t } = useTranslation("ide");
 
   const [currentComponent, setCurrentComponent] =
     React.useState<JSX.Element | null>(
@@ -67,18 +71,18 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Editor - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>
         <Flex
           direction={"column"}
           flex={"15%"}
           minH={"100%"}
-          bgColor={"gray.900"}
+          bgColor={"black"}
           p={"1.2rem"}
         >
           <Box textAlign={"center"}>
-            <CHeading size={"xl"}>Projekte</CHeading>
+            <CHeading size={"xl"}>{t("projects")}</CHeading>
           </Box>
           <Button
             m={"1.2rem"}
@@ -89,7 +93,7 @@ export default function Index() {
               router.push("/ide?component=create");
             }}
           >
-            Neu
+            {t("new")}
           </Button>
           <Button
             marginInline={"1.2rem"}
@@ -101,7 +105,7 @@ export default function Index() {
               router.push("/ide?component=open");
             }}
           >
-            Meine Projekte
+            {t("projects.my")}
           </Button>
         </Flex>
         <Flex direction={"column"} flex={"85%"} minH={"100%"} bg={"#000"}>
@@ -110,4 +114,9 @@ export default function Index() {
       </Flex>
     </>
   );
+}
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["ide"])),
+  };
 }

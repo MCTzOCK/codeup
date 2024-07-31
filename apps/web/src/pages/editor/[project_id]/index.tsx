@@ -26,9 +26,13 @@ import PopupManager from "../../../global/PopupManager";
 import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function ProjectViewer() {
   const router = useRouter();
+
+  const { t } = useTranslation("editor");
 
   const { loggedIn, loaded, userInfo } = useLoggedIn();
 
@@ -68,7 +72,7 @@ export default function ProjectViewer() {
                 setPages(data.pages);
               } else {
                 PopupManager.alert({
-                  title: "Fehler",
+                  title: t("base:control.error"),
                   description: data.error,
                 });
               }
@@ -94,30 +98,29 @@ export default function ProjectViewer() {
   return (
     <>
       <Head>
-        <title>Seiten - Editor - CodeUp</title>
+        <title>{t("pages.doc.title")}</title>
       </Head>
       <EditorProjectLayout>
         <GridLayoutV2
-          pageTitle={"Seiten"}
+          pageTitle={t("pages.title")}
           search={{
             show: true,
             fields: true,
           }}
           topButtons={[
             {
-              text: "Neu",
+              text: t("new"),
               leftIcon: <FaPlus />,
               variant: "brand",
               onClick: async () => {
                 const url = await PopupManager.promptAsync({
-                  title: "Neue Seite",
-                  helperText:
-                    "Gib die URL der neuen Seite ein. (z.B. about). Leerlassen um die Startseite zu erstellen.",
+                  title: t("new.page"),
+                  helperText: t("new.page.text"),
                 });
 
                 const type = await PopupManager.selectAsync({
-                  title: "Seitentyp",
-                  helperText: "Wähle den Seitentyp aus.",
+                  title: t("new.page.type"),
+                  helperText: t("new.page.type.helper"),
                   choices: ["HTML", "InCode"],
                 });
 
@@ -143,7 +146,7 @@ export default function ProjectViewer() {
                           ]);
                         } else {
                           PopupManager.alert({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description: data.error as string,
                           });
                         }
@@ -156,7 +159,7 @@ export default function ProjectViewer() {
           ]}
           entries={pages.map((page) => {
             return {
-              title: page.url === "/" ? "Hauptseite (/)" : page.url,
+              title: page.url === "/" ? t("page.main") + " (/)" : page.url,
               fields: [
                 {
                   text: page.type === "HTML" ? "HTML" : "InCode",
@@ -166,14 +169,14 @@ export default function ProjectViewer() {
               buttonRows: [
                 [
                   {
-                    text: "Löschen",
+                    text: t("delete"),
                     leftIcon: <FaTrash />,
                     colorScheme: "red",
                     onClick: async () => {
                       if (
                         await PopupManager.confirmAsync({
-                          title: "Seite löschen",
-                          question: "Möchtest du diese Seite wirklich löschen?",
+                          title: t("page.delete"),
+                          question: t("page.delete.confirm"),
                         })
                       ) {
                         if (reactSocket) {
@@ -186,7 +189,7 @@ export default function ProjectViewer() {
                                 );
                               } else {
                                 PopupManager.alert({
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description: data.error as string,
                                 });
                               }
@@ -202,13 +205,13 @@ export default function ProjectViewer() {
                     },
                   },
                   {
-                    text: "URL Ändern",
+                    text: t("page.change.url"),
                     leftIcon: <FaLink />,
                     variant: "brand",
                     onClick: async () => {
                       let newUrl = await PopupManager.promptAsync({
-                        title: "Seite bearbeiten",
-                        helperText: "Gib die neue URL der Seite ein.",
+                        title: t("page.edit"),
+                        helperText: t("page.change.url.helper"),
                       });
 
                       if (newUrl) {
@@ -233,7 +236,7 @@ export default function ProjectViewer() {
                                 );
                               } else {
                                 PopupManager.alert({
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description: data.error as string,
                                 });
                               }
@@ -252,7 +255,7 @@ export default function ProjectViewer() {
                 ],
                 [
                   {
-                    text: "Bearbeiten",
+                    text: t("edit"),
                     leftIcon: <FaEdit />,
                     variant: "brand",
                     onClick: async () => {
@@ -269,4 +272,17 @@ export default function ProjectViewer() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

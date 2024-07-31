@@ -29,6 +29,7 @@ import { FaCheckCircle, FaPen, FaTimesCircle, FaTrash } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useLoggedIn } from "@codeup/hooks";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import { useTranslation } from "next-i18next";
 
 export default function CourseEditor(props: {
   course: {
@@ -48,6 +49,7 @@ export default function CourseEditor(props: {
   isOpen: boolean;
   reload: () => void;
 }) {
+  const { t } = useTranslation("creator-studio");
   const toast = useToast();
 
   const { userInfo } = useLoggedIn();
@@ -118,8 +120,8 @@ export default function CourseEditor(props: {
 
                   if (res.status === 200) {
                     toast({
-                      title: "Kurs aktualisiert",
-                      description: "Der Kurs wurde erfolgreich aktualisiert",
+                      title: t("updated.course"),
+                      description: t("updated.course.text"),
                       status: "success",
                       duration: 1500,
                       isClosable: true,
@@ -129,9 +131,9 @@ export default function CourseEditor(props: {
                     props.onClose();
                   } else {
                     toast({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Aktualisierung fehlgeschlagen: " + res.payload.error,
+                        t("updated.course.error") + ": " + res.payload.error,
                       status: "error",
                       duration: 1500,
                       isClosable: true,
@@ -183,7 +185,7 @@ export default function CourseEditor(props: {
               }}
             />
             <Input
-              placeholder={"Name"}
+              placeholder={t("name")}
               name={"name"}
               defaultValue={props.course.name}
               mt={"2rem"}
@@ -191,7 +193,7 @@ export default function CourseEditor(props: {
             <InputGroup mt={"2rem"}>
               <InputLeftAddon>/course/</InputLeftAddon>
               <Input
-                placeholder={"URL Freundlicher Name"}
+                placeholder={t("name.url.friendly")}
                 name={"friendlyName"}
                 defaultValue={props.course.friendlyName}
               />
@@ -201,15 +203,15 @@ export default function CourseEditor(props: {
               mt={"2rem"}
               defaultValue={props.course.available}
             >
-              <optgroup label={"Ganze Platform"}>
+              <optgroup label={t("whole.platform")}>
                 {["editor", "admin"].includes(userInfo?.role) ? (
                   <>
-                    <option value={"public"}>Öffentlich</option>
+                    <option value={"public"}>{t("public")}</option>
                   </>
                 ) : null}
-                <option value={"private"}>Privat</option>
+                <option value={"private"}>{t("private")}</option>
               </optgroup>
-              <optgroup label={"Deine Organisationen"}>
+              <optgroup label={t("your.orgs")}>
                 {orgs
                   .filter((o) => {
                     return o.owner === userInfo?.id;
@@ -217,14 +219,14 @@ export default function CourseEditor(props: {
                   .map((org) => {
                     return (
                       <option value={"org:" + org._id}>
-                        {org.name} ({org.members.length} Mitglieder)
+                        {org.name} ({org.members.length} {t("members")})
                       </option>
                     );
                   })}
               </optgroup>
             </Select>
             <Textarea
-              placeholder={"Beschreibung"}
+              placeholder={t("description")}
               mt={"2rem"}
               name={"description"}
               defaultValue={props.course.description}
@@ -236,7 +238,7 @@ export default function CourseEditor(props: {
                 w={"100%"}
                 type={"submit"}
               >
-                Speichern
+                {t("save")}
               </Button>
             </ButtonGroup>
           </form>

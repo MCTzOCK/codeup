@@ -35,6 +35,8 @@ import {
 import { FaCheck, FaExclamationTriangle } from "react-icons/fa";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Discovery() {
   const router = useRouter();
@@ -42,6 +44,7 @@ export default function Discovery() {
   const [reactSocket, setReactSocket] = React.useState<Socket | null>(null);
   let socket: Socket | null = null;
   const [project, setProject] = React.useState<any>({});
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -74,7 +77,7 @@ export default function Discovery() {
           setProject(data.project);
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -90,30 +93,25 @@ export default function Discovery() {
   return (
     <>
       <Head>
-        <title>Discovery - Editor - CodeUp</title>
+        <title>{t("discovery.doc.title")}</title>
       </Head>
       <EditorProjectLayout>
         {reactSocket ? (
           <>
             <Box textAlign={"center"} pt={6}>
-              <CHeading size={"xl"}>Discovery</CHeading>
+              <CHeading size={"xl"}>{t("discovery.title")}</CHeading>
             </Box>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 {project && project.customDomain && (
                   <>
                     <Stack>
-                      <Text fontSize={"lg"}>
-                        Wenn du deine App mit einer eigenen Domain
-                        (*.codeup.space) verbunden hast, kannst du diese im
-                        Discovery anzeigen. Hierdurch können andere Benutzer
-                        deine App finden und verwenden.
-                      </Text>
+                      <Text fontSize={"lg"}>{t("discovery.text")}</Text>
                       <Flex fontSize={"lg"}>
                         {project.customDomain.startsWith("disabled:") ? (
                           <Flex color={"red.300"} alignItems={"center"} gap={4}>
-                            <FaExclamationTriangle /> Du hast deine App noch
-                            nicht mit einer Domain verbunden. Dies kannst du
+                            <FaExclamationTriangle />{" "}
+                            {t("discovery.not.linked")}{" "}
                             <Text
                               color={"brand.500"}
                               cursor={"pointer"}
@@ -126,9 +124,8 @@ export default function Discovery() {
                                 );
                               }}
                             >
-                              Hier
+                              {t("here")}
                             </Text>
-                            nachholen.
                           </Flex>
                         ) : (
                           <>
@@ -138,8 +135,8 @@ export default function Discovery() {
                                 alignItems={"center"}
                                 gap={4}
                               >
-                                <FaCheck /> Du hast deine App mit einer Domain
-                                verbunden. Diese lautet: {project.customDomain}
+                                <FaCheck /> {t("discovery.linked")}:{" "}
+                                {project.customDomain}
                               </Flex>
                               {project.discovery ? (
                                 <>
@@ -148,8 +145,7 @@ export default function Discovery() {
                                     alignItems={"center"}
                                     gap={4}
                                   >
-                                    <FaCheck /> Deine App ist im Discovery
-                                    verfügbar
+                                    <FaCheck /> {t("discovery.visible")}
                                   </Flex>
                                 </>
                               ) : (
@@ -159,8 +155,8 @@ export default function Discovery() {
                                     alignItems={"center"}
                                     gap={4}
                                   >
-                                    <FaExclamationTriangle /> Deine App ist
-                                    nicht im Discovery verfügbar
+                                    <FaExclamationTriangle />{" "}
+                                    {t("discovery.not.visible")}
                                   </Flex>
                                 </>
                               )}
@@ -190,15 +186,15 @@ export default function Discovery() {
                                             discoveryDescription: "",
                                           });
                                           PopupManager.alert({
-                                            title: "Erfolg",
-                                            description:
-                                              "Deine App wurde erfolgreich aus dem Discovery entfernt.",
+                                            title: t("success"),
+                                            description: t("discovery.removed"),
                                           });
                                         } else {
                                           PopupManager.alert({
-                                            title: "Fehler",
+                                            title: t("base:control.error"),
                                             description:
-                                              "Deine App konnte nicht aus dem Discovery entfernt werden: " +
+                                              t("discovery.remove.error") +
+                                              ": " +
                                               data.error,
                                           });
                                         }
@@ -207,25 +203,28 @@ export default function Discovery() {
                                   } else {
                                     const description =
                                       await PopupManager.promptAsync({
-                                        title: "Beschreibung",
-                                        helperText:
-                                          "Bitte gib eine Beschreibung für deine App an",
+                                        title: t("description"),
+                                        helperText: t(
+                                          "discovery.description.text"
+                                        ),
                                         inputType: "TEXTAREA",
                                       });
 
                                     if (!description) return;
                                     if (description.length > 1000)
                                       return PopupManager.alert({
-                                        title: "Fehler",
-                                        description:
-                                          "Die Beschreibung darf nicht länger als 1000 Zeichen sein.",
+                                        title: t("base:control.error"),
+                                        description: t(
+                                          "discovery.description.error.long"
+                                        ),
                                       });
 
                                     if (description.length < 100)
                                       return PopupManager.alert({
-                                        title: "Fehler",
-                                        description:
-                                          "Die Beschreibung muss mindestens 100 Zeichen lang sein.",
+                                        title: t("base:control.error"),
+                                        description: t(
+                                          "discovery.description.error.short"
+                                        ),
                                       });
 
                                     reactSocket?.emit(
@@ -249,15 +248,17 @@ export default function Discovery() {
                                             discoveryDescription: description,
                                           });
                                           PopupManager.alert({
-                                            title: "Erfolg",
-                                            description:
-                                              "Deine App wurde erfolgreich im Discovery veröffentlicht.",
+                                            title: t("success"),
+                                            description: t(
+                                              "discovery.published"
+                                            ),
                                           });
                                         } else {
                                           PopupManager.alert({
-                                            title: "Fehler",
+                                            title: t("base:control.error"),
                                             description:
-                                              "Deine App konnte nicht im Discovery veröffentlicht werden: " +
+                                              t("discovery.publish.error") +
+                                              ": " +
                                               data.error,
                                           });
                                         }
@@ -267,15 +268,17 @@ export default function Discovery() {
                                 }}
                               >
                                 {project.discovery
-                                  ? "Discovery Deaktivieren"
-                                  : "Discovery Aktivieren"}
+                                  ? t("discovery.deactivate")
+                                  : t("discovery.activate")}
                               </Button>
                               <StackDivider />
-                              <Heading size={"xl"}>Kommentare</Heading>
+                              <Heading size={"xl"}>
+                                {t("discovery.comments")}
+                              </Heading>
                               {project.discoveryComments.length === 0 && (
                                 <>
                                   <Text color={"red.300"}>
-                                    Es gibt noch keine Kommentare.
+                                    {t("discovery.no.comments")}
                                   </Text>
                                 </>
                               )}
@@ -331,4 +334,17 @@ export default function Discovery() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

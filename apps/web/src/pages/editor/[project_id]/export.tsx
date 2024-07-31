@@ -31,6 +31,8 @@ import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/Authenti
 import Head from "next/head";
 import { FaCrown } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Export() {
   const router = useRouter();
@@ -38,6 +40,7 @@ export default function Export() {
   const [reactSocket, setReactSocket] = React.useState<Socket | null>(null);
   let socket: Socket | null = null;
   const [project, setProject] = React.useState<any>({});
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -70,7 +73,7 @@ export default function Export() {
           setProject(data.project);
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -86,11 +89,11 @@ export default function Export() {
   return (
     <>
       <Head>
-        <title>Export - Editor - CodeUp</title>
+        <title>{t("export.doc.title")}</title>
       </Head>
       <EditorProjectLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading size={"xl"}>Exportieren</CHeading>
+          <CHeading size={"xl"}>{t("export.title")}</CHeading>
         </Box>
         {reactSocket ? (
           <>
@@ -100,16 +103,10 @@ export default function Export() {
                   <HStack color={"brand.500"}>
                     <FaCrown />
                     <Text>
-                      Exportiere dein Projekt mit <b>CodeUp PRO</b>
+                      {t("export.codeup.pro")} <b>CodeUp PRO</b>
                     </Text>
                   </HStack>
-                  <Text fontSize={"lg"}>
-                    Du kannst deine App exportieren und auf deinem eigenen
-                    Server hosten. Klicke dazu auf die Schaltfläche unten. Der
-                    Prozess wird einige Minuten in Anspruch nehmen und die
-                    ZIP-Datei wird, nach Abschluss des Exports, automatisch
-                    heruntergeladen.
-                  </Text>
+                  <Text fontSize={"lg"}>{t("export.text")}</Text>
                   <StackDivider />
                   <Button
                     variant={"brand"}
@@ -117,8 +114,7 @@ export default function Export() {
                       if (userInfo.subscription !== "PRO") {
                         await PopupManager.alertAsync({
                           title: "CodeUp PRO",
-                          description:
-                            "Du kannst dein Projekt nur exportieren, wenn du eine aktive CodeUp PRO Lizenz hast!",
+                          description: t("export.codeup.pro.text"),
                         });
                         return;
                       }
@@ -236,7 +232,7 @@ export default function Export() {
                                       URL.revokeObjectURL(url);
                                     } else {
                                       PopupManager.alert({
-                                        title: "Fehler",
+                                        title: t("base:control.error"),
                                         description: data.error,
                                       });
                                     }
@@ -247,7 +243,7 @@ export default function Export() {
                                 });
                               } else {
                                 PopupManager.alert({
-                                  title: "Fehler",
+                                  title: t("base:control.error"),
                                   description: data.error,
                                 });
                               }
@@ -258,7 +254,7 @@ export default function Export() {
                           });
                         } else {
                           PopupManager.alert({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description: data.error,
                           });
                         }
@@ -268,7 +264,7 @@ export default function Export() {
                       });
                     }}
                   >
-                    Exportieren
+                    {t("export.title")}
                   </Button>
                 </Stack>
               </Box>
@@ -282,4 +278,17 @@ export default function Export() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

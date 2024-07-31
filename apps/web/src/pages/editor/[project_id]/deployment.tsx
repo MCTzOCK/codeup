@@ -31,6 +31,9 @@ import { useId } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { v4 } from "uuid";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Contributors() {
   const router = useRouter();
@@ -39,6 +42,7 @@ export default function Contributors() {
   let socket: Socket | null = null;
   const [project, setProject] = React.useState<any>({});
   const [customDomain, setCustomDomain] = React.useState<string>("");
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -73,7 +77,7 @@ export default function Contributors() {
           }
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -90,35 +94,25 @@ export default function Contributors() {
 
   return (
     <>
+      <Head>
+        <title>{t("deployment.doc.title")}</title>
+      </Head>
       <EditorProjectLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading>Deployment</CHeading>
+          <CHeading>{t("deployment")}</CHeading>
         </Box>
         {reactSocket ? (
           <>
             <Flex w={"100%"} alignItems={"center"} justifyContent={"center"}>
               <Box w={"50%"} mt={4}>
                 <Stack>
-                  <Text>
-                    Wenn du möchtest, dass andere mit einem Link auf dein
-                    gesamtes Projekt zugreifen können, kannst du es hier
-                    veröffentlichen. Du kannst dir eine eigene Domain aussuchen.
-                    Zum Beispiel kann dein Projekt so unter
-                    https://mein-projekt.codeup.space erreichbar sein. Gib
-                    einfach deine Wunsch-Domain in das Feld unten ein und wir
-                    schauen, ob diese verfügbar ist. Wenn du die Freigabe
-                    entfernen möchtest, kannst du das Feld einfach leer lassen.
-                    Nach einer Änderung musst du auf den Knopf
-                    &quot;Speichern&quot; klicken.
-                  </Text>
+                  <Text>{t("deployment.text")}</Text>
                   <StackDivider />
                   <FormControl>
                     <InputGroup>
                       <Input
                         id={inputId}
-                        placeholder={
-                          "Sub-Domain Name (ohne https://, Beispiel: mein-projekt)"
-                        }
+                        placeholder={t("deployment.subdomain")}
                         defaultValue={customDomain}
                       />
                       <InputRightAddon>.codeup.space</InputRightAddon>
@@ -146,23 +140,20 @@ export default function Contributors() {
                             if (data.success) {
                               if (newDomain === "") {
                                 PopupManager.alert({
-                                  title: "Erfolgreich",
-                                  description:
-                                    "Deine App ist nun nicht mehr öffentlich erreichbar.",
+                                  title: t("success"),
+                                  description: t("deployment.unpublished"),
                                 });
                                 return;
                               }
 
                               PopupManager.alert({
-                                title: "Erfolgreich",
+                                title: t("success"),
                                 description:
-                                  "Deine App ist nun unter http://" +
-                                  d +
-                                  " erreichbar.",
+                                  t("deployment.available") + " https://" + d,
                               });
                             } else {
                               PopupManager.alert({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: data.error,
                               });
                             }
@@ -178,7 +169,7 @@ export default function Contributors() {
                       }
                     }}
                   >
-                    Speichern
+                    {t("save")}
                   </Button>
                   {customDomain !== "" ? (
                     <Button
@@ -191,7 +182,7 @@ export default function Contributors() {
                         );
                       }}
                     >
-                      Deploment Öffnen
+                      {t("deployment.open")}
                     </Button>
                   ) : null}
                 </Stack>
@@ -204,4 +195,17 @@ export default function Contributors() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

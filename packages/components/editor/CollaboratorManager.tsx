@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { Socket } from "socket.io-client";
 import CollaboratorManagerBody from "./CollaboratorManagerBody";
+import { useTranslation } from "next-i18next";
 
 export default function CollaboratorManager(props: {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export default function CollaboratorManager(props: {
   projectId: string | undefined;
   socket: Socket;
 }) {
+  const { t } = useTranslation("editor");
   return (
     <>
       <Modal
@@ -39,7 +41,7 @@ export default function CollaboratorManager(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Mitwirkende verwalten</ModalHeader>
+          <ModalHeader>{t("contributors.manage")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <CollaboratorManagerBody
@@ -50,7 +52,7 @@ export default function CollaboratorManager(props: {
 
           <ModalFooter>
             <Button variant={"brand"} mr={3} onClick={props.onClose}>
-              Schließen
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>

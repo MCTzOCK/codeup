@@ -29,11 +29,16 @@ import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useRouter } from "next/router";
 import { RiNextjsFill } from "react-icons/ri";
 import { SiExpress, SiVite } from "react-icons/si";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Projects() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const router = useRouter();
 
@@ -46,7 +51,7 @@ export default function Projects() {
       setProjects(res.payload.data);
     } else {
       await PopupManager.alertAsync({
-        title: "Fehler",
+        title: t("base:control.error"),
         description: res.payload.error,
       });
     }
@@ -63,21 +68,20 @@ export default function Projects() {
     identifier: string;
   }[] = [
     {
-      name: "Statisch",
-      description:
-        "Ein statisches Projekt (HTML, CSS, JavaScript, keine Server-Logik)",
+      name: t("project.types.static"),
+      description: t("project.types.static.description"),
       icon: <FaHtml5 />,
       identifier: "static",
     },
     {
-      name: "Vite.js",
-      description: "Eine leere Vite.js (React) App (keine Server-Logik)",
+      name: t("project.types.vite"),
+      description: t("project.types.vite.description"),
       icon: <SiVite />,
       identifier: "vite-react",
     },
     {
-      name: "Express.js",
-      description: "Eine leere Express.js App (ausschließlich Server-Logik)",
+      name: t("project.types.express"),
+      description: t("project.types.express.description"),
       icon: <SiExpress />,
       identifier: "express",
     },
@@ -85,34 +89,34 @@ export default function Projects() {
 
   return (
     <>
+      <Head>
+        <title>{t("doc.title")}</title>
+      </Head>
       <Box minH={"100vh"} h={"fit-content"} bg={"#000"}>
         <GridLayoutV2
-          pageTitle={"Projekte"}
+          pageTitle={t("title")}
           search={{
             show: true,
             fields: true,
           }}
           topButtons={[
             {
-              text: "Neu",
+              text: t("new"),
               leftIcon: <FaPlus />,
               onClick: async () => {
                 const name = await PopupManager.promptAsync({
-                  title: "Neues Projekt",
-                  helperText: "Bitte geben Sie den Namen des Projekts ein.",
+                  title: t("project.new"),
+                  helperText: t("project.new.name"),
                 });
 
                 if (!name) return;
 
                 const x = await new Promise(async (resolve) => {
                   await PopupManager.alertAsync({
-                    title: "Projekt-Typ wählen",
+                    title: t("project.type.choose"),
                     description: (
                       <>
-                        <Text>
-                          Bitte wähle den Typ des Projektes aus. Du kannst
-                          diesen später nicht mehr ändern, also wähle weise.
-                        </Text>
+                        <Text>{t("project.type.choose.text")}</Text>
                         <Grid
                           templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
                           pt={6}
@@ -181,21 +185,24 @@ export default function Projects() {
             fields: [
               {
                 icon: <FaCode />,
-                text: "Vorlage: " + p.projectType,
+                text: t("project.template") + ": " + p.projectType,
               },
               {
                 icon: <FaInfo />,
-                text: "ID: " + p._id,
+                text: t("project.id") + ": " + p._id,
               },
               {
                 icon: <FaClock />,
-                text: "Erstellt: " + new Date(p.createdAt).toLocaleString(),
+                text:
+                  t("project.created") +
+                  ": " +
+                  new Date(p.createdAt).toLocaleString(),
               },
             ],
             buttonRows: [
               [
                 {
-                  text: "Öffnen",
+                  text: t("open"),
                   onClick: () => {
                     router.push("/projects/" + p._id);
                   },
@@ -203,12 +210,12 @@ export default function Projects() {
                   variant: "brand",
                 },
                 {
-                  text: "Löschen",
+                  text: t("delete"),
                   onClick: async () => {
                     if (
                       !(await PopupManager.confirmAsync({
-                        title: "Projekt löschen",
-                        question: "Möchten Sie das Projekt wirklich löschen?",
+                        title: t("project.delete"),
+                        question: t("project.delete.confirm"),
                       }))
                     )
                       return;
@@ -222,7 +229,7 @@ export default function Projects() {
                       await reload();
                     } else {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description: res.payload.error,
                       });
                     }
@@ -233,7 +240,7 @@ export default function Projects() {
               ],
               [
                 {
-                  text: "Exportieren",
+                  text: t("project.export"),
                   onClick: async () => {
                     window.open(
                       "/api/projects/" +
@@ -252,4 +259,10 @@ export default function Projects() {
       </Box>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
 }

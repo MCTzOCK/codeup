@@ -38,6 +38,7 @@ import {
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function ProjectIdeaSelectorNode({
   data,
@@ -46,6 +47,7 @@ export default function ProjectIdeaSelectorNode({
   data: string;
   isConnectable: boolean;
 }) {
+  const { t } = useTranslation("roadmap");
   const onChange = useCallback((evt: any) => {}, []);
 
   const router = useRouter();
@@ -54,13 +56,13 @@ export default function ProjectIdeaSelectorNode({
     <>
       <Box p={6} w={"100%"} bg={"gray.900"} rounded={"xl"}>
         <Box textAlign={"center"}>
-          <CHeading size={"xl"}>Idee</CHeading>
+          <CHeading size={"xl"}>{t("roadmap.blocks.idea")}</CHeading>
         </Box>
         <FormControl mb={2} mt={6} w={"100%"}>
           <Stack>
             <Textarea
               resize={"none"}
-              placeholder={"Projekt Idee eingeben"}
+              placeholder={t("roadmap.blocks.idea.enter")}
               defaultValue={data}
               id={"project_idea_ta"}
             />
@@ -84,14 +86,14 @@ export default function ProjectIdeaSelectorNode({
 
                 if (res.status !== 200) {
                   PopupManager.alert({
-                    title: "Fehler",
+                    title: t("base:control.error"),
                     description:
-                      "Es ist ein Fehler aufgetreten: " + res.payload.error,
+                      t("base:control.error.request") + res.payload.error,
                   });
                 }
               }}
             >
-              Speichern
+              {t("save")}
             </Button>
           </Stack>
         </FormControl>

@@ -48,6 +48,7 @@ import {
 import { FaCogs, FaPlus, FaTrash } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
 import { useLoggedIn } from "@codeup/hooks";
+import { useTranslation } from "next-i18next";
 
 export default function ContributorManager(props: {
   isOpen: boolean;
@@ -55,6 +56,7 @@ export default function ContributorManager(props: {
   onClose: () => void;
   projectId: string | undefined;
 }) {
+  const { t } = useTranslation("ide");
   const toast = useToast();
 
   const { loggedIn, userInfo } = useLoggedIn();
@@ -102,7 +104,7 @@ export default function ContributorManager(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Mitwirkende verwalten</ModalHeader>
+          <ModalHeader>{t("contributors.manage")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {props.projectId &&
@@ -115,14 +117,14 @@ export default function ContributorManager(props: {
                   <Popover>
                     <PopoverTrigger>
                       <Button variant={"brand"} leftIcon={<FaPlus />}>
-                        Hinzufügen
+                        {t("add")}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent bgColor={"black"}>
                       <PopoverArrow bgColor={"black"} />
                       <PopoverCloseButton />
                       <PopoverHeader fontSize={["xl", "2xl"]}>
-                        Mitwirkenden hinzufügen
+                        {t("contributors.add")}
                       </PopoverHeader>
                       <PopoverBody fontSize={["lg", "xl"]}>
                         <form
@@ -148,7 +150,7 @@ export default function ContributorManager(props: {
                               e.target.elements.email_i.value = "";
                             } else {
                               toast({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description: res.payload.error,
                                 position: "top",
                                 status: "error",
@@ -160,7 +162,7 @@ export default function ContributorManager(props: {
                         >
                           <Stack>
                             <FormControl>
-                              <FormLabel>E-Mail</FormLabel>
+                              <FormLabel>{t("email")}</FormLabel>
                               <InputGroup>
                                 <InputLeftAddon>
                                   <HiMail />
@@ -168,12 +170,12 @@ export default function ContributorManager(props: {
                                 <Input
                                   id={"email_i"}
                                   name="email_i"
-                                  placeholder={"E-Mail"}
+                                  placeholder={t("email")}
                                 />
                               </InputGroup>
                             </FormControl>
                             <Button type="submit" variant={"brand"}>
-                              Hinzufügen
+                              {t("add")}
                             </Button>
                           </Stack>
                         </form>
@@ -188,7 +190,7 @@ export default function ContributorManager(props: {
                 >
                   <Flex direction={"row"} mb={"1.2rem"}>
                     <Box flex={"20%"} fontWeight={"bold"}>
-                      Name
+                      {t("name")}
                     </Box>
                     <Box flex={"60%"}></Box>
                     <Flex
@@ -197,7 +199,7 @@ export default function ContributorManager(props: {
                       justifyContent={"center"}
                       fontWeight={"bold"}
                     >
-                      Berechtigungen
+                      {t("permissions")}
                     </Flex>
                   </Flex>
                   <Divider />
@@ -217,13 +219,11 @@ export default function ContributorManager(props: {
                       justifyContent={"right"}
                     >
                       <Tooltip
-                        label={
-                          "Diesem Benutzer gehört das Projekt, er hat alle Berechtigungen, inklusive der Verwaltung von Mitwirkenden"
-                        }
+                        label={t("permissions.owner.tooltip")}
                         hasArrow={true}
                       >
                         <Tag size={"lg"} variant={"solid"} colorScheme={"red"}>
-                          Besitzer
+                          {t("permissions.owner")}
                         </Tag>
                       </Tooltip>
                     </Flex>
@@ -260,7 +260,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Lesen
+                                    {t("permissions.read")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes("WRITE") ? (
@@ -269,7 +269,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Schreiben
+                                    {t("permissions.write")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes("DELETE") ? (
@@ -278,7 +278,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Löschen
+                                    {t("permissions.delete")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes(
@@ -289,7 +289,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Klonen
+                                    {t("permissions.duplicate")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes("RENAME") ? (
@@ -298,7 +298,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Umbenennen
+                                    {t("permissions.rename")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes("EXPORT") ? (
@@ -307,7 +307,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Exportieren
+                                    {t("permissions.export")}
                                   </Tag>
                                 ) : null}
                                 {contributor.permissions.includes(
@@ -318,7 +318,7 @@ export default function ContributorManager(props: {
                                     variant={"solid"}
                                     colorScheme={"teal"}
                                   >
-                                    Mitwirkende verwalten
+                                    {t("permissions.manage.contributors")}
                                   </Tag>
                                 ) : null}
                               </SimpleGrid>
@@ -332,7 +332,7 @@ export default function ContributorManager(props: {
                                 <Popover>
                                   <PopoverTrigger>
                                     <IconButton
-                                      aria-label={"Mitwirkenden entfernen"}
+                                      aria-label={t("contributors.remove")}
                                     >
                                       <FaTrash />
                                     </IconButton>
@@ -341,16 +341,15 @@ export default function ContributorManager(props: {
                                     <PopoverArrow bgColor={"gray.800"} />
                                     <PopoverCloseButton />
                                     <PopoverHeader>
-                                      Mitwirkenden entfernen
+                                      {t("contributors.remove")}
                                     </PopoverHeader>
                                     <PopoverBody>
                                       <Stack>
                                         <Text fontSize={"lg"}>
-                                          Willst du den mitwirkenden&nbsp;
+                                          {t("contributors.remove.text")}:&nbsp;
                                           {contributor.firstName}&nbsp;
                                           {contributor.lastName}&nbsp;(
-                                          {contributor.username}) wirklich
-                                          entfernen?
+                                          {contributor.username})
                                         </Text>
                                         <Button
                                           variant={"solid"}
@@ -380,7 +379,7 @@ export default function ContributorManager(props: {
                                               });
                                             } else {
                                               toast({
-                                                title: "Fehler",
+                                                title: t("base:control.error"),
                                                 description: res.payload.error,
                                                 position: "top",
                                                 status: "error",
@@ -390,7 +389,7 @@ export default function ContributorManager(props: {
                                             }
                                           }}
                                         >
-                                          Entfernen
+                                          {t("remove")}
                                         </Button>
                                       </Stack>
                                     </PopoverBody>
@@ -402,9 +401,7 @@ export default function ContributorManager(props: {
                                     <Popover>
                                       <PopoverTrigger>
                                         <IconButton
-                                          aria-label={
-                                            "Berechtigungen verwalten"
-                                          }
+                                          aria-label={t("manage.permissions")}
                                         >
                                           <FaCogs />
                                         </IconButton>
@@ -413,7 +410,7 @@ export default function ContributorManager(props: {
                                         <PopoverArrow bgColor={"gray.800"} />
                                         <PopoverCloseButton />
                                         <PopoverHeader>
-                                          Berechtigungen ändern
+                                          {t("change.permissions")}
                                         </PopoverHeader>
                                         <PopoverBody>
                                           <Stack>
@@ -424,7 +421,7 @@ export default function ContributorManager(props: {
                                               disabled={true}
                                               colorScheme={"brand"}
                                             >
-                                              Lesen
+                                              {t("permissions.read")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -437,7 +434,7 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Schreiben
+                                              {t("permissions.write")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -450,7 +447,7 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Löschen
+                                              {t("permissions.delete")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -463,7 +460,7 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Klonen
+                                              {t("permissions.duplicate")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -476,7 +473,7 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Umbenennen
+                                              {t("permissions.rename")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -489,7 +486,7 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Exportieren
+                                              {t("permissions.export")}
                                             </Checkbox>
                                             <Checkbox
                                               defaultChecked={contributor.permissions.includes(
@@ -502,7 +499,9 @@ export default function ContributorManager(props: {
                                               }
                                               colorScheme={"brand"}
                                             >
-                                              Mitwirkende verwalten
+                                              {t(
+                                                "permissions.manage.contributors"
+                                              )}
                                             </Checkbox>
                                             <Button
                                               variant={"brand"}
@@ -594,7 +593,8 @@ export default function ContributorManager(props: {
                                                   });
                                                 } else {
                                                   toast({
-                                                    title: "Fehler",
+                                                    title:
+                                                      t("base:control.error"),
                                                     description:
                                                       res.payload.error,
                                                     position: "top",
@@ -605,7 +605,7 @@ export default function ContributorManager(props: {
                                                 }
                                               }}
                                             >
-                                              Speichern
+                                              {t("save")}
                                             </Button>
                                           </Stack>
                                         </PopoverBody>
@@ -627,7 +627,7 @@ export default function ContributorManager(props: {
 
           <ModalFooter>
             <Button variant="brand" mr={3} onClick={props.onClose}>
-              Schließen
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>

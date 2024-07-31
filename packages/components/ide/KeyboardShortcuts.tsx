@@ -29,12 +29,14 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import * as React from "react";
+import { useTranslation } from "next-i18next";
 
 export default function KeyboardShortcuts(props: {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation("ide");
   return (
     <>
       <Modal
@@ -46,89 +48,90 @@ export default function KeyboardShortcuts(props: {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Tastenkürzel</ModalHeader>
+          <ModalHeader>{t("keyboard.shortcuts")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <TableContainer>
               <Table variant="simple">
                 <Thead>
                   <Tr>
-                    <Th>Tastenkürzel</Th>
-                    <Th>Aktion</Th>
+                    <Th>{t("keyboard.shortcuts")}</Th>
+                    <Th>{t("action")}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>S</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>S</Kbd>
                     </Td>
-                    <Td>Speichern</Td>
+                    <Td>{t("keyboard.save")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>O</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>O</Kbd>
                     </Td>
-                    <Td>Datei Öffnen</Td>
+                    <Td>{t("keyboard.open.file")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>C</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>C</Kbd>
                     </Td>
-                    <Td>Kopieren</Td>
+                    <Td>{t("keyboard.copy")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>V</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>V</Kbd>
                     </Td>
-                    <Td>Einfügen</Td>
+                    <Td>{t("keyboard.past")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>Z</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>Z</Kbd>
                     </Td>
-                    <Td>Ausschneiden</Td>
+                    <Td>{t("keyboard.cut")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>F</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>F</Kbd>
                     </Td>
-                    <Td>Suchen</Td>
+                    <Td>{t("keyboard.search")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>H</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>H</Kbd>
                     </Td>
-                    <Td>Ersetzen</Td>
+                    <Td>{t("keyboard.replace")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>ALT</Kbd> + <Kbd>F</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>ALT</Kbd> +{" "}
+                      <Kbd>F</Kbd>
                     </Td>
-                    <Td>Formatieren</Td>
+                    <Td>{t("keyboard.format")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>G</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>G</Kbd>
                     </Td>
-                    <Td>Zu Zeile springen</Td>
+                    <Td>{t("keyboard.jump")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>Z</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>Z</Kbd>
                     </Td>
-                    <Td>Rückgängig</Td>
+                    <Td>{t("keyboard.undo")}</Td>
                   </Tr>
                   <Tr>
                     <Td>
-                      <Kbd>STRG</Kbd> + <Kbd>Y</Kbd>
+                      <Kbd>{t("keyboard.ctrl")}</Kbd> + <Kbd>Y</Kbd>
                     </Td>
-                    <Td>Wiederherstellen</Td>
+                    <Td>{t("keyboard.redo")}</Td>
                   </Tr>
                 </Tbody>
                 <Tfoot>
                   <Tr>
-                    <Th>Tastenkürzel</Th>
-                    <Th>Aktion</Th>
+                    <Th>{t("keyboard.shortcuts")}</Th>
+                    <Th>{t("action")}</Th>
                   </Tr>
                 </Tfoot>
               </Table>
@@ -136,7 +139,7 @@ export default function KeyboardShortcuts(props: {
           </ModalBody>
           <ModalFooter>
             <Button onClick={props.onClose} variant={"outline"}>
-              Schließen
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>

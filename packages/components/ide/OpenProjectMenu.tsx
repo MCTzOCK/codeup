@@ -55,8 +55,10 @@ import TemplatePublisher from "./TemplatePublisher";
 import { default as NextLink } from "next/link";
 import Networking from "@codeup/util/src/Networking";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function OpenProjectMenu() {
+  const { t } = useTranslation("ide");
   const [projectList, setProjectList] = useState<
     {
       name: string;
@@ -128,7 +130,7 @@ export default function OpenProjectMenu() {
         setLoading(false);
       } else {
         toast({
-          title: "Fehler",
+          title: t("base:control.error"),
           description: res.payload.error,
           status: "error",
           variant: "solid",
@@ -202,7 +204,7 @@ export default function OpenProjectMenu() {
           rounded={"xl"}
         >
           <Box textAlign={"center"}>
-            <CHeading size={"xl"}>Projekt öffnen</CHeading>
+            <CHeading size={"xl"}>{t("projects.open")}</CHeading>
           </Box>
           {loading ? (
             <>
@@ -215,10 +217,10 @@ export default function OpenProjectMenu() {
             <>
               <Flex justifyContent={"center"} mt={"1.2rem"}>
                 <Box>
-                  Du hast noch keine Projekte erstellt.&nbsp;
+                  {t("no.projects")}&nbsp;
                   <Link color="brand.500" href={"?component=create"}>
                     <NextLink href={"?component=create"}>
-                      Erstelle dein erstes Projekt
+                      {t("no.projects.create")}
                     </NextLink>
                   </Link>
                   .
@@ -235,7 +237,7 @@ export default function OpenProjectMenu() {
                   </InputLeftAddon>
                   <Input
                     type={"text"}
-                    placeholder={"Suche..."}
+                    placeholder={t("search")}
                     id={sBoxId}
                     defaultValue={query}
                     onChange={(e) => {
@@ -282,7 +284,7 @@ export default function OpenProjectMenu() {
                           textAlign={"center"}
                           fontWeight={"bold"}
                         >
-                          Name
+                          {t("name")}
                         </Box>
                         <Box
                           flex={[0, "50%"]}
@@ -290,14 +292,14 @@ export default function OpenProjectMenu() {
                           fontWeight={"bold"}
                           display={["none", "initial"]}
                         >
-                          Statistik
+                          {t("stats")}
                         </Box>
                         <Box
                           flex={"20%"}
                           textAlign={"center"}
                           fontWeight={"bold"}
                         >
-                          Aktion
+                          {t("action")}
                         </Box>
                       </Flex>
                     </Box>
@@ -307,7 +309,7 @@ export default function OpenProjectMenu() {
                           <Flex direction={"row"}>
                             <Box flex={"5%"}></Box>
                             <Box flex={"20%"} textAlign={"left"}>
-                              {selectedProjects.length} Projekte
+                              {selectedProjects.length} {t("projects")}
                             </Box>
                             <Box flex={[0, "50%"]}></Box>
                             <Box flex={"20%"}>
@@ -342,8 +344,10 @@ export default function OpenProjectMenu() {
                                           ) as HTMLInputElement
                                         ).value = "";
                                         toast({
-                                          title: "Erfolg",
-                                          description: `Das Projekt ${projectId} wurde erfolgreich gelöscht`,
+                                          title: t("success"),
+                                          description: t(
+                                            "project.deleted.success"
+                                          ),
                                           status: "success",
                                           variant: "solid",
                                           position: "top",
@@ -351,7 +355,7 @@ export default function OpenProjectMenu() {
                                         });
                                       } else {
                                         toast({
-                                          title: "Fehler",
+                                          title: t("base:control.error"),
                                           description: res.payload.error,
                                           status: "error",
                                           variant: "solid",
@@ -366,7 +370,7 @@ export default function OpenProjectMenu() {
                                     setQuery("");
                                   }}
                                 >
-                                  Löschen
+                                  {t("delete")}
                                 </Button>
                                 <Button
                                   variant={"ghost"}
@@ -407,7 +411,7 @@ export default function OpenProjectMenu() {
                                     }
                                   }}
                                 >
-                                  Exportieren
+                                  {t("export")}
                                 </Button>
                                 <Button
                                   variant={"ghost"}
@@ -452,9 +456,8 @@ export default function OpenProjectMenu() {
                                           ) as HTMLInputElement
                                         ).value = "";
                                         toast({
-                                          title: "Erfolg",
-                                          description:
-                                            "Das Projekt wurde erfolgreich dupliziert",
+                                          title: t("success"),
+                                          description: t("duplicated.success"),
                                           status: "success",
                                           variant: "solid",
                                           position: "top",
@@ -462,7 +465,7 @@ export default function OpenProjectMenu() {
                                         });
                                       } else {
                                         toast({
-                                          title: "Fehler",
+                                          title: t("base:control.error"),
                                           description: res.payload.error,
                                           status: "error",
                                           variant: "solid",
@@ -475,7 +478,7 @@ export default function OpenProjectMenu() {
                                     setFilteredProjectList(npl);
                                   }}
                                 >
-                                  Klonen
+                                  {t("clone")}
                                 </Button>
                               </Flex>
                             </Box>
@@ -606,18 +609,18 @@ export default function OpenProjectMenu() {
                                     <Text fontSize={"md"}>
                                       {project.stats.total_files}&nbsp;
                                       {project.stats.total_files === 1
-                                        ? "Datei"
-                                        : "Dateien"}
+                                        ? t("file")
+                                        : t("files")}
                                     </Text>
                                     <Text fontSize={"md"}>
                                       {project.stats.total_contributors}&nbsp;
                                       {project.stats.total_contributors === 1
-                                        ? "Mitwirkender"
-                                        : "Mitwirkende"}
+                                        ? t("contributor")
+                                        : t("contributors")}
                                     </Text>
                                     <Text fontSize={"md"}>
                                       <>
-                                        Projektgröße:&nbsp;
+                                        {t("project.size")}:&nbsp;
                                         {byteSize(
                                           project.stats.total_size
                                         ).toString()}
@@ -666,9 +669,10 @@ export default function OpenProjectMenu() {
                                                 ) as HTMLInputElement
                                               ).value = "";
                                               toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich gelöscht",
+                                                title: t("success"),
+                                                description: t(
+                                                  "project.deleted.success"
+                                                ),
                                                 status: "success",
                                                 variant: "solid",
                                                 position: "top",
@@ -676,7 +680,7 @@ export default function OpenProjectMenu() {
                                               });
                                             } else {
                                               toast({
-                                                title: "Fehler",
+                                                title: t("base:control.error"),
                                                 description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
@@ -692,7 +696,7 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"red.400"}
                                           >
-                                            <BsFillTrashFill /> Löschen
+                                            <BsFillTrashFill /> {t("delete")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -701,7 +705,7 @@ export default function OpenProjectMenu() {
                                         <MenuItem
                                           onClick={async (e) => {
                                             const newName = prompt(
-                                              "Gib den neuen Namen ein"
+                                              t("project.rename.new.name")
                                             );
 
                                             if (!newName) {
@@ -742,9 +746,10 @@ export default function OpenProjectMenu() {
                                                 ) as HTMLInputElement
                                               ).value = "";
                                               toast({
-                                                title: "Erfolg",
-                                                description:
-                                                  "Das Projekt wurde erfolgreich umbenannt",
+                                                title: t("success"),
+                                                description: t(
+                                                  "project.rename.success"
+                                                ),
                                                 status: "success",
                                                 variant: "solid",
                                                 position: "top",
@@ -752,7 +757,7 @@ export default function OpenProjectMenu() {
                                               });
                                             } else {
                                               toast({
-                                                title: "Fehler",
+                                                title: t("base:control.error"),
                                                 description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
@@ -768,7 +773,8 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"green.400"}
                                           >
-                                            <BsFillPencilFill /> Umbenennen
+                                            <BsFillPencilFill />{" "}
+                                            {t("project.rename")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -837,9 +843,9 @@ export default function OpenProjectMenu() {
                                                 ) as HTMLInputElement
                                               ).value = "";
                                               toast({
-                                                title: "Erfolg",
+                                                title: t("success"),
                                                 description:
-                                                  "Das Projekt wurde erfolgreich dupliziert",
+                                                  t("duplicated.success"),
                                                 status: "success",
                                                 variant: "solid",
                                                 position: "top",
@@ -847,7 +853,7 @@ export default function OpenProjectMenu() {
                                               });
                                             } else {
                                               toast({
-                                                title: "Fehler",
+                                                title: t("base:control.error"),
                                                 description: res.payload.error,
                                                 status: "error",
                                                 variant: "solid",
@@ -863,7 +869,7 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"blue.400"}
                                           >
-                                            <BiDuplicate /> Klonen
+                                            <BiDuplicate /> {t("clone")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -883,7 +889,8 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"pink.400"}
                                           >
-                                            <FaUsersCog /> Mitwirkende verwalten
+                                            <FaUsersCog />{" "}
+                                            {t("contributors.manage")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -936,7 +943,7 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"yellow.400"}
                                           >
-                                            <FaFileExport /> Exportieren
+                                            <FaFileExport /> {t("export")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -954,8 +961,8 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"purple.400"}
                                           >
-                                            <FaCloudUploadAlt /> Vorlage
-                                            Veröffentlichen
+                                            <FaCloudUploadAlt />{" "}
+                                            {t("publish.template")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -993,9 +1000,9 @@ export default function OpenProjectMenu() {
                                               variant: "solid",
                                               isClosable: true,
                                               duration: 3000,
-                                              title: "Erfolgreich",
+                                              title: t("success"),
                                               description:
-                                                "Die Vorlage wurde erfolgreich gelöscht!",
+                                                t("template.deleted"),
                                             });
                                           }}
                                         >
@@ -1005,7 +1012,7 @@ export default function OpenProjectMenu() {
                                             gap={".6rem"}
                                             color={"purple.400"}
                                           >
-                                            <FaTrash /> Vorlage Löschen
+                                            <FaTrash /> {t("template.delete")}
                                           </Flex>
                                         </MenuItem>
                                       ) : null}
@@ -1040,7 +1047,7 @@ export default function OpenProjectMenu() {
                                           });
 
                                           setProjectList(l);
-                                          setQuery("loading...");
+                                          setQuery(t("loading"));
                                           setTimeout(() => {
                                             setQuery("");
                                           }, 100);
@@ -1055,8 +1062,8 @@ export default function OpenProjectMenu() {
                                           <FaThumbtack />
                                           &nbsp;
                                           {project.pinned.includes(userInfo.id)
-                                            ? "Abheften"
-                                            : "Anheften"}
+                                            ? t("unpin")
+                                            : t("pin")}
                                         </Flex>
                                       </MenuItem>
                                     </MenuList>
@@ -1073,8 +1080,7 @@ export default function OpenProjectMenu() {
               ) : (
                 <>
                   <Box mt={"2rem"} textAlign={"center"}>
-                    Es wurden keine Projekte gefunden, die der auf die Suche
-                    &quot;{query}&quot; zutreffen
+                    {t("projects.search.not.found")}
                   </Box>
                 </>
               )}

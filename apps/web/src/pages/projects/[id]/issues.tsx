@@ -37,11 +37,16 @@ import {
   FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Issues() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
 
@@ -60,9 +65,8 @@ export default function Issues() {
         reloadIssues();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -80,28 +84,30 @@ export default function Issues() {
       setIssues(x.payload.issues);
     } else {
       PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Probleme konnten nicht empfangen werden: " + x.payload.error,
+        title: t("base:control.error"),
+        description: t("issues.loading.error") + ": " + x.payload.error,
       });
     }
   };
   return (
     <>
+      <Head>
+        <title>{t("issues.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <GridLayoutV2
-            pageTitle={"Probleme"}
+            pageTitle={t("issues.title")}
             search={{
               show: true,
               fields: true,
             }}
             topButtons={[
               {
-                text: "Neues Problem",
+                text: t("issues.new"),
                 onClick: async () => {
                   await PopupManager.alertAsync({
-                    title: "Neues Problem",
+                    title: t("issues.new"),
                     description: (
                       <>
                         <form
@@ -135,9 +141,10 @@ export default function Issues() {
                               PopupManager.removeCurrentPopup();
 
                               await PopupManager.alertAsync({
-                                title: "Fehler",
+                                title: t("base:control.error"),
                                 description:
-                                  "Das Problem konnte nicht erstellt werden: " +
+                                  t("issues.new.error") +
+                                  ": " +
                                   res.payload.error,
                               });
                             }
@@ -145,34 +152,36 @@ export default function Issues() {
                         >
                           <Stack spacing={4}>
                             <FormControl isRequired>
-                              <FormLabel>Titel</FormLabel>
+                              <FormLabel>{t("issues.f.title")}</FormLabel>
                               <Input
                                 name={"title"}
-                                placeholder={"Mein Problem"}
+                                placeholder={t("issues.f.title")}
                               />
                             </FormControl>
                             <FormControl isRequired>
-                              <FormLabel>Beschreibung</FormLabel>
+                              <FormLabel>{t("issues.f.description")}</FormLabel>
                               <Textarea
                                 name={"description"}
-                                placeholder={
-                                  "Beschreibe das Problem (du kannst Markdown verwenden)"
-                                }
+                                placeholder={t(
+                                  "issues.f.description.placeholder"
+                                )}
                               />
                             </FormControl>
                             <FormControl isRequired>
-                              <FormLabel>Priorität</FormLabel>
+                              <FormLabel>{t("issues.prio")}</FormLabel>
                               <Select
                                 name={"priority"}
-                                placeholder={"Wähle eine Priorität"}
+                                placeholder={t("issues.prio.choose")}
                               >
-                                <option value={"low"}>Niedrig</option>
-                                <option value={"medium"}>Mittel</option>
-                                <option value={"high"}>Hoch</option>
+                                <option value={"low"}>{t("prio.low")}</option>
+                                <option value={"medium"}>
+                                  {t("prio.medium")}
+                                </option>
+                                <option value={"high"}>{t("prio.high")}</option>
                               </Select>
                             </FormControl>
                             <Button variant={"brand"} type={"submit"}>
-                              Erstellen
+                              {t("create")}
                             </Button>
                           </Stack>
                         </form>
@@ -190,7 +199,7 @@ export default function Issues() {
                 buttonRows: [
                   [
                     {
-                      text: "Anzeigen",
+                      text: t("issues.open"),
                       leftIcon: <FaEye />,
                       variant: "brand",
                       onClick: async () => {
@@ -199,32 +208,32 @@ export default function Issues() {
                           description: (
                             <>
                               <Box>
-                                <b>Beschreibung:</b>
+                                <b>{t("issues.f.description")}:</b>
                                 <br />
                                 {issue.description}
                               </Box>
                               <Box>
-                                <b>Erstellt:</b>
+                                <b>{t("issues.f.created")}:</b>
                                 <br />
                                 {new Date(issue.createdAt).toLocaleString()}
                               </Box>
                               <Box>
-                                <b>Status:</b>
+                                <b>{t("issues.status")}:</b>
                                 <br />
                                 {issue.status === "open"
-                                  ? "Offen"
+                                  ? t("issues.status.open")
                                   : issue.status === "closed"
-                                  ? "Geschlossen"
-                                  : "In Bearbeitung"}
+                                  ? t("issues.status.closed")
+                                  : t("issues.status.work")}
                               </Box>
                               <Box>
-                                <b>Priorität:</b>
+                                <b>{t("issues.prio")}:</b>
                                 <br />
                                 {issue.priority === "low"
-                                  ? "Niedrig"
+                                  ? t("prio.low")
                                   : issue.priority === "medium"
-                                  ? "Mittel"
-                                  : "Hoch"}
+                                  ? t("prio.medium")
+                                  : t("prio.high")}
                               </Box>
                             </>
                           ),
@@ -232,15 +241,14 @@ export default function Issues() {
                       },
                     },
                     {
-                      text: "Schließen",
+                      text: t("close"),
                       leftIcon: <FaTimesCircle />,
                       colorScheme: "red",
                       onClick: async () => {
                         if (
                           !(await PopupManager.confirmAsync({
-                            title: "Schließen",
-                            question:
-                              "Möchtest du dieses Problem wirklich schließen?",
+                            title: t("close"),
+                            question: t("issues.close.confirm"),
                           }))
                         )
                           return;
@@ -259,9 +267,10 @@ export default function Issues() {
                           await reloadIssues();
                         } else {
                           PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Das Problem konnte nicht geschlossen werden: " +
+                              t("issues.close.error") +
+                              ": " +
                               res.payload.error,
                           });
                         }
@@ -271,12 +280,12 @@ export default function Issues() {
                   ],
                   [
                     {
-                      text: "Bearbeiten",
+                      text: t("edit"),
                       leftIcon: <FaPen />,
                       variant: "brand",
                       onClick: async () => {
                         await PopupManager.alertAsync({
-                          title: "Bearbeiten",
+                          title: t("edit"),
                           description: (
                             <>
                               <form
@@ -312,9 +321,10 @@ export default function Issues() {
                                     PopupManager.removeCurrentPopup();
 
                                     await PopupManager.alertAsync({
-                                      title: "Fehler",
+                                      title: t("base:control.error"),
                                       description:
-                                        "Das Problem konnte nicht bearbeitet werden: " +
+                                        t("issue.edit.error") +
+                                        ": " +
                                         res.payload.error,
                                     });
                                   }
@@ -322,37 +332,45 @@ export default function Issues() {
                               >
                                 <Stack spacing={4}>
                                   <FormControl isRequired>
-                                    <FormLabel>Titel</FormLabel>
+                                    <FormLabel>{t("issues.f.title")}</FormLabel>
                                     <Input
                                       name={"title"}
-                                      placeholder={"Mein Problem"}
+                                      placeholder={t("issues.f.title")}
                                       defaultValue={issue.title}
                                     />
                                   </FormControl>
                                   <FormControl isRequired>
-                                    <FormLabel>Beschreibung</FormLabel>
+                                    <FormLabel>
+                                      {t("issues.f.description")}
+                                    </FormLabel>
                                     <Textarea
                                       name={"description"}
-                                      placeholder={
-                                        "Beschreibe das Problem (du kannst Markdown verwenden)"
-                                      }
+                                      placeholder={t(
+                                        "issues.f.description.placeholder"
+                                      )}
                                       defaultValue={issue.description}
                                     />
                                   </FormControl>
                                   <FormControl isRequired>
-                                    <FormLabel>Priorität</FormLabel>
+                                    <FormLabel>{t("issues.prio")}</FormLabel>
                                     <Select
                                       name={"priority"}
-                                      placeholder={"Wähle eine Priorität"}
+                                      placeholder={t("issues.prio.choose")}
                                       defaultValue={issue.priority}
                                     >
-                                      <option value={"low"}>Niedrig</option>
-                                      <option value={"medium"}>Mittel</option>
-                                      <option value={"high"}>Hoch</option>
+                                      <option value={"low"}>
+                                        {t("prio.low")}
+                                      </option>
+                                      <option value={"medium"}>
+                                        {t("prio.medium")}
+                                      </option>
+                                      <option value={"high"}>
+                                        {t("prio.high")}
+                                      </option>
                                     </Select>
                                   </FormControl>
                                   <Button variant={"brand"} type={"submit"}>
-                                    Speichern
+                                    {t("save")}
                                   </Button>
                                 </Stack>
                               </form>
@@ -363,15 +381,14 @@ export default function Issues() {
                       disabled: issue.status === "closed",
                     },
                     {
-                      text: "Löschen",
+                      text: t("delete"),
                       leftIcon: <FaTrash />,
                       colorScheme: "red",
                       onClick: async () => {
                         if (
                           !(await PopupManager.confirmAsync({
-                            title: "Löschen",
-                            question:
-                              "Möchtest du dieses Problem wirklich löschen?",
+                            title: t("delete"),
+                            question: t("issue.delete.confirm"),
                           }))
                         )
                           return;
@@ -386,9 +403,10 @@ export default function Issues() {
                           await reloadIssues();
                         } else {
                           PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Das Problem konnte nicht gelöscht werden: " +
+                              t("issue.delete.error") +
+                              ": " +
                               res.payload.error,
                           });
                         }
@@ -399,26 +417,30 @@ export default function Issues() {
                 fields: [
                   {
                     text:
-                      "Erstellt: " + new Date(issue.createdAt).toLocaleString(),
+                      t("issue.f.created") +
+                      ": " +
+                      new Date(issue.createdAt).toLocaleString(),
                     icon: <FaClock />,
                   },
                   {
                     text:
-                      "Status: " +
+                      t("issue.status") +
+                      ": " +
                       (issue.status === "open"
-                        ? "Offen"
+                        ? t("issue.status.open")
                         : issue.status === "closed"
-                        ? "Geschlossen"
-                        : "In Bearbeitung"),
+                        ? t("issue.status.closed")
+                        : t("issue.status.work")),
                   },
                   {
                     text:
-                      "Priorität: " +
+                      t("issue.prio") +
+                      ": " +
                       (issue.priority === "low"
-                        ? "Niedrig"
+                        ? t("prio.low")
                         : issue.priority === "medium"
-                        ? "Mittel"
-                        : "Hoch"),
+                        ? t("prio.medium")
+                        : t("prio.high")),
                   },
                 ],
               };
@@ -428,4 +450,17 @@ export default function Issues() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

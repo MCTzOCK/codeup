@@ -39,11 +39,16 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { FaTrash, FaHammer, FaLanguage } from "react-icons/fa";
 import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function I18n() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [i18n, setI18n] = React.useState<any | null>(null);
@@ -62,9 +67,8 @@ export default function I18n() {
         reloadI18n();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -80,36 +84,32 @@ export default function I18n() {
       setI18n(res.payload.i18n);
     } else {
       PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Lokalisierungsdaten konnten nicht empfangen werden: " +
-          res.payload.error,
+        title: t("base:control.error"),
+        description: t("i18n.loading.error") + ": " + res.payload.error,
       });
     }
   };
 
   return (
     <>
+      <Head>
+        <title>{t("i18n.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         {i18n && (
           <>
             <Box p={2}>
               <Box textAlign={"center"}>
-                <CHeading size={"lg"}>Lokalisierung</CHeading>
+                <CHeading size={"lg"}>{t("i18n.title")}</CHeading>
                 <Text fontSize={"lg"}>
-                  Hier kannst du verschiedene Sprachen für dein Projekt
-                  verwalten. Es werden Sprachkürzel wie &quot;de&quot; oder
-                  &qout;en&qout; verwendet. <br />
-                  Um die Sprachen in dein Projekt zu integrieren, kannst du die
-                  JavaScript-Bibliothek{" "}
+                  {t("i18n.text")}{" "}
                   <chakra.a
                     color={"brand.500"}
                     target={"_blank"}
                     href={"https://npmjs.com/@codeupspace/i18n"}
                   >
                     @codeupspace/i18n
-                  </chakra.a>{" "}
-                  verwenden.
+                  </chakra.a>
                 </Text>
               </Box>
               <Grid
@@ -119,18 +119,17 @@ export default function I18n() {
                 mt={"2rem"}
               >
                 <Box rounded={"md"} p={4} bg={"gray.900"} h={"100%"}>
-                  <CHeading size={"lg"}>Sprachen</CHeading>
+                  <CHeading size={"lg"}>{t("i18n.languages")}</CHeading>
                   <Text size={"lg"}>
-                    Deine App unterstützt folgende Sprachen:{" "}
+                    {t("i18n.languages.supported")} {i18n.languages.join(", ")}
                   </Text>
                   <Button
                     variant={"brand"}
                     mt={4}
                     onClick={async () => {
                       const langCode = await PopupManager.promptAsync({
-                        title: "Sprache hinzufügen",
-                        helperText:
-                          "Bitte gib das Sprachkürzel ein (z.B. 'de')",
+                        title: t("i18n.languages.add"),
+                        helperText: t("i18n.languages.add.short"),
                       });
 
                       if (!langCode) return;
@@ -145,15 +144,16 @@ export default function I18n() {
                         reloadI18n();
                       } else {
                         await PopupManager.alertAsync({
-                          title: "Fehler",
+                          title: t("base:control.error"),
                           description:
-                            "Die Sprache konnte nicht hinzugefügt werden: " +
+                            t("i18n.languages.add.error") +
+                            ": " +
                             res.payload.error,
                         });
                       }
                     }}
                   >
-                    Sprache hinzufügen
+                    {t("i18n.languages.add")}
                   </Button>
                   <Stack gap={2} pt={4}>
                     {i18n.languages.map((l: string) => {
@@ -167,16 +167,17 @@ export default function I18n() {
                           )}
                           <ButtonGroup>
                             <IconButton
-                              aria-label={"Entfernen"}
+                              aria-label={t("remove")}
                               icon={<FaTrash />}
                               colorScheme={"red"}
                               variant={"ghost"}
                               onClick={async () => {
                                 if (
                                   !(await PopupManager.confirmAsync({
-                                    title: "Sprache entfernen",
-                                    question:
-                                      "Möchtest du die Sprache wirklich entfernen?",
+                                    title: t("i18n.languages.remove"),
+                                    question: t(
+                                      "i18n.languages.remove.confirm"
+                                    ),
                                   }))
                                 )
                                   return;
@@ -192,25 +193,27 @@ export default function I18n() {
                                   reloadI18n();
                                 } else {
                                   await PopupManager.alertAsync({
-                                    title: "Fehler",
+                                    title: t("base:control.error"),
                                     description:
-                                      "Die Sprache konnte nicht entfernt werden: " +
+                                      t("i18n.languages.remove.error") +
+                                      ": " +
                                       res.payload.error,
                                   });
                                 }
                               }}
                             />
                             <IconButton
-                              aria-label={"Standard machen"}
+                              aria-label={t("i18n.languages.make.default")}
                               icon={<FaHammer />}
                               variant={"ghost"}
                               colorScheme={"brand"}
                               onClick={async () => {
                                 if (
                                   !(await PopupManager.confirmAsync({
-                                    title: "Standard-Sprache",
-                                    question:
-                                      "Möchtest du diese Sprache als Standard festlegen?",
+                                    title: t("i18n.languages.default"),
+                                    question: t(
+                                      "i18n.languages.make.default.confirm"
+                                    ),
                                   }))
                                 )
                                   return;
@@ -226,9 +229,10 @@ export default function I18n() {
                                   reloadI18n();
                                 } else {
                                   await PopupManager.alertAsync({
-                                    title: "Fehler",
+                                    title: t("base:control.error"),
                                     description:
-                                      "Die Sprache konnte nicht als Standard festgelegt werden: " +
+                                      t("i18n.languages.make.default.error") +
+                                      ": " +
                                       res.payload.error,
                                   });
                                 }
@@ -244,14 +248,14 @@ export default function I18n() {
                   </Stack>
                 </Box>
                 <Box rounded={"md"} p={4} bg={"gray.900"} h={"100%"}>
-                  <CHeading size={"lg"}>Übersetzungen</CHeading>
+                  <CHeading size={"lg"}>{t("i18n.translations")}</CHeading>
                   <Button
                     variant={"brand"}
                     mt={4}
                     onClick={async () => {
                       const key = await PopupManager.promptAsync({
-                        title: "Schlüssel hinzufügen",
-                        helperText: "Bitte gib den Schlüssel ein",
+                        title: t("i18n.add.key"),
+                        helperText: t("i18n.enter.key"),
                       });
 
                       if (!key) return;
@@ -269,12 +273,12 @@ export default function I18n() {
                       await reloadI18n();
                     }}
                   >
-                    Hinzufügen
+                    {t("add")}
                   </Button>
                   <Table mt={4}>
                     <Thead>
-                      <Th>Schlüssel</Th>
-                      <Th>Standard</Th>
+                      <Th>{t("i18n.key")}</Th>
+                      <Th>{t("i18n.default")}</Th>
                     </Thead>
                     <Tbody>
                       {i18n.translations[i18n.defaultLanguage] &&
@@ -290,7 +294,7 @@ export default function I18n() {
                                 }}
                                 onClick={async () => {
                                   await PopupManager.alertAsync({
-                                    title: "Übersetzung bearbeiten",
+                                    title: t("i18n.edit.translation"),
                                     description: (
                                       <>
                                         <form
@@ -386,7 +390,7 @@ export default function I18n() {
                                                 w={"100%"}
                                                 type={"submit"}
                                               >
-                                                Speichern
+                                                {t("save")}
                                               </Button>
                                               <Button
                                                 colorScheme={"red"}
@@ -395,9 +399,10 @@ export default function I18n() {
                                                   if (
                                                     !(await PopupManager.confirmAsync(
                                                       {
-                                                        title: "Löschen",
-                                                        question:
-                                                          "Möchtest du den Schlüssel wirklich löschen?",
+                                                        title: t("delete"),
+                                                        question: t(
+                                                          "i18n.delete.key.confirm"
+                                                        ),
                                                       }
                                                     ))
                                                   )
@@ -419,7 +424,7 @@ export default function I18n() {
                                                   await reloadI18n();
                                                 }}
                                               >
-                                                Löschen
+                                                {t("delete")}
                                               </Button>
                                             </ButtonGroup>
                                           </Stack>
@@ -451,4 +456,17 @@ export default function I18n() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

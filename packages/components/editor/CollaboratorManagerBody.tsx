@@ -42,11 +42,13 @@ import { HiMail } from "react-icons/hi";
 import { Socket } from "socket.io-client";
 import { useLoggedIn } from "@codeup/hooks";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 export default function CollaboratorManagerBody(props: {
   projectId: string | undefined;
   socket: Socket;
 }) {
+  const { t } = useTranslation("editor");
   const toast = useToast();
 
   const { userInfo } = useLoggedIn();
@@ -81,7 +83,7 @@ export default function CollaboratorManagerBody(props: {
           });
         } else {
           toast({
-            title: "Error",
+            title: t("base:control.error"),
             description: data.error,
             status: "error",
             duration: 1500,
@@ -109,14 +111,14 @@ export default function CollaboratorManagerBody(props: {
             <Popover>
               <PopoverTrigger>
                 <Button variant={"brand"} leftIcon={<FaPlus />}>
-                  Hinzufügen
+                  {t("add")}
                 </Button>
               </PopoverTrigger>
               <PopoverContent bgColor={"black"}>
                 <PopoverArrow bgColor={"black"} />
                 <PopoverCloseButton />
                 <PopoverHeader fontSize={["xl", "2xl"]}>
-                  Mitwirkenden hinzufügen
+                  {t("contributors.add")}
                 </PopoverHeader>
                 <PopoverBody fontSize={["lg", "xl"]}>
                   <form
@@ -146,7 +148,7 @@ export default function CollaboratorManagerBody(props: {
                             });
                           } else {
                             toast({
-                              title: "Error",
+                              title: t("base:control.error"),
                               description: data.error,
                               status: "error",
                               duration: 1500,
@@ -160,7 +162,7 @@ export default function CollaboratorManagerBody(props: {
                   >
                     <Stack>
                       <FormControl>
-                        <FormLabel>E-Mail</FormLabel>
+                        <FormLabel>{t("email")}</FormLabel>
                         <InputGroup>
                           <InputLeftAddon>
                             <HiMail />
@@ -173,7 +175,7 @@ export default function CollaboratorManagerBody(props: {
                         </InputGroup>
                       </FormControl>
                       <Button type="submit" colorScheme={"whatsapp"}>
-                        Hinzufügen
+                        {t("add")}
                       </Button>
                     </Stack>
                   </form>
@@ -185,7 +187,7 @@ export default function CollaboratorManagerBody(props: {
             <Flex direction={"row"} mb={"1.2rem"}>
               <Box flex={"10%"}></Box>
               <Box flex={"20%"} fontWeight={"bold"}>
-                Name
+                {t("name")}
               </Box>
               <Box flex={"50%"}></Box>
               <Flex
@@ -194,7 +196,7 @@ export default function CollaboratorManagerBody(props: {
                 justifyContent={"center"}
                 fontWeight={"bold"}
               >
-                Berechtigungen
+                {t("permissions")}
               </Flex>
             </Flex>
             <Divider />
@@ -217,14 +219,9 @@ export default function CollaboratorManagerBody(props: {
               </Box>
               <Box flex={"50%"}></Box>
               <Flex flex={"20%"} alignItems={"center"} justifyContent={"right"}>
-                <Tooltip
-                  label={
-                    "Diesem Benutzer gehört das Projekt, er hat alle Berechtigungen, inklusive der Verwaltung von Mitwirkenden"
-                  }
-                  hasArrow={true}
-                >
+                <Tooltip label={t("permissions.owner")} hasArrow={true}>
                   <Tag size={"lg"} variant={"solid"} colorScheme={"red"}>
-                    Besitzer
+                    {t("owner")}
                   </Tag>
                 </Tooltip>
               </Flex>
@@ -265,7 +262,7 @@ export default function CollaboratorManagerBody(props: {
                               variant={"solid"}
                               colorScheme={"teal"}
                             >
-                              Lesen
+                              {t("permissions.read")}
                             </Tag>
                           ) : null}
                           {contributor.permissions.includes("WRITE") ? (
@@ -274,7 +271,7 @@ export default function CollaboratorManagerBody(props: {
                               variant={"solid"}
                               colorScheme={"teal"}
                             >
-                              Schreiben
+                              {t("permissions.write")}
                             </Tag>
                           ) : null}
                           {contributor.permissions.includes("DELETE") ? (
@@ -283,7 +280,7 @@ export default function CollaboratorManagerBody(props: {
                               variant={"solid"}
                               colorScheme={"teal"}
                             >
-                              Löschen
+                              {t("permissions.delete")}
                             </Tag>
                           ) : null}
                           {contributor.permissions.includes("RENAME") ? (
@@ -292,7 +289,7 @@ export default function CollaboratorManagerBody(props: {
                               variant={"solid"}
                               colorScheme={"teal"}
                             >
-                              Umbenennen
+                              {t("permissions.rename")}
                             </Tag>
                           ) : null}
                           {contributor.permissions.includes(
@@ -303,7 +300,7 @@ export default function CollaboratorManagerBody(props: {
                               variant={"solid"}
                               colorScheme={"teal"}
                             >
-                              Mitwirkende verwalten
+                              {t("permissions.manage.contributors")}
                             </Tag>
                           ) : null}
                         </SimpleGrid>
@@ -316,7 +313,7 @@ export default function CollaboratorManagerBody(props: {
                         <ButtonGroup>
                           <Popover>
                             <PopoverTrigger>
-                              <IconButton aria-label={"Mitwirkenden entfernen"}>
+                              <IconButton aria-label={t("contributors.remove")}>
                                 <FaTrash />
                               </IconButton>
                             </PopoverTrigger>
@@ -324,15 +321,15 @@ export default function CollaboratorManagerBody(props: {
                               <PopoverArrow bgColor={"gray.800"} />
                               <PopoverCloseButton />
                               <PopoverHeader>
-                                Mitwirkenden entfernen
+                                {t("contributors.remove")}
                               </PopoverHeader>
                               <PopoverBody>
                                 <Stack>
                                   <Text fontSize={"lg"}>
-                                    Willst du den mitwirkenden&nbsp;
+                                    {t("contributors.remove.confirm")}&nbsp;
                                     {contributor.firstName}&nbsp;
                                     {contributor.lastName}&nbsp;(
-                                    {contributor.username}) wirklich entfernen?
+                                    {contributor.username})
                                   </Text>
                                   <Button
                                     variant={"solid"}
@@ -363,7 +360,7 @@ export default function CollaboratorManagerBody(props: {
                                             });
                                           } else {
                                             toast({
-                                              title: "Fehler",
+                                              title: t("base:control.error"),
                                               description: data.error,
                                               position: "top",
                                               status: "error",
@@ -375,7 +372,7 @@ export default function CollaboratorManagerBody(props: {
                                       );
                                     }}
                                   >
-                                    Entfernen
+                                    {t("remove")}
                                   </Button>
                                 </Stack>
                               </PopoverBody>
@@ -387,7 +384,7 @@ export default function CollaboratorManagerBody(props: {
                               <Popover>
                                 <PopoverTrigger>
                                   <IconButton
-                                    aria-label={"Berechtigungen verwalten"}
+                                    aria-label={t("permissions.manage")}
                                   >
                                     <FaCogs />
                                   </IconButton>
@@ -396,7 +393,7 @@ export default function CollaboratorManagerBody(props: {
                                   <PopoverArrow bgColor={"gray.800"} />
                                   <PopoverCloseButton />
                                   <PopoverHeader>
-                                    Berechtigungen ändern
+                                    {t("permissions.change")}
                                   </PopoverHeader>
                                   <PopoverBody>
                                     <Stack>
@@ -407,7 +404,7 @@ export default function CollaboratorManagerBody(props: {
                                         disabled={true}
                                         colorScheme={"brand"}
                                       >
-                                        Lesen
+                                        {t("permissions.read")}
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
@@ -420,7 +417,7 @@ export default function CollaboratorManagerBody(props: {
                                         }
                                         colorScheme={"brand"}
                                       >
-                                        Schreiben
+                                        {t("permissions.write")}
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
@@ -433,7 +430,7 @@ export default function CollaboratorManagerBody(props: {
                                         }
                                         colorScheme={"brand"}
                                       >
-                                        Löschen
+                                        {t("permissions.delete")}
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
@@ -446,7 +443,7 @@ export default function CollaboratorManagerBody(props: {
                                         }
                                         colorScheme={"brand"}
                                       >
-                                        Umbenennen
+                                        {t("permissions.rename")}
                                       </Checkbox>
                                       <Checkbox
                                         defaultChecked={contributor.permissions.includes(
@@ -459,7 +456,7 @@ export default function CollaboratorManagerBody(props: {
                                         }
                                         colorScheme={"brand"}
                                       >
-                                        Mitwirkende verwalten
+                                        {t("permissions.manage.contributors")}
                                       </Checkbox>
                                       <Button
                                         variant={"brand"}
@@ -525,7 +522,8 @@ export default function CollaboratorManagerBody(props: {
                                                 );
                                               } else {
                                                 toast({
-                                                  title: "Fehler",
+                                                  title:
+                                                    t("base:control.error"),
                                                   description: data.error,
                                                   position: "top",
                                                   status: "error",
@@ -537,7 +535,7 @@ export default function CollaboratorManagerBody(props: {
                                           );
                                         }}
                                       >
-                                        Speichern
+                                        {t("save")}
                                       </Button>
                                     </Stack>
                                   </PopoverBody>

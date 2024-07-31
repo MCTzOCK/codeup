@@ -32,6 +32,7 @@ import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { CHeading } from "../../global/CHeading";
 import { FaPlay } from "react-icons/fa6";
+import { useTranslation } from "next-i18next";
 
 export default function SQLExecutor(props: {
   projectId: string;
@@ -39,6 +40,8 @@ export default function SQLExecutor(props: {
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const { t } = useTranslation("projects");
+
   const [sql, setSql] = React.useState<string>(props.base_sql || "");
   const [result, setResult] = React.useState<any[]>([]);
   const [tSql, setTSql] = React.useState<string>("");
@@ -71,7 +74,7 @@ export default function SQLExecutor(props: {
         <ModalOverlay>
           <ModalContent bg={"#000"}>
             <ModalHeader>
-              <CHeading size={"lg"}>SQL-Anfrage</CHeading>
+              <CHeading size={"lg"}>{t("db.run.sql.query")}</CHeading>
               <ModalCloseButton />
             </ModalHeader>
             <ModalBody p={4}>
@@ -90,7 +93,7 @@ export default function SQLExecutor(props: {
                     setSql(tSql);
                   }}
                 >
-                  Ausführen
+                  {t("db.run")}
                 </Button>
               </HStack>
               {sql.toUpperCase().startsWith("SELECT") && result.length ? (
@@ -119,7 +122,7 @@ export default function SQLExecutor(props: {
                       ))}
                     </Tbody>
                     <TableCaption>
-                      {result.length} Einträge gefunden
+                      {result.length} {t("db.run.sql.items.found")}
                     </TableCaption>
                   </Table>
                 </>
@@ -128,8 +131,8 @@ export default function SQLExecutor(props: {
                   <Table>
                     <Thead>
                       <Tr>
-                        <Th>Feld-Anzahl</Th>
-                        <Th>Betroffene Zeilen</Th>
+                        <Th>{t("db.run.sql.exec.field.count")}</Th>
+                        <Th>{t("db.run.sql.exec.rows.affected")}</Th>
                         <Th>Info</Th>
                       </Tr>
                     </Thead>

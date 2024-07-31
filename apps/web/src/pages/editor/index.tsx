@@ -34,8 +34,11 @@ import JSZip from "jszip";
 import GridLayout from "@codeup/components/global/GridLayout";
 import Head from "next/head";
 import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Editor() {
+  const { t } = useTranslation("editor");
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const router = useRouter();
 
@@ -101,26 +104,25 @@ export default function Editor() {
   return (
     <>
       <Head>
-        <title>Editor - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       {loggedIn ? (
         <Box minH={"100vh"} h={"fit-content"} bg={"#000"}>
           <GridLayoutV2
-            pageTitle={"Projekte"}
+            pageTitle={t("projects")}
             search={{
               show: true,
               fields: true,
             }}
             topButtons={[
               {
-                text: "Neu",
+                text: t("new"),
                 leftIcon: <FaPlus />,
                 variant: "brand",
                 onClick: async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neues Projekt",
-                    helperText:
-                      "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                    title: t("new.project"),
+                    helperText: t("new.project.name"),
                   });
 
                   if (name) {
@@ -141,21 +143,19 @@ export default function Editor() {
                 },
               },
               {
-                text: "Importieren",
+                text: t("import"),
                 leftIcon: <FaFileUpload />,
                 variant: "brand",
                 onClick: async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neues Projekt",
-                    helperText:
-                      "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                    title: t("new.project"),
+                    helperText: t("new.project.name"),
                   });
 
                   if (name) {
                     const files = await PopupManager.uploadFileAsync({
-                      title: "Projekt importieren",
-                      helperText:
-                        "Wähle eine ZIP-Datei aus, die du importieren möchtest.",
+                      title: t("import.project"),
+                      helperText: t("import.project.zip"),
                     });
 
                     if (files.length > 0) {
@@ -415,13 +415,12 @@ export default function Editor() {
                 buttonRows: [
                   [
                     {
-                      text: "Löschen",
+                      text: t("delete"),
                       onClick: async () => {
                         if (
                           await PopupManager.confirmAsync({
-                            title: "Projekt löschen",
-                            question:
-                              "Willst du das Projekt wirklich unwiederuflich löschen? Dies kann nicht rückgängig gemacht werden.",
+                            title: t("delete.project"),
+                            question: t("delete.project.confirm"),
                           })
                         ) {
                           reactSocket?.on(
@@ -448,7 +447,7 @@ export default function Editor() {
                       leftIcon: <FaTrash />,
                     },
                     {
-                      text: "Öffnen",
+                      text: t("open"),
                       onClick: () => {
                         router.push(`/editor/${project._id}`);
                       },
@@ -458,12 +457,11 @@ export default function Editor() {
                   ],
                   [
                     {
-                      text: "Umbenennen",
+                      text: t("rename"),
                       onClick: async () => {
                         const newName = await PopupManager.promptAsync({
-                          title: "Projekt umbenennen",
-                          helperText:
-                            "Der Name sollte das Projekt bestmöglich beschreiben, damit du es später wieder findest.",
+                          title: t("rename.project"),
+                          helperText: t("rename.project.name"),
                         });
 
                         if (newName) {
@@ -490,7 +488,7 @@ export default function Editor() {
                       leftIcon: <FaPen />,
                     },
                     {
-                      text: "Mitwirkende",
+                      text: t("contributors"),
                       onClick: () => {
                         setEditProjectPropID(project._id);
                         onCollabOpen();
@@ -516,7 +514,7 @@ export default function Editor() {
           >
             <CircularProgress size={"80px"} isIndeterminate color="green.300" />
             <Heading size={"lg"} mt={4}>
-              Anmelden ...
+              {t("login")}
             </Heading>
           </Flex>
         </>
@@ -531,4 +529,10 @@ export default function Editor() {
       />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
 }

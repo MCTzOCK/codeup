@@ -40,6 +40,8 @@ import {
 } from "react-icons/fa";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Contributors() {
   const router = useRouter();
@@ -47,6 +49,7 @@ export default function Contributors() {
   const [assets, setAssets] = React.useState<any[]>([]);
   const [reactSocket, setReactSocket] = React.useState<Socket | null>(null);
   let socket: Socket | null = null;
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -81,7 +84,7 @@ export default function Contributors() {
           setAssets(data.files);
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -94,7 +97,7 @@ export default function Contributors() {
           });
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -107,7 +110,7 @@ export default function Contributors() {
           });
         } else {
           PopupManager.alert({
-            title: "Fehler",
+            title: t("base:control.error"),
             description: data.error,
           });
         }
@@ -122,11 +125,11 @@ export default function Contributors() {
   return (
     <>
       <Head>
-        <title>Statische Dateien - Editor - CodeUp</title>
+        <title>{t("static.doc.title")}</title>
       </Head>
       <EditorProjectLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading size={"xl"}>Statische Dateien</CHeading>
+          <CHeading size={"xl"}>{t("static.title")}</CHeading>
         </Box>
         {reactSocket ? (
           <>
@@ -134,16 +137,16 @@ export default function Contributors() {
               <Table>
                 <Thead>
                   <Tr>
-                    <Th>Name</Th>
-                    <Th>Hochladedatum</Th>
-                    <Th>Größe</Th>
-                    <Th>Aktion</Th>
+                    <Th>{t("name")}</Th>
+                    <Th>{t("static.date.upload")}</Th>
+                    <Th>{t("static.size")}</Th>
+                    <Th>{t("static.action")}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   <Tr>
                     <Td>
-                      <b>Neue Datei hochladen</b>
+                      <b>{t("static.new.file")}</b>
                     </Td>
                     <Td />
                     <Td />
@@ -178,7 +181,7 @@ export default function Contributors() {
                           input.click();
                         }}
                       >
-                        Hochladen
+                        {t("uplaod")}
                       </Button>
                     </Td>
                   </Tr>
@@ -190,15 +193,14 @@ export default function Contributors() {
                       <Td>
                         <ButtonGroup isAttached>
                           <IconButton
-                            aria-label={"Löschen"}
+                            aria-label={t("delete")}
                             colorScheme={"red"}
                             icon={<FaTrash />}
                             onClick={async () => {
                               if (
                                 await PopupManager.confirmAsync({
-                                  title: "Löschen",
-                                  question:
-                                    "Möchtest du diese Datei wirklich löschen?",
+                                  title: t("delete"),
+                                  question: t("static.file.delete"),
                                 })
                               ) {
                                 reactSocket?.emit(
@@ -212,12 +214,12 @@ export default function Contributors() {
                             }}
                           />
                           <IconButton
-                            aria-label={"Kopieren"}
+                            aria-label={t("copy")}
                             variant={"brand"}
                             icon={<FaLink />}
                             onClick={() => {
                               PopupManager.alert({
-                                title: "Kopiert",
+                                title: t("copied"),
                                 description:
                                   "Link: " +
                                   window.location.origin +
@@ -240,7 +242,7 @@ export default function Contributors() {
                             }}
                           />
                           <IconButton
-                            aria-label={"Kopieren"}
+                            aria-label={t("copy")}
                             colorScheme={"blue"}
                             icon={<FaExternalLinkAlt />}
                             onClick={() => {
@@ -266,4 +268,17 @@ export default function Contributors() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

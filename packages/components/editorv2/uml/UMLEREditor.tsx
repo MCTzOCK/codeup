@@ -26,11 +26,13 @@ import { FaPen, FaPlus, FaSave, FaTrash } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
 import { CHeading } from "../../global/CHeading";
 import DividerWithTextV2 from "../../global/DividerWithTextV2";
+import { useTranslation } from "next-i18next";
 
 export default function UMLEREditor(props: {
   uml: IUMLDiagram;
   updateUML: (uml: IUMLDiagram) => void;
 }) {
+  const { t } = useTranslation("projects");
   const [entities, setEntities] = React.useState<
     {
       name: string;
@@ -99,7 +101,7 @@ export default function UMLEREditor(props: {
             w={"100%"}
             leftIcon={<FaSave />}
           >
-            Speichern
+            {t("save")}
           </Button>
           <Button
             variant={"brand"}
@@ -107,8 +109,8 @@ export default function UMLEREditor(props: {
             w={"100%"}
             onClick={async () => {
               const name = await PopupManager.promptAsync({
-                title: "Entität hinzufügen",
-                helperText: "Bitte gib den Namen der Entität ein.",
+                title: t("uml.er.add.entity"),
+                helperText: t("uml.er.add.entity.name"),
               });
 
               if (!name) return;
@@ -123,7 +125,7 @@ export default function UMLEREditor(props: {
               ]);
             }}
           >
-            Entität hinzufügen
+            {t("uml.er.add.entity")}
           </Button>
           <Button
             variant={"brand"}
@@ -131,26 +133,24 @@ export default function UMLEREditor(props: {
             w={"100%"}
             onClick={async () => {
               const name = await PopupManager.promptAsync({
-                title: "Relation hinzufügen",
-                helperText: "Bitte gib den Namen der Relation ein.",
+                title: t("uml.er.add.relation"),
+                helperText: t("uml.er.add.relation.name"),
               });
 
               if (!name) return;
 
               const from = await PopupManager.selectAsync({
-                title: "Von Entität",
+                title: t("uml.er.add.relation.from.entity"),
                 choices: entities.map((e) => e.name),
-                helperText:
-                  "Bitte wähle die Entität aus, von der die Relation ausgeht.",
+                helperText: t("uml.er.add.relation.from.entity.helper"),
               });
 
               if (!from) return;
 
               const to = await PopupManager.selectAsync({
-                title: "Zu Entität",
+                title: t("uml.er.add.relation.to.entity"),
                 choices: entities.map((e) => e.name),
-                helperText:
-                  "Bitte wähle die Entität aus, zu der die Relation geht.",
+                helperText: t("uml.er.add.relation.to.entity.helper"),
               });
 
               if (!to) return;
@@ -170,7 +170,7 @@ export default function UMLEREditor(props: {
               ]);
             }}
           >
-            Relation hinzufügen
+            {t("uml.er.add.relation")}
           </Button>
         </Stack>
 
@@ -185,7 +185,9 @@ export default function UMLEREditor(props: {
           {entities.map((e, i) => (
             <>
               <Box bg={"gray.900"} rounded={"md"} p={4}>
-                <CHeading size={"md"}>{e.name} (Entität)</CHeading>
+                <CHeading size={"md"}>
+                  {e.name} ({t("uml.er.entity")})
+                </CHeading>
                 <Flex
                   gap={4}
                   alignItems={"center"}
@@ -198,9 +200,8 @@ export default function UMLEREditor(props: {
                     leftIcon={<FaPen />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Entität umbenennen",
-                        helperText:
-                          "Bitte gib den neuen Namen der Entität ein.",
+                        title: t("uml.er.rename.entity"),
+                        helperText: t("uml.er.rename.entity.name"),
                       });
 
                       if (!name) return;
@@ -210,7 +211,7 @@ export default function UMLEREditor(props: {
                       setEntities(newEntities);
                     }}
                   >
-                    Umbenennen
+                    {t("rename")}
                   </Button>
                   <Button
                     colorScheme={"red"}
@@ -218,9 +219,8 @@ export default function UMLEREditor(props: {
                     onClick={async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Entität löschen",
-                          question:
-                            "Möchtest du diese Entität wirklich löschen?",
+                          title: t("uml.er.delete.entity"),
+                          question: t("uml.er.delete.entity.confirm"),
                         }))
                       )
                         return;
@@ -229,17 +229,17 @@ export default function UMLEREditor(props: {
                       setEntities(newEntities);
                     }}
                   >
-                    Löschen
+                    {t("delete")}
                   </Button>
                 </Flex>
-                <DividerWithTextV2 text={"Attribute"} />
+                <DividerWithTextV2 text={t("uml.er.attributes")} />
                 <Button
                   leftIcon={<FaPlus />}
                   variant={"brand"}
                   onClick={async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Attribut hinzufügen",
-                      helperText: "Bitte gib den Namen des Attributs ein.",
+                      title: t("uml.er.add.attribute"),
+                      helperText: t("uml.er.add.attribute.name"),
                     });
                     if (!name) return;
                     const newEntities = [...entities];
@@ -247,7 +247,7 @@ export default function UMLEREditor(props: {
                     setEntities(newEntities);
                   }}
                 >
-                  Attribut hinzufügen
+                  {t("uml.er.add.attribute")}
                 </Button>
                 <Stack mt={4} mb={4} gap={4}>
                   {e.fields.map((f, j) => (
@@ -259,7 +259,7 @@ export default function UMLEREditor(props: {
                           newEntities[i].fields[j].name = e.target.value;
                           setEntities(newEntities);
                         }}
-                        placeholder={"Attributname"}
+                        placeholder={t("uml.er.attribute.name")}
                       />
                       <Checkbox
                         colorScheme={"brand"}
@@ -271,10 +271,10 @@ export default function UMLEREditor(props: {
                           setEntities(newEntities);
                         }}
                       >
-                        Schlüssel
+                        {t("uml.er.attribute.key")}
                       </Checkbox>
                       <IconButton
-                        aria-label={"Löschen"}
+                        aria-label={t("delete")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         onClick={() => {
@@ -293,7 +293,7 @@ export default function UMLEREditor(props: {
             <>
               <Box bg={"gray.900"} rounded={"md"} p={4}>
                 <CHeading size={"md"}>
-                  {r.from} [{r.name}] {r.to} (Relation)
+                  {r.from} [{r.name}] {r.to} ({t("uml.er.relation")})
                 </CHeading>
                 <Flex
                   gap={4}
@@ -307,9 +307,8 @@ export default function UMLEREditor(props: {
                     leftIcon={<FaPen />}
                     onClick={async () => {
                       const name = await PopupManager.promptAsync({
-                        title: "Relation umbenennen",
-                        helperText:
-                          "Bitte gib den neuen Namen der Relation ein.",
+                        title: t("uml.er.rename.relation"),
+                        helperText: t("uml.er.rename.relation.name"),
                       });
 
                       if (!name) return;
@@ -319,7 +318,7 @@ export default function UMLEREditor(props: {
                       setRelations(newRelations);
                     }}
                   >
-                    Umbenennen
+                    {t("rename")}
                   </Button>
                   <Button
                     colorScheme={"red"}
@@ -327,9 +326,8 @@ export default function UMLEREditor(props: {
                     onClick={async () => {
                       if (
                         !(await PopupManager.confirmAsync({
-                          title: "Relation löschen",
-                          question:
-                            "Möchtest du diese Relation wirklich löschen?",
+                          title: t("uml.er.delete.relation"),
+                          question: t("uml.er.delete.relation.confirm"),
                         }))
                       )
                         return;
@@ -338,10 +336,10 @@ export default function UMLEREditor(props: {
                       setRelations(newRelations);
                     }}
                   >
-                    Löschen
+                    {t("delete")}
                   </Button>
                 </Flex>
-                <DividerWithTextV2 text={"Relationsart"} />
+                <DividerWithTextV2 text={t("uml.er.relation.type")} />
                 <HStack gap={4}>
                   <Input
                     value={r.fromRelation}
@@ -350,7 +348,7 @@ export default function UMLEREditor(props: {
                       newRelations[i].fromRelation = e.target.value;
                       setRelations(newRelations);
                     }}
-                    placeholder={"Von Relation"}
+                    placeholder={t("uml.er.relation.type.from")}
                   />
                   <Input
                     value={r.toRelation}
@@ -359,17 +357,17 @@ export default function UMLEREditor(props: {
                       newRelations[i].toRelation = e.target.value;
                       setRelations(newRelations);
                     }}
-                    placeholder={"Zu Relation"}
+                    placeholder={t("uml.er.relation.type.to")}
                   />
                 </HStack>
-                <DividerWithTextV2 text={"Attribute"} />
+                <DividerWithTextV2 text={t("uml.er.attributes")} />
                 <Button
                   leftIcon={<FaPlus />}
                   variant={"brand"}
                   onClick={async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Attribut hinzufügen",
-                      helperText: "Bitte gib den Namen des Attributs ein.",
+                      title: t("uml.er.add.attribute"),
+                      helperText: t("uml.er.add.attribute.name"),
                     });
                     if (!name) return;
                     const newRelations = [...relations];
@@ -377,7 +375,7 @@ export default function UMLEREditor(props: {
                     setRelations(newRelations);
                   }}
                 >
-                  Attribut hinzufügen
+                  {t("uml.er.add.attribute")}
                 </Button>
                 <Stack mt={4} mb={4} gap={4}>
                   {r.fields.map((f, j) => (
@@ -389,7 +387,7 @@ export default function UMLEREditor(props: {
                           newRelations[i].fields[j].name = e.target.value;
                           setRelations(newRelations);
                         }}
-                        placeholder={"Attributname"}
+                        placeholder={t("uml.er.attribute.name")}
                       />
                       <Checkbox
                         colorScheme={"brand"}
@@ -401,10 +399,10 @@ export default function UMLEREditor(props: {
                           setRelations(newRelations);
                         }}
                       >
-                        Schlüssel
+                        {t("uml.er.attribute.key")}
                       </Checkbox>
                       <IconButton
-                        aria-label={"Löschen"}
+                        aria-label={t("delete")}
                         icon={<FaTrash />}
                         colorScheme={"red"}
                         onClick={() => {

@@ -18,11 +18,16 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import { Badge, Box, Flex, Grid, Stack, Text } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import PopupManager from "../../../../global/PopupManager";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Overview() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const router = useRouter();
 
@@ -53,9 +58,12 @@ export default function Overview() {
 
   return (
     <>
+      <Head>
+        <title>{t("planning.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={4}>
-          <CHeading size={"lg"}>Planungsübersicht</CHeading>
+          <CHeading size={"lg"}>{t("planning.title")}</CHeading>
           <Grid
             templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
             w={"100%"}
@@ -63,7 +71,7 @@ export default function Overview() {
             gap={8}
           >
             <Box bg={"gray.900"} rounded={"md"} p={4}>
-              <CHeading size={"md"}>Probleme</CHeading>
+              <CHeading size={"md"}>{t("planning.issues")}</CHeading>
               <Stack pt={4}>
                 {issues.slice(0, 5).map((issue) => (
                   <Flex
@@ -79,32 +87,32 @@ export default function Overview() {
                         description: (
                           <>
                             <Box>
-                              <b>Beschreibung:</b>
+                              <b>{t("description")}:</b>
                               <br />
                               {issue.description}
                             </Box>
                             <Box>
-                              <b>Erstellt:</b>
+                              <b>{t("planning.issue.created")}:</b>
                               <br />
                               {new Date(issue.createdAt).toLocaleString()}
                             </Box>
                             <Box>
-                              <b>Status:</b>
+                              <b>{t("planning.issue.status")}:</b>
                               <br />
                               {issue.status === "open"
-                                ? "Offen"
+                                ? t("flows.issue.open")
                                 : issue.status === "closed"
-                                ? "Geschlossen"
-                                : "In Bearbeitung"}
+                                ? t("flows.issue.closed")
+                                : t("issue.working.on")}
                             </Box>
                             <Box>
-                              <b>Priorität:</b>
+                              <b>{t("planning.issue.priority")}:</b>
                               <br />
                               {issue.priority === "low"
-                                ? "Niedrig"
+                                ? t("prio.low")
                                 : issue.priority === "medium"
-                                ? "Mittel"
-                                : "Hoch"}
+                                ? t("prio.medium")
+                                : t("prio.high")}
                             </Box>
                           </>
                         ),
@@ -136,7 +144,7 @@ export default function Overview() {
               </Stack>
             </Box>
             <Box bg={"gray.900"} p={4} rounded={"md"}>
-              <CHeading size={"md"}>Flussdiagramme</CHeading>
+              <CHeading size={"md"}>{t("planning.flows")}</CHeading>
               <Stack pt={4}>
                 {flows.slice(0, 5).map((flow) => (
                   <Flex
@@ -165,4 +173,17 @@ export default function Overview() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
