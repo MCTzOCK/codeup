@@ -44,11 +44,16 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Settings() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [currentDeployment, setCurrentDeployment] = React.useState<{
@@ -77,9 +82,8 @@ export default function Settings() {
         reload();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -125,16 +129,15 @@ export default function Settings() {
 
   return (
     <>
+      <Head>
+        <title>{t("settings.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={4}>
           <Flex justifyContent={"center"}>
             <Box textAlign={"center"} maxW={"500px"}>
-              <CHeading size={"lg"}>Einstellungen</CHeading>
-              <Text textAlign={"center"}>
-                Hier kannst du dein Projekt veröffentlichen oder andere
-                projektbezogene Einstellungen vornehmen. Beachte, dass du dein
-                Projekt nur aus der Projektübersicht löschen kannst.
-              </Text>
+              <CHeading size={"lg"}>{t("settings.title")}</CHeading>
+              <Text textAlign={"center"}>{t("settings.text")}</Text>
             </Box>
           </Flex>
           <Grid
@@ -147,21 +150,20 @@ export default function Settings() {
             mt={4}
           >
             <Box rounded={"md"} bg={"gray.900"} p={2}>
-              <CHeading size={"md"}>Aktueller Status</CHeading>
+              <CHeading size={"md"}>{t("settings.current.status")}</CHeading>
               {currentDeployment ? (
                 <>
                   <Text>
-                    Dein Projekt verfügt über eine Veröffentlichung. Der
-                    aktuelle Status ist:{" "}
+                    {t("settings.current.deployment")}:{" "}
                     {currentDeployment.state === "running" ? (
                       <HStack color={"green.600"} alignItems={"center"}>
                         <FaEye />
-                        <Text>Online</Text>
+                        <Text>{t("settings.current.state.online")}</Text>
                       </HStack>
                     ) : (
                       <HStack color={"red.500"} alignItems={"center"}>
                         <FaTimesCircle />
-                        <Text>Offline</Text>
+                        <Text>{t("settings.current.state.offline")}</Text>
                       </HStack>
                     )}
                   </Text>
@@ -178,31 +180,20 @@ export default function Settings() {
                           );
                         }}
                       >
-                        Öffnen
+                        {t("open")}
                       </Button>
                     </>
                   )}
                 </>
               ) : (
                 <>
-                  <Text>
-                    Es wurde kein Deployment gefunden. Wenn dies ein Fehler ist,
-                    versuche es bitte erneut zu veröffentlichen oder kontaktiere
-                    den Support.
-                  </Text>
+                  <Text>{t("settings.current.no.deployment")}</Text>
                 </>
               )}
             </Box>
             <Box rounded={"md"} bg={"gray.900"} p={2}>
-              <CHeading size={"md"}>Neue Veröffentlichung</CHeading>
-              <Text>
-                Veröffentliche dein Projekt neu, um die aktuellste Version zu
-                präsentieren. Beachte, dass dies einige Minuten dauern kann.
-                Sobald du die Veröffentlichung startest, erhältst du
-                Statusmeldungen. Bei einem erfolgreichen Abschluss wird jede
-                vorherige Veröffentlichung ersetzt und Änderungen sind sofort
-                sichtbar.
-              </Text>
+              <CHeading size={"md"}>{t("settings.new.deployment")}</CHeading>
+              <Text>{t("settings.new.text")}</Text>
               <Button
                 variant={"brand"}
                 mt={4}
@@ -215,34 +206,36 @@ export default function Settings() {
 
                   if (res.status !== 200) {
                     PopupManager.alertAsync({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Die Veröffentlichung konnte nicht gestartet werden: " +
+                        t("settings.new.deployment.error") +
+                        ": " +
                         res.payload.error,
                     });
                   } else {
                     PopupManager.alertAsync({
-                      title: "Erfolg",
-                      description:
-                        "Die Veröffentlichung wurde gestartet. Du erhältst in Kürze Statusmeldungen.",
+                      title: t("success"),
+                      description: t("settings.new.deployment.update"),
                     });
                   }
                 }}
               >
-                Neue Veröffentlichung
+                {t("settings.new.deployment")}
               </Button>
               <Box mt={2}>
                 {currentBuild && (
                   <>
-                    <CHeading size={"sm"}>Aktueller Build</CHeading>
+                    <CHeading size={"sm"}>
+                      {t("settings.current.build")}
+                    </CHeading>
                     <Table>
                       <Thead>
                         <Tr>
-                          <Th>Name</Th>
-                          <Th>ID</Th>
-                          <Th>Startzeit</Th>
-                          <Th>Endzeit</Th>
-                          <Th>Status</Th>
+                          <Th>{t("name")}</Th>
+                          <Th>{t("id")}</Th>
+                          <Th>{t("time.start")}</Th>
+                          <Th>{t("time.end")}</Th>
+                          <Th>{t("status")}</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
@@ -262,16 +255,16 @@ export default function Settings() {
                           <Td>
                             <Text>
                               {currentBuild.status === 0
-                                ? "Das Build wird vorbereitet"
+                                ? t("settings.build.state.0")
                                 : currentBuild.status === 1
-                                ? "Das Build wurde gestartet"
+                                ? t("settings.build.state.1")
                                 : currentBuild.status === 2
-                                ? "Das Build wird veröffentlicht"
+                                ? t("settings.build.state.2")
                                 : currentBuild.status === 3
-                                ? "Das Build wurde erfolgreich abgeschlossen"
+                                ? t("settings.build.state.3")
                                 : currentBuild.status === 4
-                                ? "Das Build wurde durch einen Fehler beendet"
-                                : "Unbekannter Status"}
+                                ? t("settings.build.state.4")
+                                : t("settings.build.state.unknown")}
                             </Text>
                           </Td>
                         </Tr>
@@ -286,4 +279,17 @@ export default function Settings() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

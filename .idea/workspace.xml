@@ -7,14 +7,12 @@
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/i18n.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/i18n.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/srvlogs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/srvlogs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/global/AppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/AppShell.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/issues.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/issues.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/settings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/static.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/static.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/vsc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/vsc.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

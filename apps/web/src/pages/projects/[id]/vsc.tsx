@@ -37,11 +37,16 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { FaShuffle } from "react-icons/fa6";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Vsc() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const router = useRouter();
 
@@ -80,9 +85,8 @@ export default function Vsc() {
         reloadVSC();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -95,10 +99,9 @@ export default function Vsc() {
     );
     if (branchesRes.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
+        title: t("base:control.error"),
         description:
-          "Die Branches konnten nicht geladen werden: " +
-          branchesRes.payload.error,
+          t("vsc.branches.loading.error") + ": " + branchesRes.payload.error,
       });
       return;
     }
@@ -111,10 +114,9 @@ export default function Vsc() {
 
     if (commitsRes.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
+        title: t("base:control.error"),
         description:
-          "Die Commits konnten nicht geladen werden: " +
-          commitsRes.payload.error,
+          t("vsc.commits.loading.error") + ": " + commitsRes.payload.error,
       });
       return;
     }
@@ -128,9 +130,9 @@ export default function Vsc() {
 
     if (statusRes.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
+        title: t("base:control.error"),
         description:
-          "Der Status konnte nicht geladen werden: " + statusRes.payload.error,
+          t("vsc.status.loading.error") + ": " + statusRes.payload.error,
       });
       return;
     }
@@ -140,6 +142,9 @@ export default function Vsc() {
 
   return (
     <>
+      <Head>
+        <title>{t("vsc.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <Grid
@@ -149,16 +154,15 @@ export default function Vsc() {
           >
             <Box bg={"gray.900"} p={4} rounded={"md"} h={"100%"}>
               <HStack justifyContent={"space-between"}>
-                <CHeading size={"lg"}>Branches</CHeading>
+                <CHeading size={"lg"}>{t("vsc.branches")}</CHeading>
                 <IconButton
-                  aria-label={"Neu"}
+                  aria-label={t("new")}
                   icon={<FaPlus />}
                   variant={"brand"}
                   onClick={async () => {
                     const name = await PopupManager.promptAsync({
-                      title: "Neuer Branch",
-                      helperText:
-                        "Bitte gib den Namen deines neuen Branches ein! Achtung: Der neue Branch wird direkt ausgewählt und kann nicht mehr gelöscht werden!",
+                      title: t("vsc.branches.new"),
+                      helperText: t("vsc.branches.new.name"),
                     });
 
                     if (!name) return;
@@ -171,9 +175,10 @@ export default function Vsc() {
 
                     if (res.status !== 200) {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Der Branch konnte nicht erstellt werden: " +
+                          t("vsc.branches.new.error") +
+                          ": " +
                           res.payload.error,
                       });
                       return;
@@ -187,11 +192,11 @@ export default function Vsc() {
                 <Table maxW={"100%"}>
                   <Thead>
                     <Tr>
-                      <Th>Name</Th>
-                      <Th>Aktuell</Th>
-                      <Th>Letzter Commit</Th>
-                      <Th>Letze Commit-Nachricht</Th>
-                      <Th>Auswählen</Th>
+                      <Th>{t("name")}</Th>
+                      <Th>{t("vsc.current")}</Th>
+                      <Th>{t("vsc.last.commit")}</Th>
+                      <Th>{t("vsc.last.commit.message")}</Th>
+                      <Th>{t("vsc.select")}</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -203,13 +208,15 @@ export default function Vsc() {
                         <>
                           <Tr>
                             <Td>{branches[key].name}</Td>
-                            <Td>{branches[key].current ? "Ja" : "Nein"}</Td>
+                            <Td>
+                              {branches[key].current ? t("yes") : t("no")}
+                            </Td>
                             <Td>{branches[key].commit}</Td>
                             <Td>{branches[key].label}</Td>
                             <Td>
                               <ButtonGroup>
                                 <IconButton
-                                  aria-label={"Auswählen"}
+                                  aria-label={t("vsc.select")}
                                   icon={<FaShuffle />}
                                   variant={"brand"}
                                   isDisabled={branches[key].current}
@@ -223,9 +230,10 @@ export default function Vsc() {
 
                                     if (res.status !== 200) {
                                       await PopupManager.alertAsync({
-                                        title: "Fehler",
+                                        title: t("base:control.error"),
                                         description:
-                                          "Der Branch konnte nicht ausgewählt werden: " +
+                                          t("vsc.branch.select.error") +
+                                          ": " +
                                           res.payload.error,
                                       });
                                       return;
@@ -246,24 +254,22 @@ export default function Vsc() {
             </Box>
             <Box bg={"gray.900"} p={4} rounded={"md"} h={"100%"}>
               <HStack justifyContent={"space-between"}>
-                <CHeading size={"lg"}>Commits</CHeading>
+                <CHeading size={"lg"}>{t("vsc.commits")}</CHeading>
                 <IconButton
-                  aria-label={"Neu"}
+                  aria-label={t("new")}
                   icon={<FaPlus />}
                   variant={"brand"}
                   onClick={async () => {
                     if (status.length === 0) {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
-                        description:
-                          "Es gibt keine neuen Dateien, die commited werden können!",
+                        title: t("base:control.error"),
+                        description: t("vsc.commit.no.files"),
                       });
                       return;
                     }
                     const message = await PopupManager.promptAsync({
-                      title: "Neuer Commit",
-                      helperText:
-                        "Bitte gib die Commit-Nachricht für deinen neuen Commit ein!",
+                      title: t("vsc.commit.new"),
+                      helperText: t("vsc.commit.new.message"),
                     });
 
                     if (!message) return;
@@ -276,10 +282,9 @@ export default function Vsc() {
 
                     if (res.status !== 200) {
                       await PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Der Commit konnte nicht erstellt werden: " +
-                          res.payload.error,
+                          t("vsc.commit.new.error") + ": " + res.payload.error,
                       });
                       return;
                     }
@@ -292,10 +297,10 @@ export default function Vsc() {
                 <Table maxW={"100%"}>
                   <Thead>
                     <Tr>
-                      <Th>Hash</Th>
-                      <Th>Datum</Th>
-                      <Th>Nachricht</Th>
-                      <Th>Author</Th>
+                      <Th>{t("vsc.hash")}</Th>
+                      <Th>{t("vsc.date")}</Th>
+                      <Th>{t("vsc.message")}</Th>
+                      <Th>{t("vsc.author")}</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -324,4 +329,17 @@ export default function Vsc() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

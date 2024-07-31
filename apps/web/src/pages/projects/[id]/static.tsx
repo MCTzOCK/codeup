@@ -34,11 +34,16 @@ import {
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import byteSize from "byte-size";
 import { FaFileUpload, FaTrash } from "react-icons/fa";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Static() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
 
@@ -57,9 +62,8 @@ export default function Static() {
         reloadFiles();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -79,35 +83,31 @@ export default function Static() {
       setFiles(x.payload.filesArray);
     } else {
       PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Dateien konnten nicht empfangen werden: " + x.payload.error,
+        title: t("base:control.error"),
+        description: t("static.loading.error") + ": " + x.payload.error,
       });
     }
   };
 
   return (
     <>
+      <Head>
+        <title>{t("static.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <Flex justifyContent={"center"}>
             <Box textAlign={"center"} maxW={"500px"}>
-              <CHeading size={"lg"}>Statische Dateien</CHeading>
-              <Text>
-                Lade statische Dateien, wie Bilder hoch, damit du sie in deinem
-                Projekt verwenden kannst. Bedenke, dass alle Dateien öffentlich
-                zugänglich sind. Du solltest deshalb keine sensiblen Daten
-                hochladen. Eine Datei darf bis zu 10MB groß sein.
-              </Text>
+              <CHeading size={"lg"}>{t("static.title")}</CHeading>
+              <Text>{t("static.text")}</Text>
               <Button
                 mt={4}
                 variant={"brand"}
                 leftIcon={<FaFileUpload />}
                 onClick={async () => {
                   const fl = await PopupManager.uploadFileAsync({
-                    title: "Datei hochladen",
-                    helperText:
-                      "Wähle eine Datei aus, die du hochladen möchtest",
+                    title: t("static.upload.file"),
+                    helperText: t("static.upload.file.helper"),
                   });
 
                   if (!fl || fl.length === 0) return;
@@ -134,10 +134,9 @@ export default function Static() {
                       await reloadFiles();
                     } else {
                       PopupManager.alertAsync({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Die Datei konnte nicht hochgeladen werden: " +
-                          x.payload.error,
+                          t("static.upload.error") + ": " + x.payload.error,
                       });
                     }
                   };
@@ -145,16 +144,16 @@ export default function Static() {
                   reader.readAsDataURL(file);
                 }}
               >
-                Datei hochladen
+                {t("static.upload.file")}
               </Button>
             </Box>
           </Flex>
           <TableContainer>
             <Table maxW={"100%"}>
               <Thead>
-                <Th>Name</Th>
-                <Th>Größe</Th>
-                <Th>Aktionen</Th>
+                <Th>{t("name")}</Th>
+                <Th>{t("size")}</Th>
+                <Th>{t("actions")}</Th>
               </Thead>
               <Tbody>
                 {files.map((file) => (
@@ -168,9 +167,8 @@ export default function Static() {
                         onClick={async () => {
                           if (
                             !(await PopupManager.confirmAsync({
-                              title: "Löschen",
-                              question:
-                                "Möchtest du diese Datei wirklich löschen?",
+                              title: t("delete"),
+                              question: t("static.delete.confirm"),
                             }))
                           )
                             return;
@@ -185,27 +183,28 @@ export default function Static() {
                             await reloadFiles();
                           } else {
                             PopupManager.alertAsync({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Die Datei konnte nicht gelöscht werden: " +
+                                t("static.delete.error") +
+                                ": " +
                                 x.payload.error,
                             });
                           }
                         }}
                       >
-                        Löschen
+                        {t("delete")}
                       </Button>
                       <Button
                         variant={"brand"}
                         ml={2}
                         onClick={() => {
                           PopupManager.alertAsync({
-                            title: "URL",
+                            title: t("url"),
                             description: (
                               <>
                                 <Input
                                   type={"text"}
-                                  placeholder={"URL"}
+                                  placeholder={t("url")}
                                   value={
                                     window.location.origin +
                                     "/api/s3/" +
@@ -219,7 +218,7 @@ export default function Static() {
                           });
                         }}
                       >
-                        URL
+                        {t("url")}
                       </Button>
                     </Td>
                   </Tr>
@@ -231,4 +230,17 @@ export default function Static() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
