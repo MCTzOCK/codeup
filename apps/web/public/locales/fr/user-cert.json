@@ -1,0 +1,12 @@
+{
+  "doc.title": "Certificat - CodeUp",
+  "error.not.found": "Le certificat n'a pas pu être trouvé!",
+  "certificate": "Certificat",
+  "s0": "a le cours",
+  "s1": "des",
+  "s2": "avec",
+  "s3": "réussi.",
+  "cert.issued": "Ce certificat a été délivré par",
+  "cert.issued.name": "au nom",
+  "cert.issued.l": "délivré."
+}

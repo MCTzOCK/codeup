@@ -1,0 +1,23 @@
+{
+  "doc.title": "Dzieci - CodeUp",
+  "title": "CodeUp Kids",
+  "open": "Otwórz",
+  "rename": "Zmiana nazwy",
+  "rename.p.title": "Zmiana nazwy projektu",
+  "rename.p.helper": "Wpisz nową nazwę projektu",
+  "renamed": "Nazwa projektu",
+  "renamed.text": "Twój projekt został przemianowany z powodzeniem.",
+  "delete": "Usuń",
+  "delete.p.title": "Usuń projekt",
+  "delete.p.helper": "Na pewno chcesz usunąć ten projekt?",
+  "new": "Nowy",
+  "new.p.title": "Nowy projekt",
+  "new.p.helper": "Podaj nazwę nowego projektu",
+  "playground.doc.title": "Plac zabaw - CodeUp",
+  "playground.run": "Wykonanie",
+  "playground.code": "Kod",
+  "playground.translation.error": "Ze względu na wewnętrzną strukturę CodeUp Kids, nie jest obecnie możliwe tłumaczenie bloków. Są one dostępne tylko w języku niemieckim. Pracujemy nad rozwiązaniem.",
+  "successful": "Udane",
+  "successful.saved": "Projekt został z powodzeniem uratowany.",
+  "save": "Zapisz"
+}

@@ -1,0 +1,13 @@
+{
+  "product.name": "CodeUp",
+  "control.search": "Búsqueda",
+  "categories.learn": "Aprender",
+  "categories.develop": "Desarrollo",
+  "categories.communicate": "Cambios",
+  "categories.planning": "Planes",
+  "categories.other": "Otros",
+  "control.error": "Error",
+  "control.error.request": "Se produjo un error:",
+  "home": "Home",
+  "or": "o"
+}

@@ -1,0 +1,23 @@
+{
+  "doc.title": "Bambini - Codice",
+  "title": "Codice Bambini",
+  "open": "Aperto",
+  "rename": "Rinominazione",
+  "rename.p.title": "Nome del progetto",
+  "rename.p.helper": "Inserisci un nuovo nome per il tuo progetto",
+  "renamed": "Progetto rinominato",
+  "renamed.text": "Il tuo progetto è stato rinominato con successo.",
+  "delete": "Cancella",
+  "delete.p.title": "Eliminare il progetto",
+  "delete.p.helper": "Sei sicuro di voler eliminare questo progetto?",
+  "new": "Nuovo",
+  "new.p.title": "Nuovo progetto",
+  "new.p.helper": "Inserisci un nome per il tuo nuovo progetto",
+  "playground.doc.title": "Parco giochi - CodeUp",
+  "playground.run": "Esecuzione",
+  "playground.code": "Codice",
+  "playground.translation.error": "A causa della struttura interna di CodeUp Kids, nessuna traduzione dei blocchi è attualmente possibile. Questi sono disponibili solo in tedesco. Stiamo lavorando a una soluzione.",
+  "successful": "Successo",
+  "successful.saved": "Il progetto è stato salvato con successo.",
+  "save": "Salva"
+}

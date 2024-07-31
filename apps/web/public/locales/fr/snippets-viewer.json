@@ -1,0 +1,9 @@
+{
+  "snippets": "Extraits de code",
+  "search": "Rechercher",
+  "code.copied": "Code copié",
+  "code.copied.text": "Le code a été copié avec succès",
+  "code.copied.error": "Le code n'a pas été copié. Votre navigateur peut ne pas être pris en charge.",
+  "copy": "Copier",
+  "close": "Fermer"
+}

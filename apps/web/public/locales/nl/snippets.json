@@ -1,0 +1,22 @@
+{
+  "doc.title": "Knipsels - CodeUp",
+  "snippet.new": "Nieuw knipsel",
+  "snippet.new.title": "Titel",
+  "snippet.new.title.placeholder": "Titel van het Snippet",
+  "snippet.new.language": "Talen",
+  "snippet.new.language.placeholder": "Snippettaal",
+  "snippet.new.code": "Rubriek",
+  "snippet.deleted": "Knipsel verwijderd",
+  "snippet.deleted.text": "Het knipsel is succesvol verwijderd.",
+  "delete": "Verwijderen",
+  "cancel": "Annuleren",
+  "save": "Opslaan",
+  "edit": "Bewerken",
+  "copy": "Kopiëren",
+  "copied": "Codekopiëren",
+  "copied.text": "De code is met succes gekopieerd.",
+  "new": "Nieuw",
+  "loggedin.error": "U moet ingelogd zijn om deze pagina te zien.",
+  "other.error": "Er was een vergissing. Probeer het later nog eens.",
+  "title": "Knipsels"
+}

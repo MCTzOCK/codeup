@@ -1,0 +1,13 @@
+{
+  "product.name": "Código",
+  "control.search": "Pesquisar",
+  "categories.learn": "Aprendizagem",
+  "categories.develop": "Desenvolvimento",
+  "categories.communicate": "Trocas",
+  "categories.planning": "Planos",
+  "categories.other": "Outros",
+  "control.error": "Erro",
+  "control.error.request": "Um erro ocorreu:",
+  "home": "Home",
+  "or": "ou"
+}

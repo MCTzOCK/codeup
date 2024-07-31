@@ -1,0 +1,22 @@
+{
+  "doc.title": "Snippets - CodeUp",
+  "snippet.new": "Nuevo Snippet",
+  "snippet.new.title": "Título",
+  "snippet.new.title.placeholder": "Título del Snippet",
+  "snippet.new.language": "Idiomas",
+  "snippet.new.language.placeholder": "Snippet language",
+  "snippet.new.code": "Código",
+  "snippet.deleted": "Snippet eliminado",
+  "snippet.deleted.text": "El snippet fue eliminado con éxito.",
+  "delete": "Suprimir",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "edit": "Editar",
+  "copy": "Copiado",
+  "copied": "Copia del código",
+  "copied.text": "El código fue copiado con éxito.",
+  "new": "Nuevo",
+  "loggedin.error": "Debes estar conectado para ver esta página.",
+  "other.error": "Hubo un error. Por favor, intente de nuevo más tarde.",
+  "title": "Snippets"
+}

@@ -1,0 +1,23 @@
+{
+  "doc.title": "Uitdagingen - CodeUp",
+  "show.done": "Beeld voltooid",
+  "hide.done": "Verborgen gesloten",
+  "done": "Voltooid",
+  "title": "Titel",
+  "difficulty": "Moeilijkheden",
+  "task": "Taak",
+  "diff.easy": "Licht",
+  "diff.medium": "Middel",
+  "diff.hard": "Zwaar",
+  "page.title": "Uitdagingen",
+  "error.loading.challenge": "De uitdaging kon niet geladen worden!",
+  "execute": "Uitvoering",
+  "complete.challenge": "Voltooi de uitdaging",
+  "complete.challenge.question": "Wilt u de uitdaging echt afronden?",
+  "completed.challenge": "Uitdaging voltooid",
+  "completed.challenge.message": "Gefeliciteerd! Je hebt de uitdaging succesvol afgerond.",
+  "completed.challenge.failed": "Uw oplossing was helaas niet correct!",
+  "submit": "Verzenden",
+  "output": "Onderwerp",
+  "output.loading": "Uitvoer laden"
+}

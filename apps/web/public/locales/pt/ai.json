@@ -1,0 +1,18 @@
+{
+  "error.loading": "Os bate-papos AI não poderiam ser carregados:",
+  "error.loading.quota": "O KI-Quota não podia ser carregado:",
+  "error.sending.request": "O pedido não poderia ser enviado:",
+  "new.chat": "Novo chat",
+  "title": "Assistente de AI",
+  "doc.title": "KI Assistant - CodeUp",
+  "placeholder.text": "Selecione um bate-papo ou inicie um novo escrevendo uma mensagem!",
+  "templates.project.idea": "Dá-me uma ideia do projecto!",
+  "templates.react": "O que é React?",
+  "templates.rest": "Dê-me a definição de uma API REST.",
+  "templates.algo": "Que propriedades tem um algoritmo?",
+  "message": "Mensagem",
+  "quota.msg.1": "Ainda tens",
+  "quota.msg.2": "Perguntas à esquerda. Tu sabes",
+  "quota.msg.3": "Mais 10 pedidos!",
+  "quota.loading": "A carregar..."
+}

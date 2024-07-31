@@ -1,0 +1,17 @@
+{
+  "doc.title": "Kontakt - CodeUp",
+  "title": "Kontakt",
+  "message.send": "Wiadomość wysłana",
+  "message.send.text": "Zgłosimy się jak najszybciej",
+  "error.text": "Wystąpił błąd, spróbuj ponownie później lub skontaktuj się z nami przez e-mail na adres hello @ ben- sieert.de",
+  "category": "Kategoria",
+  "cat.other": "Inne",
+  "cat.bug": "Błąd sprawozdawczy",
+  "cat.feature": "Poleć tę stronę",
+  "cat.creator": "Aplikacja twórcy",
+  "f.title": "Tytuł",
+  "message": "Wiadomość",
+  "send": "Składanie",
+  "send.login": "Zaloguj się, aby wysłać",
+  "email.to": "Napisz do nas e-mail:"
+}

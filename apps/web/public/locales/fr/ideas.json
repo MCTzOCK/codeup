@@ -1,0 +1,12 @@
+{
+  "error.text": "Une erreur s'est produite",
+  "doc.title": "Idées de projet - Décryptage",
+  "title": "Idées de projet",
+  "search": "Rechercher des idées de projet",
+  "idea.easy": "Facile",
+  "idea.medium": "Moyenne",
+  "idea.hard": "Lourd",
+  "example": "Exemple",
+  "code": "Code source",
+  "no.ideas.found": "Aucune idée de projet trouvée!"
+}

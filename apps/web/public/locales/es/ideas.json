@@ -1,0 +1,12 @@
+{
+  "error.text": "Se produjo un error",
+  "doc.title": "Ideas de proyectos - CodeUp",
+  "title": "Ideas de proyectos",
+  "search": "Buscar ideas de proyectos",
+  "idea.easy": "Fácil",
+  "idea.medium": "Mediana",
+  "idea.hard": "Pesado",
+  "example": "Ejemplo",
+  "code": "Código fuente",
+  "no.ideas.found": "¡No se han encontrado ideas de proyecto!"
+}

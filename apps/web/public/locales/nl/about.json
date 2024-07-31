@@ -1,0 +1,18 @@
+{
+  "doc.title": "Over CodeUp",
+  "title": "Over CodeUp",
+  "intro": "Rubriek Up is een platform dat je helpt jezelf te vinden in de wereld van programmeren door middel van interactieve cursussen, een geavanceerde ontwikkelomgeving, een gemeenschap van gelijkgestemde en ervaren ontwikkelaars. Rubriek Up werd ontwikkeld door Ben Siebert voor Jeugdonderzoek 2023. In mei 2024 werd het project heropend en zal vermoedelijk ook deelnemen aan jeugdonderzoek 2025.",
+  "local": "U ziet deze pagina lokaal. Daarom zijn er geen statistieken beschikbaar.",
+  "commits": "Commits",
+  "stats": "Statistieken",
+  "branch": "Branch",
+  "commit": "Commit",
+  "last.change": "Laatste wijziging",
+  "lines": "Regels",
+  "used.packages": "Gebruikte pakketten",
+  "used.technologies": "Gebruikte technologieën",
+  "all.packages": "Alle pakketten",
+  "all.packages.info": "Totaal aantal gebruikte verpakkingen:",
+  "packages.show.more": "Meer pakketten tonen...",
+  "version": "Versie"
+}

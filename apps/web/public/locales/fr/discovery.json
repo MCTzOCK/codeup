@@ -1,0 +1,18 @@
+{
+  "doc.title": "Découverte - CodeUp",
+  "error.text": "Une erreur s'est produite !",
+  "title": "Découverte",
+  "author": "Auteur",
+  "stars": "Étoiles",
+  "description": "Désignation des marchandises",
+  "open": "Regarder",
+  "stars.add": "Ajouter une étoile",
+  "stars.remove": "Supprimer l' étoile",
+  "success": "Succès",
+  "success.text": "Votre action a été mise en œuvre avec succès!",
+  "error.desc": "Une erreur s'est produite",
+  "comment": "Commentaire",
+  "comment.subj": "Commentaire",
+  "comment.subj.helper": "Entrez votre commentaire. Regarde ton choix !",
+  "comment.added": "Votre commentaire a été ajouté avec succès!"
+}

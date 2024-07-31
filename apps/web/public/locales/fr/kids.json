@@ -1,0 +1,23 @@
+{
+  "doc.title": "Enfants - Décryptage",
+  "title": "Code des enfants",
+  "open": "Ouvrir",
+  "rename": "Relèvement",
+  "rename.p.title": "Renommer le projet",
+  "rename.p.helper": "Saisissez un nouveau nom pour votre projet",
+  "renamed": "Projet renommé",
+  "renamed.text": "Votre projet a été renommé avec succès.",
+  "delete": "Supprimer",
+  "delete.p.title": "Supprimer le projet",
+  "delete.p.helper": "Voulez-vous vraiment supprimer ce projet ?",
+  "new": "Nouveau",
+  "new.p.title": "Nouveau projet",
+  "new.p.helper": "Saisissez un nom pour votre nouveau projet",
+  "playground.doc.title": "Terrain de jeu - CodeUp",
+  "playground.run": "Exécution",
+  "playground.code": "Code",
+  "playground.translation.error": "En raison de la structure interne de CodeUp Kids, aucune traduction des blocs n'est actuellement possible. Elles ne sont disponibles qu'en allemand. Nous travaillons sur une solution.",
+  "successful": "Succès",
+  "successful.saved": "Le projet a été sauvé avec succès.",
+  "save": "Enregistrer"
+}

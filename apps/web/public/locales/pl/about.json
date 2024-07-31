@@ -1,0 +1,18 @@
+{
+  "doc.title": "O CodeUp",
+  "title": "O CodeUp",
+  "intro": "Kod W górę jest platforma, która pomaga znaleźć się w świecie programowania poprzez interaktywne kursy, zaawansowane środowisko rozwoju, społeczność podobnie myślących i doświadczonych deweloperów. Kod W górę został opracowany przez Ben Siebert for Youth Research 2023. W maju 2024 r. projekt został ponownie otwarty i prawdopodobnie będzie również uczestniczył w badaniach nad młodzieżą 2025 r.",
+  "local": "Widzisz tę stronę lokalnie. Dlatego też nie są dostępne żadne statystyki.",
+  "commits": "Komisja",
+  "stats": "Statystyki",
+  "branch": "Oddział",
+  "commit": "Zgłoszenie",
+  "last.change": "Ostatnia poprawka",
+  "lines": "Linie",
+  "used.packages": "Używane opakowania",
+  "used.technologies": "Używane technologie",
+  "all.packages": "Wszystkie opakowania",
+  "all.packages.info": "Łączna liczba wykorzystanych opakowań:",
+  "packages.show.more": "Pokaż więcej pakietów...",
+  "version": "Wersja"
+}

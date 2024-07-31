@@ -1,0 +1,18 @@
+{
+  "doc.title": "Descoberta - CodeUp",
+  "error.text": "Um erro ocorreu!",
+  "title": "Descobrimento",
+  "author": "Autor",
+  "stars": "Estrelas",
+  "description": "Descrição",
+  "open": "Cuidado",
+  "stars.add": "Adicionar uma estrela",
+  "stars.remove": "Remover estrela",
+  "success": "Sucesso",
+  "success.text": "Sua ação foi implementada com sucesso!",
+  "error.desc": "Um erro ocorreu",
+  "comment": "Comentário",
+  "comment.subj": "Comentário",
+  "comment.subj.helper": "Insira seu comentário. Cuidado com a escolha da palavra!",
+  "comment.added": "Seu comentário foi adicionado com sucesso!"
+}

@@ -1,0 +1,18 @@
+{
+  "doc.title": "Discovery - CodeUp",
+  "error.text": "¡Ocurrió un error!",
+  "title": "Discovery",
+  "author": "Autor",
+  "stars": "Estrellas",
+  "description": "Descripción",
+  "open": "Watch",
+  "stars.add": "Añadir una estrella",
+  "stars.remove": "Quitar la estrella",
+  "success": "Éxito",
+  "success.text": "¡Tu acción ha sido implementada con éxito!",
+  "error.desc": "Se produjo un error",
+  "comment": "Comentario",
+  "comment.subj": "Comentario",
+  "comment.subj.helper": "Escribe tu comentario. ¡Cuidado con tu palabra!",
+  "comment.added": "¡Su comentario ha sido añadido con éxito!"
+}
