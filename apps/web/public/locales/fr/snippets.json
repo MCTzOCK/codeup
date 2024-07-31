@@ -1,0 +1,22 @@
+{
+  "doc.title": "Extraits de code",
+  "snippet.new": "Nouveau extrait",
+  "snippet.new.title": "Titre",
+  "snippet.new.title.placeholder": "Titre de l'extrait de code",
+  "snippet.new.language": "Langues",
+  "snippet.new.language.placeholder": "Langue de l'extrait de code",
+  "snippet.new.code": "Code",
+  "snippet.deleted": "Extrait supprimé",
+  "snippet.deleted.text": "L'extrait a été supprimé avec succès.",
+  "delete": "Supprimer",
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "edit": "Modifier",
+  "copy": "Copier",
+  "copied": "Copie de code",
+  "copied.text": "Le code a été copié avec succès.",
+  "new": "Nouveau",
+  "loggedin.error": "Vous devez être connecté pour voir cette page.",
+  "other.error": "Il y a eu une erreur. Veuillez réessayer plus tard.",
+  "title": "Extraits"
+}

@@ -38,6 +38,7 @@ import { FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import PopupManager from "../../global/PopupManager";
 import DataTable from "@codeup/components/dist/extra/DataTable";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function ChallengesPage() {
   const [challenges, setChallenges] = React.useState<
@@ -276,4 +277,10 @@ export default function ChallengesPage() {
       </CodeUpModal>
     </AdminLayout>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

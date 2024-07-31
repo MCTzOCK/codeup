@@ -30,6 +30,7 @@ import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { Box } from "@chakra-ui/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Kids() {
   const router = useRouter();
@@ -170,4 +171,10 @@ export default function Kids() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

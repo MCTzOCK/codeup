@@ -35,6 +35,7 @@ import { Step, Steps, useSteps } from "chakra-ui-steps";
 import Builder from "../../../special-components/Builder";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { sProp } from "../../../global/i18nstaticProps";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -315,4 +316,10 @@ export default function NewContents() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

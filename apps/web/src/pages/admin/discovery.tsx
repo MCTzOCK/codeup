@@ -20,6 +20,7 @@ import GridLayout from "@codeup/components/dist/global/GridLayout";
 import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Discovery() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -127,4 +128,10 @@ export default function Discovery() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

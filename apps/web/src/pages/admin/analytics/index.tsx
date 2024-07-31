@@ -52,6 +52,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import SuperText from "@codeup/components/landingpage/SuperText";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
 
 export default function Index() {
   ChartJS.register(
@@ -561,4 +562,10 @@ function pathsToData(_paths: any) {
         ])
     )
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

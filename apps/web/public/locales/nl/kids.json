@@ -1,0 +1,23 @@
+{
+  "doc.title": "Kinderen - CodeUp",
+  "title": "CodeUp Kids",
+  "open": "Open",
+  "rename": "Hernoemen",
+  "rename.p.title": "Project hernoemen",
+  "rename.p.helper": "Voer een nieuwe naam in voor uw project",
+  "renamed": "Project hernoemd",
+  "renamed.text": "Uw project is succesvol hernoemd.",
+  "delete": "Verwijderen",
+  "delete.p.title": "Project verwijderen",
+  "delete.p.helper": "Weet u zeker dat u dit project wilt verwijderen?",
+  "new": "Nieuw",
+  "new.p.title": "Nieuw project",
+  "new.p.helper": "Voer een naam in voor uw nieuwe project",
+  "playground.doc.title": "Speeltuin - CodeUp",
+  "playground.run": "Uitvoering",
+  "playground.code": "Rubriek",
+  "playground.translation.error": "Vanwege de interne structuur van CodeUp Kids is momenteel geen vertaling van de blokken mogelijk. Deze zijn alleen beschikbaar in het Duits. We werken aan een oplossing.",
+  "successful": "Succesvol",
+  "successful.saved": "Het project is succesvol opgeslagen.",
+  "save": "Opslaan"
+}

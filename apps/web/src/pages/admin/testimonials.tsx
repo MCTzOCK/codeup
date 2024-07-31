@@ -27,6 +27,7 @@ import { FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = React.useState<
@@ -584,4 +585,10 @@ export default function Testimonials() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

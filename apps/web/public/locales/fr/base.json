@@ -1,0 +1,13 @@
+{
+  "product.name": "Inscription",
+  "control.search": "Rechercher",
+  "categories.learn": "Apprendre",
+  "categories.develop": "Développement",
+  "categories.communicate": "Échanges",
+  "categories.planning": "Plans",
+  "categories.other": "Autres",
+  "control.error": "Erreur",
+  "control.error.request": "Une erreur s'est produite :",
+  "home": "Sommaire",
+  "or": "ou"
+}

@@ -23,6 +23,7 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import ListViewer from "@codeup/components/dist/todo/ListViewer";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Todos() {
   const [error, setError] = React.useState<boolean>(false);
@@ -180,4 +181,10 @@ export default function Todos() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

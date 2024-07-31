@@ -56,6 +56,7 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
 
 export default function UserViewer() {
   const [user, setUser] = React.useState<{
@@ -540,4 +541,17 @@ function pathsToData(_paths: any) {
         ])
     )
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

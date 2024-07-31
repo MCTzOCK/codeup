@@ -1,0 +1,13 @@
+{
+  "product.name": "Kod",
+  "control.search": "Szukaj",
+  "categories.learn": "Nauka",
+  "categories.develop": "Rozwój",
+  "categories.communicate": "Wymiana",
+  "categories.planning": "Plany",
+  "categories.other": "Inne",
+  "control.error": "Błąd",
+  "control.error.request": "Wystąpił błąd:",
+  "home": "Spis treści",
+  "or": "lub"
+}

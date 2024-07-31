@@ -20,6 +20,7 @@ import PopupManager from "../../global/PopupManager";
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { useRouter } from "next/router";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Flows() {
   const [flows, setFlows] = React.useState<any[]>([]);
@@ -131,4 +132,10 @@ export default function Flows() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

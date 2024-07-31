@@ -20,6 +20,7 @@ import GridLayout from "@codeup/components/dist/global/GridLayout";
 import { FaLink, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Shorts() {
   const [loading, setLoading] = React.useState(true);
@@ -165,4 +166,10 @@ export default function Shorts() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

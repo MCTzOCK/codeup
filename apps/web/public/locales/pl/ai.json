@@ -1,0 +1,18 @@
+{
+  "error.loading": "Rozmowy AI nie mogły być załadowane:",
+  "error.loading.quota": "Kontyngent KI- nie mógł być załadowany:",
+  "error.sending.request": "Wniosek nie został przesłany:",
+  "new.chat": "Nowy czat",
+  "title": "Asystent AI",
+  "doc.title": "Asystent KI - CodeUp",
+  "placeholder.text": "Wybierz czat lub rozpocząć nowy, pisząc wiadomość!",
+  "templates.project.idea": "Daj mi pomysł na projekt!",
+  "templates.react": "Co to jest React?",
+  "templates.rest": "Podaj mi definicję REST API.",
+  "templates.algo": "Jakie właściwości ma algorytm?",
+  "message": "Wiadomość",
+  "quota.msg.1": "Nadal masz",
+  "quota.msg.2": "Pozostały pytania. You get",
+  "quota.msg.3": "Jeszcze 10 próśb!",
+  "quota.loading": "Ładowanie..."
+}

@@ -1,0 +1,17 @@
+{
+  "doc.title": "Contact - CodeUp",
+  "title": "Contactpersoon",
+  "message.send": "Bericht verzonden",
+  "message.send.text": "Wij zullen u zo spoedig mogelijk verslag uitbrengen",
+  "error.text": "Er is een fout opgetreden, probeer het later opnieuw of neem contact met ons op via hello@ben-sieert.de",
+  "category": "Categorie",
+  "cat.other": "Andere",
+  "cat.bug": "Fout bij rapporteren",
+  "cat.feature": "Deze pagina aanbevelen",
+  "cat.creator": "Aanmaakprogramma",
+  "f.title": "Titel",
+  "message": "Bericht",
+  "send": "Indiening",
+  "send.login": "Log in om te verzenden",
+  "email.to": "Schrijf ons een e-mail:"
+}

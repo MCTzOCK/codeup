@@ -1,0 +1,17 @@
+{
+  "doc.title": "Contacto - CodeUp",
+  "title": "Contacto",
+  "message.send": "Mensagem enviada",
+  "message.send.text": "Vamos apresentar-lhe o mais rápido possível",
+  "error.text": "Um erro ocorreu, tente novamente mais tarde ou contate-nos por e-mail em hello@ben-sieert.de",
+  "category": "Categoria",
+  "cat.other": "Outros",
+  "cat.bug": "Relatório de erro",
+  "cat.feature": "Recomende esta página",
+  "cat.creator": "Aplicação do Criador",
+  "f.title": "Título",
+  "message": "Mensagem",
+  "send": "Submissão",
+  "send.login": "Entrar para enviar",
+  "email.to": "Escreva um e-mail para nós:"
+}

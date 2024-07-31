@@ -39,6 +39,9 @@ import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { useEffect, useState } from "react";
 import redirect from "@codeup/util/dist/userworkflow/redirect";
 import { FaCheck } from "react-icons/fa";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
 
 export default function Index() {
   const [course, setCourse] = React.useState<{
@@ -77,6 +80,8 @@ export default function Index() {
   const { course: courseName } = router.query;
   const toast = useToast();
 
+  const { t } = useTranslation("courses");
+
   useEffect(() => {
     redirect({
       forceAnonymous: false,
@@ -93,7 +98,23 @@ export default function Index() {
         token: AccountManager.getActiveToken(),
       }).then(async (res) => {
         if (res.status === 200) {
-          setCourse(res.payload.course);
+          if (router.locale === "de") {
+            setCourse(res.payload.course);
+          } else {
+            setCourse({
+              ...res.payload.course,
+              name: await translateOnlineV3({
+                to: router.locale as string,
+                from: "de",
+                text: res.payload.course.name,
+              }),
+              description: await translateOnlineV3({
+                to: router.locale as string,
+                from: "de",
+                text: res.payload.course.description,
+              }),
+            });
+          }
 
           let contents0 = [];
           for (const contentId of res.payload.course.contentPositions) {
@@ -104,7 +125,18 @@ export default function Index() {
             });
 
             if (res0.status === 200) {
-              contents0.push(res0.payload.content);
+              if (router.locale === "de") {
+                contents0.push(res0.payload.content);
+              } else {
+                contents0.push({
+                  ...res0.payload.content,
+                  displayName: await translateOnlineV3({
+                    to: router.locale as string,
+                    from: "de",
+                    text: res0.payload.content.displayName,
+                  }),
+                });
+              }
             }
           }
 
@@ -112,8 +144,8 @@ export default function Index() {
           setContentsLoading(false);
         } else {
           toast({
-            title: "Error",
-            description: "Der Kurs konnte nicht geladen werden",
+            title: t("base:control.error"),
+            description: t("course.loading.error"),
             status: "error",
             duration: 5000,
             isClosable: true,
@@ -145,7 +177,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>{course ? course.name : "Kursübersicht"} - CodeUp</title>
+        <title>{course ? course.name : t("course.overview")} - CodeUp</title>
       </Head>
       {course ? (
         <>
@@ -168,7 +200,7 @@ export default function Index() {
               <CHeading size={"2xl"}>
                 {course.name}
                 <chakra.sub pl={4} fontSize={"2xl"}>
-                  von @{course.creator}
+                  {t("course.by")} @{course.creator}
                 </chakra.sub>
               </CHeading>
               <Flex direction={["column", "row"]} w={"100%"} mt={6}>
@@ -182,24 +214,22 @@ export default function Index() {
                     borderRadius="lg"
                   />
                   <Text mt={4} fontSize={"lg"}>
-                    <CHeading size={"lg"}>Beschreibung</CHeading>
+                    <CHeading size={"lg"}>{t("description")}</CHeading>
                     {course.description}
                   </Text>
                   <Text mt={4} fontSize={"lg"}>
-                    <CHeading size={"lg"}>Status</CHeading>
+                    <CHeading size={"lg"}>{t("status")}</CHeading>
                     {isEnrolled ? (
                       <>
-                        <Badge colorScheme="green">Eingeschrieben</Badge>
+                        <Badge colorScheme="green">{t("enrolled")}</Badge>
                         <br />
-                        Du kannst deinen Fortschritt nachverfolgen. <br />
-                        Eine Lektion wird als abgeschlossen markiert, wenn du
-                        alle Quizfragen richtig beantwortet hast.
+                        {t("enrolled.text")}
                       </>
                     ) : (
                       <>
-                        <Badge colorScheme="red">Nicht eingeschrieben</Badge>
+                        <Badge colorScheme="red">{t("not.enrolled")}</Badge>
                         <br />
-                        Du kannst deinen Fortschritt nicht nachverfolgen.
+                        {t("not.enrolled.text")}
                         <br />
                         <Button
                           variant={"brand"}
@@ -213,7 +243,7 @@ export default function Index() {
                             setEnrolled(true);
                           }}
                         >
-                          Einschreiben
+                          {t("enroll")}
                         </Button>
                       </>
                     )}
@@ -221,7 +251,7 @@ export default function Index() {
                   {isEnrolled && (
                     <>
                       <Text mt={4} fontSize={"lg"}>
-                        <CHeading size={"lg"}>Fortschritt</CHeading>
+                        <CHeading size={"lg"}>{t("progress")}</CHeading>
                         <br />
                         <Progress
                           value={progress.length}
@@ -242,10 +272,10 @@ export default function Index() {
                           <FaCheck />
                         ) : null,
                         date: new Date(content.createdAt).toLocaleDateString(),
-                        description:
-                          "Diese Lektion enthält " +
-                          content.quiz.length +
-                          " Quizfragen.",
+                        description: t("section.quiz.questions").replace(
+                          "{0}",
+                          content.quiz.length.toString()
+                        ),
                         cursor: "pointer",
                         onClick: () => {
                           router.push(
@@ -254,11 +284,13 @@ export default function Index() {
                         },
                       };
                     })}
-                    title={"Lektionen"}
+                    title={t("sections")}
                   />
                   {contentsLoading && (
                     <>
-                      <AuthenticateLoadingIndicator text={"Lade Inhalte..."} />
+                      <AuthenticateLoadingIndicator
+                        text={t("loading.contents")}
+                      />
                     </>
                   )}
                 </Box>
@@ -269,4 +301,17 @@ export default function Index() {
       ) : null}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["courses"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -1,0 +1,18 @@
+{
+  "doc.title": "Odkrycie - CodeUp",
+  "error.text": "Wystąpił błąd!",
+  "title": "Odkrycie",
+  "author": "Autor",
+  "stars": "Gwiazdy",
+  "description": "Opis",
+  "open": "Patrz",
+  "stars.add": "Dodaj gwiazdę",
+  "stars.remove": "Usuń gwiazdę",
+  "success": "Udane",
+  "success.text": "Twoje działanie zostało pomyślnie wdrożone!",
+  "error.desc": "Wystąpił błąd",
+  "comment": "Komentarz",
+  "comment.subj": "Komentarz",
+  "comment.subj.helper": "Wpisz swój komentarz. Uważaj na słowa!",
+  "comment.added": "Twój komentarz został dodany pomyślnie!"
+}

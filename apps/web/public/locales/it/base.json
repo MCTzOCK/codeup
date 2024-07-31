@@ -1,0 +1,13 @@
+{
+  "product.name": "Codice",
+  "control.search": "Ricerca",
+  "categories.learn": "Apprendimento",
+  "categories.develop": "Sviluppo",
+  "categories.communicate": "Scambi",
+  "categories.planning": "Piani",
+  "categories.other": "Altri",
+  "control.error": "Errore",
+  "control.error.request": "Si è verificato un errore:",
+  "home": "Home",
+  "or": "o"
+}

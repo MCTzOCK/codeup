@@ -1,0 +1,18 @@
+{
+  "doc.title": "Acerca de CodeUp",
+  "title": "Acerca de CodeUp",
+  "intro": "Código Up es una plataforma que te ayuda a encontrarte en el mundo de la programación a través de cursos interactivos, un entorno de desarrollo avanzado, una comunidad de desarrolladores con ideas similares y experiencia. Código Up fue desarrollado por Ben Siebert para la investigación juvenil 2023. En mayo de 2024, el proyecto fue reabierto y probablemente también participará en la investigación juvenil 2025.",
+  "local": "Ves esta página localmente. Por lo tanto, no se dispone de estadísticas.",
+  "commits": "Commits",
+  "stats": "Estadísticas",
+  "branch": "Subdivisión",
+  "commit": "Commit",
+  "last.change": "Última enmienda",
+  "lines": "Líneas",
+  "used.packages": "Paquetes utilizados",
+  "used.technologies": "Tecnologías usadas",
+  "all.packages": "Todos los paquetes",
+  "all.packages.info": "Número total de paquetes utilizados:",
+  "packages.show.more": "Mostrar más paquetes...",
+  "version": "Versión"
+}

@@ -40,6 +40,7 @@ import { motion } from "framer-motion";
 import { FaTwitter } from "react-icons/fa";
 import CodeUpModal from "../codeup/CodeUpModal";
 import { CHeading } from "../global/CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function Quiz(props: {
   title: string;
@@ -53,6 +54,8 @@ export default function Quiz(props: {
   }[];
   successCB?: () => void;
 }) {
+  const { t } = useTranslation("courses");
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
@@ -85,11 +88,10 @@ export default function Quiz(props: {
           props.title +
           " (" +
           (finished
-            ? "Ergebnis"
-            : "Frage " +
-              (currentQuestion + 1) +
-              " von " +
-              props.questions.length) +
+            ? t("result")
+            : t("quiz.question")
+                .replace("{0}", (currentQuestion + 1).toString())
+                .replace("{1}", props.questions.length.toString())) +
           ")"
         }
         noCloseButton={true}
@@ -128,11 +130,12 @@ export default function Quiz(props: {
               </CircularProgress>
 
               <Text color={"white"} mt="2rem" mb={"3rem"}>
-                Du hast {correctAnswers} von {props.questions.length} Fragen
-                richtig beantwortet.
+                {t("quiz.question.result")
+                  .replace("{0}", correctAnswers.toString())
+                  .replace("{1}", props.questions.length.toString())}
               </Text>
 
-              <CHeading size={"lg"}>Richtige Antworten</CHeading>
+              <CHeading size={"lg"}>{t("quiz.answers.correct")}</CHeading>
               <Accordion mt="1.2rem" allowToggle>
                 {props.questions.map((q, i) => {
                   return (
@@ -198,7 +201,7 @@ export default function Quiz(props: {
                     }
                   }}
                 >
-                  Schließen
+                  {t("close")}
                 </Button>
               </ButtonGroup>
             </Flex>
@@ -211,7 +214,7 @@ export default function Quiz(props: {
             >
               <IconButton
                 icon={<FaTwitter />}
-                aria-label="Share on Twitter"
+                aria-label={t("share.twitter")}
                 variant={"brand"}
                 onClick={async () => {
                   window.open(
@@ -258,24 +261,6 @@ export default function Quiz(props: {
 
               <Text fontSize={"1.5rem"} mt={"1rem"}>
                 {props.questions[currentQuestion].question}
-                <Badge
-                  ml="1rem"
-                  variant="outline"
-                  display={"none"}
-                  colorScheme={
-                    props.questions[currentQuestion].difficulty === "easy"
-                      ? "green"
-                      : props.questions[currentQuestion].difficulty === "medium"
-                      ? "orange"
-                      : "red"
-                  }
-                >
-                  {props.questions[currentQuestion].difficulty === "easy"
-                    ? "Einfach"
-                    : props.questions[currentQuestion].difficulty === "medium"
-                    ? "Mittel"
-                    : "Schwer"}
-                </Badge>
               </Text>
               <Divider mt={"1rem"} />
               <Flex direction={"column"} gap={"1rem"} mt={"1rem"}>
@@ -307,11 +292,9 @@ export default function Quiz(props: {
       </CodeUpModal>
 
       <Box mt="1rem">
-        <Heading size={"lg"}>Quiz</Heading>
+        <Heading size={"lg"}>{t("quiz")}</Heading>
         <Text fontSize="1.5rem" mt="1.2rem">
-          Schau, wie gut du diese Lektion verstanden hast! Dieses Quiz besteht
-          aus&nbsp;
-          {props.questions.length} Fragen.
+          {t("quiz.text").replace("{0}", props.questions.length.toString())}
         </Text>
         <Button
           mt="1.2rem"
@@ -326,7 +309,7 @@ export default function Quiz(props: {
             onOpen();
           }}
         >
-          {finished ? "Erneut starten" : "Quiz starten"}
+          {finished ? t("quiz.restart") : t("quiz.start")}
         </Button>
       </Box>
     </>

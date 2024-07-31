@@ -33,6 +33,9 @@ import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -49,6 +52,8 @@ export default function Index() {
       __v: number;
     }[]
   >([]);
+
+  const { t } = useTranslation("courses");
 
   const [filteredCourses, setFilteredCourses] = React.useState<
     {
@@ -73,15 +78,38 @@ export default function Index() {
   React.useEffect(() => {
     REST.Course.listCourses({
       token: AccountManager.getActiveToken(),
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.status === 200) {
-        setCourses(res.payload.courses);
-        setFilteredCourses(res.payload.courses);
+        if (router.locale === "de") {
+          setCourses(res.payload.courses);
+          setFilteredCourses(res.payload.courses);
+        } else {
+          let cs: any[] = [];
+
+          for await (const x of res.payload.courses) {
+            cs.push({
+              ...x,
+              name: await translateOnlineV3({
+                to: router.locale as string,
+                from: "de",
+                text: x.name,
+              }),
+              description: await translateOnlineV3({
+                to: router.locale as string,
+                from: "de",
+                text: x.description,
+              }),
+            });
+          }
+
+          setCourses(cs);
+          setFilteredCourses(cs);
+        }
         setCoursesLoading(false);
       } else {
         toast({
-          title: "Fehler",
-          description: "Es ist ein Fehler aufgetreten",
+          title: t("base:control.error"),
+          description: t("base:control.error.request") + " " + res.status,
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -94,7 +122,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Kursübersicht - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex
         direction="column"
@@ -111,27 +139,18 @@ export default function Index() {
           mt={4}
         >
           <Box textAlign={"center"}>
-            <CHeading size={"3xl"}>Kurse</CHeading>
+            <CHeading size={"3xl"}>{t("courses")}</CHeading>
           </Box>
           <Text fontSize={["xl", "2xl"]} textAlign={["center", "initial"]}>
-            Aktuell werden&nbsp;
-            <chakra.b color={"brand.500"}>
-              {courses.length} Kurs
-              {courses.length !== 1 ? "e" : ""}
-            </chakra.b>
-            &nbsp;mit insgesamt&nbsp;
-            <chakra.b color={"brand.500"}>
-              {courses
-                .map((course) => course.contentPositions.length)
-                .reduce((a, b) => a + b, 0)}
-              &nbsp;Lektion
-              {courses
-                .map((course) => course.contentPositions.length)
-                .reduce((a, b) => a + b, 0) !== 1
-                ? "en"
-                : ""}
-            </chakra.b>
-            &nbsp;angeboten.
+            {t("current.stats")
+              .replace("{0}", courses.length.toString())
+              .replace(
+                "{1}",
+                courses
+                  .map((course) => course.contentPositions.length)
+                  .reduce((a, b) => a + b, 0)
+                  .toString()
+              )}
           </Text>
           <InputGroup
             w={["75%", "50%"]}
@@ -144,7 +163,7 @@ export default function Index() {
             </InputLeftElement>
             <Input
               type="text"
-              placeholder="Kurse durchsuchen"
+              placeholder={t("search.courses")}
               fontSize={"xl"}
               onChange={(e) => {
                 setFilteredCourses(
@@ -209,8 +228,8 @@ export default function Index() {
                     />
                     <CHeading size={"xl"}>{c.name}</CHeading>
                     <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
-                      von&nbsp;
-                      <chakra.span color={"brand.400"}>
+                      {t("course.by")}&nbsp;
+                      <chakra.span color={"brand.500"}>
                         @{c.creator}
                       </chakra.span>
                     </Text>
@@ -224,8 +243,7 @@ export default function Index() {
                       ...
                     </Heading>
                     <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
-                      {c.contentPositions.length} Lektion
-                      {c.contentPositions.length !== 1 ? "en" : ""}
+                      {c.contentPositions.length} {t("sections")}
                     </Text>
                   </Flex>
                 </Box>
@@ -241,16 +259,22 @@ export default function Index() {
               fontWeight={"normal"}
               textAlign={"center"}
             >
-              Keine Kurse gefunden
+              {t("no.courses")}
             </Heading>
           </>
         ) : null}
         {coursesLoading && (
           <>
-            <AuthenticateLoadingIndicator text={"Lade Kurse..."} />
+            <AuthenticateLoadingIndicator text={t("courses.loading")} />
           </>
         )}
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["courses"])),
+  };
 }

@@ -60,6 +60,7 @@ import {
 } from "react-icons/fa";
 import { BiError } from "react-icons/bi";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Index() {
   ChartJS.register(
@@ -436,3 +437,9 @@ const DashCard = (props: {
     </>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
+}

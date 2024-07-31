@@ -1,0 +1,12 @@
+{
+  "doc.title": "Certificaat - CodeUp",
+  "error.not.found": "Het certificaat kon niet gevonden worden!",
+  "certificate": "Certificaat",
+  "s0": "heeft de cursus",
+  "s1": "de",
+  "s2": "met",
+  "s3": "met succes geslaagd.",
+  "cert.issued": "Dit certificaat is afgegeven door",
+  "cert.issued.name": "namens",
+  "cert.issued.l": "afgegeven."
+}

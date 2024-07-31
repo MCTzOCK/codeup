@@ -1,0 +1,18 @@
+{
+  "doc.title": "Ontdekking - CodeUp",
+  "error.text": "Er is een fout opgetreden!",
+  "title": "Ontdekking",
+  "author": "Auteur",
+  "stars": "Sterren",
+  "description": "Omschrijving",
+  "open": "Kijk",
+  "stars.add": "Een ster toevoegen",
+  "stars.remove": "Ster verwijderen",
+  "success": "Succesvol",
+  "success.text": "Uw actie is succesvol uitgevoerd!",
+  "error.desc": "Er is een fout opgetreden",
+  "comment": "Opmerking",
+  "comment.subj": "Opmerking",
+  "comment.subj.helper": "Voer je commentaar in. Let op je woordkeuze!",
+  "comment.added": "Uw commentaar is succesvol toegevoegd!"
+}

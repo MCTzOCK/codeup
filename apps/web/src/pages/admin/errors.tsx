@@ -36,6 +36,7 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import { FaCheck, FaFilter, FaSearch } from "react-icons/fa";
 import { FiRotateCw } from "react-icons/fi";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Errors() {
   const [errors, setErrors] = React.useState<
@@ -208,4 +209,10 @@ export default function Errors() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

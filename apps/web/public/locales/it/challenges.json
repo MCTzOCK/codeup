@@ -1,0 +1,23 @@
+{
+  "doc.title": "Le sfide - CodeUp",
+  "show.done": "Vista completa",
+  "hide.done": "Nascosto chiuso",
+  "done": "Completato",
+  "title": "Titolo",
+  "difficulty": "Difficoltà",
+  "task": "Attività",
+  "diff.easy": "Luce",
+  "diff.medium": "Media",
+  "diff.hard": "Pesante",
+  "page.title": "Sfide",
+  "error.loading.challenge": "La sfida non poteva essere caricata!",
+  "execute": "Esecuzione",
+  "complete.challenge": "Completa la sfida",
+  "complete.challenge.question": "Vuoi davvero completare la sfida?",
+  "completed.challenge": "Sfida completata",
+  "completed.challenge.message": "Congratulazioni! Hai completato con successo la sfida.",
+  "completed.challenge.failed": "La vostra soluzione non è stata purtroppo corretta!",
+  "submit": "Inviare",
+  "output": "Fascicolo",
+  "output.loading": "Uscita del carico"
+}

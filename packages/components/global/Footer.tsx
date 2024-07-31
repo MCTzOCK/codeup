@@ -60,6 +60,30 @@ const Footer = (props: { transparent?: boolean }) => {
       cc: "GB",
       display: "English",
     },
+    fr: {
+      cc: "FR",
+      display: "Français",
+    },
+    es: {
+      cc: "ES",
+      display: "Español",
+    },
+    it: {
+      cc: "IT",
+      display: "Italiano",
+    },
+    nl: {
+      cc: "NL",
+      display: "Nederlands",
+    },
+    pl: {
+      cc: "PL",
+      display: "Polski",
+    },
+    pt: {
+      cc: "PT",
+      display: "Português",
+    },
   };
 
   return (

@@ -35,9 +35,14 @@ import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { FaBackward, FaForward } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
 
 export default function SectionViewer() {
   const router = useRouter();
+
+  const { t } = useTranslation("courses");
 
   const [courseQuery, setCourseQuery] = useState<string>("");
   const [sectionQuery, setSectionQuery] = useState<string>("");
@@ -81,11 +86,53 @@ export default function SectionViewer() {
       course: courseQuery,
       section: sectionQuery,
       token: AccountManager.getActiveToken(),
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.status !== 200) {
         setNotFound(true);
       } else {
-        setContent(res.payload.content);
+        if (router.locale === "de") {
+          setContent(res.payload.content);
+        } else {
+          let quiz: any[] = [];
+
+          for await (const q of res.payload.content.quiz) {
+            quiz.push({
+              ...q,
+              question: await translateOnlineV3({
+                to: router.locale as string,
+                from: "de",
+                text: q.question,
+              }),
+              answers: await Promise.all(
+                q.answers.map(async (a: any) => {
+                  return {
+                    ...a,
+                    answer: await translateOnlineV3({
+                      to: router.locale as string,
+                      from: "de",
+                      text: a.answer,
+                    }),
+                  };
+                })
+              ),
+            });
+          }
+
+          setContent({
+            ...res.payload.content,
+            displayName: await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: res.payload.content.displayName,
+            }),
+            textContent: await translateOnlineV3({
+              to: router.locale as string,
+              from: "de",
+              text: res.payload.content.textContent,
+            }),
+            quiz: quiz,
+          });
+        }
         REST.Course.getCourse({
           course: courseQuery,
           token: AccountManager.getActiveToken(),
@@ -117,7 +164,7 @@ export default function SectionViewer() {
   return (
     <>
       <Head>
-        <title>{content ? content.displayName : "Inhalt"} - CodeUp</title>
+        <title>{content ? content.displayName : t("content")} - CodeUp</title>
       </Head>
       {loading ? (
         <>
@@ -131,7 +178,7 @@ export default function SectionViewer() {
           >
             <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
             <Heading size={"lg"} mt={4}>
-              Lade Inhalte...
+              {t("loading.content")}
             </Heading>
           </Flex>
         </>
@@ -139,8 +186,8 @@ export default function SectionViewer() {
       {notFound ? (
         <>
           <ErrorComponent
-            description={"Die angeforderte Seite konnte nicht gefunden werden!"}
-            title={"Inhalte konnten nicht geladen werden!"}
+            description={t("error.404")}
+            title={t("error.404.title")}
           />
         </>
       ) : null}
@@ -229,9 +276,8 @@ export default function SectionViewer() {
                       token: AccountManager.getActiveToken(),
                     });
                     PopupManager.alertAsync({
-                      title: "Abgeschlossen!",
-                      description:
-                        "Du hast diese Lektion erfolgreich abgeschlossen!",
+                      title: t("finished"),
+                      description: t("finished.section"),
                     });
                   }}
                 />
@@ -253,7 +299,7 @@ export default function SectionViewer() {
                   }}
                   disabled={contentPositions.indexOf(content._id) === 0}
                 >
-                  Zurück
+                  {t("back")}
                 </Button>
                 <Button
                   w={"100%"}
@@ -274,7 +320,7 @@ export default function SectionViewer() {
                     contentPositions.length - 1
                   }
                 >
-                  Weiter
+                  {t("next")}
                 </Button>
               </ButtonGroup>
             </Box>
@@ -283,4 +329,17 @@ export default function SectionViewer() {
       ) : null}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["courses"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

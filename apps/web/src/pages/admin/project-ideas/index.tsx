@@ -43,6 +43,7 @@ import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import PopupManager from "../../../global/PopupManager";
+import { sProp } from "../../../global/i18nstaticProps";
 
 export default function Editor() {
   const { userInfo, loggedIn, loaded } = useLoggedIn();
@@ -475,4 +476,10 @@ export default function Editor() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }
