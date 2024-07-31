@@ -18,12 +18,16 @@ import PopupManager from "../../../global/PopupManager";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function Contributors() {
   const router = useRouter();
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const [reactSocket, setReactSocket] = React.useState<Socket | null>(null);
   let socket: Socket | null = null;
+
+  const { t } = useTranslation("editor");
 
   React.useEffect(() => {
     if (loaded) {
@@ -58,12 +62,12 @@ export default function Contributors() {
   return (
     <>
       <Head>
-        <title>Mitwirkende - Editor - CodeUp</title>
+        <title>{t("contributors.doc.title")}</title>
       </Head>
 
       <EditorProjectLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading size={"xl"}>Mitwirkende</CHeading>
+          <CHeading size={"xl"}>{t("contributors")}</CHeading>
         </Box>
         {reactSocket ? (
           <>
@@ -78,4 +82,17 @@ export default function Contributors() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["editor"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

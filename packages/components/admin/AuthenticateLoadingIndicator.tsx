@@ -10,11 +10,14 @@
 
 import * as React from "react";
 import { Flex, CircularProgress, Heading } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 export default function AuthenticateLoadingIndicator(props: {
   text?: string;
   inline?: boolean;
 }) {
+  const { t } = useTranslation("base");
+
   return (
     <>
       <Flex
@@ -27,7 +30,7 @@ export default function AuthenticateLoadingIndicator(props: {
       >
         <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
         <Heading size={"lg"} mt={4}>
-          {props.text ? props.text : "Authentifiziere..."}
+          {props.text ? props.text : t("auth:title") + "..."}
         </Heading>
       </Flex>
     </>

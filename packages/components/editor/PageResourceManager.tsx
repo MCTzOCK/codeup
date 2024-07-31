@@ -32,6 +32,7 @@ import { FaLink, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import { useRouter } from "next/router";
 import REST from "@codeup/rest/dist";
 import PopupManager from "@codeup/web/src/global/PopupManager";
+import { useTranslation } from "next-i18next";
 
 export default function PageResourceManager(props: {
   page: any;
@@ -44,6 +45,7 @@ export default function PageResourceManager(props: {
 }) {
   const router = useRouter();
 
+  const { t } = useTranslation("editor");
   return (
     <>
       <Modal
@@ -53,15 +55,14 @@ export default function PageResourceManager(props: {
       >
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Resourcen verwalten</ModalHeader>
+            <ModalHeader>{t("page.res.manage")}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Text mb={4}>
                 <chakra.span color={"brand.500"} fontWeight={"bold"}>
-                  Information
+                  {t("page.res.info")}
                 </chakra.span>
-                :&nbsp;Jede Resource ist mit der eindeutigen URL öffentlich
-                erreichbar. Speichere keine sensiblen Daten in einer Resource.
+                :&nbsp;{t("page.res.info.text")}
               </Text>
               <Grid templateColumns={"repeat(2, 1fr)"} gap={6}>
                 <GridItem
@@ -78,15 +79,14 @@ export default function PageResourceManager(props: {
                   onClick={async () => {
                     const name = (
                       await PopupManager.promptAsync({
-                        title: "Name",
-                        helperText:
-                          "Gib einen eindeutigen Namen für die Resource ein",
+                        title: t("name"),
+                        helperText: t("page.res.new.name"),
                       })
                     ).replace(/_/g, "-");
 
                     const type = await PopupManager.selectAsync({
-                      title: "Typ auswählen",
-                      helperText: "Wähl den Typ der Resource aus.",
+                      title: t("page.res.type"),
+                      helperText: t("page.res.type.helper"),
                       choices: [
                         "CSS",
                         "SCSS",
@@ -104,7 +104,7 @@ export default function PageResourceManager(props: {
                         pageId: router.query.page_id as string,
                         resource: name,
                         resourceType: type,
-                        content: "Code einfügen",
+                        content: t("page.res.insert.code"),
                       });
 
                       props.socket.emit("editor:projects:page:content", {
@@ -119,7 +119,7 @@ export default function PageResourceManager(props: {
                           {
                             name,
                             type,
-                            content: "Code einfügen",
+                            content: t("page.res.insert.code"),
                           },
                         ],
                       });
@@ -155,9 +155,8 @@ export default function PageResourceManager(props: {
                           onClick={async () => {
                             if (
                               await PopupManager.confirmAsync({
-                                title: "Löschen",
-                                question:
-                                  "Willst du die Resource wirklich unwiederruflich löschen?",
+                                title: t("delete"),
+                                question: t("page.res.delete"),
                               })
                             ) {
                               props.socket.emit(
@@ -178,7 +177,7 @@ export default function PageResourceManager(props: {
                             }
                           }}
                         >
-                          Löschen
+                          {t("delete")}
                         </Button>
                         <Button
                           colorScheme={"blue"}
@@ -190,7 +189,7 @@ export default function PageResourceManager(props: {
                             props.onClose();
                           }}
                         >
-                          Bearbeiten
+                          {t("edit")}
                         </Button>
                         <Button
                           colorScheme={"green"}
@@ -207,13 +206,13 @@ export default function PageResourceManager(props: {
 
                             navigator.clipboard.writeText(url);
                             PopupManager.alert({
-                              title: "URL Kopiert",
-                              description: "URL: " + url,
+                              title: t("copied.url"),
+                              description: t("url") + ": " + url,
                               callback: () => {},
                             });
                           }}
                         >
-                          Statische URL kopieren
+                          {t("copy.static.url")}
                         </Button>
                       </Stack>
                     </GridItem>
@@ -228,7 +227,7 @@ export default function PageResourceManager(props: {
                   variant={"outline"}
                   onClick={props.onClose}
                 >
-                  Schließen
+                  {t("close")}
                 </Button>
               </ButtonGroup>
             </ModalFooter>
