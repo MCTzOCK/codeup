@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/courses.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/issues.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/issues.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/static.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/static.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/vsc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/vsc.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/projects.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/projects.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/[section].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/[section].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/course/Quiz.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/Quiz.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,35 +84,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;features/i18next&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.10.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.10.8&quot;,
-    &quot;last.edited.regexp&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/web/public/locales/en&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "features/i18next",
+    "javascript.nodejs.core.library.configured.version": "20.10.0",
+    "javascript.nodejs.core.library.typings.version": "20.10.8",
+    "last.edited.regexp": "",
+    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/web/public/locales/en",
+    "list.type.of.created.stylesheet": "SCSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "fileTemplates",
+    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Shell Script&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Shell Script"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
