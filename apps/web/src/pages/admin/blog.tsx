@@ -50,6 +50,7 @@ import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import Editor from "@monaco-editor/react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Blog() {
   const [blogs, setBlogs] = React.useState<
@@ -364,4 +365,10 @@ export default function Blog() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

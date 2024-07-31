@@ -27,6 +27,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../../global/i18nstaticProps";
 
 export default function Index() {
   const router = useRouter();
@@ -135,4 +136,10 @@ export default function Index() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

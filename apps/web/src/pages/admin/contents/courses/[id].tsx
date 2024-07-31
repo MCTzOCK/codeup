@@ -35,6 +35,7 @@ import {
 } from "react-icons/fa";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import Head from "next/head";
+import { sProp } from "../../../../global/i18nstaticProps";
 
 export default function Course() {
   const router = useRouter();
@@ -366,4 +367,17 @@ export default function Course() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

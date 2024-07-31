@@ -28,6 +28,7 @@ import Head from "next/head";
 import * as React from "react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -190,4 +191,10 @@ export default function Certificates() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

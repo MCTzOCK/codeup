@@ -5,13 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/courses.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/en/projects.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/en/projects.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/[section].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/[section].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/[course]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/course/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/course/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/course/Quiz.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/course/Quiz.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/analytics/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/analytics/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/analytics/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/analytics/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/blog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/blog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/cdn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/cdn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/certificates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/certificates.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/challenges.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/challenges.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contacts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contacts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/courses/new.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/contents/new.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/discovery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/discovery.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/editor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/errors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/errors.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/flows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/flows.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/ide.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/ide.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/kids.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/kids.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/newsletter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/newsletter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/orgs/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/orgs/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/profiles/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/profiles/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/project-ideas/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/project-ideas/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/roads.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/roads.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/sessions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/sessions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/shorts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/shorts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/snippets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/snippets.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/testimonials.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/testimonials.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/todos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/todos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin/users/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin/users/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

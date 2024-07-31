@@ -40,6 +40,7 @@ import {
 import GridLayout from "@codeup/components/dist/global/GridLayout";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Snippets() {
   const [snippets, setSnippets] = React.useState<
@@ -308,4 +309,10 @@ export default function Snippets() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

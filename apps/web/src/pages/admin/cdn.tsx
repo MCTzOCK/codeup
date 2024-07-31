@@ -46,6 +46,7 @@ import { FaFile, FaInfoCircle, FaPen, FaSync, FaTrash } from "react-icons/fa";
 import byteSize from "byte-size";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import { ContextMenu } from "chakra-ui-contextmenu";
+import { sProp } from "../../global/i18nstaticProps";
 
 type IEntry = {
   name: string;
@@ -430,4 +431,10 @@ export default function Cdn() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

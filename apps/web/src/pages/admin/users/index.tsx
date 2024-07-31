@@ -19,7 +19,6 @@ import {
   FaEye,
   FaFilter,
   FaHome,
-  FaPlus,
   FaSort,
   FaTrash,
   FaUser,
@@ -74,6 +73,8 @@ import DataTable from "@codeup/components/extra/DataTable";
 import Head from "next/head";
 import * as React from "react";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { sProp } from "../../../global/i18nstaticProps";
+import { FaPlus } from "react-icons/fa";
 
 type User = {
   id: string;
@@ -321,4 +322,10 @@ export default function UserManagement() {
       ) : null}
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

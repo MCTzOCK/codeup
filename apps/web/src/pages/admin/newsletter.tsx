@@ -27,6 +27,7 @@ import REST from "@codeup/rest/src";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import ErrorComponent from "@codeup/components/dist/global/ErrorComponent";
 import PopupManager from "../../global/PopupManager";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Newsletter() {
   const [newsletterMembers, setNewsletterMembers] = React.useState<number>(0);
@@ -127,4 +128,10 @@ export default function Newsletter() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

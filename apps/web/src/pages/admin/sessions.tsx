@@ -27,6 +27,7 @@ import CodeUpModal from "@codeup/components/dist/codeup/CodeUpModal";
 import * as rrwebPlayer from "rrweb-player";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Sessions() {
   useUserLoggedInRedirect({
@@ -214,4 +215,10 @@ export default function Sessions() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

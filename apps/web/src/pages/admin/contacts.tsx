@@ -33,6 +33,7 @@ import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
 import AdminUserContact from "@codeup/components/admin/AdminUserContact";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
 
 export default function Contacts() {
   const [messages, setMessages] = React.useState<
@@ -207,4 +208,10 @@ export default function Contacts() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

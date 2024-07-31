@@ -45,6 +45,7 @@ import {
 } from "react-icons/fa";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { sProp } from "../../../../global/i18nstaticProps";
 
 export default function Index() {
   const [courses, setCourses] = React.useState<
@@ -395,4 +396,10 @@ export default function Index() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }

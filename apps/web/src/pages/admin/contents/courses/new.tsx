@@ -36,6 +36,7 @@ import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import Head from "next/head";
 import SuperText from "@codeup/components/dist/landingpage/SuperText";
+import { sProp } from "../../../../global/i18nstaticProps";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -241,4 +242,10 @@ export default function NewComponent() {
       </AdminLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, [])),
+  };
 }
