@@ -33,6 +33,7 @@ import {
   FaLanguage,
   FaRotate,
 } from "react-icons/fa6";
+import { useTranslation } from "next-i18next";
 
 export default function EditorProjectLayout(props: {
   children: React.ReactNode;
@@ -42,68 +43,65 @@ export default function EditorProjectLayout(props: {
     allowAnonymous: false,
   });
 
+  const { t } = useTranslation("projects");
+
   return (
     <>
       <AppShell
-        title={"Projekt"}
+        title={t("i.project")}
         sub_pages={[
           {
-            text: "Home",
+            text: t("i.home"),
             icon: <FaHome />,
             href: "/projects/" + props.project_id,
           },
           {
-            text: "Probleme",
+            text: t("i.issues"),
             icon: <VscIssues />,
             href: "/projects/" + props.project_id + "/issues",
           },
           {
-            text: "Planungsübersicht",
+            text: t("i.planning"),
             icon: <GoProject />,
             href: "/projects/" + props.project_id + "/planning/overview",
           },
           {
-            text: "Flussdiagramme",
+            text: t("i.flows"),
             icon: <FaDiagramSuccessor />,
             href: "/projects/" + props.project_id + "/flows",
           },
           {
-            text: "Versionsverwaltung",
+            text: t("i.vsc"),
             icon: <FaCodeBranch />,
             href: "/projects/" + props.project_id + "/vsc",
           },
           {
-            text: "Einstellungen",
+            text: t("i.settings"),
             icon: <FaCogs />,
             href: "/projects/" + props.project_id + "/settings",
           },
           {
-            text: "Statische Ressourcen",
+            text: t("i.static"),
             icon: <FaFile />,
             href: "/projects/" + props.project_id + "/static",
           },
           {
-            text: "Wiki",
+            text: t("i.wiki"),
             icon: <FaBookOpen />,
             href: "/projects/" + props.project_id + "/wiki",
           },
           {
-            text: "Datenbanken",
+            text: t("i.dbs"),
             icon: <FaDatabase />,
             href: "/projects/" + props.project_id + "/dbs",
           },
           {
-            text: "Statistiken",
-            icon: <FaChartLine />,
-            href: "/projects/" + props.project_id + "/stats",
-          },
-          {
-            text: "Server-Logs",
+            text: t("i.srv"),
             icon: <FaFileLines />,
             href: "/projects/" + props.project_id + "/srvlogs",
           },
           {
-            text: "Editor",
+            text: t("i.editor"),
             icon: <FaCode />,
             href: "/projects/" + props.project_id + "/editor/professional",
           } /*
@@ -113,12 +111,12 @@ export default function EditorProjectLayout(props: {
             href: "/projects/" + props.project_id + "/editor/simple",
           },*/,
           {
-            text: "UML-Diagramme",
+            text: t("i.uml"),
             icon: <FaChartSimple />,
             href: "/projects/" + props.project_id + "/uml",
           },
           {
-            text: "Lokalisierung",
+            text: t("i.i18n"),
             icon: <FaLanguage />,
             href: "/projects/" + props.project_id + "/i18n",
           } /*

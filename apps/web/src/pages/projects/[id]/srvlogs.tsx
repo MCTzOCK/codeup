@@ -19,11 +19,16 @@ import PopupManager from "../../../global/PopupManager";
 import EditorProjectLayout from "@codeup/components/dist/editorv2/EditorProjectLayout";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Srvlogs() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [logs, setLogs] = React.useState<string>("");
@@ -42,9 +47,8 @@ export default function Srvlogs() {
         reload();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -61,36 +65,43 @@ export default function Srvlogs() {
       setLogs(res.payload.logs);
     } else {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Logs konnten nicht geladen werden: " + res.payload.error,
+        title: t("base:copntrol.error"),
+        description: t("logs.error.loading") + ": " + res.payload.error,
       });
     }
   };
 
   return (
     <>
+      <Head>
+        <title>{t("logs.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={4}>
           <Flex justifyContent={"center"}>
             <Box textAlign={"center"} maxW={"500px"}>
-              <CHeading size={"lg"}>Server-Logs</CHeading>
-              <Text textAlign={"center"}>
-                Server-Logs zeigen dir, wie sich dein Projekt verhält und ob es
-                Probleme gibt, die du beheben musst. Server-Logs umfassen immer
-                nur das letzte Deployment.
-              </Text>
+              <CHeading size={"lg"}>{t("logs.title")}</CHeading>
+              <Text textAlign={"center"}>{t("logs.text")}</Text>
             </Box>
           </Flex>
           <Box p={4} rounded={"md"} bg={"gray.900"} mt={4}>
-            <pre>
-              {logs.length === 0
-                ? "Keine Logs vorhanden / Logs werden geladen..."
-                : logs}
-            </pre>
+            <pre>{logs.length === 0 ? t("logs.no.loading") : logs}</pre>
           </Box>
         </Box>
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

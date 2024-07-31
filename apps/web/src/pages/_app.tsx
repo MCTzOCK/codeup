@@ -21,6 +21,7 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import Tracker from "../special-components/Tracker";
 import "../styles/rrweb.custom.css";
 import { appWithTranslation } from "next-i18next";
+import PopupManager from "../global/PopupManager";
 /*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
@@ -41,7 +42,9 @@ function App({ Component, pageProps }: AppProps) {
   const { loggedIn, userInfo, loaded } = useLoggedIn();
   const [usingMv2, setUsingMv2] = React.useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    PopupManager.__reload_raw_translated();
+  }, []);
 
   useEffect(() => {
     if (loaded && loggedIn) {

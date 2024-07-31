@@ -27,6 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 import { CHeading } from "./CHeading";
+import { useTranslation } from "next-i18next";
 
 export default function AppShell(props: {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export default function AppShell(props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [query, setQuery] = React.useState("");
+  const { t } = useTranslation("base");
 
   return (
     <>
@@ -79,7 +81,7 @@ export default function AppShell(props: {
           <DrawerBody>
             <Stack gap={2}>
               <Input
-                placeholder={"Suchen..."}
+                placeholder={t("control.search") + "..."}
                 onChange={(e) => setQuery(e.target.value)}
               />
               {props.sub_pages

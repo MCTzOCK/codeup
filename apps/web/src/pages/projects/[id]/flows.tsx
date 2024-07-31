@@ -23,11 +23,16 @@ import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaClock, FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 import byteSize from "byte-size";
 import { FaHardDrive } from "react-icons/fa6";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Flows() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
   const [flows, setFlows] = React.useState<any[]>([]);
@@ -46,9 +51,8 @@ export default function Flows() {
         reloadFlows();
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
@@ -62,10 +66,8 @@ export default function Flows() {
 
     if (res.status !== 200) {
       await PopupManager.alertAsync({
-        title: "Fehler",
-        description:
-          "Die Flussdiagramme konnten nicht geladen werden: " +
-          res.payload.error,
+        title: t("base:control.error"),
+        description: t("flows.loading.error") + ": " + res.payload.error,
       });
       return;
     }
@@ -75,24 +77,26 @@ export default function Flows() {
 
   return (
     <>
+      <Head>
+        <title>{t("flows.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <GridLayoutV2
-            pageTitle={"Flussdiagramme"}
+            pageTitle={t("flows.title")}
             search={{
               show: true,
               fields: true,
             }}
             topButtons={[
               {
-                text: "Neues Diagramm",
+                text: t("flows.new"),
                 leftIcon: <FaPlus />,
                 variant: "brand",
                 onClick: async () => {
                   const name = await PopupManager.promptAsync({
-                    title: "Neues Flussdiagramm",
-                    helperText:
-                      "Bitte gib den Namen des neuen Flussdiagramms ein.",
+                    title: t("flows.new"),
+                    helperText: t("flows.new.name"),
                   });
 
                   if (!name) return;
@@ -105,10 +109,9 @@ export default function Flows() {
 
                   if (res.status !== 200) {
                     await PopupManager.alertAsync({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Das Flussdiagramm konnte nicht erstellt werden: " +
-                        res.payload.error,
+                        t("flows.new.error") + ": " + res.payload.error,
                     });
                     return;
                   }
@@ -123,7 +126,7 @@ export default function Flows() {
                 buttonRows: [
                   [
                     {
-                      text: "Öffnen",
+                      text: t("open"),
                       leftIcon: <FaEye />,
                       variant: "brand",
                       onClick: () => {
@@ -133,15 +136,14 @@ export default function Flows() {
                       },
                     },
                     {
-                      text: "Löschen",
+                      text: t("delete"),
                       leftIcon: <FaTrash />,
                       colorScheme: "red",
                       onClick: async () => {
                         if (
                           !(await PopupManager.confirmAsync({
-                            title: "Flussdiagramm löschen",
-                            question:
-                              "Willst du dieses Flussdiagramm wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden!",
+                            title: t("flows.delete"),
+                            question: t("flows.delete.confirm"),
                           }))
                         )
                           return;
@@ -154,9 +156,10 @@ export default function Flows() {
 
                         if (res.status !== 200) {
                           await PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Das Flussdiagramm konnte nicht gelöscht werden: " +
+                              t("flows.delete.error") +
+                              ": " +
                               res.payload.error,
                           });
                           return;
@@ -168,13 +171,13 @@ export default function Flows() {
                   ],
                   [
                     {
-                      text: "Umbenennen",
+                      text: t("rename"),
                       variant: "brand",
                       leftIcon: <FaPen />,
                       onClick: async () => {
                         const newName = await PopupManager.promptAsync({
-                          title: "Umbenennen",
-                          helperText: "Bitte gib den neuen Namen ein.",
+                          title: t("rename"),
+                          helperText: t("flows.rename.new.name"),
                         });
 
                         if (!newName) return;
@@ -188,9 +191,10 @@ export default function Flows() {
 
                         if (res.status !== 200) {
                           await PopupManager.alertAsync({
-                            title: "Fehler",
+                            title: t("base:control.error"),
                             description:
-                              "Das Flussdiagramm konnte nicht umbenannt werden: " +
+                              t("flows.rename.error") +
+                              ": " +
                               res.payload.error,
                           });
                           return;
@@ -204,12 +208,16 @@ export default function Flows() {
                 fields: [
                   {
                     text:
-                      "Erstellt: " + new Date(flow.createdAt).toLocaleString(),
+                      t("flows.created") +
+                      ": " +
+                      new Date(flow.createdAt).toLocaleString(),
                     icon: <FaClock />,
                   },
                   {
                     text:
-                      "Gespeicherte Daten: " + byteSize(flow.saved).toString(),
+                      t("flows.saved.data") +
+                      ": " +
+                      byteSize(flow.saved).toString(),
                     icon: <FaHardDrive />,
                   },
                 ],
@@ -220,4 +228,17 @@ export default function Flows() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

@@ -38,11 +38,16 @@ import {
   FaFileLines,
   FaLanguage,
 } from "react-icons/fa6";
+import { sProp } from "../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 export default function Index() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+
+  const { t } = useTranslation("projects");
 
   const [project, setProject] = React.useState<IProject | null>(null);
 
@@ -59,24 +64,22 @@ export default function Index() {
         setProject(res.payload.project);
       } else {
         PopupManager.alertAsync({
-          title: "Fehler",
-          description:
-            "Das Projekt konnte nicht empfangen werden: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("project.loading.error") + ": " + res.payload.error,
         });
       }
     });
   }, [router, router.query, router.query.id]);
   return (
     <>
+      <Head>
+        <title>{t("i.doc.title")}</title>
+      </Head>
       <EditorProjectLayout project_id={router.query.id as string}>
         <Box p={2}>
           <Box textAlign={"center"}>
-            <CHeading size={"lg"}>Projektübersicht</CHeading>
-            <Text fontSize={"lg"}>
-              Willkommen im Projekt &quot;{project?.name}&quot;. Verwende die
-              Navigationsleiste (links) um zu den verschiedenen Aspekten deines
-              Projektes zu navigieren!
-            </Text>
+            <CHeading size={"lg"}>{t("i.overview")}</CHeading>
+            <Text fontSize={"lg"}>{t("i.text")}</Text>
           </Box>
           <Grid
             templateColumns={[
@@ -89,62 +92,62 @@ export default function Index() {
           >
             {[
               {
-                text: "Probleme",
+                text: t("i.issues"),
                 icon: <VscIssues />,
                 href: "/projects/" + project?._id + "/issues",
               },
               {
-                text: "Planungsübersicht",
+                text: t("i.planning"),
                 icon: <GoProject />,
                 href: "/projects/" + project?._id + "/planning/overview",
               },
               {
-                text: "Flussdiagramme",
+                text: t("i.flows"),
                 icon: <FaDiagramSuccessor />,
                 href: "/projects/" + project?._id + "/flows",
               },
               {
-                text: "Versionsverwaltung",
+                text: t("i.vsc"),
                 icon: <FaCodeBranch />,
                 href: "/projects/" + project?._id + "/vsc",
               },
               {
-                text: "Einstellungen",
+                text: t("i.settings"),
                 icon: <FaCogs />,
                 href: "/projects/" + project?._id + "/settings",
               },
               {
-                text: "Statische Ressourcen",
+                text: t("i.static"),
                 icon: <FaFile />,
                 href: "/projects/" + project?._id + "/static",
               },
               {
-                text: "Wiki",
+                text: t("i.wiki"),
                 icon: <FaBookOpen />,
                 href: "/projects/" + project?._id + "/wiki",
               },
               {
-                text: "Datenbanken",
+                text: t("i.dbs"),
                 icon: <FaDatabase />,
                 href: "/projects/" + project?._id + "/dbs",
               },
               {
-                text: "Server-Logs",
+                text: t("i.srv"),
                 icon: <FaFileLines />,
                 href: "/projects/" + project?._id + "/srvlogs",
               },
               {
-                text: "Editor",
+                text: t("i.editor"),
                 icon: <FaCode />,
                 href: "/projects/" + project?._id + "/editor/professional",
               },
               {
-                text: "UML-Diagramme",
+                text: t("i.uml"),
                 icon: <FaChartSimple />,
                 href: "/projects/" + project?._id + "/uml",
               },
               {
-                text: "Lokalisierung",
+                text: t("i.i18n"),
                 icon: <FaLanguage />,
                 href: "/projects/" + project?._id + "/i18n",
               },
@@ -189,4 +192,17 @@ export default function Index() {
       </EditorProjectLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["projects"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

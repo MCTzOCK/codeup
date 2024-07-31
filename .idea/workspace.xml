@@ -5,25 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/dbs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/dbs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/editor/professional.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/editor/professional.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows/[flow_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows/[flow_id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/planning/overview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/planning/overview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml/[uml_id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/uml/[uml_id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki/[pageId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/wiki/[pageId].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/EditorFileExplorer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/EditorFileExplorer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/MonacoCodeEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/MonacoCodeEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/SnippetList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/SnippetList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/db/DBTableCreator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/db/DBTableCreator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/db/SQLExecutor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/db/SQLExecutor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLEREditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLEREditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLImplEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLImplEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLSeqEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/uml/UMLSeqEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/projectflows/IssueNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/projectflows/IssueNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/projects.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/PopupManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/flows.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/i18n.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/i18n.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/srvlogs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/projects/[id]/srvlogs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/editorv2/EditorProjectLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/global/AppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/global/AppShell.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
