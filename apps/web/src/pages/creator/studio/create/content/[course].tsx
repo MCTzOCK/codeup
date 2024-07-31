@@ -34,9 +34,12 @@ import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import Builder from "../../../../../special-components/Builder";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function NewContents() {
   const router = useRouter();
+  const { t } = useTranslation("creator-studio");
 
   const [displayName, setDisplayName] = React.useState("");
   const [course, setCourse] = React.useState("");
@@ -54,10 +57,10 @@ export default function NewContents() {
   >([]);
 
   const [steps, setSteps] = useState([
-    { label: "Name" },
-    { label: "Inhalt" },
-    { label: "Quiz" },
-    { label: "Video" },
+    { label: t("name") },
+    { label: t("content") },
+    { label: t("quiz") },
+    { label: t("video") },
   ]);
 
   const { nextStep, prevStep, reset, activeStep } = useSteps({
@@ -95,11 +98,11 @@ export default function NewContents() {
   return (
     <>
       <Head>
-        <title>Creator Studio - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Box textAlign={"center"} pt={6}>
-          <CHeading size={"xl"}>Neuer Inhalt</CHeading>
+          <CHeading size={"xl"}>{t("create.content")}</CHeading>
         </Box>
         <>
           {loaded && !error ? (
@@ -115,7 +118,7 @@ export default function NewContents() {
                       {index === 0 ? (
                         <>
                           <FormControl isRequired>
-                            <FormLabel>Titel</FormLabel>
+                            <FormLabel>{t("title")}</FormLabel>
                             <InputGroup>
                               <InputLeftAddon>
                                 <FaBookOpen />
@@ -124,14 +127,14 @@ export default function NewContents() {
                                 type={"text"}
                                 name={"title"}
                                 id={"new_content_title"}
-                                placeholder={"Titel"}
+                                placeholder={t("title")}
                                 required
                                 onChange={(e) => setDisplayName(e.target.value)}
                               />
                             </InputGroup>
                           </FormControl>
                           <FormControl mt={"2rem"} isRequired>
-                            <FormLabel>URL Freundlicher Name</FormLabel>
+                            <FormLabel>{t("name.url.friendly")}</FormLabel>
                             <InputGroup>
                               <InputLeftAddon>
                                 <FaGlobe />
@@ -140,7 +143,7 @@ export default function NewContents() {
                                 type={"text"}
                                 name={"friendlyName"}
                                 id={"new_content_friendlyName"}
-                                placeholder={"URL Freundlicher Name"}
+                                placeholder={t("name.url.friendly")}
                                 required
                                 onChange={(e) => setURL(e.target.value)}
                               />
@@ -170,7 +173,7 @@ export default function NewContents() {
                                 type={"text"}
                                 name={"video"}
                                 id={"new_content_video"}
-                                placeholder={"Video URL"}
+                                placeholder={t("video.urk")}
                                 required
                                 onChange={(e) => {
                                   setVideoURL(
@@ -191,10 +194,10 @@ export default function NewContents() {
                 {activeStep === steps.length ? (
                   <Flex px={4} py={4} width="100%" flexDirection="column">
                     <Heading fontSize="xl" textAlign="center">
-                      Woohoo! All steps completed!
+                      {t("create.course.all.steps.finished")}
                     </Heading>
                     <Button mx="auto" mt={6} size="sm" onClick={reset}>
-                      Zurücksetzen
+                      {t("reset")}
                     </Button>
                   </Flex>
                 ) : (
@@ -212,9 +215,7 @@ export default function NewContents() {
                               if (
                                 textContent === "__codeup.__no_text_content"
                               ) {
-                                alert(
-                                  "Du musst mindestens eine der folgenden Sachen ausfüllen: Text, Video"
-                                );
+                                alert(t("create.content.error.fields.empty"));
                                 return;
                               } else {
                                 (
@@ -227,7 +228,7 @@ export default function NewContents() {
                           }}
                           colorScheme={"red"}
                         >
-                          Überspringen
+                          {t("skip")}
                         </Button>
                       </>
                     ) : null}
@@ -239,7 +240,7 @@ export default function NewContents() {
                       }}
                       size="lg"
                     >
-                      Vorheriger
+                      {t("previous")}
                     </Button>
                     <Button
                       size="lg"
@@ -311,9 +312,9 @@ export default function NewContents() {
                           } else {
                             console.log(res.payload);
                             toast({
-                              title: "Fehler",
+                              title: t("base:control.error"),
                               description:
-                                "Fehler beim Erstellen: " + res.payload.error,
+                                t("error.creating") + ": " + res.payload.error,
                               status: "error",
                               duration: 1500,
                               isClosable: true,
@@ -323,8 +324,8 @@ export default function NewContents() {
                       }}
                     >
                       {activeStep === steps.length - 1
-                        ? "Fertigstellen"
-                        : "Nächster"}
+                        ? t("finish")
+                        : t("next")}
                     </Button>
                   </Flex>
                 )}
@@ -346,7 +347,7 @@ export default function NewContents() {
                     color="purple.300"
                   />
                   <Heading size={"lg"} mt={4}>
-                    Lade Kurs...
+                    {t("loading.course")}
                   </Heading>
                 </Flex>
               )}
@@ -354,7 +355,7 @@ export default function NewContents() {
           )}
           {error && (
             <>
-              <ErrorComponent description={"Fehler beim Laden der Kurse."} />
+              <ErrorComponent description={t("loading.course.error")} />
             </>
           )}
         </>
@@ -371,4 +372,17 @@ function randomString(length: number = 32) {
   for (let i = 0; i < length; i++)
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   return result;
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }

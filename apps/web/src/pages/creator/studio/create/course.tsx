@@ -37,6 +37,8 @@ import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import Head from "next/head";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 const SimpleMdeReact = dynamic(import("react-simplemde-editor"), {
   ssr: false,
@@ -46,10 +48,11 @@ export default function NewComponent() {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+  const { t } = useTranslation("creator-studio");
   const steps = [
-    { label: "Name" },
-    { label: "Beschreibung" },
-    { label: "Vorschaubild" },
+    { label: t("name") },
+    { label: t("description") },
+    { label: t("splash.image") },
   ];
 
   const router = useRouter();
@@ -74,12 +77,12 @@ export default function NewComponent() {
   return (
     <>
       <Head>
-        <title>Neuer Kurs - Creator Studio - CodeUp</title>
+        <title>{t("create.course.doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Flex flexDir="column" width="100%" p={"5rem"}>
           <Heading size="lg" mb={"2rem"} textAlign={"left"}>
-            Neuer Kurs
+            {t("new.course")}
           </Heading>
           <Steps size={"lg"} activeStep={activeStep} colorScheme={"brand"}>
             {steps.map(({ label }, index) => (
@@ -87,7 +90,7 @@ export default function NewComponent() {
                 {index === 0 ? (
                   <>
                     <FormControl isRequired>
-                      <FormLabel>Titel</FormLabel>
+                      <FormLabel>{t("title")}</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaBookOpen />
@@ -96,7 +99,7 @@ export default function NewComponent() {
                           type={"text"}
                           name={"title"}
                           id={"new_video_title"}
-                          placeholder={"Titel"}
+                          placeholder={t("title")}
                           defaultValue={title}
                           required
                           onChange={(e) => setTitle(e.target.value)}
@@ -104,7 +107,7 @@ export default function NewComponent() {
                       </InputGroup>
                     </FormControl>
                     <FormControl mt={"2rem"} isRequired>
-                      <FormLabel>URL Freundlicher Name</FormLabel>
+                      <FormLabel>{t("name.url.friendly")}</FormLabel>
                       <InputGroup>
                         <InputLeftAddon>
                           <FaGlobe />
@@ -113,7 +116,7 @@ export default function NewComponent() {
                           type={"text"}
                           name={"friendlyName"}
                           id={"new_video_friendlyName"}
-                          placeholder={"URL Freundlicher Name"}
+                          placeholder={t("name.url.friendly")}
                           defaultValue={friendlyName}
                           required
                           onChange={(e) =>
@@ -134,10 +137,10 @@ export default function NewComponent() {
                 ) : index === 1 ? (
                   <>
                     <FormControl mt={"2rem"} isRequired>
-                      <FormLabel>Beschreibung</FormLabel>
+                      <FormLabel>{t("description")}</FormLabel>
                       <Textarea
                         name={"description"}
-                        placeholder={"Beschreibung"}
+                        placeholder={t("description")}
                         defaultValue={description}
                         required
                         onChange={(e) => setDescription(e.target.value)}
@@ -147,7 +150,7 @@ export default function NewComponent() {
                 ) : index === 2 ? (
                   <>
                     <FormControl mt={"2rem"} isRequired>
-                      <FormLabel>Vorschaubild</FormLabel>
+                      <FormLabel>{t("splash.image")}</FormLabel>
                       <Input
                         required
                         type={"file"}
@@ -170,10 +173,10 @@ export default function NewComponent() {
           {activeStep === steps.length ? (
             <Flex px={4} py={4} width="100%" flexDirection="column">
               <Heading fontSize="xl" textAlign="center">
-                Woohoo! All steps completed!
+                {t("create.course.all.steps.finished")}
               </Heading>
               <Button mx="auto" mt={6} size="sm" onClick={reset}>
-                Zurücksetzen
+                {t("reset")}
               </Button>
             </Flex>
           ) : (
@@ -190,7 +193,7 @@ export default function NewComponent() {
                 }}
                 size="lg"
               >
-                {activeStep === 0 ? "Abbrechen" : "Vorheriger"}
+                {activeStep === 0 ? t("cancel") : t("previous")}
               </Button>
               <Button
                 size="lg"
@@ -237,9 +240,9 @@ export default function NewComponent() {
                     router.push("/creator/studio");
                   } else {
                     toast({
-                      title: "Fehler",
+                      title: t("base:control.error"),
                       description:
-                        "Ein Fehler ist aufgetreten: " + res.payload.error,
+                        t("base:control.error.request") + res.payload.error,
                       status: "error",
                       duration: 1500,
                       isClosable: true,
@@ -247,7 +250,7 @@ export default function NewComponent() {
                   }
                 }}
               >
-                {activeStep === steps.length - 1 ? "Fertigstellen" : "Nächster"}
+                {activeStep === steps.length - 1 ? t("finish") : t("next")}
               </Button>
             </Flex>
           )}
@@ -255,4 +258,10 @@ export default function NewComponent() {
       </CreatorStudioLayout>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
 }

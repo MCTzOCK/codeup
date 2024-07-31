@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { GrapesjsReact } from "grapesjs-react";
 import { default as pluginInitFlexbox } from "@codeup/util/src/grapejs/plugin-flexbox";
 import grapesjs from "grapesjs";
@@ -41,6 +41,7 @@ import Editor, { Monaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import html2canvas from "html2canvas";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import { useTranslation } from "next-i18next";
 
 export default function Builder(props: {
   content?: string;
@@ -81,13 +82,15 @@ export default function Builder(props: {
     }
   }, []);
 
+  const { t } = useTranslation("creator-studio");
+
   return (
     <>
       <CodeUpModal
         onOpen={onOpen}
         onClose={onClose}
         isOpen={isOpen}
-        title={"Code Block Erstellen"}
+        title={t("create.code.block")}
         customSize={["6xl"]}
       >
         <Box w={"100%"} minH={"40vh"} h={"fit-content"}>
@@ -97,7 +100,7 @@ export default function Builder(props: {
                 <FaCode />
               </InputLeftElement>
               <Input
-                placeholder={"Programmiersprache eingeben..."}
+                placeholder={t("code.block.enter.language")}
                 w={"100%"}
                 id={"codeup-code-block-language"}
               />
@@ -121,7 +124,7 @@ export default function Builder(props: {
                   );
                 }}
               >
-                Erstellen
+                {t("create")}
               </Button>
             </InputGroup>
           )}
@@ -165,7 +168,7 @@ export default function Builder(props: {
                   setMonacoEditorLanguage(null);
                 }}
               >
-                Sprache wechseln
+                {t("code.block.change.language")}
               </Button>
               <Button
                 colorScheme={"green"}
@@ -188,7 +191,7 @@ export default function Builder(props: {
                   onClose();
                 }}
               >
-                Screenshots erstellen
+                {t("code.block.create.screenshots")}
               </Button>
             </ButtonGroup>
           )}
@@ -244,8 +247,8 @@ export default function Builder(props: {
                       {
                         id: "paragraph",
                         block: {
-                          label: "Paragraph",
-                          category: "Text",
+                          label: t("e.p"),
+                          category: t("e.cat.text"),
                           media: reactIconToSVG(FaParagraph),
                           content: `<h1 style="font-size: 1.2rem; font-family: 'Arial';">Insert your text here</h1>`,
                         },
@@ -253,8 +256,8 @@ export default function Builder(props: {
                       {
                         id: "heading",
                         block: {
-                          label: "Heading",
-                          category: "Text",
+                          label: t("e.heading"),
+                          category: t("e.cat.text"),
                           media: reactIconToSVG(FaHeading),
                           content: `<p style="font-size: 2rem; font-weight: 700; font-family: 'Arial Black'">Insert your text here</p>`,
                         },
@@ -262,8 +265,8 @@ export default function Builder(props: {
                       {
                         id: "link",
                         block: {
-                          label: "Link",
-                          category: "Text",
+                          label: t("e.link"),
+                          category: t("e.cat.text"),
                           content: `<a style="font-size: 1.2rem font-family: 'Arial';" href="#" class="cup-dpe-link">Link</a>`,
                           media: reactIconToSVG(FaLink),
                         },
@@ -271,8 +274,8 @@ export default function Builder(props: {
                       {
                         id: "image",
                         block: {
-                          label: "Image",
-                          category: "Media",
+                          label: t("e.img"),
+                          category: t("e.cat.media"),
                           media: reactIconToSVG(FaImage),
                           content: { type: "image" },
                         },
@@ -280,8 +283,8 @@ export default function Builder(props: {
                       {
                         id: "video",
                         block: {
-                          label: "Video",
-                          category: "Media",
+                          label: t("e.video"),
+                          category: t("e.cat.media"),
                           content: `<iframe width="1280" height="720" src="https://www.youtube.com/embed/p1inZ7hvz70" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
                           media: reactIconToSVG(FaVideo),
                         },
@@ -289,8 +292,8 @@ export default function Builder(props: {
                       {
                         id: "unordered-list",
                         block: {
-                          label: "Unordered List",
-                          category: "List",
+                          label: t("e.ul"),
+                          category: t("e.cat.list"),
                           content: `<ul style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`,
                           media: reactIconToSVG(FaListUl),
                         },
@@ -298,8 +301,8 @@ export default function Builder(props: {
                       {
                         id: "ordered-list",
                         block: {
-                          label: "Ordered List",
-                          category: "List",
+                          label: t("e.ol"),
+                          category: t("e.cat.list"),
                           content: `<ol style="font-size: 1.2rem; font-family: Arial"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>`,
                           media: reactIconToSVG(FaListOl),
                         },
@@ -307,8 +310,8 @@ export default function Builder(props: {
                       {
                         id: "list-item",
                         block: {
-                          label: "List Item",
-                          category: "List",
+                          label: t("e.li"),
+                          category: t("e.cat.list"),
                           content: `<li style="font-size: 1.2rem; font-family: Arial">Item</li>`,
                           media: reactIconToSVG(FaList),
                         },
@@ -316,8 +319,8 @@ export default function Builder(props: {
                       {
                         id: "code",
                         block: {
-                          label: "Code (Click to Add)",
-                          category: "Text",
+                          label: t("e.code"),
+                          category: t("e.cat.text"),
                           content: `<></>`,
                           media: reactIconToSVG(FaCode),
                           onClick: () => {

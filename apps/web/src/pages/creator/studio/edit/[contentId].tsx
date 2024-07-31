@@ -25,9 +25,13 @@ import {
 import Builder from "../../../../special-components/Builder";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function ContentEditor() {
   const router = useRouter();
+
+  const { t } = useTranslation("creator-studio");
 
   const { contentId } = router.query;
 
@@ -61,8 +65,8 @@ export default function ContentEditor() {
           setCustomEventId(randomString());
         } else {
           toast({
-            title: "Fehler",
-            description: "Fehler beim Laden: " + res.payload.error,
+            title: t("base:control.error"),
+            description: t("error.loading") + ": " + res.payload.error,
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -76,11 +80,11 @@ export default function ContentEditor() {
   return (
     <>
       <Head>
-        <title>Inhalt Editor - Creator Studio - CodeUp</title>
+        <title>{t("edit.content.doc.title")}</title>
       </Head>
       <CreatorStudioLayout>
         <Box textAlign={"center"} pt={"2rem"}>
-          <CHeading>Inhalt bearbeiten</CHeading>
+          <CHeading>{t("edit.content.title")}</CHeading>
         </Box>
         {content ? (
           <>
@@ -110,9 +114,9 @@ export default function ContentEditor() {
                       router.back();
                     } else {
                       toast({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Fehler beim Speichern: " + res.payload.error,
+                          t("error.saving") + ": " + res.payload.error,
                         status: "error",
                         duration: 1500,
                         isClosable: true,
@@ -121,7 +125,7 @@ export default function ContentEditor() {
                     }
                   }}
                 >
-                  Inhalt Löschen
+                  {t("delete.content")}
                 </Button>
                 <Button
                   size={"lg"}
@@ -130,7 +134,7 @@ export default function ContentEditor() {
                     router.back();
                   }}
                 >
-                  Abbrechen
+                  {t("cancel")}
                 </Button>
                 <Button
                   size={"lg"}
@@ -161,9 +165,9 @@ export default function ContentEditor() {
                       router.back();
                     } else {
                       toast({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Fehler beim Speichern: " + res.payload.error,
+                          t("error.saving") + ": " + res.payload.error,
                         status: "error",
                         duration: 1500,
                         isClosable: true,
@@ -172,7 +176,7 @@ export default function ContentEditor() {
                     }
                   }}
                 >
-                  Speichern
+                  {t("save")}
                 </Button>
               </ButtonGroup>
             </Flex>
@@ -191,4 +195,17 @@ function randomString(length: number = 32) {
   for (let i = 0; i < length; i++)
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   return result;
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["creator-studio"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
