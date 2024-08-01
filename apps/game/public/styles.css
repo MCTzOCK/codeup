@@ -1,0 +1,29 @@
+/**
+ * apps/game/public/styles.css
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 01.08.2024
+ *
+ */
+
+* {
+    scrollbar-width: thin;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#react {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 23;
+    background: rgba(0, 0, 0, 0.5);
+}
