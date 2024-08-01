@@ -11,6 +11,7 @@
 import { Game } from "./Game";
 import { MainMenu } from "./scenes/MainMenu";
 import { UIManager } from "./ui/UIManager";
+import "./simple-api/SimpleAPI";
 
 UIManager.init();
 
@@ -19,3 +20,5 @@ const g = await Game.createGame();
 g.add("mainMenu", MainMenu);
 
 g.goToScene("mainMenu");
+
+window.Game = Game;

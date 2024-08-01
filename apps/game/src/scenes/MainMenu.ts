@@ -27,7 +27,7 @@ export class MainMenu extends Scene {
       y: 500,
       width: 80,
       height: 80,
-      color: Color.Red,
+      color: Color.Green,
     });
 
     this.add(player);

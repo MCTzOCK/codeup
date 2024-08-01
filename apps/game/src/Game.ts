@@ -8,6 +8,7 @@
  *
  */
 import { Color, DisplayMode, Engine, Flags } from "excalibur";
+import { loader } from "./resources";
 
 export class Game {
   public static _instance: Engine;
@@ -23,7 +24,7 @@ export class Game {
       canvasElement: this.getCanvasElement(),
     });
 
-    await this._instance.start();
+    await this._instance.start(loader);
 
     return this._instance;
   }

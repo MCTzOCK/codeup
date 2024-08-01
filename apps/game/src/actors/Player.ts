@@ -18,6 +18,7 @@ export class Player extends CActor {
 
   constructor(config?: ActorArgs) {
     super(config);
+    this.name = "PLAYER";
   }
 
   update(engine: Engine, delta: number) {

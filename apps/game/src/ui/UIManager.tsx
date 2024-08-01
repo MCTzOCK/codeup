@@ -36,7 +36,8 @@ export class UIManager {
   }
 
   public static unmount() {
-    document.getElementById("react").style.display = "none";
+    this.root.unmount();
+    this.createRoot();
   }
 
   public static createRoot() {
