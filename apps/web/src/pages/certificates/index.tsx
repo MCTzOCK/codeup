@@ -31,10 +31,15 @@ import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
+import { translateOnlineV3 } from "../../global/i18n/onlineTranslateV3";
 
 export default function Index() {
   const [certificates, setCertificates] = React.useState<string[]>([]);
   const [courses, setCourses] = React.useState<any[]>([]);
+
+  const { t } = useTranslation("certificates");
 
   const toast = useToast();
 
@@ -62,8 +67,24 @@ export default function Index() {
           });
 
           if (r1.status === 200) {
-            courses.push(course);
-            certs.push(r1.payload);
+            if (router.locale === "de") {
+              courses.push(course);
+              certs.push(r1.payload);
+            } else {
+              courses.push({
+                ...course,
+                name: await translateOnlineV3({
+                  to: router.locale as string,
+                  from: "de",
+                  text: course.name,
+                }),
+                description: await translateOnlineV3({
+                  to: router.locale as string,
+                  from: "de",
+                  text: course.description,
+                }),
+              });
+            }
           }
         }
 
@@ -72,8 +93,8 @@ export default function Index() {
         setCourses(courses);
       } else {
         toast({
-          title: "Fehler",
-          description: "Es ist ein Fehler aufgetreten: " + res.payload.error,
+          title: t("base:control.error"),
+          description: t("base:control.error.request") + res.payload.error,
           status: "error",
           duration: 1500,
           isClosable: true,
@@ -88,7 +109,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Zertifikatübersicht - CodeUp</title>
+        <title>{t("doc.title")}</title>
       </Head>
       <Flex
         direction="column"
@@ -105,21 +126,16 @@ export default function Index() {
           h={"fit-content"}
           direction={"column"}
           alignItems={"center"}
+          p={4}
         >
           <Box textAlign={"center"}>
-            <CHeading size={"3xl"}>Zertifikate</CHeading>
+            <CHeading size={"3xl"}>{t("title")}</CHeading>
           </Box>
-          <Text fontSize={["xl", "2xl"]}>
-            Aktuell kannst du in folgenden Kursen ein Zertifikat erhalten:
-          </Text>
+          <Text fontSize={["xl", "2xl"]}>{t("text")}</Text>
         </Flex>
         <Grid
-          templateColumns={
-            courses.length > 0
-              ? ["repeat(1, 1fr)", "repeat(3, 1fr)"]
-              : "repeat(1, 1fr)"
-          }
-          gap={6}
+          templateColumns={"repeat(auto-fit, minmax(300px, 1fr));"}
+          gap={2}
           w={"100%"}
           justifyContent="center"
           alignItems={"center"}
@@ -155,7 +171,7 @@ export default function Index() {
                     />
                     <CHeading size={"xl"}>{c.name}</CHeading>
                     <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
-                      von&nbsp;
+                      {t("by")}&nbsp;
                       <chakra.span color={"brand.400"}>
                         @{c.creator}
                       </chakra.span>
@@ -182,11 +198,17 @@ export default function Index() {
               fontWeight={"normal"}
               textAlign={"center"}
             >
-              Keine Kurse gefunden
+              {t("no.courses")}
             </Heading>
           </>
         ) : null}
       </Flex>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["certificates"])),
+  };
 }

@@ -30,9 +30,13 @@ import CodeUpModal from "@codeup/components/codeup/CodeUpModal";
 import { useLoggedIn } from "@codeup/hooks";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/global/CHeading";
+import { sProp } from "../../global/i18nstaticProps";
+import { useTranslation } from "next-i18next";
 
 export default function CertViewer() {
   const router = useRouter();
+
+  const { t } = useTranslation("certificates");
 
   const { userInfo, loggedIn, loaded } = useLoggedIn();
 
@@ -52,8 +56,8 @@ export default function CertViewer() {
           setSteps(res.payload.certificate.steps);
         } else {
           toast({
-            title: "Fehler",
-            description: "Das Zertifikat konnte nicht geladen werden.",
+            title: t("base:control.error"),
+            description: t("certificate.loading.error"),
             status: "error",
             duration: 1500,
             isClosable: true,
@@ -86,7 +90,7 @@ export default function CertViewer() {
   return (
     <>
       <Head>
-        <title>Zertifikat beantragen - CodeUp</title>
+        <title>{t("certificate.doc.title")}</title>
       </Head>
       <Flex
         w={"100%"}
@@ -99,17 +103,15 @@ export default function CertViewer() {
       >
         <Box maxW={["90%", "30%"]}>
           <Box textAlign={"center"}>
-            <CHeading size={"2xl"}>Zertifikat</CHeading>
+            <CHeading size={"2xl"}>{t("certificate")}</CHeading>
           </Box>
           <Text fontSize="2xl" mt={8} textAlign={"center"}>
-            Fülle die folgenden Schritte aus, um dein Zertifikat zu erhalten.
+            {t("c.text.0")}
             <br />
             <chakra.span color={"brand.500"} fontWeight={"bold"}>
-              ACHTUNG:
+              {t("c.text.1")}
             </chakra.span>
-            &nbsp;Du kannst die Schritte nicht mehr bearbeiten, wenn du sie
-            abgeschickt hast! Ein Zertifikat kannst du allerdings jederzeit
-            erneut beantragen, um deine Punktzahl zu verbessern.
+            &nbsp;{t("c.text.2")}
           </Text>
           <ButtonGroup
             mt={10}
@@ -126,7 +128,7 @@ export default function CertViewer() {
                 setAnswers([]);
               }}
             >
-              Zertifikat beantragen
+              {t("certificate.apply")}
             </Button>
           </ButtonGroup>
         </Box>
@@ -138,12 +140,11 @@ export default function CertViewer() {
         isOpen={isOpen}
         noCloseButton
         blackBackground={true}
-        title={
-          "Zertifikat beantragen (Schritt " +
-          (currentStep === steps.length
+        title={`${t("certificate.apply")} (${t("step")} ${
+          currentStep === steps.length
             ? steps.length + "/" + steps.length + ")"
-            : currentStep + 1 + "/" + steps.length + ")")
-        }
+            : currentStep + 1 + "/" + steps.length + ")"
+        }`}
         customSize={["full", "5xl"]}
       >
         <>
@@ -223,7 +224,7 @@ export default function CertViewer() {
                     ))}
                     <ButtonGroup w={"100%"} mt={8}>
                       <Button w={"100%"} variant={"brand"} type={"submit"}>
-                        Weiter
+                        {t("next")}
                       </Button>
                     </ButtonGroup>
                   </form>
@@ -245,12 +246,10 @@ export default function CertViewer() {
                   >
                     <Box flex={"100%"}>
                       <Stack>
-                        <CHeading size={"lg"}>
-                          Ist der folgende Code richtig?
-                        </CHeading>
+                        <CHeading size={"lg"}>{t("code.correct")}</CHeading>
                         <Image
                           src={steps[currentStep].code_check?.screenshot}
-                          alt="Code Screenshot"
+                          alt={t("code.screenshot")}
                         />
                       </Stack>
                     </Box>
@@ -271,7 +270,7 @@ export default function CertViewer() {
                               setCurrentStep(currentStep + 1);
                             }}
                           >
-                            Falsch
+                            {t("right")}
                           </Button>
                           <Button
                             w={"100%"}
@@ -287,7 +286,7 @@ export default function CertViewer() {
                               setCurrentStep(currentStep + 1);
                             }}
                           >
-                            Richtig
+                            {t("wrong")}
                           </Button>
                         </ButtonGroup>
                       </form>
@@ -310,23 +309,21 @@ export default function CertViewer() {
                   >
                     <Box flex={"100%"}>
                       <Stack>
-                        <CHeading size={"lg"}>
-                          Welcher Code bringt die gewünschte Ausgabe?
-                        </CHeading>
+                        <CHeading size={"lg"}>{t("which.code")}</CHeading>
                         <Image
                           src={steps[currentStep].code_compare?.output}
-                          alt="Output Image"
+                          alt={t("output.image")}
                         />
                       </Stack>
                       <Stack>
-                        <CHeading size={"lg"}>Code 1</CHeading>
+                        <CHeading size={"lg"}>{t("code.1")}</CHeading>
                         <Image
                           src={
                             steps[currentStep].code_compare?.code_a.screenshot
                           }
                           alt="Code 1 Screenshot"
                         />
-                        <CHeading size={"lg"}>Code 2</CHeading>
+                        <CHeading size={"lg"}>{t("code.2")}</CHeading>
                         <Image
                           src={
                             steps[currentStep].code_compare?.code_b.screenshot
@@ -352,7 +349,7 @@ export default function CertViewer() {
                               setCurrentStep(currentStep + 1);
                             }}
                           >
-                            Code 1
+                            {t("code.1")}
                           </Button>
                           <Button
                             w={"100%"}
@@ -368,7 +365,7 @@ export default function CertViewer() {
                               setCurrentStep(currentStep + 1);
                             }}
                           >
-                            Code 2
+                            {t("code.2")}
                           </Button>
                         </ButtonGroup>
                       </form>
@@ -381,11 +378,10 @@ export default function CertViewer() {
           {currentStep === steps.length && (
             <>
               <Box textAlign={"center"} pt={4}>
-                <CHeading size={"2xl"}>Zertifikat beantragen</CHeading>
+                <CHeading size={"2xl"}>{t("certificate.apply")}</CHeading>
               </Box>
               <Text fontSize="2xl" mt={8} textAlign={"center"}>
-                Du hast alle Schritte abgeschlossen. Möchtest du das Zertifikat
-                beantragen?
+                {t("certificate.apply.finish")}
               </Text>
               <ButtonGroup
                 mt={10}
@@ -413,15 +409,16 @@ export default function CertViewer() {
                         );
                       } else {
                         router.push(
-                          "/error?error=Du hast nicht genug Punkte für das Zertifikat erreicht."
+                          `/error?error=${t("certificate.apply.to.low.points")}`
                         );
                       }
                     } else {
                       setFinishButtonLoading(false);
                       toast({
-                        title: "Fehler",
+                        title: t("base:control.error"),
                         description:
-                          "Beim Abschicken ist ein Fehler aufgetreten: " +
+                          t("certificate.apply.error") +
+                          " " +
                           res.payload.error,
                         status: "error",
                         duration: 1500,
@@ -431,7 +428,7 @@ export default function CertViewer() {
                     }
                   }}
                 >
-                  Zertifikat beantragen
+                  {t("certificate.apply")}
                 </Button>
               </ButtonGroup>
             </>
@@ -440,4 +437,17 @@ export default function CertViewer() {
       </CodeUpModal>
     </>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    ...(await sProp(locale, ["certificates"])),
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
 }
