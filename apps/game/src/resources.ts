@@ -9,12 +9,14 @@
  */
 
 import * as ex from "excalibur";
+import { CLoader } from "./extends/CLoader";
 
 export const Resources = {
   Logo: new ex.ImageSource("/assets/codeup.png"),
+  MenuBackground: new ex.ImageSource("/assets/menu_background.png"),
 } as const;
 
-export const loader = new ex.Loader();
+export const loader = new CLoader();
 
 for (let res of Object.values(Resources)) {
   loader.addResource(res);

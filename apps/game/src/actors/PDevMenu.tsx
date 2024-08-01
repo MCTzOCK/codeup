@@ -11,6 +11,8 @@
 import * as React from "react";
 import { Actor, ActorArgs, Color, Font, Text, Vector } from "excalibur";
 import { Resources } from "../resources";
+import { UIManager } from "../ui/UIManager";
+import Console from "../ui/Console";
 
 export class PDevMenu extends Actor {
   constructor(props: ActorArgs) {
@@ -22,6 +24,13 @@ export class PDevMenu extends Actor {
     });
     this.on("pointerleave", () => {
       document.body.style.cursor = "default";
+    });
+    this.on("pointerdown", () => {
+      UIManager.render(
+        <>
+          <Console />
+        </>
+      );
     });
 
     const text = new Text({

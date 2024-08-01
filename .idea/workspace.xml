@@ -5,19 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/codeup.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/actors/PDevMenu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/resources.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/simple-api/SimpleAPI.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/types.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/menu_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/public/fonts/Geist-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/extends/CLoader.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/ui/Console.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/util/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/Game.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/public/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/public/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/actors/Enemy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/Enemy.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/actors/PDevMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/PDevMenu.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/game/src/actors/Player.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/Player.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/managers/PauseManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/managers/PauseManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/scenes/MainMenu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/scenes/MainMenu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/ui/EntityEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/ui/EntityEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/ui/UIManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/ui/UIManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/resources.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/scenes/MainMenu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/scenes/SampleGame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/simple-api/SimpleAPI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/simple-api/SimpleAPI.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/types.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +106,7 @@
     "javascript.nodejs.core.library.configured.version": "20.10.0",
     "javascript.nodejs.core.library.typings.version": "20.10.8",
     "last.edited.regexp": "",
-    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/game/public/assets",
+    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/game/public/fonts",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -132,15 +138,15 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\fonts" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\assets" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src\ui" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\locales\en" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\logos" />
-      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\assets" />
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\lpv4" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images\showcase" />
       <recent name="P:\Competitions\JuFo\2023_CodeUp\packages\incode-blockly\src" />

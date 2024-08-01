@@ -8,9 +8,20 @@
  *
  */
 
-import { Engine, Actor, Input, Color, Vector, ActorArgs } from "excalibur";
+import {
+  Engine,
+  Actor,
+  Input,
+  Color,
+  Vector,
+  ActorArgs,
+  Collider,
+  Side,
+  CollisionContact,
+} from "excalibur";
 import { PauseManager } from "../managers/PauseManager";
 import { CActor } from "../extends/CActor";
+import { Enemy } from "./Enemy";
 
 export class Player extends CActor {
   public SPEED = 0.75;
@@ -19,6 +30,21 @@ export class Player extends CActor {
   constructor(config?: ActorArgs) {
     super(config);
     this.name = "PLAYER";
+  }
+
+  onCollisionStart(
+    self: Collider,
+    other: Collider,
+    side: Side,
+    contact: CollisionContact
+  ) {
+    super.onCollisionStart(self, other, side, contact);
+    if (other.owner instanceof Enemy) {
+      this.LIVES -= 1;
+      if (this.LIVES <= 0) {
+        alert("Game Over!");
+      }
+    }
   }
 
   update(engine: Engine, delta: number) {

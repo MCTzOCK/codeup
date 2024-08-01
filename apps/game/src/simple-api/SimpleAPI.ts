@@ -9,6 +9,7 @@
  */
 import { Game } from "../Game";
 import { CActor } from "../extends/CActor";
+import { Enemy } from "../actors/Enemy";
 
 const removeByName = (name: string) => {
   const scene = Game._instance.currentScene;
@@ -21,4 +22,14 @@ const removeByName = (name: string) => {
   }
 };
 
+const getByName = (name: string): CActor | undefined => {
+  const scene = Game._instance.currentScene;
+  const a = scene.actors.find((a) => a.name === name);
+  if (a instanceof CActor) {
+    return a;
+  }
+  return undefined;
+};
+
 window.removeByName = removeByName;
+window.getByName = getByName;

@@ -16580,6 +16580,13 @@ react-typed@^1.2.0:
     prop-types "^15.6.0"
     typed.js "^2.0.6"
 
+react-typed@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.npmjs.org/react-typed/-/react-typed-2.0.12.tgz#898037767a59c43d6e0a4a4e42d13c0adb34abfc"
+  integrity sha512-sn59lrb4NKgvQLDGBRWM4wRNEz5Fp37F0BrLA2cKUmDqPSyQJOOiFigz+6wJof0o99QoE16nVCa3B3ID34ejsg==
+  dependencies:
+    typed.js "^2.1.0"
+
 react-use-measure@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/react-use-measure/-/react-use-measure-2.1.1.tgz#5824537f4ee01c9469c45d5f7a8446177c6cc4ba"
@@ -18827,6 +18834,11 @@ typed.js@^2.0.6:
   version "2.0.12"
   resolved "https://registry.npmjs.org/typed.js/-/typed.js-2.0.12.tgz"
   integrity sha512-lyACZh1cu+vpfYY3DG/bvsGLXXbdoDDpWxmqta10IQUdMXisMXOEyl+jos+YT9uBbzK4QaKYBjT3R0kTJO0Slw==
+
+typed.js@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/typed.js/-/typed.js-2.1.0.tgz#b97a06111a5f57d6a59acfdd36d4f9b891ee13b4"
+  integrity sha512-bDuXEf7YcaKN4g08NMTUM6G90XU25CK3bh6U0THC/Mod/QPKlEt9g/EjvbYB8x2Qwr2p6J6I3NrsoYaVnY6wsQ==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"

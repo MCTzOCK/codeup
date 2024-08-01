@@ -8,10 +8,13 @@
  *
  */
 import { Game } from "./Game";
+import { CActor } from "./extends/CActor";
+import { Enemy } from "./actors/Enemy";
 
 declare global {
   interface Window {
     Game: Game;
     removeByName: (name: string) => void;
+    getByName: (name: string) => CActor | undefined;
   }
 }

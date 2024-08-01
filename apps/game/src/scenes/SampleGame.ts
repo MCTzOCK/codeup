@@ -1,5 +1,5 @@
 /**
- * apps/game/src/scenes/MainMenu.ts
+ * apps/game/src/scenes/SampleGame.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
@@ -13,13 +13,12 @@ import { Enemy } from "../actors/Enemy";
 import { PauseManager } from "../managers/PauseManager";
 import { CActor } from "../extends/CActor";
 
-export class MainMenu extends Scene {
+export class SampleGame extends Scene {
   constructor() {
     super();
   }
 
   onInitialize(engine: Engine) {
-    PauseManager.init();
     super.onInitialize(engine);
 
     const player = new Player({

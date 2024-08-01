@@ -8,7 +8,7 @@
  *
  */
 
-import { Engine, Actor, ActorArgs } from "excalibur";
+import { Engine, Actor, ActorArgs, Color } from "excalibur";
 import { Player } from "./Player";
 import { PauseManager } from "../managers/PauseManager";
 import { CActor } from "../extends/CActor";
@@ -17,7 +17,11 @@ export class Enemy extends CActor {
   public SPEED = 0.25;
 
   constructor(config?: ActorArgs) {
-    super(config);
+    let c = config;
+    if (c.width === undefined) c.width = 80;
+    if (c.height === undefined) c.height = 80;
+    if (c.color === undefined) c.color = Color.Blue;
+    super(c);
   }
 
   update(engine: Engine, delta: number) {
