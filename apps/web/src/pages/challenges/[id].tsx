@@ -234,7 +234,7 @@ export default function ChallengeViewer() {
                     if (res.status === 200) {
                       await PopupManager.alertAsync({
                         title: t("completed.challenge"),
-                        description: t("completed.challenge.description"),
+                        description: t("completed.challenge.message"),
                       });
                       router.push("/challenges");
                     } else {

@@ -128,7 +128,7 @@ export default function DV2SSnippets() {
                   router.push("/snippets/my");
                 }}
               >
-                {t("snippets")}
+                {t("snippets.new")}
               </Button>
             </Flex>
           )}

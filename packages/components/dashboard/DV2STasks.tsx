@@ -119,7 +119,7 @@ export default function DV2STasks() {
             {lists.length === 0 && (
               <>
                 <Tr>
-                  <Td colSpan={4}>{t("lists.not.entries")}</Td>
+                  <Td colSpan={4}>{t("lists.no.entries")}</Td>
                   <Td>
                     <Button
                       variant={"brand"}

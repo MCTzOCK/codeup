@@ -5,25 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/menu_background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/public/fonts/Geist-Black.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/extends/CLoader.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/ui/Console.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/util/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/character.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/dirt.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/actors/Character.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/engine.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/game/src/scenes/TutorialScene.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/public/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/public/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/actors/Enemy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/Enemy.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/actors/PDevMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/PDevMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/actors/Player.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/actors/Player.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/Game.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/main.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/game/src/resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/resources.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/scenes/MainMenu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/scenes/SampleGame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/simple-api/SimpleAPI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/simple-api/SimpleAPI.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/challenges/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/challenges/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/dashboard/DV2SSnippets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/dashboard/DV2SSnippets.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/dashboard/DV2STasks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/dashboard/DV2STasks.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +100,7 @@
     "javascript.nodejs.core.library.configured.version": "20.10.0",
     "javascript.nodejs.core.library.typings.version": "20.10.8",
     "last.edited.regexp": "",
-    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/game/public/fonts",
+    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/game/public/assets",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -115,7 +109,7 @@
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "editing.templates",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -138,8 +132,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\fonts" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\assets" />
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\fonts" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src\ui" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\locales\en" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\logos" />

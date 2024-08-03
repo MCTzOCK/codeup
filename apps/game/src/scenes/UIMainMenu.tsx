@@ -31,6 +31,9 @@ import {
 import { FaTimes } from "react-icons/fa";
 import { ReactTyped } from "react-typed";
 import { useEffect } from "react";
+import { UIManager } from "../ui/UIManager";
+import { Game } from "../Game";
+import * as ReactDOM from "react-dom/client";
 
 export default function UIMainMenu() {
   const [asciiLoading, setAsciiLoading] = React.useState(false);
@@ -80,81 +83,43 @@ export default function UIMainMenu() {
               </Text>
             </HStack>
             <Box mt={6} color={"#20C20E"} fontSize={"xl"}>
-              <span>root@codeup:~# </span>
-              <ReactTyped
-                strings={["/bin/codeup/game/boot"]}
-                typeSpeed={40}
-                showCursor={false}
-                onComplete={() => {
-                  setAsciiLoading(true);
-
-                  const i = setInterval(() => {
-                    setAsciiLoader((prev) => {
-                      if (prev.length >= 100) {
-                        return "";
-                      }
-                      return prev + "█";
-                    });
-                  }, 100);
-
-                  const t = setTimeout(() => {
-                    clearInterval(i);
-                    setAsciiLoading(false);
-                    setPhase(1);
-                  }, 2500);
-                }}
-              />
-              {asciiLoading && (
-                <>
-                  <br />
-                  {asciiLoader}
-                </>
-              )}
-              {phase >= 1 && (
-                <>
-                  <br />
-                  <ReactTyped
-                    strings={[
-                      "<span>Connecting to mainframe @ 127.0.0.1 ...</span>" +
-                        "<br />" +
-                        "<span>Warning: Authentication required: Trying bruteforce</span>" +
-                        "<br />" +
-                        "<span>Successfully connected to mainframe!</span>" +
-                        "<br />" +
-                        "<span>Breaking security...</span>" +
-                        "<br />" +
-                        "<span>Attempting to start game</span>" +
-                        "<br />" +
-                        "<span>Game started!</span>" +
-                        "<br />" +
-                        "<br />" +
-                        "<span>[CodeUp] Willkommen, Magier. Du bist der Auserwählte, der die Welt " +
-                        "vor der künstlichen Intelligenz retten soll. Die Welt ist in " +
-                        "Gefahr und braucht deine Hilfe. Bist du bereit?</span>",
-                    ]}
-                    contentType={"html"}
-                    typeSpeed={10}
-                    showCursor={false}
-                    onComplete={() => {
-                      setPhase(2);
-                    }}
-                  />
-                </>
-              )}
-              {phase >= 2 && (
-                <>
-                  <br />
-                  <br />
-                  <OrderedList>
-                    <ListItem textDecoration={"underline"}>Spielen</ListItem>
-                    <ListItem textDecoration={"underline"}>Tutorial</ListItem>
-                    <ListItem textDecoration={"underline"}>
-                      Einstellungen
-                    </ListItem>
-                    <ListItem textDecoration={"underline"}>Über</ListItem>
-                  </OrderedList>
-                </>
-              )}
+              <span>
+                [CodeUp] Willkommen, Magier. Du bist der Auserwählte, der die
+                Welt vor der künstlichen Intelligenz retten soll. Die Welt ist
+                in Gefahr und braucht deine Hilfe. Bist du bereit?
+              </span>
+              <br />
+              <br />
+              <OrderedList>
+                <ListItem textDecoration={"underline"} cursor={"pointer"}>
+                  Spielen
+                </ListItem>
+                <ListItem
+                  textDecoration={"underline"}
+                  cursor={"pointer"}
+                  onClick={() => {
+                    const r = ReactDOM.createRoot(
+                      document.getElementById("menu-screen")
+                    );
+                    r.unmount();
+                    Game._instance.goToScene("tutorial");
+                  }}
+                >
+                  Tutorial
+                </ListItem>
+                <ListItem textDecoration={"underline"} cursor={"pointer"}>
+                  Einstellungen
+                </ListItem>
+                <ListItem
+                  textDecoration={"underline"}
+                  cursor={"pointer"}
+                  onClick={() => {
+                    window.open("https://codeup.space/codeup/about", "_blank");
+                  }}
+                >
+                  Über
+                </ListItem>
+              </OrderedList>
             </Box>
           </Box>
         </Flex>

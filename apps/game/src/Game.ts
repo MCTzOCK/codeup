@@ -22,6 +22,7 @@ export class Game {
       backgroundColor: Color.Black,
       displayMode: DisplayMode.FillScreen,
       canvasElement: this.getCanvasElement(),
+      suppressConsoleBootMessage: true,
     });
 
     await this._instance.start(loader);

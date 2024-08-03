@@ -17,6 +17,7 @@ import * as ReactDOM from "react-dom/client";
 import UIMainMenu from "./scenes/UIMainMenu";
 import * as React from "react";
 import Layout from "./ui/Layout";
+import { TutorialScene } from "./scenes/TutorialScene";
 
 UIManager.init();
 PauseManager.init();
@@ -24,13 +25,19 @@ PauseManager.init();
 const g = await Game.createGame();
 
 g.add("sampleGame", SampleGame);
+g.add("tutorial", TutorialScene);
 
 window.Game = Game;
 
-const r = ReactDOM.createRoot(document.getElementById("menu-screen"));
+const usp = new URLSearchParams(window.location.search);
 
-r.render(
-  <Layout>
-    <UIMainMenu />
-  </Layout>
-);
+if (usp.has("scene")) {
+  g.goToScene(usp.get("scene"));
+} else {
+  const r = ReactDOM.createRoot(document.getElementById("menu-screen"));
+  r.render(
+    <Layout>
+      <UIMainMenu />
+    </Layout>
+  );
+}

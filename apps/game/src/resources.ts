@@ -14,6 +14,8 @@ import { CLoader } from "./extends/CLoader";
 export const Resources = {
   Logo: new ex.ImageSource("/assets/codeup.png"),
   MenuBackground: new ex.ImageSource("/assets/menu_background.png"),
+  MCDirt: new ex.ImageSource("/assets/dirt-test.png"),
+  Character: new ex.ImageSource("/assets/character-1.png"),
 } as const;
 
 export const loader = new CLoader();
