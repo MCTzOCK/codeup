@@ -5,19 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/character.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/public/assets/dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/actors/Character.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/engine.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/game/src/scenes/TutorialScene.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/locales/de/game.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/game/levels/create.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/game/levels/delete.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/game/levels/my.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/game/levels/update.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/codeventure/levels/my.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/rest/src/api/Game.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/util/src/models/GameLevelModel.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/Game.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/resources.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game/src/scenes/UIMainMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/challenges/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/challenges/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/dashboard/DV2SSnippets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/dashboard/DV2SSnippets.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/components/dashboard/DV2STasks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/dashboard/DV2STasks.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/rest/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/rest/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/AccountManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/AccountManager.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +36,8 @@
         <option value="SCSS File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -90,35 +88,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
-    "javascript.nodejs.core.library.configured.version": "20.10.0",
-    "javascript.nodejs.core.library.typings.version": "20.10.8",
-    "last.edited.regexp": "",
-    "last_opened_file_path": "P:/Competitions/JuFo/2025_CodeUp_Reborn/apps/game/public/assets",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.10.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.10.8&quot;,
+    &quot;last.edited.regexp&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/untis-notify&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Shell Script"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>

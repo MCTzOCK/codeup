@@ -325,6 +325,7 @@ import {
   getAIChats,
   getAIQuota,
 } from "./api/AI";
+import { createLevel, deleteLevel, myLevels, updateLevel } from "./api/Game";
 
 const REST = {
   Ask: {
@@ -520,6 +521,12 @@ const REST = {
     DB,
     Deployment,
     deleteProject: deleteProjectE,
+  },
+  Game: {
+    myLevels,
+    createLevel,
+    updateLevel,
+    deleteLevel,
   },
   Community: {
     search,

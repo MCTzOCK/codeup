@@ -8,7 +8,6 @@
  *
  */
 import REST from "@codeup/rest/dist";
-import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export type Account = {
   username: string;

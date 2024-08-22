@@ -1,0 +1,9 @@
+{
+  "doc.title": "CodeVenture - Meine Level",
+  "title": "Level",
+  "level.new": "Neues Level",
+  "level.new.helper": "Bitte gib den Namen des neuen Levels ein.",
+  "level.open": "Öffnen",
+  "level.delete": "Löschen",
+  "level.delete.confirm": "Bist du sicher, dass du das Level löschen möchtest?"
+}
