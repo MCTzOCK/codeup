@@ -74,5 +74,5 @@
   "script.description.helper": "Bitte gib eine Beschreibung ein",
   "script.arguments": "Argumente",
   "script.arguments.helper": "Verwende folgendes Format (jedes Argument in einer neuen Zeile): 'name: typ'",
-  "export": "Exportieren",
+  "export": "Exportieren"
 }

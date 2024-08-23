@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/game.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/game.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/codeventure/levels/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/codeventure/levels/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
