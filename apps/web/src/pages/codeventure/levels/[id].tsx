@@ -48,6 +48,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
+import Networking from "@codeup/util/dist/Networking";
 
 export default function LevelEditor() {
   useUserLoggedInRedirect({
@@ -231,7 +232,7 @@ export default function LevelEditor() {
     setRawLevel(level);
   };
 
-  const saveLevel = async () => {
+  const toJSON = (): any => {
     let json: any = {};
     json.metadata = metadata;
     json.timing = timing;
@@ -245,11 +246,15 @@ export default function LevelEditor() {
     json.extensions = extensions;
     json.entities = entities;
 
+    return json;
+  };
+
+  const saveLevel = async () => {
     const res = await REST.Game.updateLevel(
       AccountManager.getActiveToken(),
       router.query.id as string,
       rawLevel!.name,
-      JSON.stringify(json)
+      JSON.stringify(toJSON())
     );
   };
 
@@ -1007,7 +1012,9 @@ export default function LevelEditor() {
                                             ...e,
                                             properties: {
                                               ...e.properties,
-                                              timeBetweenMoves: ex.target.value,
+                                              timeBetweenMoves: parseInt(
+                                                ex.target.value
+                                              ),
                                             },
                                           }
                                         : e
@@ -1066,6 +1073,141 @@ export default function LevelEditor() {
                               />
                             </HStack>
                           </Stack>
+                        </>
+                      ) : entity.type === "CodeResource" ? (
+                        <>
+                          <HStack justifyContent={"space-between"}>
+                            <Text fontSize={"md"}>{t("scripts")}</Text>
+                            <IconButton
+                              aria-label={"add"}
+                              variant={"brand"}
+                              onClick={async () => {
+                                const name = await PopupManager.selectAsync({
+                                  title: t("script.name"),
+                                  helperText: t("script.name.helper"),
+                                  choices: Object.keys(scripts as any),
+                                });
+
+                                if (!name) return;
+
+                                const description =
+                                  await PopupManager.promptAsync({
+                                    title: t("script.description"),
+                                    helperText: t("script.description.helper"),
+                                  });
+
+                                if (!description) return;
+
+                                setEntities(
+                                  entities.map((e, i) =>
+                                    i === ei
+                                      ? {
+                                          ...e,
+                                          properties: {
+                                            ...e.properties,
+                                            scripts: [
+                                              ...(e.properties.scripts || []),
+                                              {
+                                                name,
+                                                description,
+                                                arguments: [],
+                                              },
+                                            ],
+                                          },
+                                        }
+                                      : e
+                                  )
+                                );
+                              }}
+                              icon={<FaPlus />}
+                              size={"sm"}
+                            />
+                          </HStack>
+                          {(entity.properties.scripts || []).map(
+                            (script: any, si: number) => (
+                              <HStack justifyContent={"space-between"}>
+                                <Text fontSize={"md"}>
+                                  {script.name}: {script.description}
+                                </Text>
+                                <HStack>
+                                  <IconButton
+                                    aria-label={"edit"}
+                                    variant={"brand"}
+                                    onClick={async () => {
+                                      const argumentString =
+                                        script.arguments.join("\n");
+
+                                      const newArgumentString =
+                                        await PopupManager.promptAsync({
+                                          title: t("script.arguments"),
+                                          inputType: "TEXTAREA",
+                                          defaultValue: argumentString,
+                                          helperText: t(
+                                            "script.arguments.helper"
+                                          ),
+                                        });
+
+                                      if (!newArgumentString) return;
+
+                                      const newArguments =
+                                        newArgumentString.split("\n");
+
+                                      setEntities(
+                                        entities.map((e, i) =>
+                                          i === ei
+                                            ? {
+                                                ...e,
+                                                properties: {
+                                                  ...e.properties,
+                                                  scripts:
+                                                    e.properties.scripts.map(
+                                                      (s: any, j: number) =>
+                                                        j === si
+                                                          ? {
+                                                              ...s,
+                                                              arguments:
+                                                                newArguments,
+                                                            }
+                                                          : s
+                                                    ),
+                                                },
+                                              }
+                                            : e
+                                        )
+                                      );
+                                    }}
+                                    icon={<FaPen />}
+                                    size={"sm"}
+                                  />
+                                  <IconButton
+                                    aria-label={"delete"}
+                                    colorScheme={"red"}
+                                    onClick={() =>
+                                      setEntities(
+                                        entities.map((e, i) =>
+                                          i === ei
+                                            ? {
+                                                ...e,
+                                                properties: {
+                                                  ...e.properties,
+                                                  scripts:
+                                                    e.properties.scripts.filter(
+                                                      (_: any, j: any) =>
+                                                        j !== si
+                                                    ),
+                                                },
+                                              }
+                                            : e
+                                        )
+                                      )
+                                    }
+                                    icon={<FaTrash />}
+                                    size={"sm"}
+                                  />
+                                </HStack>
+                              </HStack>
+                            )
+                          )}
                         </>
                       ) : null}
                       <Text
@@ -1169,6 +1311,24 @@ export default function LevelEditor() {
                 >
                   {t("add")}
                 </Button>
+              </TabPanel>
+              <TabPanel>
+                <Stack spacing={4}>
+                  <Button
+                    variant={"brand"}
+                    onClick={async () => {
+                      const json = JSON.stringify(toJSON(), null, 2);
+
+                      Networking.download(
+                        metadata!.name + ".cvlvl",
+                        json,
+                        "application/json"
+                      );
+                    }}
+                  >
+                    {t("export")}
+                  </Button>
+                </Stack>
               </TabPanel>
             </TabPanels>
           </Tabs>

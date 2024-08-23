@@ -68,5 +68,11 @@
   "robots.time.between.moves": "Zeit zwischen Zügen",
   "robot.path": "Pfad",
   "robot.edit.path": "Pfad bearbeiten",
-  "robot.edit.path.helper": "Verwende folgendes Format (jeder Schritt in einer neuen Zeile): 'X;Y'"
+  "robot.edit.path.helper": "Verwende folgendes Format (jeder Schritt in einer neuen Zeile): 'X;Y'",
+  "scripts": "Skripte",
+  "script.description": "Beschreibung",
+  "script.description.helper": "Bitte gib eine Beschreibung ein",
+  "script.arguments": "Argumente",
+  "script.arguments.helper": "Verwende folgendes Format (jedes Argument in einer neuen Zeile): 'name: typ'",
+  "export": "Exportieren",
 }
