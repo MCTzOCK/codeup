@@ -669,6 +669,18 @@ const REST = {
     rceGo,
     rceJava,
   },
+  UserContent: {
+    upload: async (filename: string, content: string) => {
+      return await makeRequest({
+        method: "POST",
+        path: "/api/usercontent/upload",
+        body: {
+          filename,
+          content,
+        },
+      });
+    },
+  },
 };
 
 export default REST;

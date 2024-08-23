@@ -64,6 +64,7 @@ export default class PopupManager {
     helperText: string;
     callback: (input: string) => void;
     inputType?: "INPUT" | "TEXTAREA";
+    defaultValue?: string;
   }): void {
     ReactDOM.render(
       <>
@@ -80,6 +81,7 @@ export default class PopupManager {
                 ) as HTMLElement
               );
             }}
+            defaultValue={options.defaultValue}
           />
         </ChakraProvider>
       </>,
@@ -222,6 +224,7 @@ export default class PopupManager {
     title: string;
     helperText: string;
     inputType?: "INPUT" | "TEXTAREA";
+    defaultValue?: string;
   }): Promise<string> {
     return new Promise((resolve) => {
       this.prompt({
@@ -231,6 +234,7 @@ export default class PopupManager {
         callback: (input: string) => {
           resolve(input);
         },
+        defaultValue: options.defaultValue,
       });
     });
   }

@@ -36,6 +36,7 @@ export default function PromptPopupComponent(props: {
   callback: (i: string) => void;
   onClose: () => void;
   inputType?: "INPUT" | "TEXTAREA";
+  defaultValue?: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure({
     defaultIsOpen: true,
@@ -78,6 +79,7 @@ export default function PromptPopupComponent(props: {
                       placeholder={PopupManager.__raw_get_translated_key(
                         "prompt.input"
                       )}
+                      defaultValue={props.defaultValue}
                     />
                   </InputGroup>
                 ) : (
@@ -86,6 +88,7 @@ export default function PromptPopupComponent(props: {
                     placeholder={PopupManager.__raw_get_translated_key(
                       "prompt.input"
                     )}
+                    defaultValue={props.defaultValue}
                   />
                 )}
                 <FormHelperText>{props.helperText}</FormHelperText>
