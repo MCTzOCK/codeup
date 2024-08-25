@@ -1,3 +1,4 @@
+"use client";
 /**
  * apps/web/src/pages/interactive/test.tsx
  *
@@ -12,8 +13,10 @@ import * as React from "react";
 import { Box, Button, Flex, Stack, Text, Textarea } from "@chakra-ui/react";
 import { sProp } from "../../global/i18nstaticProps";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
-import CodeBlock from "../../special-components/CodeBlock";
+//import CodeBlock from "../../special-components/CodeBlock";
 import PopupManager from "../../global/PopupManager";
+import Highlight from "react-highlight";
+import "highlight.js/styles/base16/3024.min.css";
 
 const testData: {
   title: string;
@@ -32,9 +35,9 @@ const testData: {
   steps: [
     {
       text: "Ein Array kann wie folgt deklariert werden:",
-      code: `let arrayName = [element1, element2, ..., elementN];`,
+      code: `String s = "";  void let arrayName = [element1, element2, ..., elementN];`,
       correct: "let myArray = [1, 2, 3];",
-      language: "javascript",
+      language: "java",
       task: "Erstelle ein Array mit dem Namen 'myArray' und fülle es mit den Elementen '1', '2' und '3'.",
     },
   ],
@@ -108,9 +111,11 @@ export default function Test() {
                       <Text fontSize={"lg"} mt={2}>
                         {step.text}
                         <br />
-                        <CodeBlock className={step.language} allowCopy={false}>
+                        <Highlight
+                          className={step.language + " code-block-cup"}
+                        >
                           {step.code}
-                        </CodeBlock>
+                        </Highlight>
                         <br />
                         {step.task}
                       </Text>

@@ -218,3 +218,10 @@ a {
     transform: perspective(1000px) rotateY(0deg) rotateX(20deg) rotateZ(-15deg) scale(1.1);
   }
 }
+
+.code-block-cup {
+  border-radius: var(--chakra-radii-md);
+  width: fit-content;
+  background-color: #000 !important;
+  margin-top: 0.5rem;
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -5,7 +7,7 @@ import {
   useClipboard,
   useColorMode,
 } from "@chakra-ui/react";
-import Highlight, { defaultProps } from "prism-react-renderer";
+import Highlight, { defaultProps, Prism } from "prism-react-renderer";
 import darkTheme from "prism-react-renderer/themes/vsDark";
 import { FaCheck, FaCopy } from "react-icons/fa";
 import styles from "./codeblock.module.css";
