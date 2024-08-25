@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/game.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/game.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/interactive/test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/special-components/CodeBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/special-components/CodeBlock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/special-components/codeblock.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/special-components/codeblock.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +29,8 @@
         <option value="SCSS File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -88,7 +91,7 @@
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.10.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.10.8&quot;,
     &quot;last.edited.regexp&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/untis-notify&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/Competitions/JuFo/tutorial-javascript&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,

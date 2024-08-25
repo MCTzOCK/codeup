@@ -1,7 +1,8 @@
 .wrapper {
-  border: 1px solid gray;
   overflow: auto;
   padding: 0.5em;
+  border-radius: var(--chakra-radii-md);
+  background-color: var(--chakra-colors-gray-500);
 }
 
 .lineNo {
