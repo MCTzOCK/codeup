@@ -25,6 +25,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
+  Select,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
@@ -69,6 +70,7 @@ export default function NewComponent() {
 
   const [title, setTitle] = useState<string>("");
   const [friendlyName, setFriendlyName] = useState<string>("");
+  const [type, setType] = useState<string>("video");
   const [splashImage, setSplashImage] = useState<File>();
   const [description, setDescription] = useState<string>("");
 
@@ -132,6 +134,21 @@ export default function NewComponent() {
                           }
                         />
                       </InputGroup>
+                    </FormControl>
+                    <FormControl mt={"2rem"} isRequired>
+                      <FormLabel>{t("course.type")}</FormLabel>
+                      <Select
+                        placeholder={t("course.type")}
+                        onChange={(e) => setType(e.target.value)}
+                        value={type}
+                      >
+                        <option value={"video"}>
+                          {t("course.type.video")}
+                        </option>
+                        <option value={"interactive"}>
+                          {t("course.type.interactive")}
+                        </option>
+                      </Select>
                     </FormControl>
                   </>
                 ) : index === 1 ? (
@@ -202,7 +219,8 @@ export default function NewComponent() {
                   if (activeStep !== steps.length - 1) {
                     switch (activeStep) {
                       case 0:
-                        if (title === "" || friendlyName === "") return;
+                        if (title === "" || friendlyName === "" || type === "")
+                          return;
                         break;
                       case 1:
                         if (description === "") return;
@@ -234,6 +252,7 @@ export default function NewComponent() {
                     friendlyName,
                     splashImage: base64,
                     description,
+                    interactive: type === "interactive",
                   });
 
                   if (res.status === 200) {

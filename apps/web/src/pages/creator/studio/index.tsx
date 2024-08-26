@@ -36,6 +36,7 @@ import {
   FaPlus,
   FaSearch,
   FaTrash,
+  FaVideo,
 } from "react-icons/fa";
 import REST from "@codeup/rest";
 import { useRouter } from "next/router";
@@ -46,6 +47,7 @@ import GridLayoutV2 from "@codeup/components/global/GridLayoutV2";
 import PopupManager from "../../../global/PopupManager";
 import { sProp } from "../../../global/i18nstaticProps";
 import { useTranslation } from "next-i18next";
+import { FaComputerMouse } from "react-icons/fa6";
 
 export default function Index() {
   const [query, setQuery] = React.useState("");
@@ -70,6 +72,7 @@ export default function Index() {
       friendlyName: string;
       name: string;
       splashImage: string;
+      interactive: boolean;
     }[]
   >([]);
 
@@ -84,6 +87,7 @@ export default function Index() {
     friendlyName: string;
     name: string;
     splashImage: string;
+    interactive: boolean;
   }>();
 
   useEffect(() => {
@@ -145,6 +149,15 @@ export default function Index() {
                 title: course.name,
                 image: course.splashImage,
                 fields: [
+                  course.interactive
+                    ? {
+                        icon: <FaComputerMouse />,
+                        text: t("course.type.interactive"),
+                      }
+                    : {
+                        icon: <FaVideo />,
+                        text: t("course.type.video"),
+                      },
                   {
                     icon:
                       course.available === "public" ? (

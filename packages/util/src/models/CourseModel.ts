@@ -47,6 +47,11 @@ const Course = new mongoose.Schema({
     type: String,
     required: true,
   },
+  interactive: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 export default mongoose.models?.Course || mongoose.model("Course", Course);

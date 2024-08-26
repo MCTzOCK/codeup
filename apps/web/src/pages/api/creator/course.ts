@@ -74,7 +74,8 @@ export default async function handleRequest(
       res.status(200).json({ courses });
       return;
     } else if (req.method === "POST") {
-      const { name, friendlyName, description, splashImage } = req.body;
+      const { name, friendlyName, description, splashImage, interactive } =
+        req.body;
 
       if (!name || !friendlyName || !description || !splashImage) {
         res.status(400).json({
@@ -101,6 +102,7 @@ export default async function handleRequest(
         splashImage: splashImage,
         available: "private",
         creator: editorUser.username,
+        interactive: interactive || false,
       });
 
       res.status(200).json({

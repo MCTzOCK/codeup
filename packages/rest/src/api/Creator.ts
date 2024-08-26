@@ -24,6 +24,7 @@ export async function createCourse(options: {
   description: string;
   splashImage: string;
   token: string;
+  interactive?: boolean;
 }): Promise<IResponse> {
   return makeRequest({
     path: "/api/creator/course",
@@ -34,6 +35,7 @@ export async function createCourse(options: {
       friendlyName: options.friendlyName,
       description: options.description,
       splashImage: options.splashImage,
+      interactive: options.interactive,
     },
   });
 }
