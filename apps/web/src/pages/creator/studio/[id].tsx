@@ -347,6 +347,7 @@ export default function CourseViewer() {
                                                   w={"100%"}
                                                   leftIcon={<FaPen />}
                                                   variant={"brand"}
+                                                  display={"none"}
                                                   onClick={() => {
                                                     router.push(
                                                       `/creator/studio/edit/${content._id}`
