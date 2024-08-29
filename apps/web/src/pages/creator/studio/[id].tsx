@@ -20,6 +20,8 @@ import {
   Heading,
   HStack,
   IconButton,
+  Menu,
+  MenuButton,
   Stack,
   Text,
   useToast,
@@ -32,6 +34,7 @@ import {
   FaFile,
   FaHome,
   FaPen,
+  FaPlus,
   FaTrash,
   FaYoutube,
 } from "react-icons/fa";
@@ -64,7 +67,7 @@ export default function CourseViewer() {
       course: string;
       url: string;
       createdAt: string;
-      type: "TEXT" | "VIDEO";
+      type: "TEXT" | "VIDEO" | "INTERACTIVE";
       textContent: string;
       quiz: {
         question: string;
@@ -161,13 +164,13 @@ export default function CourseViewer() {
           />
 
           <Heading size={"lg"}>{courseName[0]}</Heading>
-
           <Button
             variant={"brand"}
             ml={2}
             onClick={() => {
               router.push("/creator/studio/create/content/" + id);
             }}
+            leftIcon={<FaPlus />}
           >
             {t("new")}
           </Button>
@@ -176,6 +179,7 @@ export default function CourseViewer() {
           <ErrorComponent
             description={t("course.no.contents")}
             title={t("course.no.contents.title")}
+            hideButton
           />
         ) : null}
         <Flex alignItems={"center"} p={6} w={"100%"} justifyContent={"center"}>

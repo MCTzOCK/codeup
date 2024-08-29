@@ -25,6 +25,7 @@ export default function ErrorComponent(props: {
   title?: string;
   description: string;
   image?: string;
+  hideButton?: boolean;
 }) {
   const { t } = useTranslation("base");
 
@@ -66,12 +67,13 @@ export default function ErrorComponent(props: {
             onClick={() => {
               router.push("/");
             }}
+            display={props.hideButton ? "none" : "initial"}
           >
             {t("home")}
           </Button>
         </Flex>
         <Image
-          src={props.image ?? "/_static/vectors/error/warning.svg"}
+          src={props.image ?? "/_static/vectors/error/404_v2.svg"}
           width={"512"}
           height={"512"}
           alt={""}

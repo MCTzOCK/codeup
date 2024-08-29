@@ -2,16 +2,17 @@
  * apps/web/src/pages/creator/studio/create/content/[course].tsx
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
- * Copyright: Copyright (c) 2018-2022 Ben Siebert. All rights reserved.
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 18.11.2022
+ * Created At: 29.08.2024
  *
  */
 
-import REST from "@codeup/rest";
+import * as React from "react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { FaBookOpen, FaGlobe } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
+import { sProp } from "../../../../../global/i18nstaticProps";
+import Head from "next/head";
 import {
   Box,
   Button,
@@ -19,33 +20,33 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Grid,
   Heading,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  useToast,
+  Text,
 } from "@chakra-ui/react";
-import dynamic from "next/dynamic";
-import "easymde/dist/easymde.min.css";
-import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
-import { Step, Steps, useSteps } from "chakra-ui-steps";
-import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
-import ErrorComponent from "@codeup/components/global/ErrorComponent";
-import Builder from "../../../../../special-components/Builder";
-import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
-import { sProp } from "../../../../../global/i18nstaticProps";
-import { useTranslation } from "next-i18next";
+import CreatorStudioLayout from "@codeup/components/dist/creator/studio/CreatorStudioLayout";
+import ErrorComponent from "@codeup/components/global/ErrorComponent";
+import { useEffect } from "react";
+import REST from "@codeup/rest/dist";
+import AccountManager from "@codeup/util/dist/AccountManager";
+import { FaVideo } from "react-icons/fa";
+import { FaComputerMouse } from "react-icons/fa6";
+import PopupManager from "../../../../../global/PopupManager";
+import AdminQuizMaker from "@codeup/components/dist/admin/AdminQuizMaker";
 
-export default function NewContents() {
+export default function ContentCreator() {
   const router = useRouter();
   const { t } = useTranslation("creator-studio");
-
-  const [displayName, setDisplayName] = React.useState("");
-  const [course, setCourse] = React.useState("");
-  const [url, setURL] = React.useState("");
-  const [textContent, setTextContent] = React.useState("");
-  const [videoURL, setVideoURL] = React.useState("");
+  const [error, setError] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [course, setCourse] = React.useState<string>("");
+  const [step, setStep] = React.useState<number>(0);
+  const [type, setType] = React.useState<"VIDEO" | "INTERACTIVE">("VIDEO");
+  const [displayName, setDisplayName] = React.useState<string>("");
+  const [url, setUrl] = React.useState<string>("");
+  const [videoUrl, setVideoUrl] = React.useState<string>("");
   const [quizQuestions, setQuizQuestions] = React.useState<
     {
       question: string;
@@ -56,44 +57,32 @@ export default function NewContents() {
     }[]
   >([]);
 
-  const [steps, setSteps] = useState([
-    { label: t("name") },
-    { label: t("content") },
-    { label: t("quiz") },
-    { label: t("video") },
-  ]);
-
-  const { nextStep, prevStep, reset, activeStep } = useSteps({
-    initialStep: 0,
-  });
-
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
-  const toast = useToast();
-
-  const [custom_event_id, setCustomEventId] = React.useState<string>("");
-
   useEffect(() => {
-    if (router.query.course) {
-      REST.Creator.getCourses(localStorage.getItem("token") as string).then(
-        (res) => {
-          if (res.status === 200) {
-            if (
-              res.payload.courses.find(
-                (c: { _id: string }) => c._id === router.query.course
-              )
-            ) {
-              setCourse(router.query.course as string);
-              setCustomEventId(randomString());
-              setLoaded(true);
-            } else {
-              setError(true);
-            }
-          }
-        }
-      );
+    if (!router || !router.query || !router.query.course) return;
+
+    fetchCourse();
+  }, [router, router.query, router.query.course]);
+
+  const fetchCourse = async () => {
+    const res = await REST.Creator.getCourses(AccountManager.getActiveToken());
+    if (res.status !== 200) {
+      setError(true);
+      setLoading(false);
+      return;
     }
-  }, [router]);
+
+    if (
+      res.payload.courses.find(
+        (c: { _id: string }) => c._id === router.query.course
+      )
+    ) {
+      setCourse(router.query.course as string);
+      setLoading(false);
+    } else {
+      setError(true);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -104,274 +93,265 @@ export default function NewContents() {
         <Box textAlign={"center"} pt={6}>
           <CHeading size={"xl"}>{t("create.content")}</CHeading>
         </Box>
-        <>
-          {loaded && !error ? (
-            <>
-              <Flex flexDir="column" width="100%" p={"5rem"}>
-                <Steps
-                  size={"lg"}
-                  activeStep={activeStep}
-                  colorScheme={"brand"}
-                >
-                  {steps.map(({ label }, index) => (
-                    <Step label={label} key={label} mb={"2rem"}>
-                      {index === 0 ? (
-                        <>
-                          <FormControl isRequired>
-                            <FormLabel>{t("title")}</FormLabel>
-                            <InputGroup>
-                              <InputLeftAddon>
-                                <FaBookOpen />
-                              </InputLeftAddon>
-                              <Input
-                                type={"text"}
-                                name={"title"}
-                                id={"new_content_title"}
-                                placeholder={t("title")}
-                                required
-                                onChange={(e) => setDisplayName(e.target.value)}
-                              />
-                            </InputGroup>
-                          </FormControl>
-                          <FormControl mt={"2rem"} isRequired>
-                            <FormLabel>{t("name.url.friendly")}</FormLabel>
-                            <InputGroup>
-                              <InputLeftAddon>
-                                <FaGlobe />
-                              </InputLeftAddon>
-                              <Input
-                                type={"text"}
-                                name={"friendlyName"}
-                                id={"new_content_friendlyName"}
-                                placeholder={t("name.url.friendly")}
-                                required
-                                onChange={(e) => setURL(e.target.value)}
-                              />
-                            </InputGroup>
-                          </FormControl>
-                        </>
-                      ) : index === 1 ? (
-                        <>
-                          <Builder custom_event_id={custom_event_id} />
-                        </>
-                      ) : index === 2 ? (
-                        <>
-                          <AdminQuizMaker
-                            quizQuestions={quizQuestions}
-                            setQuizQuestions={setQuizQuestions}
-                          />
-                        </>
-                      ) : index === 3 ? (
-                        <>
-                          <FormControl isRequired>
-                            <FormLabel>Video URL</FormLabel>
-                            <InputGroup>
-                              <InputLeftAddon>
-                                youtube.com/watch?v=
-                              </InputLeftAddon>
-                              <Input
-                                type={"text"}
-                                name={"video"}
-                                id={"new_content_video"}
-                                placeholder={t("video.urk")}
-                                required
-                                onChange={(e) => {
-                                  setVideoURL(
-                                    "https://youtube.com/watch?v=" +
-                                      e.target.value
-                                  );
-                                }}
-                              />
-                            </InputGroup>
-                          </FormControl>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </Step>
-                  ))}
-                </Steps>
-                {activeStep === steps.length ? (
-                  <Flex px={4} py={4} width="100%" flexDirection="column">
-                    <Heading fontSize="xl" textAlign="center">
-                      {t("create.course.all.steps.finished")}
-                    </Heading>
-                    <Button mx="auto" mt={6} size="sm" onClick={reset}>
-                      {t("reset")}
-                    </Button>
-                  </Flex>
-                ) : (
-                  <Flex width="100%" justify="flex-end" mt={"2rem"}>
-                    {activeStep === 1 || activeStep === 3 ? (
-                      <>
-                        <Button
-                          mr={4}
-                          size="lg"
-                          onClick={() => {
-                            if (activeStep === 1) {
-                              setTextContent("__codeup.__no_text_content");
-                              nextStep();
-                            } else if (activeStep === 3) {
-                              if (
-                                textContent === "__codeup.__no_text_content"
-                              ) {
-                                alert(t("create.content.error.fields.empty"));
-                                return;
-                              } else {
-                                (
-                                  document.querySelector(
-                                    ".new_content_submit"
-                                  ) as HTMLButtonElement
-                                ).click();
-                              }
-                            }
-                          }}
-                          colorScheme={"red"}
-                        >
-                          {t("skip")}
-                        </Button>
-                      </>
-                    ) : null}
-                    <Button
-                      mr={4}
-                      onClick={() => {
-                        if (activeStep === 0) return;
-                        prevStep();
-                      }}
-                      size="lg"
+        {!loading && !error && (
+          <>
+            <Flex
+              justifyContent={"center"}
+              w={"100%"}
+              minH={"70vh"}
+              h={"fit-content"}
+              p={8}
+            >
+              {step === 0 && (
+                <>
+                  <Box
+                    minW={{
+                      base: "100%",
+                      md: "50%",
+                    }}
+                    h={"fit-content"}
+                    bg={"gray.800"}
+                    rounded={"md"}
+                    p={4}
+                  >
+                    <CHeading size={"lg"}>{t("section.type")}</CHeading>
+                    <Text>{t("section.choose.type")}</Text>
+                    <Grid
+                      templateColumns={"repeat(auto-fit, minmax(300px, 1fr));"}
+                      gap={4}
+                      p={4}
                     >
-                      {t("previous")}
-                    </Button>
+                      {(
+                        [
+                          {
+                            name: t("section.type.video"),
+                            description: t("section.type.video.description"),
+                            icon: <FaVideo />,
+                            type: "VIDEO",
+                          },
+                          {
+                            name: t("section.type.interactive"),
+                            description: t(
+                              "section.type.interactive.description"
+                            ),
+                            icon: <FaComputerMouse />,
+                            type: "INTERACTIVE",
+                          },
+                        ] as {
+                          name: string;
+                          description: string;
+                          type: "VIDEO" | "INTERACTIVE";
+                          icon: any;
+                        }[]
+                      ).map((s) => (
+                        <>
+                          <Box
+                            bg={"#000"}
+                            rounded={"xl"}
+                            cursor={"pointer"}
+                            _hover={{
+                              outline: "1px solid #F7DE1F",
+                            }}
+                            p={4}
+                            onClick={async () => {
+                              setType(s.type);
+                              setStep(1);
+                            }}
+                          >
+                            <Flex
+                              fontSize={"4xl"}
+                              w={"100%"}
+                              justifyContent={"center"}
+                              color={"white"}
+                              align={"center"}
+                            >
+                              {s.icon}
+                            </Flex>
+                            <Box mt={2} textAlign={"center"}>
+                              <CHeading size={"md"}>{s.name}</CHeading>
+                            </Box>
+                            <Text
+                              fontSize={"sm"}
+                              color={"white"}
+                              textAlign={"center"}
+                              mt={2}
+                            >
+                              {s.description}
+                            </Text>
+                          </Box>
+                        </>
+                      ))}
+                    </Grid>
+                  </Box>
+                </>
+              )}
+              {step === 1 && (
+                <>
+                  <Box
+                    minW={{
+                      base: "100%",
+                      md: "50%",
+                    }}
+                    h={"fit-content"}
+                    bg={"gray.800"}
+                    rounded={"md"}
+                    p={4}
+                  >
+                    <CHeading size={"lg"}>
+                      {t("section.create.metadata")}
+                    </CHeading>
+                    <FormControl isRequired mt={4}>
+                      <FormLabel>{t("name")}</FormLabel>
+                      <Input
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder={t("name")}
+                      />
+                    </FormControl>
+                    <FormControl isRequired mt={4}>
+                      <FormLabel>{t("name.url.friendly")}</FormLabel>
+                      <Input
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        placeholder={t("name.url.friendly")}
+                      />
+                    </FormControl>
                     <Button
-                      size="lg"
-                      id={"new_content_submit"}
                       variant={"brand"}
+                      mt={4}
                       onClick={async () => {
-                        if (activeStep !== steps.length - 1) {
-                          switch (activeStep) {
-                            case 0:
-                              if (displayName === "" || url === "") {
-                                return;
-                              }
-                              nextStep();
-                              break;
-                            case 1:
-                              window.dispatchEvent(
-                                new CustomEvent(
-                                  "codeup::webbuilder::export_" +
-                                    custom_event_id
-                                )
-                              );
-
-                              const mergedCode =
-                                // @ts-ignore
-                                window.codeup.webBuilderHTMLExport;
-
-                              setTextContent(mergedCode);
-
-                              // @ts-ignore
-                              delete window.codeup.webBuilderHTMLExport;
-
-                              nextStep();
-                              break;
-                            case 2:
-                              let anyAnswerEmpty = false;
-
-                              for (const q of quizQuestions) {
-                                for (const a of q.answers) {
-                                  if (a.answer === "") {
-                                    anyAnswerEmpty = true;
-                                  }
-                                }
-                              }
-
-                              if (anyAnswerEmpty) return;
-
-                              nextStep();
-                              break;
-                            default:
-                              break;
-                          }
+                        if (type === "VIDEO") {
+                          setStep(2);
                         } else {
-                          const res = await REST.Creator.createContent({
-                            token: localStorage.getItem("token") as string,
-                            course: course,
-                            displayName,
-                            quiz: quizQuestions,
-                            textContent:
-                              textContent !== "__codeup.__no_text_content"
-                                ? textContent
-                                : "",
-                            type: "TEXT",
-                            videoUrl: videoURL || "",
-                            url,
-                          });
+                          setStep(102);
+                        }
+                      }}
+                      disabled={url.length < 3 || displayName.length < 3}
+                    >
+                      {t("next")}
+                    </Button>
+                  </Box>
+                </>
+              )}
+              {step === 2 && (
+                <>
+                  <Box
+                    minW={{
+                      base: "100%",
+                      md: "50%",
+                    }}
+                    h={"fit-content"}
+                    bg={"gray.800"}
+                    rounded={"md"}
+                    p={4}
+                  >
+                    <CHeading size={"lg"}>{t("section.create.video")}</CHeading>
+                    <FormControl isRequired mt={4}>
+                      <FormLabel>{t("video.url")}</FormLabel>
+                      <Input
+                        value={videoUrl}
+                        onChange={(e) => setVideoUrl(e.target.value)}
+                        placeholder={t("video.url")}
+                      />
+                    </FormControl>
+                    <Button
+                      variant={"brand"}
+                      mt={4}
+                      onClick={async () => {
+                        setStep(3);
+                      }}
+                      disabled={url.length < 1}
+                    >
+                      {t("next")}
+                    </Button>
+                  </Box>
+                </>
+              )}
+              {step === 3 && (
+                <>
+                  <Box
+                    minW={{
+                      base: "100%",
+                      md: "50%",
+                    }}
+                    h={"fit-content"}
+                    bg={"gray.800"}
+                    rounded={"md"}
+                    p={4}
+                  >
+                    <CHeading size={"lg"}>{t("section.create.quiz")}</CHeading>
+                    <AdminQuizMaker
+                      quizQuestions={quizQuestions}
+                      setQuizQuestions={setQuizQuestions}
+                    />
+                    <Button
+                      variant={"brand"}
+                      mt={4}
+                      onClick={async () => {
+                        const res = await REST.Creator.createContent({
+                          token: AccountManager.getActiveToken(),
+                          course: course,
+                          displayName: displayName,
+                          url: url,
+                          type: "VIDEO",
+                          videoUrl: videoUrl,
+                          quiz: quizQuestions,
+                          textContent: "__codeup.__no_text_content",
+                        });
 
-                          if (res.status === 200) {
-                            router.push("/creator/studio/" + course);
-                          } else {
-                            console.log(res.payload);
-                            toast({
-                              title: t("base:control.error"),
-                              description:
-                                t("error.creating") + ": " + res.payload.error,
-                              status: "error",
-                              duration: 1500,
-                              isClosable: true,
-                            });
-                          }
+                        if (res.status === 200) {
+                          router.push(
+                            "/creator/studio/edit/" + res.payload.content._id
+                          );
                         }
                       }}
                     >
-                      {activeStep === steps.length - 1
-                        ? t("finish")
-                        : t("next")}
+                      {t("create")}
                     </Button>
-                  </Flex>
-                )}
-              </Flex>
-            </>
-          ) : (
-            <>
-              {!loaded && !error && (
-                <Flex
-                  w={"100%"}
-                  h={"100vh"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  direction={"column"}
-                >
-                  <CircularProgress
-                    size={"80px"}
-                    isIndeterminate
-                    color="purple.300"
-                  />
-                  <Heading size={"lg"} mt={4}>
-                    {t("loading.course")}
-                  </Heading>
-                </Flex>
+                  </Box>
+                </>
               )}
-            </>
-          )}
-          {error && (
-            <>
-              <ErrorComponent description={t("loading.course.error")} />
-            </>
-          )}
-        </>
+              {step === 102 && (
+                <>
+                  <Box
+                    minW={{
+                      base: "100%",
+                      md: "50%",
+                    }}
+                    h={"fit-content"}
+                    bg={"gray.800"}
+                    rounded={"md"}
+                    p={4}
+                  >
+                    <CHeading size={"lg"}>
+                      {t("section.create.interactive")}
+                    </CHeading>
+                  </Box>
+                </>
+              )}
+            </Flex>
+          </>
+        )}
+        {loading && (
+          <Flex
+            w={"100%"}
+            h={"100vh"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            direction={"column"}
+          >
+            <CircularProgress size={"80px"} isIndeterminate color="brand.500" />
+            <Heading size={"lg"} mt={4}>
+              {t("loading.course")}
+            </Heading>
+          </Flex>
+        )}
+        {error && (
+          <ErrorComponent description={t("loading.course.error")} hideButton />
+        )}
       </CreatorStudioLayout>
     </>
   );
-}
-
-function randomString(length: number = 32) {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++)
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  return result;
 }
 
 export async function getStaticProps({ locale }: { locale: string }) {

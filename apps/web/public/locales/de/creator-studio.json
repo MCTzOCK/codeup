@@ -122,5 +122,14 @@
   "url": "URL",
   "course.type": "Kurstyp",
   "course.type.video": "Video",
-  "course.type.interactive": "Interaktiv"
+  "course.type.interactive": "Interaktiv",
+  "section.type": "Lektionstyp",
+  "section.choose.type": "Bitte wähle den Typ der neuen Lektion aus!",
+  "section.type.video": "Video",
+  "section.type.video.description": "Ein Video, das die Benutzer sehen können.",
+  "section.type.interactive": "Interaktiv",
+  "section.type.interactive.description": "Ein interaktiver Abschnitt, in dem Benutzer Aufgaben lösen können.",
+  "section.create.metadata": "Metadaten",
+  "section.create.quiz": "Quiz erstellen",
+  "section.create.interactive": "Interaktiven Abschnitt erstellen"
 }
