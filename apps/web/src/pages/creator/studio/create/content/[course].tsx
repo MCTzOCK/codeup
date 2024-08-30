@@ -24,6 +24,7 @@ import {
   Heading,
   Input,
   Text,
+  Textarea,
 } from "@chakra-ui/react";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import CreatorStudioLayout from "@codeup/components/dist/creator/studio/CreatorStudioLayout";
@@ -56,6 +57,7 @@ export default function ContentCreator() {
       }[];
     }[]
   >([]);
+  const [intro, setIntro] = React.useState<string>("");
 
   useEffect(() => {
     if (!router || !router.query || !router.query.course) return;
@@ -326,6 +328,14 @@ export default function ContentCreator() {
                     <CHeading size={"lg"}>
                       {t("section.create.interactive")}
                     </CHeading>
+                    <FormControl isRequired mt={4}>
+                      <FormLabel>{t("intro")}</FormLabel>
+                      <Textarea
+                        value={intro}
+                        onChange={(e) => setIntro(e.target.value)}
+                        placeholder={t("intro")}
+                      />
+                    </FormControl>
                   </Box>
                 </>
               )}
