@@ -44,5 +44,7 @@
   "wrong": "Falsch!",
   "wrong.description": "Deine Antwort war leider falsch.",
   "check": "Überprüfen",
-  "solve": "Lösen"
+  "solve": "Lösen",
+  "interactive": "Interaktiv",
+  "video": "Video"
 }

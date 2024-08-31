@@ -64,7 +64,7 @@ export default function Index() {
       url: string;
       course: string;
       createdAt: string;
-      type: "VIDEO" | "TEXT";
+      type: "VIDEO" | "TEXT" | "INTERACTIVE";
       textContent: string;
       quiz: any[];
       videoUrl: string;
@@ -272,10 +272,13 @@ export default function Index() {
                           <FaCheck />
                         ) : null,
                         date: new Date(content.createdAt).toLocaleDateString(),
-                        description: t("section.quiz.questions").replace(
-                          "{0}",
-                          content.quiz.length.toString()
-                        ),
+                        description:
+                          content.type === "INTERACTIVE"
+                            ? ""
+                            : t("section.quiz.questions").replace(
+                                "{0}",
+                                content.quiz.length.toString()
+                              ),
                         cursor: "pointer",
                         onClick: () => {
                           router.push(

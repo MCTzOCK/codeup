@@ -26,6 +26,7 @@ import {
   Input,
   InputLeftElement,
   InputGroup,
+  Badge,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
@@ -50,6 +51,7 @@ export default function Index() {
       createdAt: string;
       creator: string;
       __v: number;
+      interactive: boolean;
     }[]
   >([]);
 
@@ -67,6 +69,7 @@ export default function Index() {
       createdAt: string;
       creator: string;
       __v: number;
+      interactive: boolean;
     }[]
   >([]);
 
@@ -185,13 +188,7 @@ export default function Index() {
           </InputGroup>
         </Flex>
         <Grid
-          templateColumns={[
-            "repeat(1, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-            "repeat(4, 1fr)",
-            "repeat(5, 1fr)",
-          ]}
+          templateColumns={"repeat(auto-fit, minmax(300px, 1fr));"}
           p={4}
           w={"100%"}
           justifyContent="center"
@@ -202,9 +199,9 @@ export default function Index() {
             <>
               <GridItem h={"100%"} p={4}>
                 <Box
-                  bg={"gray.900"}
+                  bg={"gray.800"}
                   color={"white"}
-                  rounded={"xl"}
+                  rounded={"md"}
                   p={6}
                   h={"100%"}
                   cursor={"pointer"}
@@ -226,6 +223,15 @@ export default function Index() {
                       w={"100%"}
                       h={"150px"}
                     />
+                    <Badge
+                      colorScheme={c.interactive ? "green" : "brand"}
+                      p={2}
+                      w={"fit-content"}
+                      fontSize={"md"}
+                      rounded={"full"}
+                    >
+                      {c.interactive ? t("interactive") : t("video")}
+                    </Badge>
                     <CHeading size={"xl"}>{c.name}</CHeading>
                     <Text fontSize={"xl"} color={"gray.300"} textAlign={"left"}>
                       {t("course.by")}&nbsp;
