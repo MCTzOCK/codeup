@@ -9,8 +9,8 @@
  */
 
 import * as React from "react";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   Box,
   Button,
@@ -18,19 +18,12 @@ import {
   CircularProgress,
   Flex,
   Heading,
-  Link,
-  ListItem,
-  OrderedList,
   Stack,
   Text,
   Textarea,
-  UnorderedList,
 } from "@chakra-ui/react";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
 import REST from "@codeup/rest";
-import ReactMarkdown from "react-markdown";
-import CodeBlock from "../../../special-components/CodeBlock";
-import MDRenderer from "../../../special-components/MDRenderer";
 import VideoPlayer from "@codeup/components/global/VideoPlayer";
 import { Quiz } from "@codeup/components/course";
 import Head from "next/head";
@@ -40,8 +33,8 @@ import PopupManager from "../../../global/PopupManager";
 import { sProp } from "../../../global/i18nstaticProps";
 import { useTranslation } from "next-i18next";
 import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
-import { string } from "blockly/core/utils";
 import Highlight from "react-highlight";
+import "highlight.js/styles/base16/3024.min.css";
 
 export default function SectionViewer() {
   const router = useRouter();

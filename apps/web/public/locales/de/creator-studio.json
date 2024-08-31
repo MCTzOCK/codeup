@@ -134,5 +134,10 @@
   "section.create.interactive": "Interaktiven Abschnitt erstellen",
   "intro": "Einleitung",
   "interactive.create.step": "Schritt erstellen",
-  "interactive.step": "Schritt"
+  "interactive.step": "Schritt",
+  "interactive.step.text": "Text",
+  "interactive.step.code": "Code",
+  "interactive.step.correct": "Richtige Lösung",
+  "interactive.step.language": "Programmiersprache",
+  "interactive.step.task": "Aufgabe"
 }

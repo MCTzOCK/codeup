@@ -134,5 +134,10 @@
   "section.create.interactive": "Utwórz interaktywną sekcję",
   "intro": "Wprowadzenie",
   "interactive.create.step": "Utwórz krok",
-  "interactive.step": "Krok"
+  "interactive.step": "Krok",
+  "interactive.step.text": "Tekst",
+  "interactive.step.code": "Kod",
+  "interactive.step.correct": "Prawe rozwiązanie",
+  "interactive.step.language": "Język programowania",
+  "interactive.step.task": "Zadanie"
 }

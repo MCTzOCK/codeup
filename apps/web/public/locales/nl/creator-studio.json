@@ -134,5 +134,10 @@
   "section.create.interactive": "Interactieve sectie aanmaken",
   "intro": "Inleiding",
   "interactive.create.step": "Een stap maken",
-  "interactive.step": "Stap"
+  "interactive.step": "Stap",
+  "interactive.step.text": "Tekst",
+  "interactive.step.code": "Rubriek",
+  "interactive.step.correct": "Juiste oplossing",
+  "interactive.step.language": "Programmeringstaal",
+  "interactive.step.task": "Taak"
 }
