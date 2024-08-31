@@ -73,13 +73,6 @@ export async function updateCourse(options: {
 }
 export async function createContent(options: {
   quiz: any[];
-  interactiveSteps: {
-    text: string;
-    code: string;
-    language: string;
-    correct: string;
-    task: string;
-  }[];
   videoUrl: string;
   displayName: string;
   course: string;
