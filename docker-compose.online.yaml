@@ -1,0 +1,15 @@
+version: "3"
+services:
+  web:
+    image: registry.coolescoden.de/ben/codeup:latest
+    network_mode: host
+    ports:
+      - "8899:8899"
+    env_file: ".env.web"
+    user: "root"
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp
+      - /etc/codeup/git:/etc/codeup/git
