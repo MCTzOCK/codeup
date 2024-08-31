@@ -37,5 +37,14 @@
   "quiz": "Por favor",
   "quiz.text": "Olha como entendeste esta lição! Este teste consiste em {0} perguntas.",
   "quiz.start": "Iniciar questionário",
-  "quit.restart": "Reiniciar"
+  "quit.restart": "Reiniciar",
+  "your.answer": "A sua resposta",
+  "correct": "Certo!",
+  "correct.description": "A sua resposta estava correcta.",
+  "wrong": "Errado!",
+  "wrong.description": "A tua resposta estava errada.",
+  "check": "Verificação",
+  "solve": "Lançamento",
+  "interactive": "Interativo",
+  "video": "Vídeo"
 }

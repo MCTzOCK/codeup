@@ -119,5 +119,20 @@
   "error.saving": "Fout bij opslaan",
   "delete.content": "Inhoud verwijderen",
   "display.name": "Naam tonen",
-  "url": "URL"
+  "url": "URL",
+  "course.type": "Type cursus",
+  "course.type.video": "Video",
+  "course.type.interactive": "Interactief",
+  "section.type": "Lestype",
+  "section.choose.type": "Selecteer het type nieuwe les!",
+  "section.type.video": "Video",
+  "section.type.video.description": "Een video die gebruikers kunnen zien.",
+  "section.type.interactive": "Interactief",
+  "section.type.interactive.description": "Een interactieve sectie waar gebruikers taken kunnen oplossen.",
+  "section.create.metadata": "Metadata",
+  "section.create.quiz": "Quiz aanmaken",
+  "section.create.interactive": "Interactieve sectie aanmaken",
+  "intro": "Inleiding",
+  "interactive.create.step": "Een stap maken",
+  "interactive.step": "Stap"
 }

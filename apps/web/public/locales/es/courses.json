@@ -37,5 +37,14 @@
   "quiz": "Quiz",
   "quiz.text": "¡Mira lo bueno que has entendido esta lección! Esta prueba consiste en {0} preguntas.",
   "quiz.start": "Prueba de inicio",
-  "quit.restart": "Restart"
+  "quit.restart": "Restart",
+  "your.answer": "Su respuesta",
+  "correct": "¡Correcto!",
+  "correct.description": "Tu respuesta fue correcta.",
+  "wrong": "¡Mal!",
+  "wrong.description": "Tu respuesta estaba equivocada.",
+  "check": "Check",
+  "solve": "Liberación",
+  "interactive": "Interactivo",
+  "video": "Video"
 }

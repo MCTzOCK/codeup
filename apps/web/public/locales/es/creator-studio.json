@@ -119,5 +119,20 @@
   "error.saving": "Error al guardar",
   "delete.content": "Eliminar el contenido",
   "display.name": "Nombre de visualización",
-  "url": "URL"
+  "url": "URL",
+  "course.type": "Tipo de curso",
+  "course.type.video": "Video",
+  "course.type.interactive": "Interactivo",
+  "section.type": "Tipo de lección",
+  "section.choose.type": "Por favor, seleccione el tipo de nueva lección!",
+  "section.type.video": "Video",
+  "section.type.video.description": "Un video que los usuarios pueden ver.",
+  "section.type.interactive": "Interactivo",
+  "section.type.interactive.description": "Una sección interactiva donde los usuarios pueden resolver tareas.",
+  "section.create.metadata": "Metadatos",
+  "section.create.quiz": "Crear cuestionario",
+  "section.create.interactive": "Crear Sección Interactiva",
+  "intro": "Introducción",
+  "interactive.create.step": "Crear un paso",
+  "interactive.step": "Paso"
 }

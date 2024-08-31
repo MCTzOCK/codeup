@@ -37,5 +37,14 @@
   "quiz": "Quiz",
   "quiz.text": "Regarde comme tu as bien compris cette leçon ! Ce quiz se compose de questions {0}.",
   "quiz.start": "Démarrer le quiz",
-  "quit.restart": "Redémarrer"
+  "quit.restart": "Redémarrer",
+  "your.answer": "Votre réponse",
+  "correct": "Oui !",
+  "correct.description": "Votre réponse était correcte.",
+  "wrong": "Faux !",
+  "wrong.description": "Votre réponse était fausse.",
+  "check": "Vérification",
+  "solve": "Libération",
+  "interactive": "Interactive",
+  "video": "Vidéo"
 }

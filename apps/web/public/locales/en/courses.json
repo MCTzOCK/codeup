@@ -37,5 +37,14 @@
   "quiz": "Quiz",
   "quiz.text": "Look how good you understood this lesson! This quiz consists of {0} questions.",
   "quiz.start": "Start quiz",
-  "quit.restart": "Restart"
+  "quit.restart": "Restart",
+  "your.answer": "Your answer",
+  "correct": "Right!",
+  "correct.description": "Your answer was correct.",
+  "wrong": "Wrong!",
+  "wrong.description": "Your answer was wrong.",
+  "check": "Check",
+  "solve": "Release",
+  "interactive": "Interactive",
+  "video": "Video"
 }

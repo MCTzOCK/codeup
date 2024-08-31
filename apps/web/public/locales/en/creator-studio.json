@@ -119,5 +119,20 @@
   "error.saving": "Error when saving",
   "delete.content": "Delete content",
   "display.name": "Display name",
-  "url": "URL"
+  "url": "URL",
+  "course.type": "Course type",
+  "course.type.video": "Video",
+  "course.type.interactive": "Interactive",
+  "section.type": "Lesson type",
+  "section.choose.type": "Please select the type of new lesson!",
+  "section.type.video": "Video",
+  "section.type.video.description": "A video that users can see.",
+  "section.type.interactive": "Interactive",
+  "section.type.interactive.description": "An interactive section where users can solve tasks.",
+  "section.create.metadata": "Metadata",
+  "section.create.quiz": "Create quiz",
+  "section.create.interactive": "Create Interactive Section",
+  "intro": "Introduction",
+  "interactive.create.step": "Create a step",
+  "interactive.step": "Step"
 }

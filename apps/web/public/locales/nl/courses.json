@@ -37,5 +37,14 @@
   "quiz": "Quiz",
   "quiz.text": "Kijk hoe goed je deze les begreep! Deze quiz bestaat uit {0} vragen.",
   "quiz.start": "Quiz starten",
-  "quit.restart": "Herstarten"
+  "quit.restart": "Herstarten",
+  "your.answer": "Uw antwoord",
+  "correct": "Juist!",
+  "correct.description": "Je antwoord was juist.",
+  "wrong": "Fout!",
+  "wrong.description": "Je antwoord was verkeerd.",
+  "check": "Controleren",
+  "solve": "Loslaten",
+  "interactive": "Interactief",
+  "video": "Video"
 }

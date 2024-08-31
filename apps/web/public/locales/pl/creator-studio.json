@@ -119,5 +119,20 @@
   "error.saving": "Błąd podczas zapisywania",
   "delete.content": "Usuń zawartość",
   "display.name": "Wyświetl nazwę",
-  "url": "URL"
+  "url": "URL",
+  "course.type": "Typ kursu",
+  "course.type.video": "Wideo",
+  "course.type.interactive": "Interaktywna",
+  "section.type": "Rodzaj lekcji",
+  "section.choose.type": "Proszę wybrać typ nowej lekcji!",
+  "section.type.video": "Wideo",
+  "section.type.video.description": "Film, który użytkownicy mogą zobaczyć.",
+  "section.type.interactive": "Interaktywna",
+  "section.type.interactive.description": "Interaktywna sekcja, w której użytkownicy mogą rozwiązywać zadania.",
+  "section.create.metadata": "Metadane",
+  "section.create.quiz": "Utwórz quiz",
+  "section.create.interactive": "Utwórz interaktywną sekcję",
+  "intro": "Wprowadzenie",
+  "interactive.create.step": "Utwórz krok",
+  "interactive.step": "Krok"
 }

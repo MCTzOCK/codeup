@@ -119,5 +119,20 @@
   "error.saving": "Errore durante il salvataggio",
   "delete.content": "Eliminare il contenuto",
   "display.name": "Nome dell'esposizione",
-  "url": "URL PAGINA"
+  "url": "URL PAGINA",
+  "course.type": "Tipo di corso",
+  "course.type.video": "Video",
+  "course.type.interactive": "Interattivo",
+  "section.type": "Tipo di lezione",
+  "section.choose.type": "Si prega di selezionare il tipo di nuova lezione!",
+  "section.type.video": "Video",
+  "section.type.video.description": "Un video che gli utenti possono vedere.",
+  "section.type.interactive": "Interattivo",
+  "section.type.interactive.description": "Una sezione interattiva in cui gli utenti possono risolvere i compiti.",
+  "section.create.metadata": "Metadati",
+  "section.create.quiz": "Crea quiz",
+  "section.create.interactive": "Creare una sezione interattiva",
+  "intro": "Introduzione",
+  "interactive.create.step": "Creare un passo",
+  "interactive.step": "Passo"
 }

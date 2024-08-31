@@ -37,5 +37,14 @@
   "quiz": "Quiz",
   "quiz.text": "Guarda quanto hai capito questa lezione! Questo quiz è composto da {0} domande.",
   "quiz.start": "Iniziare quiz",
-  "quit.restart": "Riavviare"
+  "quit.restart": "Riavviare",
+  "your.answer": "La tua risposta",
+  "correct": "Giusto!",
+  "correct.description": "La tua risposta era corretta.",
+  "wrong": "Sbagliato!",
+  "wrong.description": "La tua risposta era sbagliata.",
+  "check": "Check",
+  "solve": "Comunicato",
+  "interactive": "Interattivo",
+  "video": "Video"
 }
