@@ -21,7 +21,9 @@ import {
   Link,
   ListItem,
   OrderedList,
+  Stack,
   Text,
+  Textarea,
   UnorderedList,
 } from "@chakra-ui/react";
 import ErrorComponent from "@codeup/components/global/ErrorComponent";
@@ -38,6 +40,8 @@ import PopupManager from "../../../global/PopupManager";
 import { sProp } from "../../../global/i18nstaticProps";
 import { useTranslation } from "next-i18next";
 import { translateOnlineV3 } from "../../../global/i18n/onlineTranslateV3";
+import { string } from "blockly/core/utils";
+import Highlight from "react-highlight";
 
 export default function SectionViewer() {
   const router = useRouter();
@@ -64,7 +68,7 @@ export default function SectionViewer() {
     displayName: string;
     course: string;
     url: string;
-    type: "TEXT" | "VIDEO";
+    type: "TEXT" | "VIDEO" | "INTERACTIVE";
     textContent: string;
     quiz: {
       question: string;
@@ -77,6 +81,16 @@ export default function SectionViewer() {
     createdAt: string;
     __v: number;
   }>();
+  const [intro, setIntro] = React.useState<string>("");
+  const [iSteps, setISteps] = React.useState<
+    {
+      text: string;
+      code: string;
+      language: string;
+      correct: string;
+      task: string;
+    }[]
+  >([]);
 
   const [contentPositions, setContentPositions] = useState<string[]>([]);
 
@@ -90,6 +104,11 @@ export default function SectionViewer() {
       if (res.status !== 200) {
         setNotFound(true);
       } else {
+        if (res.payload.content.type === "INTERACTIVE") {
+          const p = JSON.parse(res.payload.content.textContent);
+          setISteps(p.steps);
+          setIntro(p.intro);
+        }
         if (router.locale === "de") {
           setContent(res.payload.content);
         } else {
@@ -222,65 +241,169 @@ export default function SectionViewer() {
               <Heading size={"lg"} textAlign={"center"} mb={6}>
                 {content.displayName}
               </Heading>
-              {
-                // @ts-ignore
-                content.videoUrl !== "" && (
-                  <>
-                    <VideoPlayer
-                      url={
-                        // @ts-ignore
-                        content.videoUrl
-                      }
-                    />
-                  </>
-                )
-              }
-              {/* <MDRenderer content={content.textContent} /> */}
-              {content.textContent &&
-              content.textContent !== "__codeup.__no_text_content" ? (
-                <iframe
-                  src={
-                    "/api/course/" +
-                    courseQuery +
-                    "/" +
-                    sectionQuery +
-                    "?raw=true"
+              {content.type !== "INTERACTIVE" ? (
+                <>
+                  {
+                    // @ts-ignore
+                    content.videoUrl !== "" && (
+                      <>
+                        <VideoPlayer
+                          url={
+                            // @ts-ignore
+                            content.videoUrl
+                          }
+                        />
+                      </>
+                    )
                   }
-                  style={{
-                    width: "100%",
-                    minHeight: "50vh",
-                    height: "fit-content",
-                    border: "none",
-                    maxWidth: "100%",
-                  }}
-                  onLoad={(e) => {
-                    const iframe = e.target as HTMLIFrameElement;
+                  {/* <MDRenderer content={content.textContent} /> */}
+                  {content.textContent &&
+                  content.textContent !== "__codeup.__no_text_content" ? (
+                    <iframe
+                      src={
+                        "/api/course/" +
+                        courseQuery +
+                        "/" +
+                        sectionQuery +
+                        "?raw=true"
+                      }
+                      style={{
+                        width: "100%",
+                        minHeight: "50vh",
+                        height: "fit-content",
+                        border: "none",
+                        maxWidth: "100%",
+                      }}
+                      onLoad={(e) => {
+                        const iframe = e.target as HTMLIFrameElement;
 
-                    if (iframe && iframe.contentDocument) {
-                      iframe.contentDocument.body.style.maxWidth = "100%";
-                      iframe.contentDocument.body.style.overflowX = "hidden";
-                      iframe.contentDocument.body.style.margin = "0";
-                      iframe.contentDocument.body.style.padding = "0";
-                    }
-                  }}
-                />
-              ) : null}
-              {content.quiz && content.quiz.length > 0 && (
-                <Quiz
-                  title={content.displayName}
-                  questions={content.quiz}
-                  successCB={async () => {
-                    await REST.Course.updateCourseProgress({
-                      course: courseQuery,
-                      section: sectionQuery,
-                      token: AccountManager.getActiveToken(),
-                    });
-                    PopupManager.alertAsync({
-                      title: t("finished"),
-                      description: t("finished.section"),
-                    });
-                  }}
-                />
+                        if (iframe && iframe.contentDocument) {
+                          iframe.contentDocument.body.style.maxWidth = "100%";
+                          iframe.contentDocument.body.style.overflowX =
+                            "hidden";
+                          iframe.contentDocument.body.style.margin = "0";
+                          iframe.contentDocument.body.style.padding = "0";
+                        }
+                      }}
+                    />
+                  ) : null}
+                  {content.quiz && content.quiz.length > 0 && (
+                    <Quiz
+                      title={content.displayName}
+                      questions={content.quiz}
+                      successCB={async () => {
+                        await REST.Course.updateCourseProgress({
+                          course: courseQuery,
+                          section: sectionQuery,
+                          token: AccountManager.getActiveToken(),
+                        });
+                        PopupManager.alertAsync({
+                          title: t("finished"),
+                          description: t("finished.section"),
+                        });
+                      }}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <Stack spacing={4}>
+                    <Flex
+                      gap={2}
+                      direction={{
+                        base: "column",
+                        sm: "column",
+                        md: "row",
+                        lg: "row",
+                        xl: "row",
+                      }}
+                    >
+                      <Box flex={"100%"}>
+                        <Text fontSize={"lg"} mt={2}>
+                          {intro}
+                        </Text>
+                      </Box>
+                      <Box flex={"100%"}></Box>
+                    </Flex>
+                    {iSteps.map((step, index) => {
+                      return (
+                        <>
+                          <Flex
+                            gap={6}
+                            direction={{
+                              base: "column",
+                              sm: "column",
+                              md: "row",
+                              lg: "row",
+                              xl: "row",
+                            }}
+                          >
+                            <Box flex={"100%"}>
+                              <Text fontSize={"lg"} mt={2}>
+                                {step.text}
+                                <br />
+                                <Highlight
+                                  className={step.language + " code-block-cup"}
+                                >
+                                  {step.code}
+                                </Highlight>
+                                <br />
+                                {step.task}
+                              </Text>
+                              <Textarea
+                                mt={4}
+                                placeholder={t("your.answer")}
+                                id={"step-" + index + "-answer"}
+                                bg={"gray.600"}
+                                fontSize={"xl"}
+                              />
+                              <Flex gap={4} direction={"row"}>
+                                <Button
+                                  mt={4}
+                                  variant={"brand"}
+                                  onClick={() => {
+                                    const text = (
+                                      document.getElementById(
+                                        "step-" + index + "-answer"
+                                      ) as HTMLInputElement
+                                    ).value;
+
+                                    if (text === step.correct) {
+                                      PopupManager.alertAsync({
+                                        title: t("correct"),
+                                        description: t("correct.description"),
+                                      });
+                                    } else {
+                                      PopupManager.alertAsync({
+                                        title: t("wrong"),
+                                        description: t("wrong.description"),
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {t("check")}
+                                </Button>
+                                <Button
+                                  mt={4}
+                                  variant={"brand"}
+                                  onClick={() => {
+                                    (
+                                      document.getElementById(
+                                        "step-" + index + "-answer"
+                                      ) as HTMLInputElement
+                                    ).value = step.correct;
+                                  }}
+                                >
+                                  {t("solve")}
+                                </Button>
+                              </Flex>
+                            </Box>
+                          </Flex>
+                        </>
+                      );
+                    })}
+                  </Stack>
+                </>
               )}
               <ButtonGroup w={"100%"} mt={"2rem"}>
                 <Button
