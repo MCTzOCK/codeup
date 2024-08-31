@@ -72,20 +72,21 @@ export async function updateCourse(options: {
   });
 }
 export async function createContent(options: {
-  token: string;
+  quiz: any[];
+  interactiveSteps: {
+    text: string;
+    code: string;
+    language: string;
+    correct: string;
+    task: string;
+  }[];
+  videoUrl: string;
   displayName: string;
   course: string;
-  url: string;
-  type: "VIDEO" | "TEXT";
   textContent: string;
-  quiz: {
-    question: string;
-    answers: {
-      answer: string;
-      correct: boolean;
-    }[];
-  }[];
-  videoUrl?: string;
+  type: string;
+  url: string;
+  token: string;
 }): Promise<IResponse> {
   return makeRequest({
     method: "POST",

@@ -36,6 +36,7 @@ import { FaVideo } from "react-icons/fa";
 import { FaComputerMouse } from "react-icons/fa6";
 import PopupManager from "../../../../../global/PopupManager";
 import AdminQuizMaker from "@codeup/components/dist/admin/AdminQuizMaker";
+import InteractiveLessonCreator from "@codeup/components/creator/studio/InteractiveLessonCreator";
 
 export default function ContentCreator() {
   const router = useRouter();
@@ -58,6 +59,15 @@ export default function ContentCreator() {
     }[]
   >([]);
   const [intro, setIntro] = React.useState<string>("");
+  const [iSteps, setISteps] = React.useState<
+    {
+      text: string;
+      code: string;
+      language: string;
+      correct: string;
+      task: string;
+    }[]
+  >([]);
 
   useEffect(() => {
     if (!router || !router.query || !router.query.course) return;
@@ -336,6 +346,43 @@ export default function ContentCreator() {
                         placeholder={t("intro")}
                       />
                     </FormControl>
+                    <InteractiveLessonCreator
+                      steps={iSteps}
+                      setSteps={setISteps}
+                    />
+                    <br />
+                    <Button
+                      variant={"brand"}
+                      mt={4}
+                      onClick={async () => {
+                        const res = await REST.Creator.createContent({
+                          token: AccountManager.getActiveToken(),
+                          course: course,
+                          displayName: displayName,
+                          url: url,
+                          type: type as any,
+                          videoUrl: "",
+                          quiz: [],
+                          textContent: JSON.stringify({
+                            intro: intro,
+                            steps: iSteps,
+                          }),
+                        });
+
+                        if (res.status === 200) {
+                          router.push("/creator/studio/" + router.query.course);
+                        } else {
+                          await PopupManager.alertAsync({
+                            title: t("base:control.error"),
+                            description:
+                              t("base:control.error.request") +
+                              res.payload.error,
+                          });
+                        }
+                      }}
+                    >
+                      {t("create")}
+                    </Button>
                   </Box>
                 </>
               )}

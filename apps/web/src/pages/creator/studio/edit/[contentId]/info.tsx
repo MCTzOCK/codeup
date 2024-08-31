@@ -22,6 +22,7 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
@@ -29,10 +30,13 @@ import REST from "@codeup/rest";
 import CreatorStudioLayout from "@codeup/components/creator/studio/CreatorStudioLayout";
 import { FaPen } from "react-icons/fa";
 import AdminQuizMaker from "@codeup/components/admin/AdminQuizMaker";
+import InteractiveLessonCreator from "@codeup/components/creator/studio/InteractiveLessonCreator";
 import Head from "next/head";
 import { CHeading } from "@codeup/components/dist/global/CHeading";
 import { sProp } from "../../../../../global/i18nstaticProps";
 import { useTranslation } from "next-i18next";
+import { IResponse } from "@codeup/rest/dist/types/IResponse";
+import { string } from "blockly/core/utils";
 
 export default function Info() {
   const router = useRouter();
@@ -46,6 +50,7 @@ export default function Info() {
     course: string;
     url: string;
     textContent: string;
+    type: string;
     videoUrl: string;
     quiz: {
       question: string;
@@ -67,6 +72,16 @@ export default function Info() {
       }[];
     }[]
   >([]);
+  const [intro, setIntro] = React.useState<string>("");
+  const [iSteps, setISteps] = React.useState<
+    {
+      text: string;
+      code: string;
+      language: string;
+      correct: string;
+      task: string;
+    }[]
+  >([]);
 
   useEffect(() => {
     if (contentId) {
@@ -76,7 +91,13 @@ export default function Info() {
       }).then((res) => {
         if (res.status === 200) {
           setContent(res.payload.content);
-          setQuiz(res.payload.content.quiz);
+          if (res.payload.content.type === "INTERACTIVE") {
+            const p = JSON.parse(res.payload.content.textContent);
+            setISteps(p.steps);
+            setIntro(p.intro);
+          } else {
+            setQuiz(res.payload.content.quiz);
+          }
         } else {
           toast({
             title: t("base:control.error"),
@@ -137,7 +158,12 @@ export default function Info() {
                       />
                     </InputGroup>
                   </FormControl>
-                  <FormControl id="url">
+                  <FormControl
+                    id="url"
+                    display={
+                      content.type === "INTERACTIVE" ? "none" : "initial"
+                    }
+                  >
                     <FormLabel>{t("video.url")}</FormLabel>
                     <InputGroup>
                       <InputLeftElement>
@@ -150,10 +176,27 @@ export default function Info() {
                       />
                     </InputGroup>
                   </FormControl>
-                  <AdminQuizMaker
-                    quizQuestions={quiz}
-                    setQuizQuestions={setQuiz}
-                  />
+                  {content.type === "INTERACTIVE" ? (
+                    <>
+                      <FormControl id="intro">
+                        <FormLabel>{t("interactive.intro")}</FormLabel>
+                        <Textarea
+                          name={"intro"}
+                          defaultValue={intro}
+                          placeholder={t("interactive.intro")}
+                        />
+                      </FormControl>
+                      <InteractiveLessonCreator
+                        steps={iSteps}
+                        setSteps={setISteps}
+                      />
+                    </>
+                  ) : (
+                    <AdminQuizMaker
+                      quizQuestions={quiz}
+                      setQuizQuestions={setQuiz}
+                    />
+                  )}
                 </Stack>
               </Flex>
               <ButtonGroup
@@ -181,21 +224,42 @@ export default function Info() {
                     const url = document.querySelector(
                       "input[name=url]"
                     ) as HTMLInputElement;
-                    const videoUrl = document.querySelector(
-                      "input[name=video-url]"
-                    ) as HTMLInputElement;
+                    let res: IResponse;
 
-                    const res = await REST.Creator.updateContent({
-                      token: localStorage.getItem("token") as string,
-                      cid: content._id,
-                      update: {
-                        displayName: displayName.value || content.displayName,
-                        url: url.value || content.url,
-                        quiz: quiz || content.quiz,
-                        videoUrl: videoUrl.value || content.videoUrl,
-                      },
-                    });
+                    if (content.type === "INTERACTIVE") {
+                      const intro = document.querySelector(
+                        "textarea[name=intro]"
+                      ) as HTMLTextAreaElement;
 
+                      res = await REST.Creator.updateContent({
+                        token: localStorage.getItem("token") as string,
+                        cid: content._id,
+                        update: {
+                          displayName: displayName.value || content.displayName,
+                          url: url.value || content.url,
+                          quiz: quiz || content.quiz,
+                          textContent: JSON.stringify({
+                            steps: iSteps,
+                            intro: intro.value,
+                          }),
+                        },
+                      });
+                    } else {
+                      const videoUrl = document.querySelector(
+                        "input[name=video-url]"
+                      ) as HTMLInputElement;
+
+                      res = await REST.Creator.updateContent({
+                        token: localStorage.getItem("token") as string,
+                        cid: content._id,
+                        update: {
+                          displayName: displayName.value || content.displayName,
+                          url: url.value || content.url,
+                          quiz: quiz || content.quiz,
+                          videoUrl: videoUrl.value || content.videoUrl,
+                        },
+                      });
+                    }
                     if (res.status === 200) {
                       router.back();
                     } else {

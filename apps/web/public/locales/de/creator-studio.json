@@ -132,5 +132,7 @@
   "section.create.metadata": "Metadaten",
   "section.create.quiz": "Quiz erstellen",
   "section.create.interactive": "Interaktiven Abschnitt erstellen",
-  "intro": "Einleitung"
+  "intro": "Einleitung",
+  "interactive.create.step": "Schritt erstellen",
+  "interactive.step": "Schritt"
 }
