@@ -203,7 +203,17 @@ export default function Index() {
                   {t("course.by")} @{course.creator}
                 </chakra.sub>
               </CHeading>
-              <Flex direction={["column", "row"]} w={"100%"} mt={6}>
+              <Flex
+                direction={{
+                  base: "column",
+                  sm: "column",
+                  md: "row",
+                  lg: "row",
+                  xl: "row",
+                }}
+                w={"100%"}
+                mt={6}
+              >
                 <Box flex={"100%"}>
                   <Image
                     src={course.splashImage}
