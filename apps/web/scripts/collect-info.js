@@ -53,6 +53,26 @@ const getGitInfo = () => {
   INFO.git.lastCommitMessage = gitLastCommitMessage.replace("\n", "");
 };
 
+const getPackageInfoLC = () => {
+  const npmPackages = execSync("npx license-checker --json", {
+    cwd: path.join(__dirname, "..", "..", ".."),
+  });
+
+  const packages = JSON.parse(npmPackages.toString());
+
+  for (const p in packages) {
+    const name = p.startsWith("@") ? "@" + p.split("@")[1] : p.split("@")[0];
+    const version = p.split("@")[p.startsWith("@") ? 2 : 1];
+    INFO.packages.packages.push({
+      name: name,
+      version: version,
+      license: packages[p].licenses,
+    });
+
+    INFO.packages.count++;
+  }
+};
+
 const getPackageInfo = () => {
   const npmPackages = execSync("npm list --depth=0 --json", {
     cwd: root,
@@ -65,6 +85,7 @@ const getPackageInfo = () => {
       packages.push({
         name: i,
         version: pkg.dependencies[i].version,
+        license: pkg.dependencies[i].license,
       });
       if (pkg.dependencies[i].dependencies) {
         packages = packages.concat(getPackage(pkg.dependencies[i]));
@@ -84,6 +105,7 @@ const getPackageInfo = () => {
     INFO.packages.packages.push({
       name: p.name,
       version: p.version,
+      license: p.license,
     });
 
     INFO.packages.count++;
@@ -99,7 +121,7 @@ const getAppInfo = () => {
 };
 
 getGitInfo();
-getPackageInfo();
+getPackageInfoLC();
 getAppInfo();
 
 fs.writeFileSync(

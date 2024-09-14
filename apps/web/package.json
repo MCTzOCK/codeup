@@ -94,6 +94,7 @@
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.5.1",
     "jszip": "^3.10.1",
+    "license-checker": "^25.0.1",
     "markdown-to-jsx": "^7.1.8",
     "mime-types": "^2.1.35",
     "minio": "^8.0.0",
