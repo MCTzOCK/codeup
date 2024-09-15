@@ -1,0 +1,116 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'CodeUp REST API'
+  description: 'REST API for CodeUp'
+  contact:
+    email: 'ben@codeup.space'
+    name: 'Ben Siebert'
+    url: 'https://codeup.space/codeup/contact'
+host: "codeup.space"
+basePath: "/api"
+securityDefinitions:
+  JWT:
+    type: apiKey
+    name: X-JWT
+    in: header
+    description: 'JWT token'
+paths:
+  /challenges:
+    get:
+      summary: 'Get all challenges'
+      description: 'Returns all challenges'
+      operationId: 'getChallenges'
+      security:
+        - JWT: []
+      parameters:
+        - name: 'id'
+          type: string
+          in: query
+          description: 'ID of the challenge'
+          required: false
+      responses:
+        '200':
+          description: 'Successful operation'
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: 'Status code'
+              payload:
+                $ref: '#/definitions/CodeChallenge'
+  /challenges/completed:
+    get:
+      summary: 'Get all completed challenges'
+      description: 'Returns all completed challenges'
+      operationId: 'getCompletedChallenges'
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: 'Successful operation'
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: 'Status code'
+              payload:
+                type: array
+                items:
+                  $ref: '#/definitions/CodeChallenge'
+  /challenges/check:
+    post:
+      summary: 'Check a challenge'
+      description: 'Checks a challenge'
+      operationId: 'checkChallenge'
+      security:
+        - JWT: []
+      parameters:
+        - name: 'challengeId'
+          type: string
+          in: body
+          description: 'ID of the challenge'
+          required: true
+        - name: 'code'
+          type: string
+          in: body
+          description: 'Code to check'
+          required: true
+        - name: 'language'
+          type: string
+          in: body
+          description: 'Language of the code'
+          required: true
+      responses:
+        '200':
+          description: 'Successful operation'
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: 'Status code'
+              message:
+                type: string
+                description: 'The returned message'
+definitions:
+  CodeChallenge:
+    type: object
+    properties:
+      createdAt:
+        type: string
+        description: 'Date the challenge was created'
+      difficulty:
+        type: number
+        description: 'Difficulty of the challenge'
+      title:
+        type: string
+        description: 'Title of the challenge'
+      task:
+        type: string
+        description: 'Task of the challenge'
+      expectedOutput:
+        type: string
+        description: 'Expected output of the challenge'
