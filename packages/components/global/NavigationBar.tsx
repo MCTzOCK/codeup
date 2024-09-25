@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import {
   Badge,
   Box,
+  Button,
+  chakra,
   Divider,
   Drawer,
   DrawerBody,
@@ -24,7 +26,9 @@ import {
   Grid,
   GridItem,
   Heading,
+  HStack,
   IconButton,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -41,12 +45,13 @@ import {
   FaChild,
   FaComment,
   FaFileCode,
+  FaGlobe,
   FaProjectDiagram,
   FaRocket,
   FaSearch,
   FaTrophy,
 } from "react-icons/fa";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { BiCodeAlt, BiCodeBlock } from "react-icons/bi";
 import { TbCertificate } from "react-icons/tb";
 import { HiLightBulb } from "react-icons/hi";
@@ -61,11 +66,13 @@ import SuperText from "../landingpage/SuperText";
 import { useLoggedIn } from "@codeup/hooks";
 import { CHeading } from "./CHeading";
 import { useTranslation } from "next-i18next";
+import { FaCircle } from "react-icons/fa6";
 
 export default function NavigationBar(props: {
   disablePricing?: boolean;
   transparent?: boolean;
 }) {
+  const enableNewLookAndFeel = false;
   const { t } = useTranslation(["base", "navbar"]);
 
   const whatEverRef = React.useRef();
@@ -195,7 +202,7 @@ export default function NavigationBar(props: {
     },
     {
       name: t("products.incode", { ns: "navbar" }),
-      icon: <InCodeIcon />,
+      icon: <FaGlobe />,
       text: t("products.incode.text", { ns: "navbar" }),
       href: "/redirect?url=https://incode.codeup.space/docs/intro",
       category: "other",
@@ -419,238 +426,348 @@ export default function NavigationBar(props: {
             />
           </InputGroup>
         </Box>
-        <Grid
-          templateColumns={{
-            base: "repeat(1, 1fr)",
-            sm: "repeat(1, 1fr)",
-            lg: "repeat(2, 1fr)",
-          }}
-          gap={6}
-          m={{
-            base: -4,
-            lg: 0,
-          }}
-        >
-          <GridItem
-            borderStyle={"dashed"}
-            borderRadius={"6px"}
-            borderColor={"gray.700"}
-            borderWidth={"3px"}
-            p={2}
-            pt={0}
-            display={
-              filteredMoreOptions.filter(
-                (option) => option.category === "learn"
-              ).length > 0
-                ? "block"
-                : "none"
-            }
+        {enableNewLookAndFeel ? (
+          <Grid
+            templateColumns={{
+              base: "repeat(1, 1fr)",
+              sm: "repeat(1, 1fr)",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(4, 1fr)",
+            }}
+            gap={6}
+            m={{
+              base: -4,
+              lg: 0,
+            }}
           >
-            <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>
-                {t("categories.learn", { ns: "base" })}
-              </CHeading>
-            </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                lg: "repeat(2, 1fr)",
-              }}
-              gap={6}
-            >
-              {filteredMoreOptions
-                .filter((option) => option.category === "learn")
-                .map((option) => (
-                  <>
-                    <GridItem>
-                      <ExpandedMenuOption
-                        name={option.name}
-                        description={option.text}
-                        icon={option.icon}
-                        url={option.href}
-                      />
-                    </GridItem>
-                  </>
-                ))}
-            </Grid>
-          </GridItem>
-          <GridItem
-            borderStyle={"dashed"}
-            borderRadius={"6px"}
-            borderColor={"gray.700"}
-            borderWidth={"3px"}
-            p={2}
-            pt={0}
-            display={
-              filteredMoreOptions.filter(
-                (option) => option.category === "develop"
-              ).length > 0
-                ? "block"
-                : "none"
-            }
+            {filteredMoreOptions
+              .sort((a, b) => a.category.localeCompare(b.category))
+              .map((o) => (
+                <>
+                  <Box
+                    p={6}
+                    rounded={"3xl"}
+                    bg={"gray.700"}
+                    w={"100%"}
+                    minH={"20vh"}
+                    cursor={"pointer"}
+                    _hover={{
+                      backgroundColor: "gray.800",
+                    }}
+                    onClick={() => {
+                      onClose();
+                      onMoreMenuClose();
+                      router.push(o.href);
+                    }}
+                  >
+                    <Flex
+                      direction={{
+                        base: "column",
+                        sm: "column",
+                        lg: "row",
+                      }}
+                    >
+                      <Box flex={1}>
+                        <HStack
+                          justifyContent={"space-between"}
+                          alignItems={"center"}
+                        >
+                          <HStack
+                            spacing={2}
+                            alignItems={"center"}
+                            w={"fit-content"}
+                            rounded={"full"}
+                            bg={"gray.900"}
+                            paddingInline={2}
+                            paddingBlock={1}
+                          >
+                            <chakra.span
+                              color={
+                                o.category === "learn"
+                                  ? "brand.500"
+                                  : o.category === "develop"
+                                  ? "purple.500"
+                                  : o.category === "communicate"
+                                  ? "emerald.500"
+                                  : o.category === "plan"
+                                  ? "blue.500"
+                                  : "gray.500"
+                              }
+                              fontSize={"xx-small"}
+                            >
+                              <FaCircle />
+                            </chakra.span>
+                            <Text fontWeight={900}>
+                              {o.category === "learn"
+                                ? t("categories.learn")
+                                : o.category === "develop"
+                                ? t("categories.develop")
+                                : o.category === "communicate"
+                                ? t("categories.communicate")
+                                : o.category === "plan"
+                                ? t("categories.planning")
+                                : t("categories.other")}
+                            </Text>
+                          </HStack>
+                          <chakra.span fontSize={"2xl"} maxW={"20%"}>
+                            {o.icon}
+                          </chakra.span>
+                        </HStack>
+                        <CHeading
+                          size={"xl"}
+                          color={"white"}
+                          fontFamily={"Inter"}
+                          wordBreak={"break-word"}
+                          fontWeight={600}
+                          lineHeight={1.3}
+                          mt={4}
+                        >
+                          {o.name}
+                        </CHeading>
+                        <Text color={"gray.200"} fontSize={"md"} mt={4}>
+                          {o.text}
+                        </Text>
+                      </Box>
+                    </Flex>
+                  </Box>
+                </>
+              ))}
+          </Grid>
+        ) : (
+          <Grid
+            templateColumns={{
+              base: "repeat(1, 1fr)",
+              sm: "repeat(1, 1fr)",
+              lg: "repeat(2, 1fr)",
+            }}
+            gap={6}
+            m={{
+              base: -4,
+              lg: 0,
+            }}
           >
-            <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>
-                {t("categories.develop", { ns: "base" })}
-              </CHeading>
-            </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                lg: "repeat(2, 1fr)",
-              }}
-              gap={6}
+            <GridItem
+              borderStyle={"dashed"}
+              borderRadius={"6px"}
+              borderColor={"gray.700"}
+              borderWidth={"3px"}
+              p={2}
+              pt={0}
+              display={
+                filteredMoreOptions.filter(
+                  (option) => option.category === "learn"
+                ).length > 0
+                  ? "block"
+                  : "none"
+              }
             >
-              {filteredMoreOptions
-                .filter((option) => option.category === "develop")
-                .map((option) => (
-                  <>
-                    <GridItem>
-                      <ExpandedMenuOption
-                        name={option.name}
-                        description={option.text}
-                        icon={option.icon}
-                        url={option.href}
-                      />
-                    </GridItem>
-                  </>
-                ))}
-            </Grid>
-          </GridItem>
-          <GridItem
-            borderStyle={"dashed"}
-            borderRadius={"6px"}
-            borderColor={"gray.700"}
-            borderWidth={"3px"}
-            p={2}
-            pt={0}
-            display={
-              filteredMoreOptions.filter(
-                (option) => option.category === "communicate"
-              ).length > 0
-                ? "block"
-                : "none"
-            }
-          >
-            <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>
-                {t("categories.communicate", { ns: "base" })}
-              </CHeading>
-            </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                lg: "repeat(2, 1fr)",
-              }}
-              gap={6}
+              <Box textAlign={"center"} p={2}>
+                <CHeading size={"xl"}>
+                  {t("categories.learn", { ns: "base" })}
+                </CHeading>
+              </Box>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  sm: "repeat(1, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                }}
+                gap={6}
+              >
+                {filteredMoreOptions
+                  .filter((option) => option.category === "learn")
+                  .map((option) => (
+                    <>
+                      <GridItem>
+                        <ExpandedMenuOption
+                          name={option.name}
+                          description={option.text}
+                          icon={option.icon}
+                          url={option.href}
+                        />
+                      </GridItem>
+                    </>
+                  ))}
+              </Grid>
+            </GridItem>
+            <GridItem
+              borderStyle={"dashed"}
+              borderRadius={"6px"}
+              borderColor={"gray.700"}
+              borderWidth={"3px"}
+              p={2}
+              pt={0}
+              display={
+                filteredMoreOptions.filter(
+                  (option) => option.category === "develop"
+                ).length > 0
+                  ? "block"
+                  : "none"
+              }
             >
-              {filteredMoreOptions
-                .filter((option) => option.category === "communicate")
-                .map((option) => (
-                  <>
-                    <GridItem>
-                      <ExpandedMenuOption
-                        name={option.name}
-                        description={option.text}
-                        icon={option.icon}
-                        url={option.href}
-                      />
-                    </GridItem>
-                  </>
-                ))}
-            </Grid>
-          </GridItem>
-          <GridItem
-            borderStyle={"dashed"}
-            borderRadius={"6px"}
-            borderColor={"gray.700"}
-            borderWidth={"3px"}
-            p={2}
-            pt={0}
-            display={
-              filteredMoreOptions.filter((option) => option.category === "plan")
-                .length > 0
-                ? "block"
-                : "none"
-            }
-          >
-            <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>
-                {t("categories.planning", { ns: "base" })}
-              </CHeading>
-            </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                lg: "repeat(2, 1fr)",
-              }}
-              gap={6}
+              <Box textAlign={"center"} p={2}>
+                <CHeading size={"xl"}>
+                  {t("categories.develop", { ns: "base" })}
+                </CHeading>
+              </Box>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  sm: "repeat(1, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                }}
+                gap={6}
+              >
+                {filteredMoreOptions
+                  .filter((option) => option.category === "develop")
+                  .map((option) => (
+                    <>
+                      <GridItem>
+                        <ExpandedMenuOption
+                          name={option.name}
+                          description={option.text}
+                          icon={option.icon}
+                          url={option.href}
+                        />
+                      </GridItem>
+                    </>
+                  ))}
+              </Grid>
+            </GridItem>
+            <GridItem
+              borderStyle={"dashed"}
+              borderRadius={"6px"}
+              borderColor={"gray.700"}
+              borderWidth={"3px"}
+              p={2}
+              pt={0}
+              display={
+                filteredMoreOptions.filter(
+                  (option) => option.category === "communicate"
+                ).length > 0
+                  ? "block"
+                  : "none"
+              }
             >
-              {filteredMoreOptions
-                .filter((option) => option.category === "plan")
-                .map((option) => (
-                  <>
-                    <GridItem>
-                      <ExpandedMenuOption
-                        name={option.name}
-                        description={option.text}
-                        icon={option.icon}
-                        url={option.href}
-                      />
-                    </GridItem>
-                  </>
-                ))}
-            </Grid>
-          </GridItem>
-          <GridItem
-            borderStyle={"dashed"}
-            borderRadius={"6px"}
-            borderColor={"gray.700"}
-            borderWidth={"3px"}
-            p={2}
-            pt={0}
-            display={
-              filteredMoreOptions.filter(
-                (option) => option.category === "other"
-              ).length > 0
-                ? "block"
-                : "none"
-            }
-          >
-            <Box textAlign={"center"} p={2}>
-              <CHeading size={"xl"}>
-                {t("categories.other", { ns: "base" })}
-              </CHeading>
-            </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                lg: "repeat(2, 1fr)",
-              }}
-              gap={6}
+              <Box textAlign={"center"} p={2}>
+                <CHeading size={"xl"}>
+                  {t("categories.communicate", { ns: "base" })}
+                </CHeading>
+              </Box>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  sm: "repeat(1, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                }}
+                gap={6}
+              >
+                {filteredMoreOptions
+                  .filter((option) => option.category === "communicate")
+                  .map((option) => (
+                    <>
+                      <GridItem>
+                        <ExpandedMenuOption
+                          name={option.name}
+                          description={option.text}
+                          icon={option.icon}
+                          url={option.href}
+                        />
+                      </GridItem>
+                    </>
+                  ))}
+              </Grid>
+            </GridItem>
+            <GridItem
+              borderStyle={"dashed"}
+              borderRadius={"6px"}
+              borderColor={"gray.700"}
+              borderWidth={"3px"}
+              p={2}
+              pt={0}
+              display={
+                filteredMoreOptions.filter(
+                  (option) => option.category === "plan"
+                ).length > 0
+                  ? "block"
+                  : "none"
+              }
             >
-              {filteredMoreOptions
-                .filter((option) => option.category === "other")
-                .map((option) => (
-                  <>
-                    <GridItem>
-                      <ExpandedMenuOption
-                        name={option.name}
-                        description={option.text}
-                        icon={option.icon}
-                        url={option.href}
-                      />
-                    </GridItem>
-                  </>
-                ))}
-            </Grid>
-          </GridItem>
-        </Grid>
+              <Box textAlign={"center"} p={2}>
+                <CHeading size={"xl"}>
+                  {t("categories.planning", { ns: "base" })}
+                </CHeading>
+              </Box>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  sm: "repeat(1, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                }}
+                gap={6}
+              >
+                {filteredMoreOptions
+                  .filter((option) => option.category === "plan")
+                  .map((option) => (
+                    <>
+                      <GridItem>
+                        <ExpandedMenuOption
+                          name={option.name}
+                          description={option.text}
+                          icon={option.icon}
+                          url={option.href}
+                        />
+                      </GridItem>
+                    </>
+                  ))}
+              </Grid>
+            </GridItem>
+            <GridItem
+              borderStyle={"dashed"}
+              borderRadius={"6px"}
+              borderColor={"gray.700"}
+              borderWidth={"3px"}
+              p={2}
+              pt={0}
+              display={
+                filteredMoreOptions.filter(
+                  (option) => option.category === "other"
+                ).length > 0
+                  ? "block"
+                  : "none"
+              }
+            >
+              <Box textAlign={"center"} p={2}>
+                <CHeading size={"xl"}>
+                  {t("categories.other", { ns: "base" })}
+                </CHeading>
+              </Box>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  sm: "repeat(1, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                }}
+                gap={6}
+              >
+                {filteredMoreOptions
+                  .filter((option) => option.category === "other")
+                  .map((option) => (
+                    <>
+                      <GridItem>
+                        <ExpandedMenuOption
+                          name={option.name}
+                          description={option.text}
+                          icon={option.icon}
+                          url={option.href}
+                        />
+                      </GridItem>
+                    </>
+                  ))}
+              </Grid>
+            </GridItem>
+          </Grid>
+        )}
       </CodeUpModal>
     </>
   );
