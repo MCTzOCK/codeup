@@ -144,7 +144,11 @@ export default function Index() {
           <Box textAlign={"center"}>
             <CHeading size={"3xl"}>{t("courses")}</CHeading>
           </Box>
-          <Text fontSize={["xl", "2xl"]} textAlign={["center", "initial"]}>
+          <Text
+            fontSize={["xl", "2xl"]}
+            textAlign={["center", "center", "initial"]}
+            p={4}
+          >
             {t("current.stats")
               .replace("{0}", courses.length.toString())
               .replace(
@@ -156,9 +160,9 @@ export default function Index() {
               )}
           </Text>
           <InputGroup
-            w={["75%", "50%"]}
+            w={["75%", "75%", "50%"]}
             mt={"2rem"}
-            maxW={["75%", "50%"]}
+            maxW={["75%", "75%", "50%"]}
             boxShadow={"xl"}
           >
             <InputLeftElement pointerEvents="none">
