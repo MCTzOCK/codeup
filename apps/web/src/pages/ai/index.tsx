@@ -149,6 +149,7 @@ export default function Index() {
       </Head>
       <AppShell
         title={"Chats"}
+        noSorting={true}
         sub_pages={[
           {
             onClick: () => {
@@ -158,13 +159,20 @@ export default function Index() {
             icon: <FaPlus />,
             top: true,
           },
-          ...chats.map((c) => ({
-            text: new Date(c.createdAt).toLocaleString(),
-            icon: <FaLightbulb />,
-            onClick: () => {
-              setCurrentChat(c);
-            },
-          })),
+          ...chats
+            .sort((a, b) => {
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            })
+            .map((c) => ({
+              text: new Date(c.createdAt).toLocaleString(),
+              icon: <FaLightbulb />,
+              onClick: () => {
+                setCurrentChat(c);
+              },
+            })),
         ]}
       >
         <Flex justifyContent={"center"} h={"100vh"} w={"100%"}>

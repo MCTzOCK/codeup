@@ -39,6 +39,7 @@ export default function AppShell(props: {
     onClick?: () => void;
     top?: boolean;
   }[];
+  noSorting?: boolean;
 }) {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -86,7 +87,10 @@ export default function AppShell(props: {
               />
               {props.sub_pages
                 .filter((page) => page.top)
-                .sort((a, b) => a.text.localeCompare(b.text))
+                .sort((a, b) => {
+                  if (props.noSorting) return 0;
+                  return a.text.localeCompare(b.text);
+                })
                 .map((page) => (
                   <Button
                     variant={
