@@ -165,7 +165,7 @@ export default function Blogs() {
 
                   <Text>
                     von
-                    <chakra.span color={"blue.300"} ml={2}>
+                    <chakra.span color={"brand.500"} ml={2}>
                       @{blog.authorUsername}
                     </chakra.span>
                   </Text>
