@@ -13,6 +13,7 @@ module.exports = {
   i18n: {
     defaultLocale: "de",
     locales: ["de", "en", "fr", "es", "nl", "it", "pl", "pt"],
+    localeDetection: false,
   },
   defaultNS: "base",
   reloadOnPrerender: process.env.NODE_ENV === "development",
