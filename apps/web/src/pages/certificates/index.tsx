@@ -139,11 +139,10 @@ export default function Index() {
           w={"100%"}
           justifyContent="center"
           alignItems={"center"}
-          h={"fit-content"}
         >
           {courses.map((c) => (
             <>
-              <GridItem m={8}>
+              <GridItem m={8} h={"100%"}>
                 <Box
                   bg={"gray.900"}
                   color={"white"}
