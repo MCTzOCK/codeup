@@ -33,5 +33,15 @@
   "account.delete": "Account verwijderen",
   "account.delete.text": "Deze actie kan onder geen beding ongedaan worden gemaakt!",
   "account.delete.confirm": "Weet u zeker dat u uw account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt!",
-  "2fa.modal.text": "Scan de volgende QR-code met uw authenticatie-app om 2-factor authenticatie te activeren. Als u nog geen authenticatie-app, raden wij"
+  "2fa.modal.text": "Scan de volgende QR-code met uw authenticatie-app om 2-factor authenticatie te activeren. Als u nog geen authenticatie-app, raden wij",
+  "dev.doc.title": "Ontwikkelaar - CodeUp",
+  "dev.title": "Ontwikkelaar",
+  "dev.create": "Aanmaken",
+  "dev.app.name": "Naam",
+  "dev.app.desc": "Omschrijving",
+  "dev.app.redirect": "URI's omleiden",
+  "dev.app.redirect.desc": "Geef de URI's die u wilt gebruiken. Elke URI moet gescheiden worden met een regelbreuk.",
+  "dev.delete": "Verwijderen",
+  "dev.delete.desc": "Weet u zeker dat u deze app wilt verwijderen?",
+  "dev.edit": "Bewerken"
 }

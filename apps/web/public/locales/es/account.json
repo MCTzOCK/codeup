@@ -33,5 +33,15 @@
   "account.delete": "Suprimir la cuenta",
   "account.delete.text": "¡Esta acción no puede ser aprobada bajo ninguna circunstancia!",
   "account.delete.confirm": "¿Estás seguro de querer borrar tu cuenta? ¡Esta acción no puede ser aprobada!",
-  "2fa.modal.text": "Escanee el siguiente código QR con su aplicación de autenticación para activar la autenticación de 2 factores. Si aún no tienes aplicación de autenticación, te recomendamos"
+  "2fa.modal.text": "Escanee el siguiente código QR con su aplicación de autenticación para activar la autenticación de 2 factores. Si aún no tienes aplicación de autenticación, te recomendamos",
+  "dev.doc.title": "Desarrollador - CodeUp",
+  "dev.title": "Desarrollado",
+  "dev.create": "Crear",
+  "dev.app.name": "Nombre",
+  "dev.app.desc": "Descripción",
+  "dev.app.redirect": "Redirect URIs",
+  "dev.app.redirect.desc": "Especifique los Redirect URIs que desea utilizar. Cada URI debe estar separado con una ruptura de línea.",
+  "dev.delete": "Suprimir",
+  "dev.delete.desc": "¿Estás seguro de que quieres eliminar esta aplicación?",
+  "dev.edit": "Editar"
 }

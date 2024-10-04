@@ -33,5 +33,15 @@
   "account.delete": "Supprimer le compte",
   "account.delete.text": "Cette action ne peut être annulée en aucune circonstance!",
   "account.delete.confirm": "Voulez-vous vraiment supprimer votre compte? Cette action ne peut être annulée !",
-  "2fa.modal.text": "Scannez le code QR suivant avec votre application d'authentification pour activer l'authentification à 2 facteurs. Si vous n'avez pas encore d'application d'authentification, nous vous recommandons"
+  "2fa.modal.text": "Scannez le code QR suivant avec votre application d'authentification pour activer l'authentification à 2 facteurs. Si vous n'avez pas encore d'application d'authentification, nous vous recommandons",
+  "dev.doc.title": "Développeur - CodeUp",
+  "dev.title": "Développeur",
+  "dev.create": "Créer",
+  "dev.app.name": "Nom",
+  "dev.app.desc": "Désignation des marchandises",
+  "dev.app.redirect": "Rediriger les URI",
+  "dev.app.redirect.desc": "Spécifiez les URI que vous souhaitez utiliser. Chaque URI doit être séparé par une rupture de ligne.",
+  "dev.delete": "Supprimer",
+  "dev.delete.desc": "Voulez-vous vraiment supprimer cette application ?",
+  "dev.edit": "Modifier"
 }

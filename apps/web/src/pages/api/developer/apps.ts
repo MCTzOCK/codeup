@@ -84,8 +84,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         message: "App deleted",
       });
     } else if (req.method === "POST") {
-      const { name, description, logo, redirectUris } = req.body;
-      if (!name || !description || !logo || !redirectUris) {
+      const { name, description, redirectUris } = req.body;
+      if (!name || !description || !redirectUris) {
         res.status(400).json({
           status: 400,
           error: "Missing parameters",
@@ -97,7 +97,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         user: user._id,
         name,
         description,
-        logo,
         redirectUris,
       });
 
@@ -129,11 +128,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      const { name, description, logo, redirectUris } = req.body;
+      const { name, description, redirectUris } = req.body;
 
       if (name) app.name = name;
       if (description) app.description = description;
-      if (logo) app.logo = logo;
       if (redirectUris) app.redirectUris = redirectUris;
 
       await app.save();

@@ -1,5 +1,5 @@
 /**
- * packages/rest/src/api/Developer.ts
+ * packages/rest/src/api/api/developer.ts
  *
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
@@ -13,7 +13,7 @@ import makeRequest from "../makeRequest";
 export const Developer = {
   async getApps(token: string): Promise<IResponse> {
     return await makeRequest({
-      path: "/developer/apps",
+      path: "/api/developer/apps",
       method: "GET",
       token: token,
     });
@@ -21,14 +21,14 @@ export const Developer = {
   async getApp(token: string, id: string): Promise<IResponse> {
     return await makeRequest({
       method: "GET",
-      path: "/developer/apps?id=" + id,
+      path: "/api/developer/apps?id=" + id,
       token,
     });
   },
   async deleteApp(token: string, id: string): Promise<IResponse> {
     return await makeRequest({
       method: "DELETE",
-      path: "/developer/apps?id=" + id,
+      path: "/api/developer/apps?id=" + id,
       token,
     });
   },
@@ -37,13 +37,12 @@ export const Developer = {
     data: {
       name: string;
       description: string;
-      logo: string;
       redirectUris: string[];
     }
   ): Promise<IResponse> {
     return await makeRequest({
       method: "POST",
-      path: "/developer/apps",
+      path: "/api/developer/apps",
       token,
       body: data,
     });
@@ -54,13 +53,12 @@ export const Developer = {
     data: {
       name: string;
       description: string;
-      logo: string;
       redirectUris: string[];
     }
   ): Promise<IResponse> {
     return await makeRequest({
       method: "PUT",
-      path: "/developer/apps?id=" + id,
+      path: "/api/developer/apps?id=" + id,
       token,
       body: data,
     });

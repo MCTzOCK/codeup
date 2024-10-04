@@ -33,5 +33,15 @@
   "account.delete": "Usuń konto",
   "account.delete.text": "Działania tego nie można cofnąć w żadnym wypadku!",
   "account.delete.confirm": "Na pewno chcesz usunąć swoje konto? Tego działania nie da się cofnąć!",
-  "2fa.modal.text": "Przeskanuj następujący kod QR za pomocą aplikacji uwierzytelniającej, aby aktywować uwierzytelnianie 2- czynnik. Jeśli nie masz jeszcze aplikacji uwierzytelniającej, zalecamy"
+  "2fa.modal.text": "Przeskanuj następujący kod QR za pomocą aplikacji uwierzytelniającej, aby aktywować uwierzytelnianie 2- czynnik. Jeśli nie masz jeszcze aplikacji uwierzytelniającej, zalecamy",
+  "dev.doc.title": "Programista - CodeUp",
+  "dev.title": "Programista",
+  "dev.create": "Utwórz",
+  "dev.app.name": "Nazwa",
+  "dev.app.desc": "Opis",
+  "dev.app.redirect": "Przekierować URI",
+  "dev.app.redirect.desc": "Określ przekierowanie URI, które chcesz wykorzystać. Każdy URI musi być oddzielony przerwą.",
+  "dev.delete": "Usuń",
+  "dev.delete.desc": "Na pewno chcesz usunąć tę aplikację?",
+  "dev.edit": "Edycja"
 }

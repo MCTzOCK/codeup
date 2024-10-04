@@ -29,10 +29,6 @@ const OAuthApp = new mongoose.Schema({
     type: String,
     required: true,
   },
-  logo: {
-    type: String,
-    required: true,
-  },
   redirectUris: {
     type: [String],
     required: true,

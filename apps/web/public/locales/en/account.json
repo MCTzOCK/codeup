@@ -33,5 +33,15 @@
   "account.delete": "Delete account",
   "account.delete.text": "This action cannot be undone under any circumstances!",
   "account.delete.confirm": "Are you sure you want to delete your account? This action cannot be undone!",
-  "2fa.modal.text": "Scan the following QR code with your authentication app to activate 2-factor authentication. If you have no authentication app yet, we recommend"
+  "2fa.modal.text": "Scan the following QR code with your authentication app to activate 2-factor authentication. If you have no authentication app yet, we recommend",
+  "dev.doc.title": "Developer - CodeUp",
+  "dev.title": "Developer",
+  "dev.create": "Create",
+  "dev.app.name": "Name",
+  "dev.app.desc": "Description",
+  "dev.app.redirect": "Redirect URIs",
+  "dev.app.redirect.desc": "Specify the Redirect URIs you want to use. Each URI must be separated with a line break.",
+  "dev.delete": "Delete",
+  "dev.delete.desc": "Are you sure you want to delete this app?",
+  "dev.edit": "Edit"
 }

@@ -33,5 +33,15 @@
   "account.delete": "Excluir conta",
   "account.delete.text": "Esta ação não pode ser desfeita em nenhuma circunstância!",
   "account.delete.confirm": "Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita!",
-  "2fa.modal.text": "Digitalize o seguinte código QR com o aplicativo de autenticação para ativar a autenticação de 2 fatores. Se ainda não tiver nenhum aplicativo de autenticação, recomendamos"
+  "2fa.modal.text": "Digitalize o seguinte código QR com o aplicativo de autenticação para ativar a autenticação de 2 fatores. Se ainda não tiver nenhum aplicativo de autenticação, recomendamos",
+  "dev.doc.title": "Desenvolvedor - CodeUp",
+  "dev.title": "Desenvolvedor",
+  "dev.create": "Criar",
+  "dev.app.name": "Nome",
+  "dev.app.desc": "Descrição",
+  "dev.app.redirect": "URIs redirecionais",
+  "dev.app.redirect.desc": "Especifique os URIs Redirect que você deseja usar. Cada URI deve ser separada com uma quebra de linha.",
+  "dev.delete": "Excluir",
+  "dev.delete.desc": "Tem certeza de que deseja excluir este aplicativo?",
+  "dev.edit": "Editar"
 }

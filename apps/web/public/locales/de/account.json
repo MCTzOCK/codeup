@@ -35,5 +35,13 @@
   "account.delete.confirm": "Bist du dir sicher, dass du dein Konto löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!",
   "2fa.modal.text": "Scanne den folgenden QR-Code mit deiner Authentifizierungs-App, um die 2-Faktor-Authentifizierung zu aktivieren. Wenn du noch keine Authentifizierungs-App hast, empfehlen wir dir",
   "dev.doc.title": "Entwickler - CodeUp",
-  "dev.title": "Entwickler"
+  "dev.title": "Entwickler",
+  "dev.create": "Erstellen",
+  "dev.app.name": "Name",
+  "dev.app.desc": "Beschreibung",
+  "dev.app.redirect": "Redirect URIs",
+  "dev.app.redirect.desc": "Gib die Redirect URIs an, die du verwenden möchtest. Jede URI muss mit einem Zeilenumbruch getrennt werden.",
+  "dev.delete": "Löschen",
+  "dev.delete.desc": "Bist du dir sicher, dass du diese App löschen möchtest?",
+  "dev.edit": "Bearbeiten"
 }
