@@ -33,5 +33,7 @@
   "account.delete": "Konto löschen",
   "account.delete.text": "Diese Aktion kann unter keinen Umständen rückgängig gemacht werden!",
   "account.delete.confirm": "Bist du dir sicher, dass du dein Konto löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!",
-  "2fa.modal.text": "Scanne den folgenden QR-Code mit deiner Authentifizierungs-App, um die 2-Faktor-Authentifizierung zu aktivieren. Wenn du noch keine Authentifizierungs-App hast, empfehlen wir dir"
+  "2fa.modal.text": "Scanne den folgenden QR-Code mit deiner Authentifizierungs-App, um die 2-Faktor-Authentifizierung zu aktivieren. Wenn du noch keine Authentifizierungs-App hast, empfehlen wir dir",
+  "dev.doc.title": "Entwickler - CodeUp",
+  "dev.title": "Entwickler"
 }

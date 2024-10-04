@@ -326,8 +326,10 @@ import {
   getAIQuota,
 } from "./api/AI";
 import { createLevel, deleteLevel, myLevels, updateLevel } from "./api/Game";
+import { Developer } from "./api/Developer";
 
 const REST = {
+  Developer,
   Ask: {
     deletePost: deletePostA,
     createPost: createPostA,
