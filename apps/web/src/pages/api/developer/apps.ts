@@ -11,7 +11,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../global/server/isLoggedIn";
 import OAuthApp from "@codeup/util/src/models/OAuthApp";
-import OAuthGrantedModel from "@codeup/util/src/models/OAuthGrantedModel";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -67,15 +66,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         });
         return;
       }
-
-      const granted = await OAuthGrantedModel.find({
-        app: app._id,
-      });
-
-      for (const grant of granted) {
-        await grant.remove();
-      }
-
       await app.remove();
 
       res.status(200).json({

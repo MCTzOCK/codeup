@@ -54,5 +54,8 @@
   "dev.app.authorize.warning.text": "Ta aplikacja nie była koniecznie sprawdzana lub zatwierdzana przez CodeUp. Powinieneś tylko autoryzować aplikacje, którym ufasz.",
   "dev.app.authorize.official": "Oficjalna aplikacja",
   "dev.app.authorize.official.text": "Ta aplikacja jest oficjalną aplikacją CodeUp i została zweryfikowana przez CodeUp.",
-  "dev.app.doc.title": "Autoryzacja aplikacji - CodeUp"
+  "dev.app.doc.title": "Autoryzacja aplikacji - CodeUp",
+  "account.developer": "Menu programisty",
+  "account.developer.text": "Tutaj możesz tworzyć, edytować i usuwać aplikacje OAuth.",
+  "account.developer.open": "Rozmowy"
 }

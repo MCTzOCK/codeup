@@ -450,8 +450,25 @@ export default function Settings() {
                     await router.push("/");
                   }}
                   textTransform={"uppercase"}
+                  mt={2}
                 >
                   {t("account.delete")}
+                </Button>
+              </FormControl>
+            </Stack>
+            <Stack gap={2} mt={2}>
+              <FormControl>
+                <FormLabel>{t("account.developer")}</FormLabel>
+                <Text>{t("account.developer.text")}</Text>
+                <Button
+                  w={"100%"}
+                  variant={"brand"}
+                  onClick={async () => {
+                    router.push("/account/developer");
+                  }}
+                  mt={2}
+                >
+                  {t("account.developer.open")}
                 </Button>
               </FormControl>
             </Stack>

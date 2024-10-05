@@ -54,5 +54,8 @@
   "dev.app.authorize.warning.text": "Deze app is niet per se gecontroleerd of goedgekeurd door CodeUp. Je moet alleen apps goedkeuren die je vertrouwt.",
   "dev.app.authorize.official": "Officiële app",
   "dev.app.authorize.official.text": "Deze app is een officiële CodeUp app en is beoordeeld door CodeUp.",
-  "dev.app.doc.title": "Authorize app - CodeUp"
+  "dev.app.doc.title": "Authorize app - CodeUp",
+  "account.developer": "Menu Ontwikkelaar",
+  "account.developer.text": "Hier kunt u OAuth-apps maken, bewerken en verwijderen.",
+  "account.developer.open": "Oproepen"
 }
