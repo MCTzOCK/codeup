@@ -9,7 +9,7 @@
  */
 import * as jwt from "jsonwebtoken";
 
-export default function generateJWT(user: any) {
+export default function generateJWT(user: any, expiresIn?: string) {
   return jwt.sign(
     {
       id: user._id,
@@ -24,7 +24,7 @@ export default function generateJWT(user: any) {
     },
     process.env.JWT_SECRET as string,
     {
-      expiresIn: "30d",
+      expiresIn: expiresIn || "30d",
     }
   );
 }
