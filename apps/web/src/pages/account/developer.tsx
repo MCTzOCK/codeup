@@ -30,7 +30,7 @@ import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import GridLayoutV2 from "@codeup/components/dist/global/GridLayoutV2";
 import { FaLink, FaPen, FaPlus, FaTrash } from "react-icons/fa";
-import { FaFileLines } from "react-icons/fa6";
+import { FaFileLines, FaHashtag } from "react-icons/fa6";
 import PopupManager from "../../global/PopupManager";
 
 export default function Developer() {
@@ -274,6 +274,10 @@ export default function Developer() {
               ],
             ],
             fields: [
+              {
+                icon: <FaHashtag />,
+                text: app._id,
+              },
               {
                 icon: <FaFileLines />,
                 text: app.description,

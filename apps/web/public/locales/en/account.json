@@ -43,5 +43,16 @@
   "dev.app.redirect.desc": "Specify the Redirect URIs you want to use. Each URI must be separated with a line break.",
   "dev.delete": "Delete",
   "dev.delete.desc": "Are you sure you want to delete this app?",
-  "dev.edit": "Edit"
+  "dev.edit": "Edit",
+  "dev.app.loading": "Loading app...",
+  "dev.app.authorize": "An app wants to access your account.",
+  "dev.app.authorize.text": "The app wants to access your account. This allows the app to access your account for 24 hours and can perform all actions in your name. If you don't trust this app, click 'Stop'.",
+  "dev.app.authorize.redirect": "You will be forwarded to the following page:",
+  "dev.app.authorize.button": "Authorization",
+  "dev.app.authorize.cancel": "Cancel",
+  "dev.app.authorize.warning": "Warning",
+  "dev.app.authorize.warning.text": "This app was not necessarily checked or approved by CodeUp. You should only authorize apps you trust.",
+  "dev.app.authorize.official": "Official app",
+  "dev.app.authorize.official.text": "This app is an official CodeUp app and has been reviewed by CodeUp.",
+  "dev.app.doc.title": "Authorize app - CodeUp"
 }

@@ -22,7 +22,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       if (req.query.id) {
         const app = await OAuthApp.findOne({
           _id: req.query.id,
-          user: user._id,
         });
 
         if (!app) {

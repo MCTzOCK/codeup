@@ -43,5 +43,16 @@
   "dev.app.redirect.desc": "Geef de URI's die u wilt gebruiken. Elke URI moet gescheiden worden met een regelbreuk.",
   "dev.delete": "Verwijderen",
   "dev.delete.desc": "Weet u zeker dat u deze app wilt verwijderen?",
-  "dev.edit": "Bewerken"
+  "dev.edit": "Bewerken",
+  "dev.app.loading": "App laden...",
+  "dev.app.authorize": "Een app wil toegang tot uw account.",
+  "dev.app.authorize.text": "De app wil toegang tot uw account. Hierdoor heeft de app 24 uur lang toegang tot uw account en kunnen alle acties op uw naam worden uitgevoerd. Als u deze app niet vertrouwt, klikt u op 'Stop'.",
+  "dev.app.authorize.redirect": "U wordt doorgestuurd naar de volgende pagina:",
+  "dev.app.authorize.button": "Vergunning",
+  "dev.app.authorize.cancel": "Annuleren",
+  "dev.app.authorize.warning": "Waarschuwing",
+  "dev.app.authorize.warning.text": "Deze app is niet per se gecontroleerd of goedgekeurd door CodeUp. Je moet alleen apps goedkeuren die je vertrouwt.",
+  "dev.app.authorize.official": "Officiële app",
+  "dev.app.authorize.official.text": "Deze app is een officiële CodeUp app en is beoordeeld door CodeUp.",
+  "dev.app.doc.title": "Authorize app - CodeUp"
 }

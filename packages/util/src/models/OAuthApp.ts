@@ -33,6 +33,11 @@ const OAuthApp = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  verified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 export default mongoose.models?.OAuthApp ||

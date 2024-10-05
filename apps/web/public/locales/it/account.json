@@ -43,5 +43,16 @@
   "dev.app.redirect.desc": "Specificare gli URI Redirect che si desidera utilizzare. Ogni URI deve essere separato con una pausa di linea.",
   "dev.delete": "Cancella",
   "dev.delete.desc": "Sei sicuro di voler eliminare questa applicazione?",
-  "dev.edit": "Modifica"
+  "dev.edit": "Modifica",
+  "dev.app.loading": "Caricamento app...",
+  "dev.app.authorize": "Un'app vuole accedere al tuo account.",
+  "dev.app.authorize.text": "L'app vuole accedere al tuo account. Questo consente all'app di accedere al tuo account per 24 ore e può eseguire tutte le azioni a tuo nome. Se non ti fidi di questa app, fai clic su 'Stop'.",
+  "dev.app.authorize.redirect": "Sarete inoltrati alla seguente pagina:",
+  "dev.app.authorize.button": "Autorizzazione",
+  "dev.app.authorize.cancel": "Annulla",
+  "dev.app.authorize.warning": "Avvertenza",
+  "dev.app.authorize.warning.text": "Questa applicazione non è stata necessariamente controllata o approvata da CodeUp. Dovresti autorizzare solo le app di cui ti fidi.",
+  "dev.app.authorize.official": "App ufficiale",
+  "dev.app.authorize.official.text": "Questa applicazione è un'app ufficiale CodeUp ed è stata controllata da CodeUp.",
+  "dev.app.doc.title": "Autorizzazione app - CodeUp"
 }
