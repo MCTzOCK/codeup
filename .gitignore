@@ -47,5 +47,6 @@ apps/web/b.js
 apps/web/done.json
 
 .env.web
+.env.gql
 
 *.docx

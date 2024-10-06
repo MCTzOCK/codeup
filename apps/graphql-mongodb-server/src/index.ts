@@ -62,7 +62,7 @@ import UserAIChatModel from "@codeup/util/dist/models/UserAIChatModel";
 import mongoose from "mongoose";
 import { GraphQLError } from "graphql/error";
 
-config();
+//config();
 
 (async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
