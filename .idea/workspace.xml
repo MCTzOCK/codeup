@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Dockerfile.graphql-server" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/admin/src/app/users/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/admin/src/app/users/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/graphql-mongodb-server/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/graphql-mongodb-server/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/graphql-mongodb-server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/graphql-mongodb-server/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -60,6 +60,7 @@ import UserDashboardPreferencesModel from "@codeup/util/dist/models/UserDashboar
 import UserXPModel from "@codeup/util/dist/models/UserXPModel";
 import UserAIChatModel from "@codeup/util/dist/models/UserAIChatModel";
 import mongoose from "mongoose";
+import { GraphQLError } from "graphql/error";
 
 config();
 
@@ -333,6 +334,18 @@ config();
 
   const server = new ApolloServer({
     schema: graphqlSchema,
+    context: ({ req }) => {
+      const admin_key = req.headers.authorization || "";
+      if (admin_key !== process.env.ADMIN_KEY) {
+        throw new GraphQLError("User not authorized", {
+          extensions: {
+            code: "UNAUTHORIZED",
+            http: { status: 401 },
+          },
+        });
+      }
+      return { admin_key };
+    },
   });
 
   const port = process.env.PORT || 4000;
