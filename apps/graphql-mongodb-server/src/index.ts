@@ -312,18 +312,27 @@ config();
   const newMutations: any = {};
 
   for (const key in data) {
+    // @ts-ignore
     newFields[key + "ById"] = data[key].tc.mongooseResolvers.findById();
+    // @ts-ignore
     newFields[key + "ByIds"] = data[key].tc.mongooseResolvers.findByIds();
+    // @ts-ignore
     newFields[key + "One"] = data[key].tc.mongooseResolvers.findOne();
+    // @ts-ignore
     newFields[key + "Many"] = data[key].tc.mongooseResolvers.findMany();
+    // @ts-ignore
     newFields[key + "Count"] = data[key].tc.mongooseResolvers.count();
+    // @ts-ignore
     newFields[key + "Connection"] = data[key].tc.mongooseResolvers.connection();
+    // @ts-ignore
     newFields[key + "Pagination"] = data[key].tc.mongooseResolvers.pagination();
-
+    // @ts-ignore
     newMutations[key + "Create"] = data[key].tc.mongooseResolvers.createOne();
     newMutations[key + "UpdateById"] =
+      // @ts-ignore
       data[key].tc.mongooseResolvers.updateById();
     newMutations[key + "RemoveById"] =
+      // @ts-ignore
       data[key].tc.mongooseResolvers.removeById();
   }
 

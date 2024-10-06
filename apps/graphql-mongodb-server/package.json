@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsx src/index.ts"
+    "start:dev": "tsx src/index.ts",
+    "start": "node dist/index.js"
   },
   "author": "",
   "license": "UNLICENSED",
