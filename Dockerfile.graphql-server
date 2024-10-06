@@ -3,6 +3,6 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 RUN npm i -g turbo
 COPY ./ /usr/src/app/
-RUN yarn
+RUN yarn && turbo run build --filter=@codeup/util
 EXPOSE 4000
 CMD turbo run start --filter=@codeup/graphql-mongodb-server
