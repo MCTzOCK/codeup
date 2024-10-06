@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.graphql-server
     network_mode: host
     ports:
-      - "4000:4000"
+      - "4001:4000"
     env_file: ".env.gql"
     user: "root"
     restart: unless-stopped
