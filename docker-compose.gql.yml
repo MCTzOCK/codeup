@@ -4,7 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.graphql-server
-    network_mode: host
     ports:
       - "4001:4000"
     env_file: ".env.gql"

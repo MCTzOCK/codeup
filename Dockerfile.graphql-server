@@ -5,4 +5,4 @@ RUN npm i -g turbo
 COPY ./ /usr/src/app/
 RUN yarn
 EXPOSE 4000
-CMD yarn --cwd apps/graphql-mongodb-server start
+CMD turbo run start --filter=@codeup/graphql-mongodb-server
