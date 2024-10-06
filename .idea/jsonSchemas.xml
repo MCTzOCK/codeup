@@ -46,6 +46,9 @@
                   <Item>
                     <option name="path" value="docker-compose.online.yaml" />
                   </Item>
+                  <Item>
+                    <option name="path" value="docker-compose.gql.yml" />
+                  </Item>
                 </list>
               </option>
             </SchemaInfo>
