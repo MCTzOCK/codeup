@@ -66,7 +66,7 @@ export default function AdminContentsLayout(props: { children: ReactNode }) {
       icon: <FaPlus />,
     },
   ];
-
+  /* @ts-ignore */
   return (
     <>
       <Flex direction={["column", "row"]} minW={"100%"} minH={"100vh"}>

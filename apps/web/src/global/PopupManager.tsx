@@ -15,13 +15,13 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import PromptPopupComponent from "./PopupManager/PromptPopupComponent";
 import theme from "./theme";
 import ConfirmPopupComponent from "./PopupManager/ConfirmPopupComponent";
 import AlertPopupComponent from "./PopupManager/AlertPopupComponent";
 import SelectPopupComponent from "./PopupManager/SelectPopupComponent";
-import * as React from "react";
+import React from "react";
 import { ReactNode } from "react";
 import { FaFile } from "react-icons/fa";
 import router from "next/router";

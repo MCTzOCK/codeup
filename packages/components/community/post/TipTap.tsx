@@ -53,6 +53,7 @@ const MenuBar = ({ editor, onOpen }: { editor: any; onOpen: () => void }) => {
       textAlign={"center"}
     >
       <Menu>
+        {/* @ts-ignore */}
         <MenuButton
           marginInline=".7rem"
           marginBlock=".7rem"

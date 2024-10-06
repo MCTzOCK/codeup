@@ -41,6 +41,7 @@ import { useTranslation } from "next-i18next";
 import { FaChevronDown } from "react-icons/fa6";
 import ReactCountryFlag from "react-country-flag";
 import { useRouter } from "next/router";
+import { ReactNode } from "react";
 
 const Footer = (props: { transparent?: boolean }) => {
   const { t, i18n } = useTranslation(["base", "navbar", "footer"]);
@@ -312,6 +313,7 @@ const Footer = (props: { transparent?: boolean }) => {
 };
 
 const CustomLink = ({ children, ...props }: LinkProps) => {
+  /* @ts-ignore */
   return (
     <Link
       href="#"

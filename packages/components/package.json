@@ -9,8 +9,7 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
-    "tsconfig": "*",
-    "typescript": "^4.5.2"
+    "tsconfig": "*"
   },
   "dependencies": {
     "@brainstack/diagram": "^1.0.16",
@@ -23,8 +22,8 @@
     "@emotion/styled": "^11",
     "@monaco-editor/react": "4.4.5",
     "@react-email/components": "0.0.6",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^17.0.11",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "ansi-to-react": "^6.1.6",
     "framer-motion": "^6.5.1",
     "i18next": "^23.12.2",
@@ -40,6 +39,7 @@
     "react-player": "^2.11.0",
     "react-use-measure": "^2.1.1",
     "reactflow": "^11.3.0",
-    "socket.io-client": "^4.5.4"
+    "socket.io-client": "^4.5.4",
+    "typescript": "4.7.3"
   }
 }

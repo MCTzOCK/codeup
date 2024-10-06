@@ -5,6 +5,7 @@
     "lib": ["DOM"],
     "jsx": "react",
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+
   }
 }
