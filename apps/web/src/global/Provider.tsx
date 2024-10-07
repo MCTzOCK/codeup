@@ -1,0 +1,86 @@
+/**
+ * apps/web/src/global/Provider.tsx
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 07.10.2024
+ *
+ */
+
+import * as React from "react";
+import { useRouter } from "next/router";
+import { MantineProvider } from "@mantine/core";
+import { mantineTheme } from "./mantine.theme";
+import { Box, ChakraProvider } from "@chakra-ui/react";
+import theme from "./theme";
+import CommandPalette from "@codeup/components/dist/global/CommandPalette";
+import { Footer, NavigationBar } from "@codeup/components/dist/global";
+import { CommunityNavigationBar } from "@codeup/components/dist/community";
+import ForumNavigationBar from "@codeup/components/dist/forum/ForumNavigationBar";
+import { PostButton } from "@codeup/components/dist/community/post";
+
+export default function Provider(props: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  if (router.pathname.startsWith("/mantine")) {
+    return (
+      <>
+        <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
+          {props.children}
+        </MantineProvider>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <ChakraProvider theme={theme}>
+        <ChakraChildren children={props.children} usingMv2={false} />
+      </ChakraProvider>
+    </>
+  );
+}
+
+function ChakraChildren(props: {
+  children: React.ReactNode;
+  usingMv2: boolean;
+}) {
+  const router = useRouter();
+  return (
+    <>
+      <CommandPalette />
+      <Box minH="100vh" minW="100%">
+        {!props.usingMv2 && (
+          <NavigationBar
+            disablePricing={
+              //process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
+              true
+            }
+            transparent={["/", "/home.v4"].includes(router.pathname as string)}
+          />
+        )}
+        <Box
+          minH={"96vh"}
+          bg={router.pathname.startsWith("/forum") ? "#000" : undefined}
+        >
+          {router.pathname.startsWith("/community") ? (
+            <CommunityNavigationBar />
+          ) : null}
+          {router.pathname.startsWith("/forum") ? <ForumNavigationBar /> : null}
+
+          <Box id={"__codeup_manual_mount_point"}></Box>
+
+          {props.children}
+
+          {router.pathname.startsWith("/community") ? <PostButton /> : null}
+        </Box>
+        {!props.usingMv2 && (
+          <Footer
+            transparent={["/", "/home.v4"].includes(router.pathname as string)}
+          />
+        )}
+      </Box>
+    </>
+  );
+}

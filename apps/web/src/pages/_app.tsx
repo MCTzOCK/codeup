@@ -1,3 +1,4 @@
+import "@mantine/core/styles.css";
 import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import "reactflow/dist/style.css";
@@ -22,6 +23,9 @@ import Tracker from "../special-components/Tracker";
 import "../styles/rrweb.custom.css";
 import { appWithTranslation } from "next-i18next";
 import PopupManager from "../global/PopupManager";
+import { MantineProvider } from "@mantine/core";
+import { mantineTheme } from "../global/mantine.theme";
+import Provider from "../global/Provider";
 /*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
@@ -127,47 +131,10 @@ function App({ Component, pageProps }: AppProps) {
         }}
       />
       <Tracker>
-        <ChakraProvider theme={theme}>
-          <CommandPalette />
-          <Box minH="100vh" minW="100%">
-            <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-            {!usingMv2 && (
-              <NavigationBar
-                disablePricing={
-                  //process.env.NEXT_PUBLIC_DISABLE_PAYMENTS === "true"
-                  true
-                }
-                transparent={["/", "/home.v4"].includes(
-                  router.pathname as string
-                )}
-              />
-            )}
-            <Box
-              minH={"96vh"}
-              bg={router.pathname.startsWith("/forum") ? "#000" : undefined}
-            >
-              {router.pathname.startsWith("/community") ? (
-                <CommunityNavigationBar />
-              ) : null}
-              {router.pathname.startsWith("/forum") ? (
-                <ForumNavigationBar />
-              ) : null}
-
-              <Box id={"__codeup_manual_mount_point"}></Box>
-
-              <Component {...pageProps} />
-
-              {router.pathname.startsWith("/community") ? <PostButton /> : null}
-            </Box>
-            {!usingMv2 && (
-              <Footer
-                transparent={["/", "/home.v4"].includes(
-                  router.pathname as string
-                )}
-              />
-            )}
-          </Box>
-        </ChakraProvider>
+        <div id={"__codeup_other_component_render_space_do_not_use"}></div>
+        <Provider>
+          <Component {...pageProps} />
+        </Provider>
       </Tracker>
     </>
   );

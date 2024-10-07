@@ -12,11 +12,14 @@ import * as React from "react";
 import { Head, Html, Main, NextScript } from "next/document";
 import { ColorModeScript } from "@chakra-ui/react";
 import Script from "next/script";
+import { ColorSchemeScript } from "@mantine/core";
 
 export default function Document() {
   return (
     <Html lang={"en"}>
-      <Head />
+      <Head>
+        <ColorSchemeScript defaultColorScheme="dark" />
+      </Head>
       <body>
         <ColorModeScript initialColorMode={"dark"} />
         <Main />

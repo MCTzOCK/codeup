@@ -15,8 +15,9 @@ export default function useUserLoggedInRedirect(options: {
   allowAnonymous?: boolean;
   redirectTo?: string;
   redirectToLogin?: boolean;
+  onlyAdmin?: boolean;
 }) {
-  const { loaded, loggedIn } = useLoggedIn();
+  const { loaded, loggedIn, userInfo } = useLoggedIn();
 
   useEffect(() => {
     if (!loaded) return;
@@ -24,5 +25,9 @@ export default function useUserLoggedInRedirect(options: {
     if (!loggedIn && !options.allowAnonymous) {
       window.location.href = "/#login";
     }
-  }, [loaded, loggedIn]);
+
+    if (options.onlyAdmin && userInfo && userInfo.role !== "admin") {
+      window.location.href = "/";
+    }
+  }, [loaded, loggedIn, userInfo]);
 }
