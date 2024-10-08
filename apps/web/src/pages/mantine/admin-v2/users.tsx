@@ -17,6 +17,7 @@ import PopupManager from "../../../global/PopupManager";
 import {
   Card,
   Center,
+  Button,
   Container,
   Pagination,
   SimpleGrid,
@@ -29,6 +30,7 @@ import {
   Avatar,
   Title,
 } from "@mantine/core";
+import { FaEye } from "react-icons/fa";
 
 export default function Users() {
   const [pages, setPages] = React.useState<number>(0);
@@ -129,6 +131,14 @@ export default function Users() {
                   at&nbsp;
                   {new Date(record.createdAt).toLocaleString()}.
                 </Text>
+                <Button
+                  leftSection={<FaEye />}
+                  radius={"md"}
+                  fullWidth
+                  mt={"md"}
+                >
+                  Details
+                </Button>
               </Card>
             ))}
           </SimpleGrid>
