@@ -48,6 +48,9 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
           breakpoint: "sm",
           collapsed: { mobile: !opened },
         }}
+        style={{
+          backgroundColor: "var(--mantine-color-dark-9)",
+        }}
       >
         <AppShell.Header>
           <Burger

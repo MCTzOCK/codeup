@@ -26,9 +26,13 @@ export default function Provider(props: { children: React.ReactNode }) {
   if (router.pathname.startsWith("/mantine")) {
     return (
       <>
-        <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
-          {props.children}
-        </MantineProvider>
+        <div id={"__codeup_manual_mount_point"} />
+
+        <ChakraProvider theme={theme}>
+          <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
+            {props.children}
+          </MantineProvider>
+        </ChakraProvider>
       </>
     );
   }

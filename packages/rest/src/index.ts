@@ -172,6 +172,7 @@ import {
   updateChallenge,
   CDN,
   SessionReplay,
+  paginateData,
 } from "./api/Admin";
 
 import {
@@ -347,6 +348,7 @@ const REST = {
     finalCheck,
   },
   Admin: {
+    paginateData,
     SessionReplay,
     CDN,
     getErrors,

@@ -889,3 +889,22 @@ export const SessionReplay = {
     });
   },
 };
+
+export function paginateData(options: {
+  token: string;
+  model: string;
+  page: number;
+  query: string;
+  queryKey: string;
+}): Promise<IResponse> {
+  const usp = new URLSearchParams();
+  usp.append("model", options.model);
+  usp.append("page", options.page.toString());
+  usp.append("query", options.query);
+  usp.append("queryKey", options.queryKey);
+  return makeRequest({
+    method: "GET",
+    token: options.token,
+    path: "/api/admin/paginated-data?" + usp.toString(),
+  });
+}
