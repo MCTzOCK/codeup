@@ -132,7 +132,12 @@ function App({ Component, pageProps }: AppProps) {
       />
       <Tracker>
         <div id={"__codeup_other_component_render_space_do_not_use"}></div>
-        <Provider>
+        <Provider
+          noLayout={
+            // @ts-ignore
+            Component.noLayout ? Component.noLayout : usingMv2
+          }
+        >
           <Component {...pageProps} />
         </Provider>
       </Tracker>

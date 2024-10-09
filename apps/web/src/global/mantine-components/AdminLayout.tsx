@@ -23,7 +23,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "next-i18next";
-import { FaChartGantt } from "react-icons/fa6";
+import { FaChartGantt, FaFileLines } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import { FaUsers } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
@@ -80,14 +80,19 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
             {(
               [
                 {
-                  href: "/mantine/admin-v2",
+                  href: "/admin-v2",
                   label: "Dashboard",
                   icon: <FaChartGantt />,
                 },
                 {
-                  href: "/mantine/admin-v2/users",
+                  href: "/admin-v2/users",
                   label: "Users",
                   icon: <FaUsers />,
+                },
+                {
+                  href: "/admin-v2/blog",
+                  label: "Blog",
+                  icon: <FaFileLines />,
                 },
               ] as {
                 href: string;

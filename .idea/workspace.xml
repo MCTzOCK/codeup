@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/blog.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/Provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/Provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine.theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine.theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/users.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/users.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/users2.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/queries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/mantine/admin-v2/users.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/users.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +107,7 @@
     &quot;npm.build (1).executor&quot;: &quot;Run&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -132,14 +137,14 @@
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\logos" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\src\pages" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\src\pages\mantine" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\assets" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\lpv4" />
-      <recent name="P:\Competitions\JuFo\2023_CodeUp\apps\web\public\_static\images\showcase" />
     </key>
   </component>
-  <component name="RunManager" selected="OpenAPI/Swagger Code Generator.swagger.yaml">
+  <component name="RunManager" selected="npm.build (1)">
     <configuration name="swagger.yaml" type="SwaggerCodegen" editBeforeRun="true" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="customTemplatesPath" value="" />
@@ -205,7 +210,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="OpenAPI/Swagger Code Generator.swagger.yaml" />
         <item itemvalue="npm.build (1)" />
         <item itemvalue="npm.build (2)" />
         <item itemvalue="npm.bundle:server" />

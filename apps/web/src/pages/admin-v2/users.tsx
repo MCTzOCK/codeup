@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { useEffect } from "react";
-import AdminLayout from "../../../global/mantine-components/AdminLayout";
+import AdminLayout from "../../global/mantine-components/AdminLayout";
 import {
   Avatar,
   Badge,
@@ -27,12 +27,24 @@ import {
   Text,
   Title,
   TextInput,
+  Divider,
   Switch,
+  ActionIcon,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { FaEye, FaSave } from "react-icons/fa";
-import { gatherToken, USERS_PAGINATED, USERS_UPDATE } from "./queries";
+import { FaEye, FaLock, FaSave, FaTrash } from "react-icons/fa";
+import {
+  DELETE_USER,
+  gatherToken,
+  USERS_PAGINATED,
+  USERS_UPDATE,
+} from "./queries";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { FaChartSimple } from "react-icons/fa6";
+import REST from "@codeup/rest/dist";
+import AccountManager from "@codeup/util/dist/AccountManager";
+import PopupManager from "../../global/PopupManager";
+import { useRouter } from "next/router";
 
 export default function Users() {
   const [pages, setPages] = React.useState<number>(0);
@@ -43,6 +55,7 @@ export default function Users() {
   const [opened, { open, close }] = useDisclosure(false);
   const [current, setCurrent] = React.useState<any>({});
   const [client, setClient] = React.useState<ApolloClient<any> | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     gatherToken(setGqlToken);
@@ -255,6 +268,85 @@ export default function Users() {
                   >
                     Save
                   </Button>
+                  <Divider
+                    my={"xs"}
+                    label={"Admin Actions"}
+                    labelPosition={"center"}
+                  />
+                  <Group gap={"md"} justify={"center"}>
+                    <ActionIcon
+                      variant={"filled"}
+                      aria-label={"Delete"}
+                      color={"red"}
+                      size={"lg"}
+                      onClick={async () => {
+                        if (
+                          !(await PopupManager.confirmAsync({
+                            title: "Delete user",
+                            question:
+                              "Are you sure you want to delete the user?",
+                          }))
+                        )
+                          return;
+
+                        if (!client) return;
+
+                        const res = await client.mutate({
+                          mutation: DELETE_USER,
+                          variables: {
+                            id: current._id,
+                          },
+                        });
+
+                        if (res.data.UserRemoveById.recordId) {
+                          reloadData();
+                          close();
+                        } else if (res.data.UserRemoveById.error) {
+                          PopupManager.alert({
+                            title: "Error",
+                            description: res.data.UserRemoveById.error.message,
+                          });
+                        }
+                      }}
+                    >
+                      <FaTrash />
+                    </ActionIcon>
+                    <ActionIcon
+                      variant={"filled"}
+                      aria-label={"Analytics"}
+                      size={"lg"}
+                      onClick={() => {
+                        router.push("/admin-v2/analytics/" + current._id);
+                      }}
+                    >
+                      <FaChartSimple />
+                    </ActionIcon>
+                    <ActionIcon
+                      variant={"filled"}
+                      aria-label={"Login as user"}
+                      size={"lg"}
+                      onClick={async () => {
+                        const jwtRes = await REST.Admin.getUserJWT({
+                          token: localStorage.getItem("token") as string,
+                          username: current.username,
+                        });
+
+                        if (jwtRes.status === 200) {
+                          await AccountManager.setActiveToken(
+                            jwtRes.payload.jwt
+                          );
+                          window.location.href = "/";
+                        } else {
+                          PopupManager.alert({
+                            title: "Fehler",
+                            description: jwtRes.payload.error,
+                          });
+                        }
+                      }}
+                    >
+                      <FaLock />
+                    </ActionIcon>
+                  </Group>
                 </Stack>
               </form>
             </>
@@ -271,3 +363,5 @@ export default function Users() {
     </>
   );
 }
+
+Users.noLayout = true;

@@ -13,30 +13,5 @@ export const mantineTheme = mergeMantineTheme(
   DEFAULT_THEME,
   createTheme({
     black: "#000",
-    primaryColor: "brand",
-    primaryShade: 5,
-    colors: {
-      brand: [
-        "#fffde0",
-        "#fef8cc",
-        "#fcf19c",
-        "#fae968",
-        "#f8e23c",
-        "#f7de1f",
-        "#f7dc0b",
-        "#dbc300",
-        "#c3ad00",
-        "#a89500",
-      ],
-    },
-    components: {
-      Button: {
-        styles: {
-          root: {
-            color: "#000",
-          },
-        },
-      },
-    },
   })
 );

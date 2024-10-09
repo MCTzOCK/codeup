@@ -9,9 +9,9 @@
  */
 
 import * as React from "react";
-import { sProp } from "../../../global/i18nstaticProps";
+import { sProp } from "../../global/i18nstaticProps";
 import { Button } from "@mantine/core";
-import AdminLayout from "../../../global/mantine-components/AdminLayout";
+import AdminLayout from "../../global/mantine-components/AdminLayout";
 
 export default function Index() {
   return (
@@ -22,6 +22,8 @@ export default function Index() {
     </>
   );
 }
+
+Index.noLayout = true;
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {

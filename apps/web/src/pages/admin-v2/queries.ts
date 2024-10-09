@@ -69,3 +69,83 @@ export const USERS_UPDATE = gql`
     }
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation DELETE_USER($id: MongoID!) {
+    UserRemoveById(_id: $id) {
+      recordId
+      error {
+        message
+      }
+    }
+  }
+`;
+
+export const BLOGS_PAGINATED = gql`
+  query BlogsPaginated($page: Int!) {
+    BlogPagination(page: $page, perPage: 10) {
+      count
+      items {
+        _id
+        title
+        published_at
+        content
+        authorUsername
+        tags
+        __typename
+      }
+      pageInfo {
+        currentPage
+        perPage
+        pageCount
+        itemCount
+        hasNextPage
+        hasPreviousPage
+        __typename
+      }
+      __typename
+    }
+  }
+`;
+
+export const BLOGS_UPDATE = gql`
+  mutation BlogUpdate($id: MongoID!, $record: UpdateByIdBlogInput!) {
+    BlogUpdateById(_id: $id, record: $record) {
+      recordId
+      record {
+        _id
+      }
+    }
+  }
+`;
+
+export const BLOGS_CREATE = gql`
+  mutation CreateBlog($record: CreateOneBlogInput!) {
+    BlogCreate(record: $record) {
+      recordId
+      record {
+        _id
+        title
+        content
+        authorUsername
+        published_at
+        tags
+        _id
+      }
+      error {
+        message
+      }
+    }
+  }
+`;
+
+export const DELETE_BLOG = gql`
+  mutation DELETE_BLOG($id: MongoID!) {
+    BlogRemoveById(_id: $id) {
+      recordId
+      error {
+        message
+      }
+    }
+  }
+`;

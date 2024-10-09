@@ -20,27 +20,19 @@ import { CommunityNavigationBar } from "@codeup/components/dist/community";
 import ForumNavigationBar from "@codeup/components/dist/forum/ForumNavigationBar";
 import { PostButton } from "@codeup/components/dist/community/post";
 
-export default function Provider(props: { children: React.ReactNode }) {
+export default function Provider(props: {
+  children: React.ReactNode;
+  noLayout: boolean;
+}) {
   const router = useRouter();
-
-  if (router.pathname.startsWith("/mantine")) {
-    return (
-      <>
-        <div id={"__codeup_manual_mount_point"} />
-
-        <ChakraProvider theme={theme}>
-          <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
-            {props.children}
-          </MantineProvider>
-        </ChakraProvider>
-      </>
-    );
-  }
 
   return (
     <>
+      <div id={"__codeup_manual_mount_point"} />
       <ChakraProvider theme={theme}>
-        <ChakraChildren children={props.children} usingMv2={false} />
+        <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
+          <ChakraChildren children={props.children} usingMv2={props.noLayout} />
+        </MantineProvider>
       </ChakraProvider>
     </>
   );
@@ -68,16 +60,11 @@ function ChakraChildren(props: {
           minH={"96vh"}
           bg={router.pathname.startsWith("/forum") ? "#000" : undefined}
         >
-          {router.pathname.startsWith("/community") ? (
-            <CommunityNavigationBar />
-          ) : null}
           {router.pathname.startsWith("/forum") ? <ForumNavigationBar /> : null}
 
           <Box id={"__codeup_manual_mount_point"}></Box>
 
           {props.children}
-
-          {router.pathname.startsWith("/community") ? <PostButton /> : null}
         </Box>
         {!props.usingMv2 && (
           <Footer
