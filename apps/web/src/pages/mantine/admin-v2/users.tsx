@@ -4,73 +4,77 @@
  * Author: Ben Siebert <hello@ben-siebert.de>
  * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
  * License: Project License
- * Created At: 08.10.2024
+ * Created At: 09.10.2024
  *
  */
 
 import * as React from "react";
-import AdminLayout from "../../../global/mantine-components/AdminLayout";
 import { useEffect } from "react";
-import REST from "@codeup/rest/dist";
-import AccountManager from "@codeup/util/dist/AccountManager";
-import PopupManager from "../../../global/PopupManager";
+import AdminLayout from "../../../global/mantine-components/AdminLayout";
 import {
+  Avatar,
+  Badge,
+  Button,
   Card,
   Center,
-  Button,
+  Modal,
   Container,
+  Group,
+  Input,
   Pagination,
   SimpleGrid,
-  Table,
   Stack,
-  Group,
   Text,
-  Input,
-  Badge,
-  Avatar,
   Title,
-  Select,
+  TextInput,
+  Switch,
 } from "@mantine/core";
-import { FaEye } from "react-icons/fa";
+import { useDisclosure } from "@mantine/hooks";
+import { FaEye, FaSave } from "react-icons/fa";
+import { gatherToken, USERS_PAGINATED, USERS_UPDATE } from "./queries";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export default function Users() {
   const [pages, setPages] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(1);
   const [query, setQuery] = React.useState<string>("");
-  const [queryKey, setQueryKey] = React.useState<string>("username");
-  const [records, setRecords] = React.useState<any[]>([]);
-  const model = "User";
+  const [gqlToken, setGqlToken] = React.useState<string>("");
+  const [items, setItems] = React.useState<any[]>([]);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [current, setCurrent] = React.useState<any>({});
+  const [client, setClient] = React.useState<ApolloClient<any> | null>(null);
 
   useEffect(() => {
-    reloadData();
+    gatherToken(setGqlToken);
   }, []);
 
   useEffect(() => {
-    reloadData();
-  }, [page, query]);
-
-  const reloadData = async () => {
-    const res = await REST.Admin.paginateData({
-      token: AccountManager.getActiveToken(),
-      model,
-      page,
-      query,
-      queryKey,
-    });
-
-    if (res.status !== 200) {
-      await PopupManager.alertAsync({
-        title: "Error",
-        description: res.payload.error,
-      });
+    if (!gqlToken) {
       return;
     }
+    reloadData();
+  }, [page, query, gqlToken]);
 
-    setRecords(res.payload.records);
-    setPages(res.payload.pages);
-    if (page > res.payload.pages) {
-      setPage(res.payload.pages);
-    }
+  const reloadData = async () => {
+    const client = new ApolloClient({
+      uri: "https://gql.codeup.space",
+      cache: new InMemoryCache(),
+      headers: {
+        authorization: gqlToken,
+      },
+    });
+    setClient(client);
+
+    const res = await client.query({
+      query: USERS_PAGINATED,
+      variables: {
+        page,
+        filter: query,
+      },
+    });
+
+    setItems(res.data.UserPagination.items);
+    setPages(res.data.UserPagination.pageInfo.pageCount);
   };
 
   return (
@@ -106,46 +110,50 @@ export default function Users() {
             cols={{ base: 1, sm: 2, lg: 5 }}
             spacing={{ base: 10, sm: "xl" }}
             verticalSpacing={{ base: "md", sm: "xl" }}
+            mb={"md"}
           >
-            {records.map((record) => (
+            {items.map((item) => (
               <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
                 <Center>
                   <Avatar
-                    src={"/api/account/" + record.username + "/picture"}
+                    src={"/api/account/" + item.username + "/picture"}
                     size={"xl"}
-                    alt={record.username}
+                    alt={item.username}
                   />
                 </Center>
                 <Group justify="space-between" mt="md" mb="xs">
                   <Stack gap={0}>
                     <Title order={3} style={{ margin: 0 }}>
-                      {record.firstName} {record.lastName}
+                      {item.firstName} {item.lastName}
                     </Title>
-                    <Text fw={500}>@{record.username}</Text>
+                    <Text fw={500}>@{item.username}</Text>
                   </Stack>
                   <Badge
                     color={
-                      record.role === "admin"
+                      item.role === "admin"
                         ? "red"
-                        : record.role === "creator"
+                        : item.role === "creator"
                         ? "blue"
                         : "gray"
                     }
                   >
-                    {record.role}
+                    {item.role}
                   </Badge>
                 </Group>
 
                 <Text size={"sm"} c={"dimmed"}>
-                  This user has registered with the email {record.email}{" "}
-                  at&nbsp;
-                  {new Date(record.createdAt).toLocaleString()}.
+                  This user has registered with the email {item.email} at&nbsp;
+                  {new Date(item.createdAt).toLocaleString()}.
                 </Text>
                 <Button
                   leftSection={<FaEye />}
                   radius={"md"}
                   fullWidth
                   mt={"md"}
+                  onClick={() => {
+                    setCurrent(item);
+                    open();
+                  }}
                 >
                   Details
                 </Button>
@@ -157,6 +165,108 @@ export default function Users() {
             <Pagination total={pages} value={page} onChange={setPage} />
           </Center>
         </Container>
+        <Modal
+          opened={opened}
+          onClose={close}
+          title={current ? current.username : "No user selected"}
+          size={"auto"}
+        >
+          {current && (
+            <>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  const fd = new FormData(e.target as HTMLFormElement);
+
+                  if (!client) return;
+
+                  const res = await client.mutate({
+                    mutation: USERS_UPDATE,
+                    variables: {
+                      id: current._id,
+                      record: {
+                        email: fd.get("email"),
+                        firstName: fd.get("firstName"),
+                        lastName: fd.get("lastName"),
+                        role: fd.get("role"),
+                        subscription: fd.get("pro") ? "PRO" : "FREE",
+                        active: fd.get("active") === "on",
+                      },
+                    },
+                  });
+
+                  if (res.data.UserUpdateById.recordId) {
+                    reloadData();
+                    close();
+                  }
+                }}
+              >
+                <Stack gap={"md"}>
+                  <TextInput
+                    label={"Username"}
+                    disabled
+                    value={current.username}
+                  />
+                  <TextInput
+                    label={"Created At"}
+                    disabled
+                    value={new Date(current.createdAt).toLocaleString()}
+                  />
+                  <TextInput label={"SSO"} disabled value={current.sso} />
+                  <TextInput
+                    label={"E-Mail"}
+                    value={current.email}
+                    name={"email"}
+                  />
+                  <Group>
+                    <TextInput
+                      label={"First Name"}
+                      defaultValue={current.firstName}
+                      name={"firstName"}
+                    />
+                    <TextInput
+                      label={"Last Name"}
+                      defaultValue={current.lastName}
+                      name={"lastName"}
+                    />
+                  </Group>
+                  <TextInput
+                    label={"Role"}
+                    defaultValue={current.role}
+                    name={"role"}
+                  />
+                  <Group>
+                    <Switch
+                      defaultChecked={current.subscription === "PRO"}
+                      label={"CodeUp PRO"}
+                      name={"pro"}
+                    />
+                    <Switch
+                      defaultChecked={current.active}
+                      label={"Account active"}
+                      name={"active"}
+                    />
+                  </Group>
+                  <Button
+                    radius={"md"}
+                    leftSection={<FaSave />}
+                    type={"submit"}
+                  >
+                    Save
+                  </Button>
+                </Stack>
+              </form>
+            </>
+          )}
+          {!current && (
+            <>
+              <Text>
+                No user selected. Please select a user to view details.
+              </Text>
+            </>
+          )}
+        </Modal>
       </AdminLayout>
     </>
   );
