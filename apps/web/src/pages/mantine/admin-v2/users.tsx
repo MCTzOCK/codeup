@@ -29,6 +29,7 @@ import {
   Badge,
   Avatar,
   Title,
+  Select,
 } from "@mantine/core";
 import { FaEye } from "react-icons/fa";
 
@@ -84,14 +85,23 @@ export default function Users() {
           }}
           fluid
         >
-          <Input
-            mb={"md"}
-            placeholder={"Search"}
-            value={query}
-            onChange={(e: any) => {
-              setQuery(e.currentTarget.value);
+          <Group
+            mt="md"
+            mb="xs"
+            style={{
+              width: "100%",
             }}
-          />
+          >
+            <Input
+              mb={"md"}
+              placeholder={"Search"}
+              value={query}
+              onChange={(e: any) => {
+                setQuery(e.currentTarget.value);
+              }}
+              flex={"1"}
+            />
+          </Group>
           <SimpleGrid
             cols={{ base: 1, sm: 2, lg: 5 }}
             spacing={{ base: 10, sm: "xl" }}
