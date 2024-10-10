@@ -351,7 +351,7 @@ config();
 
       try {
         const v = jwt.verify(auth_key, process.env.JWT_SECRET as string);
-        if (v.role === "admin") {
+        if (typeof v !== "string" && (v as any).role === "admin") {
           auth = true;
         }
       } catch (e) {
