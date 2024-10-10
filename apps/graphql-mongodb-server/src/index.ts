@@ -313,6 +313,7 @@ config();
   const newMutations: any = {};
 
   for (const key in data) {
+    // @ts-ignore
     data[key].tc.addResolver({
       name: "plot",
       type: "JSON",
@@ -323,7 +324,7 @@ config();
         interval: "String!",
       },
       // plot over week, month, year ({id: 1, count: 27}; {id: 2, count: 30})
-      resolve: async ({ args }) => {
+      resolve: async ({ args }: any) => {
         let groupByFormat;
 
         switch (args.interval) {
@@ -343,7 +344,7 @@ config();
             groupByFormat = "%Y-%m-%d";
             break;
         }
-
+        // @ts-ignore
         return await data[key].model.aggregate([
           {
             $match: {
@@ -397,6 +398,7 @@ config();
         type: "FilterCount" + key + "OperatorsInput", // Define the input type
         description: "Operators for filtering records",
       });
+    // @ts-ignore
     newFields[key + "CreatedChart"] = data[key].tc.getResolver("plot");
     // @ts-ignore
     newFields[key + "Connection"] = data[key].tc.mongooseResolvers.connection();
