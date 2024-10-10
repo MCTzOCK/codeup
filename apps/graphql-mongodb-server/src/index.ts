@@ -313,6 +313,68 @@ config();
   const newMutations: any = {};
 
   for (const key in data) {
+    data[key].tc.addResolver({
+      name: "plot",
+      type: "JSON",
+      args: {
+        filter: "[FilterFindMany" + key + "Input]!",
+        startDate: "Date!",
+        endDate: "Date!",
+        interval: "String!",
+      },
+      // plot over week, month, year ({id: 1, count: 27}; {id: 2, count: 30})
+      resolve: async ({ args }) => {
+        let groupByFormat;
+
+        switch (args.interval) {
+          case "day":
+            groupByFormat = "%Y-%m-%d";
+            break;
+          case "week":
+            groupByFormat = "%Y-%U";
+            break;
+          case "month":
+            groupByFormat = "%Y-%m";
+            break;
+          case "year":
+            groupByFormat = "%Y";
+            break;
+          default:
+            groupByFormat = "%Y-%m-%d";
+            break;
+        }
+
+        return await data[key].model.aggregate([
+          {
+            $match: {
+              $and: args.filter,
+              createdAt: {
+                $gte: new Date(args.startDate),
+                $lte: new Date(args.endDate),
+              },
+            },
+          },
+          {
+            $project: {
+              // Format the createdAt date based on the chosen interval (day, week, etc.)
+              interval: {
+                $dateToString: { format: groupByFormat, date: "$createdAt" },
+              },
+              amount: 1, // Example field - include any other fields you want
+            },
+          },
+          {
+            $group: {
+              _id: "$interval",
+              count: { $sum: 1 }, // Count the number of records in each interval
+            },
+          },
+          {
+            $sort: { _id: 1 }, // Sort by interval (chronologically)
+          },
+        ]);
+      },
+    });
     // @ts-ignore
     newFields[key + "ById"] = data[key].tc.mongooseResolvers.findById();
     // @ts-ignore
@@ -335,6 +397,7 @@ config();
         type: "FilterCount" + key + "OperatorsInput", // Define the input type
         description: "Operators for filtering records",
       });
+    newFields[key + "CreatedChart"] = data[key].tc.getResolver("plot");
     // @ts-ignore
     newFields[key + "Connection"] = data[key].tc.mongooseResolvers.connection();
     // @ts-ignore
