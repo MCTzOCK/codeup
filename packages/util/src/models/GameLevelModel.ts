@@ -15,6 +15,7 @@ const GameLevelModel = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
+    index: true,
   },
   name: {
     type: String,

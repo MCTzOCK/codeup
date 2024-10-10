@@ -15,6 +15,7 @@ const ProjectModel = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
+    index: true,
   },
   users: {
     type: [mongoose.Schema.Types.ObjectId],

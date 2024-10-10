@@ -24,6 +24,7 @@ const Contact = new mongoose.Schema({
     default: Date.now,
     immutable: true,
     required: true,
+    index: true,
   },
   category: {
     type: String,

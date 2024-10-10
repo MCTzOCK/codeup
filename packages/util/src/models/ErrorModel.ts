@@ -28,6 +28,7 @@ const ErrorModel = new mongoose.Schema({
     default: Date.now,
     required: true,
     immutable: true,
+    index: true,
   },
 });
 

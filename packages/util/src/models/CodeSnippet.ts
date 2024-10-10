@@ -24,6 +24,7 @@ const Snippet = new mongoose.Schema({
     default: Date.now,
     immutable: true,
     required: true,
+    index: true,
   },
   language: {
     type: String,

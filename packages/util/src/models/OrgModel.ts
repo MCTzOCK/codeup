@@ -40,7 +40,8 @@ const OrgModel = new mongoose.Schema({
     required: true,
     default: Date.now,
     immutable: true,
-  }
+    index: true,
+  },
 });
 
 export default mongoose.models?.Org || mongoose.model("Org", OrgModel);

@@ -14,6 +14,7 @@ const ShortURLModel = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   destination: {
     type: String,

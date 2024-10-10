@@ -66,6 +66,7 @@ const IDEProject = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   pinned: {
     type: [mongoose.Schema.Types.ObjectId],
@@ -81,11 +82,11 @@ const IDEProject = new mongoose.Schema({
   },
   discovery: {
     type: Boolean,
-    default: false
+    default: false,
   },
   discoveryDescription: {
     type: String,
-    default: ""
+    default: "",
   },
 });
 

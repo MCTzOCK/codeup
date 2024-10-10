@@ -26,6 +26,7 @@ const ObtainedCertificate = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
+    index: true,
   },
   percentage: {
     type: Number,

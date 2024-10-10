@@ -30,6 +30,7 @@ const Analytics = new mongoose.Schema({
     default: Date.now,
     required: true,
     immutable: true,
+    index: true,
   },
   browser: {
     type: String,

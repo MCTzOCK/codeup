@@ -28,6 +28,7 @@ const Content = new mongoose.Schema({
     default: Date.now,
     immutable: true,
     required: true,
+    index: true,
   },
   type: {
     type: String,

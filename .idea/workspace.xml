@@ -7,6 +7,48 @@
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/graphql-mongodb-server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/graphql-mongodb-server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/Provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/Provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/blog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/blog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/users.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/users.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/AnalyticsModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/AnalyticsModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/BlogModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/BlogModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CodeChallengeModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CodeChallengeModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CodeSnippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CodeSnippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ContactModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ContactModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ContentModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ContentModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CourseEnrollment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CourseEnrollment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CourseModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CourseModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/CourseSectionProgressModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/CourseSectionProgressModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/EditorProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/EditorProjectModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ErrorModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ErrorModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ForumChatModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ForumChatModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ForumPostModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ForumPostModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ForumProfileModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ForumProfileModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/GameLevelModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/GameLevelModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/IDEProjectModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/InteractiveSectionModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/InteractiveSectionModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/OAuthApp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/OAuthApp.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ObtainedCertificateModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ObtainedCertificateModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/OrgBlogModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/OrgBlogModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/OrgModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/OrgModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectFlowModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectFlowModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectI18nModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectI18nModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectIssueModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectIssueModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectUMLModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectUMLModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ProjectWikiPageModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ProjectWikiPageModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/SessionReplayModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/SessionReplayModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ShortURLModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ShortURLModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/TextContentModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/TextContentModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ToDoListV2ItemModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ToDoListV2ItemModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/ToDoListV2Model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/ToDoListV2Model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserAIChatModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserAIChatModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserAIQuotaModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserAIQuotaModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserDashboardPreferencesModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserDashboardPreferencesModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/UserXPModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/UserXPModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/util/src/models/VideoModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/util/src/models/VideoModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

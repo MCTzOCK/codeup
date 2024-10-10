@@ -27,6 +27,7 @@ const ForumPost = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],

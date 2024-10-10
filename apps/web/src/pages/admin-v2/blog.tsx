@@ -11,7 +11,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
   BLOGS_CREATE,
@@ -19,6 +19,7 @@ import {
   BLOGS_UPDATE,
   DELETE_BLOG,
   gatherToken,
+  USERS_PAGINATED,
 } from "./queries";
 import {
   ActionIcon,
@@ -45,45 +46,37 @@ import PopupManager from "../../global/PopupManager";
 export default function Blog() {
   const [pages, setPages] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(1);
-  const [gqlToken, setGqlToken] = React.useState<string>("");
-  const [items, setItems] = React.useState<any[]>([]);
+  const {
+    loading,
+    error,
+    data: items,
+    refetch,
+    client,
+  } = useQuery(BLOGS_PAGINATED, {
+    variables: {
+      page: page,
+    },
+  });
   const [opened, { open, close }] = useDisclosure(false);
   const [current, setCurrent] = React.useState<any>({});
-  const [client, setClient] = React.useState<ApolloClient<any> | null>(null);
-  const router = useRouter();
   const { userInfo } = useLoggedIn();
 
-  useEffect(() => {
-    gatherToken(setGqlToken);
-  }, []);
-
-  useEffect(() => {
-    if (!gqlToken) {
-      return;
-    }
-    reloadData();
-  }, [page, gqlToken]);
-
   const reloadData = async () => {
-    const client = new ApolloClient({
-      uri: "https://gql.codeup.space",
-      cache: new InMemoryCache(),
-      headers: {
-        authorization: gqlToken,
-      },
-    });
-    setClient(client);
-
-    const res = await client.query({
-      query: BLOGS_PAGINATED,
-      variables: {
-        page,
-      },
-    });
-
-    setItems(res.data.BlogPagination.items);
-    setPages(res.data.BlogPagination.pageInfo.pageCount);
+    await refetch();
   };
+
+  useEffect(() => {
+    if (!loading) {
+      setPages(items.BlogPagination.pageInfo.pageCount);
+      if (items.BlogPagination.items.length === 0) {
+        setPage(1);
+      }
+      if (page > items.BlogPagination.pageInfo.pageCount) {
+        setPage(items.BlogPagination.pageInfo.pageCount);
+      }
+    }
+  }, [loading, error, items]);
+
   return (
     <>
       <AdminLayout>
@@ -136,73 +129,79 @@ export default function Blog() {
             verticalSpacing={{ base: "md", sm: "xl" }}
             mb={"md"}
           >
-            {items.map((item) => (
-              <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
-                <Group justify={"space-between"}>
-                  <Title order={3} style={{ margin: 0 }}>
-                    {item.title}
-                  </Title>
-                  <ActionIcon
-                    color={"red"}
-                    aria-label={"Delete Blog"}
-                    onClick={async () => {
-                      if (
-                        !(await PopupManager.confirmAsync({
-                          title: "Delete Blog",
-                          question:
-                            "Are you sure you want to delete this blog?",
-                        }))
-                      )
-                        return;
-                      if (!client) return;
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                {items.BlogPagination.items.map((item: any) => (
+                  <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
+                    <Group justify={"space-between"}>
+                      <Title order={3} style={{ margin: 0 }}>
+                        {item.title}
+                      </Title>
+                      <ActionIcon
+                        color={"red"}
+                        aria-label={"Delete Blog"}
+                        onClick={async () => {
+                          if (
+                            !(await PopupManager.confirmAsync({
+                              title: "Delete Blog",
+                              question:
+                                "Are you sure you want to delete this blog?",
+                            }))
+                          )
+                            return;
+                          if (!client) return;
 
-                      const res = await client.mutate({
-                        mutation: DELETE_BLOG,
-                        variables: {
-                          id: item._id,
-                        },
-                      });
+                          const res = await client.mutate({
+                            mutation: DELETE_BLOG,
+                            variables: {
+                              id: item._id,
+                            },
+                          });
 
-                      if (res.data.BlogUpdateById.recordId) {
-                        reloadData();
-                      } else {
-                        await PopupManager.alertAsync({
-                          title: "Error",
-                          description: "Could not delete blog.",
-                        });
-                      }
-                    }}
-                  >
-                    <FaTrash />
-                  </ActionIcon>
-                </Group>
-                <Group justify="space-between" mt="md" mb="xs">
-                  <Stack gap={0}>
-                    <Text fw={500}>
-                      {item.tags.map((t: string) => `#${t}`).join(", ")}
+                          if (res.data.BlogUpdateById.recordId) {
+                            reloadData();
+                          } else {
+                            await PopupManager.alertAsync({
+                              title: "Error",
+                              description: "Could not delete blog.",
+                            });
+                          }
+                        }}
+                      >
+                        <FaTrash />
+                      </ActionIcon>
+                    </Group>
+                    <Group justify="space-between" mt="md" mb="xs">
+                      <Stack gap={0}>
+                        <Text fw={500}>
+                          {item.tags.map((t: string) => `#${t}`).join(", ")}
+                        </Text>
+                      </Stack>
+                      <Badge>@{item.authorUsername}</Badge>
+                    </Group>
+
+                    <Text size={"sm"} c={"dimmed"}>
+                      This blog was published at{" "}
+                      <b>{new Date(item.published_at).toLocaleString()}</b>
                     </Text>
-                  </Stack>
-                  <Badge>@{item.authorUsername}</Badge>
-                </Group>
-
-                <Text size={"sm"} c={"dimmed"}>
-                  This blog was published at{" "}
-                  <b>{new Date(item.published_at).toLocaleString()}</b>
-                </Text>
-                <Button
-                  leftSection={<FaPen />}
-                  radius={"md"}
-                  fullWidth
-                  mt={"md"}
-                  onClick={() => {
-                    setCurrent(item);
-                    open();
-                  }}
-                >
-                  Edit
-                </Button>
-              </Card>
-            ))}
+                    <Button
+                      leftSection={<FaPen />}
+                      radius={"md"}
+                      fullWidth
+                      mt={"md"}
+                      onClick={() => {
+                        setCurrent(item);
+                        open();
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </Card>
+                ))}
+              </>
+            )}
           </SimpleGrid>
 
           <Center>

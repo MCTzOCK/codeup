@@ -31,6 +31,7 @@ const Course = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   // PUBLIC (editor and admin only) | PRIVATE | ORG:ORG_ID (org owner only)
   available: {

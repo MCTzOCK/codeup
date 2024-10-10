@@ -15,6 +15,7 @@ const ProjectWikiPageModel = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
+    index: true,
   },
   project: {
     type: mongoose.Schema.Types.ObjectId,

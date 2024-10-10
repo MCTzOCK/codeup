@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
     immutable: true,
+    index: true,
   },
   twoFactorEnabled: {
     type: Boolean,
@@ -102,7 +103,7 @@ const UserSchema = new mongoose.Schema({
   stripeCustomerId: {
     type: "String",
     default: "",
-  }
+  },
 });
 
 export default mongoose.models?.User || mongoose.model("User", UserSchema);

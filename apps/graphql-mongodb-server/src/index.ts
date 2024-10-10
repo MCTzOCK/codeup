@@ -92,10 +92,10 @@ config();
       tc: composeMongoose(CodeChallengeModel, customizationOptions),
       name: "codeChallenge",
     },
-    CodeSnippet: {
+    Snippet: {
       model: CodeSnippet,
       tc: composeMongoose(CodeSnippet, customizationOptions),
-      name: "codeSnippet",
+      name: "snippet",
     },
     CodeUpKidsProject: {
       model: CodeUpKidsProjectModel,
@@ -157,10 +157,10 @@ config();
       tc: composeMongoose(EditorProjectPageModel, customizationOptions),
       name: "editorProjectPage",
     },
-    Error: {
+    ErrorModel: {
       model: ErrorModel,
       tc: composeMongoose(ErrorModel, customizationOptions),
-      name: "error",
+      name: "errorModel",
     },
     ForumChat: {
       model: ForumChatModel,
@@ -212,10 +212,10 @@ config();
       tc: composeMongoose(OrgBlogModel, customizationOptions),
       name: "orgBlog",
     },
-    OrgProjectTemplate: {
+    OrgTemplate: {
       model: OrgProjectTemplateModel,
       tc: composeMongoose(OrgProjectTemplateModel, customizationOptions),
-      name: "orgProjectTemplate",
+      name: "orgTemplate",
     },
     ProjectFlow: {
       model: ProjectFlowModel,
@@ -262,10 +262,10 @@ config();
       tc: composeMongoose(ShortURLModel, customizationOptions),
       name: "shortURL",
     },
-    TodoList: {
+    Todo: {
       model: TodoListModel,
       tc: composeMongoose(TodoListModel, customizationOptions),
-      name: "todoList",
+      name: "todo",
     },
     ToDoListV2Item: {
       model: ToDoListV2ItemModel,
@@ -328,7 +328,13 @@ config();
         description: "Operators for filtering records",
       });
     // @ts-ignore
-    newFields[key + "Count"] = data[key].tc.mongooseResolvers.count();
+    newFields[key + "Count"] = data[key].tc.mongooseResolvers
+      .count()
+      .addFilterArg({
+        name: "_operators",
+        type: "FilterCount" + key + "OperatorsInput", // Define the input type
+        description: "Operators for filtering records",
+      });
     // @ts-ignore
     newFields[key + "Connection"] = data[key].tc.mongooseResolvers.connection();
     // @ts-ignore

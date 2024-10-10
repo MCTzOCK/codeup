@@ -44,6 +44,7 @@ const ForumProfile = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   badges: {
     type: [String],

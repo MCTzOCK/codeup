@@ -25,6 +25,7 @@ const Blog = new mongoose.Schema({
   published_at: {
     type: Date,
     required: true,
+    index: true,
   },
   tags: {
     type: [String],

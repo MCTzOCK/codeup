@@ -50,6 +50,7 @@ const EditorProject = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true,
+    index: true,
   },
   discovery: {
     type: Boolean,

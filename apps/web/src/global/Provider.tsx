@@ -19,6 +19,7 @@ import { Footer, NavigationBar } from "@codeup/components/dist/global";
 import { CommunityNavigationBar } from "@codeup/components/dist/community";
 import ForumNavigationBar from "@codeup/components/dist/forum/ForumNavigationBar";
 import { PostButton } from "@codeup/components/dist/community/post";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 export default function Provider(props: {
   children: React.ReactNode;
@@ -26,12 +27,46 @@ export default function Provider(props: {
 }) {
   const router = useRouter();
 
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <>
       <div id={"__codeup_manual_mount_point"} />
       <ChakraProvider theme={theme}>
         <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
-          <ChakraChildren children={props.children} usingMv2={props.noLayout} />
+          {isClient && (
+            <>
+              {router.pathname.startsWith("/admin-v2") ? (
+                <>
+                  <ApolloProvider
+                    client={
+                      new ApolloClient({
+                        uri: "https://gql.codeup.space",
+                        cache: new InMemoryCache(),
+                        headers: {
+                          authorization: localStorage.getItem(
+                            "token"
+                          ) as string,
+                        },
+                      })
+                    }
+                  >
+                    <ChakraChildren usingMv2={props.noLayout}>
+                      {props.children}
+                    </ChakraChildren>
+                  </ApolloProvider>
+                </>
+              ) : (
+                <ChakraChildren usingMv2={props.noLayout}>
+                  {props.children}
+                </ChakraChildren>
+              )}
+            </>
+          )}
         </MantineProvider>
       </ChakraProvider>
     </>

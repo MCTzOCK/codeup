@@ -12,34 +12,29 @@ import * as React from "react";
 import { useEffect } from "react";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import {
+  ActionIcon,
   Avatar,
   Badge,
   Button,
   Card,
   Center,
-  Modal,
   Container,
+  Divider,
   Group,
   Input,
+  Modal,
   Pagination,
   SimpleGrid,
   Stack,
-  Text,
-  Title,
-  TextInput,
-  Divider,
   Switch,
-  ActionIcon,
+  Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaEye, FaLock, FaSave, FaTrash } from "react-icons/fa";
-import {
-  DELETE_USER,
-  gatherToken,
-  USERS_PAGINATED,
-  USERS_UPDATE,
-} from "./queries";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { DELETE_USER, USERS_PAGINATED, USERS_UPDATE } from "./queries";
+import { useQuery } from "@apollo/client";
 import { FaChartSimple } from "react-icons/fa6";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
@@ -50,44 +45,36 @@ export default function Users() {
   const [pages, setPages] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(1);
   const [query, setQuery] = React.useState<string>("");
-  const [gqlToken, setGqlToken] = React.useState<string>("");
-  const [items, setItems] = React.useState<any[]>([]);
   const [opened, { open, close }] = useDisclosure(false);
   const [current, setCurrent] = React.useState<any>({});
-  const [client, setClient] = React.useState<ApolloClient<any> | null>(null);
   const router = useRouter();
+  const {
+    loading,
+    error,
+    data: items,
+    refetch,
+    client,
+  } = useQuery(USERS_PAGINATED, {
+    variables: {
+      page: page,
+      filter: query,
+    },
+  });
 
   useEffect(() => {
-    gatherToken(setGqlToken);
-  }, []);
-
-  useEffect(() => {
-    if (!gqlToken) {
-      return;
+    if (!loading) {
+      setPages(items.UserPagination.pageInfo.pageCount);
+      if (items.UserPagination.items.length === 0) {
+        setPage(1);
+      }
+      if (page > items.UserPagination.pageInfo.pageCount) {
+        setPage(items.UserPagination.pageInfo.pageCount);
+      }
     }
-    reloadData();
-  }, [page, query, gqlToken]);
+  }, [loading, error, items]);
 
   const reloadData = async () => {
-    const client = new ApolloClient({
-      uri: "https://gql.codeup.space",
-      cache: new InMemoryCache(),
-      headers: {
-        authorization: gqlToken,
-      },
-    });
-    setClient(client);
-
-    const res = await client.query({
-      query: USERS_PAGINATED,
-      variables: {
-        page,
-        filter: query,
-      },
-    });
-
-    setItems(res.data.UserPagination.items);
-    setPages(res.data.UserPagination.pageInfo.pageCount);
+    await refetch();
   };
 
   return (
@@ -125,53 +112,58 @@ export default function Users() {
             verticalSpacing={{ base: "md", sm: "xl" }}
             mb={"md"}
           >
-            {items.map((item) => (
-              <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
-                <Center>
-                  <Avatar
-                    src={"/api/account/" + item.username + "/picture"}
-                    size={"xl"}
-                    alt={item.username}
-                  />
-                </Center>
-                <Group justify="space-between" mt="md" mb="xs">
-                  <Stack gap={0}>
-                    <Title order={3} style={{ margin: 0 }}>
-                      {item.firstName} {item.lastName}
-                    </Title>
-                    <Text fw={500}>@{item.username}</Text>
-                  </Stack>
-                  <Badge
-                    color={
-                      item.role === "admin"
-                        ? "red"
-                        : item.role === "creator"
-                        ? "blue"
-                        : "gray"
-                    }
-                  >
-                    {item.role}
-                  </Badge>
-                </Group>
+            {loading ? (
+              <>Loading...</>
+            ) : (
+              (items as any).UserPagination.items.map((item: any) => (
+                <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
+                  <Center>
+                    <Avatar
+                      src={"/api/account/" + item.username + "/picture"}
+                      size={"xl"}
+                      alt={item.username}
+                    />
+                  </Center>
+                  <Group justify="space-between" mt="md" mb="xs">
+                    <Stack gap={0}>
+                      <Title order={3} style={{ margin: 0 }}>
+                        {item.firstName} {item.lastName}
+                      </Title>
+                      <Text fw={500}>@{item.username}</Text>
+                    </Stack>
+                    <Badge
+                      color={
+                        item.role === "admin"
+                          ? "red"
+                          : item.role === "creator"
+                          ? "blue"
+                          : "gray"
+                      }
+                    >
+                      {item.role}
+                    </Badge>
+                  </Group>
 
-                <Text size={"sm"} c={"dimmed"}>
-                  This user has registered with the email {item.email} at&nbsp;
-                  {new Date(item.createdAt).toLocaleString()}.
-                </Text>
-                <Button
-                  leftSection={<FaEye />}
-                  radius={"md"}
-                  fullWidth
-                  mt={"md"}
-                  onClick={() => {
-                    setCurrent(item);
-                    open();
-                  }}
-                >
-                  Details
-                </Button>
-              </Card>
-            ))}
+                  <Text size={"sm"} c={"dimmed"}>
+                    This user has registered with the email {item.email}{" "}
+                    at&nbsp;
+                    {new Date(item.createdAt).toLocaleString()}.
+                  </Text>
+                  <Button
+                    leftSection={<FaEye />}
+                    radius={"md"}
+                    fullWidth
+                    mt={"md"}
+                    onClick={() => {
+                      setCurrent(item);
+                      open();
+                    }}
+                  >
+                    Details
+                  </Button>
+                </Card>
+              ))
+            )}
           </SimpleGrid>
 
           <Center>
