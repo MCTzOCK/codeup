@@ -320,7 +320,13 @@ config();
     // @ts-ignore
     newFields[key + "One"] = data[key].tc.mongooseResolvers.findOne();
     // @ts-ignore
-    newFields[key + "Many"] = data[key].tc.mongooseResolvers.findMany();
+    newFields[key + "Many"] = data[key].tc.mongooseResolvers
+      .findMany()
+      .addFilterArg({
+        name: "_operators",
+        type: "FilterFindMany" + key + "OperatorsInput", // Define the input type
+        description: "Operators for filtering records",
+      });
     // @ts-ignore
     newFields[key + "Count"] = data[key].tc.mongooseResolvers.count();
     // @ts-ignore
