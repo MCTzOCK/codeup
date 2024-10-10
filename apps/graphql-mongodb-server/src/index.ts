@@ -61,6 +61,7 @@ import UserXPModel from "@codeup/util/dist/models/UserXPModel";
 import UserAIChatModel from "@codeup/util/dist/models/UserAIChatModel";
 import mongoose from "mongoose";
 import { GraphQLError } from "graphql/error";
+import * as jwt from "jsonwebtoken";
 
 config();
 
@@ -343,9 +344,19 @@ config();
 
   const server = new ApolloServer({
     schema: graphqlSchema,
-    context: ({ req }) => {
-      const admin_key = req.headers.authorization || "";
-      if (admin_key !== process.env.ADMIN_KEY) {
+    context: async ({ req }) => {
+      const auth_key = req.headers.authorization || "";
+
+      let auth;
+
+      try {
+        const v = jwt.verify(auth_key, process.env.JWT_SECRET as string);
+        auth = true;
+      } catch (e) {
+        auth = false;
+      }
+
+      if (!auth) {
         throw new GraphQLError("User not authorized", {
           extensions: {
             code: "UNAUTHORIZED",
@@ -353,7 +364,7 @@ config();
           },
         });
       }
-      return { admin_key };
+      return { auth };
     },
   });
 
