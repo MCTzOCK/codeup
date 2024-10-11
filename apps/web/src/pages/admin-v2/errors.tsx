@@ -108,3 +108,5 @@ export default function Errors() {
     </>
   );
 }
+
+Errors.noLayout = true;

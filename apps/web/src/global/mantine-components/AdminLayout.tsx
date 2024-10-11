@@ -21,7 +21,12 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "next-i18next";
-import { FaChartArea, FaChartGantt, FaFileLines } from "react-icons/fa6";
+import {
+  FaChartArea,
+  FaChartGantt,
+  FaFileLines,
+  FaMessage,
+} from "react-icons/fa6";
 import { useRouter } from "next/router";
 import { FaRocket, FaUsers } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
@@ -104,6 +109,11 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
                   href: "/admin-v2/errors",
                   label: "Errors",
                   icon: <BiError />,
+                },
+                {
+                  href: "/admin-v2/contacts",
+                  label: "Messages",
+                  icon: <FaMessage />,
                 },
                 {
                   href: "/admin-v2/blog",

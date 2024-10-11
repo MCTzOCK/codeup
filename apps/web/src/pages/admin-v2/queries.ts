@@ -283,3 +283,28 @@ export const ERRORS_PAGINATED = gql`
     }
   }
 `;
+
+export const CONTACTS_PAGINATED = gql`
+  query ContactsPaginated($page: Int!) {
+    ContactPagination(page: $page, perPage: 10) {
+      count
+      items {
+        _id
+        username
+        message
+        category
+        createdAt
+      }
+      pageInfo {
+        currentPage
+        perPage
+        pageCount
+        itemCount
+        hasNextPage
+        hasPreviousPage
+        __typename
+      }
+      __typename
+    }
+  }
+`;
