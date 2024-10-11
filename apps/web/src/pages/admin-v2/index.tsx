@@ -18,7 +18,7 @@ import {
   DASHBOARD_ERRORS,
   DASHBOARD_FORUM,
   DASHBOARD_PROJECTS,
-} from "./queries";
+} from "../../global/queries";
 import { AreaChart, BarChart, LineChart, RadarChart } from "@mantine/charts";
 import UserCard from "../../global/mantine-components/adminDashboard/UserCard";
 import DashboardChartCard from "../../global/mantine-components/adminDashboard/DashboardChartCard";

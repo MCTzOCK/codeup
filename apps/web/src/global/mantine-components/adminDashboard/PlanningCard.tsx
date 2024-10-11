@@ -11,7 +11,7 @@
 import * as React from "react";
 import DashboardChartCard from "./DashboardChartCard";
 import { BarChart, RadarChart } from "@mantine/charts";
-import { DASHBOARD_PLANNING } from "../../../pages/admin-v2/queries";
+import { DASHBOARD_PLANNING } from "../../queries";
 
 export default function PlanningCard() {
   return (

@@ -11,7 +11,7 @@
 import * as React from "react";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import { useQuery } from "@apollo/client";
-import { ERRORS_PAGINATED } from "./queries";
+import { ERRORS_PAGINATED } from "../../global/queries";
 import { useEffect } from "react";
 import {
   Avatar,

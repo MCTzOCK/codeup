@@ -11,7 +11,7 @@
 import * as React from "react";
 import DashboardChartCard from "./DashboardChartCard";
 import { LineChart } from "@mantine/charts";
-import { DASHBOARD_ANALYTICS } from "../../../pages/admin-v2/queries";
+import { DASHBOARD_ANALYTICS } from "../../queries";
 
 export default function ReachCard() {
   return (

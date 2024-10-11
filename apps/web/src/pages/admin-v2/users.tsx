@@ -33,7 +33,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaEye, FaLock, FaSave, FaTrash } from "react-icons/fa";
-import { DELETE_USER, USERS_PAGINATED, USERS_UPDATE } from "./queries";
+import { DELETE_USER, USERS_PAGINATED, USERS_UPDATE } from "../../global/queries";
 import { useQuery } from "@apollo/client";
 import { FaChartSimple } from "react-icons/fa6";
 import REST from "@codeup/rest/dist";

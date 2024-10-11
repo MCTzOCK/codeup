@@ -11,7 +11,7 @@
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import { Button, Text } from "@mantine/core";
-import { DASHBOARD_CONTACTS } from "../../../pages/admin-v2/queries";
+import { DASHBOARD_CONTACTS } from "../../queries";
 
 export default function ContactCard() {
   return (

@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { useQuery } from "@apollo/client";
-import { DASHBOARD_USERS } from "../../../pages/admin-v2/queries";
+import { DASHBOARD_USERS } from "../../queries";
 import moment from "moment/moment";
 import {
   ActionIcon,

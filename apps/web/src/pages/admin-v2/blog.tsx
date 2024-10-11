@@ -20,7 +20,7 @@ import {
   DELETE_BLOG,
   gatherToken,
   USERS_PAGINATED,
-} from "./queries";
+} from "../../global/queries";
 import {
   ActionIcon,
   Badge,

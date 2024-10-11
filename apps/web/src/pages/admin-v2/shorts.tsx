@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { SHORTS_MANY } from "./queries";
+import { SHORTS_MANY } from "../../global/queries";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import {
   Badge,

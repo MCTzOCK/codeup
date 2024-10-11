@@ -11,7 +11,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { CONTACTS_PAGINATED } from "./queries";
+import { CONTACTS_PAGINATED } from "../../global/queries";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import {
   Badge,
