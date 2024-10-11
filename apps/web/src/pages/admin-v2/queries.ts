@@ -230,3 +230,30 @@ export const DASHBOARD_PLANNING = gql`
     ProjectFlowCount
   }
 `;
+
+export const DASHBOARD_LEARNING = gql`
+  query DashboardLearning($startDate: Date!, $endDate: Date!) {
+    CourseCount
+    ContentCount
+    CourseEnrollmentCount
+    ObtainedCertificateCount
+    CourseCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: "day"
+      filter: {}
+    )
+    CourseEnrollmentCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: "day"
+      filter: {}
+    )
+    ContentCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: "day"
+      filter: {}
+    )
+  }
+`;

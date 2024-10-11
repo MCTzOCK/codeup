@@ -29,6 +29,7 @@ import ErrorsCard from "../../global/mantine-components/adminDashboard/ErrorsCar
 import ForumCard from "../../global/mantine-components/adminDashboard/ForumCard";
 import ContactCard from "../../global/mantine-components/adminDashboard/ContactCard";
 import PlanningCard from "../../global/mantine-components/adminDashboard/PlanningCard";
+import LearningCard from "../../global/mantine-components/adminDashboard/LearningCard";
 
 export default function Index() {
   return (
@@ -50,6 +51,7 @@ export default function Index() {
           <ProjectsCard />
           <ForumCard />
           <PlanningCard />
+          <LearningCard />
           <ContactCard />
         </SimpleGrid>
       </AdminLayout>

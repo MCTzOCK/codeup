@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/ContactCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/ErrorsCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/ForumCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/PlanningCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/ProjectsCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/ReachCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/LearningCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/DashboardCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/DashboardCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/DashboardChartCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/DashboardChartCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/queries.ts" afterDir="false" />
     </list>
