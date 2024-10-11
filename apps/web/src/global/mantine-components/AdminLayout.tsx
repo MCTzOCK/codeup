@@ -21,9 +21,9 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "next-i18next";
-import { FaChartGantt, FaFileLines } from "react-icons/fa6";
+import { FaChartArea, FaChartGantt, FaFileLines } from "react-icons/fa6";
 import { useRouter } from "next/router";
-import { FaUsers } from "react-icons/fa";
+import { FaRocket, FaUsers } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { useUserLoggedInRedirect } from "@codeup/hooks";
 
@@ -87,7 +87,12 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
                 {
                   href: "/admin-v2",
                   label: "Dashboard",
-                  icon: <FaChartGantt />,
+                  icon: <FaRocket />,
+                },
+                {
+                  href: "/admin-v2/analytics",
+                  label: "Analytics",
+                  icon: <FaChartArea />,
                 },
                 {
                   href: "/admin-v2/users",
