@@ -257,3 +257,29 @@ export const DASHBOARD_LEARNING = gql`
     )
   }
 `;
+
+export const ERRORS_PAGINATED = gql`
+  query ErrorsPaginated($page: Int!) {
+    ErrorModelPagination(page: $page, perPage: 10) {
+      count
+      items {
+        _id
+        name
+        message
+        stack
+        createdAt
+        __typename
+      }
+      pageInfo {
+        currentPage
+        perPage
+        pageCount
+        itemCount
+        hasNextPage
+        hasPreviousPage
+        __typename
+      }
+      __typename
+    }
+  }
+`;
