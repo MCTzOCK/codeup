@@ -51,16 +51,23 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
         }}
       >
         <AppShell.Header>
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom={"sm"}
-            size={"sm"}
-          />
           <Flex align={"center"} gap={"sm"} p={"xs"} justify={"space-between"}>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom={"sm"}
+              size={"sm"}
+            />
             <Flex align={"center"} gap={"sm"} p={"xs"}>
-              <Image src={"/codeup.png"} w={"48"} />
-              <Title order={2}>CodeUp Admin</Title>
+              <Image
+                src={"/codeup.png"}
+                w={"48"}
+                display={{
+                  base: "none",
+                  md: "initial",
+                }}
+              />
+              <Title order={2}>Admin</Title>
             </Flex>
             <Button
               color={"red"}

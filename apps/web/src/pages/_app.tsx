@@ -1,5 +1,6 @@
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
+import "@mantine/dates/styles.css";
 import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import "reactflow/dist/style.css";
