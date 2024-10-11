@@ -11,6 +11,7 @@
 import { gql } from "@apollo/client";
 import makeRequest from "@codeup/rest/dist/makeRequest";
 import AccountManager from "@codeup/util/dist/AccountManager";
+import type { DocumentNode } from "@graphql-typed-document-node/core/node_modules/graphql";
 
 export function gatherToken(setToken: (token: string) => void) {
   makeRequest({
@@ -147,5 +148,36 @@ export const DELETE_BLOG = gql`
         message
       }
     }
+  }
+`;
+
+export const DASHBOARD_USERS = gql`
+  query DashboardUsers($startDate: Date!, $endDate: Date!, $interval: String!) {
+    UserCount
+    UserCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: $interval
+      filter: {}
+    )
+  }
+`;
+
+export const DASHBOARD_ANALYTICS = gql`
+  query DashboardUsers($startDate: Date!, $endDate: Date!, $interval: String!) {
+    AnalyticsCount
+    AnalyticsCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: $interval
+      filter: {}
+    )
+    SessionReplayCount
+    SessionReplayCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: $interval
+      filter: {}
+    )
   }
 `;

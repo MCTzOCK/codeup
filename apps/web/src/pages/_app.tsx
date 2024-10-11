@@ -1,31 +1,21 @@
 import "@mantine/core/styles.css";
+import "@mantine/charts/styles.css";
 import "../styles/globals.scss";
 import "../styles/tiptap.css";
 import "reactflow/dist/style.css";
 import type { AppProps } from "next/app";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
-import { CommunityNavigationBar } from "@codeup/components/community";
-import { PostButton } from "@codeup/components/community/post";
-import { Footer, NavigationBar } from "@codeup/components/global";
-import ForumNavigationBar from "@codeup/components/forum/ForumNavigationBar";
-import CommandPalette from "@codeup/components/global/CommandPalette";
-import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import { GoogleAnalytics } from "nextjs-google-analytics";
-import REST from "@codeup/rest";
 import useAnalytics from "@codeup/hooks/hooks/useAnalytics";
-import theme from "../global/theme";
 import { useLoggedIn } from "@codeup/hooks";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import Tracker from "../special-components/Tracker";
 import "../styles/rrweb.custom.css";
 import { appWithTranslation } from "next-i18next";
 import PopupManager from "../global/PopupManager";
-import { MantineProvider } from "@mantine/core";
-import { mantineTheme } from "../global/mantine.theme";
 import Provider from "../global/Provider";
+
 /*
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
