@@ -30,6 +30,7 @@ export default function DashboardChartCard(props: {
   renderChart: (data: any) => React.ReactNode;
   gqlQuery: any;
   customVariables: any;
+  noDate?: boolean;
 }) {
   const [dates, setDates] = React.useState<[Date | null, Date | null]>([
     moment().subtract(7, "days").toDate(),
@@ -86,7 +87,11 @@ export default function DashboardChartCard(props: {
           <Title order={3}>{props.title}</Title>
           <Popover position={"bottom"} withArrow shadow={"md"}>
             <Popover.Target>
-              <ActionIcon aria-label={"Change Date"} variant={"filled"}>
+              <ActionIcon
+                aria-label={"Change Date"}
+                variant={"filled"}
+                display={props.noDate ? "none" : "initial"}
+              >
                 <FaCalendar />
               </ActionIcon>
             </Popover.Target>

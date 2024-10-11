@@ -344,6 +344,16 @@ config();
             groupByFormat = "%Y-%m-%d";
             break;
         }
+        let dateKey = "createdAt";
+
+        // @ts-ignore
+        if (data[key].model.schema.obj.createdAt) {
+          dateKey = "createdAt";
+          // @ts-ignore
+        } else if (data[key].model.schema.obj.created_at) {
+          dateKey = "created_at";
+        }
+
         // @ts-ignore
         const res = await data[key].model.aggregate([
           {
@@ -359,7 +369,7 @@ config();
             $project: {
               // Format the createdAt date based on the chosen interval (day, week, etc.)
               interval: {
-                $dateToString: { format: groupByFormat, date: "$createdAt" },
+                $dateToString: { format: groupByFormat, date: `$${dateKey}` },
               },
               amount: 1, // Example field - include any other fields you want
             },

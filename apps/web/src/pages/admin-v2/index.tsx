@@ -22,13 +22,20 @@ import {
 } from "@mantine/core";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import { useQuery } from "@apollo/client";
-import { DASHBOARD_ANALYTICS, DASHBOARD_USERS } from "./queries";
+import {
+  DASHBOARD_ANALYTICS,
+  DASHBOARD_CONTACTS,
+  DASHBOARD_PROJECTS,
+  DASHBOARD_USERS,
+} from "./queries";
 import moment from "moment";
-import { BarChart, LineChart } from "@mantine/charts";
+import { AreaChart, BarChart, LineChart } from "@mantine/charts";
 import { FaCalendar } from "react-icons/fa";
 import { DatePicker } from "@mantine/dates";
 import UserCard from "../../global/mantine-components/adminDashboard/UserCard";
 import DashboardChartCard from "../../global/mantine-components/adminDashboard/DashboardChartCard";
+import DashboardCard from "../../global/mantine-components/adminDashboard/DashboardCard";
+import { Table, Thead, Tr, Td, Th, Tbody } from "@chakra-ui/react";
 
 export default function Index() {
   const {
@@ -102,6 +109,86 @@ export default function Index() {
               />
             )}
             gqlQuery={DASHBOARD_ANALYTICS}
+            customVariables={{}}
+          />
+          <DashboardChartCard
+            noDate
+            title={"Projects"}
+            description={"Overview over the user-created projects."}
+            renderContent={(data) => (
+              <>
+                <b>
+                  {data.ProjectCount +
+                    data.IDEProjectCount +
+                    data.EditorProjectCount +
+                    data.CodeUpKidsProjectCount}
+                </b>{" "}
+                projects have been created by users.
+              </>
+            )}
+            renderChart={(data) => (
+              <BarChart
+                pt={"lg"}
+                h={300}
+                data={[
+                  {
+                    "V1 Projects": data.IDEProjectCount,
+                    "V2 Projects": data.EditorProjectCount,
+                    "V3 Projects": data.ProjectCount,
+                    "CodeUp-Kids": data.CodeUpKidsProjectCount,
+                    date: "Projects",
+                  },
+                ]}
+                dataKey={"date"}
+                withLegend
+                series={[
+                  {
+                    name: "V1 Projects",
+                    color: "blue.6",
+                  },
+                  {
+                    name: "V2 Projects",
+                    color: "teal.6",
+                  },
+                  {
+                    name: "V3 Projects",
+                    color: "red.6",
+                  },
+                  {
+                    name: "CodeUp-Kids",
+                    color: "green.6",
+                  },
+                ]}
+                tickLine={"xy"}
+                gridAxis={"xy"}
+                withXAxis={true}
+              />
+            )}
+            gqlQuery={DASHBOARD_PROJECTS}
+            customVariables={{}}
+          />
+          <DashboardCard
+            title={"Contact Requests"}
+            description={
+              "Overview over the contact requests that may have to be answered."
+            }
+            renderContent={(data) => (
+              <>
+                <Text>
+                  <b>{data.ContactCount}</b> contact requests have been
+                  received. You can view them in the dedicated page.
+                </Text>
+                <Button
+                  component={"a"}
+                  href={"/admin-v2/contacts"}
+                  fullWidth
+                  mt={"md"}
+                >
+                  View Contact Requests
+                </Button>
+              </>
+            )}
+            gqlQuery={DASHBOARD_CONTACTS}
             customVariables={{}}
           />
         </SimpleGrid>

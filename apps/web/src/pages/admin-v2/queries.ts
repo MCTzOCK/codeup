@@ -181,3 +181,18 @@ export const DASHBOARD_ANALYTICS = gql`
     )
   }
 `;
+
+export const DASHBOARD_CONTACTS = gql`
+  query DashboardContacts {
+    ContactCount
+  }
+`;
+
+export const DASHBOARD_PROJECTS = gql`
+  query DashboardProjects {
+    ProjectCount
+    IDEProjectCount
+    EditorProjectCount
+    CodeUpKidsProjectCount
+  }
+`;
