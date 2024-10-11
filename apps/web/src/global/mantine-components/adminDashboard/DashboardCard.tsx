@@ -18,6 +18,7 @@ export default function DashboardCard(props: {
   renderContent: (data: any) => React.ReactNode;
   gqlQuery: any;
   customVariables: any;
+  style?: any;
 }) {
   const { loading, error, data } = useQuery(props.gqlQuery, {
     variables: props.customVariables,
@@ -32,6 +33,7 @@ export default function DashboardCard(props: {
           borderRadius: "var(--mantine-radius-md)",
           width: "100%",
           height: "100%",
+          ...props.style,
         }}
       >
         <Group justify={"space-between"}>

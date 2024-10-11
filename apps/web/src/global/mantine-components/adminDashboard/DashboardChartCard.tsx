@@ -31,6 +31,13 @@ export default function DashboardChartCard(props: {
   gqlQuery: any;
   customVariables: any;
   noDate?: boolean;
+  style?: any;
+  defaultSelectedTime?:
+    | "one-week"
+    | "two-week"
+    | "month"
+    | "half-year"
+    | "year";
 }) {
   const [dates, setDates] = React.useState<[Date | null, Date | null]>([
     moment().subtract(7, "days").toDate(),
@@ -38,7 +45,7 @@ export default function DashboardChartCard(props: {
   ]);
   const [selectedTime, setSelectedTime] = React.useState<
     "one-week" | "two-week" | "month" | "half-year" | "year" | "custom"
-  >("one-week");
+  >(props.defaultSelectedTime ? props.defaultSelectedTime : "one-week");
 
   React.useEffect(() => {
     if (selectedTime !== "custom") {
@@ -81,6 +88,7 @@ export default function DashboardChartCard(props: {
           borderRadius: "var(--mantine-radius-md)",
           width: "100%",
           height: "100%",
+          ...props.style,
         }}
       >
         <Group justify={"space-between"}>

@@ -196,3 +196,37 @@ export const DASHBOARD_PROJECTS = gql`
     CodeUpKidsProjectCount
   }
 `;
+
+export const DASHBOARD_ERRORS = gql`
+  query DashboardErrors(
+    $startDate: Date!
+    $endDate: Date!
+    $interval: String!
+  ) {
+    ErrorModelCount
+    ErrorModelCreatedChart(
+      startDate: $startDate
+      endDate: $endDate
+      interval: $interval
+      filter: {}
+    )
+  }
+`;
+
+export const DASHBOARD_FORUM = gql`
+  query DashboardProjects {
+    ForumProfileCount
+    ForumPostCount
+    ForumChatCount
+  }
+`;
+
+export const DASHBOARD_PLANNING = gql`
+  query DashboardPlanning {
+    ToDoProjectCount
+    ProjectIssueCount
+    TodoCount
+    ToDoListV2Count
+    ProjectFlowCount
+  }
+`;
