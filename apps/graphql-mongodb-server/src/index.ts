@@ -345,7 +345,7 @@ config();
             break;
         }
         // @ts-ignore
-        return await data[key].model.aggregate([
+        const res = await data[key].model.aggregate([
           {
             $match: {
               $and: args.filter,
@@ -374,6 +374,26 @@ config();
             $sort: { _id: 1 }, // Sort by interval (chronologically)
           },
         ]);
+
+        let intervalList = [];
+
+        for (
+          let i = new Date(args.startDate);
+          i <= new Date(args.endDate);
+          i.setDate(i.getDate() + 1)
+        ) {
+          intervalList.push(i.toISOString().split("T")[0]);
+        }
+
+        const intervals = intervalList.map((interval) => {
+          const found = res.find((r: any) => r._id === interval);
+          return {
+            id: interval,
+            count: found ? found.count : 0,
+          };
+        });
+
+        return intervals;
       },
     });
     // @ts-ignore

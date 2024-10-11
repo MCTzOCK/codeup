@@ -14,6 +14,7 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const { execSync } = require("child_process");
+const { exec } = require("node:child_process");
 
 const INFO = {
   git: {
@@ -53,24 +54,42 @@ const getGitInfo = () => {
   INFO.git.lastCommitMessage = gitLastCommitMessage.replace("\n", "");
 };
 
-const getPackageInfoLC = () => {
-  const npmPackages = execSync("npx license-checker --json", {
+const getPackageInfoLC = async () => {
+  let npmPackages = "";
+
+  const proc = exec("npx license-checker --json", {
     cwd: path.join(__dirname, "..", "..", ".."),
   });
 
-  const packages = JSON.parse(npmPackages.toString());
+  proc.stdout.on("data", (data) => {
+    npmPackages += data;
+  });
 
-  for (const p in packages) {
-    const name = p.startsWith("@") ? "@" + p.split("@")[1] : p.split("@")[0];
-    const version = p.split("@")[p.startsWith("@") ? 2 : 1];
-    INFO.packages.packages.push({
-      name: name,
-      version: version,
-      license: packages[p].licenses,
+  proc.stderr.on("data", (data) => {
+    console.error(data);
+  });
+
+  return new Promise((resolve, reject) => {
+    proc.on("close", (code) => {
+      const packages = JSON.parse(npmPackages.toString());
+
+      for (const p in packages) {
+        const name = p.startsWith("@")
+          ? "@" + p.split("@")[1]
+          : p.split("@")[0];
+        const version = p.split("@")[p.startsWith("@") ? 2 : 1];
+        INFO.packages.packages.push({
+          name: name,
+          version: version,
+          license: packages[p].licenses,
+        });
+
+        INFO.packages.count++;
+      }
+
+      resolve();
     });
-
-    INFO.packages.count++;
-  }
+  });
 };
 
 const getPackageInfo = () => {
@@ -120,13 +139,15 @@ const getAppInfo = () => {
   INFO.app.totalLines = parseInt(lines.toString().replace("\n", ""));
 };
 
-getGitInfo();
-getPackageInfoLC();
-getAppInfo();
+(async () => {
+  getGitInfo();
+  await getPackageInfoLC();
+  getAppInfo();
 
-fs.writeFileSync(
-  path.join(__dirname, "..", ".codeup_app_stats.json"),
-  JSON.stringify(INFO, null, 2)
-);
+  fs.writeFileSync(
+    path.join(__dirname, "..", ".codeup_app_stats.json"),
+    JSON.stringify(INFO, null, 2)
+  );
 
-console.log("> Collecting package info... Done!");
+  console.log("> Collecting package info... Done!");
+})();
