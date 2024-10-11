@@ -74,7 +74,7 @@ export default function Errors() {
             ) : (
               (data as any).ErrorModelPagination.items.map((item: any) => (
                 <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
-                  <Group justify="space-between" mt="md" mb="xs">
+                  <Group justify="space-between" mb="xs">
                     <Stack gap={0}>
                       <Title order={3} style={{ margin: 0 }}>
                         {item.name}

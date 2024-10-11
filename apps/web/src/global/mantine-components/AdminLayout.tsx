@@ -26,9 +26,10 @@ import {
   FaChartGantt,
   FaFileLines,
   FaMessage,
+  FaUpRightAndDownLeftFromCenter,
 } from "react-icons/fa6";
 import { useRouter } from "next/router";
-import { FaRocket, FaUsers } from "react-icons/fa";
+import { FaLink, FaRocket, FaUsers } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { useUserLoggedInRedirect } from "@codeup/hooks";
 import { BiError } from "react-icons/bi";
@@ -119,6 +120,11 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
                   href: "/admin-v2/blog",
                   label: "Blog",
                   icon: <FaFileLines />,
+                },
+                {
+                  href: "/admin-v2/shorts",
+                  label: "Shorts",
+                  icon: <FaLink />,
                 },
               ] as {
                 href: string;

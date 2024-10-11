@@ -308,3 +308,14 @@ export const CONTACTS_PAGINATED = gql`
     }
   }
 `;
+
+export const SHORTS_MANY = gql`
+  query ShortsMany {
+    ShortURLMany {
+      createdAt
+      destination
+      short
+      _id
+    }
+  }
+`;

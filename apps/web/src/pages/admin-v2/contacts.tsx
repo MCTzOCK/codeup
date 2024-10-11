@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import { useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { CONTACTS_PAGINATED } from "./queries";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
 import {
@@ -27,7 +27,7 @@ import {
   Button,
 } from "@mantine/core";
 import moment from "moment/moment";
-import { FaEnvelope } from "react-icons/fa";
+import { FaEnvelope, FaTrash } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
@@ -35,11 +35,14 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 export default function Contacts() {
   const [page, setPage] = React.useState(1);
   const [pages, setPages] = React.useState(1);
-  const { loading, error, data } = useQuery(CONTACTS_PAGINATED, {
-    variables: {
-      page: page,
-    },
-  });
+  const { client, loading, error, refetch, data } = useQuery(
+    CONTACTS_PAGINATED,
+    {
+      variables: {
+        page: page,
+      },
+    }
+  );
 
   useEffect(() => {
     if (!loading && data) {
@@ -76,7 +79,7 @@ export default function Contacts() {
             ) : (
               (data as any).ContactPagination.items.map((item: any) => (
                 <Card shadow={"sm"} padding={"lg"} radius={"md"} withBorder>
-                  <Group justify="space-between" mt="md" mb="xs">
+                  <Group justify="space-between" mb="xs">
                     <Stack gap={0}>
                       <Title order={3} style={{ margin: 0 }}>
                         {item.username}
@@ -139,6 +142,51 @@ export default function Contacts() {
                     mt={"md"}
                   >
                     Answer
+                  </Button>
+                  <Button
+                    onClick={async () => {
+                      const res = await client.mutate({
+                        mutation: gql`
+                          mutation DELETE_CONTACT($id: MongoID!) {
+                            ContactRemoveById(_id: $id) {
+                              recordId
+                              record {
+                                _id
+                              }
+                              error {
+                                message
+                              }
+                            }
+                          }
+                        `,
+                        variables: {
+                          id: item._id,
+                        },
+                      });
+
+                      if (res.errors) {
+                        await PopupManager.alertAsync({
+                          title: "Error",
+                          description:
+                            "An error occurred: " + res.errors[0].message,
+                        });
+                        return;
+                      }
+
+                      await PopupManager.alertAsync({
+                        title: "Success",
+                        description: "The message was deleted successfully.",
+                      });
+
+                      refetch();
+                    }}
+                    leftSection={<FaTrash />}
+                    radius={"md"}
+                    color={"red"}
+                    fullWidth
+                    mt={"md"}
+                  >
+                    Delete
                   </Button>
                 </Card>
               ))
