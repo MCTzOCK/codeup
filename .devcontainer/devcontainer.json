@@ -1,0 +1,11 @@
+{
+  "name": "codeup-devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "features": {
+    "ghcr.io/wxw-matt/devcontainer-features/command_runner:latest": {
+			"command1": "npm i -g yarn turbo",
+			"command2": "yarn --cwd /usr/src"
+    }
+  },
+  "workspaceFolder": "/usr/src"
+}
