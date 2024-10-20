@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/web/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/UserCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/UserCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,11 +132,11 @@
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\logos" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\src\global" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\src\pages" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\src\pages\mantine" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\public\assets" />
       <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\game\src" />
-      <recent name="P:\Competitions\JuFo\2025_CodeUp_Reborn\apps\web\public\_static\images\lpv4" />
     </key>
   </component>
   <component name="RunManager" selected="npm.build (1)">

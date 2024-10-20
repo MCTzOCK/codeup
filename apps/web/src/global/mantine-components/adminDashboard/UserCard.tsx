@@ -9,19 +9,7 @@
  */
 
 import * as React from "react";
-import { useQuery } from "@apollo/client";
 import { DASHBOARD_USERS } from "../../queries";
-import moment from "moment/moment";
-import {
-  ActionIcon,
-  Container,
-  Group,
-  Popover,
-  Text,
-  Title,
-} from "@mantine/core";
-import { FaCalendar } from "react-icons/fa";
-import { DatePicker } from "@mantine/dates";
 import { BarChart } from "@mantine/charts";
 import DashboardChartCard from "./DashboardChartCard";
 

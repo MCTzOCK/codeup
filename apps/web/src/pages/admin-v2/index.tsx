@@ -10,19 +10,9 @@
 
 import * as React from "react";
 import { sProp } from "../../global/i18nstaticProps";
-import { Button, Container, SimpleGrid, Text, Title } from "@mantine/core";
+import { Container, SimpleGrid, Title } from "@mantine/core";
 import AdminLayout from "../../global/mantine-components/AdminLayout";
-import {
-  DASHBOARD_ANALYTICS,
-  DASHBOARD_CONTACTS,
-  DASHBOARD_ERRORS,
-  DASHBOARD_FORUM,
-  DASHBOARD_PROJECTS,
-} from "../../global/queries";
-import { AreaChart, BarChart, LineChart, RadarChart } from "@mantine/charts";
 import UserCard from "../../global/mantine-components/adminDashboard/UserCard";
-import DashboardChartCard from "../../global/mantine-components/adminDashboard/DashboardChartCard";
-import DashboardCard from "../../global/mantine-components/adminDashboard/DashboardCard";
 import ReachCard from "../../global/mantine-components/adminDashboard/ReachCard";
 import ProjectsCard from "../../global/mantine-components/adminDashboard/ProjectsCard";
 import ErrorsCard from "../../global/mantine-components/adminDashboard/ErrorsCard";
@@ -39,7 +29,7 @@ export default function Index() {
           <Title order={2}>Dashboard Overview</Title>
         </Container>
         <SimpleGrid
-          cols={{ base: 1, sm: 2, lg: 3 }}
+          cols={{ base: 1, md: 2, lg: 3 }}
           spacing={{ base: 10, sm: "xl" }}
           verticalSpacing={{ base: "md", sm: "xl" }}
           mb={"md"}
