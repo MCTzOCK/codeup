@@ -5,9 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/components/AppLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/mantine.theme.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/_app.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/_document.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/cdn.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/UserCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/adminDashboard/UserCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/admin-v2/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/global/mantine-components/AdminLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/hooks/hooks/useUserLoggedInRedirect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/hooks/hooks/useUserLoggedInRedirect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +102,7 @@
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.10.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.10.8&quot;,
     &quot;last.edited.regexp&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;P:/website-v7&quot;,
+    &quot;last_opened_file_path&quot;: &quot;P:/encrypt-folder&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,

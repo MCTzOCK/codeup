@@ -713,7 +713,9 @@ app
                 metadata: { contentType: string };
               };
 
-              res.setHeader("Content-Type", gfsFile.metadata.contentType);
+              if (gfsFile.metadata) {
+                res.setHeader("Content-Type", gfsFile.metadata.contentType);
+              }
 
               await new Promise((resolve) => {
                 file.on("data", (chunk) => {

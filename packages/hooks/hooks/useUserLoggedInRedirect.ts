@@ -23,7 +23,11 @@ export default function useUserLoggedInRedirect(options: {
     if (!loaded) return;
 
     if (!loggedIn && !options.allowAnonymous) {
-      window.location.href = "/#login";
+      if (options.redirectTo) {
+        window.location.href = options.redirectTo;
+      } else {
+        window.location.href = "/#login";
+      }
     }
 
     if (options.onlyAdmin && userInfo && userInfo.role !== "admin") {
