@@ -16,6 +16,8 @@ import { mantineTheme } from "@/mantine.theme";
 import { MantineProvider } from "@mantine/core";
 import { useRouter } from "next/router";
 import AppLayout from "@/components/AppLayout";
+import { RESTAPI } from "@codeup/rest/dist/makeRequest";
+RESTAPI.path_prefix = "https://codeup.space";
 
 export default function App({
   Component,
@@ -28,19 +30,15 @@ export default function App({
 
   return (
     <>
-      <div suppressHydrationWarning>
-        {typeof window === "undefined" ? null : (
-          <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
-            {router.pathname.startsWith("/app") ? (
-              <AppLayout>
-                <Component {...pageProps} />
-              </AppLayout>
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </MantineProvider>
+      <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
+        {router.pathname.startsWith("/app") ? (
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        ) : (
+          <Component {...pageProps} />
         )}
-      </div>
+      </MantineProvider>
     </>
   );
 }

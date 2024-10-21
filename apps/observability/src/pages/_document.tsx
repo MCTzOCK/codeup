@@ -8,11 +8,13 @@
  *
  */
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { ColorSchemeScript } from "@mantine/core";
 
 export default function Doc() {
   return (
     <Html lang={"en"}>
       <Head>
+        <ColorSchemeScript defaultColorScheme="auto" />
         <meta charSet={"utf-8"} />
         <link rel={"icon"} href={"/favicon.ico"} />
       </Head>

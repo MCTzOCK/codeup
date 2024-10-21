@@ -107,6 +107,17 @@ app
           res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
         }
 
+        if (req.method === "OPTIONS") {
+          res.setHeader(
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD, CONNECT, TRACE"
+          );
+          res.setHeader("Access-Control-Allow-Headers", "*");
+          res.statusCode = 200;
+          res.end();
+          return;
+        }
+
         const customDomain = req.headers.host!.includes(":")
           ? req.headers.host!.split(":")[0]
           : req.headers.host;

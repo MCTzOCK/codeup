@@ -9,14 +9,20 @@
  */
 
 import * as React from "react";
-import { useUserLoggedInRedirect } from "@codeup/hooks";
+import { useLoggedIn, useUserLoggedInRedirect } from "@codeup/hooks";
+import { useEffect } from "react";
 
 export default function AppLayout(props: { children: React.ReactNode }) {
-  useUserLoggedInRedirect({
-    allowAnonymous: true,
-    redirectTo: `https://codeup.space/account/auth?appId=6716b5aa9fa93e4dc0283868&redirect=${
-      window.location.origin + "/auth"
-    }`,
-  });
+  const { loaded, loggedIn, userInfo } = useLoggedIn();
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    if (!loggedIn) {
+      window.location.href = `https://codeup.space/account/authorize?appId=6716b5aa9fa93e4dc0283868&redirect=${
+        window.location.origin + "/auth"
+      }`;
+    }
+  }, [loaded, loggedIn, userInfo]);
   return <>{props.children}</>;
 }
