@@ -27,6 +27,7 @@ const ApplicationModel = new mongoose.Schema({
   logo: {
     type: String,
     required: false,
+    default: "https://codeup.space/codeup.png",
   },
   url: {
     type: String,

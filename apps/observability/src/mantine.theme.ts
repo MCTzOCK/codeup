@@ -14,5 +14,12 @@ export const mantineTheme = mergeMantineTheme(
   DEFAULT_THEME,
   createTheme({
     black: "#000",
+    components: {
+      Button: {
+        defaultProps: {
+          radius: "xl",
+        },
+      },
+    },
   })
 );
