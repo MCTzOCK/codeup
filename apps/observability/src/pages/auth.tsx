@@ -17,7 +17,7 @@ export default function Auth() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!router || !router.query) {
+    if (!router || !router.query || !router.query.token) {
       return;
     }
 

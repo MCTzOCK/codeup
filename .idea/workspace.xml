@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/components/ApplicationList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/api/applications.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/rest/RestClient.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/rest/customMakeRequest.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/server/hasSession.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/src/components/AppLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/components/AppLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/src/mantine.theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/mantine.theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/src/models/ApplicationModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/models/ApplicationModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/api/applications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/api/applications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/auth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/auth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/rest/RestClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/rest/RestClient.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

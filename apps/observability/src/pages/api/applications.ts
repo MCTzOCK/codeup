@@ -109,7 +109,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         return;
       }
 
-      await app.remove();
+      await app.deleteOne();
 
       res.status(200).json({
         status: 200,

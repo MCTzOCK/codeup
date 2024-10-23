@@ -83,14 +83,21 @@ export default class RestClient {
 
   /**
    * Updates an existing application
+   * @param appId The ID of the application to update
    * @param options The properties to update
    */
-  public static async updateApplication(options: {
-    name?: string;
-    url?: string;
-    logo?: string;
-  }): Promise<IResponse> {
-    return await RestClient.makeRequest.PUT("/applications", options);
+  public static async updateApplication(
+    appId: string,
+    options: {
+      name?: string;
+      url?: string;
+      logo?: string;
+    }
+  ): Promise<IResponse> {
+    return await RestClient.makeRequest.PUT(
+      "/applications?id=" + appId,
+      options
+    );
   }
 
   public static makeRequest = {
