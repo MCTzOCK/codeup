@@ -92,6 +92,7 @@ export default function Application() {
             width: "100%",
           }}
           bg={"gray.9"}
+          size={"xl"}
         >
           <Flex align={"center"} justify={"space-between"}>
             <Flex align={"center"} gap={"md"}>

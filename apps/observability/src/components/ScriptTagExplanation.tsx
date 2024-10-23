@@ -28,7 +28,12 @@ export default function ScriptTagExplanation(props: { appId: string }) {
 
         <Tabs.Panel value="vanilla-html" mt={"md"}>
           Add the following content to the head of your HTML file:
-          <pre>
+          <pre
+            style={{
+              overflow: "auto",
+              maxWidth: "100%",
+            }}
+          >
             {`<script src="${window.location.origin}/api/analytics/script?appId=${props.appId}"></script>`}
           </pre>
         </Tabs.Panel>
@@ -36,7 +41,12 @@ export default function ScriptTagExplanation(props: { appId: string }) {
         <Tabs.Panel value="next.js" mt={"md"}>
           Add the following content to the _app.tsx file in your Next.js
           pages-router project:
-          <pre>
+          <pre
+            style={{
+              overflow: "auto",
+              maxWidth: "100%",
+            }}
+          >
             {`<Script src="${window.location.origin}/api/analytics/script?appId=${props.appId}" />`}
           </pre>
         </Tabs.Panel>
