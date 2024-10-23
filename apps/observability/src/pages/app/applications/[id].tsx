@@ -143,7 +143,11 @@ export default function Application() {
                                 {
                                   name: name as string,
                                   url: url as string,
-                                  logo: fr.result as string,
+                                  logo:
+                                    // @ts-ignore
+                                    logo.size === 0 && logo.name === ""
+                                      ? undefined
+                                      : (fr.result as string),
                                 }
                               );
                               if (res.status === 200) {
