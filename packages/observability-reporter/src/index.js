@@ -17,59 +17,64 @@ if (window.appId === undefined) {
 if (window.cupURL === undefined) {
   window.cupURL = "https://observability.codeup.space";
 }
-fetch(window.cupURL + "/api/analytics/view?appId=" + window.appId, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    userAgent: navigator.userAgent,
-    url: window.location.href,
-    language: navigator.language,
-    screenResolution: `${window.screen.width}x${window.screen.height}`,
-    viewport: `${window.innerWidth}x${window.innerHeight}`,
-  }),
-});
 
-// Session Replay
-(async () => {
-  const sessionIdRes = await fetch(
-    window.cupURL + "/api/analytics/get-session-id?appId=" + window.appId,
-    {
-      method: "GET",
-    }
-  );
+try {
+  fetch(window.cupURL + "/api/analytics/view?appId=" + window.appId, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userAgent: navigator.userAgent,
+      url: window.location.href,
+      language: navigator.language,
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      viewport: `${window.innerWidth}x${window.innerHeight}`,
+    }),
+  });
 
-  if (sessionIdRes.status === 200) {
-    const sessionId = (await sessionIdRes.json()).sessionId;
-    const events = [];
-    rrweb.record({
-      emit(event) {
-        events.push(event);
-      },
-      maskInputFn: (e) => {
-        return e;
-      },
-      collectFonts: true,
-      maskAllInputs: false,
-    });
+  // Session Replay
+  (async () => {
+    const sessionIdRes = await fetch(
+      window.cupURL + "/api/analytics/get-session-id?appId=" + window.appId,
+      {
+        method: "GET",
+      }
+    );
 
-    const save = async () => {
-      fetch(window.cupURL + "/api/analytics/save-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    if (sessionIdRes.status === 200) {
+      const sessionId = (await sessionIdRes.json()).sessionId;
+      const events = [];
+      rrweb.record({
+        emit(event) {
+          events.push(event);
         },
-        body: JSON.stringify({
-          sessionId,
-          events,
-        }),
+        maskInputFn: (e) => {
+          return e;
+        },
+        collectFonts: true,
+        maskAllInputs: false,
       });
-    };
 
-    window.addEventListener("beforeunload", save);
-    setInterval(save, 5000);
-  } else {
-    console.log("Failed to get session id: " + sessionIdRes.status);
-  }
-})();
+      const save = async () => {
+        fetch(window.cupURL + "/api/analytics/save-session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionId,
+            events,
+          }),
+        });
+      };
+
+      window.addEventListener("beforeunload", save);
+      setInterval(save, 5000);
+    } else {
+      console.log("Failed to get session id: " + sessionIdRes.status);
+    }
+  })();
+} catch (e) {
+  console.log(e);
+}
