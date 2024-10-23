@@ -23,10 +23,12 @@ import {
   Loader,
   Stack,
   Text,
+  Title,
 } from "@mantine/core";
 import { FaFileImage, FaPen, FaPlus, FaTrash } from "react-icons/fa6";
 import { modals } from "@mantine/modals";
 import { FaSave } from "react-icons/fa";
+import ScriptTagExplanation from "@/components/ScriptTagExplanation";
 
 export default function Application() {
   const router = useRouter();
@@ -255,6 +257,24 @@ export default function Application() {
                 <FaTrash />
               </ActionIcon>
             </ActionIcon.Group>
+          </Flex>
+          <Flex align={"center"} justify={"center"} w={"100%"} mt={"md"}>
+            <Container
+              style={{
+                padding: "20px",
+                borderRadius: "10px",
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                width: "100%",
+              }}
+              bg={"gray.8"}
+            >
+              <Title order={3}>Adding to your Web-App</Title>
+              <Text>
+                To add the CodeUp Observer to your web application, you need to
+                include the platform-specific code snippet.
+              </Text>
+              <ScriptTagExplanation appId={app._id} />
+            </Container>
           </Flex>
         </Container>
       </Flex>

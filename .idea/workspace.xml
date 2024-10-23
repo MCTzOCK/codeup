@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/observability/src/components/ScriptTagExplanation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/public/script.base.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/public/script.base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/observability-reporter/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/observability-reporter/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,9 +28,9 @@
         <option value="CSS File" />
         <option value="GraphQL File" />
         <option value="tsconfig.json" />
-        <option value="TypeScript JSX File" />
         <option value="JavaScript File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
