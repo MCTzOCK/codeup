@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import AppLayout from "@/components/AppLayout";
 import { RESTAPI } from "@codeup/rest/dist/makeRequest";
 import { ModalsProvider } from "@mantine/modals";
+import Script from "next/script";
 RESTAPI.path_prefix = "https://codeup.space";
 
 export default function App({
@@ -31,6 +32,11 @@ export default function App({
 
   return (
     <>
+      <Script
+        src={
+          "http://localhost:3000/api/analytics/script?appId=6717e5bae3386bd4657330d6"
+        }
+      />
       <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
         <ModalsProvider>
           {router.pathname.startsWith("/app") ? (

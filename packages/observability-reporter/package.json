@@ -1,0 +1,19 @@
+{
+  "name": "@codeupspace/observability-reporter",
+  "version": "1.0.0",
+  "description": "Reporter for CodeUp Observability (client)",
+  "main": "dist/codeup-observability.js",
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs"
+  },
+  "author": "Ben Siebert",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "rollup": "^4.24.0",
+    "rrweb": "^2.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0"
+  }
+}

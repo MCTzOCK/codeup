@@ -32,6 +32,16 @@ app
 
     const server = http.createServer((req, res) => {
       console.log(new Date().toLocaleString(), req.method, req.url);
+      if (req.method === "OPTIONS") {
+        res.writeHead(200, {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods":
+            "GET, POST, PUT, DELETE, PATCH, OPTIONS, TRACE, HEAD",
+          "Access-Control-Allow-Headers": "Content-Type",
+        });
+        res.end();
+        return;
+      }
 
       handle(req, res);
     });
