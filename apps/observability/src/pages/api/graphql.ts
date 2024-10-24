@@ -40,6 +40,223 @@ if (process.env.NODE_ENV !== "production") {
   schemaComposer.clear();
 }
 
+const resolvers = {
+  createdChart: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const app = await ApplicationModel.findOne({
+      _id: args.applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    let groupByFormat = "%Y-%m-%d";
+
+    const res = await model.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(args.startDate),
+            $lte: new Date(args.endDate),
+          },
+          application: new ObjectId(args.applicationId),
+        },
+      },
+      {
+        $project: {
+          interval: {
+            $dateToString: { format: groupByFormat, date: `$createdAt` },
+          },
+          amount: 1,
+        },
+      },
+      {
+        $group: {
+          _id: "$interval",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    let intervalList = [];
+
+    for (
+      let i = new Date(args.startDate);
+      i <= new Date(args.endDate);
+      i.setDate(i.getDate() + 1)
+    ) {
+      intervalList.push(i.toISOString().split("T")[0]);
+    }
+
+    const intervals = intervalList.map((interval) => {
+      const found = res.find((r: any) => r._id === interval);
+      return {
+        id: interval,
+        count: found ? found.count : 0,
+      };
+    });
+
+    return intervals;
+  },
+  many: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const app = await ApplicationModel.findOne({
+      _id: args.applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    const docs = await model.find({
+      application: args.applicationId,
+      ...args.filter,
+    });
+
+    return docs;
+  },
+  pagination: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const page = args.page || 1;
+    const limit = args.limit || 10;
+    const applicationId = args.applicationId;
+
+    const app = await ApplicationModel.findOne({
+      _id: applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    const docs = await model
+      .find({
+        application: applicationId,
+      })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return docs;
+  },
+  chartField: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const app = await ApplicationModel.findOne({
+      _id: args.applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    const res = await model.aggregate([
+      {
+        $match: {
+          application: new ObjectId(args.applicationId),
+        },
+      },
+      {
+        $group: {
+          _id: "$" + args.field,
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return res;
+  },
+  byId: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const app = await ApplicationModel.find({
+      _id: args.applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    const doc = await model.findOne({
+      _id: args.id,
+      application: args.applicationId,
+    });
+
+    return doc;
+  },
+};
+
 if (!schema) {
   const ApplicationTC = composeMongoose(ApplicationModel, customizationOptions);
   const PageViewTC = composeMongoose(PageViewModel, customizationOptions);
@@ -78,79 +295,7 @@ if (!schema) {
       applicationId: "String!",
     },
     resolve: async ({ args, context }: any) => {
-      if (!context.auth) {
-        throw new GraphQLError("User not authorized", {
-          extensions: {
-            code: "UNAUTHORIZED",
-            http: { status: 401 },
-          },
-        });
-      }
-
-      const app = await ApplicationModel.findOne({
-        _id: args.applicationId,
-        username: context.user.username,
-      });
-
-      if (!app) {
-        throw new GraphQLError("Application not found", {
-          extensions: {
-            code: "NOT_FOUND",
-            http: { status: 404 },
-          },
-        });
-      }
-
-      let groupByFormat = "%Y-%m-%d";
-
-      const res = await PageViewModel.aggregate([
-        {
-          $match: {
-            createdAt: {
-              $gte: new Date(args.startDate),
-              $lte: new Date(args.endDate),
-            },
-            application: new ObjectId(args.applicationId),
-          },
-        },
-        {
-          $project: {
-            interval: {
-              $dateToString: { format: groupByFormat, date: `$createdAt` },
-            },
-            amount: 1,
-          },
-        },
-        {
-          $group: {
-            _id: "$interval",
-            count: { $sum: 1 },
-          },
-        },
-        {
-          $sort: { _id: 1 },
-        },
-      ]);
-
-      let intervalList = [];
-
-      for (
-        let i = new Date(args.startDate);
-        i <= new Date(args.endDate);
-        i.setDate(i.getDate() + 1)
-      ) {
-        intervalList.push(i.toISOString().split("T")[0]);
-      }
-
-      const intervals = intervalList.map((interval) => {
-        const found = res.find((r: any) => r._id === interval);
-        return {
-          id: interval,
-          count: found ? found.count : 0,
-        };
-      });
-
-      return intervals;
+      return resolvers.createdChart(PageViewModel, args, context);
     },
   });
   PageViewTC.addResolver({
@@ -161,35 +306,7 @@ if (!schema) {
       filter: "JSON",
     },
     resolve: async ({ args, context }: any) => {
-      if (!context.auth) {
-        throw new GraphQLError("User not authorized", {
-          extensions: {
-            code: "UNAUTHORIZED",
-            http: { status: 401 },
-          },
-        });
-      }
-
-      const app = await ApplicationModel.findOne({
-        _id: args.applicationId,
-        username: context.user.username,
-      });
-
-      if (!app) {
-        throw new GraphQLError("Application not found", {
-          extensions: {
-            code: "NOT_FOUND",
-            http: { status: 404 },
-          },
-        });
-      }
-
-      const views = await PageViewModel.find({
-        application: args.applicationId,
-        ...args.filter,
-      });
-
-      return views;
+      return resolvers.many(PageViewModel, args, context);
     },
   });
   PageViewTC.addResolver({
@@ -201,40 +318,7 @@ if (!schema) {
       applicationId: "String!",
     },
     resolve: async ({ args, context }: any) => {
-      if (!context.auth) {
-        throw new GraphQLError("User not authorized", {
-          extensions: {
-            code: "UNAUTHORIZED",
-            http: { status: 401 },
-          },
-        });
-      }
-
-      const page = args.page || 1;
-      const limit = args.limit || 10;
-      const applicationId = args.applicationId;
-
-      const app = await ApplicationModel.findOne({
-        _id: applicationId,
-        username: context.user.username,
-      });
-
-      if (!app) {
-        throw new GraphQLError("Application not found", {
-          extensions: {
-            code: "NOT_FOUND",
-            http: { status: 404 },
-          },
-        });
-      }
-
-      const views = await PageViewModel.find({
-        application: applicationId,
-      })
-        .skip((page - 1) * limit)
-        .limit(limit);
-
-      return views;
+      return resolvers.pagination(PageViewModel, args, context);
     },
   });
   PageViewTC.addResolver({
@@ -245,44 +329,75 @@ if (!schema) {
       field: "String!",
     },
     resolve: async ({ args, context }: any) => {
-      if (!context.auth) {
-        throw new GraphQLError("User not authorized", {
-          extensions: {
-            code: "UNAUTHORIZED",
-            http: { status: 401 },
-          },
-        });
-      }
-
-      const app = await ApplicationModel.findOne({
-        _id: args.applicationId,
-        username: context.user.username,
-      });
-
-      if (!app) {
-        throw new GraphQLError("Application not found", {
-          extensions: {
-            code: "NOT_FOUND",
-            http: { status: 404 },
-          },
-        });
-      }
-
-      const res = await PageViewModel.aggregate([
-        {
-          $match: {
-            application: new ObjectId(args.applicationId),
-          },
-        },
-        {
-          $group: {
-            _id: "$" + args.field,
-            count: { $sum: 1 },
-          },
-        },
-      ]);
-
-      return res;
+      return resolvers.chartField(PageViewModel, args, context);
+    },
+  });
+  PageViewTC.addResolver({
+    name: "ById",
+    type: PageViewTC,
+    args: {
+      applicationId: "String!",
+      id: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.byId(PageViewModel, args, context);
+    },
+  });
+  SReplayTC.addResolver({
+    name: "ChartCreated",
+    type: "JSON",
+    args: {
+      startDate: "Date!",
+      endDate: "Date!",
+      applicationId: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.createdChart(SessionReplayModel, args, context);
+    },
+  });
+  SReplayTC.addResolver({
+    name: "Many",
+    type: [SReplayTC],
+    args: {
+      applicationId: "String!",
+      filter: "JSON",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.many(SessionReplayModel, args, context);
+    },
+  });
+  SReplayTC.addResolver({
+    name: "Pagination",
+    type: [SReplayTC],
+    args: {
+      page: "Int",
+      limit: "Int",
+      applicationId: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.pagination(SessionReplayModel, args, context);
+    },
+  });
+  SReplayTC.addResolver({
+    name: "ChartField",
+    type: "JSON",
+    args: {
+      applicationId: "String!",
+      field: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.chartField(SessionReplayModel, args, context);
+    },
+  });
+  SReplayTC.addResolver({
+    name: "ById",
+    type: SReplayTC,
+    args: {
+      applicationId: "String!",
+      id: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.byId(SessionReplayModel, args, context);
     },
   });
 
@@ -292,6 +407,12 @@ if (!schema) {
     PageViewMany: PageViewTC.getResolver("Many"),
     PageViewPagination: PageViewTC.getResolver("Pagination"),
     PageViewChart: PageViewTC.getResolver("ChartField"),
+    PageViewById: PageViewTC.getResolver("ById"),
+    SReplayChartCreated: SReplayTC.getResolver("ChartCreated"),
+    SReplayMany: SReplayTC.getResolver("Many"),
+    SReplayPagination: SReplayTC.getResolver("Pagination"),
+    SReplayChart: SReplayTC.getResolver("ChartField"),
+    SReplayById: SReplayTC.getResolver("ById"),
   });
   // @ts-ignore
   global.gqlSchema = schemaComposer.buildSchema();
