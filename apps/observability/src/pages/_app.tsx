@@ -19,6 +19,7 @@ import AppLayout from "@/components/AppLayout";
 import { RESTAPI } from "@codeup/rest/dist/makeRequest";
 import { ModalsProvider } from "@mantine/modals";
 import Script from "next/script";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 RESTAPI.path_prefix = "https://codeup.space";
 
 export default function App({
@@ -29,6 +30,11 @@ export default function App({
   pageProps: any;
 }) {
   const router = useRouter();
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <>
@@ -39,12 +45,26 @@ export default function App({
       />
       <MantineProvider theme={mantineTheme} defaultColorScheme={"dark"}>
         <ModalsProvider>
-          {router.pathname.startsWith("/app") ? (
-            <AppLayout>
-              <Component {...pageProps} />
-            </AppLayout>
-          ) : (
-            <Component {...pageProps} />
+          {isClient && (
+            <ApolloProvider
+              client={
+                new ApolloClient({
+                  uri: "/api/graphql",
+                  cache: new InMemoryCache(),
+                  headers: {
+                    authorization: localStorage.getItem("token") as string,
+                  },
+                })
+              }
+            >
+              {router.pathname.startsWith("/app") ? (
+                <AppLayout>
+                  <Component {...pageProps} />
+                </AppLayout>
+              ) : (
+                <Component {...pageProps} />
+              )}
+            </ApolloProvider>
           )}
         </ModalsProvider>
       </MantineProvider>
