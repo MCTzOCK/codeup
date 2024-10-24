@@ -14611,7 +14611,7 @@ graphql-compose-pagination@8.3.0:
 
 graphql-compose@^9.0.11:
   version "9.0.11"
-  resolved "https://registry.npmjs.org/graphql-compose/-/graphql-compose-9.0.11.tgz"
+  resolved "https://registry.npmjs.org/graphql-compose/-/graphql-compose-9.0.11.tgz#c3b5a3378b62be0deb9ea43d147b756010f6d611"
   integrity sha512-p3+8p2lo7wel24IQwGIhwVGOnCJ3hfBno+x8CE7G4ZLaC4u5G2g6h1Mm8O5iJPTD0C+Q/WxxDqSL2qs8VOf5mg==
   dependencies:
     graphql-type-json "0.3.2"
@@ -14650,7 +14650,7 @@ graphql@^15.6.1:
 
 graphql@^16.9.0:
   version "16.9.0"
-  resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz#1c310e63f16a49ce1fbb230bd0a000e99f6f115f"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
 gray-matter@^4.0.3:
