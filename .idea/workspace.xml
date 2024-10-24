@@ -9,7 +9,6 @@
       <change afterPath="$PROJECT_DIR$/apps/observability/src/server/server.typedefs.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/observability/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/tsconfig.server.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/tsconfig.server.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
