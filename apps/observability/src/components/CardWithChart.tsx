@@ -13,8 +13,11 @@ import moment from "moment";
 import { useQuery } from "@apollo/client";
 import {
   ActionIcon,
+  Box,
   Container,
+  Flex,
   Group,
+  Menu,
   Popover,
   SegmentedControl,
   Text,
@@ -22,9 +25,17 @@ import {
 } from "@mantine/core";
 import { FaCalendar } from "react-icons/fa";
 import { DatePicker } from "@mantine/dates";
+import {
+  FaFileCsv,
+  FaFileExcel,
+  FaFileExport,
+  FaFileImage,
+  FaImage,
+} from "react-icons/fa6";
+import { useId } from "@mantine/hooks";
 
 export default function CardWithChart(props: {
-  title: string | React.ReactNode;
+  title: string;
   description: string;
   renderContent: (data: any) => React.ReactNode;
   renderChart: (data: any) => React.ReactNode;
@@ -46,6 +57,8 @@ export default function CardWithChart(props: {
   const [selectedTime, setSelectedTime] = React.useState<
     "one-week" | "two-week" | "month" | "half-year" | "year" | "custom"
   >(props.defaultSelectedTime ? props.defaultSelectedTime : "one-week");
+
+  const id = useId();
 
   React.useEffect(() => {
     if (selectedTime !== "custom") {
@@ -78,6 +91,45 @@ export default function CardWithChart(props: {
     },
   });
 
+  const exportChart = (format: string, extension: string) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 800;
+    canvas.height = 600;
+    const ctx = canvas.getContext("2d");
+    ctx!.font = "30px Arial";
+    ctx!.fillText(props.title, 10, 35);
+    const svg = document.querySelector(
+      `#${id} .recharts-responsive-container .recharts-wrapper svg`
+    ) as HTMLElement;
+    let svgData = new XMLSerializer().serializeToString(svg);
+    let style = document.createElement("style");
+    for (let i = 0; i < document.styleSheets.length; i++) {
+      let x = "";
+      for (let j = 0; j < document.styleSheets.item(i)!.cssRules.length; j++) {
+        x += document.styleSheets.item(i)?.cssRules[j].cssText;
+      }
+      style.innerHTML += x;
+    }
+    style.innerHTML = `* {color: #000000 !important;} :root { --chart-grid-color: #000000 !important; } ${style.innerHTML}`;
+    svgData = svgData.replace(
+      /<title\/>/g,
+      new XMLSerializer().serializeToString(style)
+    );
+    const img = new Image();
+
+    img.onload = () => {
+      img.width = canvas.width;
+      img.height = canvas.height;
+      ctx?.drawImage(img, 0, 0);
+      const a = document.createElement("a");
+      a.download = "chart." + extension;
+      a.href = canvas.toDataURL(format);
+      a.click();
+    };
+
+    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+  };
+
   return (
     <>
       <Container
@@ -93,44 +145,72 @@ export default function CardWithChart(props: {
       >
         <Group justify={"space-between"}>
           <Title order={3}>{props.title}</Title>
-          <Popover position={"bottom"} withArrow shadow={"md"}>
-            <Popover.Target>
-              <ActionIcon
-                aria-label={"Change Date"}
-                variant={"filled"}
-                display={props.noDate ? "none" : "initial"}
+          <Flex
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            gap={"sm"}
+          >
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <ActionIcon aria-label={"More Options"}>
+                  <FaFileExport />
+                </ActionIcon>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Export</Menu.Label>
+                <Menu.Item
+                  leftSection={<FaFileImage />}
+                  onClick={() => {
+                    exportChart("image/png", "png");
+                  }}
+                >
+                  PNG
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+            <Popover position={"bottom"} withArrow shadow={"md"}>
+              <Popover.Target>
+                <ActionIcon
+                  aria-label={"Change Date"}
+                  variant={"filled"}
+                  display={props.noDate ? "none" : "initial"}
+                >
+                  <FaCalendar />
+                </ActionIcon>
+              </Popover.Target>
+              <Popover.Dropdown
+                maw={"95%"}
+                style={{
+                  overflow: "scroll",
+                }}
               >
-                <FaCalendar />
-              </ActionIcon>
-            </Popover.Target>
-            <Popover.Dropdown
-              maw={"95%"}
-              style={{
-                overflow: "scroll",
-              }}
-            >
-              <SegmentedControl
-                value={selectedTime}
-                onChange={(value) => setSelectedTime(value as any)}
-                data={[
-                  { value: "one-week", label: "1 Week" },
-                  { value: "two-week", label: "2 Weeks" },
-                  { value: "month", label: "1 Month" },
-                  { value: "half-year", label: "6 Months" },
-                  { value: "year", label: "1 Year" },
-                  { value: "custom", label: "Custom" },
-                ]}
-              />
-              {selectedTime === "custom" && (
-                <DatePicker
-                  value={dates}
-                  onChange={(value) => setDates(value)}
-                  type={"range"}
-                  mt={"md"}
+                <SegmentedControl
+                  value={selectedTime}
+                  onChange={(value) => setSelectedTime(value as any)}
+                  data={[
+                    { value: "one-week", label: "1 Week" },
+                    { value: "two-week", label: "2 Weeks" },
+                    { value: "month", label: "1 Month" },
+                    { value: "half-year", label: "6 Months" },
+                    { value: "year", label: "1 Year" },
+                    { value: "custom", label: "Custom" },
+                  ]}
                 />
-              )}
-            </Popover.Dropdown>
-          </Popover>
+                {selectedTime === "custom" && (
+                  <DatePicker
+                    value={dates}
+                    onChange={(value) => setDates(value)}
+                    type={"range"}
+                    mt={"md"}
+                  />
+                )}
+              </Popover.Dropdown>
+            </Popover>
+          </Flex>
         </Group>
         <Text size={"sm"} c={"dimmed"}>
           {props.description}
@@ -140,7 +220,7 @@ export default function CardWithChart(props: {
         ) : (
           <>
             <Text>{props.renderContent(data)}</Text>
-            {props.renderChart(data)}
+            <div id={id}>{props.renderChart(data)}</div>
           </>
         )}
       </Container>
