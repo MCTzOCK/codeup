@@ -40,3 +40,13 @@ export const VIEWS_CHART = gql`
     PageViewChart(applicationId: $applicationId, field: $field)
   }
 `;
+
+export const VIEWS_CHART_RES = gql`
+  query ViewsChart($applicationId: String!) {
+    screenResolution: PageViewChart(
+      applicationId: $applicationId
+      field: "screenResolution"
+    )
+    viewport: PageViewChart(applicationId: $applicationId, field: "viewport")
+  }
+`;

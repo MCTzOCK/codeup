@@ -14,12 +14,13 @@ import { Box, Container, em, Flex } from "@mantine/core";
 import CardWithChart from "@/components/CardWithChart";
 import {
   BarChart,
+  BubbleChart,
   DonutChart,
   LineChart,
   PieChart,
   RadarChart,
 } from "@mantine/charts";
-import { VIEWS_CHART, VIEWS_CREATED } from "@/gql/queries";
+import { VIEWS_CHART, VIEWS_CHART_RES, VIEWS_CREATED } from "@/gql/queries";
 import { useRouter } from "next/router";
 
 export default function Views() {
@@ -235,6 +236,56 @@ export default function Views() {
               customVariables={{
                 applicationId: appId,
                 field: "language",
+              }}
+            />
+            <CardWithChart
+              noDate
+              title={"Screen"}
+              description={"Screen Resolution and Viewport"}
+              renderContent={(data) => (
+                <>
+                  See which screen resolution and viewport your users are using
+                  to browse your website.
+                </>
+              )}
+              renderChart={(data) => (
+                <Flex
+                  align={"center"}
+                  w={"100%"}
+                  justify={"center"}
+                  pt={"lg"}
+                  direction={"column"}
+                  gap={"lg"}
+                >
+                  <BubbleChart
+                    h={60}
+                    data={data.screenResolution.map((item: any) => ({
+                      resolution: item._id,
+                      index: 1,
+                      value: item.count,
+                    }))}
+                    range={[16, 225]}
+                    label="Resolution"
+                    color="lime.6"
+                    dataKey={{ x: "resolution", y: "index", z: "value" }}
+                  />
+                  <BubbleChart
+                    h={60}
+                    data={data.screenResolution.map((item: any) => ({
+                      viewport: item._id,
+                      index: 1,
+                      value: item.count,
+                    }))}
+                    range={[16, 225]}
+                    label="Viewport"
+                    color="red.6"
+                    dataKey={{ x: "viewport", y: "index", z: "value" }}
+                  />
+                </Flex>
+              )}
+              gqlQuery={VIEWS_CHART_RES}
+              customVariables={{
+                applicationId: appId,
               }}
             />
           </Box>
