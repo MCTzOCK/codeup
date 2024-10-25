@@ -255,6 +255,36 @@ const resolvers = {
 
     return doc;
   },
+  count: async (model: any, args: any, context: any) => {
+    if (!context.auth) {
+      throw new GraphQLError("User not authorized", {
+        extensions: {
+          code: "UNAUTHORIZED",
+          http: { status: 401 },
+        },
+      });
+    }
+
+    const app = await ApplicationModel.find({
+      _id: args.applicationId,
+      username: context.user.username,
+    });
+
+    if (!app) {
+      throw new GraphQLError("Application not found", {
+        extensions: {
+          code: "NOT_FOUND",
+          http: { status: 404 },
+        },
+      });
+    }
+
+    const count = await model.countDocuments({
+      application: args.applicationId,
+    });
+
+    return count;
+  },
 };
 
 if (!schema) {
@@ -343,6 +373,16 @@ if (!schema) {
       return resolvers.byId(PageViewModel, args, context);
     },
   });
+  PageViewTC.addResolver({
+    name: "Count",
+    type: "Int",
+    args: {
+      applicationId: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.count(PageViewModel, args, context);
+    },
+  });
   SReplayTC.addResolver({
     name: "ChartCreated",
     type: "JSON",
@@ -400,6 +440,16 @@ if (!schema) {
       return resolvers.byId(SessionReplayModel, args, context);
     },
   });
+  SReplayTC.addResolver({
+    name: "Count",
+    type: "Int",
+    args: {
+      applicationId: "String!",
+    },
+    resolve: async ({ args, context }: any) => {
+      return resolvers.count(SessionReplayModel, args, context);
+    },
+  });
 
   schemaComposer.Query.addFields({
     ApplicationById: ApplicationTC.getResolver("ById"),
@@ -408,11 +458,13 @@ if (!schema) {
     PageViewPagination: PageViewTC.getResolver("Pagination"),
     PageViewChart: PageViewTC.getResolver("ChartField"),
     PageViewById: PageViewTC.getResolver("ById"),
+    PageViewCount: PageViewTC.getResolver("Count"),
     SReplayChartCreated: SReplayTC.getResolver("ChartCreated"),
     SReplayMany: SReplayTC.getResolver("Many"),
     SReplayPagination: SReplayTC.getResolver("Pagination"),
     SReplayChart: SReplayTC.getResolver("ChartField"),
     SReplayById: SReplayTC.getResolver("ById"),
+    SReplayCount: SReplayTC.getResolver("Count"),
   });
   // @ts-ignore
   global.gqlSchema = schemaComposer.buildSchema();

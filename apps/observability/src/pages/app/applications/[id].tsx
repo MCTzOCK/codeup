@@ -15,6 +15,8 @@ import RestClient from "@/rest/RestClient";
 import {
   ActionIcon,
   ActionIconGroup,
+  Anchor,
+  Box,
   Button,
   Container,
   FileInput,
@@ -25,10 +27,19 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { FaFileImage, FaPen, FaPlus, FaTrash } from "react-icons/fa6";
+import {
+  FaChevronRight,
+  FaFileImage,
+  FaPen,
+  FaPlus,
+  FaTrash,
+} from "react-icons/fa6";
 import { modals } from "@mantine/modals";
 import { FaSave } from "react-icons/fa";
 import ScriptTagExplanation from "@/components/ScriptTagExplanation";
+import CardWithChart from "@/components/CardWithChart";
+import { SR_CREATED, VIEWS_CREATED } from "@/gql/queries";
+import { BarChart, LineChart } from "@mantine/charts";
 
 export default function Application() {
   const router = useRouter();
@@ -277,6 +288,116 @@ export default function Application() {
               <ScriptTagExplanation appId={app._id} />
             </Container>
           </Flex>
+          <Box
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(500px, 1fr))",
+              gap: "1rem",
+              marginTop: "1rem",
+            }}
+          >
+            <CardWithChart
+              title={"Views"}
+              description={"Views of your application in the given time period"}
+              renderContent={(data) => (
+                <>
+                  <b>{data.PageViewCount}</b> views have registered in
+                  total.&nbsp;
+                  <Anchor
+                    href={`/app/applications/${app._id}/views`}
+                    style={{
+                      alignItems: "center",
+                      display: "inline-flex",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push(`/app/applications/${app._id}/views`);
+                    }}
+                  >
+                    View all <FaChevronRight size={"0.9rem"} />
+                  </Anchor>
+                </>
+              )}
+              renderChart={(data) => (
+                <>
+                  <LineChart
+                    pt={"lg"}
+                    h={300}
+                    data={data.PageViewChartCreated.map((item: any) => ({
+                      Views: item.count,
+                      date: item.id,
+                    }))}
+                    dataKey={"date"}
+                    withLegend
+                    series={[
+                      {
+                        name: "Views",
+                        color: "blue.6",
+                      },
+                    ]}
+                    tickLine={"xy"}
+                    gridAxis={"xy"}
+                    withXAxis={true}
+                  />
+                </>
+              )}
+              gqlQuery={VIEWS_CREATED}
+              customVariables={{
+                applicationId: app._id,
+              }}
+            />
+            <CardWithChart
+              title={"Replays"}
+              description={
+                "Session replays of your application in the given time period"
+              }
+              renderContent={(data) => (
+                <>
+                  <b>{data.SReplayCount}</b> sessions have been recorded.&nbsp;
+                  <Anchor
+                    href={`/app/applications/${app._id}/replays`}
+                    style={{
+                      alignItems: "center",
+                      display: "inline-flex",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push(`/app/applications/${app._id}/replays`);
+                    }}
+                  >
+                    View all <FaChevronRight size={"0.9rem"} />
+                  </Anchor>
+                </>
+              )}
+              renderChart={(data) => (
+                <>
+                  <LineChart
+                    pt={"lg"}
+                    h={300}
+                    data={data.SReplayChartCreated.map((item: any) => ({
+                      Sessions: item.count,
+                      date: item.id,
+                    }))}
+                    dataKey={"date"}
+                    withLegend
+                    series={[
+                      {
+                        name: "Sessions",
+                        color: "red.6",
+                      },
+                    ]}
+                    tickLine={"xy"}
+                    gridAxis={"xy"}
+                    withXAxis={true}
+                  />
+                </>
+              )}
+              gqlQuery={SR_CREATED}
+              customVariables={{
+                applicationId: app._id,
+              }}
+            />
+          </Box>
         </Container>
       </Flex>
     </>
