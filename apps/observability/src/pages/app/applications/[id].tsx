@@ -19,6 +19,7 @@ import {
   Box,
   Button,
   Container,
+  em,
   FileInput,
   Flex,
   Input,
@@ -41,11 +42,13 @@ import ScriptTagExplanation from "@/components/ScriptTagExplanation";
 import CardWithChart from "@/components/CardWithChart";
 import { SR_CREATED, VIEWS_CREATED } from "@/gql/queries";
 import { BarChart, LineChart } from "@mantine/charts";
+import { useMediaQuery } from "@mantine/hooks";
 
 export default function Application() {
   const router = useRouter();
   const [error, setError] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
   const [app, setApp] = React.useState<{
     name: string;
@@ -292,7 +295,7 @@ export default function Application() {
           <Box
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+              gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
               gap: "1rem",
               marginTop: "1rem",
             }}
