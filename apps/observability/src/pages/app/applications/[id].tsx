@@ -23,6 +23,7 @@ import {
   Flex,
   Input,
   Loader,
+  Space,
   Stack,
   Text,
   Title,
@@ -291,7 +292,7 @@ export default function Application() {
           <Box
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(500px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
               gap: "1rem",
               marginTop: "1rem",
             }}
@@ -309,7 +310,7 @@ export default function Application() {
                       alignItems: "center",
                       display: "inline-flex",
                     }}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.preventDefault();
                       router.push(`/app/applications/${app._id}/views`);
                     }}
@@ -360,7 +361,7 @@ export default function Application() {
                       alignItems: "center",
                       display: "inline-flex",
                     }}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.preventDefault();
                       router.push(`/app/applications/${app._id}/replays`);
                     }}

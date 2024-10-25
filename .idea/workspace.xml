@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/components/CardWithChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/observability/src/gql/queries.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/api/graphql.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/api/graphql.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
