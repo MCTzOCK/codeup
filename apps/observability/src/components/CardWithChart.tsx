@@ -93,14 +93,13 @@ export default function CardWithChart(props: {
 
   const exportChart = (format: string, extension: string) => {
     const canvas = document.createElement("canvas");
-    canvas.width = 800;
-    canvas.height = 600;
     const ctx = canvas.getContext("2d");
-    ctx!.font = "30px Arial";
-    ctx!.fillText(props.title, 10, 35);
     const svg = document.querySelector(
       `#${id} .recharts-responsive-container .recharts-wrapper svg`
     ) as HTMLElement;
+
+    canvas.width = svg.clientWidth;
+    canvas.height = svg.clientHeight;
     let svgData = new XMLSerializer().serializeToString(svg);
     let style = document.createElement("style");
     for (let i = 0; i < document.styleSheets.length; i++) {

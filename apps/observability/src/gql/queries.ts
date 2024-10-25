@@ -34,3 +34,9 @@ export const SR_CREATED = gql`
     SReplayCount(applicationId: $applicationId)
   }
 `;
+
+export const VIEWS_CHART = gql`
+  query ViewsChart($applicationId: String!, $field: String!) {
+    PageViewChart(applicationId: $applicationId, field: $field)
+  }
+`;
