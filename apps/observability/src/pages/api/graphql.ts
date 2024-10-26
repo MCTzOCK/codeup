@@ -182,7 +182,12 @@ const resolvers = {
       .skip((page - 1) * limit)
       .limit(limit);
 
-    return docs;
+    return {
+      data: docs,
+      totalPages: Math.ceil(
+        (await model.countDocuments({ application: applicationId })) / limit
+      ),
+    };
   },
   chartField: async (model: any, args: any, context: any) => {
     if (!context.auth) {
@@ -341,7 +346,7 @@ if (!schema) {
   });
   PageViewTC.addResolver({
     name: "Pagination",
-    type: [PageViewTC],
+    type: "JSON",
     args: {
       page: "Int",
       limit: "Int",
@@ -408,7 +413,7 @@ if (!schema) {
   });
   SReplayTC.addResolver({
     name: "Pagination",
-    type: [SReplayTC],
+    type: "JSON",
     args: {
       page: "Int",
       limit: "Int",

@@ -50,3 +50,9 @@ export const VIEWS_CHART_RES = gql`
     viewport: PageViewChart(applicationId: $applicationId, field: "viewport")
   }
 `;
+
+export const VIEWS_PAGINATED = gql`
+  query ViewsChart($applicationId: String!, $page: Int!) {
+    PageViewPagination(applicationId: $applicationId, page: $page)
+  }
+`;

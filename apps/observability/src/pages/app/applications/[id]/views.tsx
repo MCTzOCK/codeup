@@ -18,10 +18,10 @@ import {
   DonutChart,
   LineChart,
   PieChart,
-  RadarChart,
 } from "@mantine/charts";
 import { VIEWS_CHART, VIEWS_CHART_RES, VIEWS_CREATED } from "@/gql/queries";
 import { useRouter } from "next/router";
+import ViewTable from "@/components/ViewTable";
 
 export default function Views() {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
@@ -53,6 +53,8 @@ export default function Views() {
                 ? "repeat(2, 1fr)"
                 : "repeat(3, 1fr)",
               gap: "1rem",
+              overflow: "auto",
+              width: "100%",
             }}
           >
             <CardWithChart
@@ -288,6 +290,7 @@ export default function Views() {
                 applicationId: appId,
               }}
             />
+            <ViewTable />
           </Box>
         </Container>
       </Flex>
