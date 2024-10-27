@@ -147,7 +147,12 @@ const resolvers = {
 
     return docs;
   },
-  pagination: async (model: any, args: any, context: any) => {
+  pagination: async (
+    model: any,
+    args: any,
+    context: any,
+    onlyFields?: string[]
+  ) => {
     if (!context.auth) {
       throw new GraphQLError("User not authorized", {
         extensions: {
@@ -179,8 +184,10 @@ const resolvers = {
       .find({
         application: applicationId,
       })
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .select(onlyFields ? onlyFields.join(" ") : undefined);
 
     return {
       data: docs,
@@ -411,16 +418,29 @@ if (!schema) {
       return resolvers.many(SessionReplayModel, args, context);
     },
   });
+
+  const SReplayPaginationTC = schemaComposer.createObjectTC({
+    name: "SReplayPagination",
+    fields: {
+      data: [SReplayTC],
+      totalPages: "Int!",
+    },
+  });
+
   SReplayTC.addResolver({
     name: "Pagination",
-    type: "JSON",
+    type: SReplayPaginationTC,
     args: {
       page: "Int",
       limit: "Int",
       applicationId: "String!",
     },
-    resolve: async ({ args, context }: any) => {
-      return resolvers.pagination(SessionReplayModel, args, context);
+    resolve: async ({ args, context, ...rest }: any) => {
+      let fields = rest.info.fieldNodes
+        .find((f: any) => f.name.value === "SReplayPagination")
+        .selectionSet.selections.find((f: any) => f.name.value === "data")
+        .selectionSet.selections.map((f: any) => f.name.value);
+      return resolvers.pagination(SessionReplayModel, args, context, fields);
     },
   });
   SReplayTC.addResolver({

@@ -22331,7 +22331,7 @@ rrweb-cssom@^0.6.0:
 
 rrweb-player@^1.0.0-alpha.4:
   version "1.0.0-alpha.4"
-  resolved "https://registry.npmjs.org/rrweb-player/-/rrweb-player-1.0.0-alpha.4.tgz"
+  resolved "https://registry.npmjs.org/rrweb-player/-/rrweb-player-1.0.0-alpha.4.tgz#57576343aaff6c6fb266689fd5d63092be46967c"
   integrity sha512-Wlmn9GZ5Fdqa37vd3TzsYdLl/JWEvXNUrLCrYpnOwEgmY409HwVIvvA5aIo7k582LoKgdRCsB87N+f0oWAR0Kg==
   dependencies:
     "@tsconfig/svelte" "^1.0.0"

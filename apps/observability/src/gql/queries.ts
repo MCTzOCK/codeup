@@ -53,6 +53,45 @@ export const VIEWS_CHART_RES = gql`
 
 export const VIEWS_PAGINATED = gql`
   query ViewsChart($applicationId: String!, $page: Int!) {
-    PageViewPagination(applicationId: $applicationId, page: $page)
+    PageViewPagination(applicationId: $applicationId, page: $page) {
+      createdAt
+      application
+      url
+      userAgent
+      browser
+      os
+      language
+      screenResolution
+      viewport
+      ip
+      _id
+    }
+  }
+`;
+
+export const SReplays_PAGINATED = gql`
+  query ViewsChart($applicationId: String!, $page: Int!) {
+    SReplayPagination(applicationId: $applicationId, page: $page) {
+      totalPages
+      data {
+        _id
+        application
+        createdAt
+        sessionStarted
+        userAgent
+      }
+    }
+  }
+`;
+
+export const SREPLAY_ITEM = gql`
+  query SReplayItem($id: String!, $applicationId: String!) {
+    SReplayById(applicationId: $applicationId, id: $id) {
+      application
+      createdAt
+      sessionStarted
+      userAgent
+      events
+    }
   }
 `;

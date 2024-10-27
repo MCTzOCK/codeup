@@ -11,6 +11,7 @@
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/dates/styles.css";
+import "rrweb-player/dist/style.css";
 import * as React from "react";
 import { mantineTheme } from "@/mantine.theme";
 import { MantineProvider } from "@mantine/core";
