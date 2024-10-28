@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { SREPLAY_ITEM, SReplays_PAGINATED } from "@/gql/queries";
@@ -22,15 +22,17 @@ import {
   Group,
   Modal,
   Pagination,
+  Portal,
   SimpleGrid,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { FaEye } from "react-icons/fa6";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useId } from "@mantine/hooks";
 import UAParser from "ua-parser-js";
 import { modals } from "@mantine/modals";
+import * as rrweb from "rrweb";
 import * as rrwebPlayer from "rrweb-player";
 
 export default function Replays() {
@@ -116,20 +118,23 @@ export default function Replays() {
                     if (res.data.SReplayById) {
                       setCurrent(res.data.SReplayById);
                       open();
+
                       setTimeout(() => {
-                        const e = document.querySelector(
-                          "#rrweb-player-container"
-                        ) as HTMLDivElement;
+                        const eventsDeepCopy = JSON.parse(
+                          JSON.stringify(res.data.SReplayById.events)
+                        );
 
                         const player = new rrwebPlayer.default({
-                          target: e,
+                          target: document.getElementById(
+                            "rrweb-replayer-div"
+                          ) as HTMLDivElement,
                           props: {
-                            events: res.data.SReplayById.events as any,
+                            events: eventsDeepCopy as any,
                             autoPlay: true,
                             skipInactive: false,
                           },
                         });
-                      }, 200);
+                      }, 500);
                     } else {
                       modals.open({
                         title: "Error",
@@ -173,19 +178,19 @@ export default function Replays() {
           duration: 200,
         }}
       >
-        {current && (
-          <>
-            <div
-              id={"rrweb-player-container"}
-              style={{
-                height: "calc(100vh - 200px)",
-                width: "100%",
-                overflow: "hidden",
-                backgroundColor: "var(--mantine-color-dark-9)",
-              }}
-            ></div>
-          </>
-        )}
+        <div
+          id={"rrweb-replayer-div"}
+          style={{
+            height: "calc(100vh - 200px)",
+            width: "100%",
+            overflow: "hidden",
+            backgroundColor: "var(--mantine-color-dark-9)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "var(--mantine-radius-lg)",
+          }}
+        ></div>
         {!current && (
           <>
             <Text>
