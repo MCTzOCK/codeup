@@ -1,0 +1,9 @@
+FROM node:20
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+RUN npm i -g turbo
+COPY ./ /usr/src/app/
+RUN yarn config set enableStrictSsl false
+RUN yarn && turbo run build --filter=@codeup/observability
+EXPOSE 3000
+CMD yarn --cwd apps/observability start-prod

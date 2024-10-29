@@ -7,12 +7,14 @@ on:
     branches: [ "develop" ]
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Registry
+    name: Build Docker images
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-      - name: Build Docker Image
-        run: docker build -t registry.coolescoden.de/ben/codeup .
-      - name: Push Docker Image
-        run: docker push registry.coolescoden.de/ben/codeup
+      - name: Build Docker Image (web)
+        run: docker build -t codeup-web .
+      - name: Build Docker Image (graphql-server)
+        run: docker build -t codeup-graphql-server -f Dockerfile.graphql-server .
+      - name: Build Docker Image (observability)
+        run: docker build -t codeup-observability -f Dockerfile.observability .

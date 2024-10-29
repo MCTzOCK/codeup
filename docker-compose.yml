@@ -15,3 +15,22 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp:/tmp
       - /etc/codeup/git:/etc/codeup/git
+  graphql-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.graphql-server
+    ports:
+      - "4001:4000"
+    env_file: ".env.gql"
+    user: "root"
+    privileged: true
+    restart: unless-stopped
+  observability:
+    build:
+        context: .
+        dockerfile: Dockerfile.observability
+    ports:
+      - "4002:3000"
+    env_file: "".env.observability"
+    user: "root"
+    restart: unless-stopped
