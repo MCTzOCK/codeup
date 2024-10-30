@@ -53,19 +53,7 @@ export const VIEWS_CHART_RES = gql`
 
 export const VIEWS_PAGINATED = gql`
   query ViewsChart($applicationId: String!, $page: Int!) {
-    PageViewPagination(applicationId: $applicationId, page: $page) {
-      createdAt
-      application
-      url
-      userAgent
-      browser
-      os
-      language
-      screenResolution
-      viewport
-      ip
-      _id
-    }
+    PageViewPagination(applicationId: $applicationId, page: $page)
   }
 `;
 
@@ -93,5 +81,11 @@ export const SREPLAY_ITEM = gql`
       userAgent
       events
     }
+  }
+`;
+
+export const MOST_VIEWED_PAGES = gql`
+  query MostViewedPages($applicationId: String!) {
+    PageViewChart(applicationId: $applicationId, field: "url")
   }
 `;

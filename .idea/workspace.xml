@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captain-definition" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captain-definition-codeup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/captain-definition-incode_docs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/msoF1FA.tmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qodana.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/gql/queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/gql/queries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id]/views.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/app/applications/[id]/views.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/observability/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/observability/src/pages/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +103,7 @@
     &quot;npm.build (1).executor&quot;: &quot;Run&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\prettier&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;P:\\Competitions\\JuFo\\2025_CodeUp_Reborn\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },

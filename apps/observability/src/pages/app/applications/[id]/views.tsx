@@ -19,7 +19,12 @@ import {
   LineChart,
   PieChart,
 } from "@mantine/charts";
-import { VIEWS_CHART, VIEWS_CHART_RES, VIEWS_CREATED } from "@/gql/queries";
+import {
+  MOST_VIEWED_PAGES,
+  VIEWS_CHART,
+  VIEWS_CHART_RES,
+  VIEWS_CREATED,
+} from "@/gql/queries";
 import { useRouter } from "next/router";
 import ViewTable from "@/components/ViewTable";
 
@@ -66,9 +71,6 @@ export default function Views() {
                   total.&nbsp;
                 </>
               )}
-              style={{
-                gridColumn: isMobile ? "1 / 2" : "1 / 3",
-              }}
               renderChart={(data) => (
                 <>
                   <LineChart
@@ -93,6 +95,68 @@ export default function Views() {
                 </>
               )}
               gqlQuery={VIEWS_CREATED}
+              customVariables={{
+                applicationId: appId,
+              }}
+            />
+            <CardWithChart
+              title={"Pages"}
+              description={"Most viewed pages of your application"}
+              renderContent={(data) => (
+                <>
+                  {data.PageViewChart.length > 0 ? (
+                    <>
+                      The most viewed page is&nbsp;
+                      <b>
+                        {
+                          JSON.parse(JSON.stringify(data.PageViewChart)).sort(
+                            // @ts-ignore
+                            (a, b) => b.count - a.count
+                          )[0]._id
+                        }
+                      </b>
+                      &nbsp;with&nbsp;
+                      <b>
+                        {
+                          JSON.parse(JSON.stringify(data.PageViewChart)).sort(
+                            // @ts-ignore
+                            (a, b) => b.count - a.count
+                          )[0].count
+                        }
+                      </b>
+                      &nbsp;views.
+                    </>
+                  ) : (
+                    <>
+                      There are no views registered yet. Please check back
+                      later.
+                    </>
+                  )}
+                </>
+              )}
+              noDate
+              renderChart={(data) => (
+                <>
+                  <Flex align={"center"} w={"100%"} justify={"center"}>
+                    <PieChart
+                      withTooltip
+                      tooltipDataSource={"segment"}
+                      pt={"lg"}
+                      size={210}
+                      data={data.PageViewChart.map((item: any) => ({
+                        name: item._id,
+                        value: item.count,
+                        color: getRandomMantineColor(),
+                      }))}
+                      withLabelsLine
+                      labelsPosition={"outside"}
+                      labelsType={"percent"}
+                      withLabels
+                    />
+                  </Flex>
+                </>
+              )}
+              gqlQuery={MOST_VIEWED_PAGES}
               customVariables={{
                 applicationId: appId,
               }}
