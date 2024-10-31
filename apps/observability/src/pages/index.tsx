@@ -19,9 +19,12 @@ import {
   Button,
   Badge,
   em,
+  Image,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { FaChevronRight } from "react-icons/fa6";
+import { modals } from "@mantine/modals";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function Index() {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
@@ -86,14 +89,6 @@ export default function Index() {
               >
                 Start now
               </Button>
-              <Button
-                color={"blue"}
-                radius={"md"}
-                variant={"outline"}
-                size={"lg"}
-              >
-                Demo
-              </Button>
             </Flex>
           </Container>
         </Flex>
@@ -109,7 +104,12 @@ export default function Index() {
             color: "white",
           }}
         >
-          <Box>
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "98vw" : "30vw",
+            }}
+          >
             <Title order={2} size={isMobile ? 40 : 50} fw={800}>
               Powerful Dashboard
             </Title>
@@ -121,11 +121,75 @@ export default function Index() {
             >
               Our dashboard provides you with a complete overview of your
               website. You can see the number of visitors, the most visited
-              pages and much more.
+              pages and much more. You can even see the screen resolution of
+              your users and look at every page view ever registered
+              individually.
             </Text>
+            <Button
+              color={"blue"}
+              radius={"md"}
+              size={"lg"}
+              variant={"filled"}
+              rightSection={<FaChevronRight />}
+              component={"a"}
+              href={"/app"}
+              mt={"xl"}
+            >
+              Start now
+            </Button>
+          </Box>
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "100vw" : "40vw",
+            }}
+          >
+            <Image
+              src={"/dashboard_analytics.png"}
+              onClick={() => {
+                openImageModal(
+                  "Analytics Dashboard",
+                  "/dashboard_analytics.png"
+                );
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
           </Box>
         </Flex>
       </Box>
     </>
   );
+}
+
+function openImageModal(name: string, src: string) {
+  modals.open({
+    title: name,
+    children: (
+      <>
+        <Image
+          src={src}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        />
+        <Button
+          color={"blue"}
+          radius={"md"}
+          size={"lg"}
+          variant={"filled"}
+          rightSection={<FaExternalLinkAlt />}
+          component={"a"}
+          href={src}
+          target={"_blank"}
+          mt={"xl"}
+        >
+          Open in new Tab
+        </Button>
+      </>
+    ),
+    size: "full",
+  });
 }
