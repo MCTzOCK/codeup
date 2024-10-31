@@ -20,6 +20,7 @@ import {
   Badge,
   em,
   Image,
+  Anchor,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { FaChevronRight } from "react-icons/fa6";
@@ -39,7 +40,7 @@ export default function Index() {
           backgroundColor: "#02060e",
         }}
       >
-        <Flex w={"100%"} align={"center"} justify={"center"} pt={120} pb={60}>
+        <Flex w={"100%"} align={"center"} justify={"center"} pb={60} pt={60}>
           <Container size={"xl"} flex={"100%"}>
             <Flex align={"center"} justify={"center"}>
               <Badge size={"xl"} mb={"md"} radius={"md"} variant={"gradient"}>
@@ -157,6 +158,146 @@ export default function Index() {
               }}
             />
           </Box>
+        </Flex>
+        <Flex
+          w={"100%"}
+          p={"xl"}
+          direction={isMobile ? "column" : "row-reverse"}
+          align={"center"}
+          justify={"center"}
+          gap={"xl"}
+          style={{
+            backgroundColor: "#0a0f1e",
+            color: "white",
+          }}
+        >
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "98vw" : "30vw",
+            }}
+          >
+            <Title order={2} size={isMobile ? 40 : 50} fw={800}>
+              Session Replay
+            </Title>
+            <Text
+              style={{
+                fontSize: "1.8rem",
+              }}
+              mt={"lg"}
+            >
+              The session replay feature allows you to see exactly what your
+              users are doing on your website. You can see every click, every
+              scroll and every input field. This feature is perfect for
+              debugging and understanding your users better.
+            </Text>
+            <Button
+              color={"blue"}
+              radius={"md"}
+              size={"lg"}
+              variant={"filled"}
+              rightSection={<FaChevronRight />}
+              component={"a"}
+              href={"/app"}
+              mt={"xl"}
+            >
+              Start now
+            </Button>
+          </Box>
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "100vw" : "40vw",
+            }}
+          >
+            <Image
+              src={"/dashboard_sessions.png"}
+              onClick={() => {
+                openImageModal("Session Replay", "/dashboard_sessions.png");
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </Box>
+        </Flex>
+        <Flex
+          w={"100%"}
+          p={"xl"}
+          direction={isMobile ? "column" : "row"}
+          align={"center"}
+          justify={"center"}
+          gap={"xl"}
+          style={{
+            backgroundColor: "#0a0f1e",
+            color: "white",
+          }}
+        >
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "98vw" : "30vw",
+            }}
+          >
+            <Title order={2} size={isMobile ? 40 : 50} fw={800}>
+              GraphQL API
+            </Title>
+            <Text
+              style={{
+                fontSize: "1.8rem",
+              }}
+              mt={"lg"}
+            >
+              With our GraphQL API you can access all the data you need. You can
+              embed the data into your own applications or use it to create
+              custom dashboards. The API is fast, secure and easy to use. Just
+              remember to add your CodeUp-Access-Token as the Authorization
+              Header.
+            </Text>
+            <Button
+              color={"blue"}
+              radius={"md"}
+              size={"lg"}
+              variant={"filled"}
+              rightSection={<FaChevronRight />}
+              component={"a"}
+              href={"/api/graphql"}
+              mt={"xl"}
+            >
+              Start now
+            </Button>
+          </Box>
+          <Box
+            flex={"100%"}
+            style={{
+              maxWidth: isMobile ? "100vw" : "40vw",
+            }}
+          >
+            <Image
+              src={"/graphql.png"}
+              onClick={() => {
+                openImageModal("GraphQL Sandbox", "/graphql.png");
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </Box>
+        </Flex>
+        <Flex
+          w={"100%"}
+          p={"md"}
+          justify={"space-between"}
+          direction={isMobile ? "column" : "row"}
+        >
+          <Text>
+            &copy;&nbsp;
+            <Anchor href={"https://codeup.space"} target={"_blank"}>
+              CodeUp
+            </Anchor>
+            . All rights reserved.
+          </Text>
+          <Text>CodeUp is a service by Ben Siebert.</Text>
         </Flex>
       </Box>
     </>
