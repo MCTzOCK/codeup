@@ -23,7 +23,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     const base = await (
-      await fetch("http://" + req.headers.host + "/script.base.js")
+      await fetch(
+        `${
+          (req.headers.host as string).includes("localhost")
+            ? "http://"
+            : "https://"
+        }` +
+          req.headers.host +
+          "/script.base.js"
+      )
     ).text();
 
     let script = base
