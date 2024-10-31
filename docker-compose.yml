@@ -31,6 +31,6 @@ services:
         dockerfile: Dockerfile.observability
     ports:
       - "4002:3000"
-    env_file: "".env.observability"
+    env_file: ".env.observability"
     user: "root"
     restart: unless-stopped
