@@ -38,7 +38,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       .replace(/\/\/WINDOW_APP_ID/g, "window.appId = '" + appId + "'")
       .replace(
         /\/\/WINDOW_CUP_URL/g,
-        "window.cupURL = 'http://" + req.headers.host + "'"
+        "window.cupURL = '" +
+          `${
+            (req.headers.host as string).includes("localhost")
+              ? "http://"
+              : "https://"
+          }` +
+          req.headers.host +
+          "'"
       );
 
     res.status(200);
