@@ -37,6 +37,7 @@ app
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods":
             "GET, POST, PUT, DELETE, PATCH, OPTIONS, TRACE, HEAD",
+          "Access-Control-Allow-Headers": "*",
         });
         res.end();
         return;
@@ -47,6 +48,7 @@ app
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, PATCH, OPTIONS, TRACE, HEAD"
       );
+      res.setHeader("Access-Control-Allow-Headers", "*");
 
       handle(req, res);
     });
