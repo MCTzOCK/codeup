@@ -25,6 +25,8 @@ services:
     user: "root"
     privileged: true
     restart: unless-stopped
+    networks:
+      - gql
   observability:
     build:
         context: .
@@ -34,3 +36,10 @@ services:
     env_file: ".env.observability"
     user: "root"
     restart: unless-stopped
+    networks:
+      - observability
+networks:
+  gql:
+    driver: bridge
+  observability:
+    driver: bridge
