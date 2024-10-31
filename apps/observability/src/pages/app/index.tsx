@@ -40,7 +40,7 @@ export default function Index() {
             development, so expect some issues or unfinished features. For any
             questions, feedback or issues please contact us at&nbsp;
             <Anchor href="mailto:ben@codeup.space">ben@codeup.space</Anchor>. If
-            you don't know about the main project, CodeUp, please visit our
+            you don&apos;t know about the main project, CodeUp, please visit our
             website at&nbsp;
             <Anchor href="https://codeup.space">https://codeup.space</Anchor>.
             <br />~ Ben Siebert
