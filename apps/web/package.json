@@ -15,6 +15,7 @@
     "ts-start-prod": "cross-env NODE_ENV=production ts-node --project tsconfig.server.json src/server/index.ts"
   },
   "dependencies": {
+    "@codeupspace/vt-desktop": "*",
     "@animxyz/react": "^0.6.7",
     "@apollo/client": "^3.11.8",
     "@brainstack/diagram": "^1.0.16",

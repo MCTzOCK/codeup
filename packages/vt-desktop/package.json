@@ -1,0 +1,22 @@
+{
+  "name": "@codeupspace/vt-desktop",
+  "version": "1.0.0",
+  "description": "CodeUp Virtual Desktop Environment",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Ben Siebert",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@chakra-ui/react": "2.2.1",
+    "@emotion/react": "11",
+    "@emotion/styled": "11",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "framer-motion": "6.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "typescript": "^5.6.3"
+  }
+}
