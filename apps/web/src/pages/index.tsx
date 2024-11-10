@@ -73,7 +73,7 @@ export default function HomeV4() {
               xl: "4xl",
             }}
             color={"white"}
-            fontFamily={"Inter"}
+            fontFamily={"Geist Black"}
             wordBreak={"break-word"}
             fontWeight={600}
             lineHeight={1.3}
@@ -213,7 +213,7 @@ export default function HomeV4() {
               <CHeading
                 size={"xl"}
                 color={"white"}
-                fontFamily={"Inter"}
+                fontFamily={"Geist Black"}
                 wordBreak={"break-word"}
                 fontWeight={600}
                 lineHeight={1.3}
@@ -266,7 +266,7 @@ export default function HomeV4() {
         <Heading
           size={"xl"}
           color={"white"}
-          fontFamily={"Inter"}
+          fontFamily={"Geist Black"}
           wordBreak={"break-word"}
           fontWeight={600}
           lineHeight={1.3}
