@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "lib": ["DOM"],
-    "module": "commonjs",
+    "target": "es2022",
+    "declaration": true,
+    "lib": ["DOM", "es2022", "DOM.Iterable"],
+    "module": "NodeNext",
+    "moduleDetection": "force",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "isolatedModules": true,
     "skipLibCheck": true,
+    "strict": true,
     "rootDir": "src",
     "outDir": "dist",
-    "jsx": "react"
+    "jsx": "react-jsx"
   }
 }

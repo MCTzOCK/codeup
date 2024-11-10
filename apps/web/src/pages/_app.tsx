@@ -17,40 +17,13 @@ import { appWithTranslation } from "next-i18next";
 import PopupManager from "../global/PopupManager";
 import Provider from "../global/Provider";
 
-/*
-// Check that PostHog is client-side (used to handle Next.js SSR)
-if (typeof window !== "undefined") {
-  // @ts-ignore
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-    // @ts-ignore
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com",
-    // Enable debug mode in development
-    loaded: (posthog) => {
-      if (process.env.NODE_ENV === "development") posthog.debug();
-    },
-    autocapture: true,
-  });
-}*/
-
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const { loggedIn, userInfo, loaded } = useLoggedIn();
   const [usingMv2, setUsingMv2] = React.useState(false);
 
   useEffect(() => {
     PopupManager.__reload_raw_translated();
   }, []);
-
-  useEffect(() => {
-    if (loaded && loggedIn) {
-      /*
-      posthog?.identify(userInfo.email, {
-        name: userInfo.firstName + " " + userInfo.lastName,
-        email: userInfo.email,
-        username: userInfo.username,
-      });*/
-    }
-  }, [loaded, loggedIn]);
 
   useAnalytics();
 
@@ -73,18 +46,6 @@ function App({ Component, pageProps }: AppProps) {
       }
     }
   }, [router, router.query]);
-
-  useEffect(() => {
-    // Track page views
-    const handleRouteChange = () => {
-      //posthog?.capture("$pageview");
-    };
-    router.events.on("routeChangeComplete", handleRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, []);
 
   return (
     <>
@@ -126,7 +87,12 @@ function App({ Component, pageProps }: AppProps) {
         <Provider
           noLayout={
             // @ts-ignore
-            Component.noLayout ? Component.noLayout : usingMv2
+            Component.noLayout
+              ? // @ts-ignore
+                Component.noLayout
+              : router.query.noLayout === "true"
+              ? true
+              : usingMv2
           }
         >
           <Component {...pageProps} />
