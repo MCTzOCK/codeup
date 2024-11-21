@@ -1,0 +1,647 @@
+/**
+ * apps/web/src/server/projects.ts
+ *
+ * Author: Ben Siebert <hello@ben-siebert.de>
+ * Copyright: Copyright (c) 2018-2024 Ben Siebert. All rights reserved.
+ * License: Project License
+ * Created At: 21.11.2024
+ *
+ */
+import { IncomingMessage, ServerResponse } from "node:http";
+import EditorProjectModel from "@codeup/util/dist/models/EditorProjectModel";
+import jwt from "jsonwebtoken";
+import EditorProjectKVStorageModel from "@codeup/util/dist/models/EditorProjectKVStorageModel";
+import EditorProjectFunctionModel from "@codeup/util/dist/models/EditorProjectFunctionModel";
+import EditorProjectPageModel from "@codeup/util/dist/models/EditorProjectPageModel";
+import * as sass from "sass";
+import * as ts from "typescript";
+import * as InCode from "@codeup/incode-compiler";
+import Docker from "dockerode";
+import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
+import { lookup as mimeLookup } from "mime-types";
+import mongoose from "mongoose";
+
+export const handleV2Projects = async (
+  req: IncomingMessage,
+  res: ServerResponse,
+  customDomain: string,
+  handle: (req: any, res: any) => any,
+  pathname: string,
+  docker: Docker,
+  parsedUrl: any
+) => {
+  const project = await EditorProjectModel.findOne({
+    customDomain,
+  });
+
+  if (!project) {
+    await handle(req, res);
+    return;
+  }
+  if (pathname!.startsWith("/api")) {
+    // check if pathname is /api/@codeup/internal/info
+
+    if (pathname!.startsWith("/api/@codeup")) {
+      const pathParts = pathname!.split("/").slice(3);
+      if (pathParts.length === 2) {
+        if (pathParts[0] === "database") {
+          if (pathParts[1] === "set") {
+            const key = req.headers["x-codeup-database-key"] as string;
+            const token = req.headers["x-sf-access"] as string;
+            const value = JSON.parse(
+              await new Promise((resolve, reject) => {
+                let body = "";
+                req.on("data", (chunk) => {
+                  body += chunk;
+                });
+                req.on("end", () => {
+                  resolve(body);
+                });
+                req.on("error", (e) => {
+                  reject(e);
+                });
+              })
+            ).value as string;
+
+            if (!key || !token || !value) {
+              res.statusCode = 400;
+              res.write(
+                JSON.stringify({
+                  key: JSON.stringify(key),
+                  token: JSON.stringify(token),
+                  value: JSON.stringify(value),
+                })
+              );
+              res.end();
+              return;
+            }
+
+            try {
+              const decoded = jwt.verify(
+                token,
+                process.env.JWT_SECRET as string
+              ) as { project: string; function: string };
+
+              if (decoded.project !== project._id.toString()) {
+                res.statusCode = 403;
+                res.end();
+                return;
+              }
+
+              const existingKVStore = await EditorProjectKVStorageModel.findOne(
+                {
+                  project: project._id,
+                }
+              );
+
+              console.log(
+                "[SFDB] Set",
+                key,
+                "to",
+                value,
+                "for",
+                project._id.toString()
+              );
+
+              if (existingKVStore) {
+                existingKVStore.storage = {
+                  ...existingKVStore.storage,
+                  [key]: value,
+                };
+                await existingKVStore.save();
+              } else {
+                await EditorProjectKVStorageModel.create({
+                  project: project._id,
+                  storage: {
+                    [key]: value,
+                  },
+                });
+              }
+
+              res.statusCode = 200;
+              res.end();
+            } catch (e) {
+              res.statusCode = 403;
+              res.end();
+              return;
+            }
+          } else if (pathParts[1] === "get") {
+            const key = req.headers["x-codeup-database-key"] as string;
+            const token = req.headers["x-sf-access"] as string;
+
+            if (!key || !token) {
+              res.statusCode = 400;
+              res.end();
+              return;
+            }
+
+            try {
+              const decoded = jwt.verify(
+                token,
+                process.env.JWT_SECRET as string
+              ) as { project: string; function: string };
+
+              if (decoded.project !== project._id.toString()) {
+                res.statusCode = 403;
+                res.end();
+                return;
+              }
+
+              const existingKVStore = await EditorProjectKVStorageModel.findOne(
+                {
+                  project: project._id,
+                }
+              );
+
+              if (existingKVStore) {
+                res.statusCode = 200;
+                res.end(existingKVStore.storage[key]);
+              } else {
+                res.statusCode = 404;
+                res.end();
+              }
+            } catch (e) {
+              res.statusCode = 403;
+              res.end();
+              return;
+            }
+          }
+        }
+      }
+
+      return;
+    } else {
+      const serverlessFunction = await EditorProjectFunctionModel.findOne({
+        project: project._id,
+        path: pathname!,
+      });
+
+      if (!serverlessFunction) {
+        res.statusCode = 404;
+        res.end("Not Found");
+        return;
+      }
+
+      const code = serverlessFunction.code;
+
+      let port = Math.floor(Math.random() * 32000) + 1;
+
+      docker
+        .createContainer({
+          Image: "rce-sf-runtime:codeup",
+          Env: [
+            "SERVERLESS_METHOD=GET",
+            "SERVERLESS_ENDPOINT=/",
+            "SERVERLESS_CODE=" + code,
+            "SERVERLESS_TOKEN=" +
+              jwt.sign(
+                {
+                  project: project._id,
+                  function: serverlessFunction._id,
+                },
+                process.env.JWT_SECRET as string,
+                {
+                  expiresIn: 600,
+                }
+              ),
+            "SERVERLESS_ENDPOINT_URL=http://" + customDomain,
+          ],
+          HostConfig: {
+            PortBindings: {
+              "3000/tcp": [
+                {
+                  HostPort: port.toString(),
+                },
+              ],
+            },
+          },
+          Tty: true,
+          OpenStdin: true,
+          StdinOnce: true,
+          AttachStdin: true,
+          AttachStdout: true,
+          AttachStderr: true,
+          ExposedPorts: {
+            "3000/tcp": {},
+          },
+        })
+        .then(async (c) => {
+          await c.start();
+
+          await new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(true);
+            }, 1000);
+          });
+
+          const query = Object.keys(parsedUrl.query).map((key) => {
+            return key + "=" + parsedUrl.query[key];
+          });
+
+          try {
+            const res0 = await fetch(
+              `http://localhost:${port}?${
+                query.length > 0 ? query.join("&") : ""
+              }`
+            );
+
+            for (const [key, value] of res0.headers.entries()) {
+              res.setHeader(key, value);
+            }
+
+            res.writeHead(res0.status, {
+              ...res.getHeaders(),
+            });
+
+            res.end(await res0.text());
+
+            await new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve(true);
+              }, 1000);
+            });
+
+            try {
+              await c.kill();
+            } catch (e) {}
+            await c.remove();
+          } catch (e) {
+            res.statusCode = 500;
+            res.end(
+              "[SF] Serverless function failed to execute properly. Error details: " +
+                (e as any).toString()
+            );
+
+            try {
+              await c.kill();
+            } catch (e) {}
+            await c.remove();
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify(e, null, 2));
+        });
+
+      return;
+    }
+  }
+
+  const page = await EditorProjectPageModel.findOne({
+    project: project._id,
+    url: pathname,
+  });
+
+  if (!page) {
+    await handle(req, res);
+    return;
+  }
+
+  res.setHeader("Content-Type", "text/html");
+
+  let resourceEmbedCode = "";
+
+  for (const resource of page.resources) {
+    switch (resource.type.toLowerCase()) {
+      case "css":
+        resourceEmbedCode += `<style>${resource.content}</style>`;
+        break;
+      case "scss":
+        resourceEmbedCode += `<style>${
+          sass.compileString(resource.content, {
+            syntax: "scss",
+          }).css
+        }</style>`;
+        break;
+      case "sass":
+        resourceEmbedCode += `<style>${
+          sass.compileString(resource.content, {
+            syntax: "indented",
+          }).css
+        }</style>`;
+        break;
+      case "javascript":
+        resourceEmbedCode += `<script defer>${resource.content}</script>`;
+        break;
+      case "typescript":
+        resourceEmbedCode += `<script defer>${
+          ts.transpileModule(resource.content, {
+            compilerOptions: {
+              module: ts.ModuleKind.ESNext,
+            },
+          }).outputText
+        }</script>`;
+        break;
+      default:
+        break;
+    }
+  }
+
+  if (page.type.toLowerCase() === "html") {
+    res.statusCode = 200;
+    res.write((page.mainContent += resourceEmbedCode));
+    res.end();
+  } else if (page.type.toLowerCase() === "incode") {
+    res.statusCode = 200;
+    res.write(
+      `<html><head><title>${
+        page.url
+      }</title></head><body><script defer>${InCode.Compiler.compile(
+        page.mainContent
+      )}</script></body></html>${resourceEmbedCode}`
+    );
+    res.end();
+  }
+};
+
+export const handleV1Projects = async (
+  pathname: string,
+  res: ServerResponse,
+  app: any,
+  req: IncomingMessage,
+  parsedUrl: any
+) => {
+  // URL Structure : /project/:customName/:path
+
+  const customName = pathname.split("/")[2];
+  let path = pathname.split("/").slice(3).join("/");
+
+  try {
+    const project = await IDEProjectModel.findOne({
+      publishedCustomName: customName,
+    });
+
+    if (!project) {
+      throw new Error();
+      return;
+    }
+
+    if (!project.published) {
+      throw new Error();
+      return;
+    }
+
+    let file = project.files.find(
+      (f: { path: string }) => f.path.toLowerCase() === `/${path.toLowerCase()}`
+    );
+
+    if (!file) {
+      // redirect to index.html
+      res.writeHead(302, {
+        Location: `/project/${customName}/index.html`,
+      });
+
+      res.end();
+
+      return;
+    }
+
+    let ret = file.content;
+
+    if (file.path.toLowerCase().endsWith(".ts")) {
+      ret = ts.transpileModule(ret, {
+        compilerOptions: {
+          module: ts.ModuleKind.ESNext,
+        },
+      }).outputText;
+    }
+
+    if (
+      file.path.toLowerCase().endsWith(".scss") ||
+      file.path.toLowerCase().endsWith(".sass")
+    ) {
+      ret = sass.compileString(file.content, {
+        syntax: file.path.toLowerCase().endsWith(".scss") ? "scss" : "indented",
+      }).css;
+    }
+
+    if (file.path.toLowerCase().endsWith(".ic")) {
+      ret = `<html><head><title>${
+        file.path
+      }</title></head><body><script defer>${InCode.Compiler.compile(
+        ret
+      )}</script></body></html>`;
+    }
+
+    const mimeTypes: { [key: string]: string } = {
+      js: "application/javascript",
+      css: "text/css",
+      html: "text/html",
+      json: "application/json",
+      png: "image/png",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      gif: "image/gif",
+      svg: "image/svg+xml",
+      ic: "text/html",
+    };
+    const replaceTypes: { [key: string]: string } = {
+      "text/x-scss": "text/css",
+      "text/x-sass": "text/css",
+      "text/x-typescript": "application/javascript",
+    };
+
+    let mimeType = "";
+
+    if (mimeTypes[file.path.split(".").pop() as string]) {
+      mimeType = mimeTypes[file.path.split(".").pop() as string];
+    } else {
+      mimeType = mimeLookup(file.path) as string;
+    }
+
+    if (!mimeType || !Object.values(mimeTypes).includes(mimeType)) {
+      if (mimeType && Object.keys(replaceTypes).includes(mimeType)) {
+        mimeType = replaceTypes[mimeType];
+      } else {
+        mimeType = "text/plain";
+      }
+    }
+
+    res.setHeader("Content-Type", mimeType);
+
+    res.end(ret);
+
+    return;
+  } catch (e) {
+    console.log(e);
+    await app.render404(req, res, parsedUrl);
+    return;
+  }
+};
+
+export const handleV2Static = async (
+  pathname: string,
+  app: any,
+  req: IncomingMessage,
+  res: ServerResponse
+) => {
+  // Option 1: /editor-static/page-res/<page_id>/<res_name>
+  // Option 2: /editor-static/<project_id>/<res_id>
+
+  const args = pathname?.split("/").splice(2, pathname?.split("/").length);
+
+  if (args.length === 3) {
+    const pageId = args[1];
+    const resName = args[2];
+
+    const page = await EditorProjectPageModel.findById(pageId);
+
+    if (!page) {
+      await app.render404(req, res);
+      return;
+    }
+
+    const resource = page.resources.find((r: any) => r.name === resName);
+    if (!resource) {
+      await app.render404(req, res);
+      return;
+    }
+
+    let content = resource.content;
+
+    switch (resource.type.toLowerCase()) {
+      case "css":
+        res.setHeader("Content-Type", "text/css");
+        break;
+      case "scss":
+        content = sass.compileString(content, {
+          syntax: "scss",
+        }).css;
+        res.setHeader("Content-Type", "text/css");
+        break;
+      case "sass":
+        content = sass.compileString(content, {
+          syntax: "indented",
+        }).css;
+        res.setHeader("Content-Type", "text/css");
+        break;
+      case "javascript":
+        res.setHeader("Content-Type", "text/javascript");
+        break;
+      case "typescript":
+        content = ts.transpileModule(content, {
+          compilerOptions: {
+            module: ts.ModuleKind.ESNext,
+          },
+        }).outputText;
+        res.setHeader("Content-Type", "text/javascript");
+        break;
+      case "json":
+        res.setHeader("Content-Type", "application/json");
+        break;
+      default:
+        res.setHeader("Content-Type", "text/plain");
+        break;
+    }
+
+    res.write(content.toString());
+    res.end();
+  } else {
+    const projectId = args[0];
+    const resName = args[1];
+
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: "editorStaticAssets",
+    });
+
+    const file = await bucket.find({
+      filename: `${projectId}/${resName}`,
+    });
+
+    const fileEntry = await file.next();
+
+    if (file) {
+      const stream = bucket.openDownloadStream(fileEntry!._id);
+
+      await new Promise((resolve) => {
+        stream.on("data", async (chunk) => {
+          res.write(chunk);
+        });
+        stream.on("end", () => {
+          res.end();
+          resolve(true);
+        });
+      });
+    } else {
+      await app.render404(req, res);
+      return;
+    }
+  }
+};
+
+export const handleV2Preview = async (
+  pathname: string,
+  app: any,
+  req: IncomingMessage,
+  res: ServerResponse
+) => {
+  // /editor-preview/<page_id>
+
+  const args = pathname?.split("/").splice(2, pathname?.split("/").length);
+
+  const pageId = args[0];
+
+  const page = await EditorProjectPageModel.findById(pageId);
+
+  if (!page) {
+    await app.render404(req, res);
+    return;
+  }
+
+  let resourceEmbedCode = ``;
+
+  for (const resource of page.resources) {
+    switch (resource.type.toLowerCase()) {
+      case "css":
+        resourceEmbedCode += `<style>${resource.content}</style>`;
+        break;
+      case "scss":
+        resourceEmbedCode += `<style>${
+          sass.compileString(resource.content, {
+            syntax: "scss",
+          }).css
+        }</style>`;
+        break;
+      case "sass":
+        resourceEmbedCode += `<style>${
+          sass.compileString(resource.content, {
+            syntax: "indented",
+          }).css
+        }</style>`;
+        break;
+      case "javascript":
+        resourceEmbedCode += `<script defer>${resource.content}</script>`;
+        break;
+      case "typescript":
+        resourceEmbedCode += `<script defer>${
+          ts.transpileModule(resource.content, {
+            compilerOptions: {
+              module: ts.ModuleKind.ESNext,
+            },
+          }).outputText
+        }</script>`;
+        break;
+      default:
+        break;
+    }
+  }
+
+  if (page.type.toLowerCase() === "html") {
+    res.statusCode = 200;
+    res.write(page.mainContent);
+    res.write(resourceEmbedCode);
+    res.end();
+  } else if (page.type.toLowerCase() === "incode") {
+    res.statusCode = 200;
+    res.write(
+      `<html><head><title>${
+        page.url
+      }</title>${resourceEmbedCode}</head><body><script defer>${InCode.Compiler.compile(
+        page.mainContent
+      )}</script></body></html>`
+    );
+    res.end();
+  }
+};
