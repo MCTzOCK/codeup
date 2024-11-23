@@ -23,7 +23,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     if (req.method === "GET") {
       let userPage = await UserPageModel.findOne({
-        user: username,
+        username: username,
       });
 
       if (!userPage) {

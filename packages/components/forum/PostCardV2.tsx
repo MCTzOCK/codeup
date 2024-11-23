@@ -98,7 +98,7 @@ export default function PostCardV2(props: {
     >
       <Link
         onClick={() => {
-          router.push("/forum/" + props.profile.username);
+          router.push("/u/" + props.profile.username);
         }}
       >
         <Flex direction={"row"} gap={"1rem"} alignItems={"flex-start"} mb={4}>

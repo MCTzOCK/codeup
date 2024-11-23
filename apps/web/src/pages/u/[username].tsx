@@ -12,19 +12,47 @@ import * as React from "react";
 import { sProp } from "../../global/i18nstaticProps";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import router from "next/router";
-import { Avatar, Box, Flex, Heading, IconButton } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  IconButton,
+  Image,
+  Input,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Textarea,
+} from "@chakra-ui/react";
 import REST from "@codeup/rest/src";
 import { useEffect } from "react";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
+import UserPostList from "@codeup/components/forum/UserPostList";
 import { useLoggedIn, useUserLoggedInRedirect } from "@codeup/hooks";
-import { FaEnvelope } from "react-icons/fa";
+import { FaEnvelope, FaPen, FaSave } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
+import { defaultMdOpts } from "../../global/md/defaultProps";
+import Markdown from "markdown-to-jsx";
+import { useRouter } from "next/router";
 
 export default function UserPage() {
   useUserLoggedInRedirect({
     allowAnonymous: false,
   });
+  const router = useRouter();
 
   const { t } = useTranslation("user-page");
 
@@ -139,7 +167,142 @@ export default function UserPage() {
                     }}
                     variant={"brand"}
                   />
+                  <IconButton
+                    aria-label={"Edit"}
+                    variant={"brand"}
+                    display={
+                      userInfo && userInfo.username === page.username
+                        ? "flex"
+                        : "none"
+                    }
+                    icon={<FaPen />}
+                    onClick={async () => {
+                      await PopupManager.alertAsync({
+                        title: t("edit.profile"),
+                        description: (
+                          <>
+                            <form
+                              onSubmit={async (e) => {
+                                e.preventDefault();
+                                const fd = new FormData(e.target as any);
+
+                                const res = await REST.UserPages.updateUserPage(
+                                  username as string,
+                                  localStorage.getItem("token") as string,
+                                  {
+                                    displayName: fd.get(
+                                      "displayName"
+                                    ) as string,
+                                    links: (fd.get("links") as string).split(
+                                      "\n"
+                                    ),
+                                    readme: fd.get("readme") as string,
+                                  }
+                                );
+
+                                PopupManager.removeCurrentPopup();
+
+                                if (res.status !== 200) {
+                                  await PopupManager.alertAsync({
+                                    title: t("base:control.error"),
+                                    description:
+                                      t("base:control.error.request") +
+                                      res.payload.error,
+                                  });
+                                  return;
+                                }
+
+                                await reload();
+                              }}
+                            >
+                              <Stack gap={4}>
+                                <FormControl isRequired>
+                                  <FormLabel>
+                                    {t("profile.display.name")}
+                                  </FormLabel>
+                                  <Input
+                                    type={"text"}
+                                    defaultValue={page.displayName}
+                                    placeholder={t("profile.display.name")}
+                                    name={"displayName"}
+                                  />
+                                  <FormHelperText>
+                                    {t("profile.display.name.help")}
+                                  </FormHelperText>
+                                </FormControl>
+                                <FormControl isRequired>
+                                  <FormLabel>{t("links")}</FormLabel>
+                                  <Textarea
+                                    defaultValue={page.links.join("\n")}
+                                    placeholder={t("links")}
+                                    name={"links"}
+                                  />
+                                  <FormHelperText>
+                                    {t("profile.links.help")}
+                                  </FormHelperText>
+                                </FormControl>
+                                <FormControl isRequired>
+                                  <FormLabel>{t("readme")}</FormLabel>
+                                  <Textarea
+                                    defaultValue={page.readme}
+                                    placeholder={t("readme")}
+                                    name={"readme"}
+                                  />
+                                  <FormHelperText>
+                                    {t("profile.readme.help")}
+                                  </FormHelperText>
+                                </FormControl>
+                                <Button
+                                  type={"submit"}
+                                  variant={"brand"}
+                                  leftIcon={<FaSave />}
+                                >
+                                  {t("save")}
+                                </Button>
+                              </Stack>
+                            </form>
+                          </>
+                        ),
+                      });
+                    }}
+                  />
                 </Flex>
+                <Flex alignItems={"center"} justifyContent={"center"} gap={4}>
+                  {page.links.map((link, i) => (
+                    <a key={i} href={link} target={"_blank"}>
+                      <Image
+                        src={`https://www.google.com/s2/favicons?domain=${link}&size=128`}
+                        width={9}
+                        rounded={"xl"}
+                      />
+                    </a>
+                  ))}
+                </Flex>
+                <Tabs
+                  isFitted
+                  colorScheme={"brand"}
+                  variant={"enclosed-colored"}
+                  mt={8}
+                >
+                  <TabList>
+                    <Tab>{t("readme")}</Tab>
+                    <Tab>{t("posts")}</Tab>
+                    <Tab>{t("repositories")}</Tab>
+                    <Tab>{t("certificates")}</Tab>
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel>
+                      <Markdown options={defaultMdOpts}>{page.readme}</Markdown>
+                    </TabPanel>
+                    <TabPanel>
+                      <UserPostList
+                        username={page.username}
+                        loggedInUser={userInfo}
+                        displayName={page.displayName}
+                      />
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </>
             ) : (
               <>
@@ -155,7 +318,7 @@ export default function UserPage() {
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
-    ...(await sProp(locale, ["user-page"])),
+    ...(await sProp(locale, ["user-page", "forum"])),
   };
 }
 

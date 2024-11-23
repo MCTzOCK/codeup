@@ -95,10 +95,6 @@ function ChakraChildren(props: {
           minH={"96vh"}
           bg={router.pathname.startsWith("/forum") ? "#000" : undefined}
         >
-          {router.pathname.startsWith("/forum") && !props.usingMv2 ? (
-            <ForumNavigationBar />
-          ) : null}
-
           <Box id={"__codeup_manual_mount_point"}></Box>
 
           {props.children}

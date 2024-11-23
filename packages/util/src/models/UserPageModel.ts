@@ -19,6 +19,7 @@ const UserPageModel = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   displayName: {
     type: String,

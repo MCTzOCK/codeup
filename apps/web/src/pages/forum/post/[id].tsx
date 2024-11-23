@@ -49,10 +49,10 @@ export default function PostView() {
           if (r.status === 200) {
             setComments(r.payload.comments);
           } else {
-            router.push("/forum");
+            router.push("/");
           }
         } else {
-          router.push("/forum");
+          router.push("/");
         }
       });
     }
