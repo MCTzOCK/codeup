@@ -16,6 +16,7 @@ import { createSocketServer } from "./socket";
 import Docker from "dockerode";
 import { handleError } from "./error";
 import { init } from "./init";
+import Logger from "./logger";
 import {
   handleOptionsRequest,
   sendDefaultCorsHeaders,
@@ -156,12 +157,12 @@ app
     createSocketServer(httpServer);
 
     httpServer.listen(port, "0.0.0.0", 10, () => {
-      console.log(`> Ready on http://localhost:${port}`);
+      Logger.info(`Server started on port ${port}`, Logger.WEB);
     });
   })
   .catch(async (e) => {
     handleError(e);
-    console.error(e);
+    Logger.error(e.message, Logger.WEB);
     process.exit(1);
   });
 

@@ -328,6 +328,7 @@ import {
 } from "./api/AI";
 import { createLevel, deleteLevel, myLevels, updateLevel } from "./api/Game";
 import { Developer } from "./api/Developer";
+import { getUserPage, updateUserPage } from "./api/UserPages";
 
 const REST = {
   Developer,
@@ -684,6 +685,10 @@ const REST = {
         },
       });
     },
+  },
+  UserPages: {
+    getUserPage,
+    updateUserPage,
   },
 };
 

@@ -14,12 +14,16 @@ import http from "node:http";
 import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { existsSync } from "node:fs";
+import Logger from "./logger";
 
 const PORT = process.env.GIT_PORT ? parseInt(process.env.GIT_PORT) : 3002;
 
 const GIT_PATH = process.env.GIT_DATA_HOME as string;
 if (!GIT_PATH) {
-  console.error("Error: GIT_DATA_HOME environment variable is not set.");
+  Logger.error(
+    "Error: GIT_DATA_HOME environment variable is not set.",
+    Logger.GIT
+  );
   process.exit(1);
 }
 
@@ -35,7 +39,7 @@ const server = http.createServer(
   async (req: IncomingMessage, res: ServerResponse) => {
     const url = req.url as string;
 
-    console.log(`Incoming request: ${req.method} ${url}`);
+    Logger.info(`Incoming request: ${req.method} ${url}`, Logger.GIT);
 
     const urlParts = url.split("/");
     if (urlParts.length < 3) {
@@ -116,12 +120,12 @@ function handleInfoRefs(
 
   gitProcess.stdout.pipe(res);
   gitProcess.stderr.on("data", (data: any) =>
-    console.error(`Git error: ${data}`)
+    Logger.error(`Git error: ${data}`, Logger.GIT)
   );
 
   gitProcess.on("close", (code: any) => {
     if (code !== 0) {
-      console.error(`Git process exited with code ${code}`);
+      Logger.error(`Git process exited with code ${code}`, Logger.GIT);
     }
     res.end();
   });
@@ -154,12 +158,12 @@ function handleGitUploadPack(
   gitProcess.stdout.pipe(res);
 
   gitProcess.stderr.on("data", (data: any) =>
-    console.error(`Git error: ${data}`)
+    Logger.error(`Git error: ${data}`, Logger.GIT)
   );
 
   gitProcess.on("close", (code: any) => {
     if (code !== 0) {
-      console.error(`Git process exited with code ${code}`);
+      Logger.error(`Git process exited with code ${code}`, Logger.GIT);
     }
     res.end();
   });
@@ -195,12 +199,12 @@ function handleGitReceivePack(
   gitProcess.stdout.pipe(res);
 
   gitProcess.stderr.on("data", (data: any) =>
-    console.error(`Git error: ${data}`)
+    Logger.error(`Git error: ${data}`, Logger.GIT)
   );
 
   gitProcess.on("close", (code: any) => {
     if (code !== 0) {
-      console.error(`Git process exited with code ${code}`);
+      Logger.error(`Git process exited with code ${code}`, Logger.GIT);
     }
     res.end();
   });
@@ -208,8 +212,11 @@ function handleGitReceivePack(
 
 // Start the server
 server.listen(PORT, () => {
-  console.log(`Git HTTP server running at http://localhost:${PORT}/`);
-  console.log(`Serving repositories from: ${GIT_PATH}`);
+  Logger.info(
+    `Git HTTP server running at http://localhost:${PORT}/`,
+    Logger.GIT
+  );
+  Logger.info(`Serving repositories from: ${GIT_PATH}`, Logger.GIT);
 });
 
 function decodeCredentials(authHeader: string): {
@@ -226,7 +233,11 @@ async function authenticate(
   req: IncomingMessage,
   res: ServerResponse,
   repoName: string
-): Promise<boolean> {
+): Promise<{
+  pull: boolean;
+  push: boolean;
+  fetch: boolean;
+}> {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Basic ")) {
@@ -235,7 +246,11 @@ async function authenticate(
       "Content-Type": "text/plain",
     });
     res.end("Authentication required");
-    return false;
+    return {
+      pull: false,
+      push: false,
+      fetch: false,
+    };
   }
 
   const { username, password } = decodeCredentials(authHeader);
@@ -244,7 +259,11 @@ async function authenticate(
   if (!user || !user.active) {
     res.writeHead(403, { "Content-Type": "text/plain" });
     res.end("Invalid credentials");
-    return false;
+    return {
+      pull: false,
+      push: false,
+      fetch: false,
+    };
   }
 
   const sha256 = createHash("sha256").update(password).digest("hex");
@@ -252,16 +271,42 @@ async function authenticate(
   if (user.password !== sha256) {
     res.writeHead(403, { "Content-Type": "text/plain" });
     res.end("Invalid credentials");
-    return false;
+    return {
+      pull: false,
+      push: false,
+      fetch: false,
+    };
   }
 
-  console.log(repoName);
+  if (repoName.startsWith("_")) {
+    if (user.role === "admin") {
+      return {
+        pull: true,
+        push: true,
+        fetch: true,
+      };
+    } else {
+      return {
+        pull: true,
+        fetch: true,
+        push: false,
+      };
+    }
+  }
 
   if (!repoName.startsWith("@" + user.username)) {
     res.writeHead(403, { "Content-Type": "text/plain" });
     res.end("You dont have access to this repository");
-    return false;
+    return {
+      pull: false,
+      push: false,
+      fetch: false,
+    };
   }
 
-  return true;
+  return {
+    pull: true,
+    push: true,
+    fetch: true,
+  };
 }

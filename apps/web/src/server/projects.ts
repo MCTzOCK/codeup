@@ -20,6 +20,7 @@ import Docker from "dockerode";
 import IDEProjectModel from "@codeup/util/dist/models/IDEProjectModel";
 import { lookup as mimeLookup } from "mime-types";
 import mongoose from "mongoose";
+import Logger from "./logger";
 
 export const handleV2Projects = async (
   req: IncomingMessage,
@@ -94,13 +95,9 @@ export const handleV2Projects = async (
                 }
               );
 
-              console.log(
-                "[SFDB] Set",
-                key,
-                "to",
-                value,
-                "for",
-                project._id.toString()
+              Logger.info(
+                `[SFDB] Set ${key} to ${value} for ${project._id.toString()}`,
+                Logger.WEB
               );
 
               if (existingKVStore) {
@@ -279,7 +276,7 @@ export const handleV2Projects = async (
           }
         })
         .catch((e) => {
-          console.error(e);
+          Logger.error(e, Logger.WEB);
           res.statusCode = 500;
           res.setHeader("Content-Type", "application/json");
           res.end(JSON.stringify(e, null, 2));
@@ -464,8 +461,8 @@ export const handleV1Projects = async (
     res.end(ret);
 
     return;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    Logger.error(e, Logger.WEB);
     await app.render404(req, res, parsedUrl);
     return;
   }

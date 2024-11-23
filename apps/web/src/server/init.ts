@@ -10,14 +10,15 @@
 import Docker from "dockerode";
 import mongoose from "mongoose";
 import { handleError } from "./error";
+import Logger from "./logger";
 
 export const init = async (docker: Docker) => {
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(process.env.MONGO_URI as string);
-    } catch (e) {
-      console.error("Could not connect to MongoDB");
-      console.error(e);
+    } catch (e: any) {
+      Logger.error("Could not connect to MongoDB", Logger.MONGO);
+      Logger.error(e, Logger.MONGO);
       process.exit(1);
     }
   }
@@ -26,7 +27,12 @@ export const init = async (docker: Docker) => {
     .pull("mctzock/codeup-serverless-runtime")
     .then((stream) => {
       docker.modem.followProgress(stream, (err: any, res: any) => {
-        console.log(err, res);
+        if (err) {
+          Logger.error("Could not pull Docker image", Logger.DOCKER);
+          Logger.error(err, Logger.DOCKER);
+        } else {
+          Logger.info("Pulled Docker image", Logger.DOCKER);
+        }
       });
     })
     .catch(async (e) => {
