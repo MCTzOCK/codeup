@@ -1,0 +1,15 @@
+{
+  "page.title": "Inscription",
+  "page.loading": "Chargement...",
+  "readme": "Lire",
+  "posts": "Contributions",
+  "repositories": "Dépôts",
+  "certificates": "Certificats",
+  "links": "Liens",
+  "edit.profile": "Modifier le profil",
+  "profile.display.name": "Afficher le nom",
+  "profile.display.name.help": "Votre nom publicitaire sera affiché sur votre profil et est visible publiquement.",
+  "profile.links.help": "Ajoutez des liens à vos profils sociaux afin que les autres puissent mieux vous connaître. Assurez-vous d'entrer chaque lien dans une nouvelle ligne.",
+  "profile.readme.help": "Écrivez une brève description de vous afin que les autres puissent mieux vous connaître. Vous pouvez utiliser Markdown pour formater votre texte.",
+  "save": "Enregistrer"
+}

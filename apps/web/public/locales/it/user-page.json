@@ -1,0 +1,15 @@
+{
+  "page.title": "Codice",
+  "page.loading": "Caricamento...",
+  "readme": "ReadMe",
+  "posts": "Contributi",
+  "repositories": "Repositori",
+  "certificates": "Certificati",
+  "links": "Collegamenti",
+  "edit.profile": "Modifica del profilo",
+  "profile.display.name": "Nome dell'esposizione",
+  "profile.display.name.help": "Il tuo nome annuncio verrà visualizzato sul tuo profilo ed è pubblicamente visibile.",
+  "profile.links.help": "Aggiungi link ai tuoi profili sociali in modo che gli altri possano conoscerti meglio. Assicurati di inserire ogni link in una nuova linea.",
+  "profile.readme.help": "Scrivi una breve descrizione su di te in modo che gli altri possano conoscerti meglio. È possibile utilizzare Markdown per formattare il testo.",
+  "save": "Salva"
+}

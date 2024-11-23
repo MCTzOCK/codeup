@@ -1,0 +1,15 @@
+{
+  "page.title": "CodeUp",
+  "page.loading": "Cargando...",
+  "readme": "ReadMe",
+  "posts": "Contribuciones",
+  "repositories": "Repositorios",
+  "certificates": "Certificados",
+  "links": "Enlaces",
+  "edit.profile": "Perfil de edición",
+  "profile.display.name": "Nombre de visualización",
+  "profile.display.name.help": "Su nombre de anuncio se mostrará en su perfil y es visible públicamente.",
+  "profile.links.help": "Añade enlaces a tus perfiles sociales para que otros puedan conocerte mejor. Por favor, asegúrese de introducir cada enlace en una nueva línea.",
+  "profile.readme.help": "Escribe una breve descripción sobre ti para que otros puedan conocerte mejor. Puedes usar Markdown para formatear tu texto.",
+  "save": "Guardar"
+}

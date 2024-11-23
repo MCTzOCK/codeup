@@ -1,0 +1,15 @@
+{
+  "page.title": "Código",
+  "page.loading": "A carregar...",
+  "readme": "ReadMe",
+  "posts": "Contribuições",
+  "repositories": "Repositório",
+  "certificates": "Certificados",
+  "links": "Ligações",
+  "edit.profile": "Perfil de edição",
+  "profile.display.name": "Nome de exibição",
+  "profile.display.name.help": "Seu nome de anúncio será exibido em seu perfil e é publicamente visível.",
+  "profile.links.help": "Adicione links aos seus perfis sociais para que os outros possam conhecê-lo melhor. Certifique-se de inserir cada link em uma nova linha.",
+  "profile.readme.help": "Escreva uma breve descrição sobre você para que outros possam conhecê-lo melhor. Você pode usar o Markdown para formatar seu texto.",
+  "save": "Salvar"
+}

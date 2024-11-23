@@ -1,0 +1,15 @@
+{
+  "page.title": "CodeUp",
+  "page.loading": "Laden...",
+  "readme": "ReadMe",
+  "posts": "Bijdragen",
+  "repositories": "Repositories",
+  "certificates": "Certificaten",
+  "links": "Links",
+  "edit.profile": "Profiel bewerken",
+  "profile.display.name": "Naam tonen",
+  "profile.display.name.help": "Uw advertentienaam wordt weergegeven op uw profiel en is publiekelijk zichtbaar.",
+  "profile.links.help": "Voeg links toe aan uw sociale profielen zodat anderen u beter kunnen leren kennen. Zorg ervoor dat elke link in een nieuwe regel wordt ingevoerd.",
+  "profile.readme.help": "Schrijf een korte beschrijving over je zodat anderen je beter kunnen leren kennen. U kunt Markdown gebruiken om uw tekst te formatteren.",
+  "save": "Opslaan"
+}

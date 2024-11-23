@@ -53,5 +53,6 @@
   "account.switch.add": "Adicionar ao carrinho",
   "account.admin.disclaimer": "Está registado como administrador. Você pode usar todas as funções e acessar a página de admin. Não use suas permissões e mantê-lo justo.",
   "account.logout.confirm": "Relatórios",
-  "account.logout.confirm.text": "Queres mesmo cancelar a assinatura?"
+  "account.logout.confirm.text": "Queres mesmo cancelar a assinatura?",
+  "account.my.profile": "O meu perfil"
 }

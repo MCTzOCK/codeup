@@ -1,0 +1,15 @@
+{
+  "page.title": "CodeUp",
+  "page.loading": "Loading...",
+  "readme": "ReadMe",
+  "posts": "Contributions",
+  "repositories": "Repositories",
+  "certificates": "Certificates",
+  "links": "Links",
+  "edit.profile": "Editing profile",
+  "profile.display.name": "Display name",
+  "profile.display.name.help": "Your ad name will be displayed on your profile and is publicly visible.",
+  "profile.links.help": "Add links to your social profiles so that others can get to know you better. Please make sure to enter each link in a new line.",
+  "profile.readme.help": "Write a brief description about you so that others can get to know you better. You can use Markdown to format your text.",
+  "save": "Save"
+}

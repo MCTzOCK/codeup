@@ -53,5 +53,6 @@
   "account.switch.add": "In winkelwagen",
   "account.admin.disclaimer": "Je bent geregistreerd als admin. U kunt alle functies gebruiken en toegang krijgen tot de admin pagina. Gebruik je rechten niet en hou je eerlijk.",
   "account.logout.confirm": "Rapportage",
-  "account.logout.confirm.text": "Wilt u zich uitschrijven?"
+  "account.logout.confirm.text": "Wilt u zich uitschrijven?",
+  "account.my.profile": "Mijn profiel"
 }

@@ -53,5 +53,6 @@
   "account.switch.add": "Añadir a la cesta",
   "account.admin.disclaimer": "Estás registrado como administrador. Puede utilizar todas las funciones y acceder a la página de administración. No use sus permisos y lo mantenga justo.",
   "account.logout.confirm": "Reporting",
-  "account.logout.confirm.text": "¿De verdad quieres cancelar tu suscripción?"
+  "account.logout.confirm.text": "¿De verdad quieres cancelar tu suscripción?",
+  "account.my.profile": "Mi perfil"
 }

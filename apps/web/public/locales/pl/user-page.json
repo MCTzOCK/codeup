@@ -1,0 +1,15 @@
+{
+  "page.title": "Kod",
+  "page.loading": "Ładowanie...",
+  "readme": "ReadMe",
+  "posts": "Składki",
+  "repositories": "Repozytoria",
+  "certificates": "Świadectwa",
+  "links": "Linki",
+  "edit.profile": "Profil edycji",
+  "profile.display.name": "Wyświetl nazwę",
+  "profile.display.name.help": "Nazwa reklamy zostanie wyświetlona na profilu i jest publicznie widoczna.",
+  "profile.links.help": "Dodaj linki do profili społecznych, aby inni mogli lepiej cię poznać. Proszę wpisać każdy link w nowej linii.",
+  "profile.readme.help": "Napisz krótki opis, żeby inni mogli cię lepiej poznać. Możesz użyć Markdown do formatowania tekstu.",
+  "save": "Zapisz"
+}

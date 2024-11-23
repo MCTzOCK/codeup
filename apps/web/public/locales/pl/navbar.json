@@ -53,5 +53,6 @@
   "account.switch.add": "Dodaj do koszyka",
   "account.admin.disclaimer": "Jesteś zarejestrowany jako admin. Możesz użyć wszystkich funkcji i uzyskać dostęp do strony admin. Nie używaj swoich uprawnień i bądź sprawiedliwy.",
   "account.logout.confirm": "Sprawozdawczość",
-  "account.logout.confirm.text": "Naprawdę chcesz zrezygnować z subskrypcji?"
+  "account.logout.confirm.text": "Naprawdę chcesz zrezygnować z subskrypcji?",
+  "account.my.profile": "Mój profil"
 }

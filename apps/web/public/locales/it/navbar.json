@@ -53,5 +53,6 @@
   "account.switch.add": "Aggiungi al carrello",
   "account.admin.disclaimer": "Sei registrato come amministratore. È possibile utilizzare tutte le funzioni e accedere alla pagina di amministrazione. Non usare i tuoi permessi e mantenerti giusto.",
   "account.logout.confirm": "Relazione",
-  "account.logout.confirm.text": "Vuoi davvero disdire?"
+  "account.logout.confirm.text": "Vuoi davvero disdire?",
+  "account.my.profile": "Il mio profilo"
 }
