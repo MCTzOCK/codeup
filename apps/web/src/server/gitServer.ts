@@ -18,10 +18,10 @@ import Logger from "./logger";
 
 const PORT = process.env.GIT_PORT ? parseInt(process.env.GIT_PORT) : 3002;
 
-const GIT_PATH = process.env.GIT_DATA_HOME as string;
+const GIT_PATH = process.env.GIT_SERVER_HOME as string;
 if (!GIT_PATH) {
   Logger.error(
-    "Error: GIT_DATA_HOME environment variable is not set.",
+    "Error: GIT_SERVER_HOME environment variable is not set.",
     Logger.GIT
   );
   process.exit(1);

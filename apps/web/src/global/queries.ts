@@ -11,7 +11,6 @@
 import { gql } from "@apollo/client";
 import makeRequest from "@codeup/rest/dist/makeRequest";
 import AccountManager from "@codeup/util/dist/AccountManager";
-import type { DocumentNode } from "@graphql-typed-document-node/core/node_modules/graphql";
 
 export function gatherToken(setToken: (token: string) => void) {
   makeRequest({

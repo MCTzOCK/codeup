@@ -203,7 +203,7 @@ export default function ChatViewV2(props: {
                           ? "brand.600"
                           : "gray.500"
                       }
-                      p={4}
+                      p={3}
                       color={
                         userInfo.username === m.username ? "black" : "white"
                       }
@@ -213,13 +213,22 @@ export default function ChatViewV2(props: {
                     >
                       {m.content.startsWith("image: ") ? (
                         <>
-                          <img src={m.content.replace("image: ", "")} />
+                          <img
+                            src={m.content.replace("image: ", "")}
+                            style={{
+                              maxWidth: "15vw",
+                              borderRadius: "var(--chakra-radii-md)",
+                            }}
+                          />
                         </>
                       ) : m.content.startsWith("video: ") ? (
                         <>
                           <video
                             src={m.content.replace("video: ", "")}
                             controls
+                            style={{
+                              maxWidth: "15vw",
+                            }}
                           />
                         </>
                       ) : m.content.startsWith("file: ") ? (
@@ -229,21 +238,23 @@ export default function ChatViewV2(props: {
                             justifyContent={"space-between"}
                             w={"100%"}
                             p={4}
-                            rounded={"xl"}
+                            rounded={"md"}
                             bg={"gray.800"}
                             shadow={"xl"}
                             gap={4}
                           >
                             <Flex alignItems={"center"} gap={"1rem"}>
-                              <FiFile />
-                              <Text>{m.content.split(" ")[2]}</Text>
+                              <FiFile color={"#FAFAFA"} />
+                              <Text color={"#FAFAFA"}>
+                                {m.content.split(" ")[2]}
+                              </Text>
                             </Flex>
                             <IconButton
                               as={"a"}
                               href={m.content.split(" ")[1]}
                               target={"_blank"}
                               rel={"noreferrer"}
-                              colorScheme={"blue"}
+                              variant={"brand"}
                               icon={<FiDownload />}
                               aria-label={"Download"}
                             />

@@ -21,9 +21,6 @@ export default function MessageView() {
 
   const { id } = router.query;
 
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
   const { t } = useTranslation("forum");
 
   return (

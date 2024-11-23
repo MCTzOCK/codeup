@@ -19,7 +19,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     if (!auth) return;
 
-    const { username } = req.body;
+    const { username } = req.query;
 
     if (req.method === "GET") {
       let userPage = await UserPageModel.findOne({
