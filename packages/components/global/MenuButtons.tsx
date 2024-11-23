@@ -362,6 +362,11 @@ export default function MenuButtons(props: {
                     {t("account.dashboard", { ns: "navbar" })}
                   </MenuItem>
                 </Link>
+                <Link href={"/u/" + userInfo.username}>
+                  <MenuItem>
+                    {t("account.my.profile", { ns: "navbar" })}
+                  </MenuItem>
+                </Link>
                 <Link href={"/account/settings"}>
                   <MenuItem>{t("account.settings", { ns: "navbar" })}</MenuItem>
                 </Link>
