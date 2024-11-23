@@ -112,7 +112,7 @@ export default function UserPage() {
                     aria-label={"Message"}
                     display={
                       userInfo && userInfo.username !== page.username
-                        ? "initial"
+                        ? "flex"
                         : "none"
                     }
                     icon={<FaEnvelope />}
