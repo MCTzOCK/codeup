@@ -37,3 +37,10 @@ export async function updateUserPage(
     body: payload,
   });
 }
+
+export async function getCertificates(username: string): Promise<IResponse> {
+  return await makeRequest({
+    path: "/api/v2/certificates/" + username,
+    method: "GET",
+  });
+}

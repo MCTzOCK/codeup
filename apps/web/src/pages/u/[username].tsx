@@ -41,6 +41,7 @@ import REST from "@codeup/rest/src";
 import { useEffect } from "react";
 import AuthenticateLoadingIndicator from "@codeup/components/dist/admin/AuthenticateLoadingIndicator";
 import UserPostList from "@codeup/components/forum/UserPostList";
+import UserPageCertificates from "@codeup/components/v2/UserPageCertificates";
 import { useLoggedIn, useUserLoggedInRedirect } from "@codeup/hooks";
 import { FaEnvelope, FaPen, FaSave } from "react-icons/fa";
 import PopupManager from "../../global/PopupManager";
@@ -300,6 +301,10 @@ export default function UserPage() {
                         loggedInUser={userInfo}
                         displayName={page.displayName}
                       />
+                    </TabPanel>
+                    <TabPanel></TabPanel>
+                    <TabPanel>
+                      <UserPageCertificates username={page.username} />
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
