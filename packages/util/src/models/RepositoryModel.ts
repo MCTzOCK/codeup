@@ -28,6 +28,7 @@ const RepositoryModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    immutable: true,
   },
   description: {
     type: String,
