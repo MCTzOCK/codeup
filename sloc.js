@@ -42,6 +42,7 @@ const disallowed = [
   ".pdf",
   ".docx",
   ".tmp",
+  "script.base.js",
 ];
 
 // filter disallowed files

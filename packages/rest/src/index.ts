@@ -329,6 +329,13 @@ import {
 import { createLevel, deleteLevel, myLevels, updateLevel } from "./api/Game";
 import { Developer } from "./api/Developer";
 import { getCertificates, getUserPage, updateUserPage } from "./api/UserPages";
+import {
+  createRepository,
+  deleteRepository,
+  getRepositories,
+  getRepository,
+  updateRepository,
+} from "./api/Repositories";
 
 const REST = {
   Developer,
@@ -690,6 +697,13 @@ const REST = {
     getUserPage,
     updateUserPage,
     getCertificates,
+  },
+  Repositories: {
+    deleteRepository,
+    updateRepository,
+    createRepository,
+    getRepository,
+    getRepositories,
   },
 };
 
