@@ -11,5 +11,6 @@
   "profile.display.name.help": "Dein Anzeigename wird auf deinem Profil angezeigt und ist öffentlich sichtbar.",
   "profile.links.help": "Füge Links zu deinen sozialen Profilen hinzu, damit andere dich besser kennenlernen können. Bitte achte darauf, jeden Link in einer neuen Zeile einzugeben.",
   "profile.readme.help": "Schreibe eine kurze Beschreibung über dich, damit andere dich besser kennenlernen können. Du kannst Markdown verwenden, um deinen Text zu formatieren.",
-  "save": "Speichern"
+  "save": "Speichern",
+  "repos.none": "Keine Repositories gefunden."
 }
