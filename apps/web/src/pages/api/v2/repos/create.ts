@@ -56,10 +56,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    fs.mkdirSync(
-      path.join(process.env.GIT_SERVER_HOME as string, user.username, name)
-    );
-
     const repo = await RepositoryModel.create({
       user: user._id,
       username: user.username,
@@ -69,6 +65,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       deploymentType,
       deploymentName,
     });
+
+    fs.mkdirSync(
+      path.join(process.env.GIT_SERVER_HOME as string, user.username, name),
+      {
+        recursive: true,
+      }
+    );
 
     child_process.execSync(`git clone --bare ${templateURL} .`, {
       cwd: path.join(

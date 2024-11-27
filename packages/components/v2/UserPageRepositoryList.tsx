@@ -13,12 +13,30 @@ import { useEffect } from "react";
 import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import AuthenticateLoadingIndicator from "../admin/AuthenticateLoadingIndicator";
-import { Box, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Select,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import {
   RiGitRepositoryFill,
   RiGitRepositoryPrivateFill,
 } from "react-icons/ri";
 import { useTranslation } from "next-i18next";
+import { FaPlus } from "react-icons/fa";
+import PopupManager from "@codeup/web/src/global/PopupManager";
 
 export default function UserPageRepositoryList(props: {
   username: string;
@@ -50,6 +68,8 @@ export default function UserPageRepositoryList(props: {
       AccountManager.getActiveToken()
     );
 
+    setLoading(false);
+
     if (res.status !== 200) {
       setError(res.payload.error);
       return;
@@ -68,7 +88,126 @@ export default function UserPageRepositoryList(props: {
 
   return (
     <>
-      <Stack gap={4}>
+      <HStack
+        justifyContent={"flex-end"}
+        display={props.user.username === props.username ? "flex" : "none"}
+      >
+        <Button
+          variant={"brand"}
+          leftIcon={<FaPlus />}
+          onClick={async () => {
+            await PopupManager.alertAsync({
+              title: t("repos.create"),
+              description: (
+                <>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+
+                      const fd = new FormData(e.target as HTMLFormElement);
+
+                      const ip = (
+                        document.querySelector(
+                          "#repo-is-public"
+                        ) as HTMLInputElement
+                      ).checked;
+
+                      const res = await REST.Repositories.createRepository(
+                        AccountManager.getActiveToken(),
+                        {
+                          name: fd.get("name") as string,
+                          description: fd.get("description") as string,
+                          isPublic: ip,
+                          deploymentType: fd.get("deploymentType") as string,
+                          deploymentName: fd.get("deploymentName") as string,
+                          templateURL:
+                            "https://github.com/CodeUpProjects/empty",
+                        }
+                      );
+
+                      if (res.status !== 200) {
+                        await PopupManager.alertAsync({
+                          title: t("base:control.error"),
+                          description:
+                            t("base:control.error.request") + res.payload.error,
+                        });
+                        return;
+                      }
+
+                      PopupManager.removeCurrentPopup();
+
+                      await reload();
+                    }}
+                  >
+                    <Stack gap={4}>
+                      <FormControl isRequired>
+                        <FormLabel>{t("repos.create.name")}</FormLabel>
+                        <Input
+                          name={"name"}
+                          placeholder={t("repos.create.name")}
+                        />
+                        <FormHelperText>
+                          {t("repos.create.name.helper")}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isRequired>
+                        <FormLabel>{t("repos.create.description")}</FormLabel>
+                        <Textarea
+                          name={"description"}
+                          placeholder={t("repos.create.description")}
+                        />
+                        <FormHelperText>
+                          {t("repos.create.description.helper")}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>{t("repos.create.public")}</FormLabel>
+                        <Switch id={"repo-is-public"} colorScheme={"brand"} />
+                        <FormHelperText>
+                          {t("repos.create.public.helper")}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isRequired>
+                        <FormLabel>{t("repos.create.deploy.type")}</FormLabel>
+                        <Select name={"deploymentType"}>
+                          <option>Static (HTML)</option>
+                          <option>Dynamic (Next.JS/Server/...)</option>
+                        </Select>
+                        <FormHelperText>
+                          {t("repos.create.deploy.type.helper")}
+                        </FormHelperText>
+                      </FormControl>
+                      <FormControl isRequired>
+                        <FormLabel>{t("repos.create.deploy.name")}</FormLabel>
+                        <InputGroup>
+                          <Input
+                            name={"deploymentName"}
+                            placeholder={t("repos.create.deploy.name")}
+                          />
+                          <InputRightAddon>.codexp.dev</InputRightAddon>
+                        </InputGroup>
+                        <FormHelperText>
+                          {t("repos.create.deploy.type.helper")}
+                        </FormHelperText>
+                      </FormControl>
+                      <Button
+                        type={"submit"}
+                        variant={"brand"}
+                        leftIcon={<FaPlus />}
+                      >
+                        {t("repos.create.submit")}
+                      </Button>
+                    </Stack>
+                  </form>
+                </>
+              ),
+            });
+          }}
+        >
+          {t("repos.create")}
+        </Button>
+      </HStack>
+      <Stack gap={4} pt={4}>
         {repos.map((repo, i) => (
           <>
             <HStack
@@ -77,13 +216,15 @@ export default function UserPageRepositoryList(props: {
               rounded={"md"}
               p={4}
               alignItems={"center"}
-              gap={2}
+              gap={4}
             >
-              {repo.public ? (
-                <RiGitRepositoryFill />
-              ) : (
-                <RiGitRepositoryPrivateFill />
-              )}
+              <Text fontSize={"4xl"}>
+                {repo.public ? (
+                  <RiGitRepositoryFill />
+                ) : (
+                  <RiGitRepositoryPrivateFill />
+                )}
+              </Text>
               <Box as={"a"} href={"/u/" + props.username + "/" + repo.name}>
                 <Heading size={"lg"}>
                   @{props.username}/{repo.name}

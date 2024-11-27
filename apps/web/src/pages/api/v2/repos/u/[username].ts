@@ -28,10 +28,16 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const repos = await RepositoryModel.find({
-      username: username,
-      public: user.username !== username,
-    });
+    const onlyPublic = user.username !== username;
+    const ft: any = {
+      username,
+    };
+
+    if (onlyPublic) {
+      ft.public = true;
+    }
+
+    const repos = await RepositoryModel.find(ft);
 
     res.status(200).json({
       status: 200,

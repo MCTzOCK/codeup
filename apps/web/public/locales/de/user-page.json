@@ -12,5 +12,14 @@
   "profile.links.help": "Füge Links zu deinen sozialen Profilen hinzu, damit andere dich besser kennenlernen können. Bitte achte darauf, jeden Link in einer neuen Zeile einzugeben.",
   "profile.readme.help": "Schreibe eine kurze Beschreibung über dich, damit andere dich besser kennenlernen können. Du kannst Markdown verwenden, um deinen Text zu formatieren.",
   "save": "Speichern",
-  "repos.none": "Keine Repositories gefunden."
+  "repos.none": "Keine Repositories gefunden.",
+  "repos.create": "Neues Repository",
+  "repos.create.name": "Name",
+  "repos.create.name.helper": "Gib deinem Projekt einen eindeutigen Namen.",
+  "repos.create.description": "Beschreibung",
+  "repos.create.description.helper": "Beschreibe dein Projekt kurz.",
+  "repos.create.public": "Öffentlich",
+  "repos.create.public.helper": "Möchtest du, dass dein Repository öffentlich sichtbar ist?",
+  "repos.create.deploy.type": "Veröffentlichungs-Typ",
+  "repos.create.deploy.type.helper": "Wähle den Veröffentlichungs-Typ für dein Repository. STATIC bedeutet, dass dein Repository als statische Website veröffentlicht wird. DYNAMIC bedeutet, dass dein Repository als dynamische Website veröffentlicht wird."
 }
