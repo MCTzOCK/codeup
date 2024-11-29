@@ -170,8 +170,10 @@ export default function UserPageRepositoryList(props: {
                       <FormControl isRequired>
                         <FormLabel>{t("repos.create.deploy.type")}</FormLabel>
                         <Select name={"deploymentType"}>
-                          <option>Static (HTML)</option>
-                          <option>Dynamic (Next.JS/Server/...)</option>
+                          <option value={"static"}>Static (HTML)</option>
+                          <option value={"dynamic"}>
+                            Dynamic (Next.JS/Server/...)
+                          </option>
                         </Select>
                         <FormHelperText>
                           {t("repos.create.deploy.type.helper")}
@@ -187,7 +189,7 @@ export default function UserPageRepositoryList(props: {
                           <InputRightAddon>.codexp.dev</InputRightAddon>
                         </InputGroup>
                         <FormHelperText>
-                          {t("repos.create.deploy.type.helper")}
+                          {t("repos.create.deploy.name.helper")}
                         </FormHelperText>
                       </FormControl>
                       <Button

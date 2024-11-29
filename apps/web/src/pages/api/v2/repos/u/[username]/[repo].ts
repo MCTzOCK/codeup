@@ -74,7 +74,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         const { description, isPublic, deploymentType, deploymentName } =
           req.body;
 
-        if (!description || !isPublic || !deploymentType || !deploymentName) {
+        if (
+          !description ||
+          isPublic === undefined ||
+          !deploymentType ||
+          !deploymentName
+        ) {
           res.status(400).json({
             status: 400,
             error: "Missing required fields",

@@ -22,6 +22,8 @@
   "repos.create.public.helper": "Möchtest du, dass dein Repository öffentlich sichtbar ist?",
   "repos.create.deploy.type": "Veröffentlichungs-Typ",
   "repos.create.deploy.type.helper": "Wähle den Veröffentlichungs-Typ für dein Repository. STATIC bedeutet, dass dein Repository als statische Website veröffentlicht wird. DYNAMIC bedeutet, dass dein Repository als dynamische Website veröffentlicht wird.",
+  "repos.create.deploy.name": "Veröffentlichungs-URL",
+  "repos.create.deploy.name.helper": "Gib einen eindeutigen Namen für die Veröffentlichung deines Projekts ein. Dieser Name wird in der URL verwendet.",
   "repo.actions.edit": "Bearbeiten",
   "repo.actions.delete": "Löschen",
   "repos.delete": "Repository Löschen?",
@@ -32,5 +34,6 @@
   "repos.clone.cloud": "Alternativ kannst du deinen CodeUp Cloud PC und die integrierte Desktop App verwenden, um dein Projekt zu editieren und später auch zu veröffentlichen.",
   "repos.clone.a.local": "Lokal klonen:",
   "repos.clone.a.cloud": "Cloud-PC:",
-  "repos.clone.cloud.attach": "Cloud-PC verbinden"
+  "repos.clone.cloud.attach": "Cloud-PC verbinden",
+  "repos.update.submit": "Aktualisieren"
 }

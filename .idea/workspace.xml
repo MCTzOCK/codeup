@@ -7,7 +7,9 @@
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/public/locales/de/user-page.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/locales/de/user-page.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/api/v2/repos/u/[username]/[repo].ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/api/v2/repos/u/[username]/[repo].ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/u/[username]/[repo].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/u/[username]/[repo].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/components/v2/UserPageRepositoryList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/components/v2/UserPageRepositoryList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
