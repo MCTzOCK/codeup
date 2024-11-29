@@ -32,11 +32,17 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (req.method === "GET") {
-      const repository = await RepositoryModel.findOne({
+      const onlyPublic = user.username !== username;
+      const ft: any = {
         username: username,
         name: repo,
-        public: user.username !== username,
-      });
+      };
+
+      if (onlyPublic) {
+        ft.public = true;
+      }
+
+      const repository = await RepositoryModel.findOne(ft);
 
       if (!repository) {
         res.status(404).json({
@@ -99,7 +105,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             process.env.GIT_SERVER_HOME as string,
             user.username,
             repository.name
-          )
+          ),
+          {
+            recursive: true,
+          }
         );
 
         res.status(200).json({
