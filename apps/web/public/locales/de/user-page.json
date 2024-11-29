@@ -25,5 +25,12 @@
   "repo.actions.edit": "Bearbeiten",
   "repo.actions.delete": "Löschen",
   "repos.delete": "Repository Löschen?",
-  "repos.delete.confirm": "Möchtest du das Repository wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+  "repos.delete.confirm": "Möchtest du das Repository wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "repo.description": "Beschreibung",
+  "repos.clone.one": "Um das Repository zu bearbeiten, gibt es mehrere Möglichkeiten:",
+  "repos.clone.local": "Du kannst das Repository lokal auf deinen Computer (PC/Mac) klonen und bearbeiten. Dazu musst du bereits Git und einen Code-Editor installiert haben.",
+  "repos.clone.cloud": "Alternativ kannst du deinen CodeUp Cloud PC und die integrierte Desktop App verwenden, um dein Projekt zu editieren und später auch zu veröffentlichen.",
+  "repos.clone.a.local": "Lokal klonen:",
+  "repos.clone.a.cloud": "Cloud-PC:",
+  "repos.clone.cloud.attach": "Cloud-PC verbinden"
 }

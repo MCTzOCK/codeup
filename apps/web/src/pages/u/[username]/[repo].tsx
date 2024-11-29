@@ -20,22 +20,28 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import {
   Box,
+  Button,
+  Code,
   Heading,
   HStack,
   IconButton,
+  ListItem,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Text,
+  UnorderedList,
 } from "@chakra-ui/react";
 import {
   RiGitRepositoryFill,
   RiGitRepositoryPrivateFill,
 } from "react-icons/ri";
 import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from "react-icons/bi";
-import { FaPen, FaTrash } from "react-icons/fa";
+import { FaPen, FaPlay, FaTrash } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
+import Highlight from "react-highlight";
+import "highlight.js/styles/base16/3024.min.css";
 
 export default function RepoViewer() {
   const { t } = useTranslation("user-page");
@@ -167,7 +173,34 @@ export default function RepoViewer() {
           </Menu>
         </HStack>
         <Box p={4}>
-          <Box rounded={"md"} p={4} bg={"gray.900"} w={"100%"}></Box>
+          <Box rounded={"md"} p={4} bg={"gray.900"} w={"100%"}>
+            <Heading size={"md"}>{t("repo.description")}</Heading>
+            <Text>{repo.description}</Text>
+            <br />
+            {t("repos.clone.one")}
+            <UnorderedList>
+              <ListItem>{t("repos.clone.local")}</ListItem>
+              <ListItem>{t("repos.clone.cloud")}</ListItem>
+            </UnorderedList>
+            <br />
+            <b>{t("repos.clone.a.local")}</b>
+            <Highlight className={"language-shell code-block-cup"}>
+              git clone https://git.codeup.space/@{repo.username}/{repo.name}
+            </Highlight>
+            <br />
+            <b>{t("repos.clone.a.cloud")}</b>
+            <br />
+            <Button
+              mt={4}
+              variant={"brand"}
+              onClick={() => {
+                router.push("/cloud-pc/attach");
+              }}
+              leftIcon={<FaPlay />}
+            >
+              {t("repos.clone.cloud.attach")}
+            </Button>
+          </Box>
         </Box>
       </Box>
     </>
