@@ -1,6 +1,14 @@
 FROM node:18
+LABEL maintainer="Ben Siebert"
+
 RUN mkdir -p /usr/src/app
+RUN mkdir /usr/src/cws
 WORKDIR /usr/src/app
+
+RUN apt update
+RUN apt install -y openjdk-17-jre-headless
+RUN wget -O /usr/src/cws/cws.jar https://download.ben-siebert.com/codeup/internal/workspaces/latest/workspaces.jar
+
 RUN npm i -g turbo
 COPY ./ /usr/src/app/
 RUN yarn config set enableStrictSsl false
