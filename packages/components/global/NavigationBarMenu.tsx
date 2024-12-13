@@ -167,16 +167,6 @@ export default function NavigationBarMenu(props: {
       >
         {t("control.search", { ns: "base" })}
       </Button>
-      <Button
-        variant={"ghost"}
-        size={"lg"}
-        onClick={() => {
-          router.push("/ai");
-        }}
-        leftIcon={<FaRobot />}
-      >
-        {t("products.ai", { ns: "navbar" })}
-      </Button>
     </>
   );
 }

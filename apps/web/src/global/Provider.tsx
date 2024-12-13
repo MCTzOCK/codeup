@@ -15,10 +15,7 @@ import { mantineTheme } from "./mantine.theme";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 import CommandPalette from "@codeup/components/dist/global/CommandPalette";
-import { Footer, NavigationBar } from "@codeup/components/dist/global";
-import { CommunityNavigationBar } from "@codeup/components/dist/community";
-import ForumNavigationBar from "@codeup/components/dist/forum/ForumNavigationBar";
-import { PostButton } from "@codeup/components/dist/community/post";
+import { Footer, NavigationBar } from "@codeup/components/global";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 export default function Provider(props: {

@@ -18,6 +18,7 @@ import {
   ButtonGroup,
   Center,
   chakra,
+  Grid,
   Heading,
   HStack,
   IconButton,
@@ -44,6 +45,7 @@ import {
   FaPlus,
   FaSitemap,
   FaTrash,
+  FaUser,
   FaUsers,
 } from "react-icons/fa";
 import PopupManager from "@codeup/web/src/global/PopupManager";
@@ -52,7 +54,12 @@ import AccountManager from "@codeup/util/src/AccountManager";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import ReactCountryFlag from "react-country-flag";
-import { FaChevronDown } from "react-icons/fa6";
+import {
+  FaChevronDown,
+  FaRightFromBracket,
+  FaRobot,
+  FaTableColumns,
+} from "react-icons/fa6";
 
 export default function MenuButtons(props: {
   onClose: () => void;
@@ -109,7 +116,16 @@ export default function MenuButtons(props: {
       ) : null}
       {loggedIn ? (
         <>
-          <HStack gap={[6, 2]}>
+          <HStack gap={6}>
+            <IconButton
+              aria-label={"Artificial Intelligence"}
+              icon={<FaRobot size={"28"} />}
+              size={"lg"}
+              borderRadius={"full"}
+              variant={"outline"}
+              as={"a"}
+              href={"/ai"}
+            />
             <Menu>
               <MenuButton
                 as={Button}
@@ -123,7 +139,28 @@ export default function MenuButtons(props: {
                   size={"md"}
                 />
               </MenuButton>
-              <MenuList bg={"#000"} zIndex={10}>
+              <MenuList
+                bg={"#000"}
+                zIndex={10}
+                style={{
+                  maxWidth: "250px",
+                  overflow: "auto",
+                }}
+              >
+                <IconButton
+                  size={"sm"}
+                  variant={"ghost"}
+                  colorScheme={"red"}
+                  aria-label={"Logout"}
+                  icon={<FaRightFromBracket />}
+                  onClick={() => {
+                    props.onClose();
+                    props.onLogoutOpen();
+                  }}
+                  position={"absolute"}
+                  top={2}
+                  right={2}
+                />
                 <br />
                 <Center>
                   <Avatar
@@ -147,7 +184,15 @@ export default function MenuButtons(props: {
                 <MenuDivider />
                 {levelProgress ? (
                   <>
-                    <MenuItem w={"100%"} as={"a"} href={"/account/level"}>
+                    <MenuItem
+                      w={"100%"}
+                      as={"a"}
+                      href={"/account/level"}
+                      bg={"#000"}
+                      _hover={{
+                        bg: "#121212",
+                      }}
+                    >
                       <Box w={"100%"}>
                         <Text textAlign={"center"} fontWeight={"bold"}>
                           {t("account.level", { ns: "navbar" })}{" "}
@@ -177,222 +222,312 @@ export default function MenuButtons(props: {
                   </>
                 )}
                 <MenuDivider />
-                {userInfo.subscription === "FREE" && userInfo.role !== "admin" && (
-                  <MenuItem
-                    onClick={async () => {
-                      const res = await REST.Payments.createCheckoutLink(
-                        AccountManager.getActiveToken()
-                      );
-
-                      if (res.status === 200) {
-                        window.location.href = res.payload.url;
-                      } else {
-                        PopupManager.alert({
-                          title: t("control.error"),
-                          description:
-                            t("control.error.request") + res.payload.error,
-                        });
-                      }
-                    }}
-                    color={"orange.400"}
-                    fontWeight={"bold"}
-                    icon={<FaCrown />}
-                  >
-                    {t("account.upgrade", { ns: "navbar" })}
-                  </MenuItem>
-                )}
-                <MenuItem
-                  icon={<FaPlus />}
-                  onClick={() => {
-                    router.push("/creator/studio");
-                  }}
-                  color={"blue.300"}
-                  fontWeight={"bold"}
+                <Grid
+                  templateColumns={"repeat(3, 1fr)"}
+                  gap={4}
+                  p={2}
+                  maxW={"100%"}
+                  cursor={"default"}
                 >
-                  {t("products.creator", { ns: "navbar" })}
-                </MenuItem>
-                <MenuDivider />
-                <MenuItem
-                  icon={<FaUsers />}
-                  onClick={() => {
-                    const UserCard = (props: {
-                      username: string;
-                      firstName: string;
-                      lastName: string;
-                      pro: boolean;
-                    }) => {
-                      return (
-                        <>
-                          <HStack
-                            display={"flex"}
-                            justifyContent={"space-between"}
-                          >
-                            <Box>
-                              <HStack display={"flex"}>
-                                <Avatar
-                                  src={
-                                    "/api/account/" +
-                                    props.username +
-                                    "/picture"
-                                  }
-                                  size={"lg"}
-                                />
-                                <Stack>
-                                  <Heading size={"lg"}>
-                                    {props.firstName}&nbsp;{props.lastName}
-                                  </Heading>
-                                  <HStack>
-                                    <Text color={"gray"}>
-                                      @{props.username}
-                                    </Text>
-                                    {props.pro && (
-                                      <Badge colorScheme={"orange"} size={"lg"}>
-                                        PRO
-                                      </Badge>
-                                    )}
+                  <Stack gap={1}>
+                    <Box
+                      as={"a"}
+                      bg={"#121212"}
+                      cursor={"default"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      href={"/creator/studio"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaPlus
+                        color={"var(--chakra-colors-blue-300)"}
+                        size={"24"}
+                      />
+                    </Box>
+                    <Text fontSize={"sm"} color={"gray"} textAlign={"center"}>
+                      {t("products.creator", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Box
+                      onClick={() => {
+                        const UserCard = (props: {
+                          username: string;
+                          firstName: string;
+                          lastName: string;
+                          pro: boolean;
+                        }) => {
+                          return (
+                            <>
+                              <HStack
+                                display={"flex"}
+                                justifyContent={"space-between"}
+                              >
+                                <Box>
+                                  <HStack display={"flex"}>
+                                    <Avatar
+                                      src={
+                                        "/api/account/" +
+                                        props.username +
+                                        "/picture"
+                                      }
+                                      size={"lg"}
+                                    />
+                                    <Stack>
+                                      <Heading size={"lg"}>
+                                        {props.firstName}&nbsp;{props.lastName}
+                                      </Heading>
+                                      <HStack>
+                                        <Text color={"gray"}>
+                                          @{props.username}
+                                        </Text>
+                                        {props.pro && (
+                                          <Badge
+                                            colorScheme={"orange"}
+                                            size={"lg"}
+                                          >
+                                            PRO
+                                          </Badge>
+                                        )}
+                                      </HStack>
+                                    </Stack>
                                   </HStack>
-                                </Stack>
+                                </Box>
+                                {userInfo.username !== props.username ? (
+                                  <ButtonGroup isAttached>
+                                    <IconButton
+                                      aria-label={"switch"}
+                                      icon={<HiSwitchHorizontal />}
+                                      onClick={async () => {
+                                        const oldToken = localStorage.getItem(
+                                          "token"
+                                        ) as string;
+                                        const ac =
+                                          AccountManager.getAccounts().find(
+                                            (a) => a.username === props.username
+                                          );
+                                        const newToken = ac!.token;
+
+                                        AccountManager.removeAccount(ac!);
+                                        await AccountManager.addAccount(
+                                          oldToken
+                                        );
+
+                                        localStorage.setItem("token", newToken);
+
+                                        PopupManager.removeCurrentPopup();
+                                      }}
+                                    />
+                                    <IconButton
+                                      aria-label={"delete"}
+                                      icon={<FaTrash />}
+                                      onClick={async () => {
+                                        const ac =
+                                          AccountManager.getAccounts().find(
+                                            (a) => a.username === props.username
+                                          );
+                                        AccountManager.removeAccount(ac!);
+                                        PopupManager.removeCurrentPopup();
+                                      }}
+                                    />
+                                  </ButtonGroup>
+                                ) : (
+                                  <>
+                                    <chakra.span color={"green.400"}>
+                                      <FaCheck />
+                                    </chakra.span>
+                                  </>
+                                )}
                               </HStack>
-                            </Box>
-                            {userInfo.username !== props.username ? (
-                              <ButtonGroup isAttached>
-                                <IconButton
-                                  aria-label={"switch"}
-                                  icon={<HiSwitchHorizontal />}
-                                  onClick={async () => {
-                                    const oldToken = localStorage.getItem(
-                                      "token"
-                                    ) as string;
-                                    const ac =
-                                      AccountManager.getAccounts().find(
-                                        (a) => a.username === props.username
-                                      );
-                                    const newToken = ac!.token;
+                            </>
+                          );
+                        };
 
-                                    AccountManager.removeAccount(ac!);
-                                    await AccountManager.addAccount(oldToken);
-
-                                    localStorage.setItem("token", newToken);
-
-                                    PopupManager.removeCurrentPopup();
-                                  }}
-                                />
-                                <IconButton
-                                  aria-label={"delete"}
-                                  icon={<FaTrash />}
-                                  onClick={async () => {
-                                    const ac =
-                                      AccountManager.getAccounts().find(
-                                        (a) => a.username === props.username
-                                      );
-                                    AccountManager.removeAccount(ac!);
-                                    PopupManager.removeCurrentPopup();
-                                  }}
-                                />
-                              </ButtonGroup>
-                            ) : (
-                              <>
-                                <chakra.span color={"green.400"}>
-                                  <FaCheck />
-                                </chakra.span>
-                              </>
-                            )}
-                          </HStack>
-                        </>
-                      );
-                    };
-
-                    PopupManager.alert({
-                      title: t("account.switch", { ns: "navbar" }),
-                      description: (
-                        <>
-                          <Stack w={"100%"}>
-                            <UserCard
-                              firstName={userInfo.firstName}
-                              lastName={userInfo.lastName}
-                              username={userInfo.username}
-                              pro={userInfo.subscription === "PRO"}
-                            />
-                            {AccountManager.getAccounts().map((account) => (
-                              <>
+                        PopupManager.alert({
+                          title: t("account.switch", { ns: "navbar" }),
+                          description: (
+                            <>
+                              <Stack w={"100%"}>
                                 <UserCard
-                                  firstName={account.firstName}
-                                  lastName={account.lastName}
-                                  username={account.username}
+                                  firstName={userInfo.firstName}
+                                  lastName={userInfo.lastName}
+                                  username={userInfo.username}
                                   pro={userInfo.subscription === "PRO"}
                                 />
+                                {AccountManager.getAccounts().map((account) => (
+                                  <>
+                                    <UserCard
+                                      firstName={account.firstName}
+                                      lastName={account.lastName}
+                                      username={account.username}
+                                      pro={userInfo.subscription === "PRO"}
+                                    />
+                                    <StackDivider />
+                                  </>
+                                ))}
                                 <StackDivider />
-                              </>
-                            ))}
-                            <StackDivider />
-                            <Button
-                              variant={"brand"}
-                              leftIcon={<FaPlus />}
-                              onClick={async () => {
-                                await AccountManager.addAccount(
-                                  localStorage.getItem("token") as string
-                                );
-                                localStorage.removeItem("token");
+                                <Button
+                                  variant={"brand"}
+                                  leftIcon={<FaPlus />}
+                                  onClick={async () => {
+                                    await AccountManager.addAccount(
+                                      localStorage.getItem("token") as string
+                                    );
+                                    localStorage.removeItem("token");
 
-                                PopupManager.removeCurrentPopup();
+                                    PopupManager.removeCurrentPopup();
 
-                                window.dispatchEvent(
-                                  new CustomEvent("codeup::open_login")
-                                );
-                              }}
-                            >
-                              {t("account.switch.add", { ns: "navbar" })}
-                            </Button>
-                          </Stack>
-                        </>
-                      ),
-                    });
-                  }}
-                >
-                  {t("account.switch", { ns: "navbar" })}
-                </MenuItem>
-                <Link href={"/orgs"}>
-                  <MenuItem icon={<FaSitemap />}>
-                    {t("account.organisations", { ns: "navbar" })}
-                  </MenuItem>
-                </Link>
-                <MenuDivider />
-                <Link href={"/dashboard/v2"}>
-                  <MenuItem>
-                    {t("account.dashboard", { ns: "navbar" })}
-                  </MenuItem>
-                </Link>
-                <Link href={"/u/" + userInfo.username}>
-                  <MenuItem>
-                    {t("account.my.profile", { ns: "navbar" })}
-                  </MenuItem>
-                </Link>
-                <Link href={"/account/settings"}>
-                  <MenuItem>{t("account.settings", { ns: "navbar" })}</MenuItem>
-                </Link>
-                <MenuItem
-                  color={"red.300"}
-                  onClick={() => {
-                    props.onLogoutOpen();
-                  }}
-                >
-                  {t("account.logout", { ns: "navbar" })}
-                </MenuItem>
+                                    window.dispatchEvent(
+                                      new CustomEvent("codeup::open_login")
+                                    );
+                                  }}
+                                >
+                                  {t("account.switch.add", { ns: "navbar" })}
+                                </Button>
+                              </Stack>
+                            </>
+                          ),
+                        });
+                      }}
+                      bg={"#121212"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaUsers size={"24"} />
+                    </Box>
+                    <Text
+                      fontSize={"sm"}
+                      color={"gray"}
+                      textAlign={"center"}
+                      wordBreak={"break-word"}
+                    >
+                      {t("account.switch", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Box
+                      bg={"#121212"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      as={"a"}
+                      cursor={"default"}
+                      href={"/orgs"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaSitemap size={"24"} />
+                    </Box>
+                    <Text
+                      fontSize={"sm"}
+                      color={"gray"}
+                      textAlign={"center"}
+                      wordBreak={"break-word"}
+                    >
+                      {t("account.organisations", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Box
+                      bg={"#121212"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      as={"a"}
+                      cursor={"default"}
+                      href={"/dashboard/v2"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaTableColumns size={"24"} />
+                    </Box>
+                    <Text
+                      fontSize={"sm"}
+                      color={"gray"}
+                      textAlign={"center"}
+                      wordBreak={"break-word"}
+                    >
+                      {t("account.dashboard", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Box
+                      bg={"#121212"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      as={"a"}
+                      cursor={"default"}
+                      href={"/u/" + userInfo.username}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaUser size={"24"} />
+                    </Box>
+                    <Text
+                      fontSize={"sm"}
+                      color={"gray"}
+                      textAlign={"center"}
+                      wordBreak={"break-word"}
+                    >
+                      {t("account.my.profile", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Box
+                      bg={"#121212"}
+                      _hover={{
+                        bg: "#212121",
+                      }}
+                      as={"a"}
+                      cursor={"default"}
+                      href={"/account/settings"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      p={2}
+                      borderRadius={"lg"}
+                      aspectRatio={"1/1"}
+                    >
+                      <FaCogs size={"24"} />
+                    </Box>
+                    <Text
+                      fontSize={"sm"}
+                      color={"gray"}
+                      textAlign={"center"}
+                      wordBreak={"break-word"}
+                    >
+                      {t("account.settings", { ns: "navbar" })}
+                    </Text>
+                  </Stack>
+                </Grid>
               </MenuList>
             </Menu>
-            {userInfo.role === "admin" ? (
-              <Tooltip label={t("account.admin.disclaimer", { ns: "navbar" })}>
-                <Avatar
-                  size={"md"}
-                  backgroundColor={"red.200"}
-                  icon={<FaCogs />}
-                  cursor={"pointer"}
-                  onClick={() => {
-                    router.push("/admin");
-                  }}
-                />
-              </Tooltip>
-            ) : null}
           </HStack>
         </>
       ) : null}

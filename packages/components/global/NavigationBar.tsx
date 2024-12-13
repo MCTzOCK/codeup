@@ -309,13 +309,9 @@ export default function NavigationBar(props: {
                 alignItems={"center"}
                 gap="1.2rem"
               >
-                <img src="/codeup.svg" width="48" />
-                <Text
-                  textTransform={"uppercase"}
-                  fontWeight={"extrabold"}
-                  ml={4}
-                >
-                  {t("product.name")}
+                <img src="/codeup.svg" width="48" alt={"CodeUp Logo"} />
+                <Text fontWeight={"extrabold"} ml={4}>
+                  CodeUp
                 </Text>
               </ChakraLink>
             </Link>
