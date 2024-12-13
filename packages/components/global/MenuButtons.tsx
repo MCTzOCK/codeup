@@ -56,6 +56,7 @@ import { useTranslation } from "next-i18next";
 import ReactCountryFlag from "react-country-flag";
 import {
   FaChevronDown,
+  FaDesktop,
   FaRightFromBracket,
   FaRobot,
   FaTableColumns,
@@ -117,6 +118,15 @@ export default function MenuButtons(props: {
       {loggedIn ? (
         <>
           <HStack gap={6}>
+            <IconButton
+              aria-label={"Cloud-PC"}
+              icon={<FaDesktop size={"28"} />}
+              size={"lg"}
+              borderRadius={"full"}
+              variant={"outline"}
+              as={"a"}
+              href={"/cloud-pc/attach"}
+            />
             <IconButton
               aria-label={"Artificial Intelligence"}
               icon={<FaRobot size={"28"} />}
