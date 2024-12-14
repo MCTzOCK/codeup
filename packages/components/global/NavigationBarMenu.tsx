@@ -12,10 +12,14 @@ import {
   Button,
   Divider,
   Flex,
+  Grid,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Menu,
+  MenuButton,
+  MenuList,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -28,11 +32,18 @@ import {
 import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
-import { FaCaretDown, FaDollarSign, FaSearch } from "react-icons/fa";
+import {
+  FaCaretDown,
+  FaDollarSign,
+  FaEnvelope,
+  FaPlus,
+  FaSearch,
+} from "react-icons/fa";
 import DividerWithText from "./DividerWithText";
 import { useRouter } from "next/router";
-import { FaRobot } from "react-icons/fa6";
+import { FaFileLines, FaGavel, FaInfo, FaRobot } from "react-icons/fa6";
 import { useTranslation } from "next-i18next";
+import { FancyButton } from "./MenuButtons";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -66,96 +77,65 @@ export default function NavigationBarMenu(props: {
       >
         {t("pricing", { ns: "navbar" })}
       </Button>
-      <Popover>
-        <PopoverTrigger>
+      <Menu>
+        <MenuButton>
           <Button variant={"ghost"} size={"lg"} rightIcon={<FaCaretDown />}>
             {t("product.name", { ns: "base" })}
           </Button>
-        </PopoverTrigger>
-        <PopoverContent bg={"black"}>
-          <PopoverArrow bg={"black"} />
-          <PopoverBody>
-            <Stack textAlign={"center"}>
-              <Link href={"/codeup/about"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("about.us", { ns: "navbar" })}
-                </Text>
-              </Link>
-              <Link href={"/codeup/contact"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("contact", { ns: "navbar" })}
-                </Text>
-              </Link>
-              <Link href={"/blog"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("products.blog", { ns: "navbar" })}
-                </Text>
-              </Link>
-              <Link href={"/creator"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("products.creator", { ns: "navbar" })}
-                </Text>
-              </Link>
-              <DividerWithText
-                text={t("products.legal", { ns: "navbar" })}
-                color={"gray.400"}
-              />
-              <Link href={"/legal/imprint"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("products.legal.imprint", { ns: "navbar" })}
-                </Text>
-              </Link>
-              <Link href={"/legal/privacy"} onClick={props.onClose}>
-                <Text
-                  fontSize={"xl"}
-                  cursor={"pointer"}
-                  _hover={{
-                    bg: "gray.700",
-                  }}
-                  rounded={"lg"}
-                >
-                  {t("products.legal.privacy", { ns: "navbar" })}
-                </Text>
-              </Link>
-            </Stack>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
+        </MenuButton>
+        <MenuList bg={"#000"} maxWidth={"300px"}>
+          <Grid templateColumns={"repeat(3, 1fr)"} gap={4} p={2}>
+            <FancyButton
+              icon={<FaInfo size={"24"} />}
+              title={t("navbar:about.us")}
+              props={{
+                as: "a",
+                href: "/codeup/about",
+              }}
+            />
+            <FancyButton
+              icon={<FaEnvelope size={"24"} />}
+              title={t("navbar:contact")}
+              props={{
+                as: "a",
+                href: "/codeup/contact",
+              }}
+            />
+            <FancyButton
+              icon={<FaFileLines size={"24"} />}
+              title={t("navbar:products.blog")}
+              props={{
+                as: "a",
+                href: "/blog",
+              }}
+            />
+            <FancyButton
+              icon={<FaPlus size={"24"} />}
+              title={t("navbar:products.creator")}
+              props={{
+                as: "a",
+                href: "/creator",
+              }}
+            />
+            <FancyButton
+              icon={<FaGavel size={"24"} />}
+              title={t("navbar:products.legal.imprint")}
+              props={{
+                as: "a",
+                href: "/legal/imprint",
+              }}
+            />
+            <FancyButton
+              icon={<FaGavel size={"24"} />}
+              title={t("navbar:products.legal.privacy")}
+              props={{
+                as: "a",
+                href: "/legal/privacy",
+              }}
+            />
+          </Grid>
+        </MenuList>
+      </Menu>
       <Button
         variant={"ghost"}
         size={"lg"}

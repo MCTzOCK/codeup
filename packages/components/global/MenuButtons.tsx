@@ -57,6 +57,7 @@ import ReactCountryFlag from "react-country-flag";
 import {
   FaChevronDown,
   FaDesktop,
+  FaInfo,
   FaRightFromBracket,
   FaRobot,
   FaTableColumns,
@@ -239,34 +240,24 @@ export default function MenuButtons(props: {
                   maxW={"100%"}
                   cursor={"default"}
                 >
-                  <Stack gap={1}>
-                    <Box
-                      as={"a"}
-                      bg={"#121212"}
-                      cursor={"default"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      href={"/creator/studio"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
+                  <FancyButton
+                    icon={
                       <FaPlus
                         color={"var(--chakra-colors-blue-300)"}
                         size={"24"}
                       />
-                    </Box>
-                    <Text fontSize={"sm"} color={"gray"} textAlign={"center"}>
-                      {t("products.creator", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Box
-                      onClick={() => {
+                    }
+                    title={t("products.creator", { ns: "navbar" })}
+                    props={{
+                      as: "a",
+                      href: "/creator/studio",
+                    }}
+                  />
+                  <FancyButton
+                    icon={<FaUsers size={"24"} />}
+                    title={t("account.switch", { ns: "navbar" })}
+                    props={{
+                      onClick: () => {
                         const UserCard = (props: {
                           username: string;
                           firstName: string;
@@ -404,143 +395,79 @@ export default function MenuButtons(props: {
                             </>
                           ),
                         });
-                      }}
-                      bg={"#121212"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
-                      <FaUsers size={"24"} />
-                    </Box>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray"}
-                      textAlign={"center"}
-                      wordBreak={"break-word"}
-                    >
-                      {t("account.switch", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Box
-                      bg={"#121212"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      as={"a"}
-                      cursor={"default"}
-                      href={"/orgs"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
-                      <FaSitemap size={"24"} />
-                    </Box>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray"}
-                      textAlign={"center"}
-                      wordBreak={"break-word"}
-                    >
-                      {t("account.organisations", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Box
-                      bg={"#121212"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      as={"a"}
-                      cursor={"default"}
-                      href={"/dashboard/v2"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
-                      <FaTableColumns size={"24"} />
-                    </Box>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray"}
-                      textAlign={"center"}
-                      wordBreak={"break-word"}
-                    >
-                      {t("account.dashboard", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Box
-                      bg={"#121212"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      as={"a"}
-                      cursor={"default"}
-                      href={"/u/" + userInfo.username}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
-                      <FaUser size={"24"} />
-                    </Box>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray"}
-                      textAlign={"center"}
-                      wordBreak={"break-word"}
-                    >
-                      {t("account.my.profile", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
-                  <Stack gap={1}>
-                    <Box
-                      bg={"#121212"}
-                      _hover={{
-                        bg: "#212121",
-                      }}
-                      as={"a"}
-                      cursor={"default"}
-                      href={"/account/settings"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
-                      p={2}
-                      borderRadius={"lg"}
-                      aspectRatio={"1/1"}
-                    >
-                      <FaCogs size={"24"} />
-                    </Box>
-                    <Text
-                      fontSize={"sm"}
-                      color={"gray"}
-                      textAlign={"center"}
-                      wordBreak={"break-word"}
-                    >
-                      {t("account.settings", { ns: "navbar" })}
-                    </Text>
-                  </Stack>
+                      },
+                    }}
+                  />
+                  <FancyButton
+                    icon={<FaSitemap size={"24"} />}
+                    title={t("account.organisations", { ns: "navbar" })}
+                    props={{
+                      as: "a",
+                      href: "/orgs",
+                    }}
+                  />
+                  <FancyButton
+                    icon={<FaTableColumns size={"24"} />}
+                    title={t("account.dashboard", { ns: "navbar" })}
+                    props={{
+                      as: "a",
+                      href: "/dashboard/v2",
+                    }}
+                  />
+                  <FancyButton
+                    icon={<FaUser size={"24"} />}
+                    title={t("account.my.profile", { ns: "navbar" })}
+                    props={{
+                      as: "a",
+                      href: "/u/" + userInfo.username,
+                    }}
+                  />
+                  <FancyButton
+                    icon={<FaCogs size={"24"} />}
+                    title={t("account.settings", { ns: "navbar" })}
+                    props={{
+                      as: "a",
+                      href: "/account/settings",
+                    }}
+                  />
                 </Grid>
               </MenuList>
             </Menu>
           </HStack>
         </>
       ) : null}
+    </>
+  );
+}
+
+export function FancyButton(props: {
+  icon: React.ReactNode;
+  title: String;
+  props: any;
+}) {
+  return (
+    <>
+      <Stack gap={1}>
+        <Box
+          {...props.props}
+          bg={"#121212"}
+          cursor={"default"}
+          _hover={{
+            bg: "#212121",
+          }}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          p={2}
+          borderRadius={"lg"}
+          aspectRatio={"1/1"}
+        >
+          {props.icon}
+        </Box>
+        <Text fontSize={"sm"} color={"gray"} textAlign={"center"}>
+          {props.title}
+        </Text>
+      </Stack>
     </>
   );
 }
