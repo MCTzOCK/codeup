@@ -280,12 +280,7 @@ export default function UserPage() {
                     </a>
                   ))}
                 </Flex>
-                <Tabs
-                  isFitted
-                  colorScheme={"brand"}
-                  variant={"enclosed-colored"}
-                  mt={8}
-                >
+                <Tabs isFitted colorScheme={"brand"} mt={8}>
                   <TabList>
                     <Tab>{t("readme")}</Tab>
                     <Tab>{t("posts")}</Tab>

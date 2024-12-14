@@ -22,7 +22,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const fNameb64 = Buffer.from(filename).toString("base64");
 
     const x = `${filename};${content}`;
-    const sha = createHash("sha256").update(x).digest("hex");
+    let sha = createHash("sha256").update(x).digest("hex").substring(0, 16);
 
     fs.writeFileSync(
       path.join(tmpdir(), fNameb64 + filename.split(".").pop()),

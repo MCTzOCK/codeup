@@ -120,7 +120,7 @@ export default function NavigationBarMenu(props: {
         onClick={props.onMoreMenuOpen}
         paddingInline={4}
       >
-        {t("products", { ns: "navbar" })}
+        {t("others", { ns: "navbar" })}
       </Button>
       <Button
         variant={"ghost"}

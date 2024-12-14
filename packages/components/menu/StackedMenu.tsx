@@ -20,7 +20,7 @@ export default function StackedMenu(props: {
     <>
       <Menu>
         <MenuButton>{props.trigger}</MenuButton>
-        <MenuList {...props} bg={"#000"} minWidth={"250px"} maxWidth={"90%"}>
+        <MenuList bg={"#000"} minWidth={"250px"} maxWidth={"90%"} {...props}>
           <Stack gap={4} p={4}>
             {props.children}
           </Stack>
