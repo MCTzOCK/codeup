@@ -10,40 +10,30 @@
 import * as React from "react";
 import {
   Button,
-  Divider,
-  Flex,
   Grid,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
   Menu,
   MenuButton,
   MenuList,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
   Stack,
-  StackDivider,
-  Text,
 } from "@chakra-ui/react";
 import { AiFillCaretDown } from "react-icons/ai";
-import Link from "next/link";
 import { useLoggedIn } from "@codeup/hooks";
 import {
+  FaBook,
   FaCaretDown,
-  FaDollarSign,
+  FaChild,
+  FaCode,
   FaEnvelope,
   FaPlus,
-  FaSearch,
+  FaTrophy,
 } from "react-icons/fa";
-import DividerWithText from "./DividerWithText";
 import { useRouter } from "next/router";
-import { FaFileLines, FaGavel, FaInfo, FaRobot } from "react-icons/fa6";
+import { FaDesktop, FaFileLines, FaGavel, FaInfo } from "react-icons/fa6";
 import { useTranslation } from "next-i18next";
 import { FancyButton } from "./MenuButtons";
+import StackedMenu from "../menu/StackedMenu";
+import StackedMenuItem from "../menu/StackedMenuItem";
+import { TbCertificate } from "react-icons/tb";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -59,11 +49,76 @@ export default function NavigationBarMenu(props: {
 
   return (
     <>
+      <StackedMenu
+        trigger={
+          <Button variant={"ghost"} size={"lg"}>
+            {t("base:categories.learn")}
+          </Button>
+        }
+      >
+        <StackedMenuItem
+          title={t("navbar:products.courses")}
+          description={t("navbar:products.courses.text")}
+          icon={<FaBook size={"24"} />}
+          as={"a"}
+          href={"/courses"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.certificates")}
+          description={t("navbar:products.certificates.text")}
+          icon={<TbCertificate size={"24"} />}
+          as={"a"}
+          href={"/certificates"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.challenges")}
+          description={t("navbar:products.challenges.text")}
+          icon={<FaTrophy size={"24"} />}
+          as={"a"}
+          href={"/challenges"}
+        />
+      </StackedMenu>
+      <StackedMenu
+        trigger={
+          <Button variant={"ghost"} size={"lg"}>
+            {t("base:categories.develop")}
+          </Button>
+        }
+      >
+        <StackedMenuItem
+          title={t("navbar:products.kids")}
+          description={t("navbar:products.kids.text")}
+          icon={<FaChild size={"24"} />}
+          as={"a"}
+          href={"/kids"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.editor")}
+          description={t("navbar:products.editor.text")}
+          icon={<FaCode size={"24"} />}
+          as={"a"}
+          href={"/editor"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.devsuite")}
+          description={t("navbar:products.devsuite.text")}
+          icon={<FaCode size={"24"} />}
+          as={"a"}
+          href={"/projects"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.cloud.pc")}
+          description={t("navbar:products.cloud.pc.text")}
+          icon={<FaDesktop size={"24"} />}
+          as={"a"}
+          href={"/cloud-pc/attach"}
+        />
+      </StackedMenu>
       <Button
-        variant={"ghost"}
+        variant={"unstyled"}
         size={"lg"}
-        rightIcon={<AiFillCaretDown />}
         onClick={props.onMoreMenuOpen}
+        paddingInline={4}
       >
         {t("products", { ns: "navbar" })}
       </Button>
@@ -79,7 +134,7 @@ export default function NavigationBarMenu(props: {
       </Button>
       <Menu>
         <MenuButton>
-          <Button variant={"ghost"} size={"lg"} rightIcon={<FaCaretDown />}>
+          <Button variant={"ghost"} size={"lg"}>
             {t("product.name", { ns: "base" })}
           </Button>
         </MenuButton>

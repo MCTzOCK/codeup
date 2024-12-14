@@ -293,6 +293,7 @@ export default function NavigationBar(props: {
         w={"100%"}
         bg={props.transparent ? "transparent" : "#000"}
         padding={"1.2rem"}
+        zIndex={100}
       >
         <Flex
           direction={"row"}
@@ -317,9 +318,9 @@ export default function NavigationBar(props: {
             </Link>
           </Heading>
           <Flex
-            justifyContent={isMobile ? "right" : "center"}
             flex={"100%"}
-            alignItems={"center"}
+            justifyContent={isMobile ? "right" : "unset"}
+            paddingInline={isMobile ? 0 : 16}
           >
             {!isMobile ? (
               <NavigationBarMenu

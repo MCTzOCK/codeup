@@ -155,7 +155,6 @@ export default function MenuButtons(props: {
                 zIndex={10}
                 style={{
                   maxWidth: "250px",
-                  overflow: "auto",
                 }}
               >
                 <IconButton
@@ -464,7 +463,12 @@ export function FancyButton(props: {
         >
           {props.icon}
         </Box>
-        <Text fontSize={"sm"} color={"gray"} textAlign={"center"}>
+        <Text
+          fontSize={"sm"}
+          color={"gray"}
+          textAlign={"center"}
+          wordBreak={"break-word"}
+        >
           {props.title}
         </Text>
       </Stack>
