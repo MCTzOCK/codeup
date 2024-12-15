@@ -50,5 +50,17 @@
   "repos.issues.reopen": "Open",
   "repos.issues.reopen.text": "Open issue again",
   "repos.issues.edit": "Edit",
-  "repos.issues.edit.text": "Edit issue"
+  "repos.issues.edit.text": "Edit issue",
+  "repos.issues.body": "Description",
+  "repos.issues.body.helper": "Describe the problem",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "New",
+  "repos.wiki.title": "Title",
+  "repos.wiki.title.helper": "Enter a title for the Wiki page.",
+  "repos.wiki.body": "Contents",
+  "repos.wiki.body.helper": "What do you want to add? (Markdown is supported)",
+  "repos.wiki.edit": "Edit",
+  "repos.wiki.edit.text": "Edit Wiki Page",
+  "repos.wiki.delete": "Delete",
+  "repos.wiki.delete.text": "Delete Wiki page irrevocably"
 }

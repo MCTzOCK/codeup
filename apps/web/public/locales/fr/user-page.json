@@ -50,5 +50,17 @@
   "repos.issues.reopen": "Ouvrir",
   "repos.issues.reopen.text": "Nouveau numéro ouvert",
   "repos.issues.edit": "Modifier",
-  "repos.issues.edit.text": "Édition"
+  "repos.issues.edit.text": "Édition",
+  "repos.issues.body": "Désignation des marchandises",
+  "repos.issues.body.helper": "Décrivez le problème",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "Nouveau",
+  "repos.wiki.title": "Titre",
+  "repos.wiki.title.helper": "Saisissez un titre pour la page Wiki.",
+  "repos.wiki.body": "Sommaire",
+  "repos.wiki.body.helper": "Que voulez-vous ajouter ? (Le marquage est pris en charge)",
+  "repos.wiki.edit": "Modifier",
+  "repos.wiki.edit.text": "Modifier la page Wiki",
+  "repos.wiki.delete": "Supprimer",
+  "repos.wiki.delete.text": "Supprimer irrévocablement la page Wiki"
 }

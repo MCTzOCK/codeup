@@ -335,6 +335,8 @@ import {
   getIssue,
   getRepositories,
   getRepository,
+  getWikiPage,
+  getWikiPages,
   updateRepository,
 } from "./api/Repositories";
 import {
@@ -342,6 +344,11 @@ import {
   createIssue as createIssueRP,
   deleteIssue as deleteIssueRP,
   updateIssue as updateIssueRP,
+  getWikiPage as getWikiPageRP,
+  getWikiPages as getWikiPagesRP,
+  createWikiPage as createWikiPageRP,
+  deleteWikiPage as deleteWikiPageRP,
+  updateWikiPage as updateWikiPageRP,
 } from "./api/Repositories";
 
 const REST = {
@@ -716,6 +723,11 @@ const REST = {
     createIssue: createIssueRP,
     getIssue,
     getIssues: getIssuesRP,
+    updateWikiPage: updateWikiPageRP,
+    createWikiPage: createWikiPageRP,
+    deleteWikiPage: deleteWikiPageRP,
+    getWikiPage: getWikiPageRP,
+    getWikiPages: getWikiPagesRP,
   },
 };
 

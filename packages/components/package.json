@@ -27,6 +27,7 @@
     "ansi-to-react": "^6.1.6",
     "framer-motion": "^6.5.1",
     "i18next": "^23.12.2",
+    "markdown-to-jsx": "7.1.8",
     "monaco-editor": "0.33.0",
     "next-i18next": "^15.3.0",
     "plyr-react": "^5.1.0",

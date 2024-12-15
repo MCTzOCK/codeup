@@ -50,5 +50,17 @@
   "repos.issues.reopen": "Abrir",
   "repos.issues.reopen.text": "Abrir questão novamente",
   "repos.issues.edit": "Editar",
-  "repos.issues.edit.text": "Editar questão"
+  "repos.issues.edit.text": "Editar questão",
+  "repos.issues.body": "Descrição",
+  "repos.issues.body.helper": "Descreva o problema",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "Novo",
+  "repos.wiki.title": "Título",
+  "repos.wiki.title.helper": "Insira um título para a página Wiki.",
+  "repos.wiki.body": "Índice",
+  "repos.wiki.body.helper": "O que queres adicionar? (O Markdown é suportado)",
+  "repos.wiki.edit": "Editar",
+  "repos.wiki.edit.text": "Editar Página Wiki",
+  "repos.wiki.delete": "Excluir",
+  "repos.wiki.delete.text": "Excluir página Wiki irrevogavelmente"
 }

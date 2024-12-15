@@ -13999,7 +13999,7 @@ markdown-it@^14.0.0:
     punycode.js "^2.3.1"
     uc.micro "^2.1.0"
 
-markdown-to-jsx@^7.1.8:
+markdown-to-jsx@7.1.8, markdown-to-jsx@^7.1.8:
   version "7.1.8"
   resolved "https://registry.npmjs.org/markdown-to-jsx/-/markdown-to-jsx-7.1.8.tgz"
   integrity sha512-rRSa1aFmFnpDRFAhv5vIkWM4nPaoB9vnzIjuIKa1wGupfn2hdCNeaQHKpu4/muoc8n8J7yowjTP2oncA4/Rbgg==

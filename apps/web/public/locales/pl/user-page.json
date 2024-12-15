@@ -50,5 +50,17 @@
   "repos.issues.reopen": "Otwórz",
   "repos.issues.reopen.text": "Znowu otwarte wydanie",
   "repos.issues.edit": "Edycja",
-  "repos.issues.edit.text": "Edycja wydania"
+  "repos.issues.edit.text": "Edycja wydania",
+  "repos.issues.body": "Opis",
+  "repos.issues.body.helper": "Opisz problem",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "Nowy",
+  "repos.wiki.title": "Tytuł",
+  "repos.wiki.title.helper": "Wpisz tytuł strony Wiki.",
+  "repos.wiki.body": "Spis treści",
+  "repos.wiki.body.helper": "Co chcesz dodać? (Wsparcie dla Markdown)",
+  "repos.wiki.edit": "Edycja",
+  "repos.wiki.edit.text": "Edytuj stronę Wiki",
+  "repos.wiki.delete": "Usuń",
+  "repos.wiki.delete.text": "Nieodwołalnie usunąć stronę Wiki"
 }

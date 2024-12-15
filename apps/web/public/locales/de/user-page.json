@@ -41,8 +41,8 @@
   "repos.issues.create": "Neu",
   "repos.issues.title": "Titel",
   "repos.issues.title.helper": "Gib einen Titel für den Issue ein.",
-  "repos.issues.description": "Beschreibung",
-  "repos.issues.description.helper": "Beschreibe den Issue kurz.",
+  "repos.issues.body": "Beschreibung",
+  "repos.issues.body.helper": "Beschreibe das Problem",
   "repos.issues.delete": "Löschen",
   "repos.issues.delete.text": "Issue unwiderruflich löschen",
   "repos.issues.close": "Schließen",
@@ -50,5 +50,15 @@
   "repos.issues.reopen": "Wieder öffnen",
   "repos.issues.reopen.text": "Issue wieder öffnen",
   "repos.issues.edit": "Bearbeiten",
-  "repos.issues.edit.text": "Issue bearbeiten"
+  "repos.issues.edit.text": "Issue bearbeiten",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "Neu",
+  "repos.wiki.title": "Titel",
+  "repos.wiki.title.helper": "Gib einen Titel für die Wiki-Seite ein.",
+  "repos.wiki.body": "Inhalt",
+  "repos.wiki.body.helper": "Was möchtest du hinzufügen? (Markdown wird unterstützt)",
+  "repos.wiki.edit": "Bearbeiten",
+  "repos.wiki.edit.text": "Wiki-Seite bearbeiten",
+  "repos.wiki.delete": "Löschen",
+  "repos.wiki.delete.text": "Wiki-Seite unwiderruflich löschen"
 }

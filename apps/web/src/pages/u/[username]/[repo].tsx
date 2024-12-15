@@ -19,6 +19,7 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import IssueList from "@codeup/components/repos/IssueList";
+import WikiList from "@codeup/components/repos/WikiList";
 import StackedMenu from "@codeup/components/menu/StackedMenu";
 import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
 import {
@@ -317,6 +318,7 @@ export default function RepoViewer() {
           <TabList p={4} gap={2}>
             <Tab>{t("repos.tab.overview")}</Tab>
             <Tab>{t("repos.tab.issues")}</Tab>
+            <Tab>{t("repos.tab.wiki")}</Tab>
           </TabList>
           <TabPanels p={0}>
             <TabPanel p={0}>
@@ -366,6 +368,12 @@ export default function RepoViewer() {
             </TabPanel>
             <TabPanel p={0}>
               <IssueList
+                repoId={repo._id}
+                isOwner={repo.username === userInfo.username}
+              />
+            </TabPanel>
+            <TabPanel p={0}>
+              <WikiList
                 repoId={repo._id}
                 isOwner={repo.username === userInfo.username}
               />

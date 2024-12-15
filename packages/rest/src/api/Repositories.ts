@@ -151,3 +151,73 @@ export function updateIssue(
     },
   });
 }
+
+export function getWikiPages(
+  token: string,
+  repoId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/wiki",
+    method: "GET",
+    token,
+  });
+}
+
+export function getWikiPage(
+  token: string,
+  repoId: string,
+  wikiId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/wiki?wikiId=" + wikiId,
+    method: "GET",
+    token,
+  });
+}
+
+export function deleteWikiPage(
+  token: string,
+  repoId: string,
+  wikiId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/wiki?wikiId=" + wikiId,
+    method: "DELETE",
+    token,
+  });
+}
+
+export function createWikiPage(
+  token: string,
+  repoId: string,
+  title: string,
+  content: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/wiki",
+    method: "POST",
+    token,
+    body: {
+      title,
+      content,
+    },
+  });
+}
+
+export function updateWikiPage(
+  token: string,
+  repoId: string,
+  wikiId: string,
+  title: string,
+  content: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/wiki?wikiId=" + wikiId,
+    method: "PUT",
+    token,
+    body: {
+      title,
+      content,
+    },
+  });
+}

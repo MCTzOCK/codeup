@@ -50,5 +50,17 @@
   "repos.issues.reopen": "Abierto",
   "repos.issues.reopen.text": "Cuestión abierta de nuevo",
   "repos.issues.edit": "Editar",
-  "repos.issues.edit.text": "Edición"
+  "repos.issues.edit.text": "Edición",
+  "repos.issues.body": "Descripción",
+  "repos.issues.body.helper": "Describir el problema",
+  "repos.tab.wiki": "Wiki",
+  "repos.wiki.create": "Nuevo",
+  "repos.wiki.title": "Título",
+  "repos.wiki.title.helper": "Introduzca un título para la página Wiki.",
+  "repos.wiki.body": "Índice",
+  "repos.wiki.body.helper": "¿Qué quieres añadir? (Se admite el mercado)",
+  "repos.wiki.edit": "Editar",
+  "repos.wiki.edit.text": "Editar página de Wiki",
+  "repos.wiki.delete": "Suprimir",
+  "repos.wiki.delete.text": "Borrar página Wiki irrevocablemente"
 }
