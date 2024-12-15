@@ -332,9 +332,16 @@ import { getCertificates, getUserPage, updateUserPage } from "./api/UserPages";
 import {
   createRepository,
   deleteRepository,
+  getIssue,
   getRepositories,
   getRepository,
   updateRepository,
+} from "./api/Repositories";
+import {
+  getIssues as getIssuesRP,
+  createIssue as createIssueRP,
+  deleteIssue as deleteIssueRP,
+  updateIssue as updateIssueRP,
 } from "./api/Repositories";
 
 const REST = {
@@ -704,6 +711,11 @@ const REST = {
     createRepository,
     getRepository,
     getRepositories,
+    updateIssue: updateIssueRP,
+    deleteIssue: deleteIssueRP,
+    createIssue: createIssueRP,
+    getIssue,
+    getIssues: getIssuesRP,
   },
 };
 

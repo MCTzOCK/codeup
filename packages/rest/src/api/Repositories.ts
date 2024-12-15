@@ -82,3 +82,72 @@ export function deleteRepository(
     token,
   });
 }
+
+export function getIssues(token: string, repoId: string): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/issues",
+    method: "GET",
+    token,
+  });
+}
+
+export function getIssue(
+  token: string,
+  repoId: string,
+  issueId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/issues?issueId=" + issueId,
+    method: "GET",
+    token,
+  });
+}
+
+export function createIssue(
+  token: string,
+  repoId: string,
+  title: string,
+  body: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/issues",
+    method: "POST",
+    token,
+    body: {
+      title,
+      body,
+    },
+  });
+}
+
+export function deleteIssue(
+  token: string,
+  repoId: string,
+  issueId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/issues?issueId=" + issueId,
+    method: "DELETE",
+    token,
+  });
+}
+
+export function updateIssue(
+  token: string,
+  repoId: string,
+  issueId: string,
+  body: string,
+  title: string,
+  status: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/issues?issueId=" + issueId,
+    method: "PUT",
+    token,
+    body: {
+      title,
+      body,
+      status,
+    },
+  });
+}

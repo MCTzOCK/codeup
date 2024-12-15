@@ -18,6 +18,7 @@ import REST from "@codeup/rest/dist";
 import AccountManager from "@codeup/util/dist/AccountManager";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import IssueList from "@codeup/components/repos/IssueList";
 import {
   Box,
   Button,
@@ -39,6 +40,11 @@ import {
   Select,
   Stack,
   Switch,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   Textarea,
   UnorderedList,
@@ -57,6 +63,7 @@ export default function RepoViewer() {
   const { t } = useTranslation("user-page");
 
   const [repo, setRepo] = React.useState<{
+    _id: string;
     createdAt: string;
     user: string;
     username: string;
@@ -113,7 +120,7 @@ export default function RepoViewer() {
 
   return (
     <>
-      <Box w={"100%"} minH={"100vh"} h={"fit-content"}>
+      <Box w={"100%"} minH={"100vh"} h={"fit-content"} bg={"#000"}>
         <HStack
           bg={"gray.900"}
           rounded={"md"}
@@ -308,36 +315,65 @@ export default function RepoViewer() {
             </MenuList>
           </Menu>
         </HStack>
-        <Box p={4}>
-          <Box rounded={"md"} p={4} bg={"gray.900"} w={"100%"}>
-            <Heading size={"md"}>{t("repo.description")}</Heading>
-            <Text>{repo.description}</Text>
-            <br />
-            {t("repos.clone.one")}
-            <UnorderedList>
-              <ListItem>{t("repos.clone.local")}</ListItem>
-              <ListItem>{t("repos.clone.cloud")}</ListItem>
-            </UnorderedList>
-            <br />
-            <b>{t("repos.clone.a.local")}</b>
-            <Highlight className={"language-shell code-block-cup"}>
-              git clone https://git.codeup.space/@{repo.username}/{repo.name}
-            </Highlight>
-            <br />
-            <b>{t("repos.clone.a.cloud")}</b>
-            <br />
-            <Button
-              mt={4}
-              variant={"brand"}
-              onClick={() => {
-                router.push("/cloud-pc/attach");
-              }}
-              leftIcon={<FaPlay />}
-            >
-              {t("repos.clone.cloud.attach")}
-            </Button>
-          </Box>
-        </Box>
+        <Tabs variant={"brand"} isLazy>
+          <TabList p={4} gap={2}>
+            <Tab>{t("repos.tab.overview")}</Tab>
+            <Tab>{t("repos.tab.issues")}</Tab>
+          </TabList>
+          <TabPanels p={0}>
+            <TabPanel p={0}>
+              <Box
+                p={4}
+                w={"100%"}
+                minH={"80vh"}
+                display={"flex"}
+                justifyContent={"center"}
+              >
+                <Box
+                  rounded={"md"}
+                  p={4}
+                  bg={"gray.900"}
+                  w={"100%"}
+                  maxWidth={"1600px"}
+                >
+                  <Heading size={"md"}>{t("repo.description")}</Heading>
+                  <Text>{repo.description}</Text>
+                  <br />
+                  {t("repos.clone.one")}
+                  <UnorderedList>
+                    <ListItem>{t("repos.clone.local")}</ListItem>
+                    <ListItem>{t("repos.clone.cloud")}</ListItem>
+                  </UnorderedList>
+                  <br />
+                  <b>{t("repos.clone.a.local")}</b>
+                  <Highlight className={"language-shell code-block-cup"}>
+                    git clone https://git.codeup.space/@{repo.username}/
+                    {repo.name}
+                  </Highlight>
+                  <br />
+                  <b>{t("repos.clone.a.cloud")}</b>
+                  <br />
+                  <Button
+                    mt={4}
+                    variant={"brand"}
+                    onClick={() => {
+                      router.push("/cloud-pc/attach");
+                    }}
+                    leftIcon={<FaPlay />}
+                  >
+                    {t("repos.clone.cloud.attach")}
+                  </Button>
+                </Box>
+              </Box>
+            </TabPanel>
+            <TabPanel p={0}>
+              <IssueList
+                repoId={repo._id}
+                isOwner={repo.username === userInfo.username}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </>
   );

@@ -35,5 +35,20 @@
   "repos.clone.a.local": "Lokal klonen:",
   "repos.clone.a.cloud": "Cloud-PC:",
   "repos.clone.cloud.attach": "Cloud-PC verbinden",
-  "repos.update.submit": "Aktualisieren"
+  "repos.update.submit": "Aktualisieren",
+  "repos.tab.overview": "Übersicht",
+  "repos.tab.issues": "Issues",
+  "repos.issues.create": "Neu",
+  "repos.issues.title": "Titel",
+  "repos.issues.title.helper": "Gib einen Titel für den Issue ein.",
+  "repos.issues.description": "Beschreibung",
+  "repos.issues.description.helper": "Beschreibe den Issue kurz.",
+  "repos.issues.delete": "Löschen",
+  "repos.issues.delete.text": "Issue unwiderruflich löschen",
+  "repos.issues.close": "Schließen",
+  "repos.issues.close.text": "Issue schließen",
+  "repos.issues.reopen": "Wieder öffnen",
+  "repos.issues.reopen.text": "Issue wieder öffnen",
+  "repos.issues.edit": "Bearbeiten",
+  "repos.issues.edit.text": "Issue bearbeiten"
 }
