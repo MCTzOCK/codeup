@@ -19,6 +19,8 @@ import AccountManager from "@codeup/util/dist/AccountManager";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import IssueList from "@codeup/components/repos/IssueList";
+import StackedMenu from "@codeup/components/menu/StackedMenu";
+import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
 import {
   Box,
   Button,
@@ -145,175 +147,171 @@ export default function RepoViewer() {
               @{router.query.username}/{repo.name}
             </Heading>
           </HStack>
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              variant={"brand"}
-              aria-label={"actions"}
-              icon={<BiDotsHorizontalRounded />}
-              display={repo.username === userInfo.username ? "flex" : "none"}
-            />
-            <MenuList>
-              <MenuItem
-                icon={<FaPen />}
-                onClick={async () => {
-                  await PopupManager.alertAsync({
-                    title: t("repos.create"),
-                    description: (
-                      <>
-                        <form
-                          onSubmit={async (e) => {
-                            e.preventDefault();
+          <StackedMenu
+            trigger={
+              <IconButton
+                aria-label={"actions"}
+                icon={<BiDotsHorizontalRounded />}
+                variant={"brand"}
+                display={repo.username === userInfo.username ? "flex" : "none"}
+              />
+            }
+          >
+            <StackedMenuItem
+              title={t("repo.actions.edit")}
+              description={""}
+              icon={<FaPen />}
+              onClick={async () => {
+                await PopupManager.alertAsync({
+                  title: t("repos.create"),
+                  description: (
+                    <>
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
 
-                            const fd = new FormData(
-                              e.target as HTMLFormElement
-                            );
+                          const fd = new FormData(e.target as HTMLFormElement);
 
-                            const ip = (
-                              document.querySelector(
-                                "#repo-is-public"
-                              ) as HTMLInputElement
-                            ).checked;
+                          const ip = (
+                            document.querySelector(
+                              "#repo-is-public"
+                            ) as HTMLInputElement
+                          ).checked;
 
-                            const res =
-                              await REST.Repositories.updateRepository(
-                                AccountManager.getActiveToken(),
-                                repo.username,
-                                repo.name,
-                                {
-                                  description: fd.get("description") as string,
-                                  isPublic: ip,
-                                  deploymentType: fd.get(
-                                    "deploymentType"
-                                  ) as string,
-                                  deploymentName: fd.get(
-                                    "deploymentName"
-                                  ) as string,
-                                }
-                              );
-
-                            if (res.status !== 200) {
-                              await PopupManager.alertAsync({
-                                title: t("base:control.error"),
-                                description:
-                                  t("base:control.error.request") +
-                                  res.payload.error,
-                              });
-                              return;
+                          const res = await REST.Repositories.updateRepository(
+                            AccountManager.getActiveToken(),
+                            repo.username,
+                            repo.name,
+                            {
+                              description: fd.get("description") as string,
+                              isPublic: ip,
+                              deploymentType: fd.get(
+                                "deploymentType"
+                              ) as string,
+                              deploymentName: fd.get(
+                                "deploymentName"
+                              ) as string,
                             }
+                          );
 
-                            PopupManager.removeCurrentPopup();
+                          if (res.status !== 200) {
+                            await PopupManager.alertAsync({
+                              title: t("base:control.error"),
+                              description:
+                                t("base:control.error.request") +
+                                res.payload.error,
+                            });
+                            return;
+                          }
 
-                            await reload();
-                          }}
-                        >
-                          <Stack gap={4}>
-                            <FormControl isRequired>
-                              <FormLabel>
-                                {t("repos.create.description")}
-                              </FormLabel>
-                              <Textarea
-                                name={"description"}
-                                placeholder={t("repos.create.description")}
-                                defaultValue={repo.description}
-                              />
-                              <FormHelperText>
-                                {t("repos.create.description.helper")}
-                              </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                              <FormLabel>{t("repos.create.public")}</FormLabel>
-                              <Switch
-                                id={"repo-is-public"}
-                                colorScheme={"brand"}
-                                defaultChecked={repo.public}
-                              />
-                              <FormHelperText>
-                                {t("repos.create.public.helper")}
-                              </FormHelperText>
-                            </FormControl>
-                            <FormControl isRequired>
-                              <FormLabel>
-                                {t("repos.create.deploy.type")}
-                              </FormLabel>
-                              <Select
-                                name={"deploymentType"}
-                                defaultValue={repo.deploymentType}
-                              >
-                                <option value={"static"}>Static (HTML)</option>
-                                <option value={"dynamic"}>
-                                  Dynamic (Next.JS/Server/...)
-                                </option>
-                              </Select>
-                              <FormHelperText>
-                                {t("repos.create.deploy.type.helper")}
-                              </FormHelperText>
-                            </FormControl>
-                            <FormControl isRequired>
-                              <FormLabel>
-                                {t("repos.create.deploy.name")}
-                              </FormLabel>
-                              <InputGroup>
-                                <Input
-                                  name={"deploymentName"}
-                                  placeholder={t("repos.create.deploy.name")}
-                                  defaultValue={repo.deploymentName}
-                                />
-                                <InputRightAddon>.codexp.dev</InputRightAddon>
-                              </InputGroup>
-                              <FormHelperText>
-                                {t("repos.create.deploy.name.helper")}
-                              </FormHelperText>
-                            </FormControl>
-                            <Button
-                              type={"submit"}
-                              variant={"brand"}
-                              leftIcon={<FaPlus />}
+                          PopupManager.removeCurrentPopup();
+
+                          await reload();
+                        }}
+                      >
+                        <Stack gap={4}>
+                          <FormControl isRequired>
+                            <FormLabel>
+                              {t("repos.create.description")}
+                            </FormLabel>
+                            <Textarea
+                              name={"description"}
+                              placeholder={t("repos.create.description")}
+                              defaultValue={repo.description}
+                            />
+                            <FormHelperText>
+                              {t("repos.create.description.helper")}
+                            </FormHelperText>
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel>{t("repos.create.public")}</FormLabel>
+                            <Switch
+                              id={"repo-is-public"}
+                              colorScheme={"brand"}
+                              defaultChecked={repo.public}
+                            />
+                            <FormHelperText>
+                              {t("repos.create.public.helper")}
+                            </FormHelperText>
+                          </FormControl>
+                          <FormControl isRequired>
+                            <FormLabel>
+                              {t("repos.create.deploy.type")}
+                            </FormLabel>
+                            <Select
+                              name={"deploymentType"}
+                              defaultValue={repo.deploymentType}
                             >
-                              {t("repos.update.submit")}
-                            </Button>
-                          </Stack>
-                        </form>
-                      </>
-                    ),
+                              <option value={"static"}>Static (HTML)</option>
+                              <option value={"dynamic"}>
+                                Dynamic (Next.JS/Server/...)
+                              </option>
+                            </Select>
+                            <FormHelperText>
+                              {t("repos.create.deploy.type.helper")}
+                            </FormHelperText>
+                          </FormControl>
+                          <FormControl isRequired>
+                            <FormLabel>
+                              {t("repos.create.deploy.name")}
+                            </FormLabel>
+                            <InputGroup>
+                              <Input
+                                name={"deploymentName"}
+                                placeholder={t("repos.create.deploy.name")}
+                                defaultValue={repo.deploymentName}
+                              />
+                              <InputRightAddon>.codexp.dev</InputRightAddon>
+                            </InputGroup>
+                            <FormHelperText>
+                              {t("repos.create.deploy.name.helper")}
+                            </FormHelperText>
+                          </FormControl>
+                          <Button
+                            type={"submit"}
+                            variant={"brand"}
+                            leftIcon={<FaPlus />}
+                          >
+                            {t("repos.update.submit")}
+                          </Button>
+                        </Stack>
+                      </form>
+                    </>
+                  ),
+                });
+              }}
+            />
+            <StackedMenuItem
+              title={t("repo.actions.delete")}
+              description={""}
+              icon={<FaTrash />}
+              onClick={async () => {
+                if (
+                  !(await PopupManager.confirmAsync({
+                    title: t("repos.delete"),
+                    question: t("repos.delete.confirm"),
+                  }))
+                )
+                  return;
+
+                const res = await REST.Repositories.deleteRepository(
+                  AccountManager.getActiveToken(),
+                  repo.username,
+                  repo.name
+                );
+
+                if (res.status === 200) {
+                  router.push("/u/" + repo.username);
+                } else {
+                  await PopupManager.alertAsync({
+                    title: t("base:control.error"),
+                    description:
+                      t("base:control.error.request") + res.payload.error,
                   });
-                }}
-              >
-                {t("repo.actions.edit")}
-              </MenuItem>
-              <MenuItem
-                icon={<FaTrash />}
-                color={"red.500"}
-                onClick={async () => {
-                  if (
-                    !(await PopupManager.confirmAsync({
-                      title: t("repos.delete"),
-                      question: t("repos.delete.confirm"),
-                    }))
-                  )
-                    return;
-
-                  const res = await REST.Repositories.deleteRepository(
-                    AccountManager.getActiveToken(),
-                    repo.username,
-                    repo.name
-                  );
-
-                  if (res.status === 200) {
-                    router.push("/u/" + repo.username);
-                  } else {
-                    await PopupManager.alertAsync({
-                      title: t("base:control.error"),
-                      description:
-                        t("base:control.error.request") + res.payload.error,
-                    });
-                  }
-                }}
-              >
-                {t("repo.actions.delete")}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                }
+              }}
+            />
+          </StackedMenu>
         </HStack>
         <Tabs variant={"brand"} isLazy>
           <TabList p={4} gap={2}>
