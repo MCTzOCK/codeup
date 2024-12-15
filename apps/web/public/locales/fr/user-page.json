@@ -35,5 +35,20 @@
   "repos.clone.a.local": "Clones locaux:",
   "repos.clone.a.cloud": "PC Cloud & #160;:",
   "repos.clone.cloud.attach": "Connexion du PC Cloud",
-  "repos.update.submit": "Mise à jour"
+  "repos.update.submit": "Mise à jour",
+  "repos.tab.overview": "Aperçu général",
+  "repos.tab.issues": "Enjeux",
+  "repos.issues.create": "Nouveau",
+  "repos.issues.title": "Titre",
+  "repos.issues.title.helper": "Entrez un titre pour le numéro.",
+  "repos.issues.description": "Désignation des marchandises",
+  "repos.issues.description.helper": "Décrivez brièvement le problème.",
+  "repos.issues.delete": "Supprimer",
+  "repos.issues.delete.text": "Supprimer la question irrévocablement",
+  "repos.issues.close": "Fermer",
+  "repos.issues.close.text": "Conclusion",
+  "repos.issues.reopen": "Ouvrir",
+  "repos.issues.reopen.text": "Nouveau numéro ouvert",
+  "repos.issues.edit": "Modifier",
+  "repos.issues.edit.text": "Édition"
 }

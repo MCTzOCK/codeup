@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "Er is een fout opgetreden bij het uploaden.",
   "chat.messages.sending.error": "Er is een fout opgetreden bij het versturen van het bericht.",
   "chat.messages.send": "Verzenden",
-  "chat.message": "Bericht"
+  "chat.message": "Bericht",
+  "post.text": "Tekstbijdrage",
+  "post.text.description": "Een post die alleen tekst bevat",
+  "post.media.image.description": "Een foto delen",
+  "post.media.video.description": "Een video delen",
+  "post.media.file.description": "Een bestand delen"
 }

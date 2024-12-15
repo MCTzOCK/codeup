@@ -54,5 +54,8 @@
   "account.admin.disclaimer": "Está registado como administrador. Você pode usar todas as funções e acessar a página de admin. Não use suas permissões e mantê-lo justo.",
   "account.logout.confirm": "Relatórios",
   "account.logout.confirm.text": "Queres mesmo cancelar a assinatura?",
-  "account.my.profile": "O meu perfil"
+  "account.my.profile": "O meu perfil",
+  "others": "Outros",
+  "products.cloud.pc": "PC em nuvem",
+  "products.cloud.pc.text": "Desenvolver projetos com um PC em nuvem"
 }

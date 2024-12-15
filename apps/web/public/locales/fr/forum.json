@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "Une erreur s'est produite lors du téléchargement.",
   "chat.messages.sending.error": "Une erreur s'est produite lors de l'envoi du message.",
   "chat.messages.send": "Envoyer",
-  "chat.message": "Message"
+  "chat.message": "Message",
+  "post.text": "Contribution textuelle",
+  "post.text.description": "Un message contenant uniquement du texte",
+  "post.media.image.description": "Partager une photo",
+  "post.media.video.description": "Partager une vidéo",
+  "post.media.file.description": "Partager un fichier"
 }

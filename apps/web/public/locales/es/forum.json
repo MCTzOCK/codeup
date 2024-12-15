@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "Se produjo un error al subir.",
   "chat.messages.sending.error": "Se produjo un error al enviar el mensaje.",
   "chat.messages.send": "Enviar",
-  "chat.message": "Mensaje"
+  "chat.message": "Mensaje",
+  "post.text": "Contribución del texto",
+  "post.text.description": "A post containing only text",
+  "post.media.image.description": "Compartir una foto",
+  "post.media.video.description": "Compartir un vídeo",
+  "post.media.file.description": "Compartir un archivo"
 }

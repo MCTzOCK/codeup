@@ -35,5 +35,20 @@
   "repos.clone.a.local": "Lokale klonen:",
   "repos.clone.a.cloud": "Cloud PC:",
   "repos.clone.cloud.attach": "Cloud-pc verbinden",
-  "repos.update.submit": "Bijwerken"
+  "repos.update.submit": "Bijwerken",
+  "repos.tab.overview": "Overzicht",
+  "repos.tab.issues": "Problemen",
+  "repos.issues.create": "Nieuw",
+  "repos.issues.title": "Titel",
+  "repos.issues.title.helper": "Geef een titel voor het nummer.",
+  "repos.issues.description": "Omschrijving",
+  "repos.issues.description.helper": "Beschrijf het onderwerp kort.",
+  "repos.issues.delete": "Verwijderen",
+  "repos.issues.delete.text": "Nummer onherroepelijk schrappen",
+  "repos.issues.close": "Sluiten",
+  "repos.issues.close.text": "Conclusie",
+  "repos.issues.reopen": "Open",
+  "repos.issues.reopen.text": "Open probleem opnieuw",
+  "repos.issues.edit": "Bewerken",
+  "repos.issues.edit.text": "Onderwerp bewerken"
 }

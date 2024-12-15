@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "Wystąpił błąd podczas wysyłania.",
   "chat.messages.sending.error": "Wystąpił błąd podczas wysyłania wiadomości.",
   "chat.messages.send": "Wyślij",
-  "chat.message": "Wiadomość"
+  "chat.message": "Wiadomość",
+  "post.text": "Wkład tekstowy",
+  "post.text.description": "Poczta zawierająca tylko tekst",
+  "post.media.image.description": "Podziel się zdjęciem",
+  "post.media.video.description": "Udostępnij film",
+  "post.media.file.description": "Udostępnij plik"
 }

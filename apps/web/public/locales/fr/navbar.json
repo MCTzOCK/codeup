@@ -54,5 +54,8 @@
   "account.admin.disclaimer": "Vous êtes enregistré comme administrateur. Vous pouvez utiliser toutes les fonctions et accéder à la page d'administration. Ne pas utiliser vos permissions et vous garder juste.",
   "account.logout.confirm": "Rapports",
   "account.logout.confirm.text": "Voulez-vous vraiment vous désabonner ?",
-  "account.my.profile": "Mon profil"
+  "account.my.profile": "Mon profil",
+  "others": "Autres",
+  "products.cloud.pc": "PC Cloud",
+  "products.cloud.pc.text": "Développer des projets avec un PC cloud"
 }

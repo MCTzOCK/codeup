@@ -54,5 +54,8 @@
   "account.admin.disclaimer": "You're an admin. You can use all functions and access the admin page. Be fair and don't abuse your power.",
   "account.logout.confirm": "Logout",
   "account.logout.confirm.text": "Do you really want to logout?",
-  "account.my.profile": "My profile"
+  "account.my.profile": "My profile",
+  "others": "Other",
+  "products.cloud.pc": "Cloud PC",
+  "products.cloud.pc.text": "Develop projects with a cloud PC"
 }

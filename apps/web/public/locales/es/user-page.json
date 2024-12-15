@@ -35,5 +35,20 @@
   "repos.clone.a.local": "Clones locales:",
   "repos.clone.a.cloud": "Cloud PC:",
   "repos.clone.cloud.attach": "Conectando PC Cloud",
-  "repos.update.submit": "Actualización"
+  "repos.update.submit": "Actualización",
+  "repos.tab.overview": "Sinopsis",
+  "repos.tab.issues": "Cuestiones",
+  "repos.issues.create": "Nuevo",
+  "repos.issues.title": "Título",
+  "repos.issues.title.helper": "Introduzca un título para el tema.",
+  "repos.issues.description": "Descripción",
+  "repos.issues.description.helper": "Describa brevemente la cuestión.",
+  "repos.issues.delete": "Suprimir",
+  "repos.issues.delete.text": "Suprímase la cuestión de manera irrevocable",
+  "repos.issues.close": "Cerca",
+  "repos.issues.close.text": "Conclusión",
+  "repos.issues.reopen": "Abierto",
+  "repos.issues.reopen.text": "Cuestión abierta de nuevo",
+  "repos.issues.edit": "Editar",
+  "repos.issues.edit.text": "Edición"
 }

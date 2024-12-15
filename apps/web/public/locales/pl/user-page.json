@@ -35,5 +35,20 @@
   "repos.clone.a.local": "Klony lokalne:",
   "repos.clone.a.cloud": "Cloud PC:",
   "repos.clone.cloud.attach": "Podłączenie Cloud PC",
-  "repos.update.submit": "Aktualizacja"
+  "repos.update.submit": "Aktualizacja",
+  "repos.tab.overview": "Przegląd",
+  "repos.tab.issues": "Kwestie",
+  "repos.issues.create": "Nowy",
+  "repos.issues.title": "Tytuł",
+  "repos.issues.title.helper": "Wpisz tytuł do wydania.",
+  "repos.issues.description": "Opis",
+  "repos.issues.description.helper": "Krótko opisać problem.",
+  "repos.issues.delete": "Usuń",
+  "repos.issues.delete.text": "Nieodwołalnie usunąć",
+  "repos.issues.close": "Zamknij",
+  "repos.issues.close.text": "Wniosek",
+  "repos.issues.reopen": "Otwórz",
+  "repos.issues.reopen.text": "Znowu otwarte wydanie",
+  "repos.issues.edit": "Edycja",
+  "repos.issues.edit.text": "Edycja wydania"
 }

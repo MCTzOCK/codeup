@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "An error occurred when uploading.",
   "chat.messages.sending.error": "An error occurred when sending the message.",
   "chat.messages.send": "Send",
-  "chat.message": "Message"
+  "chat.message": "Message",
+  "post.text": "Text contribution",
+  "post.text.description": "A post containing only text",
+  "post.media.image.description": "Share a photo",
+  "post.media.video.description": "Share a video",
+  "post.media.file.description": "Share a file"
 }

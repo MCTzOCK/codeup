@@ -74,5 +74,10 @@
   "chat.messages.upload.error": "Si è verificato un errore durante il caricamento.",
   "chat.messages.sending.error": "Si è verificato un errore durante l'invio del messaggio.",
   "chat.messages.send": "Invia",
-  "chat.message": "Messaggio"
+  "chat.message": "Messaggio",
+  "post.text": "Contributo del testo",
+  "post.text.description": "Un post contenente solo testo",
+  "post.media.image.description": "Condividi una foto",
+  "post.media.video.description": "Condividi un video",
+  "post.media.file.description": "Condividi un file"
 }

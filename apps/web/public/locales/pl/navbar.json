@@ -54,5 +54,8 @@
   "account.admin.disclaimer": "Jesteś zarejestrowany jako admin. Możesz użyć wszystkich funkcji i uzyskać dostęp do strony admin. Nie używaj swoich uprawnień i bądź sprawiedliwy.",
   "account.logout.confirm": "Sprawozdawczość",
   "account.logout.confirm.text": "Naprawdę chcesz zrezygnować z subskrypcji?",
-  "account.my.profile": "Mój profil"
+  "account.my.profile": "Mój profil",
+  "others": "Inne",
+  "products.cloud.pc": "Cloud PC",
+  "products.cloud.pc.text": "Opracowanie projektów z komputerem w chmurze"
 }
