@@ -221,3 +221,75 @@ export function updateWikiPage(
     },
   });
 }
+
+export function getUMLDiagrams(
+  token: string,
+  repoId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/uml",
+    method: "GET",
+    token,
+  });
+}
+
+export function getUMLDiagram(
+  token: string,
+  repoId: string,
+  umlId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/uml?umlId=" + umlId,
+    method: "GET",
+    token,
+  });
+}
+
+export function deleteUMLDiagram(
+  token: string,
+  repoId: string,
+  umlId: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/uml?umlId=" + umlId,
+    method: "DELETE",
+    token,
+  });
+}
+
+export function createUMLDiagram(
+  token: string,
+  repoId: string,
+  name: string,
+  type: string,
+  data: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/uml",
+    method: "POST",
+    token,
+    body: {
+      name,
+      type,
+      data,
+    },
+  });
+}
+
+export function updateUMLDiagram(
+  token: string,
+  repoId: string,
+  umlId: string,
+  name: string,
+  data: string
+): Promise<IResponse> {
+  return makeRequest({
+    path: "/api/repos/" + repoId + "/uml?umlId=" + umlId,
+    method: "PUT",
+    token,
+    body: {
+      name,
+      data,
+    },
+  });
+}

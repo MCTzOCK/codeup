@@ -331,13 +331,18 @@ import { Developer } from "./api/Developer";
 import { getCertificates, getUserPage, updateUserPage } from "./api/UserPages";
 import {
   createRepository,
+  createUMLDiagram,
   deleteRepository,
+  deleteUMLDiagram,
   getIssue,
   getRepositories,
   getRepository,
+  getUMLDiagram,
+  getUMLDiagrams,
   getWikiPage,
   getWikiPages,
   updateRepository,
+  updateUMLDiagram,
 } from "./api/Repositories";
 import {
   getIssues as getIssuesRP,
@@ -728,6 +733,11 @@ const REST = {
     deleteWikiPage: deleteWikiPageRP,
     getWikiPage: getWikiPageRP,
     getWikiPages: getWikiPagesRP,
+    updateUMLDiagram,
+    createUMLDiagram,
+    deleteUMLDiagram,
+    getUMLDiagram,
+    getUMLDiagrams,
   },
 };
 

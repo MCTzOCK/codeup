@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import IssueList from "@codeup/components/repos/IssueList";
 import WikiList from "@codeup/components/repos/WikiList";
+import UMLList from "@codeup/components/repos/UMLList";
 import StackedMenu from "@codeup/components/menu/StackedMenu";
 import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
 import {
@@ -319,6 +320,7 @@ export default function RepoViewer() {
             <Tab>{t("repos.tab.overview")}</Tab>
             <Tab>{t("repos.tab.issues")}</Tab>
             <Tab>{t("repos.tab.wiki")}</Tab>
+            <Tab>{t("repos.tab.uml")}</Tab>
           </TabList>
           <TabPanels p={0}>
             <TabPanel p={0}>
@@ -378,6 +380,12 @@ export default function RepoViewer() {
                 isOwner={repo.username === userInfo.username}
               />
             </TabPanel>
+            <TabPanel p={0}>
+              <UMLList
+                repoId={repo._id}
+                isOwner={repo.username === userInfo.username}
+              />
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
@@ -387,7 +395,7 @@ export default function RepoViewer() {
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
-    ...(await sProp(locale, ["user-page"])),
+    ...(await sProp(locale, ["user-page", "projects"])),
   };
 }
 

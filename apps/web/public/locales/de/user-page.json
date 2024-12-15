@@ -60,5 +60,21 @@
   "repos.wiki.edit": "Bearbeiten",
   "repos.wiki.edit.text": "Wiki-Seite bearbeiten",
   "repos.wiki.delete": "Löschen",
-  "repos.wiki.delete.text": "Wiki-Seite unwiderruflich löschen"
+  "repos.wiki.delete.text": "Wiki-Seite unwiderruflich löschen",
+  "repos.tab.uml": "UML",
+  "repos.uml.create": "Neu",
+  "repos.uml.implementation": "Implementation",
+  "repos.uml.implementation.text": "Stelle Klassen und Methoden dar",
+  "repos.uml.er": "ER-Diagramm",
+  "repos.uml.er.text": "Stelle Entitäten und Beziehungen dar",
+  "repos.uml.seq": "Sequenzdiagramm",
+  "repos.uml.seq.text": "Stelle den Ablauf von Methodenaufrufen dar",
+  "repos.uml.adv": "Fortgeschritten",
+  "repos.uml.adv.text": "Erstelle eigene UML-Diagramme",
+  "repos.uml.create.name": "Benenne dein Diagramm",
+  "repos.uml.preview": "Vorschau",
+  "repos.uml.delete": "Löschen",
+  "repos.uml.delete.text": "UML-Diagramm unwiderruflich löschen",
+  "repos.uml.edit": "Bearbeiten",
+  "repos.uml.edit.text": "UML-Diagramm bearbeiten"
 }
