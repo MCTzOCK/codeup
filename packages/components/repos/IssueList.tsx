@@ -151,6 +151,7 @@ export default function IssueList(props: { repoId: string; isOwner: boolean }) {
                       bg={"gray.800"}
                       p={3}
                       justifyContent={"space-between"}
+                      rounded={"lg"}
                     >
                       <HStack>
                         {i.status === "open" ? (
