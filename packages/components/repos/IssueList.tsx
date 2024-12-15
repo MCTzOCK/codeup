@@ -189,7 +189,7 @@ export default function IssueList(props: { repoId: string; isOwner: boolean }) {
                         >
                           <StackedMenuItem
                             title={t("repos.issues.delete")}
-                            description={"repos.issues.delete.text"}
+                            description={t("repos.issues.delete.text")}
                             icon={<FaTrash />}
                             onClick={async () => {
                               const res = await REST.Repositories.deleteIssue(
@@ -212,8 +212,8 @@ export default function IssueList(props: { repoId: string; isOwner: boolean }) {
                             }
                             description={
                               i.status === "open"
-                                ? "repos.issues.close.text"
-                                : "repos.issues.reopen.text"
+                                ? t("repos.issues.close.text")
+                                : t("repos.issues.reopen.text")
                             }
                             icon={
                               i.status === "open" ? (
@@ -239,7 +239,7 @@ export default function IssueList(props: { repoId: string; isOwner: boolean }) {
                           />
                           <StackedMenuItem
                             title={t("repos.issues.edit")}
-                            description={"repos.issues.edit.text"}
+                            description={t("repos.issues.edit.text")}
                             icon={<FaPen />}
                             onClick={async () => {
                               await PopupManager.alertAsync({
