@@ -373,7 +373,7 @@ export default function RepoViewer() {
                   <br />
                   <b>{t("repos.clone.a.local")}</b>
                   <Highlight className={"language-shell code-block-cup"}>
-                    git clone https://git.codeup.space/@{repo.username}/
+                    git clone https://git.codeup.space/{repo.username}/
                     {repo.name}
                   </Highlight>
                   <br />

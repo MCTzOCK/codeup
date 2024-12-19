@@ -15,6 +15,7 @@ import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { existsSync } from "node:fs";
 import Logger from "./logger";
+import RepositoryModel from "@codeup/util/dist/models/RepositoryModel";
 
 const PORT = process.env.GIT_PORT ? parseInt(process.env.GIT_PORT) : 3002;
 
@@ -59,17 +60,18 @@ const server = http.createServer(
 
     const auth = await authenticate(req, res, repoName);
 
-    if (!auth) {
+    if (!auth.pull && !auth.fetch && !auth.push) {
       return;
     }
 
-    if (realPath.endsWith("/info/refs")) {
+    if (auth.fetch && realPath.endsWith("/info/refs")) {
       handleInfoRefs(req, res, repoPath);
-    } else if (realPath.endsWith("/git-upload-pack")) {
+    } else if (auth.pull && realPath.endsWith("/git-upload-pack")) {
       handleGitUploadPack(req, res, repoPath);
-    } else if (realPath.endsWith("/git-receive-pack")) {
+    } else if (auth.push && realPath.endsWith("/git-receive-pack")) {
       handleGitReceivePack(req, res, repoPath);
     } else {
+      console.log(auth);
       console.log(realPath);
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("Not Found");
@@ -240,17 +242,32 @@ async function authenticate(
 }> {
   const authHeader = req.headers.authorization;
 
+  const ownerUser = repoName.split("/")[0];
+
+  const repo = await RepositoryModel.findOne({
+    username: ownerUser,
+    name: repoName.split("/")[1],
+  });
+
   if (!authHeader || !authHeader.startsWith("Basic ")) {
-    res.writeHead(401, {
-      "WWW-Authenticate": 'Basic realm="Git"',
-      "Content-Type": "text/plain",
-    });
-    res.end("Authentication required");
-    return {
-      pull: false,
-      push: false,
-      fetch: false,
-    };
+    if (repo.public && !req.url?.endsWith("/git-receive-pack")) {
+      return {
+        pull: true,
+        push: false,
+        fetch: true,
+      };
+    } else {
+      res.writeHead(401, {
+        "WWW-Authenticate": 'Basic realm="Git"',
+        "Content-Type": "text/plain",
+      });
+      res.end("Authentication required");
+      return {
+        pull: false,
+        push: false,
+        fetch: false,
+      };
+    }
   }
 
   const { username, password } = decodeCredentials(authHeader);
@@ -294,7 +311,15 @@ async function authenticate(
     }
   }
 
-  if (!repoName.startsWith("@" + user.username)) {
+  if (!repoName.startsWith(user.username)) {
+    if (repo.public) {
+      return {
+        pull: true,
+        push: false,
+        fetch: true,
+      };
+    }
+
     res.writeHead(403, { "Content-Type": "text/plain" });
     res.end("You dont have access to this repository");
     return {
