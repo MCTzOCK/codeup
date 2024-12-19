@@ -293,3 +293,43 @@ export function updateUMLDiagram(
     },
   });
 }
+
+export async function uploadS3Object(
+  token: string,
+  id: string,
+  name: string,
+  content: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: `/api/repos/${id}/static/upload`,
+    token,
+    body: {
+      name,
+      content,
+    },
+  });
+}
+
+export async function s3Objects(token: string, id: string): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: `/api/repos/${id}/static/files`,
+    token,
+  });
+}
+
+export async function deleteS3Object(
+  token: string,
+  id: string,
+  fileName: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "DELETE",
+    path: `/api/repos/${id}/static/files`,
+    token,
+    body: {
+      file: fileName,
+    },
+  });
+}

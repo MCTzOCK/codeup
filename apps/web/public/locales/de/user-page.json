@@ -24,6 +24,7 @@
   "repos.create.deploy.type.helper": "Wähle den Veröffentlichungs-Typ für dein Repository. STATIC bedeutet, dass dein Repository als statische Website veröffentlicht wird. DYNAMIC bedeutet, dass dein Repository als dynamische Website veröffentlicht wird.",
   "repos.create.deploy.name": "Veröffentlichungs-URL",
   "repos.create.deploy.name.helper": "Gib einen eindeutigen Namen für die Veröffentlichung deines Projekts ein. Dieser Name wird in der URL verwendet.",
+  "repos.create.submit": "Erstellen",
   "repo.actions.edit": "Bearbeiten",
   "repo.actions.delete": "Löschen",
   "repos.delete": "Repository Löschen?",
@@ -76,5 +77,6 @@
   "repos.uml.delete": "Löschen",
   "repos.uml.delete.text": "UML-Diagramm unwiderruflich löschen",
   "repos.uml.edit": "Bearbeiten",
-  "repos.uml.edit.text": "UML-Diagramm bearbeiten"
+  "repos.uml.edit.text": "UML-Diagramm bearbeiten",
+  "repos.tab.static": "Resourcen"
 }

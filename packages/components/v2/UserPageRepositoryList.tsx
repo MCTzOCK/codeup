@@ -42,7 +42,7 @@ export default function UserPageRepositoryList(props: {
   username: string;
   user: any;
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("user-page");
   const [repos, setRepos] = React.useState<
     {
       name: string;

@@ -333,6 +333,7 @@ import {
   createRepository,
   createUMLDiagram,
   deleteRepository,
+  deleteS3Object,
   deleteUMLDiagram,
   getIssue,
   getRepositories,
@@ -341,8 +342,10 @@ import {
   getUMLDiagrams,
   getWikiPage,
   getWikiPages,
+  s3Objects,
   updateRepository,
   updateUMLDiagram,
+  uploadS3Object,
 } from "./api/Repositories";
 import {
   getIssues as getIssuesRP,
@@ -738,6 +741,9 @@ const REST = {
     deleteUMLDiagram,
     getUMLDiagram,
     getUMLDiagrams,
+    deleteS3Object,
+    s3Objects,
+    uploadS3Object,
   },
 };
 

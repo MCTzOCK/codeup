@@ -31,7 +31,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const url = await client.presignedGetObject(
       "codeup-project-" + project_id,
       name as string,
-      60 * 60 * 24
+      60 * 60 * 24,
+      {
+        "response-content-type": "application/octet-stream",
+      }
     );
 
     res.redirect(url);

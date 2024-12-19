@@ -21,6 +21,7 @@ import { useTranslation } from "next-i18next";
 import IssueList from "@codeup/components/repos/IssueList";
 import WikiList from "@codeup/components/repos/WikiList";
 import UMLList from "@codeup/components/repos/UMLList";
+import StaticFileList from "@codeup/components/repos/StaticFileList";
 import StackedMenu from "@codeup/components/menu/StackedMenu";
 import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
 import {
@@ -321,6 +322,7 @@ export default function RepoViewer() {
             <Tab>{t("repos.tab.issues")}</Tab>
             <Tab>{t("repos.tab.wiki")}</Tab>
             <Tab>{t("repos.tab.uml")}</Tab>
+            <Tab>{t("repos.tab.static")}</Tab>
           </TabList>
           <TabPanels p={0}>
             <TabPanel p={0}>
@@ -385,6 +387,9 @@ export default function RepoViewer() {
                 repoId={repo._id}
                 isOwner={repo.username === userInfo.username}
               />
+            </TabPanel>
+            <TabPanel p={0}>
+              <StaticFileList repoId={repo._id} />
             </TabPanel>
           </TabPanels>
         </Tabs>

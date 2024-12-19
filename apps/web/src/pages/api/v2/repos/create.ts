@@ -14,6 +14,7 @@ import fs from "fs";
 import path from "path";
 import * as child_process from "child_process";
 import RepositoryModel from "@codeup/util/src/models/RepositoryModel";
+import { getS3 } from "../../../../global/getS3";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -81,10 +82,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       ),
     });
 
+    const client = getS3();
+
+    await client.makeBucket(
+      "codeup-project-" + repo._id.toString(),
+      "eu-central-1"
+    );
+
     res.status(200).json({
       status: 200,
       data: repo,
       gitUrl: "https://git.codeup.space/@" + user.username + "/" + name,
+      s3Bucket: "codeup-project-" + repo._id.toString(),
     });
   } catch (e: any) {
     res.status(500).json({
