@@ -26,6 +26,9 @@ import StackedMenu from "@codeup/components/menu/StackedMenu";
 import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   Code,
   FormControl,
@@ -63,6 +66,7 @@ import { FaPen, FaPlay, FaPlus, FaTrash } from "react-icons/fa";
 import PopupManager from "../../../global/PopupManager";
 import Highlight from "react-highlight";
 import "highlight.js/styles/base16/3024.min.css";
+import { FaChevronRight } from "react-icons/fa6";
 
 export default function RepoViewer() {
   const { t } = useTranslation("user-page");
@@ -146,9 +150,23 @@ export default function RepoViewer() {
                 <RiGitRepositoryPrivateFill />
               )}
             </Text>
-            <Heading size={"lg"}>
-              @{router.query.username}/{repo.name}
-            </Heading>
+            <Breadcrumb
+              spacing={"8px"}
+              separator={
+                <FaChevronRight color={"var(--chakra-colors-gray-400"} />
+              }
+              fontSize={"xl"}
+              fontWeight={700}
+            >
+              <BreadcrumbItem>
+                <BreadcrumbLink href={"/u/" + router.query.username}>
+                  @{router.query.username}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={"#"}>{repo.name}</BreadcrumbLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
           </HStack>
           <StackedMenu
             trigger={
@@ -317,12 +335,16 @@ export default function RepoViewer() {
           </StackedMenu>
         </HStack>
         <Tabs variant={"brand"} isLazy>
-          <TabList p={4} gap={2}>
+          <TabList p={4} gap={2} overflow={"auto"}>
             <Tab>{t("repos.tab.overview")}</Tab>
             <Tab>{t("repos.tab.issues")}</Tab>
             <Tab>{t("repos.tab.wiki")}</Tab>
             <Tab>{t("repos.tab.uml")}</Tab>
-            <Tab>{t("repos.tab.static")}</Tab>
+            <Tab
+              display={repo.username === userInfo.username ? "initial" : "none"}
+            >
+              {t("repos.tab.static")}
+            </Tab>
           </TabList>
           <TabPanels p={0}>
             <TabPanel p={0}>
@@ -388,7 +410,10 @@ export default function RepoViewer() {
                 isOwner={repo.username === userInfo.username}
               />
             </TabPanel>
-            <TabPanel p={0}>
+            <TabPanel
+              p={0}
+              display={repo.username === userInfo.username ? "initial" : "none"}
+            >
               <StaticFileList repoId={repo._id} />
             </TabPanel>
           </TabPanels>
