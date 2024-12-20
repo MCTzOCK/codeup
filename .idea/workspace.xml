@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/pages/api/repos/[id]/deploy/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/u/[username]/[repo].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/u/[username]/[repo].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/server/gitServer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/server/gitServer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +28,8 @@
         <option value="JavaScript File" />
         <option value="SCSS File" />
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
