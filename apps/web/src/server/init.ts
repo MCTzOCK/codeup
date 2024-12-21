@@ -23,19 +23,14 @@ export const init = async (docker: Docker) => {
     }
   }
 
-  docker
-    .pull("mctzock/codeup-serverless-runtime")
-    .then((stream) => {
-      docker.modem.followProgress(stream, (err: any, res: any) => {
-        if (err) {
-          Logger.error("Could not pull Docker image", Logger.DOCKER);
-          Logger.error(err, Logger.DOCKER);
-        } else {
-          Logger.info("Pulled Docker image", Logger.DOCKER);
-        }
-      });
-    })
-    .catch(async (e) => {
-      await handleError(e);
-    });
+  const neededDockerImages = [
+    "mctzock/codeup-serverless-runtime",
+    "nginx:alpine",
+  ];
+
+  for (const tag of neededDockerImages) {
+    Logger.log(`Pulling Docker image ${tag}`, Logger.DOCKER);
+    await docker.pull(tag);
+    Logger.log(`Pulled Docker image ${tag}`, Logger.DOCKER);
+  }
 };

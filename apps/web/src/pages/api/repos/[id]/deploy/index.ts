@@ -12,7 +12,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { isLoggedIn } from "../../../../../global/server/isLoggedIn";
 import RepositoryModel from "@codeup/util/dist/models/RepositoryModel";
 import fs from "fs";
-import { exec, execSync } from "child_process";
+import { execSync } from "child_process";
+import path from "path";
+import Logger from "../../../../../server/logger";
+import { NProxyMGR } from "../../../../../global/server/nproxymgr";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -47,90 +50,118 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const pathName = `/tmp/${repo._id}_${new Date().getTime()}`;
+    const time = new Date().getTime();
+
+    const pathName = path.join(
+      process.env.TMP_DIR as string,
+      `${repo._id}_${time}`
+    );
 
     fs.mkdirSync(pathName, {
       recursive: true,
     });
 
-    const cloneProcess = exec(
-      `git clone ${process.env.GIT_SERVER_URL}/${repo.username}/${repo.name} --depth 1 .`,
-      {
-        cwd: pathName,
-      }
+    execSync(
+      `git clone --depth 1 ${process.env.GIT_SERVER_HOME}/${user.username}/${repo.name} ${pathName}`
     );
 
-    cloneProcess.on("exit", async (code) => {
-      if (code !== 0) {
-        res.status(500).json({
-          status: 500,
-          error: "Error while cloning",
-        });
-        return;
-      }
+    execSync(`docker container rm -f ${repo.username}_${repo._id}`);
 
-      if (repo.deploymentType === "static") {
-        const dockerfile = `FROM nginx:alpine
-        COPY . /usr/share/nginx/html
-        EXPOSE 80
-        CMD ["nginx", "-g", "daemon off;"]`;
+    const port = await getOpenPort();
 
-        const dockerfilePath = `${pathName}/Dockerfile.${new Date().getTime()}`;
+    if (port === -1) {
+      Logger.error(`No open port found for project ${repo._id}`, Logger.WEB);
+      res.status(500).json({
+        status: 500,
+        error: "No open port found",
+      });
+      return;
+    }
 
-        fs.writeFileSync(dockerfilePath, dockerfile);
+    if (repo.deploymentType === "static") {
+      const command = `docker run -d --restart unless-stopped -p ${port}:80 -v ${pathName}:/usr/share/nginx/html --name ${repo.username}_${repo._id} nginx:alpine`;
 
-        const imageName = `${repo.username}/${
-          repo.name
-        }:${new Date().getTime()}`;
+      execSync(command);
+    } else {
+      execSync(`docker build -t ${repo.username}_${repo._id}:${time} .`, {
+        cwd: pathName,
+      });
 
-        const buildProcess = exec(
-          `docker build -t ${imageName} -f ${dockerfilePath} .`,
-          {
-            cwd: pathName,
-          }
-        );
+      execSync(
+        `docker run -d --restart unless-stopped -p ${port}:80 --name ${repo.username}_${repo._id} ${repo.username}_${repo._id}:${time}`
+      );
+    }
 
-        buildProcess.on("exit", async (code) => {
-          if (code !== 0) {
-            res.status(500).json({
-              status: 500,
-              error: "Error while building",
-            });
-            return;
-          }
+    const n = new NProxyMGR();
+    await n.getToken();
 
-          const rmPrevious = exec(
-            `docker container rm -f ${repo.username}_${repo._id}`
-          );
+    const existing = await n.existsProxy(`${repo.deploymentName}.codexp.dev`);
 
-          rmPrevious.on("exit", async () => {
-            const runProcess = exec(
-              // TODO: Find valid port
-              `docker run -d -p 80:80 --name ${repo.username}_${repo._id} ${imageName}`
-            );
+    if (existing !== -1) {
+      await n.deleteProxy(existing);
+    }
 
-            runProcess.on("exit", async (code) => {
-              if (code !== 0) {
-                res.status(500).json({
-                  status: 500,
-                  error: "Error while running",
-                });
-                return;
-              }
-
-              res.status(200).json({
-                status: 200,
-                message: "Deployed",
-              });
-            });
-          });
-        });
-      }
+    const success = await n.createProxy({
+      access_list_id: "1",
+      advanced_config: "",
+      allow_websocket_upgrade: false,
+      block_exploits: false,
+      caching_enabled: false,
+      certificate_id: 1,
+      domain_names: [`${repo.deploymentName}.codexp.dev`],
+      forward_host: `${process.env.NPROXYMGR_REAL_SRV_ENDPOINT}`,
+      forward_port: port,
+      forward_scheme: "http",
+      hsts_enabled: false,
+      hsts_subdomains: false,
+      http2_support: false,
+      locations: [],
+      meta: {
+        dns_challenge: false,
+        letsencrypt_agree: false,
+      },
+      ssl_forced: false,
     });
+
+    if (!success) {
+      res.status(500).json({
+        status: 500,
+        error: "Could not create proxy",
+      });
+      return;
+    }
   } catch (e: any) {
     res.status(500).json({
       status: 500,
       error: e.message,
     });
   }
+}
+
+async function getOpenPort(): Promise<number> {
+  const min = 28000;
+  const max = 29000;
+  let port = -1;
+
+  while (port === -1) {
+    const p = Math.floor(Math.random() * (max - min + 1) + min);
+    if (!(await isPortOpen(p))) {
+      port = p;
+    }
+  }
+
+  return port;
+}
+
+async function isPortOpen(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = require("net").createServer();
+    server.listen(port, () => {
+      server.close();
+      resolve(false);
+    });
+    server.on("error", () => {
+      resolve(true);
+    });
+  });
 }
