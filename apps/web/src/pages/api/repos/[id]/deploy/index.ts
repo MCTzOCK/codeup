@@ -101,14 +101,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       await n.deleteProxy(existing);
     }
 
+    const domain = `${repo.deploymentName}.codexp.dev`;
+
     const success = await n.createProxy({
-      access_list_id: "1",
+      access_list_id: "0",
       advanced_config: "",
-      allow_websocket_upgrade: false,
+      allow_websocket_upgrade: true,
       block_exploits: false,
       caching_enabled: false,
-      certificate_id: 1,
-      domain_names: [`${repo.deploymentName}.codexp.dev`],
+      certificate_id: parseInt(
+        (process.env.NPROYXMGR_WD_CERT_ID_PROJECTS as string) || "0"
+      ),
+      domain_names: [domain],
       forward_host: `${process.env.NPROXYMGR_REAL_SRV_ENDPOINT}`,
       forward_port: port,
       forward_scheme: "http",
@@ -120,7 +124,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         dns_challenge: false,
         letsencrypt_agree: false,
       },
-      ssl_forced: false,
+      ssl_forced: true,
     });
 
     if (!success) {
@@ -130,6 +134,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       });
       return;
     }
+
+    res.status(200).json({
+      status: 200,
+      message: "Deployed",
+      url: `https://${domain}`,
+    });
   } catch (e: any) {
     res.status(500).json({
       status: 500,
@@ -143,10 +153,12 @@ async function getOpenPort(): Promise<number> {
   const max = 29000;
   let port = -1;
 
-  while (port === -1) {
-    const p = Math.floor(Math.random() * (max - min + 1) + min);
-    if (!(await isPortOpen(p))) {
-      port = p;
+  for (let i = min; i < max; i++) {
+    const isOpen = await isPortOpen(i);
+
+    if (isOpen) {
+      port = i;
+      break;
     }
   }
 
@@ -158,10 +170,10 @@ async function isPortOpen(port: number): Promise<boolean> {
     const server = require("net").createServer();
     server.listen(port, () => {
       server.close();
-      resolve(false);
+      resolve(true);
     });
     server.on("error", () => {
-      resolve(true);
+      resolve(false);
     });
   });
 }
