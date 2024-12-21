@@ -47,7 +47,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     const logs = execSync(
-      `docker logs ${repo.username}_${repo.name}`
+      `docker logs ${repo.username}_${repo._id}`
     ).toString();
 
     res.status(200).json({

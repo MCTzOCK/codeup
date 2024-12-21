@@ -47,7 +47,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
 
     const status = execSync(
-      `docker ps -a --filter="name=${repo.username}_${repo.name}" --format "{{.Status}}"`
+      `docker ps -a --filter="name=${repo.username}_${repo._id}" --format "{{.State}}"`
     ).toString();
 
     res.status(200).json({
