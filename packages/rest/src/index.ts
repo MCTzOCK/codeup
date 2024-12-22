@@ -335,6 +335,9 @@ import {
   deleteRepository,
   deleteS3Object,
   deleteUMLDiagram,
+  deployLogs,
+  deployRepo,
+  deployStatus,
   getIssue,
   getRepositories,
   getRepository,
@@ -744,6 +747,9 @@ const REST = {
     deleteS3Object,
     s3Objects,
     uploadS3Object,
+    deployLogs,
+    deployStatus,
+    deployRepo,
   },
 };
 

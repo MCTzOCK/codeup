@@ -333,3 +333,36 @@ export async function deleteS3Object(
     },
   });
 }
+
+export async function deployRepo(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "POST",
+    path: "/api/repos/" + id + "/deploy",
+    token,
+  });
+}
+
+export async function deployStatus(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/repos/" + id + "/deploy/status",
+    token,
+  });
+}
+
+export async function deployLogs(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/repos/" + id + "/deploy/logs",
+    token,
+  });
+}
