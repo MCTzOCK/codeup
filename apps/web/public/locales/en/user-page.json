@@ -80,5 +80,10 @@
   "repos.uml.delete.text": "Delete UML diagram irrevocably",
   "repos.uml.edit": "Edit",
   "repos.uml.edit.text": "Edit UML Diagram",
-  "repos.tab.static": "Resources"
+  "repos.tab.static": "Resources",
+  "repos.tab.deploy": "Deployed",
+  "repos.deploy.text": "You can publish your project in this view and view the current status.",
+  "repos.deploy.open": "Open",
+  "repos.deploy.status": "Status",
+  "repos.deploy": "Publication"
 }

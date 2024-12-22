@@ -80,5 +80,10 @@
   "repos.uml.delete.text": "UML-diagram onherroepelijk verwijderen",
   "repos.uml.edit": "Bewerken",
   "repos.uml.edit.text": "UML bewerken Diagram",
-  "repos.tab.static": "Middelen"
+  "repos.tab.static": "Middelen",
+  "repos.tab.deploy": "Uitgezet",
+  "repos.deploy.text": "U kunt uw project in deze weergave publiceren en de huidige status bekijken.",
+  "repos.deploy.open": "Open",
+  "repos.deploy.status": "Status",
+  "repos.deploy": "Bekendmaking"
 }

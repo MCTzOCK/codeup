@@ -80,5 +80,10 @@
   "repos.uml.delete.text": "Excluir diagrama UML irrevogavelmente",
   "repos.uml.edit": "Editar",
   "repos.uml.edit.text": "Editar UML Diagrama",
-  "repos.tab.static": "Recursos"
+  "repos.tab.static": "Recursos",
+  "repos.tab.deploy": "Implementação",
+  "repos.deploy.text": "Você pode publicar seu projeto nesta visão e visualizar o status atual.",
+  "repos.deploy.open": "Abrir",
+  "repos.deploy.status": "Estado",
+  "repos.deploy": "Publicação"
 }

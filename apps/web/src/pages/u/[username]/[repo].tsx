@@ -21,6 +21,7 @@ import { useTranslation } from "next-i18next";
 import IssueList from "@codeup/components/repos/IssueList";
 import WikiList from "@codeup/components/repos/WikiList";
 import UMLList from "@codeup/components/repos/UMLList";
+import Deployment from "@codeup/components/repos/Deployment";
 import StaticFileList from "@codeup/components/repos/StaticFileList";
 import StackedMenu from "@codeup/components/menu/StackedMenu";
 import StackedMenuItem from "@codeup/components/menu/StackedMenuItem";
@@ -345,6 +346,11 @@ export default function RepoViewer() {
             >
               {t("repos.tab.static")}
             </Tab>
+            <Tab
+              display={repo.username === userInfo.username ? "initial" : "none"}
+            >
+              {t("repos.tab.deploy")}
+            </Tab>
           </TabList>
           <TabPanels p={0}>
             <TabPanel p={0}>
@@ -415,6 +421,16 @@ export default function RepoViewer() {
               display={repo.username === userInfo.username ? "initial" : "none"}
             >
               <StaticFileList repoId={repo._id} />
+            </TabPanel>
+            <TabPanel
+              p={0}
+              display={repo.username === userInfo.username ? "initial" : "none"}
+            >
+              <Deployment
+                repoId={repo._id}
+                deploymentName={repo.deploymentName}
+                deploymentType={repo.deploymentType}
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>

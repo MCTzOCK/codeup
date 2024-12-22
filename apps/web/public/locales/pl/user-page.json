@@ -80,5 +80,10 @@
   "repos.uml.delete.text": "Nieodwołalnie usunąć schemat UML",
   "repos.uml.edit": "Edycja",
   "repos.uml.edit.text": "Edytuj UML Rysunek",
-  "repos.tab.static": "Zasoby"
+  "repos.tab.static": "Zasoby",
+  "repos.tab.deploy": "Rozkład",
+  "repos.deploy.text": "Możesz opublikować swój projekt w tym widoku i zobaczyć aktualny status.",
+  "repos.deploy.open": "Otwórz",
+  "repos.deploy.status": "Stan",
+  "repos.deploy": "Publikacja"
 }

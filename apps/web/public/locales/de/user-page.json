@@ -78,5 +78,10 @@
   "repos.uml.delete.text": "UML-Diagramm unwiderruflich löschen",
   "repos.uml.edit": "Bearbeiten",
   "repos.uml.edit.text": "UML-Diagramm bearbeiten",
-  "repos.tab.static": "Resourcen"
+  "repos.tab.static": "Resourcen",
+  "repos.tab.deploy": "Deploy",
+  "repos.deploy.text": "Du kannst dein Projekt in dieser Ansicht veröffentlichen und den aktuellen Status einsehen.",
+  "repos.deploy.open": "Öffnen",
+  "repos.deploy.status": "Status",
+  "repos.deploy": "Veröffentlichen"
 }
