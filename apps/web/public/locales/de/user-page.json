@@ -80,8 +80,11 @@
   "repos.uml.edit.text": "UML-Diagramm bearbeiten",
   "repos.tab.static": "Resourcen",
   "repos.tab.deploy": "Deploy",
-  "repos.deploy.text": "Du kannst dein Projekt in dieser Ansicht veröffentlichen und den aktuellen Status einsehen.",
+  "repos.deploy.text": "Willkommen in der Veröffentlichungsansicht deines Projekts. Hier kannst du eine neuen Veröffentlichung planen, den aktuellen status einsehen und mögliche Fehlermeldungen erkennen.",
   "repos.deploy.open": "Öffnen",
   "repos.deploy.status": "Status",
-  "repos.deploy": "Veröffentlichen"
+  "repos.deploy": "Deploy",
+  "repos.deploy.logs": "Logs",
+  "repos.deploy.title": "Deployment",
+  "repos.deploy.no.deployment": "Dein Projekt besitzt aktuell keine veröffentlichte Version. Erstelle eine neue Veröffentlichung über die Schaltfläche oben rechts."
 }

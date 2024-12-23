@@ -366,3 +366,14 @@ export async function deployLogs(
     token,
   });
 }
+
+export async function hasDeployment(
+  token: string,
+  id: string
+): Promise<IResponse> {
+  return await makeRequest({
+    method: "GET",
+    path: "/api/repos/" + id + "/deploy/has",
+    token,
+  });
+}

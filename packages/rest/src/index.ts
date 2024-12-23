@@ -345,6 +345,7 @@ import {
   getUMLDiagrams,
   getWikiPage,
   getWikiPages,
+  hasDeployment,
   s3Objects,
   updateRepository,
   updateUMLDiagram,
@@ -750,6 +751,7 @@ const REST = {
     deployLogs,
     deployStatus,
     deployRepo,
+    hasDeployment,
   },
 };
 
