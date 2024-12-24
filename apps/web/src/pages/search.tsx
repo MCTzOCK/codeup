@@ -37,6 +37,7 @@ import {
 } from "react-icons/ri";
 import DeferredPostCardV2 from "@codeup/components/dist/forum/DeferredPostCardV2";
 import PostCardV2 from "@codeup/components/dist/forum/PostCardV2";
+import { Pagination } from "@mantine/core";
 
 export default function Search() {
   useUserLoggedInRedirect({
@@ -75,6 +76,27 @@ export default function Search() {
       setPage(0);
     })();
   }, [query, selectedModel]);
+
+  useEffect(() => {
+    if (query === "") return;
+    (async () => {
+      const res = await REST.search(
+        selectedModel,
+        query,
+        page,
+        AccountManager.getActiveToken()
+      );
+      if (res.status !== 200) {
+        setData([]);
+        setMaxPage(0);
+        setPage(0);
+        return;
+      }
+
+      setData(res.payload.data);
+      setMaxPage(res.payload.maxPage);
+    })();
+  }, [page]);
 
   return (
     <>
@@ -253,6 +275,16 @@ export default function Search() {
                 </Stack>
               </>
             )}
+            <Flex justifyContent={"center"} alignItems={"center"} mt={4}>
+              <Pagination
+                color={"#F7DE1F"}
+                total={maxPage + 1}
+                value={page + 1}
+                onChange={(a) => {
+                  setPage(a - 1);
+                }}
+              />
+            </Flex>
           </Box>
         </Flex>
       </Box>
