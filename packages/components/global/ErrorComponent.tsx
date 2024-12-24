@@ -35,7 +35,10 @@ export default function ErrorComponent(props: {
       <Flex
         w={"100%"}
         gap="2rem"
-        direction={["column", "row", "row"]}
+        direction={{
+          base: "column",
+          lg: "row",
+        }}
         p={8}
         pt={"4rem"}
         pb={"4rem"}

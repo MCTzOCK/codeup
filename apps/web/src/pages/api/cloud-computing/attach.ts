@@ -43,7 +43,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     console.log(e);
     res.status(500).json({
       status: 500,
-      error: e.message,
+      error: "Internal Server Error. Please try again later.",
     });
   }
 }

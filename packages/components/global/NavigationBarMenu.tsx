@@ -8,32 +8,25 @@
  *
  */
 import * as React from "react";
-import {
-  Button,
-  Grid,
-  Menu,
-  MenuButton,
-  MenuList,
-  Stack,
-} from "@chakra-ui/react";
-import { AiFillCaretDown } from "react-icons/ai";
-import { useLoggedIn } from "@codeup/hooks";
+import { Button } from "@chakra-ui/react";
 import {
   FaBook,
-  FaCaretDown,
+  FaCheck,
   FaChild,
   FaCode,
   FaEnvelope,
+  FaLightbulb,
   FaPlus,
+  FaProjectDiagram,
   FaTrophy,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { FaDesktop, FaFileLines, FaGavel, FaInfo } from "react-icons/fa6";
+import { FaFileLines, FaGavel, FaInfo } from "react-icons/fa6";
 import { useTranslation } from "next-i18next";
-import { FancyButton } from "./MenuButtons";
 import StackedMenu from "../menu/StackedMenu";
 import StackedMenuItem from "../menu/StackedMenuItem";
 import { TbCertificate } from "react-icons/tb";
+import { BiCodeBlock } from "react-icons/bi";
 
 export default function NavigationBarMenu(props: {
   onClose: () => void;
@@ -44,7 +37,6 @@ export default function NavigationBarMenu(props: {
 }) {
   const { t } = useTranslation(["base", "navbar"]);
 
-  const { loggedIn } = useLoggedIn();
   const router = useRouter();
 
   return (
@@ -106,22 +98,48 @@ export default function NavigationBarMenu(props: {
           as={"a"}
           href={"/projects"}
         />
+      </StackedMenu>
+      <StackedMenu
+        trigger={
+          <Button
+            variant={"unstyled"}
+            size={"lg"}
+            onClick={props.onMoreMenuOpen}
+            paddingInline={4}
+          >
+            {t("others", { ns: "navbar" })}
+          </Button>
+        }
+      >
         <StackedMenuItem
-          title={t("navbar:products.cloud.pc")}
-          description={t("navbar:products.cloud.pc.text")}
-          icon={<FaDesktop size={"24"} />}
+          title={t("navbar:products.ideas")}
+          description={t("navbar:products.ideas.text")}
+          icon={<FaLightbulb size={"24"} />}
           as={"a"}
-          href={"/cloud-pc/attach"}
+          href={"/ideas"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.tasks")}
+          description={t("navbar:products.tasks.text")}
+          icon={<FaCheck size={"24"} />}
+          as={"a"}
+          href={"/tasks"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.flows")}
+          description={t("navbar:products.flows.text")}
+          icon={<FaProjectDiagram size={"24"} />}
+          as={"a"}
+          href={"/planning"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.discovery")}
+          description={t("navbar:products.discovery.text")}
+          icon={<BiCodeBlock size={"24"} />}
+          as={"a"}
+          href={"/discovery"}
         />
       </StackedMenu>
-      <Button
-        variant={"unstyled"}
-        size={"lg"}
-        onClick={props.onMoreMenuOpen}
-        paddingInline={4}
-      >
-        {t("others", { ns: "navbar" })}
-      </Button>
       <Button
         variant={"ghost"}
         size={"lg"}
@@ -132,65 +150,56 @@ export default function NavigationBarMenu(props: {
       >
         {t("pricing", { ns: "navbar" })}
       </Button>
-      <Menu>
-        <MenuButton>
+      <StackedMenu
+        trigger={
           <Button variant={"ghost"} size={"lg"}>
             {t("product.name", { ns: "base" })}
           </Button>
-        </MenuButton>
-        <MenuList bg={"#000"} maxWidth={"300px"}>
-          <Grid templateColumns={"repeat(3, 1fr)"} gap={4} p={2}>
-            <FancyButton
-              icon={<FaInfo size={"24"} />}
-              title={t("navbar:about.us")}
-              props={{
-                as: "a",
-                href: "/codeup/about",
-              }}
-            />
-            <FancyButton
-              icon={<FaEnvelope size={"24"} />}
-              title={t("navbar:contact")}
-              props={{
-                as: "a",
-                href: "/codeup/contact",
-              }}
-            />
-            <FancyButton
-              icon={<FaFileLines size={"24"} />}
-              title={t("navbar:products.blog")}
-              props={{
-                as: "a",
-                href: "/blog",
-              }}
-            />
-            <FancyButton
-              icon={<FaPlus size={"24"} />}
-              title={t("navbar:products.creator")}
-              props={{
-                as: "a",
-                href: "/creator",
-              }}
-            />
-            <FancyButton
-              icon={<FaGavel size={"24"} />}
-              title={t("navbar:products.legal.imprint")}
-              props={{
-                as: "a",
-                href: "/legal/imprint",
-              }}
-            />
-            <FancyButton
-              icon={<FaGavel size={"24"} />}
-              title={t("navbar:products.legal.privacy")}
-              props={{
-                as: "a",
-                href: "/legal/privacy",
-              }}
-            />
-          </Grid>
-        </MenuList>
-      </Menu>
+        }
+      >
+        <StackedMenuItem
+          title={t("navbar:about.us")}
+          description={""}
+          icon={<FaInfo size={"24"} />}
+          as={"a"}
+          href={"/codeup/about"}
+        />
+        <StackedMenuItem
+          title={t("navbar:contact")}
+          description={""}
+          icon={<FaEnvelope size={"24"} />}
+          as={"a"}
+          href={"/codeup/contact"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.blog")}
+          description={""}
+          icon={<FaFileLines size={"24"} />}
+          as={"a"}
+          href={"/blog"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.creator")}
+          description={""}
+          icon={<FaPlus size={"24"} />}
+          as={"a"}
+          href={"/creator"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.legal.imprint")}
+          description={""}
+          icon={<FaGavel size={"24"} />}
+          as={"a"}
+          href={"/legal/imprint"}
+        />
+        <StackedMenuItem
+          title={t("navbar:products.legal.privacy")}
+          description={""}
+          icon={<FaGavel size={"24"} />}
+          as={"a"}
+          href={"/legal/privacy"}
+        />
+      </StackedMenu>
       <Button
         variant={"ghost"}
         size={"lg"}

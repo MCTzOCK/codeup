@@ -257,6 +257,10 @@ const Footer = (props: { transparent?: boolean }) => {
               <MenuList bg={"#000"}>
                 {Object.keys(languages).map((lang) => (
                   <MenuItem
+                    bg={"#000"}
+                    _hover={{
+                      bg: "gray.900",
+                    }}
                     key={lang}
                     onClick={() => {
                       const { pathname, query, asPath } = router;
