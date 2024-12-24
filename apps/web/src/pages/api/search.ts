@@ -42,8 +42,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       case "user":
         const users = await UserModel.find({
           username: { $regex: query, $options: "i" },
-          firstName: { $regex: query, $options: "i" },
-          lastName: { $regex: query, $options: "i" },
         })
           .limit(10)
           .skip(parseInt(page) * 10);
@@ -57,8 +55,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
         maxPage = await UserModel.countDocuments({
           username: { $regex: query, $options: "i" },
-          firstName: { $regex: query, $options: "i" },
-          lastName: { $regex: query, $options: "i" },
         });
         break;
       case "post":
@@ -78,21 +74,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
         break;
       case "repository":
-        const userRepos = await RepositoryModel.find({
-          username: user.username,
-          name: { $regex: query, $options: "i" },
-        });
-
         const publicRepos = await RepositoryModel.find({
           public: true,
           name: { $regex: query, $options: "i" },
+        })
+          .limit(10)
+          .skip(parseInt(page) * 10);
+
+        data = publicRepos;
+
+        maxPage = await RepositoryModel.countDocuments({
+          public: true,
+          name: { $regex: query, $options: "i" },
         });
-
-        const response = [...userRepos, ...publicRepos];
-
-        data = response.slice(parseInt(page) * 10, 10);
-
-        maxPage = response.length;
 
         break;
       case "course":
