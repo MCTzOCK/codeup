@@ -753,6 +753,18 @@ const REST = {
     deployRepo,
     hasDeployment,
   },
+  search: async (
+    model: "user" | "post" | "repository" | "course",
+    query: string,
+    page: number,
+    token: string
+  ) => {
+    return await makeRequest({
+      method: "GET",
+      path: `/api/search?model=${model}&query=${query}&page=${page}`,
+      token,
+    });
+  },
 };
 
 export default REST;

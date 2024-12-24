@@ -43,6 +43,7 @@ import {
   FaCogs,
   FaCrown,
   FaPlus,
+  FaSearch,
   FaSitemap,
   FaTrash,
   FaUser,
@@ -119,6 +120,15 @@ export default function MenuButtons(props: {
       {loggedIn ? (
         <>
           <HStack gap={6}>
+            <IconButton
+              aria-label={"Search"}
+              icon={<FaSearch size={"28"} />}
+              size={"lg"}
+              borderRadius={"full"}
+              variant={"outline"}
+              as={"a"}
+              href={"/search"}
+            />
             <IconButton
               aria-label={"Cloud-PC"}
               icon={<FaDesktop size={"28"} />}
