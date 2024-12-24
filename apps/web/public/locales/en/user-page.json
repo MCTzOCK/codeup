@@ -85,5 +85,8 @@
   "repos.deploy.text": "You can publish your project in this view and view the current status.",
   "repos.deploy.open": "Open",
   "repos.deploy.status": "Status",
-  "repos.deploy": "Publication"
+  "repos.deploy": "Publication",
+  "repos.deploy.logs": "Logs",
+  "repos.deploy.title": "Deployment",
+  "repos.deploy.no.deployment": "Your project currently has no published version. Create a new release via the top right button."
 }

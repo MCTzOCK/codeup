@@ -85,5 +85,8 @@
   "repos.deploy.text": "Vous pouvez publier votre projet dans cette vue et afficher l'état actuel.",
   "repos.deploy.open": "Ouvrir",
   "repos.deploy.status": "État",
-  "repos.deploy": "Publication"
+  "repos.deploy": "Publication",
+  "repos.deploy.logs": "Registres",
+  "repos.deploy.title": "Déploiement",
+  "repos.deploy.no.deployment": "Votre projet n'a actuellement aucune version publiée. Créez une nouvelle version via le bouton supérieur droit."
 }

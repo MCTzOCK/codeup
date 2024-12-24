@@ -85,5 +85,8 @@
   "repos.deploy.text": "U kunt uw project in deze weergave publiceren en de huidige status bekijken.",
   "repos.deploy.open": "Open",
   "repos.deploy.status": "Status",
-  "repos.deploy": "Bekendmaking"
+  "repos.deploy": "Bekendmaking",
+  "repos.deploy.logs": "Logs",
+  "repos.deploy.title": "Inzet",
+  "repos.deploy.no.deployment": "Uw project heeft momenteel geen gepubliceerde versie. Maak een nieuwe release aan via de rechterbovenknop."
 }

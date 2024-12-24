@@ -1,0 +1,7 @@
+{
+  "page.title": "Search - CodeUp",
+  "model.user": "Users",
+  "model.repository": "Projects",
+  "model.course": "Courses",
+  "model.post": "Contributions"
+}
