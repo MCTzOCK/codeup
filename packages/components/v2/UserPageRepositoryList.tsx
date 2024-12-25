@@ -186,7 +186,7 @@ export default function UserPageRepositoryList(props: {
                             name={"deploymentName"}
                             placeholder={t("repos.create.deploy.name")}
                           />
-                          <InputRightAddon>.codexp.dev</InputRightAddon>
+                          <InputRightAddon>.user-content.dev</InputRightAddon>
                         </InputGroup>
                         <FormHelperText>
                           {t("repos.create.deploy.name.helper")}

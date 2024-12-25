@@ -114,7 +114,7 @@ export default function Deployment(props: {
                 variant={"brand"}
                 as={"a"}
                 target={"_blank"}
-                href={`https://${props.deploymentName}.codexp.dev`}
+                href={`https://${props.deploymentName}.user-content.dev`}
               >
                 {t("repos.deploy.open")}
               </Button>

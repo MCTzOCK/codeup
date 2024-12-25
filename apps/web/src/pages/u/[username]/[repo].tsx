@@ -283,7 +283,9 @@ export default function RepoViewer() {
                                 placeholder={t("repos.create.deploy.name")}
                                 defaultValue={repo.deploymentName}
                               />
-                              <InputRightAddon>.codexp.dev</InputRightAddon>
+                              <InputRightAddon>
+                                .user-content.dev
+                              </InputRightAddon>
                             </InputGroup>
                             <FormHelperText>
                               {t("repos.create.deploy.name.helper")}

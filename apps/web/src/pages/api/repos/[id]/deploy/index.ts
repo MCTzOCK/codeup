@@ -95,13 +95,15 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const n = new NProxyMGR();
     await n.getToken();
 
-    const existing = await n.existsProxy(`${repo.deploymentName}.codexp.dev`);
+    const existing = await n.existsProxy(
+      `${repo.deploymentName}.user-content.dev`
+    );
 
     if (existing !== -1) {
       await n.deleteProxy(existing);
     }
 
-    const domain = `${repo.deploymentName}.codexp.dev`;
+    const domain = `${repo.deploymentName}.user-content.dev`;
 
     const success = await n.createProxy({
       access_list_id: "0",
