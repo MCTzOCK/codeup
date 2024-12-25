@@ -7,7 +7,6 @@ const withTM = require("next-transpile-modules")([
   "@codeup/rest",
   "octokit",
   "@webcontainer/api",
-  "@codeupspace/vt-desktop",
   "rrweb",
 ]);
 

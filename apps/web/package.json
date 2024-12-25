@@ -27,7 +27,6 @@
     "@codeup/incode-blockly": "*",
     "@codeup/incode-compiler": "*",
     "@codeup/util": "*",
-    "@codeupspace/vt-desktop": "*",
     "@dicebear/avatars": "^4.10.5",
     "@dicebear/avatars-bottts-sprites": "^4.10.5",
     "@dicebear/avatars-male-sprites": "^4.10.5",

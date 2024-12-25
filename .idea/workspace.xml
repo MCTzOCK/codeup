@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="" />
+    <list default="true" id="90f6fda4-1b1a-4c3f-9cb0-315c272a4b84" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/test-vt-desktop.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/Constants.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/desktop/Desktop.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/taskbar/TaskBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IApp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IDesktop.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/ITaskBar.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IWindow.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IWindowButton.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IWindowManager.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/types/IWindowTitleBar.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/windowmanager/Window.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/windowmanager/WindowButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/windowmanager/WindowManager.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/src/windowmanager/WindowTitleBar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/vt-desktop/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
