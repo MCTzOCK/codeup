@@ -17,6 +17,8 @@ services:
       - /tmp:/tmp
       - /etc/codeup/git:/etc/codeup/git
       - /etc/codeup/git-server:/etc/codeup/git-server
+      - /etc/codeup/tmp:/etc/codeup/tmp
+      - /etc/codeup/cws:/etc/codeup/cws
   graphql-server:
     build:
       context: .
