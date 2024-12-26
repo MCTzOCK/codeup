@@ -112,7 +112,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       block_exploits: false,
       caching_enabled: false,
       certificate_id: parseInt(
-        (process.env.NPROYXMGR_WD_CERT_ID_PROJECTS as string) || "0"
+        (process.env.NPROXYMGR_WD_CERT_ID_PROJECTS as string) || "0"
       ),
       domain_names: [domain],
       forward_host: `${process.env.NPROXYMGR_REAL_SRV_ENDPOINT}`,
