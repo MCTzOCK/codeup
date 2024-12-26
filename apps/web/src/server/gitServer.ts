@@ -213,7 +213,7 @@ function handleGitReceivePack(
 }
 
 // Start the server
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   Logger.info(
     `Git HTTP server running at http://localhost:${PORT}/`,
     Logger.GIT
