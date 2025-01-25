@@ -139,9 +139,6 @@
     <configuration name="swagger.yaml" type="SwaggerCodegen" editBeforeRun="true" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="customTemplatesPath" value="" />
-      <option name="envs">
-        <map />
-      </option>
       <option name="generateToPath" value="C:\Users\bensi\gen\swift" />
       <option name="generationParameters">
         <list />
@@ -149,14 +146,11 @@
       <option name="generatorType" value="SWAGGER_CODEGEN_V2" />
       <option name="jdkPath" value="C:\Users\bensi\AppData\Local\Programs\WebStorm\jbr\bin\java.exe" />
       <option name="language" value="swift5" />
-      <option name="passParentEnvs" value="true" />
-      <option name="programParameters" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
       </option>
       <option name="specificationPath" value="P:\Competitions\JuFo\2025_CodeUp_Reborn\swagger.yaml" />
-      <option name="workingDirectory" value="P:\Competitions\JuFo\2025_CodeUp_Reborn" />
       <method v="2" />
     </configuration>
     <configuration name="build (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">

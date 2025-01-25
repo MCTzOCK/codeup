@@ -53,7 +53,7 @@ export default function NavigationBarMenu(props: {
           description={t("navbar:products.courses.text")}
           icon={<FaBook size={"24"} />}
           as={"a"}
-          href={"/courses"}
+          href={"/course"}
         />
         <StackedMenuItem
           title={t("navbar:products.certificates")}
