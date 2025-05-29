@@ -1,5 +1,8 @@
 # CodeUp Reborn
 
+> [!NOTE]
+> Vorerst findet keine weitere Entwicklung statt!
+
 ## Lokal ausführen
 
 ### Anforderungen
