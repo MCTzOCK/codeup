@@ -17,9 +17,9 @@
   "dependencies": {
     "@aldridged/docusaurus-plugin-lunr": "^1.0.0-alpha.10",
     "@cmfcmf/docusaurus-search-local": "^0.10.0",
-    "@docusaurus/core": "2.0.0-beta.17",
-    "@docusaurus/plugin-content-docs": "^2.0.0-beta.18",
-    "@docusaurus/preset-classic": "2.0.0-beta.17",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/plugin-content-docs": "^3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.1.1",
     "prism-react-renderer": "^1.2.1",
