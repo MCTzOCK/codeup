@@ -155,7 +155,7 @@
     "rrweb": "^2.0.0-alpha.4",
     "rrweb-player": "^1.0.0-alpha.4",
     "sass": "^1.54.0",
-    "simple-git": "^3.24.0",
+    "simple-git": "^4.0.1",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
     "stripe": "^12.9.0",
