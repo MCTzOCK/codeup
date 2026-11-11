@@ -118,7 +118,7 @@
     "minio": "^8.0.0",
     "moment": "^2.30.1",
     "monaco-editor": "^0.33.0",
-    "mongoose": "^6.3.5",
+    "mongoose": "^6.13.12",
     "mysql2": "^3.10.1",
     "next": "^12.3.0",
     "next-i18next": "^15.3.0",
